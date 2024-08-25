@@ -1,20 +1,20 @@
 <map id="src/Tgstation.Server.Host" name="src/Tgstation.Server.Host">
-<area shape="rect" id="node2" href="dir_7a3fd032a1362a6005a1fc9227a8dd86.html" title="Components" alt="" coords="1406,63,1501,88"/>
-<area shape="rect" id="node3" href="dir_08963d262fa9e27215dce7b7c6e97f1b.html" title="Configuration" alt="" coords="1285,63,1382,88"/>
-<area shape="rect" id="node4" href="dir_38cec1532eaed7aa1de0b599a76e3e80.html" title="Controllers" alt="" coords="1177,63,1261,88"/>
-<area shape="rect" id="node5" href="dir_0de875c2ee7edd4009e892c5045f7b3a.html" title="Core" alt="" coords="1103,63,1153,88"/>
-<area shape="rect" id="node6" href="dir_3a3ab2f663730d5bed7026cf41734e8a.html" title="Database" alt="" coords="1001,63,1079,88"/>
-<area shape="rect" id="node7" href="dir_5ae0a4770cfe9bc511dad7df7deabb23.html" title="Extensions" alt="" coords="892,63,977,88"/>
-<area shape="rect" id="node8" href="dir_a536e49cdf631f66733cf2c9791144ce.html" title="IO" alt="" coords="829,63,867,88"/>
-<area shape="rect" id="node9" href="dir_27a421f75b087b80bd0b7a1dbec733b4.html" title="Jobs" alt="" coords="753,63,804,88"/>
-<area shape="rect" id="node10" href="dir_c2c4d4ee47e55233c6ea5db8b96422c6.html" title="Models" alt="" coords="665,63,729,88"/>
-<area shape="rect" id="node11" href="dir_f90d62caf45952f011371f45080cf0bd.html" title="Properties" alt="" coords="559,63,641,88"/>
-<area shape="rect" id="node12" href="dir_c5451d9d233744a5b09a29938f0cda9a.html" title="Security" alt="" coords="465,63,535,88"/>
-<area shape="rect" id="node13" href="dir_6d5d151b7baf54e07e6b0a3941fbad55.html" title="Setup" alt="" coords="385,63,441,88"/>
-<area shape="rect" id="node14" href="dir_d79e310510566c78de096c61d055de81.html" title="Swarm" alt="" coords="298,63,361,88"/>
-<area shape="rect" id="node15" href="dir_3d220027e29e19c608b6d51ce3029c32.html" title="System" alt="" coords="207,63,273,88"/>
-<area shape="rect" id="node16" href="dir_33c46edf7adc31f2d0ade2a7353d03ae.html" title="Transfer" alt="" coords="111,63,182,88"/>
-<area shape="rect" id="node17" href="dir_e031aa0fb63a9784d5d0be33d19ac57a.html" title="Utils" alt="" coords="38,63,87,88"/>
-<area shape="rect" id="clust2" href="dir_34761767c1c3cd212f9d2f80ea0828a8.html" alt="" coords="27,52,1684,99"/>
-<area shape="rect" id="clust1" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html" title="src" alt="" coords="16,16,1695,109"/>
+<area shape="rect" id="node2" href="dir_7a3fd032a1362a6005a1fc9227a8dd86.html" title="Components" alt="" coords="1386,63,1481,89"/>
+<area shape="rect" id="node3" href="dir_08963d262fa9e27215dce7b7c6e97f1b.html" title="Configuration" alt="" coords="1265,63,1362,89"/>
+<area shape="rect" id="node4" href="dir_38cec1532eaed7aa1de0b599a76e3e80.html" title="Controllers" alt="" coords="1158,63,1242,89"/>
+<area shape="rect" id="node5" href="dir_0de875c2ee7edd4009e892c5045f7b3a.html" title="Core" alt="" coords="1087,63,1135,89"/>
+<area shape="rect" id="node6" href="dir_3a3ab2f663730d5bed7026cf41734e8a.html" title="Database" alt="" coords="986,63,1062,89"/>
+<area shape="rect" id="node7" href="dir_5ae0a4770cfe9bc511dad7df7deabb23.html" title="Extensions" alt="" coords="878,63,962,89"/>
+<area shape="rect" id="node8" href="dir_a536e49cdf631f66733cf2c9791144ce.html" title="IO" alt="" coords="815,63,854,89"/>
+<area shape="rect" id="node9" href="dir_27a421f75b087b80bd0b7a1dbec733b4.html" title="Jobs" alt="" coords="742,63,791,89"/>
+<area shape="rect" id="node10" href="dir_c2c4d4ee47e55233c6ea5db8b96422c6.html" title="Models" alt="" coords="655,63,718,89"/>
+<area shape="rect" id="node11" href="dir_f90d62caf45952f011371f45080cf0bd.html" title="Properties" alt="" coords="551,63,631,89"/>
+<area shape="rect" id="node12" href="dir_c5451d9d233744a5b09a29938f0cda9a.html" title="Security" alt="" coords="458,63,526,89"/>
+<area shape="rect" id="node13" href="dir_6d5d151b7baf54e07e6b0a3941fbad55.html" title="Setup" alt="" coords="379,63,434,89"/>
+<area shape="rect" id="node14" href="dir_d79e310510566c78de096c61d055de81.html" title="Swarm" alt="" coords="293,63,355,89"/>
+<area shape="rect" id="node15" href="dir_3d220027e29e19c608b6d51ce3029c32.html" title="System" alt="" coords="203,63,269,89"/>
+<area shape="rect" id="node16" href="dir_33c46edf7adc31f2d0ade2a7353d03ae.html" title="Transfer" alt="" coords="109,63,179,89"/>
+<area shape="rect" id="node17" href="dir_e031aa0fb63a9784d5d0be33d19ac57a.html" title="Utils" alt="" coords="37,63,86,89"/>
+<area shape="rect" id="clust2" href="dir_34761767c1c3cd212f9d2f80ea0828a8.html" alt="" coords="27,52,1663,99"/>
+<area shape="rect" id="clust1" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html" title="src" alt="" coords="16,16,1673,110"/>
 </map>

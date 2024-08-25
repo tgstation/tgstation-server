@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Engine.EngineExecutableLock" name="Tgstation.Server.Host.Components.Engine.EngineExecutableLock">
-<area shape="rect" id="node1" title=" " alt="" coords="78,167,305,207"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html" title=" " alt="" coords="5,79,185,119"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_executable_lock.html" title="Represents usage of the two primary BYOND server executables." alt="" coords="210,86,367,111"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation." alt="" coords="158,5,286,31"/>
-<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="310,5,401,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="78,168,304,208"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html" title=" " alt="" coords="5,79,185,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,128,171,165,168,169,126,132"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_executable_lock.html" title="Represents usage of the two primary BYOND server executables." alt="" coords="209,87,365,112"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="264,125,214,169,211,165,261,121"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation." alt="" coords="157,5,284,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="242,41,279,84,275,88,238,45"/>
+<area shape="rect" id="Node000005" href="$class_i_disposable.html" title=" " alt="" coords="308,5,397,31"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="335,45,299,88,295,84,331,42"/>
 </map>

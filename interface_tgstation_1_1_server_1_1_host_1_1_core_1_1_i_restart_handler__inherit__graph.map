@@ -1,10 +1,17 @@
 <map id="Tgstation.Server.Host.Core.IRestartHandler" name="Tgstation.Server.Host.Core.IRestartHandler">
-<area shape="rect" id="node1" title="Handler for server restarts." alt="" coords="5,69,187,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html" title=" " alt="" coords="235,5,461,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="235,69,461,109"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html" title="Implements the SystemD notify service protocol." alt="" coords="249,133,447,173"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="509,69,736,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of filesystem links to swa..." alt="" coords="784,69,1011,109"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html" title="A variant of the AdvancedWatchdog that works on POSIX systems." alt="" coords="1059,37,1285,77"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A variant of the AdvancedWatchdog that works on Windows systems." alt="" coords="1059,101,1285,141"/>
+<area shape="rect" id="Node000001" title="Handler for server restarts." alt="" coords="5,71,186,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html" title=" " alt="" coords="234,5,460,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,64,265,44,266,49,192,69"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="234,71,460,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="201,88,233,88,233,94,201,94"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html" title="Implements the SystemD notify service protocol." alt="" coords="248,136,446,177"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="192,113,266,133,265,138,191,118"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="508,71,734,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="476,88,507,88,507,94,476,94"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of filesystem links to swa..." alt="" coords="782,71,1009,111"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="750,88,782,88,782,94,750,94"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html" title="A variant of the AdvancedWatchdog that works on POSIX systems." alt="" coords="1057,37,1283,78"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1024,73,1056,69,1056,74,1025,78"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A variant of the AdvancedWatchdog that works on Windows systems." alt="" coords="1057,103,1283,143"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="1025,103,1056,107,1056,112,1024,109"/>
 </map>

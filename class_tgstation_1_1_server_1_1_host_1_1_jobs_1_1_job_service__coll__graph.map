@@ -1,19 +1,35 @@
 <map id="Tgstation.Server.Host.Jobs.JobService" name="Tgstation.Server.Host.Jobs.JobService">
-<area shape="rect" id="node1" title=" " alt="" coords="819,374,1001,414"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html" title="The service that manages everything to do with jobs." alt="" coords="433,25,524,51"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="186,5,283,31"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="167,55,303,80"/>
-<area shape="rect" id="node5" href="$class_i_hosted_service.html" title=" " alt="" coords="5,55,117,80"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater.html" title="Allows manually triggering jobs hub updates." alt="" coords="417,75,541,100"/>
-<area shape="rect" id="node7" href="$class_i_disposable.html" title=" " alt="" coords="433,124,524,149"/>
-<area shape="rect" id="node8" title=" " alt="" coords="459,173,498,199"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r_1_1_i_connection_mapped_hub_context.html" title=" " alt="" coords="352,223,605,293"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="374,317,583,357"/>
-<area shape="rect" id="node11" title=" " alt="" coords="399,381,559,407"/>
-<area shape="rect" id="node12" title=" " alt="" coords="378,431,579,471"/>
-<area shape="rect" id="node13" title=" " alt="" coords="382,496,575,551"/>
-<area shape="rect" id="node14" title=" " alt="" coords="413,575,544,615"/>
-<area shape="rect" id="node15" title=" " alt="" coords="392,639,565,679"/>
-<area shape="rect" id="node16" title=" " alt="" coords="425,704,533,729"/>
-<area shape="rect" id="node17" title=" " alt="" coords="455,753,502,779"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="815,375,996,416"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html" title="The service that manages everything to do with jobs." alt="" coords="432,25,522,51"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="537,30,596,30,664,38,732,58,764,73,793,93,823,125,848,161,867,201,881,242,899,318,906,375,901,375,894,319,876,243,862,203,843,164,819,128,789,98,761,78,730,63,663,43,596,36,537,35"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="186,5,282,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="297,21,431,32,431,37,297,26"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="166,55,301,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="317,55,431,41,432,46,317,60"/>
+<area shape="rect" id="Node000005" href="$class_i_hosted_service.html" title=" " alt="" coords="5,55,117,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="132,65,166,65,166,70,132,70"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater.html" title="Allows manually triggering jobs hub updates." alt="" coords="415,75,539,100"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="554,79,611,81,674,89,736,108,766,122,793,140,820,166,842,195,860,228,875,262,895,326,904,374,899,375,889,327,870,263,855,230,837,198,816,169,789,144,763,127,734,113,672,94,610,86,554,84"/>
+<area shape="rect" id="Node000007" href="$class_i_disposable.html" title=" " alt="" coords="432,124,522,150"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="537,129,595,128,662,135,730,152,762,166,793,184,816,204,837,228,869,281,890,333,902,374,897,376,885,335,864,283,832,231,812,208,789,188,760,171,728,157,661,140,594,134,537,134"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="458,173,496,199"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="512,186,569,192,641,206,719,230,757,247,792,267,824,291,852,320,893,373,889,376,848,324,821,295,790,271,755,251,717,235,640,211,568,198,511,191"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r_1_1_i_connection_mapped_hub_context.html" title=" " alt="" coords="351,223,603,294"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="619,283,705,305,792,333,834,352,871,372,869,377,832,357,790,338,704,310,618,288"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="373,318,581,359"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="597,348,791,373,815,377,814,382,791,378,596,353"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="397,383,557,408"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="572,393,815,393,815,398,572,398"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="377,433,577,473"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="592,438,791,413,814,409,815,415,791,418,593,444"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="381,497,573,553"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="588,506,687,486,790,455,833,435,870,414,873,419,835,440,792,460,689,491,589,512"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="412,577,542,617"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="556,588,611,580,671,567,732,547,790,519,821,496,849,468,889,415,894,418,853,471,825,500,792,523,734,552,672,572,612,585,557,593"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="391,642,563,683"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="578,661,631,655,686,644,740,626,789,598,812,578,831,556,862,505,884,455,897,415,902,417,889,457,867,507,836,559,815,582,793,602,742,630,687,649,631,661,579,666"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="423,707,531,732"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="546,731,604,736,668,734,732,721,762,708,789,691,820,662,845,627,864,589,878,549,895,473,901,416,906,416,900,474,883,550,869,591,849,630,824,666,793,696,764,713,734,726,668,739,603,741,546,736"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="454,756,500,782"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="515,777,573,790,646,796,684,794,722,788,757,776,789,756,826,720,854,677,874,629,888,579,897,530,901,485,903,416,908,417,906,485,902,531,893,580,879,631,858,680,830,724,793,761,759,780,723,793,685,800,646,801,572,795,514,782"/>
 </map>

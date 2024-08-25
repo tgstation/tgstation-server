@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Engine.IEngineExecutableLock" name="Tgstation.Server.Host.Components.Engine.IEngineExecutableLock">
-<area shape="rect" id="node1" title="Represents usage of the two primary BYOND server executables." alt="" coords="23,79,249,119"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_executable_lock.html" title=" " alt="" coords="23,167,249,207"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation." alt="" coords="5,5,133,31"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="157,5,248,31"/>
+<area shape="rect" id="Node000001" title="Represents usage of the two primary BYOND server executables." alt="" coords="21,79,248,120"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_executable_lock.html" title=" " alt="" coords="21,168,248,208"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="137,135,137,167,132,167,132,135"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation." alt="" coords="5,5,133,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,41,120,77,116,80,87,45"/>
+<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="156,5,246,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="183,45,153,80,149,77,179,41"/>
 </map>

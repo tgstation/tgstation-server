@@ -1,9 +1,16 @@
 <map id="Tgstation.Server.Host.Components.Repository.RepositoryManager.LoadRepository" name="Tgstation.Server.Host.Components.Repository.RepositoryManager.LoadRepository">
-<area shape="rect" id="node1" title="Attempt to load the IRepository from the default location. A ValueTask&lt;TResult&gt; resulting in the load..." alt="" coords="1172,69,1463,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#aad9235dfb77b745164af1553b922573d" title="Clone the repository at url . A ValueTask&lt;TResult&gt; resulting i the newly cloned IRepository,..." alt="" coords="829,5,1124,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ae437eb5855fbd7575d4a5b0c71217745" title="The JobEntrypoint for updating the repository." alt="" coords="863,69,1090,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,99,781,139"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore. A ValueTask representing the running operation." alt="" coords="280,99,507,139"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,67,232,107"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,131,232,171"/>
+<area shape="rect" id="Node000001" title="Attempt to load the IRepository from the default location.A ValueTask&lt;TResult&gt; resulting in the loade..." alt="" coords="1170,71,1459,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#aad9235dfb77b745164af1553b922573d" title="Clone the repository at url .A ValueTask&lt;TResult&gt; resulting i the newly cloned IRepository,..." alt="" coords="828,5,1122,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1190,70,1084,49,1085,44,1191,65"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ae437eb5855fbd7575d4a5b0c71217745" title="The JobEntrypoint for updating the repository." alt="" coords="862,71,1088,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1154,94,1089,94,1089,88,1154,88"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="554,100,780,141"/>
+<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="1192,117,1122,126,1039,130,975,130,828,126,781,125,781,120,828,120,975,125,1039,125,1121,120,1192,112"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="847,106,781,112,780,107,846,101"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore.A ValueTask representing the running operation." alt="" coords="280,100,506,141"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="538,123,507,123,507,118,538,118"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,67,232,107"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="264,107,232,103,233,98,264,102"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,132,232,173"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="264,138,233,142,232,136,264,133"/>
 </map>

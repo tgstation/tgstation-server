@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Client.InstanceManagerClient.CreateClient" name="Tgstation.Server.Client.InstanceManagerClient.CreateClient">
+<area shape="rect" id="Node000001" title="Create an IInstanceClient for a given Instance.A new IInstanceClient." alt="" coords="5,5,201,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a4ea5f47f88e69cca85a566095e8c9fab" title="Get all IInstanceClients for Instances the user can view.A ValueTask&lt;TResult&gt; resulting in a List&lt;T&gt; ..." alt="" coords="249,13,428,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,31,233,31,233,36,201,36"/>
+</map>

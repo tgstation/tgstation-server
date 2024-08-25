@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.IO.Console" name="Tgstation.Server.Host.IO.Console">
-<area shape="rect" id="node1" title="Implementation of IConsole, uses global::System.Console." alt="" coords="11,79,179,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html" title="Abstraction for global::System.Console." alt="" coords="5,5,79,31"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="103,5,194,31"/>
+<area shape="rect" id="Node000001" title="Implementation of IConsole, uses global::System.Console." alt="" coords="10,79,177,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html" title="Abstraction for global::System.Console." alt="" coords="5,5,78,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,43,83,77,78,80,56,46"/>
+<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="102,5,192,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="133,45,109,80,104,77,128,42"/>
 </map>

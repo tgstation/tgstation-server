@@ -1,9 +1,15 @@
 <map id="Tgstation.Server.Host.System.ProcessExecutor" name="Tgstation.Server.Host.System.ProcessExecutor">
-<area shape="rect" id="node1" title=" " alt="" coords="483,151,681,191"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="69,5,193,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="39,55,222,95"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html" title="Abstraction for suspending and resuming processes." alt="" coords="31,119,230,159"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="47,183,215,223"/>
-<area shape="rect" id="node6" title=" " alt="" coords="5,247,256,287"/>
-<area shape="rect" id="node7" title=" " alt="" coords="51,312,211,337"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="481,154,678,195"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="68,5,192,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,19,264,25,328,36,394,52,458,76,488,92,516,112,560,151,556,155,512,116,485,97,456,81,393,57,327,41,263,30,207,24"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="39,55,221,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="237,87,344,105,457,130,523,151,522,156,456,135,343,111,236,92"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html" title="Abstraction for suspending and resuming processes." alt="" coords="31,121,229,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="244,147,481,164,480,170,244,152"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="46,186,214,227"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="229,198,456,183,480,181,480,186,457,188,230,203"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="5,251,255,292"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="270,252,362,237,456,216,526,193,528,198,457,221,363,242,271,257"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="50,316,210,342"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="225,323,279,318,338,308,398,293,456,272,486,255,514,234,558,193,561,197,517,238,489,260,458,277,400,298,339,314,280,323,226,329"/>
 </map>

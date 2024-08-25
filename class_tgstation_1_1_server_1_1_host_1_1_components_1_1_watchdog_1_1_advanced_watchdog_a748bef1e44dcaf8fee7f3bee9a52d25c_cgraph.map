@@ -1,0 +1,27 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.HandleNewDmbAvailable" name="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.HandleNewDmbAvailable">
+<area shape="rect" id="Node000001" title="Handler for MonitorActivationReason.NewDmbAvailable.A ValueTask representing the running operation." alt="" coords="5,157,275,213"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a0e09a241beb5aa99fcff9987bd6b5799" title="If the SwappableDmbProvider feature of the AdvancedWatchdog can be used with a given dmbProvider ." alt="" coords="323,5,635,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,155,243,112,322,71,338,64,340,69,324,76,246,116,181,159"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a6016884df4bb5dfa2b68761673935d7b" title="Create a SwappableDmbProvider for a given dmbProvider ." alt="" coords="327,85,631,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="274,154,329,142,330,147,275,159"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a6f69db8c3ceae298404f5d8d5a7312b3" title=" " alt="" coords="351,165,607,206"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="275,183,335,183,335,188,275,188"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a3434b9eb750c21b1d4f4a86c6f6c076d" title="Gets the next IDmbProvider. DmbAvailable is a precondition.A new IDmbProvider." alt="" coords="355,230,603,271"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="276,209,355,224,354,229,275,214"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#ad7b9818a9a73bbf86d9353c30e23197f" title="Suspends the BasicWatchdog.Server and calls SwappableDmbProvider.MakeActive(CancellationToken) on a n..." alt="" coords="325,302,633,343"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="188,211,251,247,324,280,368,295,366,300,322,285,249,251,186,216"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#acf9ebd637065f97ce5dd20c10bff1521" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="702,151,968,206"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="607,180,686,179,686,184,607,185"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html#a39d7e3a1358f3bcd08ca17cf4640ed51" title="Add a lock to the managed IDmbProvider." alt="" coords="688,230,982,271"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="603,248,672,248,672,253,603,253"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html#ae03467243a3241ddd1b7038871a8b397" title="Creates a DmbLock and adds it to locks." alt="" coords="1034,230,1344,271"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="982,248,1019,248,1019,253,982,253"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html#a2abafa30d9487b73499e18ff9c3d2d96" title="Generates a verbose description of a given dmbLock ." alt="" coords="1392,223,1655,278"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="1344,248,1376,248,1376,253,1344,253"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a81dcefb142f64864408ddcf0e1c18a3b" title="Should be awaited. before calling MakeActive(CancellationToken) to ensure the SwappableDmbProvider is..." alt="" coords="700,295,969,350"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="633,320,685,320,685,325,633,325"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ad6e832b7e37fcfb95f47294a9a084c2e" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="683,374,986,415"/>
+<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="583,341,716,368,715,373,582,346"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a66b1b3faeddd34cf469c46210b758881" title="Perform the swapping action." alt="" coords="1047,374,1331,415"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="987,392,1032,392,1032,397,987,397"/>
+</map>

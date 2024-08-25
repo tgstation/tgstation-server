@@ -1,9 +1,16 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DmbFactory" name="Tgstation.Server.Host.Components.Deployment.DmbFactory">
-<area shape="rect" id="node1" title="Standard IDmbFactory." alt="" coords="176,225,403,265"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders." alt="" coords="176,152,272,177"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="280,79,459,104"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs." alt="" coords="303,152,423,177"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="5,79,141,104"/>
-<area shape="rect" id="node5" href="$class_i_hosted_service.html" title=" " alt="" coords="17,5,129,31"/>
-<area shape="rect" id="node6" href="$class_i_disposable.html" title=" " alt="" coords="165,79,256,104"/>
+<area shape="rect" id="Node000001" title="Standard IDmbFactory." alt="" coords="173,226,400,267"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders." alt="" coords="173,153,269,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,189,272,224,268,228,239,192"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="277,79,456,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="329,114,247,154,245,150,327,109"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs." alt="" coords="300,153,419,178"/>
+<area shape="poly" id="edge7_Node000007_Node000003" title=" " alt="" coords="366,120,363,152,358,152,361,120"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="5,79,141,105"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="113,109,197,150,195,154,111,114"/>
+<area shape="rect" id="Node000005" href="$class_i_hosted_service.html" title=" " alt="" coords="17,5,129,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="76,46,76,79,70,79,70,46"/>
+<area shape="rect" id="Node000006" href="$class_i_disposable.html" title=" " alt="" coords="164,79,254,105"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="216,119,222,152,216,153,211,120"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="340,192,306,228,302,224,336,188"/>
 </map>

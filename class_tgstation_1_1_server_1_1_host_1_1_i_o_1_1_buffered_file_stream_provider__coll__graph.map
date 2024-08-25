@@ -1,10 +1,17 @@
 <map id="Tgstation.Server.Host.IO.BufferedFileStreamProvider" name="Tgstation.Server.Host.IO.BufferedFileStreamProvider">
-<area shape="rect" id="node1" title="IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream." alt="" coords="675,97,856,137"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html" title="IFileStreamProvider that provides MemoryStreams." alt="" coords="368,5,559,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="181,5,319,31"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,132,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="406,55,521,80"/>
-<area shape="rect" id="node6" title=" " alt="" coords="381,104,546,129"/>
-<area shape="rect" id="node7" title=" " alt="" coords="383,153,544,179"/>
-<area shape="rect" id="node8" title=" " alt="" coords="440,203,487,228"/>
+<area shape="rect" id="Node000001" title="IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream." alt="" coords="671,97,851,137"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html" title="IFileStreamProvider that provides MemoryStreams." alt="" coords="366,5,556,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="543,32,648,62,720,94,718,98,646,67,542,38"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="180,5,316,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="332,16,365,16,365,21,332,21"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,131,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="146,16,180,16,180,21,146,21"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="404,55,518,80"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="534,76,647,94,671,98,670,103,647,99,533,81"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="379,104,543,130"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="559,114,671,114,671,120,559,120"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="381,153,541,179"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="556,149,647,135,670,130,671,136,647,140,557,154"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="438,203,484,228"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="498,204,555,189,601,178,646,165,717,135,719,140,648,170,603,184,557,194,500,209"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MYToggleTestmergeComments" name="Tgstation.Server.Host.Database.Migrations.MYToggleTestmergeComments">
-<area shape="rect" id="node1" title="Add the Api.Models.Internal.RepositorySettings.PostTestMergeComment column for MySQL/MariaDB." alt="" coords="5,79,275,119"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="103,5,177,31"/>
+<area shape="rect" id="Node000001" title="Add the Api.Models.Internal.RepositorySettings.PostTestMergeComment column for MySQL/MariaDB." alt="" coords="5,79,274,120"/>
+<area shape="rect" id="Node000002" href="$class_migration.html" title=" " alt="" coords="102,5,177,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,46,142,79,137,79,137,46"/>
 </map>

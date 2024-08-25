@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Client.InfiniteThirtySecondMaxRetryPolicy" name="Tgstation.Server.Client.InfiniteThirtySecondMaxRetryPolicy">
-<area shape="rect" id="node1" title="A IRetryPolicy that returns seconds in powers of 2, maxing out at 30s." alt="" coords="5,79,196,133"/>
-<area shape="rect" id="node2" href="$class_i_retry_policy.html" title=" " alt="" coords="55,5,146,31"/>
+<area shape="rect" id="Node000001" title="A IRetryPolicy that returns seconds in powers of 2, maxing out at 30s." alt="" coords="5,79,195,135"/>
+<area shape="rect" id="Node000002" href="$class_i_retry_policy.html" title=" " alt="" coords="55,5,145,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,47,103,78,97,78,97,47"/>
 </map>

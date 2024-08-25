@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Utils.ReferenceCountingContainer&lt; TWrapped, TReference &gt;" name="Tgstation.Server.Host.Utils.ReferenceCountingContainer&lt; TWrapped, TReference &gt;">
-<area shape="rect" id="node1" title="Wrapper for managing some TWrapped ." alt="" coords="123,93,310,148"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,113,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="138,5,295,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="353,5,406,31"/>
+<area shape="rect" id="Node000001" title="Wrapper for managing some TWrapped ." alt="" coords="122,94,308,150"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,113,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="73,44,91,68,128,91,125,96,88,72,68,47"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="137,5,293,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="218,47,218,93,212,93,212,47"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="350,5,403,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="368,47,349,72,310,96,307,92,345,68,364,44"/>
 </map>

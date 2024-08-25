@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Client.Components.JobsClient.JobsClient" name="Tgstation.Server.Client.Components.JobsClient.JobsClient">
+<area shape="rect" id="Node000001" title="Initializes a new instance of the JobsClient class." alt="" coords="5,5,228,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#abd93d24fcbbc5e3b4f0ccaa66dc1b90a" title="List the JobResponses in the Instance.A ValueTask&lt;TResult&gt; resulting in a List&lt;T&gt; of the JobResponse ..." alt="" coords="276,5,459,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,23,260,23,260,28,228,28"/>
+</map>

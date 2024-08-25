@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.DatabaseContext.GetConfigureAction&lt; TDatabaseContext &gt;" name="Tgstation.Server.Host.Database.DatabaseContext.GetConfigureAction&lt; TDatabaseContext &gt;">
-<area shape="rect" id="node1" title="Gets the configure action for a given TDatabaseContext ." alt="" coords="5,5,241,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sql_server_database_context.html#ac5686cbb48dd4d5fae19a104daa4e6a9" title="Configure the SqlServerDatabaseContext." alt="" coords="289,13,551,53"/>
+<area shape="rect" id="Node000001" title="Gets the configure action for a given TDatabaseContext ." alt="" coords="5,5,241,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sql_server_database_context.html#ac5686cbb48dd4d5fae19a104daa4e6a9" title="Configure the SqlServerDatabaseContext." alt="" coords="289,13,549,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="241,31,273,31,273,36,241,36"/>
 </map>

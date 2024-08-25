@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Repository.RepostoryManagerFactory" name="Tgstation.Server.Host.Components.Repository.RepostoryManagerFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="5,225,243,265"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager_factory.html" title="Factory for creating IRepositoryManagers." alt="" coords="34,152,214,177"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="56,79,192,104"/>
-<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="68,5,180,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,226,242,267"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager_factory.html" title="Factory for creating IRepositoryManagers." alt="" coords="34,153,213,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,194,126,226,121,226,121,194"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="56,79,191,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="126,120,126,152,121,152,121,120"/>
+<area shape="rect" id="Node000004" href="$class_i_hosted_service.html" title=" " alt="" coords="68,5,179,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="126,46,126,79,121,79,121,46"/>
 </map>

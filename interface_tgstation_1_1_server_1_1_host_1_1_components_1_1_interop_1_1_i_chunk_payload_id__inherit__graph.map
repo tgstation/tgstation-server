@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Interop.IChunkPayloadId" name="Tgstation.Server.Host.Components.Interop.IChunkPayloadId">
-<area shape="rect" id="node1" title="Represents the payload ID of a set of chunked data." alt="" coords="5,37,232,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunk_set_info.html" title="Information about a chunked bridge request." alt="" coords="292,5,519,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chunked_topic_parameters.html" title="TopicParameters for TopicCommandType.ReceiveChunk." alt="" coords="280,69,531,109"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunk_data.html" title="A packet of a split serialized set of data." alt="" coords="579,5,805,45"/>
+<area shape="rect" id="Node000001" title="Represents the payload ID of a set of chunked data." alt="" coords="5,39,232,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunk_set_info.html" title="Information about a chunked bridge request." alt="" coords="291,5,518,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="247,41,291,36,291,42,248,47"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chunked_topic_parameters.html" title="TopicParameters for TopicCommandType.ReceiveChunk." alt="" coords="280,71,529,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="247,71,279,74,279,80,247,76"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunk_data.html" title="A packet of a split serialized set of data." alt="" coords="577,5,803,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="533,23,577,23,577,28,533,28"/>
 </map>

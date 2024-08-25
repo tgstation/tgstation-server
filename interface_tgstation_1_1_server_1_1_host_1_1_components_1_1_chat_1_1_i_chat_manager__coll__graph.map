@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Chat.IChatManager" name="Tgstation.Server.Host.Components.Chat.IChatManager">
-<area shape="rect" id="node1" title="For managing connected chat services." alt="" coords="37,152,264,192"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="5,79,141,104"/>
-<area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="17,5,129,31"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="166,79,293,104"/>
+<area shape="rect" id="Node000001" title="For managing connected chat services." alt="" coords="37,153,264,193"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="5,79,141,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,114,133,150,129,154,93,118"/>
+<area shape="rect" id="Node000003" href="$class_i_hosted_service.html" title=" " alt="" coords="17,5,129,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="76,46,76,79,70,79,70,46"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="165,79,290,105"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="207,118,171,154,168,150,204,114"/>
 </map>

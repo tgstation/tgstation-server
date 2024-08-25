@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.IO.RequestFileStreamProvider.InitiateDownload" name="Tgstation.Server.Host.IO.RequestFileStreamProvider.InitiateDownload">
-<area shape="rect" id="node1" title="Initiate the download." alt="" coords="296,5,519,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#afd6294b767b298ace3b91aef1accc5f6" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,13,248,53"/>
+<area shape="rect" id="Node000001" title="Initiate the download." alt="" coords="295,5,517,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#afd6294b767b298ace3b91aef1accc5f6" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,13,247,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="279,36,247,36,247,31,279,31"/>
 </map>

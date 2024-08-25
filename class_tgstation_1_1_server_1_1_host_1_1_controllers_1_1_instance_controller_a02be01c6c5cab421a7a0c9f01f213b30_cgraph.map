@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.InstanceController.CreateDefaultInstance" name="Tgstation.Server.Host.Controllers.InstanceController.CreateDefaultInstance">
-<area shape="rect" id="node1" title="Creates a default Models.Instance from initialSettings ." alt="" coords="5,37,264,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html#a5a1124502330220abb9c651d8154499f" title="Gets a port not currently in use by TGS." alt="" coords="362,5,565,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a7505e585db1c6dd7fffda95599994960" title="Generate an InstancePermissionSet with full rights." alt="" coords="312,69,615,109"/>
+<area shape="rect" id="Node000001" title="Creates a default Models.Instance from initialSettings ." alt="" coords="5,39,264,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html#a5a1124502330220abb9c651d8154499f" title="Gets a port not currently in use by TGS." alt="" coords="362,5,563,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,43,346,35,346,40,264,49"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a7505e585db1c6dd7fffda95599994960" title="Generate an InstancePermissionSet with full rights." alt="" coords="312,71,613,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="264,69,297,72,296,77,264,74"/>
 </map>

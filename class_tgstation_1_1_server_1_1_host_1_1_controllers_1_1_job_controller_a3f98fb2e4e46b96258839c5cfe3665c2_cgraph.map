@@ -1,8 +1,15 @@
 <map id="Tgstation.Server.Host.Controllers.JobController.Delete" name="Tgstation.Server.Host.Controllers.JobController.Delete">
-<area shape="rect" id="node1" title="Cancel a running JobResponse." alt="" coords="5,69,221,109"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a5760fe527065407b364e674d2a9eaf1d" title="Cancels a give job ." alt="" coords="286,5,469,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType . The value of rightsType . Note that if InstancePermissionSet is..." alt="" coords="276,69,479,109"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f" title="Generic 404 response." alt="" coords="269,133,485,173"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="533,37,724,77"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="537,101,720,141"/>
+<area shape="rect" id="Node000001" title="Cancel a running JobResponse." alt="" coords="5,104,221,145"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a5760fe527065407b364e674d2a9eaf1d" title="Cancels a give job ." alt="" coords="286,5,467,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,101,268,57,290,49,291,54,270,61,161,106"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="275,71,478,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,108,259,103,260,108,221,113"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a1b4822c391602d2e8125f9f757d58819" title="List all JobResponse for the instance in reverse creation order." alt="" coords="269,136,484,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="221,135,254,139,253,144,221,140"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f" title="Generic 404 response." alt="" coords="269,201,484,242"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="163,143,270,186,291,193,290,198,268,191,161,148"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="532,39,722,79"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="478,75,516,70,517,76,478,81"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="537,104,718,145"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="478,102,522,108,521,113,478,107"/>
 </map>

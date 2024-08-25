@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Security.IdentityCacheObject" name="Tgstation.Server.Host.Security.IdentityCacheObject">
-<area shape="rect" id="node1" title="For keeping a specific ISystemIdentity alive for a period of time." alt="" coords="145,108,347,148"/>
-<area shape="rect" id="node2" href="$class_i_async_disposable.html" title=" " alt="" coords="5,13,132,38"/>
-<area shape="rect" id="node3" title=" " alt="" coords="156,5,336,45"/>
-<area shape="rect" id="node4" title=" " alt="" coords="401,13,451,38"/>
+<area shape="rect" id="Node000001" title="For keeping a specific ISystemIdentity alive for a period of time." alt="" coords="144,109,344,150"/>
+<area shape="rect" id="Node000002" href="$class_i_async_disposable.html" title=" " alt="" coords="5,13,131,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,44,211,106,209,111,101,49"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="154,5,334,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="247,62,247,109,241,109,241,62"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="399,13,449,39"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="418,55,409,72,396,87,372,103,346,114,344,109,370,98,393,83,405,69,414,52"/>
 </map>

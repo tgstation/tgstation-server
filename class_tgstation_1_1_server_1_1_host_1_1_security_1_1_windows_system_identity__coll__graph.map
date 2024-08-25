@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Host.Security.WindowsSystemIdentity" name="Tgstation.Server.Host.Security.WindowsSystemIdentity">
-<area shape="rect" id="node1" title="ISystemIdentity for windows systems." alt="" coords="223,168,425,208"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform." alt="" coords="5,80,117,105"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="16,5,107,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="142,80,317,105"/>
-<area shape="rect" id="node5" title=" " alt="" coords="341,80,499,105"/>
-<area shape="rect" id="node6" title=" " alt="" coords="523,80,570,105"/>
+<area shape="rect" id="Node000001" title="ISystemIdentity for windows systems." alt="" coords="222,169,423,210"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform." alt="" coords="5,80,117,106"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,109,268,166,267,171,108,114"/>
+<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="16,5,106,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="64,46,64,80,58,80,58,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="141,80,315,106"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="252,115,304,167,301,170,248,119"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="338,80,496,106"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="396,119,344,170,340,167,393,115"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="520,80,565,106"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="516,117,465,147,401,171,399,166,463,143,513,113"/>
 </map>

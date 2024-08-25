@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Setup.SetupWizard.PromptDatabaseType" name="Tgstation.Server.Host.Setup.SetupWizard.PromptDatabaseType">
-<area shape="rect" id="node1" title="Prompt the user for the DatabaseType." alt="" coords="5,37,228,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#acae9e2a36d9f2907a69390221443db34" title="Read a line from the IConsole." alt="" coords="276,5,444,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a1ea8d75d4508cc393e3445db997479f0" title="Write some text &#160;to the IConsole." alt="" coords="276,69,444,109"/>
+<area shape="rect" id="Node000001" title="Prompt the user for the DatabaseType." alt="" coords="5,39,228,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#acae9e2a36d9f2907a69390221443db34" title="Read a line from the IConsole." alt="" coords="276,5,443,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,41,259,37,260,42,228,46"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a1ea8d75d4508cc393e3445db997479f0" title="Write some text &#160;to the IConsole." alt="" coords="276,71,443,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,71,260,75,260,81,228,76"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Api.Models.DiscordConnectionStringBuilder" name="Tgstation.Server.Api.Models.DiscordConnectionStringBuilder">
-<area shape="rect" id="node1" title="ChatConnectionStringBuilder for ChatProvider.Discord." alt="" coords="79,93,285,133"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html" title="Helper for building ChatBotSettings.ConnectionStrings." alt="" coords="5,5,193,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="217,5,315,31"/>
+<area shape="rect" id="Node000001" title="ChatConnectionStringBuilder for ChatProvider.Discord." alt="" coords="80,94,284,135"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html" title="Helper for building ChatBotSettings.ConnectionStrings." alt="" coords="5,5,193,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,41,166,92,162,95,117,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="216,5,313,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="246,44,201,95,197,92,242,41"/>
 </map>

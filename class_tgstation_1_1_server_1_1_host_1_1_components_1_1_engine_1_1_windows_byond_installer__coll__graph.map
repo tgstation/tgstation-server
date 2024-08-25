@@ -1,19 +1,40 @@
 <map id="Tgstation.Server.Host.Components.Engine.WindowsByondInstaller" name="Tgstation.Server.Host.Components.Engine.WindowsByondInstaller">
-<area shape="rect" id="node1" title="IEngineInstaller for windows systems." alt="" coords="977,358,1204,398"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html" title="Base implementation of IEngineInstaller for EngineType.Byond." alt="" coords="622,57,757,83"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html" title=" " alt="" coords="181,5,318,31"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html" title="For downloading and installing game engines for a given system." alt="" coords="5,5,116,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="205,237,294,263"/>
-<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="575,490,804,530"/>
-<area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html" title="Configuration options for the game sessions." alt="" coords="575,422,804,462"/>
-<area shape="rect" id="node6" title=" " alt="" coords="173,341,325,367"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html" title="Downloads files." alt="" coords="165,55,333,95"/>
-<area shape="rect" id="node8" href="$class_i_disposable.html" title=" " alt="" coords="644,259,735,284"/>
-<area shape="rect" id="node9" title=" " alt="" coords="589,308,789,333"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="590,358,789,398"/>
-<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="172,487,327,512"/>
-<area shape="rect" id="node13" title=" " alt="" coords="203,536,296,561"/>
-<area shape="rect" id="node14" title=" " alt="" coords="228,703,271,728"/>
-<area shape="rect" id="node16" title=" " alt="" coords="226,585,273,611"/>
-<area shape="rect" id="node17" title=" " alt="" coords="607,641,772,667"/>
+<area shape="rect" id="Node000001" title="IEngineInstaller for windows systems." alt="" coords="974,359,1200,400"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html" title="Base implementation of IEngineInstaller for EngineType.Byond." alt="" coords="620,57,753,83"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="765,85,802,98,882,136,914,158,952,191,992,234,1027,280,1076,358,1072,360,1023,283,988,237,948,195,911,163,879,141,800,103,763,90"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html" title=" " alt="" coords="181,5,317,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="332,25,549,50,620,59,619,64,548,55,332,30"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html" title="For downloading and installing game engines for a given system." alt="" coords="5,5,116,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="131,16,180,16,180,21,131,21"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="205,239,293,264"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="308,235,356,228,481,217,579,216,677,225,801,245,878,260,951,288,1011,322,1061,357,1058,361,1008,326,949,293,876,265,800,250,676,230,579,221,481,222,357,233,309,240"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="284,228,355,190,410,171,454,160,497,148,547,122,558,111,571,99,619,79,621,84,574,103,562,114,550,127,499,153,455,165,411,176,357,195,286,233"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="572,494,801,535"/>
+<area shape="poly" id="edge13_Node000011_Node000005" title=" " alt="" coords="279,273,335,330,345,352,349,361,358,369,383,381,408,385,454,379,478,375,501,374,525,380,550,396,563,416,564,437,564,456,574,475,596,491,593,496,570,479,559,458,559,437,558,418,546,400,523,385,501,380,478,380,455,384,407,390,382,386,355,373,345,364,340,354,330,333,275,276"/>
+<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html" title="Configuration options for the game sessions." alt="" coords="572,425,801,465"/>
+<area shape="poly" id="edge18_Node000015_Node000005" title=" " alt="" coords="297,268,357,288,386,293,413,294,459,289,482,289,504,292,526,301,550,319,559,330,564,342,564,365,563,388,567,399,574,410,590,422,587,426,570,413,562,401,558,389,558,365,558,343,555,333,546,323,524,306,502,297,481,294,460,295,413,299,386,298,356,293,295,273"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="173,344,324,370"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="274,331,311,301,355,273,384,261,411,255,459,251,482,249,503,243,525,231,546,211,555,198,559,185,557,157,556,128,560,114,570,99,593,83,619,73,621,78,595,87,574,103,565,116,561,129,563,157,564,185,560,200,550,215,528,235,505,248,483,254,460,256,412,260,386,266,358,278,314,306,277,335"/>
+<area shape="poly" id="edge16_Node000011_Node000006" title=" " alt="" coords="268,381,305,429,330,452,357,471,386,478,439,486,572,501,571,507,438,492,385,484,355,476,326,456,301,432,264,385"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html" title="Downloads files." alt="" coords="165,55,332,96"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="348,72,619,68,619,74,348,77"/>
+<area shape="rect" id="Node000008" href="$class_i_disposable.html" title=" " alt="" coords="642,260,731,286"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="747,278,843,294,950,320,999,337,1044,356,1042,361,997,342,949,325,842,299,746,283"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="587,309,786,335"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="798,335,950,357,974,360,973,366,949,362,797,340"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="588,359,785,400"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="801,377,973,377,973,382,801,382"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="793,487,870,466,949,440,1044,398,1046,403,951,445,871,471,794,492"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="172,491,326,516"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="342,503,572,509,572,514,341,508"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="203,540,295,566"/>
+<area shape="poly" id="edge14_Node000011_Node000013" title=" " alt="" coords="310,546,548,528,571,525,572,531,549,533,311,552"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="228,709,270,735"/>
+<area shape="poly" id="edge15_Node000011_Node000014" title=" " alt="" coords="285,722,342,722,412,714,448,705,484,693,517,676,546,653,558,636,559,617,560,597,570,575,597,551,627,533,630,537,600,555,574,578,565,598,564,618,563,637,550,657,520,680,486,698,450,710,413,719,342,727,285,727"/>
+<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="816,421,973,395,974,401,816,426"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="226,589,271,615"/>
+<area shape="poly" id="edge21_Node000001_Node000016" title=" " alt="" coords="287,602,378,604,507,601,653,588,728,576,800,559,841,545,881,527,955,482,1017,436,1062,398,1065,402,1021,440,958,487,883,531,843,550,801,564,729,581,654,593,507,606,378,609,286,607"/>
+<area shape="poly" id="edge19_Node000015_Node000016" title=" " alt="" coords="286,597,310,590,330,576,340,562,343,547,340,517,338,486,343,471,355,456,370,447,391,440,445,432,508,430,572,432,572,438,508,436,445,437,392,445,372,452,358,460,347,473,343,486,345,516,348,548,345,564,334,580,312,595,288,602"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="604,645,769,671"/>
+<area shape="poly" id="edge20_Node000001_Node000017" title=" " alt="" coords="784,666,825,665,868,659,910,648,948,628,977,605,1002,576,1023,545,1040,512,1065,449,1079,400,1084,401,1070,450,1045,514,1027,548,1006,580,981,609,951,633,912,653,869,665,826,670,784,671"/>
 </map>

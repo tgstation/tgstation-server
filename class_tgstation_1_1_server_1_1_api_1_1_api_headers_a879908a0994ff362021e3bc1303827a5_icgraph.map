@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Api.ApiHeaders.CreateApiVersionHeader" name="Tgstation.Server.Api.ApiHeaders.CreateApiVersionHeader">
-<area shape="rect" id="node1" title="Create the stringified for of the ApiVersionHeader." alt="" coords="537,53,755,93"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a29146865adef1cd26ad94ad0068d4bf8" title="Adds the headers &#160;necessary for a SignalR hub connection." alt="" coords="257,17,489,57"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a5f9f37923fe9811ceb4556af0ebfc8aa" title="Set HttpRequestHeaders using the ApiHeaders. This initially clears headers ." alt="" coords="278,85,469,125"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a8e4d8efc9117013fe8bd57c117d81584" title="Subscribe to all job updates available to the IServerClient. An IAsyncDisposable representing the lif..." alt="" coords="5,5,209,60"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a890bb267ce0d788c2d9c0311873f6ade" title="Main request method." alt="" coords="29,84,185,139"/>
+<area shape="rect" id="Node000001" title="Create the stringified for of the ApiVersionHeader." alt="" coords="536,54,752,95"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a29146865adef1cd26ad94ad0068d4bf8" title="Adds the headers &#160;necessary for a SignalR hub connection." alt="" coords="257,17,488,58"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="520,60,488,56,489,50,521,55"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a5f9f37923fe9811ceb4556af0ebfc8aa" title="Set HttpRequestHeaders using the ApiHeaders. This initially clears headers ." alt="" coords="277,86,468,127"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="521,92,468,98,468,93,521,86"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a8e4d8efc9117013fe8bd57c117d81584" title="Subscribe to all job updates available to the IServerClient.An IAsyncDisposable representing the life..." alt="" coords="5,5,209,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="241,38,209,37,209,32,241,33"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a890bb267ce0d788c2d9c0311873f6ade" title="Main request method." alt="" coords="29,85,185,141"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="261,112,185,114,185,109,261,107"/>
 </map>

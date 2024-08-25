@@ -1,7 +1,12 @@
 <map id="Tgstation.Server.Host.Core.ServerUpdater.BeginUpdate" name="Tgstation.Server.Host.Core.ServerUpdater.BeginUpdate">
-<area shape="rect" id="node1" title="Start the process of downloading and applying an update to a new server version . A ValueTask&lt;TResult..." alt="" coords="5,85,189,125"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aacf15328c6febd64fa1977da73d30345" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="237,85,447,125"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9" title="Create a IGitHubService." alt="" coords="495,5,733,60"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#aba327aceb0182d4678f593c3385131de" title="Downloads a file from a given url ." alt="" coords="516,85,712,125"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8" title="Attempt to update with a given updateExecutor ." alt="" coords="516,149,712,189"/>
+<area shape="rect" id="Node000001" title="Start the process of downloading and applying an update to a new server version .A ValueTask&lt;TResult&gt;..." alt="" coords="5,85,189,126"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aacf15328c6febd64fa1977da73d30345" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="237,85,445,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,103,221,103,221,108,189,108"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="295,85,293,75,300,66,316,60,341,58,367,61,383,67,381,72,366,66,341,63,318,65,303,70,298,76,300,84"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9" title="Create a IGitHubService." alt="" coords="493,5,731,61"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="420,82,489,63,491,68,421,87"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#aba327aceb0182d4678f593c3385131de" title="Downloads a file from a given url ." alt="" coords="515,85,710,126"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="446,103,499,103,499,108,446,108"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8" title="Attempt to update with a given updateExecutor ." alt="" coords="515,150,710,191"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="429,124,511,143,509,149,428,129"/>
 </map>

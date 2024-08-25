@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.PostValidationShutdown" name="Tgstation.Server.Host.Components.Session.SessionController.PostValidationShutdown">
-<area shape="rect" id="node1" title="Terminates the server after ten seconds if it does not exit." alt="" coords="5,30,267,85"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="323,5,505,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a840da56ea51a4bbbc6b21667cc6355a2" title="Asycnhronously terminates the process." alt="" coords="315,69,513,109"/>
+<area shape="rect" id="Node000001" title="Terminates the server after ten seconds if it does not exit." alt="" coords="5,31,266,87"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="322,5,503,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="266,41,306,36,307,41,267,46"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a840da56ea51a4bbbc6b21667cc6355a2" title="Asycnhronously terminates the process." alt="" coords="314,71,511,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="267,71,298,75,298,80,266,77"/>
 </map>

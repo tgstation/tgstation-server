@@ -1,5 +1,9 @@
 <map id="Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi" name="Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi">
-<area shape="rect" id="node1" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="269,37,485,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a193a9906e18dd87c1f5d730bcd6f5613" title="Get the repository&#39;s status." alt="" coords="5,5,221,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,69,221,109"/>
+<area shape="rect" id="Node000001" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="269,71,484,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="5,5,221,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="276,69,197,49,199,44,277,64"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a193a9906e18dd87c1f5d730bcd6f5613" title="Get the repository&#39;s status." alt="" coords="5,71,221,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,94,221,94,221,88,253,88"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,136,221,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="277,118,199,138,197,133,276,113"/>
 </map>

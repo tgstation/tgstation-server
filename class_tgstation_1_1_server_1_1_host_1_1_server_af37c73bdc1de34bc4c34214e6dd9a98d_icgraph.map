@@ -1,8 +1,14 @@
 <map id="Tgstation.Server.Host.Server.StopServerImmediate" name="Tgstation.Server.Host.Server.StopServerImmediate">
-<area shape="rect" id="node1" title="Fires off the cancellationTokenSource without any checks, shutting down everything." alt="" coords="521,55,713,95"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a14a8a5126b790adbcf8fb81cc573acf1" title="Kill the server with a fatal exception. A Task representing the running operation." alt="" coords="7,5,218,31"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2" title="Implements Restart()." alt="" coords="275,55,467,95"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#aa9b14ade37ba07f8294f011d42a07b28" title="Event handler for the updatePath&#39;s FileSystemWatcher. Triggers shutdown if requested by host watchdog..." alt="" coords="268,119,473,159"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a2343e099613579929e08bbc59f28c1c5" title="Attempt to update with a given updateExecutor . true if the update started successfully,..." alt="" coords="17,55,209,95"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a212053f7976ab724d82653b5e8373fd6" title="Runs the IServer. A ValueTask representing the running operation." alt="" coords="5,127,220,152"/>
+<area shape="rect" id="Node000001" title="Fires off the cancellationTokenSource without any checks, shutting down everything." alt="" coords="520,55,711,96"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a14a8a5126b790adbcf8fb81cc573acf1" title="Kill the server with a fatal exception.A Task representing the running operation." alt="" coords="7,5,218,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="516,54,472,46,340,32,218,24,218,19,340,26,472,41,517,49"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2" title="Implements Restart()." alt="" coords="274,55,466,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="505,78,466,78,466,73,505,73"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#aa9b14ade37ba07f8294f011d42a07b28" title="Event handler for the updatePath&#39;s FileSystemWatcher. Triggers shutdown if requested by host watchdog..." alt="" coords="268,121,472,161"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="522,103,450,122,448,117,521,98"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="260,54,173,34,174,29,261,49"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a2343e099613579929e08bbc59f28c1c5" title="Attempt to update with a given updateExecutor .true if the update started successfully,..." alt="" coords="17,55,208,96"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="259,78,209,78,209,73,259,73"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a212053f7976ab724d82653b5e8373fd6" title="Runs the IServer.A ValueTask representing the running operation." alt="" coords="5,128,220,154"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="252,144,220,144,220,138,252,138"/>
 </map>

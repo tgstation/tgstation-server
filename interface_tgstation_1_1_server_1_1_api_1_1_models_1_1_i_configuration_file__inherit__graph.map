@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Api.Models.IConfigurationFile" name="Tgstation.Server.Api.Models.IConfigurationFile">
-<area shape="rect" id="node1" title="Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete file..." alt="" coords="5,37,192,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html" title="Represents a request to update a configuration file." alt="" coords="250,5,467,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html" title="Response when reading configuration files." alt="" coords="240,69,477,109"/>
+<area shape="rect" id="Node000001" title="Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete file..." alt="" coords="5,39,192,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html" title="Represents a request to update a configuration file." alt="" coords="250,5,466,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,42,249,37,250,42,207,48"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html" title="Response when reading configuration files." alt="" coords="240,71,476,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="208,70,239,74,239,79,207,75"/>
 </map>

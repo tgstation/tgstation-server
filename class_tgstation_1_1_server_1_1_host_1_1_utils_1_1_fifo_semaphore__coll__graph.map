@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Utils.FifoSemaphore" name="Tgstation.Server.Host.Utils.FifoSemaphore">
-<area shape="rect" id="node1" title="A first&#45;in first&#45;out async semaphore." alt="" coords="341,47,523,87"/>
-<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="67,5,158,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="30,55,195,80"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,104,220,159"/>
+<area shape="rect" id="Node000001" title="A first&#45;in first&#45;out async semaphore." alt="" coords="341,47,521,88"/>
+<area shape="rect" id="Node000002" href="$class_i_disposable.html" title=" " alt="" coords="68,5,157,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,24,317,45,341,49,340,54,316,50,172,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="30,55,195,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="210,65,340,65,340,70,210,70"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,105,220,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="235,105,340,83,341,89,236,110"/>
 </map>

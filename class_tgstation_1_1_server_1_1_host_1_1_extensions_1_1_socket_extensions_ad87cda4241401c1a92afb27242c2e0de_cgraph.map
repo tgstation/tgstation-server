@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Extensions.SocketExtensions.BindTest" name="Tgstation.Server.Host.Extensions.SocketExtensions.BindTest">
-<area shape="rect" id="node1" title="Attempt to exclusively bind to a given port ." alt="" coords="5,13,223,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="271,5,511,60"/>
+<area shape="rect" id="Node000001" title="Attempt to exclusively bind to a given port ." alt="" coords="5,13,222,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="270,5,509,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,31,254,31,254,36,222,36"/>
 </map>

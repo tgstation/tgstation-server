@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect">
-<area shape="rect" id="node1" title="Attempt to connect the Provider. A ValueTask representing the running operation." alt="" coords="5,5,259,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a9998d613750e44e779ae89931f7cfd98" title="Gracefully disconnects the provider. A ValueTask representing the running operation." alt="" coords="307,5,601,45"/>
-</map>

@@ -1,7 +1,11 @@
 <map id="IDesignTimeDbContextFactory" name="IDesignTimeDbContextFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="5,139,204,164"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_my_sql_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating MySqlDatabaseContexts." alt="" coords="252,5,525,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_postgres_sql_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating PostgresSqlDatabaseContexts." alt="" coords="256,84,521,139"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqlServerDatabaseContexts." alt="" coords="263,163,514,217"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sqlite_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqliteDatabaseContexts." alt="" coords="253,241,524,296"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,140,203,166"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_my_sql_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating MySqlDatabaseContexts." alt="" coords="251,5,523,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,129,190,100,250,71,280,59,282,64,252,76,192,104,141,134"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_postgres_sql_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating PostgresSqlDatabaseContexts." alt="" coords="255,85,519,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="214,135,254,129,255,135,215,140"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqlServerDatabaseContexts." alt="" coords="262,165,512,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="215,166,262,173,261,178,214,171"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sqlite_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqliteDatabaseContexts." alt="" coords="252,245,522,301"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="141,172,192,202,252,231,282,242,280,247,250,236,190,207,138,177"/>
 </map>

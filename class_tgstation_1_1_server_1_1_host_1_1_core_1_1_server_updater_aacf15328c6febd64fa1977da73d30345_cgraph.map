@@ -1,6 +1,10 @@
 <map id="Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl" name="Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl">
-<area shape="rect" id="node1" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="5,85,215,125"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9" title="Create a IGitHubService." alt="" coords="263,5,501,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#aba327aceb0182d4678f593c3385131de" title="Downloads a file from a given url ." alt="" coords="284,85,480,125"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8" title="Attempt to update with a given updateExecutor ." alt="" coords="284,149,480,189"/>
+<area shape="rect" id="Node000001" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="5,85,214,126"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="59,85,56,75,65,66,82,60,110,58,139,61,156,67,154,72,137,66,109,63,83,65,67,70,61,76,64,83"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9" title="Create a IGitHubService." alt="" coords="262,5,500,61"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="188,82,258,63,259,68,190,87"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#aba327aceb0182d4678f593c3385131de" title="Downloads a file from a given url ." alt="" coords="283,85,479,126"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="214,103,267,103,267,108,214,108"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8" title="Attempt to update with a given updateExecutor ." alt="" coords="283,150,479,191"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="198,124,279,143,278,149,196,129"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.System.AssemblyInformationProvider" name="Tgstation.Server.Host.System.AssemblyInformationProvider">
-<area shape="rect" id="node1" title=" " alt="" coords="5,79,204,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="7,5,203,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,79,203,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="6,5,202,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,46,107,79,101,79,101,46"/>
 </map>

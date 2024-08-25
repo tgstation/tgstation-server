@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DeploymentLockManager.AddLock" name="Tgstation.Server.Host.Components.Deployment.DeploymentLockManager.AddLock">
-<area shape="rect" id="node1" title="Add a lock to the managed IDmbProvider." alt="" coords="5,13,300,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html#ae03467243a3241ddd1b7038871a8b397" title="Creates a DmbLock and adds it to locks." alt="" coords="348,13,659,53"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html#a2abafa30d9487b73499e18ff9c3d2d96" title="Generates a verbose description of a given dmbLock ." alt="" coords="707,5,971,60"/>
+<area shape="rect" id="Node000001" title="Add a lock to the managed IDmbProvider." alt="" coords="5,13,300,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html#ae03467243a3241ddd1b7038871a8b397" title="Creates a DmbLock and adds it to locks." alt="" coords="348,13,657,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="300,31,332,31,332,36,300,36"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html#a2abafa30d9487b73499e18ff9c3d2d96" title="Generates a verbose description of a given dmbLock ." alt="" coords="705,5,968,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="657,31,690,31,690,36,657,36"/>
 </map>

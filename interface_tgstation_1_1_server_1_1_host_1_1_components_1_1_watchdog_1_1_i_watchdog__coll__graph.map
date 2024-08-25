@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.IWatchdog" name="Tgstation.Server.Host.Components.Watchdog.IWatchdog">
-<area shape="rect" id="node1" title="Runs and monitors the twin server controllers." alt="" coords="189,152,416,192"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="5,79,141,104"/>
-<area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="17,5,129,31"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="166,79,293,104"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="317,79,435,104"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="460,79,583,104"/>
+<area shape="rect" id="Node000001" title="Runs and monitors the twin server controllers." alt="" coords="187,153,413,193"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="5,79,141,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,108,244,150,242,155,121,113"/>
+<area shape="rect" id="Node000003" href="$class_i_hosted_service.html" title=" " alt="" coords="17,5,129,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="76,46,76,79,70,79,70,46"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="165,79,290,105"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="251,115,284,150,280,154,247,118"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="314,79,432,105"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="354,118,320,154,316,150,350,114"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="456,79,578,105"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="470,113,355,155,353,150,468,108"/>
 </map>

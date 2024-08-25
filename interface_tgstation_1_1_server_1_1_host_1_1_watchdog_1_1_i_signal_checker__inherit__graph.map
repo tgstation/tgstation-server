@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Watchdog.ISignalChecker" name="Tgstation.Server.Host.Watchdog.ISignalChecker">
-<area shape="rect" id="node1" title="For relaying signals received to the host process." alt="" coords="5,69,217,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_console_1_1_posix_signal_checker.html" title="ISignalChecker for checking POSIX signals." alt="" coords="271,5,472,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html" title="Represents the lifetime of the service." alt="" coords="272,69,471,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_noop_signal_checker.html" title="No&#45;op ISignalChecker." alt="" coords="265,133,477,173"/>
+<area shape="rect" id="Node000001" title="For relaying signals received to the host process." alt="" coords="5,71,217,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_console_1_1_posix_signal_checker.html" title="ISignalChecker for checking POSIX signals." alt="" coords="270,5,471,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,64,286,44,287,49,210,69"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html" title="Represents the lifetime of the service." alt="" coords="272,71,469,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,88,271,88,271,94,232,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_noop_signal_checker.html" title="No&#45;op ISignalChecker." alt="" coords="265,136,476,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="210,113,287,133,286,138,209,118"/>
 </map>

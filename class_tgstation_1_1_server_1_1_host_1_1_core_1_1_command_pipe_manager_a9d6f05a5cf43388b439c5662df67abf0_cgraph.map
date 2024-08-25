@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Core.CommandPipeManager.ExecuteAsync" name="Tgstation.Server.Host.Core.CommandPipeManager.ExecuteAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,37,248,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#adb01d302ec13ad32897ae83be130afd0" title="Kill the server with a fatal exception." alt="" coords="313,5,494,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a11cee342f76c81a871edc028403fbea8" title="Gracefully shutsdown the Host." alt="" coords="296,69,511,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,247,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#adb01d302ec13ad32897ae83be130afd0" title="Kill the server with a fatal exception." alt="" coords="312,5,492,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="247,42,296,36,296,41,247,47"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a11cee342f76c81a871edc028403fbea8" title="Gracefully shutsdown the Host." alt="" coords="295,71,509,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="247,70,279,74,279,79,247,76"/>
 </map>

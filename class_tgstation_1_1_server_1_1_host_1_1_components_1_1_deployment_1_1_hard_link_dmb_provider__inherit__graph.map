@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider" name="Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider">
-<area shape="rect" id="node1" title="A IDmbProvider that uses hard links." alt="" coords="5,225,232,265"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="38,152,199,177"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="68,79,169,104"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="55,5,182,31"/>
+<area shape="rect" id="Node000001" title="A IDmbProvider that uses hard links." alt="" coords="5,226,232,267"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="38,153,199,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,194,121,226,116,226,116,194"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="68,79,169,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="121,120,121,152,116,152,116,120"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="56,5,181,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="121,46,121,79,116,79,116,46"/>
 </map>

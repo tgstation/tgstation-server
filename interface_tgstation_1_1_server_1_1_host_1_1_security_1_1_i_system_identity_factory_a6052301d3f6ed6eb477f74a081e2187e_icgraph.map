@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Security.ISystemIdentityFactory.GetCurrent" name="Tgstation.Server.Host.Security.ISystemIdentityFactory.GetCurrent">
-<area shape="rect" id="node1" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="883,5,1104,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44" title="Check we have a valid system and configuration." alt="" coords="555,5,835,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="280,5,507,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="5,5,232,45"/>
+<area shape="rect" id="Node000001" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="881,5,1102,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44" title="Check we have a valid system and configuration." alt="" coords="554,5,833,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="865,28,834,28,834,23,865,23"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="280,5,506,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="539,28,507,28,507,23,539,23"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="5,5,232,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="264,28,232,28,232,23,264,23"/>
 </map>

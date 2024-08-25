@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Api.Models.Response.ChatBotResponse" name="Tgstation.Server.Api.Models.Response.ChatBotResponse">
-<area shape="rect" id="node1" title="Represents a chat bot response." alt="" coords="5,299,193,339"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_api_base.html" title=" " alt="" coords="40,225,159,251"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html" title="Manage the server chat bots." alt="" coords="41,152,158,177"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="51,79,147,104"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="67,5,132,31"/>
+<area shape="rect" id="Node000001" title="Represents a chat bot response." alt="" coords="5,300,193,341"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_api_base.html" title=" " alt="" coords="40,226,158,252"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,267,102,300,96,300,96,267"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html" title="Manage the server chat bots." alt="" coords="41,153,157,178"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="102,194,102,226,96,226,96,194"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="51,79,147,105"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="102,120,102,152,96,152,96,120"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="67,5,131,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="102,46,102,79,96,79,96,46"/>
 </map>

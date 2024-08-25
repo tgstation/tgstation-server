@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.BeforeApplyDmb" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.BeforeApplyDmb">
-<area shape="rect" id="node1" title="To be called before a given newCompileJob &#160;goes live." alt="" coords="380,37,651,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a9a94dccebeb6abb16f75b2ad03a5eb28" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,5,332,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a857f98eb5a2516c2a70c35d684c2c21b" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="43,69,294,109"/>
+<area shape="rect" id="Node000001" title="To be called before a given newCompileJob &#160;goes live." alt="" coords="379,39,649,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a35cea102f4540006ad8988efd9e8e911" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,5,331,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="363,47,331,44,331,39,363,42"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a857f98eb5a2516c2a70c35d684c2c21b" title=" " alt="" coords="43,71,293,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="363,76,294,82,293,77,363,70"/>
 </map>

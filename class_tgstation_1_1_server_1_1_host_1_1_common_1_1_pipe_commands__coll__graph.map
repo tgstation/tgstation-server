@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Common.PipeCommands" name="Tgstation.Server.Host.Common.PipeCommands">
-<area shape="rect" id="node1" title="Values able to be passed via the update file path." alt="" coords="5,137,212,177"/>
-<area shape="rect" id="node2" title=" " alt="" coords="64,5,153,31"/>
+<area shape="rect" id="Node000001" title="Values able to be passed via the update file path." alt="" coords="5,139,211,180"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="64,5,152,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,46,111,139,105,139,105,46"/>
 </map>

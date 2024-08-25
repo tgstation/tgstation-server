@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Models.ChatBot" name="Tgstation.Server.Host.Models.ChatBot">
-<area shape="rect" id="node1" title=" " alt="" coords="58,240,254,280"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html" title="Manage the server chat bots." alt="" coords="5,152,144,192"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="27,79,123,104"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="42,5,107,31"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="168,152,309,192"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="58,241,253,282"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html" title="Manage the server chat bots." alt="" coords="5,153,143,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,203,139,239,135,243,101,207"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="26,79,122,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="77,120,77,152,71,152,71,120"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="42,5,106,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="77,46,77,79,71,79,71,46"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="167,153,307,193"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="210,207,176,243,172,239,206,203"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Client.ApiClient.RefreshToken" name="Tgstation.Server.Client.ApiClient.RefreshToken">
-<area shape="rect" id="node1" title="Attempt to refresh the stored Bearer token in Headers." alt="" coords="547,13,705,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client_token_refresh_retry_policy.html#a361ec9033180c6b352880fee3e41bdef" title="Attempt to refresh the apiClients token asynchronously." alt="" coords="276,5,499,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client_token_refresh_retry_policy.html#a150cea2653281d280f3c3a5f9f3b41a8" title=" " alt="" coords="5,5,228,60"/>
+<area shape="rect" id="Node000001" title="Attempt to refresh the stored Bearer token in Headers." alt="" coords="546,13,703,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client_token_refresh_retry_policy.html#a361ec9033180c6b352880fee3e41bdef" title="Attempt to refresh the apiClients token asynchronously." alt="" coords="276,5,498,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="531,36,499,36,499,31,531,31"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client_token_refresh_retry_policy.html#a150cea2653281d280f3c3a5f9f3b41a8" title=" " alt="" coords="5,5,228,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="260,36,228,36,228,31,260,31"/>
 </map>

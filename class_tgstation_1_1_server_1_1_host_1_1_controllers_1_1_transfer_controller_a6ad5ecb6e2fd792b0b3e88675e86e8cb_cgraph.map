@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.TransferController.Upload" name="Tgstation.Server.Host.Controllers.TransferController.Upload">
-<area shape="rect" id="node1" title="Uploads a file with a given ticket ." alt="" coords="5,5,221,45"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a6d1e5ab9d088861f7a85f61a0a1f1754" title="Sets the Stream for a given ticketResponse &#160;associated with a pending upload." alt="" coords="269,5,557,45"/>
+<area shape="rect" id="Node000001" title="Uploads a file with a given ticket ." alt="" coords="5,5,221,46"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a6d1e5ab9d088861f7a85f61a0a1f1754" title="Sets the Stream for a given ticketResponse &#160;associated with a pending upload." alt="" coords="269,5,556,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,23,253,23,253,28,221,28"/>
 </map>

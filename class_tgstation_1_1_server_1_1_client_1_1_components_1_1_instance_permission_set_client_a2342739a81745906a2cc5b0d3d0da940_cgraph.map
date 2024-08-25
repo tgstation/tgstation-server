@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Client.Components.InstancePermissionSetClient.InstancePermissionSetClient" name="Tgstation.Server.Client.Components.InstancePermissionSetClient.InstancePermissionSetClient">
+<area shape="rect" id="Node000001" title="Initializes a new instance of the InstancePermissionSetClient class." alt="" coords="5,5,251,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_permission_set_client.html#a35384cd44acc2e509011ccfbba76ed0f" title="Get the instance permission sets in the instance.A ValueTask&lt;TResult&gt; resulting in a List&lt;T&gt; of Insta..." alt="" coords="299,5,511,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="251,31,283,31,283,36,251,36"/>
+</map>

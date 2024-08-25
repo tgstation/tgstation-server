@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Api.Models.Internal.ChatConnectionStringBuilder" name="Tgstation.Server.Api.Models.Internal.ChatConnectionStringBuilder">
-<area shape="rect" id="node1" title="Helper for building ChatBotSettings.ConnectionStrings." alt="" coords="5,37,240,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html" title="ChatConnectionStringBuilder for ChatProvider.Discord." alt="" coords="288,5,493,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html" title="ChatConnectionStringBuilder for ChatProvider.Irc." alt="" coords="297,69,484,109"/>
+<area shape="rect" id="Node000001" title="Helper for building ChatBotSettings.ConnectionStrings." alt="" coords="5,39,239,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html" title="ChatConnectionStringBuilder for ChatProvider.Discord." alt="" coords="287,5,491,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="254,40,286,36,287,41,255,45"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html" title="ChatConnectionStringBuilder for ChatProvider.Irc." alt="" coords="296,71,482,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="254,72,295,77,295,82,254,77"/>
 </map>

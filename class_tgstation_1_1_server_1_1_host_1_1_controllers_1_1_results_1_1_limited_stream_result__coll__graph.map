@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Controllers.Results.LimitedStreamResult" name="Tgstation.Server.Host.Controllers.Results.LimitedStreamResult">
-<area shape="rect" id="node1" title="Very similar to FileStreamResult except it&#39;s IActionResultExecutor&lt;TResult&gt; contains a fix for https:..." alt="" coords="71,168,287,208"/>
-<area shape="rect" id="node2" href="$class_file_result.html" title=" " alt="" coords="5,80,85,105"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="110,80,247,105"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="115,5,242,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="272,80,387,105"/>
+<area shape="rect" id="Node000001" title="Very similar to FileStreamResult except it&#39;s IActionResultExecutor&lt;TResult&gt; contains a fix for https:..." alt="" coords="69,169,285,210"/>
+<area shape="rect" id="Node000002" href="$class_file_result.html" title=" " alt="" coords="5,80,85,106"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,113,151,166,148,171,72,117"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="109,80,245,106"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,121,180,168,174,168,174,121"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="114,5,240,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="180,46,180,80,174,80,174,46"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="269,80,384,106"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="296,117,210,171,207,166,293,112"/>
 </map>

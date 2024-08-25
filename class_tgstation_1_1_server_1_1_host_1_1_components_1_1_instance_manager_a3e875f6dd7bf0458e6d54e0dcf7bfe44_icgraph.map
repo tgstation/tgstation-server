@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility" name="Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility">
-<area shape="rect" id="node1" title="Check we have a valid system and configuration." alt="" coords="555,5,835,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="280,5,507,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="5,5,232,45"/>
+<area shape="rect" id="Node000001" title="Check we have a valid system and configuration." alt="" coords="554,5,833,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="280,5,506,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="539,28,507,28,507,23,539,23"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="5,5,232,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="264,28,232,28,232,23,264,23"/>
 </map>

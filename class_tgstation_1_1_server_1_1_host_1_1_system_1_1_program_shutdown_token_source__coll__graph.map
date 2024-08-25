@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.System.ProgramShutdownTokenSource" name="Tgstation.Server.Host.System.ProgramShutdownTokenSource">
-<area shape="rect" id="node1" title="Contains a CancellationToken that triggers when the operating system requests the program shuts down." alt="" coords="71,93,278,133"/>
-<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="5,5,96,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="121,5,229,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="266,5,443,31"/>
+<area shape="rect" id="Node000001" title="Contains a CancellationToken that triggers when the operating system requests the program shuts down." alt="" coords="70,94,275,135"/>
+<area shape="rect" id="Node000002" href="$class_i_disposable.html" title=" " alt="" coords="5,5,95,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,38,149,91,145,96,76,42"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="119,5,226,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="175,46,175,93,170,93,170,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="265,5,441,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="345,46,325,72,302,87,277,97,275,93,299,82,322,68,341,43"/>
 </map>

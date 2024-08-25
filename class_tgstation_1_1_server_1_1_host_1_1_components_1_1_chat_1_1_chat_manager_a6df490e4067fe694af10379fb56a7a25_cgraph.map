@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.ChatManager.QueueMessage" name="Tgstation.Server.Host.Components.Chat.ChatManager.QueueMessage">
-<area shape="rect" id="node1" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="5,5,232,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a340b673aa6460c8570dc501b18fe0f5e" title="Adds a given message &#160;to the send queue." alt="" coords="280,5,547,45"/>
+<area shape="rect" id="Node000001" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="5,5,232,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a340b673aa6460c8570dc501b18fe0f5e" title="Adds a given message &#160;to the send queue." alt="" coords="280,5,545,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,23,264,23,264,28,232,28"/>
 </map>

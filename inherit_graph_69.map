@@ -1,7 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html" title="Creates and updates remote deployments." alt="" coords="5,84,264,139"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html" title="Base class for implementing IRemoteDeploymentManagers." alt="" coords="312,84,596,139"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html" title="IRemoteDeploymentManager for GitHub.com." alt="" coords="644,5,939,60"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_lab_remote_deployment_manager.html" title="IRemoteDeploymentManager for GitLab.com." alt="" coords="645,84,938,139"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_no_op_remote_deployment_manager.html" title="No&#45;op implementation of IRemoteDeploymentManager." alt="" coords="647,163,935,217"/>
+<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dream_maker.html" title="For managing the compiler." alt="" coords="5,5,232,46"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html" title=" " alt="" coords="280,5,506,46"/>
+<area shape="poly" id="edge527_Node000000_Node000001" title=" " alt="" coords="248,23,279,23,279,28,248,28"/>
 </map>

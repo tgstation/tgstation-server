@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Repository.ILibGit2RepositoryFactory.Clone" name="Tgstation.Server.Host.Components.Repository.ILibGit2RepositoryFactory.Clone">
-<area shape="rect" id="node1" title="Clone a remote LibGit2Sharp.IRepository." alt="" coords="348,5,620,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#aad9235dfb77b745164af1553b922573d" title="Clone the repository at url . A ValueTask&lt;TResult&gt; resulting i the newly cloned IRepository,..." alt="" coords="5,5,300,45"/>
+<area shape="rect" id="Node000001" title="Clone a remote LibGit2Sharp.IRepository." alt="" coords="347,5,618,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#aad9235dfb77b745164af1553b922573d" title="Clone the repository at url .A ValueTask&lt;TResult&gt; resulting i the newly cloned IRepository,..." alt="" coords="5,5,299,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="331,28,299,28,299,23,331,23"/>
 </map>

@@ -1,13 +1,23 @@
 <map id="Tgstation.Server.Host.Core.VersionReportingService" name="Tgstation.Server.Host.Core.VersionReportingService">
-<area shape="rect" id="node1" title="Handles TGS version reporting, if enabled." alt="" coords="808,215,989,255"/>
-<area shape="rect" id="node2" href="$class_background_service.html" title=" " alt="" coords="406,5,541,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="380,55,567,95"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="389,119,557,159"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="383,183,564,223"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="374,247,573,287"/>
-<area shape="rect" id="node7" title=" " alt="" coords="362,312,585,367"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_telemetry_configuration.html" title="Configuration options for telemetry." alt="" coords="359,391,588,431"/>
-<area shape="rect" id="node9" title=" " alt="" coords="5,375,95,400"/>
-<area shape="rect" id="node10" title=" " alt="" coords="27,424,73,449"/>
-<area shape="rect" id="node11" title=" " alt="" coords="409,456,538,481"/>
+<area shape="rect" id="Node000001" title="Handles TGS version reporting, if enabled." alt="" coords="804,219,984,260"/>
+<area shape="rect" id="Node000002" href="$class_background_service.html" title=" " alt="" coords="404,5,538,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="554,13,608,16,667,25,726,42,781,69,820,103,851,144,873,185,888,218,883,220,868,187,846,147,816,107,779,74,724,47,666,30,607,21,553,18"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="378,55,564,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="580,83,680,103,732,119,781,140,810,157,836,177,877,217,873,220,832,181,806,161,779,145,730,124,678,108,579,88"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="387,121,555,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="570,152,672,170,781,196,842,216,840,221,779,201,671,176,569,157"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="381,186,561,227"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="577,212,804,230,803,235,576,217"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="372,251,570,292"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="585,262,780,248,803,246,804,251,780,253,585,267"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="360,316,582,371"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="597,322,687,304,779,281,844,258,846,263,781,286,688,310,598,327"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_telemetry_configuration.html" title="Configuration options for telemetry." alt="" coords="357,395,585,436"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="600,397,690,376,736,360,779,340,807,322,833,300,874,258,878,262,837,304,810,326,781,345,738,365,692,381,601,403"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="5,379,94,404"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="110,392,356,406,356,412,109,398"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="27,428,72,454"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="88,437,333,425,356,423,356,429,333,430,88,442"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="407,460,535,486"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="550,474,604,471,664,462,724,445,778,418,818,382,848,338,870,295,884,259,889,261,875,297,852,341,822,385,782,422,726,450,665,468,605,476,551,479"/>
 </map>

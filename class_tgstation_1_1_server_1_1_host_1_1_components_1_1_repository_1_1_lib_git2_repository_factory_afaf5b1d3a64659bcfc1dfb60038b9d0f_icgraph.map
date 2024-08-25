@@ -1,4 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException" name="Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException">
-<area shape="rect" id="node1" title="Rethrow the authentication failure message as a JobException if it is one." alt="" coords="321,29,556,84"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4" title="Clone a remote LibGit2Sharp.IRepository. A Task representing the running operation." alt="" coords="5,37,273,77"/>
+<area shape="rect" id="Node000001" title="Rethrow the authentication failure message as a JobException if it is one." alt="" coords="321,29,555,85"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="486,17,468,11,438,8,411,10,394,15,386,21,385,29,380,29,381,19,391,10,410,5,438,3,469,5,488,12"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4" title="Clone a remote LibGit2Sharp.IRepository.A Task representing the running operation." alt="" coords="5,37,273,78"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="305,60,273,60,273,55,305,55"/>
 </map>

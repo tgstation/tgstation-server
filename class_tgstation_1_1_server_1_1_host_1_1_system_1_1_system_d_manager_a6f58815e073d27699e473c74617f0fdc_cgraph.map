@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.System.SystemDManager.SystemDManager" name="Tgstation.Server.Host.System.SystemDManager.SystemDManager">
-<area shape="rect" id="node1" title="Initializes a new instance of the SystemDManager class." alt="" coords="5,5,236,45"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a35728d66030addfd5551351b8c6db942" title="Register a given handler &#160;to run before stopping the server for a restart." alt="" coords="284,5,501,45"/>
+<area shape="rect" id="Node000001" title="Initializes a new instance of the SystemDManager class." alt="" coords="5,5,236,46"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a35728d66030addfd5551351b8c6db942" title="Register a given handler &#160;to run before stopping the server for a restart." alt="" coords="284,5,500,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="236,23,268,23,268,28,236,28"/>
 </map>

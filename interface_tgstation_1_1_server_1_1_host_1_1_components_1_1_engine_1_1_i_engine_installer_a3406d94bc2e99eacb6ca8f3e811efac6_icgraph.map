@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Engine.IEngineInstaller.UpgradeInstallation" name="Tgstation.Server.Host.Components.Engine.IEngineInstaller.UpgradeInstallation">
-<area shape="rect" id="node1" title="Does actions necessary to get upgrade a version installed by a previous version of TGS." alt="" coords="555,5,823,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a43d2c796792fcf3807acc665c1ea06ab" title=" " alt="" coords="280,5,507,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,45"/>
+<area shape="rect" id="Node000001" title="Does actions necessary to get upgrade a version installed by a previous version of TGS." alt="" coords="554,5,821,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a43d2c796792fcf3807acc665c1ea06ab" title=" " alt="" coords="280,5,506,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="538,28,507,28,507,23,538,23"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="264,28,232,28,232,23,264,23"/>
 </map>

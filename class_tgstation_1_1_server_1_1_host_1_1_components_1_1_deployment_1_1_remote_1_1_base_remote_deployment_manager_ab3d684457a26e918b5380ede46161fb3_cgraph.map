@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager.PostDeploymentComments" name="Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager.PostDeploymentComments">
-<area shape="rect" id="node1" title="Post deployment comments to the test merge ticket. A ValueTask representing the running operation." alt="" coords="5,84,289,139"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#a6a69d774aeb707ddb8180398e58ff0ba" title="Create a comment of a given testMergeNumber &#39;s source." alt="" coords="337,5,621,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#a671e6a741cc1747c0ddb451c2d9b53d3" title="Formats a comment for a given testMerge ." alt="" coords="337,84,621,139"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="371,163,587,217"/>
+<area shape="rect" id="Node000001" title="Post deployment comments to the test merge ticket.A ValueTask representing the running operation." alt="" coords="5,85,289,141"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#a6fd0f81ea755088e2a23dc1295ddb2dc" title="Create a comment of a given testMergeNumber &#39;s source." alt="" coords="337,5,620,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="265,82,345,63,346,68,266,87"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#a8f22ab743179d83f77c7deff728060f6" title="Formats a comment for a given testMerge ." alt="" coords="337,85,620,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="289,111,321,111,321,116,289,116"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="371,165,586,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="266,139,356,161,355,166,265,144"/>
 </map>

@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.DisposeAndNullControllersImpl" name="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.DisposeAndNullControllersImpl">
-<area shape="rect" id="node1" title="Call IDisposable.Dispose and null the fields for all ISessionControllers. A ValueTask representing th..." alt="" coords="5,34,277,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#afd7fb5a2e71e584df10c62620fb5e174" title=" " alt="" coords="325,5,644,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a59895d5671d2f658a9ac0f9dbda73dca" title="Asynchronously drain deploymentCleanupTasks." alt="" coords="335,70,635,125"/>
-</map>

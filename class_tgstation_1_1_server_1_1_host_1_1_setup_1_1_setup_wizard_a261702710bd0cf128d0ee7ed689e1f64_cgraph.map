@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Setup.SetupWizard.PromptForHostingPort" name="Tgstation.Server.Host.Setup.SetupWizard.PromptForHostingPort">
-<area shape="rect" id="node1" title="Prompts the user to enter the port to host TGS on." alt="" coords="5,37,233,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#acae9e2a36d9f2907a69390221443db34" title="Read a line from the IConsole." alt="" coords="281,5,449,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a1ea8d75d4508cc393e3445db997479f0" title="Write some text &#160;to the IConsole." alt="" coords="281,69,449,109"/>
+<area shape="rect" id="Node000001" title="Prompts the user to enter the port to host TGS on." alt="" coords="5,39,233,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#acae9e2a36d9f2907a69390221443db34" title="Read a line from the IConsole." alt="" coords="281,5,448,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,41,265,36,265,42,234,46"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a1ea8d75d4508cc393e3445db997479f0" title="Write some text &#160;to the IConsole." alt="" coords="281,71,448,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,71,265,75,265,81,233,77"/>
 </map>

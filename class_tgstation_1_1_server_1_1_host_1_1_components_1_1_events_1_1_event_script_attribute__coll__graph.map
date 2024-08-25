@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Events.EventScriptAttribute" name="Tgstation.Server.Host.Components.Events.EventScriptAttribute">
-<area shape="rect" id="node1" title="Attribute for indicating the script that a given EventType runs." alt="" coords="5,79,232,119"/>
-<area shape="rect" id="node2" href="$class_attribute.html" title=" " alt="" coords="83,5,154,31"/>
+<area shape="rect" id="Node000001" title="Attribute for indicating the script that a given EventType runs." alt="" coords="5,79,232,120"/>
+<area shape="rect" id="Node000002" href="$class_attribute.html" title=" " alt="" coords="83,5,154,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,46,121,79,116,79,116,46"/>
 </map>

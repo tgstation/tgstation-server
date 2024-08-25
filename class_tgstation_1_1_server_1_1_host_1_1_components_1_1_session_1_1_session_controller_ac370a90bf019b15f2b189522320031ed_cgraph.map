@@ -1,11 +1,19 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.Release" name="Tgstation.Server.Host.Components.Session.SessionController.Release">
-<area shape="rect" id="node1" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A ValueTask representin..." alt="" coords="5,105,232,145"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ab0660ae6440a38aa85f8473a8220533a" title="Throws an ObjectDisposedException if DisposeAsync has been called." alt="" coords="284,5,552,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="288,69,548,109"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_executable_lock.html#a0c1a48d309200512db125445a2341272" title="Call if, during a detach, this version should not be deleted." alt="" coords="280,134,556,189"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#a01b014f3713b09cdbc9093bc1bbc0164" title="Disposing the IDmbProvider won&#39;t cause a cleanup of the working directory." alt="" coords="301,213,535,253"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#ae9f2a2d2df537323f83f50cd79185016" title=" " alt="" coords="633,5,814,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#a226f5619ff7d884e2c8df1505548c04d" title="Locks the FifoSemaphore." alt="" coords="633,69,814,109"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#abdc1ed1c2c3e883ae672ef7b75e67b03" title="Kills a given engine server process ." alt="" coords="604,134,843,189"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="891,69,1081,109"/>
+<area shape="rect" id="Node000001" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose.A ValueTask representing..." alt="" coords="5,107,232,147"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ab0660ae6440a38aa85f8473a8220533a" title="Throws an ObjectDisposedException if DisposeAsync has been called." alt="" coords="284,5,551,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,104,217,80,279,56,306,48,308,53,281,62,219,85,165,109"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="288,71,547,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,111,272,106,273,111,233,116"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_executable_lock.html#a0c1a48d309200512db125445a2341272" title="Call if, during a detach, this version should not be deleted." alt="" coords="280,135,555,191"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="233,138,264,142,264,147,232,143"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#a01b014f3713b09cdbc9093bc1bbc0164" title="Disposing the IDmbProvider won&#39;t cause a cleanup of the working directory." alt="" coords="301,215,534,255"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="159,145,215,174,281,200,302,207,301,213,279,206,213,178,156,150"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#ae9f2a2d2df537323f83f50cd79185016" title=" " alt="" coords="632,5,812,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="515,67,616,46,617,51,516,73"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#a226f5619ff7d884e2c8df1505548c04d" title="Locks the FifoSemaphore." alt="" coords="632,71,812,111"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="547,88,616,88,616,94,547,94"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#abdc1ed1c2c3e883ae672ef7b75e67b03" title="Kills a given engine server process ." alt="" coords="603,135,840,191"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="509,109,556,120,589,128,588,134,554,126,508,115"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="888,71,1078,111"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="812,88,873,88,873,94,812,94"/>
 </map>

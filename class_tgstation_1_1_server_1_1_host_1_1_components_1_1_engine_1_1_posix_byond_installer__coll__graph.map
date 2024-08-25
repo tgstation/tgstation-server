@@ -1,10 +1,18 @@
 <map id="Tgstation.Server.Host.Components.Engine.PosixByondInstaller" name="Tgstation.Server.Host.Components.Engine.PosixByondInstaller">
-<area shape="rect" id="node1" title="IEngineInstaller for Posix systems." alt="" coords="845,115,1072,155"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html" title="Base implementation of IEngineInstaller for EngineType.Byond." alt="" coords="532,122,667,147"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html" title=" " alt="" coords="181,99,318,125"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html" title="For downloading and installing game engines for a given system." alt="" coords="5,99,116,125"/>
-<area shape="rect" id="node5" title=" " alt="" coords="205,33,294,58"/>
-<area shape="rect" id="node6" title=" " alt="" coords="173,214,325,239"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html" title="Downloads files." alt="" coords="165,149,333,189"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html" title="Handles changing file modes/permissions after writing." alt="" coords="515,172,683,212"/>
+<area shape="rect" id="Node000001" title="IEngineInstaller for Posix systems." alt="" coords="841,117,1068,157"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html" title="Base implementation of IEngineInstaller for EngineType.Byond." alt="" coords="530,124,664,150"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="679,134,841,134,841,140,679,140"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html" title=" " alt="" coords="181,102,317,127"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="333,117,530,130,530,135,333,122"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html" title="For downloading and installing game engines for a given system." alt="" coords="5,102,116,127"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="131,112,180,112,180,117,131,117"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="205,34,293,59"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="308,41,389,39,480,44,586,57,691,75,870,113,869,119,690,80,585,62,479,49,389,45,308,46"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="292,64,357,89,447,111,530,126,529,131,446,116,356,94,290,69"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="173,216,324,242"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="339,218,409,203,478,179,490,170,502,160,532,148,534,153,505,165,493,174,481,184,410,208,340,223"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html" title="Downloads files." alt="" coords="165,151,332,192"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="348,160,479,147,529,141,530,147,480,152,348,165"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html" title="Handles changing file modes/permissions after writing." alt="" coords="513,174,681,215"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="695,176,841,152,841,158,696,181"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DreamMaker.RunDreamMaker" name="Tgstation.Server.Host.Components.Deployment.DreamMaker.RunDreamMaker">
-<area shape="rect" id="node1" title="Compiles a .dme with DreamMaker." alt="" coords="5,49,272,89"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a18af4979c4f16687cb4891d0cbb9b668" title="Return the command line arguments for compiling a given dmePath &#160;if compilation is necessary." alt="" coords="320,5,585,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a1f08236db634210e10291a4ffddd0df8" title="Loads the environment settings for either the server or compiler." alt="" coords="339,85,566,125"/>
+<area shape="rect" id="Node000001" title="Compiles a .dme with DreamMaker." alt="" coords="5,49,272,90"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a18af4979c4f16687cb4891d0cbb9b668" title="Return the command line arguments for compiling a given dmePath &#160;if compilation is necessary." alt="" coords="320,5,584,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="272,51,304,47,305,53,272,56"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a1f08236db634210e10291a4ffddd0df8" title="Loads the environment settings for either the server or compiler." alt="" coords="339,85,565,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="272,82,323,88,322,93,272,87"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Utils.SwaggerConfiguration.ApplyAttributesForRootSchema" name="Tgstation.Server.Host.Utils.SwaggerConfiguration.ApplyAttributesForRootSchema">
-<area shape="rect" id="node1" title="Applies the OpenApiSchema.Nullable, OpenApiSchema.ReadOnly, and OpenApiSchema.WriteOnly to OpenApiSch..." alt="" coords="5,5,244,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a2a1c7a7fbfd7147ea7c5bafca2f73651" title="Generates the OpenAPI schema ID for a given type ." alt="" coords="292,13,555,53"/>
+<area shape="rect" id="Node000001" title="Applies the OpenApiSchema.Nullable, OpenApiSchema.ReadOnly, and OpenApiSchema.WriteOnly to OpenApiSch..." alt="" coords="5,5,244,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a2a1c7a7fbfd7147ea7c5bafca2f73651" title="Generates the OpenAPI schema ID for a given type ." alt="" coords="292,13,554,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="244,31,276,31,276,36,244,36"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.System.NativeMethods.LogonUser" name="Tgstation.Server.Host.System.NativeMethods.LogonUser">
-<area shape="rect" id="node1" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/aa378184(v=vs.85).aspx." alt="" coords="299,13,497,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html#ae5f37bc12ea1e6dfe0d575962ea1846a" title="Create a ISystemIdentity for a given username and password. A Task&lt;TResult&gt; resulting in a new ISyste..." alt="" coords="5,5,251,60"/>
+<area shape="rect" id="Node000001" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/aa378184(v=vs.85).aspx." alt="" coords="298,13,495,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html#ae5f37bc12ea1e6dfe0d575962ea1846a" title="Create a ISystemIdentity for a given username and password.A Task&lt;TResult&gt; resulting in a new ISystem..." alt="" coords="5,5,250,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="282,36,250,36,250,31,282,31"/>
 </map>

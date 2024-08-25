@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Jobs.IJobManager.SetJobProgress" name="Tgstation.Server.Host.Jobs.IJobManager.SetJobProgress">
-<area shape="rect" id="node1" title="Set the JobResponse.Progress and JobResponse.Stage for a given apiResponse ." alt="" coords="308,49,501,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a1dc8ddf51fddc546edeb13540fe195a1" title="Supplements JobResponse PaginatedResponse&lt;TModel&gt;s with their JobResponse.Progress." alt="" coords="5,5,260,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a72699cfab0e237d11d66fa001fdd5180" title="Get a specific JobResponse." alt="" coords="25,85,241,125"/>
+<area shape="rect" id="Node000001" title="Set the JobResponse.Progress and JobResponse.Stage for a given apiResponse ." alt="" coords="308,49,500,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a1dc8ddf51fddc546edeb13540fe195a1" title="Supplements JobResponse PaginatedResponse&lt;TModel&gt;s with their JobResponse.Progress." alt="" coords="5,5,260,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="291,57,260,53,260,47,292,52"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a72699cfab0e237d11d66fa001fdd5180" title="Get a specific JobResponse." alt="" coords="25,85,240,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="293,87,241,94,240,88,292,81"/>
 </map>

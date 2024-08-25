@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Interop.Bridge.TestMergeInformation" name="Tgstation.Server.Host.Components.Interop.Bridge.TestMergeInformation">
-<area shape="rect" id="node1" title="This model mirrors /datum/tgs_revision_information/test_merge." alt="" coords="5,152,237,192"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_model_base.html" title="Layer of test merge data required internally." alt="" coords="47,79,196,104"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html" title="Parameters for creating a TestMerge." alt="" coords="46,5,197,31"/>
+<area shape="rect" id="Node000001" title="This model mirrors /datum/tgs_revision_information/test_merge." alt="" coords="5,153,237,193"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_model_base.html" title="Layer of test merge data required internally." alt="" coords="47,79,195,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,120,124,152,118,152,118,120"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html" title="Parameters for creating a TestMerge." alt="" coords="46,5,196,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="124,46,124,79,118,79,118,46"/>
 </map>

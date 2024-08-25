@@ -1,11 +1,19 @@
 <map id="Tgstation.Server.Host.Transfer.FileUploadProvider" name="Tgstation.Server.Host.Transfer.FileUploadProvider">
-<area shape="rect" id="node1" title=" " alt="" coords="727,149,929,189"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload." alt="" coords="417,5,541,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="181,5,319,31"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,132,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="389,55,569,95"/>
-<area shape="rect" id="node6" title=" " alt="" coords="400,119,557,159"/>
-<area shape="rect" id="node7" title=" " alt="" coords="400,184,557,209"/>
-<area shape="rect" id="node8" title=" " alt="" coords="377,233,580,259"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html" title="Represents an error message returned by the server." alt="" coords="368,283,589,323"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="723,150,924,191"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload." alt="" coords="414,5,538,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="553,31,587,41,645,62,700,89,794,147,791,152,698,94,643,67,585,46,552,37"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="180,5,316,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="332,16,414,16,414,21,332,21"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,131,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="146,16,180,16,180,21,146,21"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="386,55,566,96"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="574,98,700,132,753,147,751,152,698,137,572,103"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="398,121,554,161"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="570,146,723,159,723,164,569,151"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="398,185,554,211"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="569,191,699,183,722,180,723,186,699,188,569,197"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="375,235,577,260"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="592,231,698,211,768,189,770,194,700,216,593,236"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html" title="Represents an error message returned by the server." alt="" coords="366,285,586,325"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="600,281,650,267,698,249,751,220,795,189,798,193,754,225,700,254,652,272,602,286"/>
 </map>

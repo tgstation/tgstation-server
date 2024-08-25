@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Api.Models.Request.UserGroupCreateRequest" name="Tgstation.Server.Api.Models.Request.UserGroupCreateRequest">
-<area shape="rect" id="node1" title="Request to create a user group." alt="" coords="5,299,228,339"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_group_update_request.html" title="Request to update a user group." alt="" coords="29,225,204,251"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html" title="Represents a group of users." alt="" coords="74,152,159,177"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="69,79,165,104"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="84,5,149,31"/>
+<area shape="rect" id="Node000001" title="Request to create a user group." alt="" coords="5,300,227,341"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_group_update_request.html" title="Request to update a user group." alt="" coords="29,226,203,252"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,267,119,300,113,300,113,267"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html" title="Represents a group of users." alt="" coords="74,153,158,178"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="119,194,119,226,113,226,113,194"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="68,79,164,105"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="119,120,119,152,113,152,113,120"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="84,5,148,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="119,46,119,79,113,79,113,46"/>
 </map>

@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.DreamMakerController.Update" name="Tgstation.Server.Host.Controllers.DreamMakerController.Update">
-<area shape="rect" id="node1" title="Update deployment settings." alt="" coords="5,69,221,109"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html#a5a1124502330220abb9c651d8154499f" title="Gets a port not currently in use by TGS." alt="" coords="276,5,479,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a38890e907a08ba127ab078887a226612" title="Read current deployment settings." alt="" coords="269,69,485,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext. A Task representing the running operation." alt="" coords="273,133,482,173"/>
+<area shape="rect" id="Node000001" title="Update deployment settings." alt="" coords="5,39,221,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html#a5a1124502330220abb9c651d8154499f" title="Gets a port not currently in use by TGS." alt="" coords="272,5,474,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,43,256,38,257,43,222,48"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="269,71,477,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,70,254,74,253,79,221,75"/>
 </map>

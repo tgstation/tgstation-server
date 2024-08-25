@@ -1,9 +1,15 @@
 <map id="Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller.Install" name="Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller.Install">
-<area shape="rect" id="node1" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,89,276,129"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#aafeac2268b4c3375e79162b461908e8f" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="324,41,583,96"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="345,120,561,175"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_firewall_helper.html#aa446ef24242576e5459ccaa30d473a59" title="Add an executable exception to the Windows firewall." alt="" coords="666,5,895,60"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a04059bc8156f7b07e59b423dad178e45" title="Gets the paths to the server and client executables." alt="" coords="631,85,931,125"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a17aa8c090377d70ebf0a93f3eb0a0243" title="Launch a IProcess." alt="" coords="979,13,1197,53"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="1004,85,1172,125"/>
+<area shape="rect" id="Node000001" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="5,89,275,130"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#aafeac2268b4c3375e79162b461908e8f" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="323,41,580,97"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="275,89,307,85,307,90,275,94"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="344,121,559,177"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="275,124,328,131,328,136,275,129"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_firewall_helper.html#aa446ef24242576e5459ccaa30d473a59" title="Add an executable exception to the Windows firewall." alt="" coords="664,5,892,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="580,52,648,45,648,50,581,58"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a04059bc8156f7b07e59b423dad178e45" title="Gets the paths to the server and client executables." alt="" coords="628,85,927,126"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="581,81,613,84,612,90,580,86"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a17aa8c090377d70ebf0a93f3eb0a0243" title="Launch a IProcess." alt="" coords="975,13,1193,54"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="892,31,960,31,960,36,892,36"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="1000,85,1168,126"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="928,103,985,103,985,108,928,108"/>
 </map>

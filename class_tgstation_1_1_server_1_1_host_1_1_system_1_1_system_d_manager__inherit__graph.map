@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.System.SystemDManager" name="Tgstation.Server.Host.System.SystemDManager">
-<area shape="rect" id="node1" title="Implements the SystemD notify service protocol." alt="" coords="121,79,320,119"/>
-<area shape="rect" id="node2" href="$class_background_service.html" title=" " alt="" coords="5,5,140,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="164,5,277,31"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title=" " alt="" coords="302,5,393,31"/>
+<area shape="rect" id="Node000001" title="Implements the SystemD notify service protocol." alt="" coords="122,79,319,120"/>
+<area shape="rect" id="Node000002" href="$class_background_service.html" title=" " alt="" coords="5,5,140,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,36,185,76,183,81,107,41"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="164,5,277,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="223,46,223,79,218,79,218,46"/>
+<area shape="rect" id="Node000004" href="$class_i_disposable.html" title=" " alt="" coords="301,5,391,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="315,42,253,81,250,76,312,37"/>
 </map>

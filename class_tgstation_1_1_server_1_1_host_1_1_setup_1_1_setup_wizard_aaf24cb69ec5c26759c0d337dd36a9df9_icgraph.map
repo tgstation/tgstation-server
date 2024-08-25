@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Setup.SetupWizard.PromptYesNo" name="Tgstation.Server.Host.Setup.SetupWizard.PromptYesNo">
-<area shape="rect" id="node1" title="A prompt for a yes or no value." alt="" coords="268,13,456,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ae58857460fa04099734e5b2ec6d0e2c7" title="Check that a given SQLite databaseName &#160;is can be accessed. Also prompts the user if they want to use..." alt="" coords="5,5,220,60"/>
+<area shape="rect" id="Node000001" title="A prompt for a yes or no value." alt="" coords="268,13,455,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ae58857460fa04099734e5b2ec6d0e2c7" title="Check that a given SQLite databaseName &#160;is can be accessed. Also prompts the user if they want to use..." alt="" coords="5,5,220,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="252,36,220,36,220,31,252,31"/>
 </map>

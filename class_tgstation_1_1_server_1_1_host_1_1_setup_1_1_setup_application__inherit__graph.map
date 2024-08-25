@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Setup.SetupApplication" name="Tgstation.Server.Host.Setup.SetupApplication">
-<area shape="rect" id="node1" title="DI root for configuring a SetupWizard." alt="" coords="5,5,193,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html" title="Sets up dependency injection." alt="" coords="9,93,190,133"/>
+<area shape="rect" id="Node000001" title="DI root for configuring a SetupWizard." alt="" coords="5,5,193,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html" title="Sets up dependency injection." alt="" coords="9,94,189,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,62,102,94,96,94,96,62"/>
 </map>

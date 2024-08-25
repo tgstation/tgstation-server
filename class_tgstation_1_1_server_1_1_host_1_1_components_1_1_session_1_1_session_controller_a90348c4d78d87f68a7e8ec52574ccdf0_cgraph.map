@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.CreateDump" name="Tgstation.Server.Host.Components.Session.SessionController.CreateDump">
-<area shape="rect" id="node1" title="Create a dump file of the process. A ValueTask representing the running operation." alt="" coords="5,37,255,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#adf3532bdc8fa7d2439700ba2b82ae612" title="Create a dump file of the process." alt="" coords="303,5,501,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#a515764cad066e48dff4c4a468393ddf3" title="Attempt to dump a given process ." alt="" coords="303,69,501,109"/>
+<area shape="rect" id="Node000001" title="Create a dump file of the process.A ValueTask representing the running operation." alt="" coords="5,39,254,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#adf3532bdc8fa7d2439700ba2b82ae612" title="Create a dump file of the process." alt="" coords="302,5,499,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="254,41,286,37,286,42,255,46"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#a515764cad066e48dff4c4a468393ddf3" title="Attempt to dump a given process ." alt="" coords="302,71,499,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="255,71,286,75,286,80,254,76"/>
 </map>

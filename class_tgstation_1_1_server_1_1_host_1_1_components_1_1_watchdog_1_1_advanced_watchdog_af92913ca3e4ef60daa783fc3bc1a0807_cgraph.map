@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.HandleMonitorWakeup" name="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.HandleMonitorWakeup">
-<area shape="rect" id="node1" title="Handles the actions to take when the monitor has to &quot;wake up&quot;. A ValueTask&lt;TResult&gt; resulting in the ..." alt="" coords="5,13,339,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a59895d5671d2f658a9ac0f9dbda73dca" title="Asynchronously drain deploymentCleanupTasks." alt="" coords="387,5,687,60"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,338,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a59895d5671d2f658a9ac0f9dbda73dca" title="Asynchronously drain deploymentCleanupTasks." alt="" coords="386,5,685,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="338,31,370,31,370,36,338,36"/>
 </map>

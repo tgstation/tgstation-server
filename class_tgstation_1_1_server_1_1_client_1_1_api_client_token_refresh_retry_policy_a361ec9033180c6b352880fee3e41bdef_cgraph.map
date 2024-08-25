@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Client.ApiClientTokenRefreshRetryPolicy.AttemptTokenRefresh" name="Tgstation.Server.Client.ApiClientTokenRefreshRetryPolicy.AttemptTokenRefresh">
-<area shape="rect" id="node1" title="Attempt to refresh the apiClients token asynchronously." alt="" coords="5,5,228,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#af320dd9d2f015f987ae2782accc79b0d" title="Attempt to refresh the stored Bearer token in Headers." alt="" coords="276,13,435,53"/>
+<area shape="rect" id="Node000001" title="Attempt to refresh the apiClients token asynchronously." alt="" coords="5,5,228,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#af320dd9d2f015f987ae2782accc79b0d" title="Attempt to refresh the stored Bearer token in Headers." alt="" coords="276,13,433,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,31,260,31,260,36,228,36"/>
 </map>

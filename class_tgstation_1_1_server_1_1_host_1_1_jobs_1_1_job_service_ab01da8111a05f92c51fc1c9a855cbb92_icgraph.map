@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Jobs.JobService.CancelJob" name="Tgstation.Server.Host.Jobs.JobService.CancelJob">
+<area shape="rect" id="Node000001" title="Cancels a give job .A ValueTask&lt;TResult&gt; resulting in the updated job &#160;if it was cancelled,..." alt="" coords="274,39,455,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a46f9c3765d722cbd274dc7af7c02165d" title=" " alt="" coords="25,5,206,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,47,206,40,207,35,258,42"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ae1d7175b4603a84b3448bd1c43979327" title="Wait for a given job &#160;to complete.A ValueTask&lt;TResult&gt; representing the Job. Results in true if the J..." alt="" coords="5,71,226,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="258,75,227,79,226,74,258,70"/>
+</map>

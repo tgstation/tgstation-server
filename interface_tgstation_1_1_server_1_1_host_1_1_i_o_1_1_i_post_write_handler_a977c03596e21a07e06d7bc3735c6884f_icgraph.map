@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.IO.IPostWriteHandler.HandleWrite" name="Tgstation.Server.Host.IO.IPostWriteHandler.HandleWrite">
-<area shape="rect" id="node1" title="For handling system specific necessities after a write." alt="" coords="280,37,483,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a266c827b333e966af2733e773155352d" title="Copies the current working directory to a given path . A ValueTask representing the running operation..." alt="" coords="5,5,232,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a98b3d4659e9a7927e6661cca2e08ec8f" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,69,232,109"/>
+<area shape="rect" id="Node000001" title="For handling system specific necessities after a write." alt="" coords="280,39,481,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a266c827b333e966af2733e773155352d" title="Copies the current working directory to a given path .A ValueTask representing the running operation." alt="" coords="5,5,232,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,47,232,43,232,37,265,42"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a98b3d4659e9a7927e6661cca2e08ec8f" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="5,71,232,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="265,76,232,80,232,74,264,71"/>
 </map>

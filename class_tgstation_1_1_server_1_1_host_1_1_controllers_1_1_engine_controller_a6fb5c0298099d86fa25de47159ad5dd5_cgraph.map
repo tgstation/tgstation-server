@@ -1,0 +1,13 @@
+<map id="Tgstation.Server.Host.Controllers.EngineController.Delete" name="Tgstation.Server.Host.Controllers.EngineController.Delete">
+<area shape="rect" id="Node000001" title="Attempts to delete the BYOND version specified in a given model &#160;from the instance." alt="" coords="5,71,221,111"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95" title="Registers a given Job and begins running it." alt="" coords="291,5,495,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,67,287,47,289,53,204,73"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html#a90c626bc2cabc1b6274e3903bf77c6c9" title="Validate and normalize a given version ." alt="" coords="269,71,517,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,88,253,88,253,94,221,94"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a0e985e6b0812f8bbce17ed2e5028fd65" title="Run a given action &#160;with the relevant IInstance." alt="" coords="277,135,509,191"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="196,109,268,128,266,133,194,115"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html#a6c50de2719864e29aee2b19dc39fcaed" title="Remove the Version.Build from a given version &#160;if present." alt="" coords="566,71,822,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="517,88,551,88,551,94,517,94"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61" title="Get the IInstanceReference associated with given metadata ." alt="" coords="565,143,823,183"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="510,160,550,160,550,166,510,166"/>
+</map>

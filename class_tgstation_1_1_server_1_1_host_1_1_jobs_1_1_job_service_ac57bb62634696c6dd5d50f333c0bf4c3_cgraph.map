@@ -1,8 +1,14 @@
 <map id="Tgstation.Server.Host.Jobs.JobService.RegisterOperation" name="Tgstation.Server.Host.Jobs.JobService.RegisterOperation">
-<area shape="rect" id="node1" title="Registers a given Job and begins running it. A ValueTask representing a running operation." alt="" coords="5,69,200,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a193b8881a4e6293ecbb071bdf0714ee0" title="Runner for JobHandlers." alt="" coords="276,37,459,77"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="248,101,487,141"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html#a3919b07ebc527849918921a4d532dda4" title="Get the group name for a given instanceId ." alt="" coords="541,5,724,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="535,69,731,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="779,69,968,109"/>
+<area shape="rect" id="Node000001" title="Registers a given Job and begins running it.A ValueTask representing a running operation." alt="" coords="5,104,199,145"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a193b8881a4e6293ecbb071bdf0714ee0" title="Runner for JobHandlers." alt="" coords="247,73,428,114"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,109,231,105,232,110,200,114"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="476,136,714,177"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="199,128,460,145,460,150,199,133"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html#a3919b07ebc527849918921a4d532dda4" title="Get the group name for a given instanceId ." alt="" coords="505,5,686,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="417,70,500,48,502,53,418,75"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="498,71,693,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="429,90,482,90,482,95,429,95"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="425,112,495,129,494,134,423,117"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="762,71,951,111"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="693,88,747,88,747,94,693,94"/>
 </map>

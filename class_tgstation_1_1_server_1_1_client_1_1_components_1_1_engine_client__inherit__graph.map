@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Client.Components.EngineClient" name="Tgstation.Server.Client.Components.EngineClient">
-<area shape="rect" id="node1" title=" " alt="" coords="42,79,213,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results." alt="" coords="5,5,119,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_engine_client.html" title="For managing the engine installations." alt="" coords="143,5,242,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="41,79,210,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results." alt="" coords="5,5,118,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,41,112,77,108,80,79,45"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_engine_client.html" title="For managing the engine installations." alt="" coords="142,5,240,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,45,144,80,140,77,169,41"/>
 </map>

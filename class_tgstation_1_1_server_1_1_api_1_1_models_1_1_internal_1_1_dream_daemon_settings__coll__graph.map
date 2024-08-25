@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Api.Models.Internal.DreamDaemonSettings" name="Tgstation.Server.Api.Models.Internal.DreamDaemonSettings">
-<area shape="rect" id="node1" title="Configurable settings for DreamDaemon." alt="" coords="13,79,216,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html" title="Launch settings for DreamDaemon." alt="" coords="5,5,224,31"/>
+<area shape="rect" id="Node000001" title="Configurable settings for DreamDaemon." alt="" coords="13,79,215,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html" title="Launch settings for DreamDaemon." alt="" coords="5,5,223,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,46,117,79,111,79,111,46"/>
 </map>

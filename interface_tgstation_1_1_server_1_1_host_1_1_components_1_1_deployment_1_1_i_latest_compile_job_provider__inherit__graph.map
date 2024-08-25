@@ -1,11 +1,20 @@
 <map id="Tgstation.Server.Host.Components.Deployment.ILatestCompileJobProvider" name="Tgstation.Server.Host.Components.Deployment.ILatestCompileJobProvider">
-<area shape="rect" id="node1" title="Provides the most recently deployed CompileJob." alt="" coords="5,69,256,109"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs." alt="" coords="304,5,531,45"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders." alt="" coords="304,69,531,109"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services." alt="" coords="304,133,531,173"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html" title="Standard IDmbFactory." alt="" coords="579,21,805,61"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="Component version of IInstanceCore." alt="" coords="579,101,805,141"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_reference.html" title="Controller version of IInstanceCore." alt="" coords="579,165,805,205"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html" title=" " alt="" coords="853,101,1080,141"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html" title="ReferenceCounter&lt;TInstance&gt; for a given IInstance." alt="" coords="853,165,1080,205"/>
+<area shape="rect" id="Node000001" title="Provides the most recently deployed CompileJob." alt="" coords="5,71,255,111"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs." alt="" coords="303,5,529,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="236,64,323,44,324,49,237,69"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders." alt="" coords="303,71,529,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="270,88,302,88,302,94,270,94"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services." alt="" coords="303,136,529,177"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="237,113,324,133,323,138,236,118"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html" title="Standard IDmbFactory." alt="" coords="577,21,803,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="545,31,577,32,576,38,544,36"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="544,65,576,59,577,65,545,70"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="Component version of IInstanceCore." alt="" coords="577,119,803,159"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="544,146,576,144,577,149,545,151"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_reference.html" title="Controller version of IInstanceCore." alt="" coords="577,184,803,225"/>
+<area shape="poly" id="edge8_Node000005_Node000008" title=" " alt="" coords="545,176,577,182,576,187,544,181"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html" title=" " alt="" coords="851,119,1078,159"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="819,136,851,136,851,142,819,142"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html" title="ReferenceCounter&lt;TInstance&gt; for a given IInstance." alt="" coords="851,184,1078,225"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="819,202,851,202,851,207,819,207"/>
 </map>

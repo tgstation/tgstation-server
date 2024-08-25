@@ -1,9 +1,15 @@
 <map id="Tgstation.Server.Host.Components.IInstanceCore" name="Tgstation.Server.Host.Components.IInstanceCore">
-<area shape="rect" id="node1" title="For interacting with the instance services." alt="" coords="232,37,459,77"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="Component version of IInstanceCore." alt="" coords="507,5,733,45"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_reference.html" title="Controller version of IInstanceCore." alt="" coords="507,69,733,109"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,19,184,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="33,69,156,94"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html" title=" " alt="" coords="781,5,1008,45"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html" title="ReferenceCounter&lt;TInstance&gt; for a given IInstance." alt="" coords="781,69,1008,109"/>
+<area shape="rect" id="Node000001" title="For interacting with the instance services." alt="" coords="232,39,458,79"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="Component version of IInstanceCore." alt="" coords="506,5,732,46"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="473,41,505,37,506,42,474,46"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_reference.html" title="Controller version of IInstanceCore." alt="" coords="506,71,732,111"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="474,71,506,75,505,80,473,77"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,21,184,47"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,42,232,45,231,50,199,47"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="34,70,155,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="170,73,231,67,232,73,171,78"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html" title=" " alt="" coords="780,5,1007,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="748,23,780,23,780,28,748,28"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html" title="ReferenceCounter&lt;TInstance&gt; for a given IInstance." alt="" coords="780,71,1007,111"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="748,88,780,88,780,94,748,94"/>
 </map>

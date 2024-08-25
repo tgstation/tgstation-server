@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.CreateDownloadTickets" name="Tgstation.Server.Host.Swarm.SwarmService.CreateDownloadTickets">
-<area shape="rect" id="node1" title="Create a FileTicketResponse for downloading the content of a given initiatorProvider &#160;for the rest of..." alt="" coords="5,49,253,89"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html#a911dc864e5e9ba44772382900ad6998b" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="301,5,516,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="309,85,508,125"/>
+<area shape="rect" id="Node000001" title="Create a FileTicketResponse for downloading the content of a given initiatorProvider &#160;for the rest of..." alt="" coords="5,49,253,90"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html#a911dc864e5e9ba44772382900ad6998b" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="301,5,515,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,51,285,46,286,52,253,56"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="309,85,507,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,83,294,88,293,93,253,88"/>
 </map>

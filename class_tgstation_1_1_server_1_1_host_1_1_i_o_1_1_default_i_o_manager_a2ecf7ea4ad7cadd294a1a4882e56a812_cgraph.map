@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager.MoveFile" name="Tgstation.Server.Host.IO.DefaultIOManager.MoveFile">
-<area shape="rect" id="node1" title="Moves a file at source &#160;to destination . A Task representing the running operation." alt="" coords="5,5,188,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory. The full path of the current working directo..." alt="" coords="236,5,440,45"/>
+<area shape="rect" id="Node000001" title="Moves a file at source &#160;to destination .A Task representing the running operation." alt="" coords="5,5,188,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory.The full path of the current working director..." alt="" coords="236,5,439,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,23,220,23,220,28,188,28"/>
 </map>

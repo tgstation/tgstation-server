@@ -1,11 +1,19 @@
 <map id="Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider" name="Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider">
-<area shape="rect" id="node1" title="A IDmbProvider that uses hard links." alt="" coords="823,134,1049,174"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="455,55,616,80"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="181,5,283,31"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,132,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="187,55,277,80"/>
-<area shape="rect" id="node6" title=" " alt="" coords="192,104,272,129"/>
-<area shape="rect" id="node7" title=" " alt="" coords="445,105,625,145"/>
-<area shape="rect" id="node8" title=" " alt="" coords="481,169,590,195"/>
-<area shape="rect" id="node9" title=" " alt="" coords="477,219,594,244"/>
+<area shape="rect" id="Node000001" title="A IDmbProvider that uses hard links." alt="" coords="819,134,1045,175"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="452,55,612,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="628,78,795,110,868,131,867,136,794,115,627,84"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="180,5,280,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="296,25,419,45,457,51,456,57,418,50,295,31"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,131,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="146,16,180,16,180,21,146,21"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="186,55,274,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="289,65,451,65,451,70,289,70"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="191,104,270,130"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="285,106,418,85,458,78,459,84,419,90,286,111"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="442,105,622,145"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="637,130,818,143,818,149,637,135"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="478,169,586,195"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="602,177,794,167,818,164,818,170,795,172,602,183"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="474,219,590,244"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="605,223,696,212,794,195,872,173,873,178,795,200,697,217,606,228"/>
 </map>

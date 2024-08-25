@@ -1,11 +1,19 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ReattachFailure" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ReattachFailure">
-<area shape="rect" id="node1" title="Call from InitController(ValueTask, ReattachInformation, CancellationToken) when a reattach operation..." alt="" coords="5,149,271,189"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ac84983fa4b27fcdf9044aaf68ae82a50" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="328,70,595,125"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a817e8ca4284258e610bf6070a944c7dd" title="Starts all ISessionControllers." alt="" coords="338,149,585,189"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a103e061814fc6760410734c7a83f9a83" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="319,213,604,253"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#ac3551d3e6a6a17ef85ac39c506c32d5f" title="Clear any stored ReattachInformation. A ValueTask representing the running operation." alt="" coords="672,5,899,45"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aecb29ff97cd95a61ab370d24685171a2" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="652,70,919,125"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="690,149,881,189"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#af7789658917d10b7f4fd9a6284d244f4" title="Clear any stored ReattachInformation." alt="" coords="967,5,1196,45"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#ad270ec18822a7a90d8fca9a75c23851a" title="Remove a given model &#160;from the the working set." alt="" coords="1244,5,1453,45"/>
+<area shape="rect" id="Node000001" title="Call from InitController(ValueTask, ReattachInformation, CancellationToken) when a reattach operation..." alt="" coords="5,149,270,190"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ac84983fa4b27fcdf9044aaf68ae82a50" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="327,70,593,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,146,317,127,318,132,232,151"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a91db035dd0374a3a67e151035d052d46" title="Starts all ISessionControllers." alt="" coords="337,149,583,190"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="270,167,321,167,321,172,270,172"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a103e061814fc6760410734c7a83f9a83" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="318,215,602,255"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="242,188,342,208,341,214,241,193"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#ac3551d3e6a6a17ef85ac39c506c32d5f" title="Clear any stored ReattachInformation.A ValueTask representing the running operation." alt="" coords="670,5,896,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="587,67,673,47,675,52,588,72"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#acf9ebd637065f97ce5dd20c10bff1521" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="650,70,916,126"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="593,95,634,95,634,100,593,100"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="689,149,878,190"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="588,124,675,143,673,148,587,129"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#af7789658917d10b7f4fd9a6284d244f4" title="Clear any stored ReattachInformation." alt="" coords="964,5,1193,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="897,23,949,23,949,28,897,28"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#ad270ec18822a7a90d8fca9a75c23851a" title="Remove a given model &#160;from the the working set." alt="" coords="1241,5,1449,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1193,23,1225,23,1225,28,1193,28"/>
 </map>

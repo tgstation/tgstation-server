@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Host.Components.Chat.ICustomCommandHandler" name="Tgstation.Server.Host.Components.Chat.ICustomCommandHandler">
-<area shape="rect" id="node1" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="5,37,232,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="280,37,507,77"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="555,37,781,77"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of filesystem links to swa..." alt="" coords="829,37,1056,77"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html" title="A variant of the AdvancedWatchdog that works on POSIX systems." alt="" coords="1104,5,1331,45"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A variant of the AdvancedWatchdog that works on Windows systems." alt="" coords="1104,69,1331,109"/>
+<area shape="rect" id="Node000001" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="5,39,232,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="280,39,506,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="248,56,279,56,279,62,248,62"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="554,39,780,79"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="522,56,553,56,553,62,522,62"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of filesystem links to swa..." alt="" coords="828,39,1055,79"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="796,56,828,56,828,62,796,62"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html" title="A variant of the AdvancedWatchdog that works on POSIX systems." alt="" coords="1103,5,1329,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1070,41,1102,37,1102,42,1071,46"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A variant of the AdvancedWatchdog that works on Windows systems." alt="" coords="1103,71,1329,111"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="1071,71,1102,75,1102,80,1070,77"/>
 </map>

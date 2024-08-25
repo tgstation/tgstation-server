@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAsync" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,13,263,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aecb29ff97cd95a61ab370d24685171a2" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="311,5,577,60"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,262,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#acf9ebd637065f97ce5dd20c10bff1521" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="310,5,576,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="262,31,294,31,294,36,262,36"/>
 </map>

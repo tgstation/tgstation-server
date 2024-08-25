@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Engine.IEngineInstallation.StopServerProcess" name="Tgstation.Server.Host.Components.Engine.IEngineInstallation.StopServerProcess">
-<area shape="rect" id="node1" title="Kills a given engine server process ." alt="" coords="588,5,827,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="280,13,540,53"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A ValueTask representin..." alt="" coords="5,13,232,53"/>
+<area shape="rect" id="Node000001" title="Kills a given engine server process ." alt="" coords="587,5,824,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="280,13,539,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="572,36,540,36,540,31,572,31"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose.A ValueTask representing..." alt="" coords="5,13,232,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="264,36,232,36,232,31,264,31"/>
 </map>

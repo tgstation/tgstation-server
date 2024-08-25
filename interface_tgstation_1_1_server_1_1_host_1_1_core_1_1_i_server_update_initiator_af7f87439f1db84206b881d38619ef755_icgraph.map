@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Core.IServerUpdateInitiator.InitiateUpdate" name="Tgstation.Server.Host.Core.IServerUpdateInitiator.InitiateUpdate">
-<area shape="rect" id="node1" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="608,5,799,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#adec6b42180102b20b513582ff608abc8" title="Attempt to initiate an update." alt="" coords="269,13,560,53"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a8ebab47feb25dc4b96387761e546740a" title="Attempt to perform a server upgrade." alt="" coords="5,13,221,53"/>
+<area shape="rect" id="Node000001" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="606,5,796,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#adec6b42180102b20b513582ff608abc8" title="Attempt to initiate an update." alt="" coords="269,13,558,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="590,36,558,36,558,31,590,31"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a8ebab47feb25dc4b96387761e546740a" title="Attempt to perform a server upgrade." alt="" coords="5,13,221,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="253,36,221,36,221,31,253,31"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.StaticFiles.Configuration.ValidateConfigRelativePath" name="Tgstation.Server.Host.Components.StaticFiles.Configuration.ValidateConfigRelativePath">
-<area shape="rect" id="node1" title="Resolve a given configurationRelativePath &#160;to it&#39;s full path or throw an InvalidOperationException if..." alt="" coords="292,30,540,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#abfbba9caf2deddcaf67fd8fd32e2723f" title="Get ConfigurationFileResponses for all items in a given configurationRelativePath ...." alt="" coords="5,5,244,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ae6e959ce6c3aab862b59e79b42a72e67" title="Reads a given configurationRelativePath . A ValueTask&lt;TResult&gt; resulting in the ConfigurationFileResp..." alt="" coords="11,69,238,109"/>
+<area shape="rect" id="Node000001" title="Resolve a given configurationRelativePath &#160;to it&#39;s full path or throw an InvalidOperationException if..." alt="" coords="291,31,538,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#abfbba9caf2deddcaf67fd8fd32e2723f" title="Get ConfigurationFileResponses for all items in a given configurationRelativePath ...." alt="" coords="5,5,243,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="275,46,243,42,243,37,275,40"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ae6e959ce6c3aab862b59e79b42a72e67" title="Reads a given configurationRelativePath .A ValueTask&lt;TResult&gt; resulting in the ConfigurationFileRespo..." alt="" coords="11,71,237,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="275,77,238,81,237,76,275,72"/>
 </map>

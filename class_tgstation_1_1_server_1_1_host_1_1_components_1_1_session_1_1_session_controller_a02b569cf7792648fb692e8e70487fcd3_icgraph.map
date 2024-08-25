@@ -1,4 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.ProcessBridgeCommand" name="Tgstation.Server.Host.Components.Session.SessionController.ProcessBridgeCommand">
-<area shape="rect" id="node1" title="Handle a set of bridge parameters ." alt="" coords="316,29,579,84"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a500e760430625c2b3bbbdf5bfe606c3d" title="Handle a set of bridge parameters . A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the requ..." alt="" coords="5,29,268,84"/>
+<area shape="rect" id="Node000001" title="Handle a set of bridge parameters ." alt="" coords="315,29,576,85"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="496,17,477,11,445,8,418,10,400,15,391,21,391,29,386,29,386,19,397,10,417,5,445,3,478,5,497,12"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a500e760430625c2b3bbbdf5bfe606c3d" title="Handle a set of bridge parameters .A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the reque..." alt="" coords="5,29,267,85"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="299,60,267,60,267,55,299,55"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Utils.OpenApiEnumVarNamesExtension" name="Tgstation.Server.Host.Utils.OpenApiEnumVarNamesExtension">
-<area shape="rect" id="node1" title="Implements the &quot;x&#45;enum&#45;varnames&quot; OpenAPI 3.0 extension." alt="" coords="5,79,228,119"/>
-<area shape="rect" id="node2" href="$class_i_open_api_extension.html" title=" " alt="" coords="51,5,183,31"/>
+<area shape="rect" id="Node000001" title="Implements the &quot;x&#45;enum&#45;varnames&quot; OpenAPI 3.0 extension." alt="" coords="5,79,228,120"/>
+<area shape="rect" id="Node000002" href="$class_i_open_api_extension.html" title=" " alt="" coords="51,5,182,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,46,119,79,114,79,114,46"/>
 </map>

@@ -1,9 +1,15 @@
 <map id="Tgstation.Server.Host.Database.DatabaseContext" name="Tgstation.Server.Host.Database.DatabaseContext">
-<area shape="rect" id="node1" title="Backend abstract implementation of IDatabaseContext." alt="" coords="179,101,388,141"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_my_sql_database_context.html" title="DatabaseContext for MySQL." alt="" coords="436,5,645,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_postgres_sql_database_context.html" title="DatabaseContext for PostgresSQL." alt="" coords="436,69,645,109"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sql_server_database_context.html" title="DatabaseContext for Sqlserver." alt="" coords="436,133,645,173"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html" title="DatabaseContext for SQLite." alt="" coords="436,197,645,237"/>
-<area shape="rect" id="node2" href="$class_db_context.html" title=" " alt="" coords="27,83,109,109"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database." alt="" coords="5,133,131,158"/>
+<area shape="rect" id="Node000001" title="Backend abstract implementation of IDatabaseContext." alt="" coords="178,104,386,145"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_my_sql_database_context.html" title="DatabaseContext for MySQL." alt="" coords="434,5,642,46"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="341,95,433,57,468,44,470,49,435,61,343,100"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_postgres_sql_database_context.html" title="DatabaseContext for PostgresSQL." alt="" coords="434,71,642,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="401,106,433,102,434,107,402,111"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sql_server_database_context.html" title="DatabaseContext for Sqlserver." alt="" coords="434,136,642,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="402,137,434,141,433,146,401,142"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html" title="DatabaseContext for SQLite." alt="" coords="434,201,642,242"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="344,149,435,186,470,198,469,203,433,191,342,154"/>
+<area shape="rect" id="Node000002" href="$class_db_context.html" title=" " alt="" coords="27,86,108,112"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,103,177,109,177,115,123,108"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database." alt="" coords="5,136,130,161"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="145,137,177,133,177,139,145,142"/>
 </map>

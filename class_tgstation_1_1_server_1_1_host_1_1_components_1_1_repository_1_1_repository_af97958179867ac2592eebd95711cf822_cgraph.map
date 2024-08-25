@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository.RawCheckout" name="Tgstation.Server.Host.Components.Repository.Repository.RawCheckout">
-<area shape="rect" id="node1" title="Runs a blocking force checkout to committish ." alt="" coords="5,45,236,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="288,13,517,53"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="284,77,521,117"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="569,5,789,60"/>
+<area shape="rect" id="Node000001" title="Runs a blocking force checkout to committish ." alt="" coords="5,46,236,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="288,13,516,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="236,50,272,46,273,51,236,55"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="284,78,520,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="236,77,269,81,268,86,236,82"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="568,5,787,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="517,31,553,31,553,36,517,36"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DreamMaker.CleanupFailedCompile" name="Tgstation.Server.Host.Components.Deployment.DreamMaker.CleanupFailedCompile">
-<area shape="rect" id="node1" title="Cleans up a failed compile job ." alt="" coords="5,45,257,100"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a8708c84547cd4960182ff067c36bc044" title="Fail a deployment for a given compileJob ." alt="" coords="305,5,564,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="327,84,543,139"/>
+<area shape="rect" id="Node000001" title="Cleans up a failed compile job ." alt="" coords="5,45,257,101"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a8708c84547cd4960182ff067c36bc044" title="Fail a deployment for a given compileJob ." alt="" coords="305,5,562,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="257,54,289,50,290,55,258,59"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="326,85,541,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="258,87,311,94,310,100,257,92"/>
 </map>

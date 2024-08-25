@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MySqlDatabaseContextModelSnapshot" name="Tgstation.Server.Host.Database.Migrations.MySqlDatabaseContextModelSnapshot">
-<area shape="rect" id="node1" title=" " alt="" coords="5,79,260,133"/>
-<area shape="rect" id="node2" href="$class_model_snapshot.html" title=" " alt="" coords="77,5,189,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,79,260,135"/>
+<area shape="rect" id="Node000002" href="$class_model_snapshot.html" title=" " alt="" coords="77,5,188,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,47,135,78,130,78,130,47"/>
 </map>

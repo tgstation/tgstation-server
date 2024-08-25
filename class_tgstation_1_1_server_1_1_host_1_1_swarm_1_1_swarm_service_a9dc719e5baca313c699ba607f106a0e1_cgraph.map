@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.Initialize" name="Tgstation.Server.Host.Swarm.SwarmService.Initialize">
-<area shape="rect" id="node1" title="Attempt to register with the swarm controller if not one, sets up the database otherwise...." alt="" coords="5,101,200,141"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a629900d5614b289a8701057e0436ec2d" title="Timed loop for calling HealthCheckNodes(CancellationToken)." alt="" coords="260,5,475,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a790482cff63554a0e4c9d618397830a9" title="Setup up a given databaseContext ." alt="" coords="263,69,472,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a67c5c996f7a79a218c3fb6e1ebb31aa2" title="Attempt to register the node with the controller." alt="" coords="248,133,487,173"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="248,197,487,237"/>
+<area shape="rect" id="Node000001" title="Attempt to register with the swarm controller if not one, sets up the database otherwise...." alt="" coords="5,104,200,145"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a629900d5614b289a8701057e0436ec2d" title="Timed loop for calling HealthCheckNodes(CancellationToken)." alt="" coords="260,5,474,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,101,247,57,270,49,272,54,249,61,146,106"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a790482cff63554a0e4c9d618397830a9" title="Setup up a given databaseContext ." alt="" coords="263,71,471,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,109,247,103,248,109,200,115"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a67c5c996f7a79a218c3fb6e1ebb31aa2" title="Attempt to register the node with the controller." alt="" coords="248,136,486,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="200,133,232,137,232,143,200,139"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="248,201,486,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="148,143,249,186,272,194,270,199,247,191,146,148"/>
 </map>

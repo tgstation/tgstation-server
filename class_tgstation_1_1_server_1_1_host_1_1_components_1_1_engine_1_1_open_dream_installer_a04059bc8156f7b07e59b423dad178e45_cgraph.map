@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetExecutablePaths" name="Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetExecutablePaths">
-<area shape="rect" id="node1" title="Gets the paths to the server and client executables." alt="" coords="5,5,305,45"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="353,5,521,45"/>
+<area shape="rect" id="Node000001" title="Gets the paths to the server and client executables." alt="" coords="5,5,305,46"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="353,5,520,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="305,23,337,23,337,28,305,28"/>
 </map>

@@ -1,9 +1,16 @@
 <map id="Tgstation.Server.Host.IO.IFilesystemLinkFactory.CreateSymbolicLink" name="Tgstation.Server.Host.IO.IFilesystemLinkFactory.CreateSymbolicLink">
-<area shape="rect" id="node1" title="Create a symbolic link." alt="" coords="935,129,1211,169"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_symlink_dmb_provider.html#a5567a14ec93603dae106d82f132e3bfc" title="Perform the swapping action. A ValueTask representing the running operation." alt="" coords="615,5,882,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#aa4a3b3f9bf7f81d7a439681b35c508c6" title="Perform an operation on a very long path. A ValueTask representing the running operation." alt="" coords="611,70,887,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35" title="Recursively create tasks to create a hard link directory mirror of src &#160;to dest ." alt="" coords="620,173,877,227"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4bde2bc61aaf361c082bd9de17bf4157" title="Symlinks all directories in the GameData directory to destination . A ValueTask representing the runn..." alt="" coords="626,251,871,306"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#ad08ecabc53051ac3615beccdd91e8bf6" title="Mirror the Models.CompileJob." alt="" coords="305,173,563,227"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a74e2be734ec8fd5b0d2fa135e4b5f06c" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,173,257,227"/>
+<area shape="rect" id="Node000001" title="Create a symbolic link." alt="" coords="932,129,1208,170"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_symlink_dmb_provider.html#a5567a14ec93603dae106d82f132e3bfc" title=" " alt="" coords="614,5,879,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1019,124,955,91,883,60,848,49,850,44,885,55,957,86,1021,119"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#aa4a3b3f9bf7f81d7a439681b35c508c6" title="Perform an operation on a very long path.A ValueTask representing the running operation." alt="" coords="609,70,884,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="924,129,884,122,885,117,925,124"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35" title="Recursively create tasks to create a hard link directory mirror of src &#160;to dest ." alt="" coords="619,174,875,230"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="925,176,876,184,875,178,924,170"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4bde2bc61aaf361c082bd9de17bf4157" title="Symlinks all directories in the GameData directory to destination .A ValueTask representing the runni..." alt="" coords="625,254,869,310"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="1020,180,956,213,885,244,853,256,851,251,883,239,954,208,1017,175"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="798,162,779,155,747,152,719,154,700,159,692,166,691,174,686,173,687,163,698,154,718,149,747,147,780,150,800,157"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#ad08ecabc53051ac3615beccdd91e8bf6" title="Mirror the Models.CompileJob." alt="" coords="305,174,561,230"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="603,204,561,204,561,199,603,199"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a74e2be734ec8fd5b0d2fa135e4b5f06c" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,174,257,230"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="289,204,257,204,257,199,289,199"/>
 </map>

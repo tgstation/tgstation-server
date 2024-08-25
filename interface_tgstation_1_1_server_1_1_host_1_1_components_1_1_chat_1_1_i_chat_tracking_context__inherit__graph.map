@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Chat.IChatTrackingContext" name="Tgstation.Server.Host.Components.Chat.IChatTrackingContext">
-<area shape="rect" id="node1" title="Represents a tracking of dynamic chat json files." alt="" coords="5,79,232,119"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html" title=" " alt="" coords="5,167,232,207"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html" title="Notifyee of when ChannelRepresentations in a IChatTrackingContext are updated." alt="" coords="11,5,109,31"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="133,5,224,31"/>
+<area shape="rect" id="Node000001" title="Represents a tracking of dynamic chat json files." alt="" coords="5,79,232,120"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html" title=" " alt="" coords="5,168,232,208"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="121,135,121,167,116,167,116,135"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html" title="Notifyee of when ChannelRepresentations in a IChatTrackingContext are updated." alt="" coords="11,5,109,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,42,106,77,102,80,76,45"/>
+<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="133,5,222,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,45,135,80,131,77,157,42"/>
 </map>

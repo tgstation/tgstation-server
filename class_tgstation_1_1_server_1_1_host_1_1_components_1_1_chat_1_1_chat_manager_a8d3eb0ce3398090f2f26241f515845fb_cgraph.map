@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Chat.ChatManager.ChangeSettings" name="Tgstation.Server.Host.Components.Chat.ChatManager.ChangeSettings">
-<area shape="rect" id="node1" title="Change chat settings. If the Api.Models.EntityId.Id is not currently in use, a new connection will be..." alt="" coords="5,49,232,89"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html#a4250fc0dc09258c391507fbf29977758" title="Create a IProvider." alt="" coords="280,5,527,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae8f42e9fc59f0aa9d70de26a4b6600b7" title="Disconnects and deletes a given connection. A Task representing the running operation." alt="" coords="286,85,521,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="575,85,765,125"/>
+<area shape="rect" id="Node000001" title="Change chat settings. If the Api.Models.EntityId.Id is not currently in use, a new connection will be..." alt="" coords="5,49,232,90"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html#a4250fc0dc09258c391507fbf29977758" title="Create a IProvider." alt="" coords="280,5,525,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,52,264,48,264,53,233,57"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae8f42e9fc59f0aa9d70de26a4b6600b7" title="Disconnects and deletes a given connection.A Task representing the running operation." alt="" coords="286,85,519,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,81,271,86,270,91,232,86"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="573,85,762,126"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="520,103,558,103,558,108,520,108"/>
 </map>

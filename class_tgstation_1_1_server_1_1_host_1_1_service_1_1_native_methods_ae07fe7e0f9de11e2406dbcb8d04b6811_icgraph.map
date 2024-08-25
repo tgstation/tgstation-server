@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Service.NativeMethods.MessageBox" name="Tgstation.Server.Host.Service.NativeMethods.MessageBox">
-<area shape="rect" id="node1" title="Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application&#45;sp..." alt="" coords="252,5,451,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a86d24d735c64eb7c67a935b809927dd4" title="Command line handler, always runs." alt="" coords="5,5,204,45"/>
-</map>

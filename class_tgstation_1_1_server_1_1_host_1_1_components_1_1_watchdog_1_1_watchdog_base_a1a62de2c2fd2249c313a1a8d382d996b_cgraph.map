@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.WatchdogBase" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.WatchdogBase">
-<area shape="rect" id="node1" title="Initializes a new instance of the WatchdogBase class." alt="" coords="5,37,268,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1e1ce49aa3e843a1e037060a544e125e" title="Registers a customCommandHandler &#160;to use." alt="" coords="316,5,604,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a35728d66030addfd5551351b8c6db942" title="Register a given handler &#160;to run before stopping the server for a restart." alt="" coords="351,69,569,109"/>
+<area shape="rect" id="Node000001" title="Initializes a new instance of the WatchdogBase class." alt="" coords="5,39,267,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1e1ce49aa3e843a1e037060a544e125e" title="Registers a customCommandHandler &#160;to use." alt="" coords="315,5,602,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="267,43,299,39,299,45,267,48"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a35728d66030addfd5551351b8c6db942" title="Register a given handler &#160;to run before stopping the server for a restart." alt="" coords="350,71,567,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="267,69,335,76,334,81,267,75"/>
 </map>

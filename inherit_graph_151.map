@@ -1,5 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="5,5,173,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html" title="IIOManager that resolves paths to Environment.CurrentDirectory." alt="" coords="221,5,389,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html" title="An IIOManager that resolve relative paths from another IIOManager to a subdirectory of that." alt="" coords="437,5,605,45"/>
+<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="5,5,173,46"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html" title="IIOManager that resolves paths to Environment.CurrentDirectory." alt="" coords="221,5,388,46"/>
+<area shape="poly" id="edge572_Node000000_Node000001" title=" " alt="" coords="188,23,220,23,220,28,188,28"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html" title="An IIOManager that resolve relative paths from another IIOManager to a subdirectory of that." alt="" coords="436,5,603,46"/>
+<area shape="poly" id="edge573_Node000001_Node000002" title=" " alt="" coords="404,23,435,23,435,28,404,28"/>
 </map>

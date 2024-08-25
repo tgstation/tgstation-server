@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.SwarmController.UnregisterNode" name="Tgstation.Server.Host.Controllers.SwarmController.UnregisterNode">
-<area shape="rect" id="node1" title="Deregistration endpoint." alt="" coords="5,37,221,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a34a25b0431db9e68c67653afc95954ae" title="Attempt to unregister a node with a given registrationId &#160;with the controller." alt="" coords="276,5,500,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f" title="Check that the RequestRegistrationId is valid." alt="" coords="269,69,507,109"/>
+<area shape="rect" id="Node000001" title="Deregistration endpoint." alt="" coords="5,39,221,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a34a25b0431db9e68c67653afc95954ae" title="Attempt to unregister a node with a given registrationId &#160;with the controller." alt="" coords="275,5,499,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,43,259,38,260,44,221,49"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f" title="Check that the RequestRegistrationId is valid." alt="" coords="269,71,505,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,69,253,73,253,78,221,74"/>
 </map>

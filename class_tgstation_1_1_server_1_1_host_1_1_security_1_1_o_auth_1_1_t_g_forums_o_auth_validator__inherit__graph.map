@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator" name="Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator">
-<area shape="rect" id="node1" title="IOAuthValidator for /tg/ forums." alt="" coords="5,152,217,192"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="34,79,189,104"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="54,5,169,31"/>
+<area shape="rect" id="Node000001" title="IOAuthValidator for /tg/ forums." alt="" coords="5,153,217,193"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="34,79,188,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,120,114,152,108,152,108,120"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="54,5,168,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="114,46,114,79,108,79,108,46"/>
 </map>

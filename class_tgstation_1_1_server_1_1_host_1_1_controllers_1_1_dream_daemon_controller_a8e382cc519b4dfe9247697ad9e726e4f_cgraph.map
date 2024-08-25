@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl" name="Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl">
-<area shape="rect" id="node1" title="Implementation of Read(CancellationToken)." alt="" coords="5,37,227,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType . The value of rightsType . Note that if InstancePermissionSet is..." alt="" coords="275,37,477,77"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="525,5,716,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="529,69,712,109"/>
+<area shape="rect" id="Node000001" title="Implementation of Read(CancellationToken)." alt="" coords="5,39,226,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="274,39,476,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,56,258,56,258,62,226,62"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="524,5,714,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="476,43,508,38,509,43,477,48"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="529,71,710,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="477,70,513,74,513,80,476,75"/>
 </map>

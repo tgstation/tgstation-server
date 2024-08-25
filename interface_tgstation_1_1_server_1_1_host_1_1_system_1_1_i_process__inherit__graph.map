@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.System.IProcess" name="Tgstation.Server.Host.System.IProcess">
-<area shape="rect" id="node1" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="27,79,226,119"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title=" " alt="" coords="27,167,226,207"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime." alt="" coords="5,5,109,31"/>
-<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="134,5,261,31"/>
+<area shape="rect" id="Node000001" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="28,79,225,120"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title=" " alt="" coords="28,168,225,208"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="129,135,129,167,124,167,124,135"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime." alt="" coords="5,5,109,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,41,111,77,107,80,76,44"/>
+<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="133,5,258,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,44,145,80,141,77,173,41"/>
 </map>

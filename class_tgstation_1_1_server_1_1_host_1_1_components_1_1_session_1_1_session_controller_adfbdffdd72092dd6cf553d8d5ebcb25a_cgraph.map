@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.SendTopicRequest" name="Tgstation.Server.Host.Components.Session.SessionController.SendTopicRequest">
-<area shape="rect" id="node1" title="Send a topic request for given parameters &#160;to DreamDaemon, chunking it if necessary." alt="" coords="5,30,244,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aa52ad932cbc8ea5dd407814acd421b65" title="Generates a Byond.TopicSender.ITopicClient query string for a given set of parameters ." alt="" coords="292,5,591,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ae798eec3595b7b010cdc42eafd3e9659" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="309,69,574,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#a226f5619ff7d884e2c8df1505548c04d" title="Locks the FifoSemaphore." alt="" coords="639,69,820,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="868,69,1059,109"/>
+<area shape="rect" id="Node000001" title="Send a topic request for given parameters &#160;to DreamDaemon, chunking it if necessary." alt="" coords="5,31,244,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aa52ad932cbc8ea5dd407814acd421b65" title="Generates a Byond.TopicSender.ITopicClient query string for a given set of parameters ." alt="" coords="292,5,589,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="244,44,276,40,276,46,245,49"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ae798eec3595b7b010cdc42eafd3e9659" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="308,71,573,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="244,68,293,73,293,79,244,74"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#a226f5619ff7d884e2c8df1505548c04d" title="Locks the FifoSemaphore." alt="" coords="637,71,817,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="573,88,622,88,622,94,573,94"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="865,71,1055,111"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="817,88,850,88,850,94,817,94"/>
 </map>

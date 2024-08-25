@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.UseCancelledRequestSuppression" name="Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.UseCancelledRequestSuppression">
-<area shape="rect" id="node1" title="Suppress global::System.Threading.Tasks.TaskCanceledException warnings when a user aborts a request." alt="" coords="5,5,279,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c" title="Gets a ILogger from a given httpContext ." alt="" coords="327,13,580,53"/>
+<area shape="rect" id="Node000001" title="Suppress global::System.Threading.Tasks.TaskCanceledException warnings when a user aborts a request." alt="" coords="5,5,278,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c" title="Gets a ILogger from a given httpContext ." alt="" coords="326,13,578,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="278,31,310,31,310,36,278,36"/>
 </map>

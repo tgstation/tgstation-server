@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Host.Components.Deployment.SymlinkDmbProvider" name="Tgstation.Server.Host.Components.Deployment.SymlinkDmbProvider">
-<area shape="rect" id="node1" title="A IDmbProvider that uses symlinks." alt="" coords="75,243,302,283"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="108,168,269,193"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="18,80,119,105"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,132,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="144,80,233,105"/>
-<area shape="rect" id="node6" title=" " alt="" coords="294,80,374,105"/>
+<area shape="rect" id="Node000001" title="A IDmbProvider that uses symlinks." alt="" coords="74,244,300,285"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="107,169,267,195"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,210,189,244,184,244,184,210"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="18,80,118,106"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="98,113,171,166,168,171,95,118"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,131,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="71,46,71,80,65,80,65,46"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="143,80,231,106"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="189,122,189,169,184,169,184,122"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="292,80,372,106"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="324,122,304,147,282,161,257,171,255,166,279,156,301,143,320,119"/>
 </map>

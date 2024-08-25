@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Api.Models.Internal.RepositoryApiBase" name="Tgstation.Server.Api.Models.Internal.RepositoryApiBase">
-<area shape="rect" id="node1" title="Base class for repository models." alt="" coords="184,69,371,109"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_create_request.html" title="Represents a request to clone the repository." alt="" coords="421,5,641,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html" title="Represents a request to change the repository." alt="" coords="419,69,643,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_repository_response.html" title="Represents a git repository." alt="" coords="429,133,632,173"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html" title="Represents configurable settings for a git repository." alt="" coords="5,77,136,102"/>
+<area shape="rect" id="Node000001" title="Base class for repository models." alt="" coords="184,71,370,111"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_create_request.html" title="Represents a request to clone the repository." alt="" coords="420,5,639,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="372,64,447,44,449,49,374,69"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html" title="Represents a request to change the repository." alt="" coords="418,71,641,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="386,88,418,88,418,94,386,94"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_repository_response.html" title="Represents a git repository." alt="" coords="429,136,630,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="374,113,449,133,447,138,372,118"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html" title="Represents configurable settings for a git repository." alt="" coords="5,78,136,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,88,183,88,183,94,151,94"/>
 </map>

@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.ConvertEmbed" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.ConvertEmbed">
-<area shape="rect" id="node1" title="Convert a ChatEmbed to an IEmbed parameters." alt="" coords="288,13,579,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a1494b2b91cc869199100c9338f91d864" title="Send a message to the IProvider. A ValueTask representing the running operation." alt="" coords="5,5,240,60"/>
-</map>

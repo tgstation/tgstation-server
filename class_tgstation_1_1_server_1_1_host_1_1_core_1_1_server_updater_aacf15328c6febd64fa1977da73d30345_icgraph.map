@@ -1,4 +1,6 @@
 <map id="Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl" name="Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl">
-<area shape="rect" id="node1" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="237,29,447,69"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#adea0e50e12adfb5620ec7728b9f33230" title="Start the process of downloading and applying an update to a new server version . A ValueTask&lt;TResult..." alt="" coords="5,29,189,69"/>
+<area shape="rect" id="Node000001" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="237,29,445,70"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="381,16,366,10,341,8,318,10,303,15,298,21,300,28,295,29,293,19,300,10,316,5,341,3,367,5,383,11"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#adea0e50e12adfb5620ec7728b9f33230" title="Start the process of downloading and applying an update to a new server version .A ValueTask&lt;TResult&gt;..." alt="" coords="5,29,189,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,52,189,52,189,47,221,47"/>
 </map>

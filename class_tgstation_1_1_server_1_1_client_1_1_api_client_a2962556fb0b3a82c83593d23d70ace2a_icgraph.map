@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Client.ApiClient.Upload" name="Tgstation.Server.Client.ApiClient.Upload">
-<area shape="rect" id="node1" title="Uploads a given uploadStream &#160;for a given ticket . A ValueTask representing the running operation." alt="" coords="292,85,448,125"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_engine_client.html#a0fe00fe94595a4fbcf97a2b11ec45086" title="Updates the active engine version. A ValueTask&lt;TResult&gt; resulting in the EngineInstallResponse." alt="" coords="9,5,240,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a6a88406ff2dd9da8c10973db48f54070" title="Updates the AdministrationResponse setttings. A ValueTask&lt;TResult&gt; resulting in the echoed ServerUpda..." alt="" coords="33,85,216,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a943aaca0c623f34dc91d198f14102a85" title="Overwrite a file . A ValueTask&lt;TResult&gt; resulting in the new ConfigurationFileResponse." alt="" coords="5,149,244,189"/>
+<area shape="rect" id="Node000001" title="Uploads a given uploadStream &#160;for a given ticket .A ValueTask representing the running operation." alt="" coords="292,85,447,126"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_engine_client.html#a0fe00fe94595a4fbcf97a2b11ec45086" title="Updates the active engine version.A ValueTask&lt;TResult&gt; resulting in the EngineInstallResponse." alt="" coords="10,5,239,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="283,83,221,64,222,59,284,78"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a6a88406ff2dd9da8c10973db48f54070" title="Updates the AdministrationResponse setttings.A ValueTask&lt;TResult&gt; resulting in the echoed ServerUpdat..." alt="" coords="33,85,216,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="276,108,216,108,216,103,276,103"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a943aaca0c623f34dc91d198f14102a85" title="Overwrite a file .A ValueTask&lt;TResult&gt; resulting in the new ConfigurationFileResponse." alt="" coords="5,150,244,191"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="277,132,204,152,203,147,276,127"/>
 </map>

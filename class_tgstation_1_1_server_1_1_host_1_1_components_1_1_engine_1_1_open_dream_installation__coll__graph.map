@@ -1,9 +1,15 @@
 <map id="Tgstation.Server.Host.Components.Engine.OpenDreamInstallation" name="Tgstation.Server.Host.Components.Engine.OpenDreamInstallation">
-<area shape="rect" id="node1" title="Implementation of IEngineInstallation for EngineType.OpenDream." alt="" coords="536,119,763,159"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installation_base.html" title=" " alt="" coords="207,5,362,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation." alt="" coords="5,5,133,31"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="194,55,375,95"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="183,119,387,159"/>
-<area shape="rect" id="node6" title=" " alt="" coords="230,184,339,209"/>
-<area shape="rect" id="node7" title=" " alt="" coords="257,233,312,259"/>
+<area shape="rect" id="Node000001" title="Implementation of IEngineInstallation for EngineType.OpenDream." alt="" coords="534,121,761,161"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installation_base.html" title=" " alt="" coords="207,5,360,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="355,33,386,41,449,57,511,77,605,117,603,122,509,82,448,62,385,46,354,38"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation." alt="" coords="5,5,133,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="148,16,206,16,206,21,148,21"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="194,55,374,96"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="390,92,534,118,534,123,389,97"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="182,121,385,161"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="400,138,534,138,534,144,400,144"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="230,185,338,211"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="353,185,534,156,534,161,354,190"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="257,235,311,260"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="326,238,411,222,510,196,602,159,604,164,511,201,412,227,327,244"/>
 </map>

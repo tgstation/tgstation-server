@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Client.AdministrationClient.GetLog" name="Tgstation.Server.Client.AdministrationClient.GetLog">
-<area shape="rect" id="node1" title="Download a given logFile . A ValueTask&lt;TResult&gt; resulting a Tuple&lt;T1, T2&gt; containing the downloaded L..." alt="" coords="5,37,189,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a0a6186386ebd4d1ef1c9cec46a381d9a" title="Downloads a file Stream for a given ticket . A ValueTask&lt;TResult&gt; resulting in the downloaded Stream." alt="" coords="253,5,409,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_routes.html#a427423a8a36ba74df914acb74ffb0483" title="Sanitize a Models.Response.FileTicketResponse path for use in a GET Uri." alt="" coords="237,69,424,109"/>
+<area shape="rect" id="Node000001" title="Download a given logFile .A ValueTask&lt;TResult&gt; resulting a Tuple&lt;T1, T2&gt; containing the downloaded Lo..." alt="" coords="5,39,189,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a0a6186386ebd4d1ef1c9cec46a381d9a" title="Downloads a file Stream for a given ticket .A ValueTask&lt;TResult&gt; resulting in the downloaded Stream." alt="" coords="252,5,407,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,43,236,36,237,42,189,48"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_routes.html#a427423a8a36ba74df914acb74ffb0483" title="Sanitize a Models.Response.FileTicketResponse path for use in a GET Uri." alt="" coords="237,71,422,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="189,69,221,73,221,79,189,74"/>
 </map>

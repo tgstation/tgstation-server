@@ -1,5 +1,8 @@
 <map id="Tgstation.Server.Host.Core.ServerUpdater.TryAbort" name="Tgstation.Server.Host.Core.ServerUpdater.TryAbort">
-<area shape="rect" id="node1" title="Attempt to abort a prepared swarm update." alt="" coords="525,5,707,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a2a702f9141f98d0ba1aae9a70688704c" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="5,5,203,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a4947e51e573b4cd8fde63e074fa2460e" title="Prepares the swarm update, deletes the stagingDirectory , and buffers the ServerUpdateOperation...." alt="" coords="251,30,477,85"/>
+<area shape="rect" id="Node000001" title="Attempt to abort a prepared swarm update." alt="" coords="523,5,703,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a2a702f9141f98d0ba1aae9a70688704c" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="5,5,202,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="507,22,475,20,362,18,250,20,202,22,202,17,250,15,362,13,475,15,507,16"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a4947e51e573b4cd8fde63e074fa2460e" title="Prepares the swarm update, deletes the stagingDirectory , and buffers the ServerUpdateOperation...." alt="" coords="250,30,475,86"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="508,42,476,46,475,41,507,36"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="234,44,202,40,202,35,234,39"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.Results.LimitedStreamResultExecutor" name="Tgstation.Server.Host.Controllers.Results.LimitedStreamResultExecutor">
-<area shape="rect" id="node1" title="IActionResultExecutor&lt;TResult&gt; for LimitedStreamResults." alt="" coords="58,93,299,133"/>
-<area shape="rect" id="node2" href="$class_file_result_executor_base.html" title=" " alt="" coords="5,13,165,38"/>
-<area shape="rect" id="node3" href="$class_i_action_result_executor.html" title=" " alt="" coords="190,5,357,45"/>
+<area shape="rect" id="Node000001" title="IActionResultExecutor&lt;TResult&gt; for LimitedStreamResults." alt="" coords="58,94,299,135"/>
+<area shape="rect" id="Node000002" href="$class_file_result_executor_base.html" title=" " alt="" coords="5,13,165,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,47,159,92,155,96,107,51"/>
+<area shape="rect" id="Node000003" href="$class_i_action_result_executor.html" title=" " alt="" coords="189,5,354,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="241,59,201,96,198,92,238,55"/>
 </map>

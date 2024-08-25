@@ -1,6 +1,11 @@
 <map id="Tgstation.Server.Host.Jobs.JobService.RunJob" name="Tgstation.Server.Host.Jobs.JobService.RunJob">
-<area shape="rect" id="node1" title="Runner for JobHandlers." alt="" coords="5,37,188,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html#a3919b07ebc527849918921a4d532dda4" title="Get the group name for a given instanceId ." alt="" coords="243,5,425,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="236,69,432,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="480,69,669,109"/>
+<area shape="rect" id="Node000001" title="Runner for JobHandlers." alt="" coords="5,71,187,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html#a3919b07ebc527849918921a4d532dda4" title="Get the group name for a given instanceId ." alt="" coords="263,5,445,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,67,255,48,257,53,180,73"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="256,71,452,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="187,88,241,88,241,94,187,94"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="235,136,473,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="180,109,257,129,255,134,178,115"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="521,71,709,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="452,88,506,88,506,94,452,94"/>
 </map>

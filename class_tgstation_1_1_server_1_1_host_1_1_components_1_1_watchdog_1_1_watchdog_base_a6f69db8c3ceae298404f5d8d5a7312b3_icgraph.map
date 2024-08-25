@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAsync" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="372,41,629,81"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#acb48f966670f07a01c89a708fc82411a" title="Initializes a new instance of the AdvancedWatchdog class." alt="" coords="5,5,324,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#abc18654a9da3b33e0c5201fe3c376374" title="Handler for MonitorActivationReason.NewDmbAvailable. A ValueTask representing the running operation." alt="" coords="29,70,300,125"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="371,41,627,82"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#acb48f966670f07a01c89a708fc82411a" title="Initializes a new instance of the AdvancedWatchdog class." alt="" coords="5,5,323,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="354,49,323,45,323,40,355,44"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a748bef1e44dcaf8fee7f3bee9a52d25c" title="Handler for MonitorActivationReason.NewDmbAvailable.A ValueTask representing the running operation." alt="" coords="29,70,299,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="355,80,299,86,299,81,355,74"/>
 </map>

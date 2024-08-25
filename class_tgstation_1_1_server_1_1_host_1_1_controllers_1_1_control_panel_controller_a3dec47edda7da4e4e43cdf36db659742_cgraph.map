@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.ControlPanelController.Get" name="Tgstation.Server.Host.Controllers.ControlPanelController.Get">
-<area shape="rect" id="node1" title="Handle a GET request to the control panel route. Route to static files if they exist,..." alt="" coords="5,5,221,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a034b3a0121efed62a1a368bb59bf1fac" title="Returns the ControlPanelConfiguration.Channel." alt="" coords="269,5,520,45"/>
+<area shape="rect" id="Node000001" title="Handle a GET request to the control panel route. Route to static files if they exist,..." alt="" coords="5,5,221,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a034b3a0121efed62a1a368bb59bf1fac" title="Returns the ControlPanelConfiguration.Channel." alt="" coords="269,5,518,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,23,253,23,253,28,221,28"/>
 </map>

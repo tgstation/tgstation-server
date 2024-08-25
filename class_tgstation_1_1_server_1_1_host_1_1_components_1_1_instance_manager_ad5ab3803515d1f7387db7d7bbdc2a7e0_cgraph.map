@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager.ProcessBridgeRequest" name="Tgstation.Server.Host.Components.InstanceManager.ProcessBridgeRequest">
-<area shape="rect" id="node1" title="Handle a set of bridge parameters . A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the requ..." alt="" coords="5,41,264,81"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="351,5,532,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html#a90328b9e6ef2235d53add3132f64f7a5" title="Handle a set of bridge parameters ." alt="" coords="312,70,571,125"/>
+<area shape="rect" id="Node000001" title="Handle a set of bridge parameters .A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the reque..." alt="" coords="5,41,263,82"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="350,5,530,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="263,44,334,35,335,41,263,49"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html#a90328b9e6ef2235d53add3132f64f7a5" title="Handle a set of bridge parameters ." alt="" coords="311,70,569,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="263,74,296,78,295,83,263,79"/>
 </map>

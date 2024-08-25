@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.DecodeTokenPayload" name="Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.DecodeTokenPayload">
-<area shape="rect" id="node1" title="Decode the token payload responseJson ." alt="" coords="299,5,541,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a943785d93215e437f552142951f53ba4" title="Validate a given OAuth response code . A ValueTask&lt;TResult&gt; resulting in null if authentication faile..." alt="" coords="5,5,251,60"/>
-</map>

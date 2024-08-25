@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.IO.Console.WriteAsync" name="Tgstation.Server.Host.IO.Console.WriteAsync">
-<area shape="rect" id="node1" title="Write some text &#160;to the IConsole. A Task representing the running operation." alt="" coords="5,5,173,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a6556df91ef25960c814f583b71996a9f" title="Assert that the Console is available, throwing an InvalidOperationException otherwise." alt="" coords="221,5,389,45"/>
+<area shape="rect" id="Node000001" title="Write some text &#160;to the IConsole.A Task representing the running operation." alt="" coords="5,5,173,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a6556df91ef25960c814f583b71996a9f" title="Assert that the Console is available, throwing an InvalidOperationException otherwise." alt="" coords="221,5,388,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,23,205,23,205,28,173,28"/>
 </map>

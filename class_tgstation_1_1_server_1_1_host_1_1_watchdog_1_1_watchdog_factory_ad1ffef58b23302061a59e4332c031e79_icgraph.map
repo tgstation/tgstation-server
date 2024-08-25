@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Watchdog.WatchdogFactory.CreateWatchdog" name="Tgstation.Server.Host.Watchdog.WatchdogFactory.CreateWatchdog">
-<area shape="rect" id="node1" title="Create a IWatchdog. A new IWatchdog." alt="" coords="399,5,621,45"/>
-<area shape="rect" id="node2" href="$_tgstation_8_server_8_host_8_service_2_program_8cs.html#a4981a34f5f9ca5f428d65dcc28f8deff" title="Runs the host application with the setup wizard." alt="" coords="252,13,351,38"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a86d24d735c64eb7c67a935b809927dd4" title="Command line handler, always runs." alt="" coords="5,5,204,45"/>
-</map>

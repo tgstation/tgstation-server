@@ -1,19 +1,35 @@
 <map id="Tgstation.Server.Client.ApiClient" name="Tgstation.Server.Client.ApiClient">
-<area shape="rect" id="node1" title=" " alt="" coords="804,261,960,301"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="487,5,565,31"/>
-<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="42,5,169,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="438,55,614,80"/>
-<area shape="rect" id="node5" title=" " alt="" coords="431,105,621,145"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html" title="For sending HTTP requests." alt="" coords="439,169,613,209"/>
-<area shape="rect" id="node7" href="$class_i_disposable.html" title=" " alt="" coords="60,171,151,196"/>
-<area shape="rect" id="node8" title=" " alt="" coords="425,233,627,273"/>
-<area shape="rect" id="node9" title=" " alt="" coords="423,297,629,323"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html" title="Represents the header that must be present for every server request." alt="" coords="445,347,607,387"/>
-<area shape="rect" id="node11" title=" " alt="" coords="61,305,150,331"/>
-<area shape="rect" id="node12" title=" " alt="" coords="29,355,181,380"/>
-<area shape="rect" id="node13" title=" " alt="" coords="5,404,205,429"/>
-<area shape="rect" id="node14" title=" " alt="" coords="35,453,176,479"/>
-<area shape="rect" id="node15" title=" " alt="" coords="443,412,609,437"/>
-<area shape="rect" id="node16" title=" " alt="" coords="477,461,575,487"/>
-<area shape="rect" id="node17" title=" " alt="" coords="503,511,549,536"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="801,262,956,303"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="486,5,563,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="579,11,625,12,678,18,731,33,756,45,779,60,802,82,821,107,850,163,868,218,877,261,872,262,863,219,845,165,817,110,798,85,775,64,753,50,729,38,677,23,625,17,579,17"/>
+<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="42,5,168,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="183,16,485,16,485,21,183,21"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="437,55,612,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="628,74,705,93,743,109,779,129,811,160,838,195,872,260,867,263,834,198,808,163,775,134,741,113,703,98,627,79"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="430,105,619,145"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="634,143,707,164,778,195,824,226,860,259,856,263,821,230,776,199,705,169,633,148"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html" title="For sending HTTP requests." alt="" coords="437,170,612,211"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="627,207,778,244,824,259,822,264,776,249,626,212"/>
+<area shape="rect" id="Node000007" href="$class_i_disposable.html" title=" " alt="" coords="60,171,150,196"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="165,182,437,186,437,191,165,187"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="424,235,625,276"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="641,262,801,274,801,279,641,267"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="422,300,627,326"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="642,304,777,293,800,290,801,296,777,298,642,309"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html" title="Represents the header that must be present for every server request." alt="" coords="444,350,605,391"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="620,366,697,358,776,339,815,322,848,301,851,305,817,326,778,344,698,363,621,371"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="61,308,149,334"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="165,324,398,350,444,356,443,362,397,355,164,329"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="29,357,181,383"/>
+<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="197,368,444,368,444,373,197,373"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="5,407,205,432"/>
+<area shape="poly" id="edge12_Node000010_Node000013" title=" " alt="" coords="220,407,397,388,443,381,444,386,398,393,221,412"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="35,456,175,482"/>
+<area shape="poly" id="edge13_Node000010_Node000014" title=" " alt="" coords="191,470,240,468,293,461,346,448,396,427,408,414,420,400,442,388,445,393,423,404,412,418,399,431,348,453,294,466,240,473,191,475"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="442,415,607,440"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="621,423,699,411,739,400,776,384,802,366,826,345,862,301,866,305,830,348,806,371,778,389,740,405,700,417,622,429"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="476,464,573,490"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="588,480,632,479,681,474,730,462,776,440,810,410,837,372,856,334,868,302,873,304,861,336,841,375,814,413,778,445,732,467,682,479,633,485,588,485"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="502,513,547,539"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="563,530,609,535,665,534,723,523,750,512,775,498,798,478,817,454,846,399,863,345,872,302,877,303,868,346,851,401,822,456,802,481,779,502,753,517,725,528,666,539,609,540,562,535"/>
 </map>

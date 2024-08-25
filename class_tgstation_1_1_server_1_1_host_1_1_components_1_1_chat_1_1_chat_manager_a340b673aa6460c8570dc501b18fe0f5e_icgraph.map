@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Chat.ChatManager.QueueMessageInternal" name="Tgstation.Server.Host.Components.Chat.ChatManager.QueueMessageInternal">
-<area shape="rect" id="node1" title="Adds a given message &#160;to the send queue." alt="" coords="335,37,601,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a6df490e4067fe694af10379fb56a7a25" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="33,5,259,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#acd8b6d211bb278105cc10f3a483362f6" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="5,69,287,109"/>
+<area shape="rect" id="Node000001" title="Adds a given message &#160;to the send queue." alt="" coords="334,39,599,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a6df490e4067fe694af10379fb56a7a25" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="32,5,259,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="318,46,259,40,259,35,318,41"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#acd8b6d211bb278105cc10f3a483362f6" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="5,71,286,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="319,76,286,80,286,74,318,71"/>
 </map>

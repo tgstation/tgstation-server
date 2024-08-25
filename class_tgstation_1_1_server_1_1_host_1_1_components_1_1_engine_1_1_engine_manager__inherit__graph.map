@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Engine.EngineManager" name="Tgstation.Server.Host.Components.Engine.EngineManager">
-<area shape="rect" id="node1" title=" " alt="" coords="28,225,255,265"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_manager.html" title="For managing the engine installations." alt="" coords="84,152,199,177"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="5,79,141,104"/>
-<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="17,5,129,31"/>
-<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="165,79,256,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="28,226,254,267"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_manager.html" title="For managing the engine installations." alt="" coords="84,153,198,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,194,144,226,138,226,138,194"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="5,79,141,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="97,114,131,150,128,154,93,118"/>
+<area shape="rect" id="Node000004" href="$class_i_hosted_service.html" title=" " alt="" coords="17,5,129,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="76,46,76,79,70,79,70,46"/>
+<area shape="rect" id="Node000005" href="$class_i_disposable.html" title=" " alt="" coords="164,79,254,105"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="189,118,154,154,151,150,185,114"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.ServerFactory.CreateServer" name="Tgstation.Server.Host.ServerFactory.CreateServer">
-<area shape="rect" id="node1" title="Create a IServer. A ValueTask&lt;TResult&gt; resulting in a new IServer if it should be run,..." alt="" coords="5,37,195,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8" title="Gets the directory portion of a given path ." alt="" coords="243,5,443,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="259,69,427,109"/>
+<area shape="rect" id="Node000001" title="Create a IServer.A ValueTask&lt;TResult&gt; resulting in a new IServer if it should be run,..." alt="" coords="5,39,194,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8" title="Gets the directory portion of a given path ." alt="" coords="242,5,441,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,43,226,39,226,44,195,49"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="258,71,425,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="195,69,242,75,242,81,194,74"/>
 </map>

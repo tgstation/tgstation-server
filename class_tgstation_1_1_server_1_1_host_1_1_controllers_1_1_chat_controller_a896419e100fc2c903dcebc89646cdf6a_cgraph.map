@@ -1,12 +1,19 @@
 <map id="Tgstation.Server.Host.Controllers.ChatController.Update" name="Tgstation.Server.Host.Controllers.ChatController.Update">
-<area shape="rect" id="node1" title="Updates a chat bot model ." alt="" coords="5,133,221,173"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a05009b65112ea9d2fca5f82c2d3311be" title="Converts api &#160;to a ChatChannel." alt="" coords="269,5,515,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType . The value of rightsType . Note that if InstancePermissionSet is..." alt="" coords="291,69,493,109"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext. A Task representing the running operation." alt="" coords="287,133,497,173"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a68a7da01a6b0e0cd0c2cfa551a0c533d" title="Perform some basic validation of a given model ." alt="" coords="273,197,511,237"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a0e985e6b0812f8bbce17ed2e5028fd65" title="Run a given action &#160;with the relevant IInstance." alt="" coords="275,262,509,317"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="597,33,787,73"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="601,97,783,137"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_api_base.html#a393108fb661ee80354d0d13112fc4867" title="Validates Channels are correct for the ChatBotSettings.Provider." alt="" coords="585,190,799,245"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61" title="Get the IInstanceReference associated with given metadata ." alt="" coords="563,269,821,309"/>
+<area shape="rect" id="Node000001" title="Updates a chat bot model ." alt="" coords="5,136,221,177"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a05009b65112ea9d2fca5f82c2d3311be" title="Converts api &#160;to a ChatChannel." alt="" coords="269,5,513,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,133,197,95,268,57,287,49,289,54,270,61,200,99,143,138"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="290,71,492,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,133,286,113,287,118,203,138"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="287,136,495,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="221,154,271,154,271,159,221,159"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a68a7da01a6b0e0cd0c2cfa551a0c533d" title="Perform some basic validation of a given model ." alt="" coords="272,201,510,242"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="203,175,287,195,286,200,202,180"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a0e985e6b0812f8bbce17ed2e5028fd65" title="Run a given action &#160;with the relevant IInstance." alt="" coords="275,266,507,322"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="144,175,201,213,270,251,283,257,281,262,267,256,198,218,141,179"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="595,39,785,79"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="492,78,579,68,580,73,493,83"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="600,104,781,145"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="493,100,584,110,583,115,492,105"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61" title="Get the IInstanceReference associated with given metadata ." alt="" coords="561,273,819,314"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="507,291,545,291,545,296,507,296"/>
 </map>

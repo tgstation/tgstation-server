@@ -1,4 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_stream.html" title=" " alt="" coords="5,13,69,38"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html" title="Caches the Stream from a HttpResponseMessage for later use." alt="" coords="117,5,312,45"/>
+<area shape="rect" id="Node000000" href="$class_service_base.html" title=" " alt="" coords="5,13,101,39"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html" title="Represents a IWatchdog as a ServiceBase." alt="" coords="149,5,346,46"/>
+<area shape="poly" id="edge426_Node000000_Node000001" title=" " alt="" coords="116,23,148,23,148,28,116,28"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Setup.SetupWizard" name="Tgstation.Server.Host.Setup.SetupWizard">
-<area shape="rect" id="node1" title=" " alt="" coords="5,79,193,119"/>
-<area shape="rect" id="node2" href="$class_background_service.html" title=" " alt="" coords="32,5,167,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,79,193,120"/>
+<area shape="rect" id="Node000002" href="$class_background_service.html" title=" " alt="" coords="32,5,166,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,46,102,79,96,79,96,46"/>
 </map>

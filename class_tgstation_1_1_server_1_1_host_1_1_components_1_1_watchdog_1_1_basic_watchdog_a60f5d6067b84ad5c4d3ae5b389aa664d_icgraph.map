@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.SessionStartupPersist" name="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.SessionStartupPersist">
-<area shape="rect" id="node1" title="Called to save the current Server into the WatchdogBase.SessionPersistor when initially launched." alt="" coords="304,5,571,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a857f98eb5a2516c2a70c35d684c2c21b" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,13,256,53"/>
+<area shape="rect" id="Node000001" title="Called to save the current Server into the WatchdogBase.SessionPersistor when initially launched." alt="" coords="303,5,568,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a857f98eb5a2516c2a70c35d684c2c21b" title=" " alt="" coords="5,13,255,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="287,36,255,36,255,31,287,31"/>
 </map>

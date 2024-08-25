@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Api.Models.Internal.InstancePermissionSet" name="Tgstation.Server.Api.Models.Internal.InstancePermissionSet">
-<area shape="rect" id="node1" title="Represents a PermissionSets permissions in an Instance." alt="" coords="5,69,208,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_permission_set_request.html" title="A request to update an instance permission set." alt="" coords="266,5,522,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_permission_set_response.html" title="A response containing an instance permission set." alt="" coords="256,69,532,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html" title=" " alt="" coords="296,133,492,173"/>
+<area shape="rect" id="Node000001" title="Represents a PermissionSets permissions in an Instance." alt="" coords="5,71,208,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_permission_set_request.html" title="A request to update an instance permission set." alt="" coords="266,5,521,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,64,300,44,302,49,214,69"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_permission_set_response.html" title="A response containing an instance permission set." alt="" coords="256,71,531,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="223,88,255,88,255,94,223,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html" title=" " alt="" coords="296,136,491,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="214,113,302,133,300,138,213,118"/>
 </map>

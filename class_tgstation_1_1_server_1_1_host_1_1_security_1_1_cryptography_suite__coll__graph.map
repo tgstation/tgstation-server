@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Security.CryptographySuite" name="Tgstation.Server.Host.Security.CryptographySuite">
-<area shape="rect" id="node1" title=" " alt="" coords="81,108,282,148"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions." alt="" coords="5,13,136,38"/>
-<area shape="rect" id="node3" title=" " alt="" coords="160,13,203,38"/>
-<area shape="rect" id="node4" title=" " alt="" coords="242,5,419,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="81,109,281,150"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions." alt="" coords="5,13,136,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,47,162,106,158,110,93,51"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="160,13,202,39"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="184,54,184,108,179,108,179,54"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="242,5,419,46"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="321,62,303,87,264,111,261,106,299,83,317,59"/>
 </map>

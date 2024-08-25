@@ -1,10 +1,17 @@
 <map id="Tgstation.Server.Host.IO.IFileStreamProvider" name="Tgstation.Server.Host.IO.IFileStreamProvider">
-<area shape="rect" id="node1" title="Interface for asynchronously consuming Streams of files." alt="" coords="180,101,348,141"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result.html" title="Very similar to FileStreamResult except it&#39;s IActionResultExecutor&lt;TResult&gt; contains a fix for https:..." alt="" coords="396,5,612,45"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html" title="IFileStreamProvider that provides MemoryStreams." alt="" coords="409,69,599,109"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html" title="A IFileStreamProvider that represents the response of HttpRequestMessages." alt="" coords="413,133,595,173"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload." alt="" coords="403,197,605,237"/>
-<area shape="rect" id="node2" href="$class_i_async_disposable.html" title=" " alt="" coords="5,109,132,134"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html" title="IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream." alt="" coords="671,69,852,109"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html" title=" " alt="" coords="660,197,863,237"/>
+<area shape="rect" id="Node000001" title="Interface for asynchronously consuming Streams of files." alt="" coords="179,104,346,145"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result.html" title="Very similar to FileStreamResult except it&#39;s IActionResultExecutor&lt;TResult&gt; contains a fix for https:..." alt="" coords="394,5,609,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="313,94,393,57,427,44,429,49,395,61,316,99"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html" title="IFileStreamProvider that provides MemoryStreams." alt="" coords="407,71,597,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="361,108,405,102,406,107,362,113"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html" title="A IFileStreamProvider that represents the response of HttpRequestMessages." alt="" coords="412,136,592,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="362,135,412,142,411,147,361,140"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload." alt="" coords="401,201,602,242"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="317,150,395,186,429,198,427,203,393,191,314,155"/>
+<area shape="rect" id="Node000002" href="$class_i_async_disposable.html" title=" " alt="" coords="5,112,131,137"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,122,178,122,178,127,146,127"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html" title="IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream." alt="" coords="668,71,848,111"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="613,88,667,88,667,94,613,94"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html" title=" " alt="" coords="657,201,859,242"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="618,219,657,219,657,224,618,224"/>
 </map>

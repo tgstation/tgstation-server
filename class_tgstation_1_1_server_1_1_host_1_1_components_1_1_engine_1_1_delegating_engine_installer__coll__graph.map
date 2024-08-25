@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Engine.DelegatingEngineInstaller" name="Tgstation.Server.Host.Components.Engine.DelegatingEngineInstaller">
-<area shape="rect" id="node1" title="Implementation of IEngineInstaller that forwards calls to different IEngineInstaller based on their a..." alt="" coords="437,30,664,70"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html" title="For downloading and installing game engines for a given system." alt="" coords="85,5,196,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,55,276,109"/>
+<area shape="rect" id="Node000001" title="Implementation of IEngineInstaller that forwards calls to different IEngineInstaller based on their a..." alt="" coords="436,31,662,72"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html" title="For downloading and installing game engines for a given system." alt="" coords="85,5,196,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,21,436,40,435,45,211,27"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,56,276,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="290,69,435,58,436,63,291,74"/>
 </map>

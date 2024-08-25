@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures" name="Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures">
-<area shape="rect" id="node1" title="GitHub IGitRemoteFeatures." alt="" coords="5,299,232,339"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html" title="Base class for implementing IGitRemoteFeatures." alt="" coords="36,225,201,251"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html" title="Provides features for remote git services." alt="" coords="49,152,188,177"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_additional_information.html" title="Additional information from git remotes." alt="" coords="13,79,224,104"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html" title="Provides information about remote providers." alt="" coords="42,5,195,31"/>
+<area shape="rect" id="Node000001" title="GitHub IGitRemoteFeatures." alt="" coords="5,300,232,341"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html" title="Base class for implementing IGitRemoteFeatures." alt="" coords="36,226,201,252"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,267,121,300,116,300,116,267"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html" title="Provides features for remote git services." alt="" coords="49,153,188,178"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="121,194,121,226,116,226,116,194"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_additional_information.html" title="Additional information from git remotes." alt="" coords="14,79,223,105"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="121,120,121,152,116,152,116,120"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html" title="Provides information about remote providers." alt="" coords="42,5,195,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="121,46,121,79,116,79,116,46"/>
 </map>

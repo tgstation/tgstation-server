@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Setup.SetupWizard.TestDatabaseConnection" name="Tgstation.Server.Host.Setup.SetupWizard.TestDatabaseConnection">
-<area shape="rect" id="node1" title="Ensure a given testConnection &#160;works." alt="" coords="5,69,249,109"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a" title="Deletes a file at path ." alt="" coords="309,5,477,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#ad674c458bbe343698fb0da3494bf3e37" title="Wait for a key press on the IConsole." alt="" coords="297,69,488,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a1ea8d75d4508cc393e3445db997479f0" title="Write some text &#160;to the IConsole." alt="" coords="309,133,477,173"/>
+<area shape="rect" id="Node000001" title="Ensure a given testConnection &#160;works." alt="" coords="5,71,249,111"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a" title="Deletes a file at path ." alt="" coords="308,5,475,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,67,292,47,293,53,213,73"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#ad674c458bbe343698fb0da3494bf3e37" title="Wait for a key press on the IConsole." alt="" coords="297,71,486,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="249,88,281,88,281,94,249,94"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a1ea8d75d4508cc393e3445db997479f0" title="Write some text &#160;to the IConsole." alt="" coords="308,136,475,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="213,109,293,129,292,135,212,115"/>
 </map>

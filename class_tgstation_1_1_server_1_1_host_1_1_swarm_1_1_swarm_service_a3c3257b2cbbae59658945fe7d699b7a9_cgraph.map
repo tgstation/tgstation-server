@@ -1,9 +1,15 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.RegisterNode" name="Tgstation.Server.Host.Swarm.SwarmService.RegisterNode">
-<area shape="rect" id="node1" title="Attempt to register a given node &#160;with the controller. A ValueTask&lt;TResult&gt; resulting in true if the ..." alt="" coords="5,117,200,157"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae8730853752e924741c38443a557c16f" title="Attempt to abort an uncommitted update. A ValueTask representing the running operation...." alt="" coords="256,85,451,125"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac4194e4d0fb3cad95550e55859228529" title="Set serversDirty and complete the current forceHealthCheckTcs." alt="" coords="248,149,459,189"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2d25eadf43c0a581335ab5f4dba51e5f" title="Sends out remote abort update requests." alt="" coords="507,85,735,125"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="801,5,1008,60"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa9e9a887a475c9bbb5f90ae89867b350" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="783,85,1027,125"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="797,149,1013,204"/>
+<area shape="rect" id="Node000001" title="Attempt to register a given node &#160;with the controller.A ValueTask&lt;TResult&gt; resulting in true if the r..." alt="" coords="5,118,200,159"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae8730853752e924741c38443a557c16f" title="Attempt to abort an uncommitted update.A ValueTask representing the running operation...." alt="" coords="255,85,450,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,123,239,118,240,123,200,128"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac4194e4d0fb3cad95550e55859228529" title="Set serversDirty and complete the current forceHealthCheckTcs." alt="" coords="248,150,457,191"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="200,148,232,152,232,158,200,154"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2d25eadf43c0a581335ab5f4dba51e5f" title="Sends out remote abort update requests." alt="" coords="505,85,732,126"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="450,103,490,103,490,108,450,108"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="799,5,1005,61"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="701,82,783,61,784,66,702,87"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa9e9a887a475c9bbb5f90ae89867b350" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="780,85,1024,126"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="733,103,765,103,765,108,733,108"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="794,149,1010,205"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="702,124,780,143,778,149,701,129"/>
 </map>

@@ -1,7 +1,12 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DmbLock" name="Tgstation.Server.Host.Components.Deployment.DmbLock">
-<area shape="rect" id="node1" title="Represents a lock on a given IDmbProvider." alt="" coords="541,55,768,95"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="244,5,345,31"/>
-<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="5,35,132,60"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="181,55,408,95"/>
-<area shape="rect" id="node5" title=" " alt="" coords="201,120,388,145"/>
+<area shape="rect" id="Node000001" title="Represents a lock on a given IDmbProvider." alt="" coords="539,55,766,96"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="243,5,343,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="359,26,539,55,539,60,358,31"/>
+<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="5,35,131,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="146,35,242,22,243,27,146,40"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="180,55,406,96"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="147,55,180,59,179,64,146,60"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="422,73,539,73,539,78,422,78"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="201,120,386,146"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="393,114,538,91,539,96,394,120"/>
 </map>

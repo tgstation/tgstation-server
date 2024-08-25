@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.GetAllAccessibleTextChannels" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.GetAllAccessibleTextChannels">
-<area shape="rect" id="node1" title="Get all text IChannels accessible to and supported by the bot." alt="" coords="5,5,247,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="295,5,511,60"/>
-</map>

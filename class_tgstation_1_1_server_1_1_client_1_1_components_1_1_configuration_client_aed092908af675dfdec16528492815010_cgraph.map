@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Client.Components.ConfigurationClient.ConfigurationClient" name="Tgstation.Server.Client.Components.ConfigurationClient.ConfigurationClient">
+<area shape="rect" id="Node000001" title="Initializes a new instance of the ConfigurationClient class." alt="" coords="5,5,214,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#ac032e7dafb940924e951b6e6a8a62dba" title="List configuration files.A List&lt;T&gt; of ConfigurationFileResponses in the directory ." alt="" coords="262,13,492,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,31,246,31,246,36,214,36"/>
+</map>

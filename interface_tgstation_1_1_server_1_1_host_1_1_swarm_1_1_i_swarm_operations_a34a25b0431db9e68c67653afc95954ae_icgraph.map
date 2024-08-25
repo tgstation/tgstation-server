@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Swarm.ISwarmOperations.UnregisterNode" name="Tgstation.Server.Host.Swarm.ISwarmOperations.UnregisterNode">
-<area shape="rect" id="node1" title="Attempt to unregister a node with a given registrationId &#160;with the controller." alt="" coords="269,5,493,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#af8d0f1a482edc2ab29de4400a2ba7664" title="Deregistration endpoint." alt="" coords="5,5,221,45"/>
+<area shape="rect" id="Node000001" title="Attempt to unregister a node with a given registrationId &#160;with the controller." alt="" coords="269,5,492,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#af8d0f1a482edc2ab29de4400a2ba7664" title="Deregistration endpoint." alt="" coords="5,5,221,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,28,221,28,221,23,253,23"/>
 </map>

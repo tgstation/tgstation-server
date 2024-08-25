@@ -1,6 +1,10 @@
 <map id="Tgstation.Server.Host.Utils.SwaggerConfiguration.GenerateSchemaId" name="Tgstation.Server.Host.Utils.SwaggerConfiguration.GenerateSchemaId">
-<area shape="rect" id="node1" title="Generates the OpenAPI schema ID for a given type ." alt="" coords="535,49,797,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ae096775c5ebc422b2ef65548cb0b1f31" title="Applies the OpenApiSchema.Nullable, OpenApiSchema.ReadOnly, and OpenApiSchema.WriteOnly to OpenApiSch..." alt="" coords="248,5,487,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a7a8de5dbb9ef96b2ced6739f2afe3549" title="Configure the swagger settings." alt="" coords="265,85,470,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a3ec60bfa2b57cd85cae110578270a60f" title="Configure the Application&#39;s services ." alt="" coords="5,85,200,125"/>
+<area shape="rect" id="Node000001" title="Generates the OpenAPI schema ID for a given type ." alt="" coords="533,49,795,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ae096775c5ebc422b2ef65548cb0b1f31" title="Applies the OpenApiSchema.Nullable, OpenApiSchema.ReadOnly, and OpenApiSchema.WriteOnly to OpenApiSch..." alt="" coords="247,5,485,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="518,54,485,50,486,45,518,49"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a7a8de5dbb9ef96b2ced6739f2afe3549" title="Configure the swagger settings." alt="" coords="264,85,468,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="518,90,469,95,468,90,517,84"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a3ec60bfa2b57cd85cae110578270a60f" title="Configure the Application&#39;s services ." alt="" coords="5,85,199,126"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="248,108,199,108,199,103,248,103"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="145,72,129,66,102,63,77,65,61,70,55,76,58,83,53,85,50,75,58,66,76,60,102,58,130,61,147,67"/>
 </map>

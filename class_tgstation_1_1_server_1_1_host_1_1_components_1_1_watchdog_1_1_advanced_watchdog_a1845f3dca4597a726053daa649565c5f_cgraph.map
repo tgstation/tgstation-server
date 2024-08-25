@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.InitialLink" name="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.InitialLink">
-<area shape="rect" id="node1" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="5,49,264,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a62c2020413dd770a7b3b0482e91ffbf3" title="Should be awaited. before calling MakeActive(CancellationToken) to ensure the SwappableDmbProvider is..." alt="" coords="329,5,599,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ad6e832b7e37fcfb95f47294a9a084c2e" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="312,85,616,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a92d654ad97877a24e3abab5c0cd595ab" title="Perform the swapping action." alt="" coords="664,85,948,125"/>
+<area shape="rect" id="Node000001" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="5,49,263,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a81dcefb142f64864408ddcf0e1c18a3b" title="Should be awaited. before calling MakeActive(CancellationToken) to ensure the SwappableDmbProvider is..." alt="" coords="328,5,597,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="263,52,312,47,312,52,263,58"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ad6e832b7e37fcfb95f47294a9a084c2e" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="311,85,614,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="263,81,295,84,295,89,263,86"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a66b1b3faeddd34cf469c46210b758881" title="Perform the swapping action." alt="" coords="662,85,945,126"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="614,103,646,103,646,108,614,108"/>
 </map>

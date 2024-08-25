@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Extensions.DatabaseCollectionExtensions.GetTgsUser&lt; TResult &gt;" name="Tgstation.Server.Host.Extensions.DatabaseCollectionExtensions.GetTgsUser&lt; TResult &gt;">
-<area shape="rect" id="node1" title="Gets User with the name User.TgsSystemUserName." alt="" coords="5,5,248,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="296,13,492,53"/>
+<area shape="rect" id="Node000001" title="Gets User with the name User.TgsSystemUserName." alt="" coords="5,5,248,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="296,13,491,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="248,31,280,31,280,36,248,36"/>
 </map>

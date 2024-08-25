@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.UserController.TrySetPassword" name="Tgstation.Server.Host.Controllers.UserController.TrySetPassword">
-<area shape="rect" id="node1" title="Attempt to change the password of a given dbUser ." alt="" coords="5,5,221,45"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#aeab60aa0a0ee2cb5e2ad5dbde1983430" title="Sets a User.PasswordHash for a given user ." alt="" coords="269,5,509,45"/>
+<area shape="rect" id="Node000001" title="Attempt to change the password of a given dbUser ." alt="" coords="5,5,221,46"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#aeab60aa0a0ee2cb5e2ad5dbde1983430" title="Sets a User.PasswordHash for a given user ." alt="" coords="269,5,508,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,23,253,23,253,28,221,28"/>
 </map>

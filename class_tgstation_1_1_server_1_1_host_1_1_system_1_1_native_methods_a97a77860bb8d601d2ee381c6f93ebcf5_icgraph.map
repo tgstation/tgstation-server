@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.System.NativeMethods.CloseHandle" name="Tgstation.Server.Host.System.NativeMethods.CloseHandle">
-<area shape="rect" id="node1" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms724211(v=vs.85).aspx." alt="" coords="329,37,528,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a0a3d91e35d40c3f6c6bdf126aec6d112" title="Resume a given suspended global::System.Diagnostics.Process." alt="" coords="7,5,280,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a08d35b105b285a19f77df6c863c5cfeb" title="Suspend a given process ." alt="" coords="5,69,281,109"/>
+<area shape="rect" id="Node000001" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms724211(v=vs.85).aspx." alt="" coords="329,39,526,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a0a3d91e35d40c3f6c6bdf126aec6d112" title="Resume a given suspended global::System.Diagnostics.Process." alt="" coords="7,5,279,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="313,48,279,44,280,39,314,43"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a08d35b105b285a19f77df6c863c5cfeb" title="Suspend a given process ." alt="" coords="5,71,281,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="313,74,281,78,281,73,313,69"/>
 </map>

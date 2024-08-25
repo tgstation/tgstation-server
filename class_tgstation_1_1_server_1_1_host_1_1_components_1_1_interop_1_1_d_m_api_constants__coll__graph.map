@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Interop.DMApiConstants" name="Tgstation.Server.Host.Components.Interop.DMApiConstants">
-<area shape="rect" id="node1" title="Constants used for communication with the DMAPI." alt="" coords="210,152,437,192"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,13,95,38"/>
-<area shape="rect" id="node3" title=" " alt="" coords="194,13,237,38"/>
-<area shape="rect" id="node4" title=" " alt="" coords="357,13,509,38"/>
-<area shape="rect" id="node5" title=" " alt="" coords="533,5,722,45"/>
+<area shape="rect" id="Node000001" title="Constants used for communication with the DMAPI." alt="" coords="210,154,436,195"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,13,94,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="49,54,51,93,57,112,68,128,90,141,124,151,209,164,209,169,123,157,88,146,64,132,52,114,46,94,43,54"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="194,13,236,39"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="211,54,208,92,211,111,219,129,231,141,245,151,242,156,227,145,215,131,206,113,202,92,205,53"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="357,13,508,39"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="433,54,425,93,417,113,405,132,376,156,372,151,401,128,412,111,420,91,428,53"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="531,5,720,46"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="603,60,567,98,520,132,480,150,437,162,436,157,478,145,518,128,563,94,600,56"/>
 </map>

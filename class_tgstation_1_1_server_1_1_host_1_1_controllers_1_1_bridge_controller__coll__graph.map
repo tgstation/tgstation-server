@@ -1,10 +1,17 @@
 <map id="Tgstation.Server.Host.Controllers.BridgeController" name="Tgstation.Server.Host.Controllers.BridgeController">
-<area shape="rect" id="node1" title="Controller for receiving DMAPI requests from DreamDaemon." alt="" coords="596,122,812,162"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="200,5,327,31"/>
-<area shape="rect" id="node3" href="$class_controller.html" title=" " alt="" coords="5,5,83,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="219,55,308,80"/>
-<area shape="rect" id="node5" title=" " alt="" coords="242,104,285,129"/>
-<area shape="rect" id="node6" title=" " alt="" coords="240,153,287,179"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="150,203,377,243"/>
-<area shape="rect" id="node8" title=" " alt="" coords="132,267,395,307"/>
+<area shape="rect" id="Node000001" title="Controller for receiving DMAPI requests from DreamDaemon." alt="" coords="593,122,809,163"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="199,5,324,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="340,18,450,31,511,44,570,61,627,88,674,119,671,123,624,93,568,66,510,49,450,36,339,24"/>
+<area shape="rect" id="Node000003" href="$class_controller.html" title=" " alt="" coords="5,5,82,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="97,16,199,16,199,21,97,21"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="218,55,306,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="322,70,437,82,570,104,632,119,630,124,569,109,436,88,321,75"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="241,104,283,130"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="299,116,593,133,593,139,299,122"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="239,153,284,179"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="300,164,420,165,569,159,592,156,593,162,570,164,420,170,300,170"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="149,203,375,244"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="390,212,478,202,569,185,648,161,649,166,570,190,479,207,391,218"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="131,269,392,309"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="407,273,489,257,568,231,628,197,675,161,678,165,631,202,570,236,490,262,408,278"/>
 </map>

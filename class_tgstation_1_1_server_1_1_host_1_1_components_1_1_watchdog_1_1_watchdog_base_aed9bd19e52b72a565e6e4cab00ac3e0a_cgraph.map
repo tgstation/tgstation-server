@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleEvent" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleEvent">
-<area shape="rect" id="node1" title="Handle a given eventType . A ValueTask representing the running operation." alt="" coords="5,37,253,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ab53c08e5a2f37233940f3492207a760b" title="Get the active ISessionController." alt="" coords="311,5,598,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ad5b260f0cac6051983c75a9a6777b38b" title="Handle any TopicResponse.ChatResponses in a given topic result ." alt="" coords="301,69,608,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#af9226f864c0c82403eab7ac5f8e43002" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="656,69,883,109"/>
+<area shape="rect" id="Node000001" title="Handle a given eventType .A ValueTask representing the running operation." alt="" coords="5,39,253,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0dfb6c0c3c1c717e3d56b939ce0df4ec" title="Get the active ISessionController." alt="" coords="311,5,597,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,44,295,39,295,45,253,49"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ad5b260f0cac6051983c75a9a6777b38b" title="Handle any TopicResponse.ChatResponses in a given topic result ." alt="" coords="301,71,607,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,69,285,72,285,77,253,74"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#af9226f864c0c82403eab7ac5f8e43002" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="655,71,881,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="607,88,639,88,639,94,607,94"/>
 </map>

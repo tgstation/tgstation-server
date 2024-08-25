@@ -1,4 +1,12 @@
 <map id="Tgstation.Server.Host.Jobs.JobService.WaitForJobCompletion" name="Tgstation.Server.Host.Jobs.JobService.WaitForJobCompletion">
-<area shape="rect" id="node1" title="Wait for a given job &#160;to complete. A ValueTask&lt;TResult&gt; representing the Job. Results in true if the ..." alt="" coords="5,5,227,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a857174cbad81d2ecf5d455346c8cd694" title="Wait for task to complete." alt="" coords="275,5,457,45"/>
+<area shape="rect" id="Node000001" title="Wait for a given job &#160;to complete.A ValueTask&lt;TResult&gt; representing the Job. Results in true if the J..." alt="" coords="5,104,226,145"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab01da8111a05f92c51fc1c9a855cbb92" title="Cancels a give job .A ValueTask&lt;TResult&gt; resulting in the updated job &#160;if it was cancelled,..." alt="" coords="274,73,455,114"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,108,258,104,258,109,227,113"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a857174cbad81d2ecf5d455346c8cd694" title="Wait for task to complete." alt="" coords="532,136,713,177"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="226,129,516,147,516,152,226,134"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a674342b0dc8050c0ab42a299aa4a7762" title="Cancels task." alt="" coords="532,5,713,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="444,70,527,48,529,53,445,75"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="503,71,741,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="456,90,487,90,487,95,456,95"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="452,112,522,129,521,134,450,117"/>
 </map>

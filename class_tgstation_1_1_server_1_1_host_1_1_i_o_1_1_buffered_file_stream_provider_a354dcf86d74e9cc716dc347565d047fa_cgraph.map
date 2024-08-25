@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResultInternal" name="Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResultInternal">
-<area shape="rect" id="node1" title="Gets the shared MemoryStream and its Stream.Length." alt="" coords="5,5,211,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="259,13,449,53"/>
+<area shape="rect" id="Node000001" title="Gets the shared MemoryStream and its Stream.Length." alt="" coords="5,5,210,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="258,13,447,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,31,242,31,242,36,210,36"/>
 </map>

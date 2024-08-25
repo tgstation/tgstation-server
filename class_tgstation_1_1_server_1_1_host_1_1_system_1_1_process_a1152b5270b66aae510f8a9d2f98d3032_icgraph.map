@@ -1,9 +1,15 @@
 <map id="Tgstation.Server.Host.System.Process.CheckDisposed" name="Tgstation.Server.Host.System.Process.CheckDisposed">
-<area shape="rect" id="node1" title="Throws an ObjectDisposedException if a method of the Process was called after DisposeAsync." alt="" coords="264,165,463,205"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a363841873e7329d5b7c8d79bed0bb25d" title="Set&#39;s the owned global::System.Diagnostics.Process.PriorityClass to a non&#45;normal value." alt="" coords="11,5,210,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a371d3468a7bdcb78c4faefdc77e0a614" title="Create a dump file of the process. A ValueTask representing the running operation." alt="" coords="11,69,210,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a9d40ee75283478c959949059a6aafe22" title="Get the name of the account executing the IProcess. The name of the account executing the IProcess." alt="" coords="5,133,216,173"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#aac2fe70341d620a0e240f824d05709ed" title="Resumes the process." alt="" coords="11,197,210,237"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a838c384e77f8a221b385746d03e2d7eb" title="Suspends the process." alt="" coords="11,261,210,301"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a61e4788d938ba886eaf6e19ac5464460" title="Asycnhronously terminates the process. To ensure the IProcess has ended, use the IProcessBase...." alt="" coords="11,325,210,365"/>
+<area shape="rect" id="Node000001" title="Throws an ObjectDisposedException if a method of the Process was called after DisposeAsync." alt="" coords="263,169,460,210"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a363841873e7329d5b7c8d79bed0bb25d" title="Set&#39;s the owned global::System.Diagnostics.Process.PriorityClass to a non&#45;normal value." alt="" coords="11,5,209,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="330,160,279,109,247,84,213,61,187,49,190,44,216,57,250,79,282,105,334,156"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a371d3468a7bdcb78c4faefdc77e0a614" title="Create a dump file of the process.A ValueTask representing the running operation." alt="" coords="11,71,209,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="302,165,214,127,179,114,180,109,216,122,305,160"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a9d40ee75283478c959949059a6aafe22" title="Get the name of the account executing the IProcess.The name of the account executing the IProcess." alt="" coords="5,136,215,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="247,177,215,173,216,168,248,172"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#aac2fe70341d620a0e240f824d05709ed" title="Resumes the process." alt="" coords="11,201,209,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="248,207,210,212,209,206,247,202"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a838c384e77f8a221b385746d03e2d7eb" title="Suspends the process." alt="" coords="11,267,209,307"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="303,219,216,256,180,269,179,264,214,251,301,214"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a61e4788d938ba886eaf6e19ac5464460" title="Asycnhronously terminates the process.To ensure the IProcess has ended, use the IProcessBase...." alt="" coords="11,332,209,373"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="333,224,282,273,250,299,216,321,190,334,187,329,213,317,247,295,278,269,330,220"/>
 </map>

@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.IO.Console.CheckAvailable" name="Tgstation.Server.Host.IO.Console.CheckAvailable">
-<area shape="rect" id="node1" title="Assert that the Console is available, throwing an InvalidOperationException otherwise." alt="" coords="240,69,408,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#ad10bdc2971cb4068b3fe0d46aa7cb167" title="Wait for a key press on the IConsole. A Task representing the running operation." alt="" coords="5,5,192,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#aede6acd9f36e1f2e1670c18eb5d7795b" title="Read a line from the IConsole. A Task&lt;TResult&gt; resulting in the string read by the IConsole." alt="" coords="15,69,183,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a4d5fb5b40aa7569af384c92f2f51e027" title="Write some text &#160;to the IConsole. A Task representing the running operation." alt="" coords="15,133,183,173"/>
+<area shape="rect" id="Node000001" title="Assert that the Console is available, throwing an InvalidOperationException otherwise." alt="" coords="239,71,406,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#ad10bdc2971cb4068b3fe0d46aa7cb167" title="Wait for a key press on the IConsole.A Task representing the running operation." alt="" coords="5,5,191,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,68,170,49,171,44,236,63"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#aede6acd9f36e1f2e1670c18eb5d7795b" title="Read a line from the IConsole.A Task&lt;TResult&gt; resulting in the string read by the IConsole." alt="" coords="14,71,182,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="223,94,182,94,182,88,223,88"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a4d5fb5b40aa7569af384c92f2f51e027" title="Write some text &#160;to the IConsole.A Task representing the running operation." alt="" coords="14,136,182,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="236,119,171,138,170,133,235,114"/>
 </map>

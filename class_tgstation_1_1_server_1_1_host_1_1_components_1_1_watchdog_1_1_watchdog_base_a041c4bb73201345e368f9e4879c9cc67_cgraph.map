@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Broadcast" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Broadcast">
-<area shape="rect" id="node1" title="Send a broadcast message &#160;to the DMAPI. A ValueTask&lt;TResult&gt; resulting in true if the broadcast succe..." alt="" coords="5,49,239,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html#a733b0f473c698e2ba05b2c9f3d7b8f48" title="Initializes a new instance of the TopicParameters class." alt="" coords="310,5,550,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ab53c08e5a2f37233940f3492207a760b" title="Get the active ISessionController." alt="" coords="287,85,573,125"/>
+<area shape="rect" id="Node000001" title="Send a broadcast message &#160;to the DMAPI.A ValueTask&lt;TResult&gt; resulting in true if the broadcast succee..." alt="" coords="5,49,238,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html#a733b0f473c698e2ba05b2c9f3d7b8f48" title="Initializes a new instance of the TopicParameters class." alt="" coords="309,5,549,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,53,293,46,294,52,238,58"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0dfb6c0c3c1c717e3d56b939ce0df4ec" title="Get the active ISessionController." alt="" coords="286,85,572,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="238,80,271,84,270,89,238,85"/>
 </map>

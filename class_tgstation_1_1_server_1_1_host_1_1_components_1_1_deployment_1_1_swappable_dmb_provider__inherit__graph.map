@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider" name="Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider">
-<area shape="rect" id="node1" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="329,37,561,77"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html" title="A IDmbProvider that uses hard links." alt="" coords="609,5,836,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_symlink_dmb_provider.html" title="A IDmbProvider that uses symlinks." alt="" coords="609,69,836,109"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="180,45,281,70"/>
-<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="5,45,132,70"/>
+<area shape="rect" id="Node000001" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="327,39,558,79"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html" title="A IDmbProvider that uses hard links." alt="" coords="606,5,833,46"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="573,41,605,37,606,42,574,46"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_symlink_dmb_provider.html" title="A IDmbProvider that uses symlinks." alt="" coords="606,71,833,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="574,71,606,75,605,81,573,77"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="179,46,279,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="294,56,327,56,327,62,294,62"/>
+<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="5,46,131,72"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="146,56,178,56,178,62,146,62"/>
 </map>

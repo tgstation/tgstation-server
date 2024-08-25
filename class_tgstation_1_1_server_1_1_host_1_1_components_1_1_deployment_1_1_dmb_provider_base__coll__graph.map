@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DmbProviderBase" name="Tgstation.Server.Host.Components.Deployment.DmbProviderBase">
-<area shape="rect" id="node1" title=" " alt="" coords="5,152,232,192"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="68,79,169,104"/>
-<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="55,5,182,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,153,232,193"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="68,79,169,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,120,121,152,116,152,116,120"/>
+<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="56,5,181,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="121,46,121,79,116,79,116,46"/>
 </map>

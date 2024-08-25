@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Client.AdministrationClient.Update" name="Tgstation.Server.Client.AdministrationClient.Update">
-<area shape="rect" id="node1" title="Updates the AdministrationResponse setttings. A ValueTask&lt;TResult&gt; resulting in the echoed ServerUpda..." alt="" coords="5,5,188,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a2962556fb0b3a82c83593d23d70ace2a" title="Uploads a given uploadStream &#160;for a given ticket . A ValueTask representing the running operation." alt="" coords="236,5,392,45"/>
+<area shape="rect" id="Node000001" title="Updates the AdministrationResponse setttings.A ValueTask&lt;TResult&gt; resulting in the echoed ServerUpdat..." alt="" coords="5,5,188,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a2962556fb0b3a82c83593d23d70ace2a" title="Uploads a given uploadStream &#160;for a given ticket .A ValueTask representing the running operation." alt="" coords="236,5,391,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,23,220,23,220,28,188,28"/>
 </map>

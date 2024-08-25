@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Security.AuthorizationContextHubFilter.OnConnectedAsync" name="Tgstation.Server.Host.Security.AuthorizationContextHubFilter.OnConnectedAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,13,317,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter.html#a461b391ebbf4548acc60f57a99937cf2" title="Validates the IAuthenticationContext for the hub event." alt="" coords="365,5,609,60"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,317,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter.html#a461b391ebbf4548acc60f57a99937cf2" title="Validates the IAuthenticationContext for the hub event." alt="" coords="365,5,608,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="317,31,349,31,349,36,317,36"/>
 </map>

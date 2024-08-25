@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.HealthCheckNodes" name="Tgstation.Server.Host.Swarm.SwarmService.HealthCheckNodes">
-<area shape="rect" id="node1" title="Ping each node to see that they are still running." alt="" coords="5,13,228,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="276,5,492,60"/>
+<area shape="rect" id="Node000001" title="Ping each node to see that they are still running." alt="" coords="5,13,228,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="276,5,491,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,31,260,31,260,36,228,36"/>
 </map>

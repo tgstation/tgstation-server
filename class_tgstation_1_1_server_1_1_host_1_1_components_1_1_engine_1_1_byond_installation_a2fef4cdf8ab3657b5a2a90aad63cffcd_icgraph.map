@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Engine.ByondInstallation.SecurityWord" name="Tgstation.Server.Host.Components.Engine.ByondInstallation.SecurityWord">
-<area shape="rect" id="node1" title="Change a given securityLevel &#160;into the appropriate DreamDaemon command line word." alt="" coords="299,13,541,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installation.html#a765067ed32ffe00d83d539c2a76a0c98" title="Return the command line arguments for launching with given launchParameters . The formatted arguments..." alt="" coords="5,5,251,60"/>
+<area shape="rect" id="Node000001" title="Change a given securityLevel &#160;into the appropriate DreamDaemon command line word." alt="" coords="298,13,540,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installation.html#a765067ed32ffe00d83d539c2a76a0c98" title="Return the command line arguments for launching with given launchParameters .The formatted arguments ..." alt="" coords="5,5,250,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="282,36,250,36,250,31,282,31"/>
 </map>

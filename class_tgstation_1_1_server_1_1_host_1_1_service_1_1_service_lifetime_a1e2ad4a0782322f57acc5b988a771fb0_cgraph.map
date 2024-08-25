@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Service.ServiceLifetime.HandleCustomCommand" name="Tgstation.Server.Host.Service.ServiceLifetime.HandleCustomCommand">
-<area shape="rect" id="node1" title="Handle a custom service command ." alt="" coords="5,41,267,81"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5" title="Gets the int value of a given command ." alt="" coords="315,5,567,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#aa48370d02550aa2beb55941b4226a423" title="Sends a command to the main server process." alt="" coords="317,70,565,125"/>
+<area shape="rect" id="Node000001" title="Handle a custom service command ." alt="" coords="5,41,266,82"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5" title="Gets the int value of a given command ." alt="" coords="314,5,565,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="266,44,298,40,299,45,267,49"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#aa48370d02550aa2beb55941b4226a423" title="Sends a command to the main server process." alt="" coords="316,70,563,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="267,74,301,79,300,84,266,80"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory" name="Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory">
-<area shape="rect" id="node1" title="Gets the evaluated log Directory." alt="" coords="5,5,288,45"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="336,5,504,45"/>
+<area shape="rect" id="Node000001" title="Gets the evaluated log Directory." alt="" coords="5,5,287,46"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="335,5,502,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="287,23,319,23,319,28,287,28"/>
 </map>

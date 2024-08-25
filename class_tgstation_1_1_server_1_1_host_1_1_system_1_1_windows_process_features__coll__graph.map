@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.System.WindowsProcessFeatures" name="Tgstation.Server.Host.System.WindowsProcessFeatures">
-<area shape="rect" id="node1" title=" " alt="" coords="335,30,533,70"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html" title="Abstraction for suspending and resuming processes." alt="" coords="64,5,189,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,55,248,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="333,31,530,72"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html" title="Abstraction for suspending and resuming processes." alt="" coords="64,5,188,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,24,333,38,332,43,203,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,56,247,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="262,67,332,59,332,64,262,72"/>
 </map>

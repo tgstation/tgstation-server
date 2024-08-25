@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.ResetRebootState" name="Tgstation.Server.Host.Components.Session.SessionController.ResetRebootState">
-<area shape="rect" id="node1" title="Changes RebootState to RebootState.Normal without telling the DMAPI." alt="" coords="5,5,288,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ab0660ae6440a38aa85f8473a8220533a" title="Throws an ObjectDisposedException if DisposeAsync has been called." alt="" coords="336,5,604,45"/>
+<area shape="rect" id="Node000001" title="Changes RebootState to RebootState.Normal without telling the DMAPI." alt="" coords="5,5,288,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ab0660ae6440a38aa85f8473a8220533a" title="Throws an ObjectDisposedException if DisposeAsync has been called." alt="" coords="336,5,603,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="288,23,320,23,320,28,288,28"/>
 </map>

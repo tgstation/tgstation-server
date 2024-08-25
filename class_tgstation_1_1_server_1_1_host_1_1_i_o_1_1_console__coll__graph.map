@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Host.IO.Console" name="Tgstation.Server.Host.IO.Console">
-<area shape="rect" id="node1" title="Implementation of IConsole, uses global::System.Console." alt="" coords="352,105,520,145"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html" title="Abstraction for global::System.Console." alt="" coords="68,5,141,31"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="59,55,150,80"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="5,105,204,145"/>
-<area shape="rect" id="node5" title=" " alt="" coords="15,169,195,209"/>
-<area shape="rect" id="node6" title=" " alt="" coords="81,233,128,259"/>
+<area shape="rect" id="Node000001" title="Implementation of IConsole, uses global::System.Console." alt="" coords="350,105,517,145"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html" title="Abstraction for global::System.Console." alt="" coords="68,5,140,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,27,203,40,265,56,327,76,389,102,387,106,325,81,264,61,202,45,155,33"/>
+<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="59,55,149,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="165,75,326,102,349,106,349,112,325,107,164,80"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="5,105,203,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="218,122,349,122,349,128,218,128"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="14,170,194,211"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="208,167,349,139,350,144,209,172"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="81,235,127,260"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="141,236,202,220,264,204,325,184,364,164,400,143,402,148,367,169,327,189,266,210,203,225,143,241"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Deployment.IDmbFactory.FromCompileJob" name="Tgstation.Server.Host.Components.Deployment.IDmbFactory.FromCompileJob">
-<area shape="rect" id="node1" title="Gets a IDmbProvider for a given CompileJob." alt="" coords="567,5,835,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a89dd7970dd66a8630f036c9ecc67e834" title="Load a saved ReattachInformation. A ValueTask&lt;TResult&gt; resulting in the stored ReattachInformation if..." alt="" coords="292,5,519,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="5,5,244,45"/>
+<area shape="rect" id="Node000001" title="Gets a IDmbProvider for a given CompileJob." alt="" coords="565,5,832,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a89dd7970dd66a8630f036c9ecc67e834" title="Load a saved ReattachInformation.A ValueTask&lt;TResult&gt; resulting in the stored ReattachInformation if ..." alt="" coords="291,5,517,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="549,28,518,28,518,23,549,23"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="5,5,243,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="275,28,243,28,243,23,275,23"/>
 </map>

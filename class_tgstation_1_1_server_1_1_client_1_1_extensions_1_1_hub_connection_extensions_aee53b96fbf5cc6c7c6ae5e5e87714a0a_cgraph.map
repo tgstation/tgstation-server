@@ -1,4 +1,6 @@
 <map id="Tgstation.Server.Client.Extensions.HubConnectionExtensions.ProxyOn&lt; TClientProxy &gt;" name="Tgstation.Server.Client.Extensions.HubConnectionExtensions.ProxyOn&lt; TClientProxy &gt;">
-<area shape="rect" id="node1" title="Apply a given proxy &#160;to a given hubConnection ." alt="" coords="5,29,248,84"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_extensions_1_1_hub_connection_extensions.html#a7fcdfc5660189917d34b3bf6652293ba" title="Apply a given proxyObject &#160;to a given hubConnection ." alt="" coords="296,29,539,84"/>
+<area shape="rect" id="Node000001" title="Apply a given proxy &#160;to a given hubConnection ." alt="" coords="5,29,248,85"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_extensions_1_1_hub_connection_extensions.html#a7fcdfc5660189917d34b3bf6652293ba" title="Apply a given proxyObject &#160;to a given hubConnection ." alt="" coords="296,29,538,85"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="248,55,280,55,280,60,248,60"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="361,29,361,19,372,10,390,5,417,3,448,5,466,12,464,17,447,11,417,8,391,10,374,15,366,21,366,29"/>
 </map>

@@ -1,7 +1,12 @@
 <map id="Tgstation.Server.Host.Controllers.AdministrationController.AttemptInitiateUpdate" name="Tgstation.Server.Host.Controllers.AdministrationController.AttemptInitiateUpdate">
-<area shape="rect" id="node1" title="Attempt to initiate an update." alt="" coords="5,113,296,153"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#aa99c11372e2e7aa5fc84e2cc6f12eb8e" title="Create a IFileUploadTicket." alt="" coords="344,5,605,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#af7f87439f1db84206b881d38619ef755" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="379,70,570,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="367,149,583,189"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="653,179,869,219"/>
+<area shape="rect" id="Node000001" title="Attempt to initiate an update." alt="" coords="5,113,295,154"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#aa99c11372e2e7aa5fc84e2cc6f12eb8e" title="Create a IFileUploadTicket." alt="" coords="343,5,603,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,110,265,83,342,55,365,48,367,53,344,60,267,88,200,115"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#af7f87439f1db84206b881d38619ef755" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="378,70,568,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="295,115,362,107,363,113,295,120"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="365,149,581,190"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="295,147,350,153,350,159,295,152"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="651,179,866,219"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="197,152,265,178,343,199,418,208,494,212,635,208,635,214,494,217,418,214,342,204,263,183,195,157"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="581,178,636,184,635,189,581,183"/>
 </map>

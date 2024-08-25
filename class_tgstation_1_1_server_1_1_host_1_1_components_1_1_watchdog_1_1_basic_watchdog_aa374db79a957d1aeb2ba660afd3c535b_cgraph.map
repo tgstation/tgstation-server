@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleNewDmbAvailable" name="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleNewDmbAvailable">
-<area shape="rect" id="node1" title="Handler for MonitorActivationReason.NewDmbAvailable." alt="" coords="5,5,277,60"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a103e061814fc6760410734c7a83f9a83" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="325,13,611,53"/>
+<area shape="rect" id="Node000001" title="Handler for MonitorActivationReason.NewDmbAvailable." alt="" coords="5,5,277,61"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a103e061814fc6760410734c7a83f9a83" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="325,13,609,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="277,31,309,31,309,36,277,36"/>
 </map>

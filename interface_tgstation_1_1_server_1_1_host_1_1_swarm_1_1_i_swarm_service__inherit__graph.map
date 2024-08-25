@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Swarm.ISwarmService" name="Tgstation.Server.Host.Swarm.ISwarmService">
-<area shape="rect" id="node1" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="5,79,200,119"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html" title="Helps keep servers connected to the same database in sync by coordinating updates." alt="" coords="5,167,200,207"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html" title="Allows aborting a swarm distributed update operation." alt="" coords="27,5,178,31"/>
+<area shape="rect" id="Node000001" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="5,79,200,120"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html" title="Helps keep servers connected to the same database in sync by coordinating updates." alt="" coords="5,168,200,208"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="105,135,105,167,100,167,100,135"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html" title="Allows aborting a swarm distributed update operation." alt="" coords="27,5,178,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,46,105,79,100,79,100,46"/>
 </map>

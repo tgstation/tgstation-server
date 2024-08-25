@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.HookExecuteAction" name="Tgstation.Server.Host.Controllers.ApiController.HookExecuteAction">
-<area shape="rect" id="node1" title="Hook for executing a request. A ValueTask&lt;TResult&gt; resulting in an IActionResult that,..." alt="" coords="5,37,221,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a5333dd9534ea615440e2360016e75be4" title="Response for missing/Invalid headers." alt="" coords="269,5,485,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#aab2a7e4c6bd41c9374dadb115d3766c2" title="Performs validation a request." alt="" coords="269,69,485,109"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="533,5,749,45"/>
+<area shape="rect" id="Node000001" title="Hook for executing a request.A ValueTask&lt;TResult&gt; resulting in an IActionResult that,..." alt="" coords="5,39,221,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a5333dd9534ea615440e2360016e75be4" title="Response for missing/Invalid headers." alt="" coords="269,5,484,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,43,253,39,254,44,221,48"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#aab2a7e4c6bd41c9374dadb115d3766c2" title="Performs validation a request." alt="" coords="269,71,484,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="221,69,254,73,253,79,221,75"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="532,5,747,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="484,23,517,23,517,28,484,28"/>
 </map>

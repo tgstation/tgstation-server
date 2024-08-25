@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Api.Models.EngineVersion.Parse" name="Tgstation.Server.Api.Models.EngineVersion.Parse">
-<area shape="rect" id="node1" title="Parses a stringified EngineVersion." alt="" coords="5,5,192,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a72a930f9c271857a9d07e2a0fc491871" title="Attempts to parse a stringified EngineVersion." alt="" coords="240,5,427,45"/>
+<area shape="rect" id="Node000001" title="Parses a stringified EngineVersion." alt="" coords="5,5,192,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a72a930f9c271857a9d07e2a0fc491871" title="Attempts to parse a stringified EngineVersion." alt="" coords="240,5,426,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,23,224,23,224,28,192,28"/>
 </map>

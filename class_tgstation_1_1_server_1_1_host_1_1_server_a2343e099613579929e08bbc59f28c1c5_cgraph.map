@@ -1,8 +1,14 @@
 <map id="Tgstation.Server.Host.Server.TryStartUpdate" name="Tgstation.Server.Host.Server.TryStartUpdate">
-<area shape="rect" id="node1" title="Attempt to update with a given updateExecutor . true if the update started successfully,..." alt="" coords="5,48,197,88"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f" title="Throws an InvalidOperationException if the IServerControl cannot be used." alt="" coords="552,5,744,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a8ce371405040dc3ce0e6c6ba7072325e" title="Executes a pending server update by extracting the new server to a given updatePath ." alt="" coords="245,48,492,88"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2" title="Implements Restart()." alt="" coords="273,112,465,152"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d" title="Fires off the cancellationTokenSource without any checks, shutting down everything." alt="" coords="552,97,744,137"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="540,162,756,217"/>
+<area shape="rect" id="Node000001" title="Attempt to update with a given updateExecutor .true if the update started successfully,..." alt="" coords="5,48,197,89"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f" title="Throws an InvalidOperationException if the IServerControl cannot be used." alt="" coords="551,5,742,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,45,244,34,396,22,535,20,535,26,397,27,245,39,183,50"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a8ce371405040dc3ce0e6c6ba7072325e" title="Executes a pending server update by extracting the new server to a given updatePath ." alt="" coords="245,48,491,89"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="197,66,229,66,229,71,197,71"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2" title="Implements Restart()." alt="" coords="272,113,464,154"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="188,87,268,106,266,112,186,92"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="453,110,490,98,593,51,595,56,492,103,455,115"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d" title="Fires off the cancellationTokenSource without any checks, shutting down everything." alt="" coords="551,99,742,139"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="464,126,535,122,535,128,464,131"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="539,163,754,219"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="464,151,524,163,523,168,463,156"/>
 </map>

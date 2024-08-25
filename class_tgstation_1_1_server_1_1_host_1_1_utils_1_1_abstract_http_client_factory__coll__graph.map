@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Utils.AbstractHttpClientFactory" name="Tgstation.Server.Host.Utils.AbstractHttpClientFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="456,77,637,117"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="33,5,209,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="31,55,210,80"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="21,105,220,145"/>
-<area shape="rect" id="node5" title=" " alt="" coords="5,169,236,224"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="455,77,635,117"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="33,5,208,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,23,325,36,431,56,490,73,489,78,430,61,324,41,223,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="32,55,209,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,72,454,88,454,93,225,77"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="22,105,219,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="235,120,430,109,454,107,455,112,431,114,235,125"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,169,236,225"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="251,178,340,162,430,140,497,115,499,120,431,145,341,167,252,183"/>
 </map>

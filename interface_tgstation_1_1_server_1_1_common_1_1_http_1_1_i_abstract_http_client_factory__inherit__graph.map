@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Common.Http.IAbstractHttpClientFactory" name="Tgstation.Server.Common.Http.IAbstractHttpClientFactory">
-<area shape="rect" id="node1" title="Creates IHttpClients." alt="" coords="5,37,209,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_common_1_1_http_1_1_http_client_factory.html" title="IAbstractHttpClientFactory that creates HttpClients." alt="" coords="261,5,435,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_abstract_http_client_factory.html" title=" " alt="" coords="257,69,439,109"/>
+<area shape="rect" id="Node000001" title="Creates IHttpClients." alt="" coords="5,39,209,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_common_1_1_http_1_1_http_client_factory.html" title="IAbstractHttpClientFactory that creates HttpClients." alt="" coords="260,5,434,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,40,259,35,260,40,225,45"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_abstract_http_client_factory.html" title=" " alt="" coords="257,71,437,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,72,257,76,256,82,224,77"/>
 </map>

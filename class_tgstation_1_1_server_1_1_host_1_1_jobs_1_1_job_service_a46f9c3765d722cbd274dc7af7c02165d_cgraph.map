@@ -1,4 +1,13 @@
 <map id="Tgstation.Server.Host.Jobs.JobService.StopAsync" name="Tgstation.Server.Host.Jobs.JobService.StopAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,13,188,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="236,5,452,60"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,107,187,147"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab01da8111a05f92c51fc1c9a855cbb92" title="Cancels a give job .A ValueTask&lt;TResult&gt; resulting in the updated job &#160;if it was cancelled,..." alt="" coords="252,71,433,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,111,236,104,237,109,187,116"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="235,135,450,191"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="187,138,219,142,219,148,187,143"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a674342b0dc8050c0ab42a299aa4a7762" title="Cancels task." alt="" coords="527,5,708,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="430,67,513,48,514,53,432,73"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="498,71,736,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="434,88,482,88,482,94,434,94"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a857174cbad81d2ecf5d455346c8cd694" title="Wait for task to complete." alt="" coords="527,136,708,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="432,109,514,129,513,134,430,115"/>
 </map>

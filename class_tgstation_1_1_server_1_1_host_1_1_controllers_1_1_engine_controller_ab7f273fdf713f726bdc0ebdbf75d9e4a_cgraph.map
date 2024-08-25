@@ -1,6 +1,13 @@
 <map id="Tgstation.Server.Host.Controllers.EngineController.Update" name="Tgstation.Server.Host.Controllers.EngineController.Update">
-<area shape="rect" id="node1" title="Changes the active engine version to the one specified in a given model ." alt="" coords="5,69,221,109"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#aa99c11372e2e7aa5fc84e2cc6f12eb8e" title="Create a IFileUploadTicket." alt="" coords="269,5,531,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html#a90c626bc2cabc1b6274e3903bf77c6c9" title="Validate and normalize a given version ." alt="" coords="275,69,525,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a9e5262a00e199825c5f7e2f25d6d76f0" title="Run a given action &#160;with the relevant IInstance." alt="" coords="283,134,517,189"/>
+<area shape="rect" id="Node000001" title="Changes the active engine version to the one specified in a given model ." alt="" coords="5,104,221,145"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#aa99c11372e2e7aa5fc84e2cc6f12eb8e" title="Create a IFileUploadTicket." alt="" coords="269,5,529,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,101,268,56,294,48,296,53,270,62,160,106"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95" title="Registers a given Job and begins running it." alt="" coords="297,71,501,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,109,281,102,282,107,221,114"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html#a90c626bc2cabc1b6274e3903bf77c6c9" title="Validate and normalize a given version ." alt="" coords="275,136,523,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="221,134,260,138,259,143,221,139"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a9e5262a00e199825c5f7e2f25d6d76f0" title="Run a given action &#160;with the relevant IInstance." alt="" coords="283,201,515,256"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="163,143,270,186,289,193,287,198,268,191,161,148"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html#a6c50de2719864e29aee2b19dc39fcaed" title="Remove the Version.Build from a given version &#160;if present." alt="" coords="577,136,833,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="523,154,562,154,562,159,523,159"/>
 </map>

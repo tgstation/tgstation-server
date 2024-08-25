@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordForwardingResponder" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordForwardingResponder">
-<area shape="rect" id="node1" title="An IResponder&lt;TGatewayEvent&gt; that forwards to another targetResponder." alt="" coords="69,152,349,192"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="140,79,279,104"/>
-<area shape="rect" id="node3" href="$class_i_responder.html" title=" " alt="" coords="5,5,211,31"/>
-<area shape="rect" id="node4" href="$class_i_responder.html" title=" " alt="" coords="235,5,386,31"/>
+<area shape="rect" id="Node000001" title="An IResponder&lt;TGatewayEvent&gt; that forwards to another targetResponder." alt="" coords="68,153,347,193"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="138,79,277,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,120,210,152,205,152,205,120"/>
+<area shape="rect" id="Node000003" href="$class_i_responder.html" title=" " alt="" coords="5,5,210,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="138,38,192,76,189,81,135,42"/>
+<area shape="rect" id="Node000004" href="$class_i_responder.html" title=" " alt="" coords="234,5,384,31"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="281,43,226,81,223,76,278,38"/>
 </map>

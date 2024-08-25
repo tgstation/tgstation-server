@@ -1,11 +1,19 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.UnregisterNode" name="Tgstation.Server.Host.Swarm.SwarmService.UnregisterNode">
-<area shape="rect" id="node1" title="Attempt to unregister a node with a given registrationId &#160;with the controller. A ValueTask representi..." alt="" coords="5,185,207,225"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae8730853752e924741c38443a557c16f" title="Attempt to abort an uncommitted update. A ValueTask representing the running operation...." alt="" coords="270,85,465,125"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac4194e4d0fb3cad95550e55859228529" title="Set serversDirty and complete the current forceHealthCheckTcs." alt="" coords="262,149,473,189"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0833d2372f5d079819d26aedcae6ddd0" title="Gets the Api.Models.Internal.SwarmServer.Identifier from a given registrationId ." alt="" coords="257,213,477,268"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#afd69b7671a16d3081393af03b3a52cb5" title="Complete the current forceHealthCheckTcs." alt="" coords="255,293,480,333"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2d25eadf43c0a581335ab5f4dba51e5f" title="Sends out remote abort update requests." alt="" coords="528,85,756,125"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="823,5,1029,60"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa9e9a887a475c9bbb5f90ae89867b350" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="804,85,1048,125"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="818,149,1034,204"/>
+<area shape="rect" id="Node000001" title="Attempt to unregister a node with a given registrationId &#160;with the controller.A ValueTask representin..." alt="" coords="5,186,206,227"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae8730853752e924741c38443a557c16f" title="Attempt to abort an uncommitted update.A ValueTask representing the running operation...." alt="" coords="269,85,463,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,183,253,136,274,128,276,133,255,141,149,188"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac4194e4d0fb3cad95550e55859228529" title="Set serversDirty and complete the current forceHealthCheckTcs." alt="" coords="261,150,471,191"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="206,190,245,184,246,190,206,195"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0833d2372f5d079819d26aedcae6ddd0" title="Gets the Api.Models.Internal.SwarmServer.Identifier from a given registrationId ." alt="" coords="256,215,476,270"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="206,218,241,223,240,228,206,223"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#afd69b7671a16d3081393af03b3a52cb5" title="Complete the current forceHealthCheckTcs." alt="" coords="254,294,478,335"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="143,225,195,253,255,280,272,286,270,291,253,285,193,258,141,230"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2d25eadf43c0a581335ab5f4dba51e5f" title="Sends out remote abort update requests." alt="" coords="526,85,753,126"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="464,103,511,103,511,108,464,108"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="820,5,1026,61"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="722,82,804,61,805,66,723,87"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa9e9a887a475c9bbb5f90ae89867b350" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="801,85,1045,126"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="754,103,786,103,786,108,754,108"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="815,149,1031,205"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="723,124,801,143,799,149,722,129"/>
 </map>

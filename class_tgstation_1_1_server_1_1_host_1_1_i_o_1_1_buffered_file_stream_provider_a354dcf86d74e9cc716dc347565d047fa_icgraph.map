@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResultInternal" name="Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResultInternal">
-<area shape="rect" id="node1" title="Gets the shared MemoryStream and its Stream.Length." alt="" coords="259,45,464,100"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a1cca5ec2b5264f423823956acf25d8ac" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="5,5,211,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a413ee02b56e08b0885d039dfc05f36de" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,84,211,139"/>
+<area shape="rect" id="Node000001" title="Gets the shared MemoryStream and its Stream.Length." alt="" coords="258,45,462,101"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a1cca5ec2b5264f423823956acf25d8ac" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="5,5,210,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,57,210,52,211,47,243,52"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a413ee02b56e08b0885d039dfc05f36de" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,85,210,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="243,94,211,100,210,94,242,89"/>
 </map>

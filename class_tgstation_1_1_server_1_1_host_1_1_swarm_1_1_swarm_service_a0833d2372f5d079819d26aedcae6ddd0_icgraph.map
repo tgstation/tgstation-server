@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.NodeIdentifierFromRegistration" name="Tgstation.Server.Host.Swarm.SwarmService.NodeIdentifierFromRegistration">
-<area shape="rect" id="node1" title="Gets the Api.Models.Internal.SwarmServer.Identifier from a given registrationId ." alt="" coords="308,30,528,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a4eb3f6f8b8b60249e8307dbe5aede15d" title="Notify the controller that the node with the given registrationId &#160;is ready to commit or notify the n..." alt="" coords="5,5,260,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a19995c107d8efaee1fe2dfdda5c509cc" title="Attempt to unregister a node with a given registrationId &#160;with the controller. A ValueTask representi..." alt="" coords="32,69,233,109"/>
+<area shape="rect" id="Node000001" title="Gets the Api.Models.Internal.SwarmServer.Identifier from a given registrationId ." alt="" coords="307,31,526,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a4eb3f6f8b8b60249e8307dbe5aede15d" title="Notify the controller that the node with the given registrationId &#160;is ready to commit or notify the n..." alt="" coords="5,5,259,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="291,47,259,43,260,38,291,42"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a19995c107d8efaee1fe2dfdda5c509cc" title="Attempt to unregister a node with a given registrationId &#160;with the controller.A ValueTask representin..." alt="" coords="32,71,232,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="292,76,233,82,232,77,291,70"/>
 </map>

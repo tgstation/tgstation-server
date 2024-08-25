@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Extensions.WebHostBuilderExtensions.ConfigureApplication" name="Tgstation.Server.Host.Extensions.WebHostBuilderExtensions.ConfigureApplication">
-<area shape="rect" id="node1" title="Configures a given applicationBuilder ." alt="" coords="324,5,624,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_web_host_builder_extensions.html#aef4882be6f208b3487c64adb80660476" title="Workaround for using the Application class for server startup." alt="" coords="5,5,276,45"/>
+<area shape="rect" id="Node000001" title="Configures a given applicationBuilder ." alt="" coords="323,5,622,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_web_host_builder_extensions.html#aef4882be6f208b3487c64adb80660476" title="Workaround for using the Application class for server startup." alt="" coords="5,5,275,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="307,28,275,28,275,23,307,23"/>
 </map>

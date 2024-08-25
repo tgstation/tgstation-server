@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.MarkServersDirty" name="Tgstation.Server.Host.Swarm.SwarmService.MarkServersDirty">
-<area shape="rect" id="node1" title="Set serversDirty and complete the current forceHealthCheckTcs." alt="" coords="255,37,465,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a3c3257b2cbbae59658945fe7d699b7a9" title="Attempt to register a given node &#160;with the controller. A ValueTask&lt;TResult&gt; resulting in true if the ..." alt="" coords="9,5,203,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a19995c107d8efaee1fe2dfdda5c509cc" title="Attempt to unregister a node with a given registrationId &#160;with the controller. A ValueTask representi..." alt="" coords="5,69,207,109"/>
+<area shape="rect" id="Node000001" title="Set serversDirty and complete the current forceHealthCheckTcs." alt="" coords="254,39,463,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a3c3257b2cbbae59658945fe7d699b7a9" title="Attempt to register a given node &#160;with the controller.A ValueTask&lt;TResult&gt; resulting in true if the r..." alt="" coords="8,5,203,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,46,203,41,204,36,238,40"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a19995c107d8efaee1fe2dfdda5c509cc" title="Attempt to unregister a node with a given registrationId &#160;with the controller.A ValueTask representin..." alt="" coords="5,71,206,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="238,77,206,81,206,76,238,72"/>
 </map>

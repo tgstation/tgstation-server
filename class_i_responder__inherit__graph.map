@@ -1,7 +1,10 @@
 <map id="IResponder" name="IResponder">
-<area shape="rect" id="node1" title=" " alt="" coords="5,60,93,85"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="141,5,368,60"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="141,84,368,139"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_forwarding_responder.html" title="An IResponder&lt;TGatewayEvent&gt; that forwards to another targetResponder." alt="" coords="416,17,696,57"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html" title="IProvider for the Discord app." alt="" coords="443,85,669,125"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,60,93,86"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="141,5,367,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,59,140,53,141,58,109,64"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="141,85,367,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="109,82,141,88,140,94,108,87"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_forwarding_responder.html" title="An IResponder&lt;TGatewayEvent&gt; that forwards to another targetResponder." alt="" coords="415,53,694,94"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="383,48,415,52,414,57,382,53"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="382,93,414,89,415,94,383,99"/>
 </map>

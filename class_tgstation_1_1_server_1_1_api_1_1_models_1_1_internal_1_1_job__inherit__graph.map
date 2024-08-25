@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Api.Models.Internal.Job" name="Tgstation.Server.Api.Models.Internal.Job">
-<area shape="rect" id="node1" title="Represents a long running job." alt="" coords="119,79,305,119"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html" title="Represents a long running job on the server. Model is read&#45;only, updates attempt to cancel the job." alt="" coords="5,167,192,207"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html" title=" " alt="" coords="217,174,434,199"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="179,5,245,31"/>
+<area shape="rect" id="Node000001" title="Represents a long running job." alt="" coords="117,79,304,120"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html" title="Represents a long running job on the server. Model is read&#45;only, updates attempt to cancel the job." alt="" coords="5,168,192,208"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="175,131,125,169,122,165,172,127"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html" title=" " alt="" coords="216,175,432,201"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="250,127,310,173,307,177,247,132"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="178,5,243,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,46,213,79,208,79,208,46"/>
 </map>

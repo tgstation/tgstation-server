@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.IO.SynchronousIOManager.CreateDirectory" name="Tgstation.Server.Host.IO.SynchronousIOManager.CreateDirectory">
-<area shape="rect" id="node1" title="Create an empty directory at path . true if the directory already existed, false otherwise." alt="" coords="5,5,259,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#ac1b1a366625c83d9e7cc57acabca1d98" title="Checks if a given path &#160;is a directory. true if path &#160;is a directory, false otherwise." alt="" coords="307,5,533,45"/>
+<area shape="rect" id="Node000001" title="Create an empty directory at path .true if the directory already existed, false otherwise." alt="" coords="5,5,258,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#ac1b1a366625c83d9e7cc57acabca1d98" title="Checks if a given path &#160;is a directory.true if path &#160;is a directory, false otherwise." alt="" coords="306,5,531,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,23,290,23,290,28,258,28"/>
 </map>

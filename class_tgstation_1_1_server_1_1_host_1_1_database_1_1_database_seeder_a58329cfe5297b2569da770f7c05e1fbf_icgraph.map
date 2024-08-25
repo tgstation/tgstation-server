@@ -1,8 +1,15 @@
 <map id="Tgstation.Server.Host.Database.DatabaseSeeder.SeedAdminUser" name="Tgstation.Server.Host.Database.DatabaseSeeder.SeedAdminUser">
-<area shape="rect" id="node1" title="Add a default admin User to a given databaseContext ." alt="" coords="819,95,1035,135"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a302d5aab480a8a4599d92f1126d79d10" title="Get or create the admin User." alt="" coords="561,63,771,103"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a59c3f85134ebd165aaa4df15c45d3901" title="Initially seed a given databaseContext ." alt="" coords="561,127,771,167"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a374a1163eaa6f02afb419449a4478b48" title="Changes the admin password in IDatabaseContext back to it&#39;s default, enables the account,..." alt="" coords="263,5,513,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#acccb4650f7b19158f0241418c7345719" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="277,69,499,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext . A ValueTask representing the running operation." alt="" coords="5,69,215,109"/>
+<area shape="rect" id="Node000001" title="Add a default admin User to a given databaseContext ." alt="" coords="815,96,1031,137"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a302d5aab480a8a4599d92f1126d79d10" title="Get or create the admin User." alt="" coords="559,63,767,103"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="799,103,767,99,768,94,800,98"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a59c3f85134ebd165aaa4df15c45d3901" title="Initially seed a given databaseContext ." alt="" coords="559,128,767,169"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="800,134,768,138,767,133,799,129"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a374a1163eaa6f02afb419449a4478b48" title="Changes the admin password in IDatabaseContext back to it&#39;s default, enables the account,..." alt="" coords="262,5,511,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="546,62,487,49,489,44,547,56"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#acccb4650f7b19158f0241418c7345719" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="276,71,497,111"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="543,89,497,90,497,85,543,84"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext .A ValueTask representing the running operation." alt="" coords="5,71,214,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="283,53,199,73,198,67,282,48"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="260,94,214,94,214,88,260,88"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="543,148,408,141,261,126,199,115,199,109,262,120,408,135,544,143"/>
 </map>

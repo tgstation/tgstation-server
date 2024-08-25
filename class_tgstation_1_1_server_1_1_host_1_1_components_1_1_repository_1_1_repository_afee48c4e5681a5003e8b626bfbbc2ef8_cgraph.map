@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository.GeneratePushOptions" name="Tgstation.Server.Host.Components.Repository.Repository.GeneratePushOptions">
-<area shape="rect" id="node1" title=" " alt="" coords="5,13,284,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="332,13,561,53"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="609,5,829,60"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,283,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="331,13,559,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="283,31,315,31,315,36,283,36"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="607,5,826,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="560,31,591,31,591,36,560,36"/>
 </map>

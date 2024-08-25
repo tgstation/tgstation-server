@@ -1,12 +1,5 @@
 <map id="Tgstation.Server.Host.Setup.SetupWizard.ExecuteAsync" name="Tgstation.Server.Host.Setup.SetupWizard.ExecuteAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,221,193,261"/>
-<area shape="rect" id="node2" href="$_setup_wizard_8cs.html#a01b0e7396617d57f71e59a26e0f78f3b" title="Check if it should and run the SetupWizard if necessary." alt="" coords="241,228,363,253"/>
-<area shape="rect" id="node3" href="$_setup_wizard_8cs.html#aada1bd5b44415cd45d3e19b0f03294b9" title="Runs the SetupWizard." alt="" coords="411,179,495,204"/>
-<area shape="rect" id="node10" href="$_setup_wizard_8cs.html#a63455458508a890448f434fbfa83915f" title="Saves a given Configuration set to userConfigFileName ." alt="" coords="557,301,683,327"/>
-<area shape="rect" id="node4" href="$_setup_wizard_8cs.html#a075ad1fc71f82da3a1aa2e2389fc07d8" title="Prompts the user to create a ControlPanelConfiguration." alt="" coords="545,5,695,31"/>
-<area shape="rect" id="node5" href="$_setup_wizard_8cs.html#af2d535605617f095ffd643cebb79e899" title="Prompts the user to create a ElasticsearchConfiguration." alt="" coords="543,55,697,80"/>
-<area shape="rect" id="node6" href="$_setup_wizard_8cs.html#a55010aaa9334ef9f8fe717198150cd34" title="Prompts the user to create a GeneralConfiguration." alt="" coords="559,104,681,129"/>
-<area shape="rect" id="node7" href="$_setup_wizard_8cs.html#a6e1cc5560d2955aa63df7edd5e718b9b" title="Prompts the user to create a FileLoggingConfiguration." alt="" coords="559,153,681,179"/>
-<area shape="rect" id="node8" href="$_setup_wizard_8cs.html#aaa06f0bd52396b3c3368e2c551b32b11" title="Prompts the user to create a SwarmConfiguration." alt="" coords="561,203,679,228"/>
-<area shape="rect" id="node9" href="$_setup_wizard_8cs.html#a519b2d81023e5b0665a62ca53c95c017" title="Prompts the user to create a TelemetryConfiguration." alt="" coords="553,252,687,277"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,193,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a2c5ad54a8ada6c15c999dd56c3887a5d" title="Check if it should and run the SetupWizard if necessary." alt="" coords="241,5,437,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,23,225,23,225,28,193,28"/>
 </map>

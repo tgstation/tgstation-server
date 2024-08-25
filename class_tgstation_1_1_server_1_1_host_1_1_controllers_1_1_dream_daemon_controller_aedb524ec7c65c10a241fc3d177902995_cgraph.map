@@ -1,10 +1,18 @@
 <map id="Tgstation.Server.Host.Controllers.DreamDaemonController.Update" name="Tgstation.Server.Host.Controllers.DreamDaemonController.Update">
-<area shape="rect" id="node1" title="Update watchdog settings to be applied at next server reboot." alt="" coords="5,120,221,160"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html#a5a1124502330220abb9c651d8154499f" title="Gets a port not currently in use by TGS." alt="" coords="285,5,487,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType . The value of rightsType . Note that if InstancePermissionSet is..." alt="" coords="551,92,753,132"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a8e382cc519b4dfe9247697ad9e726e4f" title="Implementation of Read(CancellationToken)." alt="" coords="275,120,497,160"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext. A Task representing the running operation." alt="" coords="281,184,491,224"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a9e5262a00e199825c5f7e2f25d6d76f0" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,249,503,303"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="801,60,992,100"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="805,124,988,164"/>
+<area shape="rect" id="Node000001" title="Update watchdog settings to be applied at next server reboot." alt="" coords="5,120,221,161"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html#a5a1124502330220abb9c651d8154499f" title="Gets a port not currently in use by TGS." alt="" coords="284,5,486,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,117,268,62,301,49,303,54,270,67,154,122"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="549,92,751,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,117,268,106,406,99,533,102,533,107,406,104,269,111,200,122"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a8e382cc519b4dfe9247697ad9e726e4f" title="Implementation of Read(CancellationToken)." alt="" coords="275,120,495,161"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="221,138,259,138,259,143,221,143"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="281,185,489,226"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="201,159,283,179,282,184,200,164"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a9e5262a00e199825c5f7e2f25d6d76f0" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,250,501,306"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="144,159,201,197,270,235,283,241,280,246,267,240,198,201,141,163"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="799,59,990,99"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="752,96,784,91,784,97,752,101"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="804,124,985,165"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="752,123,789,128,788,133,752,128"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="495,126,533,122,534,127,496,131"/>
 </map>

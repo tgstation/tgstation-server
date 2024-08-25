@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.InstanceRenamed" name="Tgstation.Server.Host.Components.Session.SessionController.InstanceRenamed">
-<area shape="rect" id="node1" title="Called when the owning Instance is renamed. A ValueTask representing the running operation." alt="" coords="5,49,288,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html#a2e0514042ce054cca3bc732843b6d250" title="Initializes a new instance of the TopicParameters class." alt="" coords="349,5,589,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a013461712a40946a3ac6590529df9e2e" title="Sends a command to DreamDaemon through /world/Topic(). A ValueTask&lt;TResult&gt; resulting in the TopicRes..." alt="" coords="336,85,603,125"/>
+<area shape="rect" id="Node000001" title="Called when the owning Instance is renamed.A ValueTask representing the running operation." alt="" coords="5,49,287,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html#a2e0514042ce054cca3bc732843b6d250" title="Initializes a new instance of the TopicParameters class." alt="" coords="348,5,587,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="287,51,332,46,333,51,287,56"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a013461712a40946a3ac6590529df9e2e" title="Sends a command to DreamDaemon through /world/Topic().A ValueTask&lt;TResult&gt; resulting in the TopicResp..." alt="" coords="335,85,600,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="287,82,320,86,319,91,287,88"/>
 </map>

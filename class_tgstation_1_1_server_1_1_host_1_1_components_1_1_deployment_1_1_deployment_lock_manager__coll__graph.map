@@ -1,10 +1,20 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DeploymentLockManager" name="Tgstation.Server.Host.Components.Deployment.DeploymentLockManager">
-<area shape="rect" id="node1" title="Manages locks on a given IDmbProvider." alt="" coords="884,102,1124,142"/>
-<area shape="rect" id="node2" href="$class_i_async_disposable.html" title=" " alt="" coords="5,47,132,72"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="181,40,408,80"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="244,104,345,130"/>
-<area shape="rect" id="node3" title=" " alt="" coords="603,167,721,192"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_lock.html" title="Represents a lock on a given IDmbProvider." alt="" coords="549,102,775,142"/>
-<area shape="rect" id="node5" title=" " alt="" coords="541,216,783,271"/>
-<area shape="rect" id="node8" title=" " alt="" coords="201,155,388,180"/>
+<area shape="rect" id="Node000001" title="Manages locks on a given IDmbProvider." alt="" coords="881,102,1120,143"/>
+<area shape="rect" id="Node000002" href="$class_i_async_disposable.html" title=" " alt="" coords="5,47,131,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,39,180,25,348,6,417,3,481,4,613,19,780,49,870,72,948,99,946,104,868,77,779,54,612,24,480,10,417,8,348,11,180,30,121,44"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="180,39,406,80"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="147,57,179,57,179,62,147,62"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="243,104,343,130"/>
+<area shape="poly" id="edge8_Node000007_Node000002" title=" " alt="" coords="128,75,181,89,243,104,242,109,179,94,127,80"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="601,167,718,192"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="732,165,880,140,881,145,733,170"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="422,62,592,72,780,88,881,101,880,106,779,93,592,77,422,67"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_lock.html" title="Represents a lock on a given IDmbProvider." alt="" coords="546,102,773,143"/>
+<area shape="poly" id="edge9_Node000006_Node000004" title=" " alt="" coords="407,81,431,85,547,104,546,109,430,91,406,86"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="539,217,780,273"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="760,209,779,202,944,141,946,146,781,207,762,214"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="788,120,880,120,880,125,788,125"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="359,115,546,118,546,123,359,121"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="201,155,386,180"/>
+<area shape="poly" id="edge10_Node000006_Node000008" title=" " alt="" coords="401,152,515,139,546,135,546,140,516,144,402,158"/>
 </map>

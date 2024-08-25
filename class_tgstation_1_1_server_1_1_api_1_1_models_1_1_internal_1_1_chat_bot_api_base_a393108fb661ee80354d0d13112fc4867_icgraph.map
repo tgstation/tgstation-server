@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Api.Models.Internal.ChatBotApiBase.ValidateProviderChannelTypes" name="Tgstation.Server.Api.Models.Internal.ChatBotApiBase.ValidateProviderChannelTypes">
-<area shape="rect" id="node1" title="Validates Channels are correct for the ChatBotSettings.Provider." alt="" coords="556,30,771,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a68a7da01a6b0e0cd0c2cfa551a0c533d" title="Perform some basic validation of a given model ." alt="" coords="269,37,508,77"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a930c1ed07039457ab6f9a8751fd462a6" title="Create a new chat bot model ." alt="" coords="5,5,221,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="5,69,221,109"/>
-</map>

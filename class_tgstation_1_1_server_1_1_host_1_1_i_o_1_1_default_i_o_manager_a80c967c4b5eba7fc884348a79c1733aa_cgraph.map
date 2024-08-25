@@ -1,10 +1,20 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectory" name="Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectory">
-<area shape="rect" id="node1" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,195,216,235"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc" title="Copies a directory from src &#160;to dest ." alt="" coords="264,133,499,173"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory. The full path of the current working directo..." alt="" coords="1127,135,1331,175"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e" title="Combines an array of strings into a path. The combined path." alt="" coords="557,5,755,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a4a19eba6ec1164aff77fe737dd979338" title="Copy a file from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="566,69,746,109"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a35975e796c564e8b5dd5d4a601d0c2e3" title="Create a directory at path . A Task representing the running operation." alt="" coords="547,133,765,173"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="561,197,751,237"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a38ca4ff226c098355ef1b316aa32421d" title="Creates an asynchronous FileStream for sequential writing. The open FileStream." alt="" coords="813,62,1079,117"/>
+<area shape="rect" id="Node000001" title="Copies a directory from src &#160;to dest .A ValueTask representing the running operation." alt="" coords="5,197,215,238"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc" title="Copies a directory from src &#160;to dest ." alt="" coords="263,136,497,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,194,272,178,274,183,203,199"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory.The full path of the current working director..." alt="" coords="1124,136,1327,177"/>
+<area shape="poly" id="edge10_Node000001_Node000006" title=" " alt="" coords="215,226,371,240,545,251,654,256,702,256,763,251,863,237,963,219,1134,178,1135,184,964,224,864,243,764,256,702,261,654,262,545,256,370,245,215,231"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="329,136,327,126,335,117,353,111,380,109,409,112,426,118,424,123,408,117,380,115,354,117,338,121,332,127,335,135"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e" title="Combines an array of strings into a path.The combined path." alt="" coords="556,5,753,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="410,133,471,95,544,57,562,49,564,54,546,61,473,100,413,138"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a4a19eba6ec1164aff77fe737dd979338" title="Copy a file from src &#160;to dest .A ValueTask representing the running operation." alt="" coords="565,71,744,111"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="468,133,550,113,552,118,469,138"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a35975e796c564e8b5dd5d4a601d0c2e3" title="Create a directory at path .A Task representing the running operation." alt="" coords="545,136,763,177"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="498,154,529,154,529,159,498,159"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="560,201,749,242"/>
+<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="469,175,552,195,550,200,468,180"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a38ca4ff226c098355ef1b316aa32421d" title="Creates an asynchronous FileStream for sequential writing.The open FileStream." alt="" coords="811,63,1076,119"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="744,88,795,88,795,94,744,94"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="726,109,812,128,966,145,1108,152,1108,158,966,151,811,134,725,115"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="1067,117,1121,129,1120,135,1066,122"/>
 </map>

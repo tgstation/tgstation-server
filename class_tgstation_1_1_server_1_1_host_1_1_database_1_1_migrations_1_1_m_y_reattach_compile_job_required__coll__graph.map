@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MYReattachCompileJobRequired" name="Tgstation.Server.Host.Database.Migrations.MYReattachCompileJobRequired">
-<area shape="rect" id="node1" title="Marks the Models.CompileJobs of Models.ReattachInformations as non&#45;nullable for MySQL/MariaDB." alt="" coords="5,79,281,119"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="106,5,181,31"/>
+<area shape="rect" id="Node000001" title="Marks the Models.CompileJobs of Models.ReattachInformations as non&#45;nullable for MySQL/MariaDB." alt="" coords="5,79,281,120"/>
+<area shape="rect" id="Node000002" href="$class_migration.html" title=" " alt="" coords="106,5,180,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,46,146,79,140,79,140,46"/>
 </map>

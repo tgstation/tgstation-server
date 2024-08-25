@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.RootController.GetControlPanelActionLink" name="Tgstation.Server.Host.Controllers.RootController.GetControlPanelActionLink">
-<area shape="rect" id="node1" title="Gets a Tuple&lt;T1, T2&gt; giving the ControlPanelController and action names for a given actionExpression ..." alt="" coords="312,5,576,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a1a8f7276eb95a8b86a450c829e5bd69a" title="Workaround for the webpanel always expecting a trailing slash." alt="" coords="5,5,264,45"/>
+<area shape="rect" id="Node000001" title="Gets a Tuple&lt;T1, T2&gt; giving the ControlPanelController and action names for a given actionExpression ..." alt="" coords="312,5,575,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a1a8f7276eb95a8b86a450c829e5bd69a" title="Workaround for the webpanel always expecting a trailing slash." alt="" coords="5,5,264,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="296,28,264,28,264,23,296,23"/>
 </map>

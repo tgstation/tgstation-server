@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Api.Models.EngineVersion.Parse" name="Tgstation.Server.Api.Models.EngineVersion.Parse">
-<area shape="rect" id="node1" title="Parses a stringified EngineVersion." alt="" coords="315,5,501,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_engine_command.html#a50403340746f3bebdc3fe8e852cb545b" title="Invoke the ICommand. A ValueTask&lt;TResult&gt; resulting in a MessageContent to send to the invoker." alt="" coords="5,5,267,45"/>
+<area shape="rect" id="Node000001" title="Parses a stringified EngineVersion." alt="" coords="314,5,500,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_engine_command.html#a50403340746f3bebdc3fe8e852cb545b" title="Invoke the ICommand.A ValueTask&lt;TResult&gt; resulting in a MessageContent to send to the invoker." alt="" coords="5,5,266,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,28,266,28,266,23,298,23"/>
 </map>

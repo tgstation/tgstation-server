@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.IO.ResolvingIOManager.ResolvePath" name="Tgstation.Server.Host.IO.ResolvingIOManager.ResolvePath">
-<area shape="rect" id="node1" title="Retrieve the full path of some path &#160;given a relative path. Must be used before passing relative path..." alt="" coords="5,5,225,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e" title="Combines an array of strings into a path. The combined path." alt="" coords="273,5,472,45"/>
+<area shape="rect" id="Node000001" title="Retrieve the full path of some path &#160;given a relative path. Must be used before passing relative path..." alt="" coords="5,5,225,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e" title="Combines an array of strings into a path.The combined path." alt="" coords="273,5,470,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,23,257,23,257,28,225,28"/>
 </map>

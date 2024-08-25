@@ -1,7 +1,12 @@
 <map id="Tgstation.Server.Host.Server.CheckSanity" name="Tgstation.Server.Host.Server.CheckSanity">
-<area shape="rect" id="node1" title="Throws an InvalidOperationException if the IServerControl cannot be used." alt="" coords="504,69,696,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a0664caef3896a16c9f668177c68002d3" title="Register a given handler &#160;to run before stopping the server for a restart. A new IRestartRegistration..." alt="" coords="264,5,456,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2" title="Implements Restart()." alt="" coords="264,69,456,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a2343e099613579929e08bbc59f28c1c5" title="Attempt to update with a given updateExecutor . true if the update started successfully,..." alt="" coords="15,127,207,167"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a14a8a5126b790adbcf8fb81cc573acf1" title="Kill the server with a fatal exception. A Task representing the running operation." alt="" coords="5,77,216,102"/>
+<area shape="rect" id="Node000001" title="Throws an InvalidOperationException if the IServerControl cannot be used." alt="" coords="503,71,694,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a0664caef3896a16c9f668177c68002d3" title="Register a given handler &#160;to run before stopping the server for a restart.A new IRestartRegistration ..." alt="" coords="264,5,455,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="507,69,436,49,437,44,508,64"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2" title="Implements Restart()." alt="" coords="264,71,455,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="487,94,456,94,456,88,487,88"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a2343e099613579929e08bbc59f28c1c5" title="Attempt to update with a given updateExecutor .true if the update started successfully,..." alt="" coords="15,128,206,169"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="500,118,455,126,326,140,207,148,206,142,325,135,455,120,499,112"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a14a8a5126b790adbcf8fb81cc573acf1" title="Kill the server with a fatal exception.A Task representing the running operation." alt="" coords="5,78,216,104"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="248,94,216,94,216,88,248,88"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="254,118,203,130,201,125,253,113"/>
 </map>

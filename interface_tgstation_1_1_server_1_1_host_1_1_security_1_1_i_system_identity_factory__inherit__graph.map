@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Security.ISystemIdentityFactory" name="Tgstation.Server.Host.Security.ISystemIdentityFactory">
-<area shape="rect" id="node1" title="Factory for ISystemIdentitys." alt="" coords="5,37,207,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity_factory.html" title="ISystemIdentityFactory for posix systems." alt="" coords="256,5,457,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html" title="ISystemIdentityFactory for windows systems. Uses long running tasks due to potential networked domain..." alt="" coords="255,69,459,109"/>
+<area shape="rect" id="Node000001" title="Factory for ISystemIdentitys." alt="" coords="5,39,206,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity_factory.html" title="ISystemIdentityFactory for posix systems." alt="" coords="255,5,456,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,41,254,36,255,42,222,46"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html" title="ISystemIdentityFactory for windows systems. Uses long running tasks due to potential networked domain..." alt="" coords="254,71,457,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="222,71,253,75,253,81,221,76"/>
 </map>

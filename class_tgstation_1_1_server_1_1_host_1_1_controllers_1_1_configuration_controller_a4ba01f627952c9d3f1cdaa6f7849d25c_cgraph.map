@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.ConfigurationController.Directory" name="Tgstation.Server.Host.Controllers.ConfigurationController.Directory">
-<area shape="rect" id="node1" title="Get the contents of a directory at a directoryPath ." alt="" coords="5,13,221,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ac87ffe36eed57c689bd66ca2a08453a1" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="269,5,499,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855" title="Check if a path &#160;contains the &#39;..&#39; parent directory accessor." alt="" coords="547,13,800,53"/>
+<area shape="rect" id="Node000001" title="Get the contents of a directory at a directoryPath ." alt="" coords="5,13,221,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ac87ffe36eed57c689bd66ca2a08453a1" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="269,5,497,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,31,253,31,253,36,221,36"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855" title="Check if a path &#160;contains the &#39;..&#39; parent directory accessor." alt="" coords="545,13,797,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="497,31,529,31,529,36,497,36"/>
 </map>

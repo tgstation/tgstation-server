@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity" name="Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity">
-<area shape="rect" id="node1" title="Generic 501 response." alt="" coords="5,5,273,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="321,5,537,45"/>
+<area shape="rect" id="Node000001" title="Generic 501 response." alt="" coords="5,5,273,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="321,5,536,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="273,23,305,23,305,28,273,28"/>
 </map>

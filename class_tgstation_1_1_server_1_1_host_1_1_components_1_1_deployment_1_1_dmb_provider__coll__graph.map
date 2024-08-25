@@ -1,12 +1,22 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DmbProvider" name="Tgstation.Server.Host.Components.Deployment.DmbProvider">
-<area shape="rect" id="node1" title=" " alt="" coords="752,85,979,125"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider_base.html" title=" " alt="" coords="453,35,579,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="186,5,287,31"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,132,31"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="432,85,600,125"/>
-<area shape="rect" id="node6" title=" " alt="" coords="463,149,569,175"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker.html" title="Runs a given disposeAction on Dispose." alt="" coords="425,199,607,239"/>
-<area shape="rect" id="node8" href="$class_i_disposable.html" title=" " alt="" coords="191,157,282,183"/>
-<area shape="rect" id="node9" title=" " alt="" coords="181,207,292,232"/>
-<area shape="rect" id="node10" title=" " alt="" coords="217,256,256,281"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="747,85,973,125"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider_base.html" title=" " alt="" coords="449,35,576,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="592,58,746,83,746,89,591,63"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="185,5,285,31"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="301,13,313,13,398,13,501,11,546,13,603,20,664,34,724,54,803,81,801,87,722,59,663,39,602,25,545,18,501,17,398,18,313,18,301,18"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="301,22,449,38,449,44,300,28"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,131,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="146,16,184,16,184,21,146,21"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="429,85,596,125"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="612,102,746,102,746,108,612,108"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="460,149,565,175"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="579,149,746,121,747,126,580,154"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker.html" title="Runs a given disposeAction on Dispose." alt="" coords="422,199,603,240"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="615,192,722,160,813,123,815,128,724,165,616,197"/>
+<area shape="rect" id="Node000008" href="$class_i_disposable.html" title=" " alt="" coords="190,157,279,183"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="295,178,423,201,422,206,294,183"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="180,207,289,232"/>
+<area shape="poly" id="edge9_Node000007_Node000009" title=" " alt="" coords="305,217,422,217,422,222,305,222"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="215,256,254,282"/>
+<area shape="poly" id="edge10_Node000007_Node000010" title=" " alt="" coords="269,260,398,237,421,233,422,238,399,242,270,266"/>
 </map>

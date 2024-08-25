@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Client.Components.DreamMakerClient" name="Tgstation.Server.Client.Components.DreamMakerClient">
-<area shape="rect" id="node1" title=" " alt="" coords="33,79,238,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results." alt="" coords="5,5,119,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_maker_client.html" title="For managing the compiler." alt="" coords="143,5,277,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="33,79,237,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results." alt="" coords="5,5,118,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,41,119,77,115,80,81,44"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_maker_client.html" title="For managing the compiler." alt="" coords="142,5,274,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="189,44,155,80,151,77,185,41"/>
 </map>

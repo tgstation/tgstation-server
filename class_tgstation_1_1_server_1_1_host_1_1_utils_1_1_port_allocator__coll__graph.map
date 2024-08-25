@@ -1,13 +1,23 @@
 <map id="Tgstation.Server.Host.Utils.PortAllocator" name="Tgstation.Server.Host.Utils.PortAllocator">
-<area shape="rect" id="node1" title=" " alt="" coords="624,201,805,241"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html" title="Gets unassigned ports for use by TGS." alt="" coords="267,5,368,31"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="272,55,363,80"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="227,105,408,145"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="213,169,422,209"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="218,233,417,273"/>
-<area shape="rect" id="node7" title=" " alt="" coords="212,297,423,337"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="203,361,432,401"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="5,344,107,369"/>
-<area shape="rect" id="node10" title=" " alt="" coords="11,393,101,419"/>
-<area shape="rect" id="node11" title=" " alt="" coords="235,425,400,451"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="620,203,800,244"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html" title="Gets unassigned ports for use by TGS." alt="" coords="265,5,365,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="381,20,431,28,487,41,544,60,597,88,630,114,659,145,699,201,695,204,655,148,627,118,595,92,542,65,485,46,430,33,380,26"/>
+<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="270,55,360,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="376,70,481,88,541,105,597,128,625,144,651,163,692,201,688,205,647,167,622,148,595,133,539,110,480,93,375,75"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="225,105,405,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="421,140,507,157,597,180,657,200,656,205,595,185,506,162,420,145"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="211,170,419,211"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="435,198,620,213,619,219,434,203"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="216,235,414,276"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="429,245,596,232,619,230,620,235,596,237,429,250"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="210,301,420,341"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="434,300,514,284,595,264,659,242,660,247,597,269,515,289,435,305"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="201,366,429,407"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="444,365,520,346,595,316,622,300,648,280,688,242,692,246,651,284,625,304,597,321,522,351,445,371"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="5,349,106,375"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="122,366,201,373,200,378,121,371"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="11,399,100,424"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="115,403,200,395,200,400,115,408"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="233,431,397,456"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="412,439,457,433,505,423,552,407,594,384,631,352,661,314,683,275,698,243,703,245,688,278,665,317,635,356,598,389,554,412,506,428,458,438,413,444"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Engine.ByondInstallerBase.CreateInstallation" name="Tgstation.Server.Host.Components.Engine.ByondInstallerBase.CreateInstallation">
-<area shape="rect" id="node1" title="Creates an IEngineInstallation for a given version . The IEngineInstallation." alt="" coords="5,49,285,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="363,5,625,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#ae81b396e26cdbfd854cbb837811d4db0" title="Get the file name of the DreamDaemon executable." alt="" coords="333,85,655,125"/>
+<area shape="rect" id="Node000001" title="Creates an IEngineInstallation for a given version .The IEngineInstallation." alt="" coords="5,49,285,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="362,5,624,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="285,52,346,46,347,51,286,57"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a1f643204410dec1056257be64eb0be1a" title="Get the file name of the DreamDaemon executable." alt="" coords="333,85,653,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="286,81,318,84,317,90,285,86"/>
 </map>

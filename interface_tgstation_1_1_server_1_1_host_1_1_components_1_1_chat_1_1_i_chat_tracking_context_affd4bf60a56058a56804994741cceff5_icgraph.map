@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.IChatTrackingContext.SetChannelSink" name="Tgstation.Server.Host.Components.Chat.IChatTrackingContext.SetChannelSink">
-<area shape="rect" id="node1" title="Sets the channelSink &#160;for the IChatTrackingContext." alt="" coords="332,5,605,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a9c7045ef0230c1d6c2cf3f711ec6b9ba" title="Initializes a new instance of the SessionController class." alt="" coords="5,5,284,45"/>
+<area shape="rect" id="Node000001" title="Sets the channelSink &#160;for the IChatTrackingContext." alt="" coords="332,5,604,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a9c7045ef0230c1d6c2cf3f711ec6b9ba" title="Initializes a new instance of the SessionController class." alt="" coords="5,5,284,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="316,28,284,28,284,23,316,23"/>
 </map>

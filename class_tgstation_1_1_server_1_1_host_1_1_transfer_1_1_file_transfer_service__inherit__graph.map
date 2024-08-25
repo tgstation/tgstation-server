@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Transfer.FileTransferService" name="Tgstation.Server.Host.Transfer.FileTransferService">
-<area shape="rect" id="node1" title="Implementation of the file transfer service." alt="" coords="199,79,401,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html" title="Service for temporarily storing files to be downloaded or uploaded." alt="" coords="5,5,184,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html" title="Reads and writes to Streams associated with FileTicketResponses." alt="" coords="209,5,391,31"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="415,5,542,31"/>
+<area shape="rect" id="Node000001" title="Implementation of the file transfer service." alt="" coords="198,79,399,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html" title="Service for temporarily storing files to be downloaded or uploaded." alt="" coords="5,5,184,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,35,249,76,247,81,139,40"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html" title="Reads and writes to Streams associated with FileTicketResponses." alt="" coords="208,5,389,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="301,46,301,79,296,79,296,46"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="413,5,539,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="436,40,344,81,342,76,434,35"/>
 </map>

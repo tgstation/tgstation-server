@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Models.User.CreateUserResponse" name="Tgstation.Server.Host.Models.User.CreateUserResponse">
-<area shape="rect" id="node1" title="Generate a UserResponse from this." alt="" coords="5,69,201,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="253,5,442,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html#a0c4c85a1b94bc28e9ca083765992e7fa" title="Convert the PermissionSet to it&#39;s API form." alt="" coords="249,69,445,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#aa38ee7281d84a9e3cce242aa6df2dffc" title="Convert the UserGroup to it&#39;s API form." alt="" coords="249,133,445,173"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#a7697294db9b9e383c5bbef87f01e2b9f" title=" " alt="" coords="493,133,689,173"/>
+<area shape="rect" id="Node000001" title="Generate a UserResponse from this." alt="" coords="5,71,201,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="252,5,441,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,68,252,48,254,53,182,73"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html#a0c4c85a1b94bc28e9ca083765992e7fa" title="Convert the PermissionSet to it&#39;s API form." alt="" coords="249,71,444,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="201,88,233,88,233,94,201,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#aa38ee7281d84a9e3cce242aa6df2dffc" title="Convert the UserGroup to it&#39;s API form." alt="" coords="249,136,444,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="182,109,254,129,252,134,180,114"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#a7697294db9b9e383c5bbef87f01e2b9f" title=" " alt="" coords="492,136,687,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="445,154,477,154,477,159,445,159"/>
 </map>

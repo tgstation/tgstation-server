@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdogFactory" name="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdogFactory">
-<area shape="rect" id="node1" title="IWatchdogFactory for creating AdvancedWatchdogs." alt="" coords="5,152,243,192"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog_factory.html" title="IWatchdogFactory for creating PosixWatchdogs." alt="" coords="11,240,237,280"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html" title=" " alt="" coords="63,79,185,104"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html" title="For creating IWatchdogs." alt="" coords="61,5,187,31"/>
+<area shape="rect" id="Node000001" title="IWatchdogFactory for creating AdvancedWatchdogs." alt="" coords="5,153,242,193"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog_factory.html" title="IWatchdogFactory for creating PosixWatchdogs." alt="" coords="10,241,237,282"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="126,209,126,241,121,241,121,209"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html" title=" " alt="" coords="62,79,185,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,120,126,152,121,152,121,120"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html" title="For creating IWatchdogs." alt="" coords="60,5,187,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="126,46,126,79,121,79,121,46"/>
 </map>

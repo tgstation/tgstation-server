@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Setup.PostSetupServices" name="Tgstation.Server.Host.Setup.PostSetupServices">
-<area shape="rect" id="node1" title=" " alt="" coords="5,79,193,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html" title="Set of objects needed to configure an Core.Application." alt="" coords="30,5,169,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,79,193,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html" title="Set of objects needed to configure an Core.Application." alt="" coords="30,5,168,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,46,102,79,96,79,96,46"/>
 </map>

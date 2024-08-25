@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Transfer.IFileTransferStreamHandler.SetUploadStream" name="Tgstation.Server.Host.Transfer.IFileTransferStreamHandler.SetUploadStream">
-<area shape="rect" id="node1" title="Sets the Stream for a given ticketResponse &#160;associated with a pending upload." alt="" coords="500,5,788,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a6ad5ecb6e2fd792b0b3e88675e86e8cb" title="Uploads a file with a given ticket ." alt="" coords="236,5,452,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,5,188,45"/>
+<area shape="rect" id="Node000001" title="Sets the Stream for a given ticketResponse &#160;associated with a pending upload." alt="" coords="499,5,786,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a6ad5ecb6e2fd792b0b3e88675e86e8cb" title="Uploads a file with a given ticket ." alt="" coords="236,5,451,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="483,28,451,28,451,23,483,23"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,5,188,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="220,28,188,28,188,23,220,23"/>
 </map>

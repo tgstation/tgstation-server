@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Deployment.ICompileJobSink" name="Tgstation.Server.Host.Components.Deployment.ICompileJobSink">
-<area shape="rect" id="node1" title="Sink for CompileJobs." alt="" coords="5,79,232,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="29,5,208,31"/>
+<area shape="rect" id="Node000001" title="Sink for CompileJobs." alt="" coords="5,79,232,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="29,5,208,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,46,121,79,116,79,116,46"/>
 </map>

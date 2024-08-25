@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.DisposeAndNullControllersImpl" name="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.DisposeAndNullControllersImpl">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,34,277,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#afd7fb5a2e71e584df10c62620fb5e174" title=" " alt="" coords="325,5,642,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="277,45,309,41,309,47,277,50"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a59895d5671d2f658a9ac0f9dbda73dca" title="Asynchronously drain deploymentCleanupTasks." alt="" coords="334,70,633,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="277,73,319,78,318,83,277,79"/>
+</map>

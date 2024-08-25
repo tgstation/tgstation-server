@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.GetAllAccessibleTextChannels" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.GetAllAccessibleTextChannels">
-<area shape="rect" id="node1" title="Get all text IChannels accessible to and supported by the bot." alt="" coords="363,34,604,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a48adcd32348dbab4150bd2c8087623e0" title=" " alt="" coords="5,5,315,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a1494b2b91cc869199100c9338f91d864" title="Send a message to the IProvider. A ValueTask representing the running operation." alt="" coords="43,70,277,125"/>
-</map>

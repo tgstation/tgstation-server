@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository.CopyTo" name="Tgstation.Server.Host.Components.Repository.Repository.CopyTo">
-<area shape="rect" id="node1" title="Copies the current working directory to a given path . A ValueTask representing the running operation..." alt="" coords="5,101,232,141"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ae6d7a91652aa3732be0945ac09df7339" title="Copies a directory from src &#160;to dest ." alt="" coords="307,5,480,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f" title="For handling system specific necessities after a write." alt="" coords="292,69,495,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#abf71900cbac377408fda23dd147a3269" title="Check if a given sourceFilePath &#160;will need HandleWrite(string) called on a copy of it." alt="" coords="280,133,507,173"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="309,197,477,237"/>
+<area shape="rect" id="Node000001" title="Copies the current working directory to a given path .A ValueTask representing the running operation." alt="" coords="5,104,232,145"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ae6d7a91652aa3732be0945ac09df7339" title="Copies a directory from src &#160;to dest ." alt="" coords="306,5,479,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,101,279,56,302,49,304,54,281,62,169,106"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f" title="For handling system specific necessities after a write." alt="" coords="292,71,493,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,108,276,102,277,108,232,113"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#abf71900cbac377408fda23dd147a3269" title="Check if a given sourceFilePath &#160;will need HandleWrite(string) called on a copy of it." alt="" coords="280,136,505,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="232,135,265,139,264,144,232,140"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="309,201,476,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="170,143,281,186,304,194,302,199,279,191,168,148"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Server.Restart" name="Tgstation.Server.Host.Server.Restart">
+<area shape="rect" id="Node000001" title="Restarts the Host.A ValueTask representing the running operation." alt="" coords="379,5,570,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a35cea102f4540006ad8988efd9e8e911" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,5,331,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="363,28,331,28,331,23,363,23"/>
+</map>

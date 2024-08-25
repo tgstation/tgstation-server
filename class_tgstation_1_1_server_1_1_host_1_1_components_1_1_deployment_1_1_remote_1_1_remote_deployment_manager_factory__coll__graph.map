@@ -1,10 +1,17 @@
 <map id="Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory" name="Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="497,190,801,245"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="54,5,243,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="44,69,253,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html" title="Factory for IGitHubServices." alt="" coords="49,133,248,173"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html" title="Factory for creating IGitRemoteFeatures." alt="" coords="25,197,272,237"/>
-<area shape="rect" id="node6" title=" " alt="" coords="69,262,229,287"/>
-<area shape="rect" id="node7" title=" " alt="" coords="5,311,292,366"/>
-<area shape="rect" id="node8" title=" " alt="" coords="52,391,245,431"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="496,194,799,250"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="54,5,243,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="255,47,292,56,384,74,424,83,473,102,550,146,614,191,610,196,548,150,471,107,422,88,383,79,291,62,254,53"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="44,71,253,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="269,110,368,131,472,158,573,191,571,196,471,163,367,137,267,115"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html" title="Factory for IGitHubServices." alt="" coords="50,136,247,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="262,168,495,199,495,204,262,174"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html" title="Factory for creating IGitRemoteFeatures." alt="" coords="26,201,271,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="287,219,495,219,495,224,287,224"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="69,266,228,292"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="243,266,471,239,495,237,496,242,472,245,244,271"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="5,317,292,372"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="307,315,471,278,568,248,570,253,472,283,308,320"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="52,396,245,437"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="259,389,291,382,383,362,422,352,471,333,546,291,608,248,611,252,549,296,473,338,424,357,384,368,292,387,260,395"/>
 </map>

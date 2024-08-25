@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Models.ReattachInformationBase" name="Tgstation.Server.Host.Models.ReattachInformationBase">
-<area shape="rect" id="node1" title="Base class for ReattachInformation." alt="" coords="181,37,377,77"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session." alt="" coords="425,5,652,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information.html" title="Database representation of Components.Session.ReattachInformation." alt="" coords="441,69,637,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html" title="Common base for interop parameters." alt="" coords="5,45,133,70"/>
+<area shape="rect" id="Node000001" title="Base class for ReattachInformation." alt="" coords="181,39,376,79"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session." alt="" coords="424,5,650,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="391,42,423,38,424,43,392,47"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information.html" title="Database representation of Components.Session.ReattachInformation." alt="" coords="440,71,635,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="392,70,439,76,439,82,391,76"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html" title="Common base for interop parameters." alt="" coords="5,46,133,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,56,180,56,180,62,148,62"/>
 </map>

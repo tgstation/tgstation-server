@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Utils.GitHub.IGitHubService" name="Tgstation.Server.Host.Utils.GitHub.IGitHubService">
-<area shape="rect" id="node1" title="Service for interacting with the GitHub API." alt="" coords="32,5,213,45"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html" title="IGitHubService that exposes functions that require authentication." alt="" coords="5,93,240,133"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html" title="Service for interacting with the GitHub API. Authenticated or otherwise." alt="" coords="32,181,213,221"/>
+<area shape="rect" id="Node000001" title="Service for interacting with the GitHub API." alt="" coords="32,5,213,46"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html" title="IGitHubService that exposes functions that require authentication." alt="" coords="5,94,240,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,62,125,94,120,94,120,62"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html" title="Service for interacting with the GitHub API. Authenticated or otherwise." alt="" coords="32,183,213,223"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="125,150,125,182,120,182,120,150"/>
 </map>

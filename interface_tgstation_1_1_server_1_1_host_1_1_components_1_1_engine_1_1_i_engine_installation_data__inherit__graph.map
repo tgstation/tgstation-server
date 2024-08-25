@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Engine.IEngineInstallationData" name="Tgstation.Server.Host.Components.Engine.IEngineInstallationData">
-<area shape="rect" id="node1" title="Wraps data containing an engine installation." alt="" coords="180,37,407,77"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_repository_engine_installation_data.html" title="Implementation of IEngineInstallationData using a IRepository." alt="" coords="455,5,709,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_zip_stream_engine_installation_data.html" title="Implementation of IEngineInstallationData for a zip file in a Stream." alt="" coords="455,69,709,109"/>
-<area shape="rect" id="node2" href="$class_i_async_disposable.html" title=" " alt="" coords="5,45,132,70"/>
+<area shape="rect" id="Node000001" title="Wraps data containing an engine installation." alt="" coords="179,39,405,79"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_repository_engine_installation_data.html" title="Implementation of IEngineInstallationData using a IRepository." alt="" coords="453,5,706,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="420,41,452,38,453,43,421,47"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_zip_stream_engine_installation_data.html" title="Implementation of IEngineInstallationData for a zip file in a Stream." alt="" coords="454,71,706,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="421,71,453,74,453,80,420,76"/>
+<area shape="rect" id="Node000002" href="$class_i_async_disposable.html" title=" " alt="" coords="5,46,131,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,56,178,56,178,62,146,62"/>
 </map>

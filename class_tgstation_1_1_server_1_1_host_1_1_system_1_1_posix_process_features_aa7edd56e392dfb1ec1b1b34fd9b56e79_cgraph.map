@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore" name="Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore">
-<area shape="rect" id="node1" title="Set oom_score_adj for a given pid ." alt="" coords="5,5,233,60"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="281,13,452,53"/>
+<area shape="rect" id="Node000001" title="Set oom_score_adj for a given pid ." alt="" coords="5,5,233,61"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="281,13,451,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,31,265,31,265,36,233,36"/>
 </map>

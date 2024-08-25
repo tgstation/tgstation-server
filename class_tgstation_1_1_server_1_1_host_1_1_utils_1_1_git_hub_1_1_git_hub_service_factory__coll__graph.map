@@ -1,9 +1,15 @@
 <map id="Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory" name="Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="715,85,909,125"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html" title="Factory for IGitHubServices." alt="" coords="349,5,504,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="333,55,520,95"/>
-<area shape="rect" id="node4" title=" " alt="" coords="347,120,507,145"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html" title="Configuration for the automatic update system." alt="" coords="312,170,541,210"/>
-<area shape="rect" id="node6" title=" " alt="" coords="5,152,95,177"/>
-<area shape="rect" id="node7" title=" " alt="" coords="27,201,73,227"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="710,85,903,125"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html" title="Factory for IGitHubServices." alt="" coords="347,5,501,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="516,30,687,65,744,81,742,86,685,70,515,35"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="331,55,517,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="532,81,710,95,709,100,532,86"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="344,120,504,146"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="519,127,686,117,709,115,710,120,686,122,519,133"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html" title="Configuration for the automatic update system." alt="" coords="310,170,538,211"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="553,173,619,161,685,147,755,123,757,128,687,152,620,167,554,178"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="5,152,94,178"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="109,166,309,180,309,185,109,171"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="27,201,72,227"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="87,212,177,212,285,207,309,204,309,210,286,212,177,217,87,217"/>
 </map>

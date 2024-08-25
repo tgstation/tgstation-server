@@ -1,5 +1,0 @@
-<map id="RunWizard" name="RunWizard">
-<area shape="rect" id="node1" title="Runs the SetupWizard." alt="" coords="411,13,495,38"/>
-<area shape="rect" id="node2" href="$_setup_wizard_8cs.html#a01b0e7396617d57f71e59a26e0f78f3b" title="Check if it should and run the SetupWizard if necessary." alt="" coords="241,13,363,38"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#aa7320ced82b10bda77125684f2708839" title=" " alt="" coords="5,5,193,45"/>
-</map>

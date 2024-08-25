@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.SwarmController.HealthCheck" name="Tgstation.Server.Host.Controllers.SwarmController.HealthCheck">
-<area shape="rect" id="node1" title="Health check endpoint." alt="" coords="5,5,221,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f" title="Check that the RequestRegistrationId is valid." alt="" coords="269,5,507,45"/>
+<area shape="rect" id="Node000001" title="Health check endpoint." alt="" coords="5,5,221,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f" title="Check that the RequestRegistrationId is valid." alt="" coords="269,5,505,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,23,253,23,253,28,221,28"/>
 </map>

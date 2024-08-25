@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.SwarmController.CommitUpdate" name="Tgstation.Server.Host.Controllers.SwarmController.CommitUpdate">
-<area shape="rect" id="node1" title="Update commit endpoint." alt="" coords="5,37,221,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a57c5e7330722cd5de88f512432712b35" title="Notify the controller that the node with the given registrationId &#160;is ready to commit or notify the n..." alt="" coords="269,5,547,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f" title="Check that the RequestRegistrationId is valid." alt="" coords="289,69,527,109"/>
+<area shape="rect" id="Node000001" title="Update commit endpoint." alt="" coords="5,39,221,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a57c5e7330722cd5de88f512432712b35" title="Notify the controller that the node with the given registrationId &#160;is ready to commit or notify the n..." alt="" coords="269,5,545,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,44,253,40,254,46,221,49"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f" title="Check that the RequestRegistrationId is valid." alt="" coords="289,71,525,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,68,273,74,273,79,221,73"/>
 </map>

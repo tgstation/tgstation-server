@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager.OfflineInstance" name="Tgstation.Server.Host.Components.InstanceManager.OfflineInstance">
-<area shape="rect" id="node1" title="Offline an IInstance. A ValueTask representing the running operation." alt="" coords="5,101,232,141"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a5760fe527065407b364e674d2a9eaf1d" title="Cancels a give job ." alt="" coords="308,5,491,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="304,69,495,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="280,133,519,173"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="291,198,507,253"/>
+<area shape="rect" id="Node000001" title="Offline an IInstance.A ValueTask representing the running operation." alt="" coords="5,104,232,145"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a5760fe527065407b364e674d2a9eaf1d" title="Cancels a give job ." alt="" coords="308,5,490,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,101,279,56,304,48,306,53,281,62,168,106"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="304,71,494,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,108,289,101,289,107,232,114"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="280,136,518,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="232,135,264,138,264,144,232,140"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="291,201,507,256"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="171,143,281,186,299,192,297,197,279,191,169,148"/>
 </map>

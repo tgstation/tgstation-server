@@ -1,6 +1,10 @@
 <map id="Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateRequest" name="Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateRequest">
-<area shape="rect" id="node1" title="Performs validation a request. A ValueTask&lt;TResult&gt; resulting in an appropriate IActionResult on vali..." alt="" coords="5,19,260,73"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61" title="Get the IInstanceReference associated with given metadata ." alt="" coords="611,34,869,74"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext. A Task representing the running operation." alt="" coords="331,26,540,66"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#aba9306ee424759a221509c021cdf0cde" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="308,91,563,145"/>
+<area shape="rect" id="Node000001" title="Performs validation a request.A ValueTask&lt;TResult&gt; resulting in an appropriate IActionResult on valid..." alt="" coords="5,18,259,74"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61" title="Get the IInstanceReference associated with given metadata ." alt="" coords="608,34,866,74"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="259,17,306,11,433,3,489,5,560,11,646,27,645,32,560,17,489,10,433,8,307,17,259,23"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="329,26,538,66"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="259,43,314,43,314,49,259,49"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#aba9306ee424759a221509c021cdf0cde" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="307,90,560,146"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="252,72,300,83,299,89,251,77"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="560,89,622,75,623,81,561,94"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="FileResult" name="FileResult">
-<area shape="rect" id="node1" title=" " alt="" coords="73,5,153,31"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result.html" title="Very similar to FileStreamResult except it&#39;s IActionResultExecutor&lt;TResult&gt; contains a fix for https:..." alt="" coords="5,79,221,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="73,5,153,31"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result.html" title="Very similar to FileStreamResult except it&#39;s IActionResultExecutor&lt;TResult&gt; contains a fix for https:..." alt="" coords="5,79,221,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,46,116,79,110,79,110,46"/>
 </map>

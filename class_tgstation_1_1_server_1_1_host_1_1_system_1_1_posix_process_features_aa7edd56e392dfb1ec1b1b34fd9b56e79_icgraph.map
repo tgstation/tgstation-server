@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore" name="Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore">
-<area shape="rect" id="node1" title="Set oom_score_adj for a given pid ." alt="" coords="327,30,555,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a3c52667945d2a79849d2f1b8c52e7876" title="Run events on starting a process. A ValueTask&lt;TResult&gt; resulting in the process &#160;ID." alt="" coords="5,5,279,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#acf10e5a7e3f1d0482288f88babd2261f" title=" " alt="" coords="32,69,252,109"/>
+<area shape="rect" id="Node000001" title="Set oom_score_adj for a given pid ." alt="" coords="326,31,553,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a3c52667945d2a79849d2f1b8c52e7876" title="Run events on starting a process.A ValueTask&lt;TResult&gt; resulting in the process &#160;ID." alt="" coords="5,5,278,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="310,47,278,44,278,38,310,42"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#acf10e5a7e3f1d0482288f88babd2261f" title=" " alt="" coords="32,71,251,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="311,75,252,82,251,77,310,70"/>
 </map>

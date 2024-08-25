@@ -1,6 +1,11 @@
 <map id="Tgstation.Server.Host.Setup.SetupWizard.ConfigureDatabase" name="Tgstation.Server.Host.Setup.SetupWizard.ConfigureDatabase">
-<area shape="rect" id="node1" title="Prompts the user to create a DatabaseConfiguration." alt="" coords="5,49,212,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#acc633da006b738b03a5a24e879d1cade" title="Prompt the user for the DatabaseType." alt="" coords="260,49,483,89"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#acae9e2a36d9f2907a69390221443db34" title="Read a line from the IConsole." alt="" coords="531,5,699,45"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a1ea8d75d4508cc393e3445db997479f0" title="Write some text &#160;to the IConsole." alt="" coords="531,81,699,121"/>
+<area shape="rect" id="Node000001" title="Prompts the user to create a DatabaseConfiguration." alt="" coords="5,49,212,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#acc633da006b738b03a5a24e879d1cade" title="Prompt the user for the DatabaseType." alt="" coords="260,49,482,90"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,67,244,67,244,72,212,72"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#acae9e2a36d9f2907a69390221443db34" title="Read a line from the IConsole." alt="" coords="530,5,697,46"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="195,46,259,35,392,24,514,22,514,27,393,30,260,40,196,51"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a1ea8d75d4508cc393e3445db997479f0" title="Write some text &#160;to the IConsole." alt="" coords="530,83,697,123"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="193,88,260,99,393,107,514,105,514,111,392,112,259,104,193,93"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="482,47,514,41,515,46,483,52"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="483,82,515,87,514,92,482,88"/>
 </map>

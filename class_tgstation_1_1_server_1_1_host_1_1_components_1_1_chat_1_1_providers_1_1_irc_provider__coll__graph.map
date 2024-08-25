@@ -1,21 +1,40 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider" name="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider">
-<area shape="rect" id="node1" title="IProvider for internet relay chat." alt="" coords="988,599,1215,639"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="665,215,735,240"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="273,55,348,80"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,55,132,80"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="219,105,402,145"/>
-<area shape="rect" id="node6" title=" " alt="" coords="181,169,440,224"/>
-<area shape="rect" id="node7" title=" " alt="" coords="232,248,389,273"/>
-<area shape="rect" id="node8" title=" " alt="" coords="257,297,365,323"/>
-<area shape="rect" id="node9" title=" " alt="" coords="285,363,336,388"/>
-<area shape="rect" id="node10" title=" " alt="" coords="222,5,399,31"/>
-<area shape="rect" id="node11" title=" " alt="" coords="665,441,735,467"/>
-<area shape="rect" id="node12" title=" " alt="" coords="631,491,769,516"/>
-<area shape="rect" id="node13" title=" " alt="" coords="647,553,753,579"/>
-<area shape="rect" id="node14" title=" " alt="" coords="645,603,755,628"/>
-<area shape="rect" id="node15" title=" " alt="" coords="609,652,791,677"/>
-<area shape="rect" id="node16" title=" " alt="" coords="635,702,765,742"/>
-<area shape="rect" id="node17" title=" " alt="" coords="635,766,765,806"/>
-<area shape="rect" id="node18" title=" " alt="" coords="673,831,727,856"/>
-<area shape="rect" id="node19" title=" " alt="" coords="677,880,723,905"/>
+<area shape="rect" id="Node000001" title="IProvider for internet relay chat." alt="" coords="982,602,1208,643"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="661,215,730,240"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="746,243,795,264,851,293,908,330,960,374,1007,432,1044,496,1072,555,1089,600,1084,602,1067,557,1039,498,1002,435,956,377,905,334,848,298,792,269,744,248"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="272,55,345,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="361,71,466,93,526,112,583,137,640,175,682,212,679,216,636,180,580,142,524,117,465,98,360,77"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="5,55,131,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="146,65,272,65,272,70,146,70"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="218,105,399,145"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="415,145,582,188,661,213,660,218,581,193,414,150"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="180,169,437,225"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="453,206,660,222,660,227,453,211"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="231,249,387,275"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="402,262,489,260,581,252,660,235,661,240,582,257,489,265,402,267"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="255,299,362,324"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="377,309,475,303,528,295,581,283,631,262,673,238,675,243,634,267,582,288,529,300,475,308,378,315"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="284,364,334,390"/>
+<area shape="poly" id="edge17_Node000001_Node000009" title=" " alt="" coords="349,372,482,368,661,369,753,374,837,383,907,396,959,416,985,434,1008,457,1046,508,1073,559,1089,600,1084,602,1068,562,1041,511,1004,460,982,438,956,421,906,401,836,388,752,379,661,375,482,374,350,378"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="349,374,398,370,457,363,520,348,580,325,612,306,640,283,682,239,686,243,644,286,615,310,583,330,521,353,458,368,398,376,349,379"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="221,5,397,31"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="413,30,499,55,543,73,583,97,617,126,647,158,688,212,683,216,643,161,613,130,580,102,540,78,497,60,411,35"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="660,443,731,468"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="746,450,793,450,847,454,904,465,959,485,998,510,1033,541,1082,600,1078,603,1029,545,995,514,956,490,903,470,847,460,793,455,746,455"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="626,492,765,518"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="781,502,868,510,914,519,959,532,991,546,1021,564,1071,599,1068,604,1018,568,988,551,957,537,913,524,867,515,780,507"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="643,556,748,582"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="764,575,982,604,981,610,763,580"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="641,605,750,631"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="765,618,810,619,981,620,981,625,810,624,765,623"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="605,655,786,680"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="801,657,957,641,981,638,982,643,958,646,802,662"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="631,705,760,745"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="775,713,863,699,957,677,1006,660,1051,640,1053,645,1008,665,958,682,864,705,776,719"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="631,770,760,811"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="775,779,864,762,912,748,956,729,991,710,1022,686,1072,641,1076,645,1026,690,994,714,959,734,913,753,866,767,776,785"/>
+<area shape="rect" id="Node000018" title=" " alt="" coords="669,835,722,860"/>
+<area shape="poly" id="edge18_Node000001_Node000018" title=" " alt="" coords="737,846,785,843,841,836,901,820,956,795,999,760,1035,718,1063,676,1081,642,1086,644,1067,679,1039,721,1003,764,959,799,903,825,842,841,785,849,737,851"/>
+<area shape="rect" id="Node000019" title=" " alt="" coords="673,884,718,910"/>
+<area shape="poly" id="edge19_Node000001_Node000019" title=" " alt="" coords="734,899,782,902,840,900,901,887,930,876,956,862,984,839,1008,812,1046,750,1072,689,1086,642,1091,644,1077,691,1051,752,1012,815,988,843,959,866,932,881,902,893,841,905,782,907,734,905"/>
 </map>

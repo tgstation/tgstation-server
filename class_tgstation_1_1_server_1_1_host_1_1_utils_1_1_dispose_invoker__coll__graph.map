@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Utils.DisposeInvoker" name="Tgstation.Server.Host.Utils.DisposeInvoker">
-<area shape="rect" id="node1" title="Runs a given disposeAction on Dispose." alt="" coords="85,93,267,133"/>
-<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="5,5,96,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="121,5,231,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="273,5,311,31"/>
+<area shape="rect" id="Node000001" title="Runs a given disposeAction on Dispose." alt="" coords="84,94,264,135"/>
+<area shape="rect" id="Node000002" href="$class_i_disposable.html" title=" " alt="" coords="5,5,95,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,38,150,91,146,96,76,42"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="119,5,229,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,46,177,93,171,93,171,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="271,5,309,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="281,47,263,72,227,96,224,91,259,68,277,44"/>
 </map>

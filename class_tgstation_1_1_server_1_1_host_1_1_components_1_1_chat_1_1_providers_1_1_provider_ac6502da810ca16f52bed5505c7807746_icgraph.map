@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop" name="Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop">
-<area shape="rect" id="node1" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="296,13,565,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect. A Task representing the runni..." alt="" coords="5,5,248,60"/>
+<area shape="rect" id="Node000001" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="296,13,564,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect.A Task representing the runnin..." alt="" coords="5,5,248,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="280,36,248,36,248,31,280,31"/>
 </map>

@@ -1,11 +1,20 @@
 <map id="Tgstation.Server.Host.Controllers.ComponentInterfacingController" name="Tgstation.Server.Host.Controllers.ComponentInterfacingController">
-<area shape="rect" id="node1" title="ApiController for operations on IInstanceCores." alt="" coords="350,285,566,325"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="227,190,323,215"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="5,80,132,105"/>
-<area shape="rect" id="node4" href="$class_controller.html" title=" " alt="" coords="30,5,107,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="157,80,250,105"/>
-<area shape="rect" id="node6" title=" " alt="" coords="379,80,425,105"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="647,183,874,223"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_operations.html" title="Operations that can be performed on a given Models.Instance." alt="" coords="613,80,751,105"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="775,80,901,105"/>
+<area shape="rect" id="Node000001" title="ApiController for operations on IInstanceCores." alt="" coords="346,288,561,328"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="224,192,320,217"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="308,223,419,285,417,289,305,227"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="5,80,131,106"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="105,111,192,158,250,189,248,193,189,162,103,116"/>
+<area shape="rect" id="Node000004" href="$class_controller.html" title=" " alt="" coords="30,5,106,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="71,46,71,80,65,80,65,46"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="155,80,248,106"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="199,121,199,141,205,159,220,176,240,189,237,193,217,180,200,161,194,141,193,121"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="376,80,421,106"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="428,116,437,129,452,171,458,216,458,287,453,287,453,216,446,173,432,131,424,119"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="367,117,345,132,285,193,281,190,342,128,363,112"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="642,184,868,225"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="683,233,512,290,511,285,681,228"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_operations.html" title="Operations that can be performed on a given Models.Instance." alt="" coords="607,80,745,106"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="696,117,743,182,738,185,691,120"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="770,80,894,106"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="817,120,771,185,766,182,813,117"/>
 </map>

@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Transfer.FileTransferService.CreateUpload" name="Tgstation.Server.Host.Transfer.FileTransferService.CreateUpload">
-<area shape="rect" id="node1" title="Create a IFileUploadTicket. A new IFileUploadTicket." alt="" coords="5,37,223,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ab49e5041cfb7333ee413c9719046ae37" title="Generates a 40&#45;length secure ascii string." alt="" coords="271,5,501,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ab436e58d73b02b895c76ad21caf7d145" title="Queue an expireAction &#160;to run after TicketValidityMinutes." alt="" coords="281,69,491,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="549,69,731,109"/>
+<area shape="rect" id="Node000001" title="Create a IFileUploadTicket.A new IFileUploadTicket." alt="" coords="5,39,222,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ab49e5041cfb7333ee413c9719046ae37" title="Generates a 40&#45;length secure ascii string." alt="" coords="270,5,499,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,43,254,39,255,44,222,48"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ab436e58d73b02b895c76ad21caf7d145" title="Queue an expireAction &#160;to run after TicketValidityMinutes." alt="" coords="280,71,489,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="222,69,264,74,264,79,222,74"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="547,71,727,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="490,88,532,88,532,94,490,94"/>
 </map>

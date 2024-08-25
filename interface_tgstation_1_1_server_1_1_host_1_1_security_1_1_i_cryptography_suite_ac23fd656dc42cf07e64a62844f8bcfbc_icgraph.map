@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Security.ICryptographySuite.CheckUserPassword" name="Tgstation.Server.Host.Security.ICryptographySuite.CheckUserPassword">
-<area shape="rect" id="node1" title="Checks a given password &#160;matches a given user &#39;s User.PasswordHash. This may result in User...." alt="" coords="500,5,757,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a8c130b337cd8f08728c07a7f230707a6" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="236,5,452,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,5,188,45"/>
+<area shape="rect" id="Node000001" title="Checks a given password &#160;matches a given user &#39;s User.PasswordHash. This may result in User...." alt="" coords="499,5,755,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a8c130b337cd8f08728c07a7f230707a6" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="236,5,451,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="483,28,451,28,451,23,483,23"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,5,188,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="220,28,188,28,188,23,220,23"/>
 </map>

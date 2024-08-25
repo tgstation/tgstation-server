@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Host.Components.Engine.ByondInstallerBase" name="Tgstation.Server.Host.Components.Engine.ByondInstallerBase">
-<area shape="rect" id="node1" title="Base implementation of IEngineInstaller for EngineType.Byond." alt="" coords="505,86,732,126"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html" title=" " alt="" coords="181,5,318,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html" title="For downloading and installing game engines for a given system." alt="" coords="5,5,116,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="205,67,294,92"/>
-<area shape="rect" id="node5" title=" " alt="" coords="173,116,325,141"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html" title="Downloads files." alt="" coords="165,166,333,206"/>
+<area shape="rect" id="Node000001" title="Base implementation of IEngineInstaller for EngineType.Byond." alt="" coords="503,87,730,128"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html" title=" " alt="" coords="181,5,317,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="333,15,405,21,480,36,537,58,584,84,582,89,534,63,479,41,404,26,332,20"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html" title="For downloading and installing game engines for a given system." alt="" coords="5,5,116,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="131,16,180,16,180,21,131,21"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="205,68,293,94"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="309,82,503,97,503,102,308,88"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="173,117,324,143"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="340,129,479,125,503,123,503,128,480,130,340,135"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html" title="Downloads files." alt="" coords="165,167,332,208"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="347,174,479,151,560,126,561,131,480,156,348,179"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager.GetDirectories" name="Tgstation.Server.Host.IO.DefaultIOManager.GetDirectories">
-<area shape="rect" id="node1" title="Returns full directory names in a given path . A Task&lt;TResult&gt; resulting in the directories in path ." alt="" coords="5,5,219,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory. The full path of the current working directo..." alt="" coords="267,5,471,45"/>
+<area shape="rect" id="Node000001" title="Returns full directory names in a given path .A Task&lt;TResult&gt; resulting in the directories in path ." alt="" coords="5,5,218,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory.The full path of the current working director..." alt="" coords="266,5,469,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,23,250,23,250,28,218,28"/>
 </map>

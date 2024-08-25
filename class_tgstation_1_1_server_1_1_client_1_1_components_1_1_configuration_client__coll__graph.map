@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Client.Components.ConfigurationClient" name="Tgstation.Server.Client.Components.ConfigurationClient">
-<area shape="rect" id="node1" title=" " alt="" coords="107,257,313,297"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results." alt="" coords="5,162,119,187"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html" title="For managing IConfigurationFiles." alt="" coords="143,162,277,187"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance." alt="" coords="302,155,489,195"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="347,80,443,105"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="363,5,428,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="106,259,311,300"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results." alt="" coords="5,163,118,189"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,195,181,256,178,261,90,200"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html" title="For managing IConfigurationFiles." alt="" coords="142,163,275,189"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="211,204,211,258,206,258,206,204"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance." alt="" coords="299,155,485,196"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="345,206,245,261,242,256,342,201"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="345,80,440,106"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="395,122,395,155,390,155,390,122"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="360,5,424,31"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="395,46,395,80,390,80,390,46"/>
 </map>

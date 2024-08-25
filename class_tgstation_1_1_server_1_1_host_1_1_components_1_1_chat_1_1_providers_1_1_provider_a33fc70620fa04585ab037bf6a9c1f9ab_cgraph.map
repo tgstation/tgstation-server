@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.Provider.Disconnect" name="Tgstation.Server.Host.Components.Chat.Providers.Provider.Disconnect">
-<area shape="rect" id="node1" title="Gracefully disconnects the provider. Permanently stops the reconnection timer. A ValueTask representi..." alt="" coords="5,37,232,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a53bbd9bd4bd351ddd86bbea888ab06cf" title="Gracefully disconnects the provider." alt="" coords="305,5,555,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a19cca90f9904a5d3535cd27c3e3fe3fe" title="Stops and awaits the reconnectTask." alt="" coords="280,69,580,109"/>
+<area shape="rect" id="Node000001" title="Gracefully disconnects the provider. Permanently stops the reconnection timer.A ValueTask representin..." alt="" coords="5,39,232,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a3b359aa78d4328a994a8cb351dff7725" title="Gracefully disconnects the provider." alt="" coords="304,5,555,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,44,289,38,289,43,232,50"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a19cca90f9904a5d3535cd27c3e3fe3fe" title="Stops and awaits the reconnectTask." alt="" coords="280,71,579,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,68,264,71,264,77,232,73"/>
 </map>

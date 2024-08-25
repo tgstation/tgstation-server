@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Configuration.UpdatesConfiguration" name="Tgstation.Server.Host.Configuration.UpdatesConfiguration">
-<area shape="rect" id="node1" title="Configuration for the automatic update system." alt="" coords="35,137,265,177"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,95,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="227,5,273,31"/>
+<area shape="rect" id="Node000001" title="Configuration for the automatic update system." alt="" coords="34,139,262,180"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,94,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="45,46,43,80,46,98,53,114,64,126,79,136,76,141,61,130,49,116,41,99,38,81,40,46"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="226,5,271,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="248,47,239,82,221,117,193,141,190,136,217,113,234,80,243,46"/>
 </map>

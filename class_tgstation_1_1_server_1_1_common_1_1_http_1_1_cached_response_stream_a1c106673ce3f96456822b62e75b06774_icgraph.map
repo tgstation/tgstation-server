@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Common.Http.CachedResponseStream.Create" name="Tgstation.Server.Common.Http.CachedResponseStream.Create">
-<area shape="rect" id="node1" title="Asyncronously creates a new CachedResponseStream." alt="" coords="567,53,801,93"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a7c0e96de0b1928972f549ab0d2df882f" title="Initiate the download." alt="" coords="296,5,519,60"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a890bb267ce0d788c2d9c0311873f6ade" title="Main request method." alt="" coords="329,84,485,139"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#afd6294b767b298ace3b91aef1accc5f6" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,13,248,53"/>
+<area shape="rect" id="Node000001" title="Asyncronously creates a new CachedResponseStream." alt="" coords="565,53,799,94"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a7c0e96de0b1928972f549ab0d2df882f" title="Initiate the download." alt="" coords="295,5,517,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="549,57,517,52,518,47,550,51"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a890bb267ce0d788c2d9c0311873f6ade" title="Main request method." alt="" coords="328,85,484,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="550,95,484,105,484,99,549,90"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#afd6294b767b298ace3b91aef1accc5f6" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,13,247,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="279,36,247,36,247,31,279,31"/>
 </map>

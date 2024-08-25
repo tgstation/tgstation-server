@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Instance.DisposeAsync" name="Tgstation.Server.Host.Components.Instance.DisposeAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,37,232,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#af9c1035ed4c517ccd84124b09fa6faa4" title=" " alt="" coords="290,5,517,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a61b0a56eced0f9e75057c0c9f17b5d1d" title=" " alt="" coords="280,69,527,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,232,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#af9c1035ed4c517ccd84124b09fa6faa4" title=" " alt="" coords="290,5,516,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,43,274,38,274,43,232,48"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a61b0a56eced0f9e75057c0c9f17b5d1d" title=" " alt="" coords="280,71,526,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,69,264,73,264,78,232,74"/>
 </map>

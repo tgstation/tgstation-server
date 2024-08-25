@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Utils.SemaphoreSlimContext" name="Tgstation.Server.Host.Utils.SemaphoreSlimContext">
-<area shape="rect" id="node1" title="Async lock context helper." alt="" coords="36,93,217,133"/>
-<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="5,5,96,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="120,5,285,31"/>
+<area shape="rect" id="Node000001" title="Async lock context helper." alt="" coords="35,94,215,135"/>
+<area shape="rect" id="Node000002" href="$class_i_disposable.html" title=" " alt="" coords="5,5,95,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="71,41,111,92,107,95,67,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="119,5,283,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="184,45,143,95,138,92,179,41"/>
 </map>

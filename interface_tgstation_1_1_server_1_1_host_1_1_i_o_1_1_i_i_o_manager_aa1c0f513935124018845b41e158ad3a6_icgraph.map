@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.GetFileStream" name="Tgstation.Server.Host.IO.IIOManager.GetFileStream">
-<area shape="rect" id="node1" title="Gets the Stream for a given file path ." alt="" coords="339,37,516,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ae6e959ce6c3aab862b59e79b42a72e67" title="Reads a given configurationRelativePath . A ValueTask&lt;TResult&gt; resulting in the ConfigurationFileResp..." alt="" coords="35,5,261,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#abba5afd94ca5c7c713480b7effd59784" title="Gets the the Stream for a given ticketResponse &#160;associated with a pending download...." alt="" coords="5,69,291,109"/>
+<area shape="rect" id="Node000001" title="Gets the Stream for a given file path ." alt="" coords="338,39,514,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ae6e959ce6c3aab862b59e79b42a72e67" title="Reads a given configurationRelativePath .A ValueTask&lt;TResult&gt; resulting in the ConfigurationFileRespo..." alt="" coords="34,5,261,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="322,49,261,42,262,37,323,44"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#abba5afd94ca5c7c713480b7effd59784" title="Gets the the Stream for a given ticketResponse &#160;associated with a pending download...." alt="" coords="5,71,290,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="322,74,290,77,290,72,322,68"/>
 </map>

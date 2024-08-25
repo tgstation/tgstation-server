@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.CreateUpdateStreamProvider" name="Tgstation.Server.Host.Swarm.SwarmService.CreateUpdateStreamProvider">
-<area shape="rect" id="node1" title="Create the RequestFileStreamProvider for an update package retrieval from a given sourceNode ." alt="" coords="607,30,839,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a6417881aa109cd3b7f5c786e571428c1" title="Implementation of PrepareUpdate(ISeekableFileStreamProvider, Version, CancellationToken),..." alt="" coords="336,37,559,77"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aae6cda24a68c829292aabbe3bc1d1ffb" title="Signal to the swarm that an update is requested. A ValueTask&lt;TResult&gt; resulting in true if the update..." alt="" coords="48,5,245,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a821ac265358e43b97a2449a6a6fb17d5" title="Notify the node of an update request from the controller. A ValueTask&lt;TResult&gt; resulting in true if t..." alt="" coords="5,69,288,109"/>
+<area shape="rect" id="Node000001" title="Create the RequestFileStreamProvider for an update package retrieval from a given sourceNode ." alt="" coords="604,31,835,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a6417881aa109cd3b7f5c786e571428c1" title="Implementation of PrepareUpdate(ISeekableFileStreamProvider, Version, CancellationToken),..." alt="" coords="335,39,556,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="588,62,556,62,556,56,588,56"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aae6cda24a68c829292aabbe3bc1d1ffb" title="Signal to the swarm that an update is requested.A ValueTask&lt;TResult&gt; resulting in true if the update ..." alt="" coords="48,5,244,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="319,48,244,39,245,34,320,42"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a821ac265358e43b97a2449a6a6fb17d5" title="Notify the node of an update request from the controller.A ValueTask&lt;TResult&gt; resulting in true if th..." alt="" coords="5,71,287,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="320,75,288,79,287,73,319,70"/>
 </map>

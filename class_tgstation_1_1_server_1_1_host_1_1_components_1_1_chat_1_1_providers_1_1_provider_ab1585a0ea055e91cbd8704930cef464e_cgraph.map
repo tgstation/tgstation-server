@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.Provider.MapChannels" name="Tgstation.Server.Host.Components.Chat.Providers.Provider.MapChannels">
-<area shape="rect" id="node1" title="Get the ChannelRepresentations for given channels . A ValueTask&lt;TResult&gt; resulting in a Dictionary&lt;TK..." alt="" coords="5,5,245,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#aa3d6b5261667dc7c47d9411286386552" title="Implementation of MapChannels(IEnumerable&lt;ChatChannel&gt;, CancellationToken)." alt="" coords="293,5,559,45"/>
+<area shape="rect" id="Node000001" title="Get the ChannelRepresentations for given channels .A ValueTask&lt;TResult&gt; resulting in a Dictionary&lt;TKe..." alt="" coords="5,5,245,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a5118efdb00738d3727d6209a88ae89b2" title="Implementation of MapChannels(IEnumerable&lt;ChatChannel&gt;, CancellationToken)." alt="" coords="293,5,557,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,23,277,23,277,28,245,28"/>
 </map>

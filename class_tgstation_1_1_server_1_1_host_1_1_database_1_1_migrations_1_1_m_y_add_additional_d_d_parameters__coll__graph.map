@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MYAddAdditionalDDParameters" name="Tgstation.Server.Host.Database.Migrations.MYAddAdditionalDDParameters">
-<area shape="rect" id="node1" title="Adds the AdditionalParameters DD column for MySQL." alt="" coords="5,79,276,119"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="103,5,178,31"/>
+<area shape="rect" id="Node000001" title="Adds the AdditionalParameters DD column for MySQL." alt="" coords="5,79,275,120"/>
+<area shape="rect" id="Node000002" href="$class_migration.html" title=" " alt="" coords="103,5,177,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,46,143,79,137,79,137,46"/>
 </map>

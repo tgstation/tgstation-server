@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager" name="Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager">
-<area shape="rect" id="node1" title="Base class for implementing IRemoteDeploymentManagers." alt="" coords="243,84,527,139"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html" title="IRemoteDeploymentManager for GitHub.com." alt="" coords="575,5,869,60"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_lab_remote_deployment_manager.html" title="IRemoteDeploymentManager for GitLab.com." alt="" coords="575,84,869,139"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_no_op_remote_deployment_manager.html" title="No&#45;op implementation of IRemoteDeploymentManager." alt="" coords="578,163,866,217"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html" title="Creates and updates remote deployments." alt="" coords="5,99,195,124"/>
+<area shape="rect" id="Node000001" title="Base class for implementing IRemoteDeploymentManagers." alt="" coords="242,85,525,141"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html" title="IRemoteDeploymentManager for GitHub.com." alt="" coords="573,5,867,61"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="518,79,599,59,601,64,519,84"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_lab_remote_deployment_manager.html" title="IRemoteDeploymentManager for GitLab.com." alt="" coords="574,85,866,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="541,111,573,111,573,116,541,116"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_no_op_remote_deployment_manager.html" title="No&#45;op implementation of IRemoteDeploymentManager." alt="" coords="577,165,864,221"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="519,143,601,162,599,167,518,148"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html" title="Creates and updates remote deployments." alt="" coords="5,100,194,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,111,241,111,241,116,209,116"/>
 </map>

@@ -1,13 +1,24 @@
 <map id="Tgstation.Server.Host.Controllers.UserGroupController" name="Tgstation.Server.Host.Controllers.UserGroupController">
-<area shape="rect" id="node1" title="ApiController for managing UserGroupResponses." alt="" coords="927,195,1143,235"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="595,77,691,103"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="146,55,273,80"/>
-<area shape="rect" id="node4" href="$class_controller.html" title=" " alt="" coords="5,55,83,80"/>
-<area shape="rect" id="node5" title=" " alt="" coords="163,125,256,151"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="528,295,757,335"/>
-<area shape="rect" id="node6" title=" " alt="" coords="186,5,233,31"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="132,375,287,400"/>
-<area shape="rect" id="node9" title=" " alt="" coords="165,436,254,461"/>
-<area shape="rect" id="node10" title=" " alt="" coords="188,276,231,301"/>
-<area shape="rect" id="node11" title=" " alt="" coords="133,325,285,351"/>
+<area shape="rect" id="Node000001" title="ApiController for managing UserGroupResponses." alt="" coords="922,198,1137,239"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="592,77,687,103"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="697,106,965,195,964,200,695,111"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="146,55,271,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="286,69,592,85,591,90,286,74"/>
+<area shape="rect" id="Node000004" href="$class_controller.html" title=" " alt="" coords="5,55,82,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="97,65,145,65,145,70,97,70"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="162,127,254,152"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="270,135,378,129,501,116,591,99,592,104,502,121,378,134,270,140"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="525,299,754,340"/>
+<area shape="poly" id="edge9_Node000007_Node000005" title=" " alt="" coords="270,148,310,155,365,160,409,162,451,168,503,188,541,212,575,241,625,297,621,300,571,245,538,216,500,193,450,173,408,167,364,166,309,160,269,153"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="186,5,231,31"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="247,20,361,35,502,57,592,76,591,81,501,62,360,40,246,25"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="735,292,947,237,949,242,737,297"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="131,379,285,404"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="301,378,501,348,549,338,550,343,502,353,301,383"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="164,441,252,467"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="268,456,319,457,378,453,441,444,500,426,536,408,568,385,618,338,622,342,571,389,538,412,502,431,442,449,379,459,319,462,268,461"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="187,280,229,306"/>
+<area shape="poly" id="edge10_Node000007_Node000010" title=" " alt="" coords="245,292,525,310,525,315,245,298"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="133,329,284,355"/>
+<area shape="poly" id="edge11_Node000007_Node000011" title=" " alt="" coords="299,343,396,343,501,339,525,336,525,341,502,344,397,348,299,348"/>
 </map>

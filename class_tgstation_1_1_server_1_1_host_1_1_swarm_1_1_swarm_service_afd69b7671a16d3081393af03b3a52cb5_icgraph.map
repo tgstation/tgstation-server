@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.TriggerHealthCheck" name="Tgstation.Server.Host.Swarm.SwarmService.TriggerHealthCheck">
-<area shape="rect" id="node1" title="Complete the current forceHealthCheckTcs." alt="" coords="255,5,480,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a19995c107d8efaee1fe2dfdda5c509cc" title="Attempt to unregister a node with a given registrationId &#160;with the controller. A ValueTask representi..." alt="" coords="5,5,207,45"/>
+<area shape="rect" id="Node000001" title="Complete the current forceHealthCheckTcs." alt="" coords="254,5,478,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a19995c107d8efaee1fe2dfdda5c509cc" title="Attempt to unregister a node with a given registrationId &#160;with the controller.A ValueTask representin..." alt="" coords="5,5,206,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,28,206,28,206,23,238,23"/>
 </map>

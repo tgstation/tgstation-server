@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess" name="Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess">
-<area shape="rect" id="node1" title="Launch a IProcess. A ValueTask&lt;TResult&gt; resulting in the new IProcess." alt="" coords="5,45,220,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a2306b74b2bb7f77e8e6880c681d8c12f" title="Consume the stdout/stderr streams into a Task." alt="" coords="277,13,504,53"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac820fe814014b12333133450d6843d93" title="Run events on starting a process." alt="" coords="268,77,513,117"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="561,5,789,60"/>
+<area shape="rect" id="Node000001" title="Launch a IProcess.A ValueTask&lt;TResult&gt; resulting in the new IProcess." alt="" coords="5,46,219,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a2306b74b2bb7f77e8e6880c681d8c12f" title="Consume the stdout/stderr streams into a Task." alt="" coords="276,13,502,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="219,51,261,46,261,51,220,56"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac820fe814014b12333133450d6843d93" title="Run events on starting a process." alt="" coords="267,78,511,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="220,76,251,80,251,85,219,82"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="559,5,786,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="502,31,543,31,543,36,502,36"/>
 </map>

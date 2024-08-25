@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Server.Run" name="Tgstation.Server.Host.Server.Run">
-<area shape="rect" id="node1" title="Runs the IServer. A ValueTask representing the running operation." alt="" coords="5,45,220,70"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#affd42da17161c87eb45526811e2fbfb4" title="Re&#45;throw propagatedException if it exists." alt="" coords="275,5,467,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#aa9b14ade37ba07f8294f011d42a07b28" title="Event handler for the updatePath&#39;s FileSystemWatcher. Triggers shutdown if requested by host watchdog..." alt="" coords="268,69,473,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d" title="Fires off the cancellationTokenSource without any checks, shutting down everything." alt="" coords="521,69,713,109"/>
+<area shape="rect" id="Node000001" title="Runs the IServer.A ValueTask representing the running operation." alt="" coords="5,46,220,72"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#affd42da17161c87eb45526811e2fbfb4" title="Re&#45;throw propagatedException if it exists." alt="" coords="274,5,466,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,43,258,37,259,43,217,48"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#aa9b14ade37ba07f8294f011d42a07b28" title="Event handler for the updatePath&#39;s FileSystemWatcher. Triggers shutdown if requested by host watchdog..." alt="" coords="268,71,472,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="220,70,252,74,252,79,220,75"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d" title="Fires off the cancellationTokenSource without any checks, shutting down everything." alt="" coords="520,71,711,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="473,88,504,88,504,94,473,94"/>
 </map>

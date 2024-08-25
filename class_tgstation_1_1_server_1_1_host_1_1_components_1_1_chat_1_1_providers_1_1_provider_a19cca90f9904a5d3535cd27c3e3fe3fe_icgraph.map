@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.Provider.StopReconnectionTimer" name="Tgstation.Server.Host.Components.Chat.Providers.Provider.StopReconnectionTimer">
-<area shape="rect" id="node1" title="Stops and awaits the reconnectTask." alt="" coords="297,69,597,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a33fc70620fa04585ab037bf6a9c1f9ab" title="Gracefully disconnects the provider. Permanently stops the reconnection timer. A ValueTask representi..." alt="" coords="14,5,241,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afe2edd40c945bc526ccd5dfea7a062b1" title=" " alt="" coords="5,69,249,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect. A Task representing the runni..." alt="" coords="6,134,249,189"/>
+<area shape="rect" id="Node000001" title="Stops and awaits the reconnectTask." alt="" coords="297,71,596,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a33fc70620fa04585ab037bf6a9c1f9ab" title="Gracefully disconnects the provider. Permanently stops the reconnection timer.A ValueTask representin..." alt="" coords="14,5,240,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="328,70,229,49,230,44,329,64"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afe2edd40c945bc526ccd5dfea7a062b1" title=" " alt="" coords="5,71,249,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="281,94,249,94,249,88,281,88"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect.A Task representing the runnin..." alt="" coords="6,135,248,191"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="339,118,249,138,248,133,338,113"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Session.TopicClientFactory" name="Tgstation.Server.Host.Components.Session.TopicClientFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="38,108,265,148"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_topic_client_factory.html" title="Factory for ITopicClients." alt="" coords="5,13,140,38"/>
-<area shape="rect" id="node3" title=" " alt="" coords="164,5,296,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="36,109,263,150"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_topic_client_factory.html" title="Factory for ITopicClients." alt="" coords="5,13,139,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,49,136,107,132,110,88,53"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="162,5,294,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="206,60,167,110,162,107,202,57"/>
 </map>

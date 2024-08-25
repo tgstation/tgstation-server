@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.StaticFiles.Configuration.ExecuteEventScripts" name="Tgstation.Server.Host.Components.StaticFiles.Configuration.ExecuteEventScripts">
-<area shape="rect" id="node1" title="Execute a set of given scriptNames ." alt="" coords="5,5,249,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="297,13,488,53"/>
+<area shape="rect" id="Node000001" title="Execute a set of given scriptNames ." alt="" coords="5,5,249,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="297,13,486,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="249,31,281,31,281,36,249,36"/>
 </map>

@@ -1,7 +1,12 @@
 <map id="Tgstation.Server.Host.Server.Die" name="Tgstation.Server.Host.Server.Die">
-<area shape="rect" id="node1" title="Kill the server with a fatal exception. A Task representing the running operation." alt="" coords="5,122,216,147"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2" title="Implements Restart()." alt="" coords="264,81,456,121"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d" title="Fires off the cancellationTokenSource without any checks, shutting down everything." alt="" coords="516,149,708,189"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f" title="Throws an InvalidOperationException if the IServerControl cannot be used." alt="" coords="516,5,708,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="504,70,720,125"/>
+<area shape="rect" id="Node000001" title="Kill the server with a fatal exception.A Task representing the running operation." alt="" coords="5,122,216,148"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2" title="Implements Restart()." alt="" coords="264,81,455,122"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,119,248,114,248,119,212,124"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d" title="Fires off the cancellationTokenSource without any checks, shutting down everything." alt="" coords="515,149,706,190"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="216,140,500,159,499,165,216,145"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f" title="Throws an InvalidOperationException if the IServerControl cannot be used." alt="" coords="515,5,706,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="427,78,502,55,524,48,526,53,504,60,429,83"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="438,120,519,142,518,147,437,125"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="503,70,718,126"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="455,97,487,97,487,102,455,103"/>
 </map>

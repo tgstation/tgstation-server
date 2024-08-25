@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.System.WindowsProcessFeatures.ResumeProcess" name="Tgstation.Server.Host.System.WindowsProcessFeatures.ResumeProcess">
-<area shape="rect" id="node1" title="Resume a given suspended global::System.Diagnostics.Process." alt="" coords="5,69,279,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a97a77860bb8d601d2ee381c6f93ebcf5" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms724211(v=vs.85).aspx." alt="" coords="328,5,527,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a2327fd6dfaab1a02b21c51a8b5db4924" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms684335(v=vs.85).aspx." alt="" coords="328,69,527,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a296b0d4142b98474bde14a1d32b2e727" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms685086(v=vs.85).aspx." alt="" coords="327,133,528,173"/>
+<area shape="rect" id="Node000001" title="Resume a given suspended global::System.Diagnostics.Process." alt="" coords="5,71,278,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a97a77860bb8d601d2ee381c6f93ebcf5" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms724211(v=vs.85).aspx." alt="" coords="327,5,525,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,67,319,47,320,53,234,73"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a2327fd6dfaab1a02b21c51a8b5db4924" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms684335(v=vs.85).aspx." alt="" coords="327,71,525,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="278,88,311,88,311,94,278,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a296b0d4142b98474bde14a1d32b2e727" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms685086(v=vs.85).aspx." alt="" coords="326,136,526,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="234,109,320,129,319,135,233,115"/>
 </map>

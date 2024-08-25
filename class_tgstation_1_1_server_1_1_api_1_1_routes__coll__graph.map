@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Api.Routes" name="Tgstation.Server.Api.Routes">
-<area shape="rect" id="node1" title="Routes to a server actions." alt="" coords="5,240,188,265"/>
-<area shape="rect" id="node2" title=" " alt="" coords="52,5,141,31"/>
+<area shape="rect" id="Node000001" title="Routes to a server actions." alt="" coords="5,244,188,270"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="52,5,141,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,47,99,244,94,244,94,47"/>
 </map>

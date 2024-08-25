@@ -1,8 +1,13 @@
 <map id="BackgroundService" name="BackgroundService">
-<area shape="rect" id="node1" title=" " alt="" coords="5,141,140,166"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_command_pipe_manager.html" title="Reads from the command pipe opened by the host watchdog." alt="" coords="201,5,382,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_version_reporting_service.html" title="Handles TGS version reporting, if enabled." alt="" coords="201,69,382,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html" title=" " alt="" coords="197,133,385,173"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html" title="Implements the SystemD notify service protocol." alt="" coords="192,197,391,237"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html" title=" " alt="" coords="188,261,395,301"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,144,140,169"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_command_pipe_manager.html" title="Reads from the command pipe opened by the host watchdog." alt="" coords="201,5,381,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,130,135,93,186,57,213,44,215,49,189,61,139,97,98,134"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_version_reporting_service.html" title="Handles TGS version reporting, if enabled." alt="" coords="201,71,381,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="132,136,220,109,221,115,133,141"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html" title=" " alt="" coords="197,136,385,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="155,154,197,154,197,159,155,159"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html" title="Implements the SystemD notify service protocol." alt="" coords="192,201,390,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="133,172,221,198,220,203,132,177"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html" title=" " alt="" coords="188,267,394,307"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="98,179,139,216,189,251,215,264,213,268,186,256,135,220,95,182"/>
 </map>

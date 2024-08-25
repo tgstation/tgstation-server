@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Core.ServerUpdater" name="Tgstation.Server.Host.Core.ServerUpdater">
-<area shape="rect" id="node1" title=" " alt="" coords="49,79,230,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_updater.html" title="Updates the server." alt="" coords="5,5,116,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html" title="Executes server update operations." alt="" coords="140,5,296,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="47,79,228,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_updater.html" title="Updates the server." alt="" coords="5,5,115,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,40,120,77,116,80,80,44"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html" title="Executes server update operations." alt="" coords="138,5,294,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="195,44,159,81,155,77,192,40"/>
 </map>

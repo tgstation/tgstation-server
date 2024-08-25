@@ -1,11 +1,22 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.ProcessBridgeCommand" name="Tgstation.Server.Host.Components.Session.SessionController.ProcessBridgeCommand">
-<area shape="rect" id="node1" title="Handle a set of bridge parameters ." alt="" coords="5,121,268,176"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a610c434225f1b0c912e2d845e0429eb5" title="Log and return a BridgeResponse for a given message ." alt="" coords="679,151,921,191"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a942e01f9d2d1d1bea135e4edf5ce6656" title="Terminates the server after ten seconds if it does not exit." alt="" coords="333,5,594,60"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a840da56ea51a4bbbc6b21667cc6355a2" title="Asycnhronously terminates the process." alt="" coords="701,77,899,117"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#af9226f864c0c82403eab7ac5f8e43002" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="350,186,577,226"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#af8163fad46986d9e6ba2de211e21a849" title="Trigger a custom event from a given invocation ." alt="" coords="316,250,611,290"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="709,13,891,53"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a26718aaaf2f856144517928db9325ddc" title="Handles a given custom event." alt="" coords="659,302,941,342"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a013461712a40946a3ac6590529df9e2e" title="Sends a command to DreamDaemon through /world/Topic(). A ValueTask&lt;TResult&gt; resulting in the TopicRes..." alt="" coords="667,238,933,278"/>
+<area shape="rect" id="Node000001" title="Handle a set of bridge parameters ." alt="" coords="5,121,267,177"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="73,121,74,111,85,102,106,97,136,95,171,97,191,104,189,109,169,103,136,100,107,102,88,107,79,113,79,121"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a610c434225f1b0c912e2d845e0429eb5" title="Log and return a BridgeResponse for a given message ." alt="" coords="678,154,918,195"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="267,151,663,167,662,172,267,157"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a942e01f9d2d1d1bea135e4edf5ce6656" title="Terminates the server after ten seconds if it does not exit." alt="" coords="332,5,592,61"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="206,118,314,77,353,64,355,69,316,82,208,123"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a840da56ea51a4bbbc6b21667cc6355a2" title="Asycnhronously terminates the process." alt="" coords="700,78,897,119"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="267,137,683,105,684,110,267,142"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#af9226f864c0c82403eab7ac5f8e43002" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="349,186,575,227"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="267,170,334,181,333,187,266,175"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#af8163fad46986d9e6ba2de211e21a849" title="Trigger a custom event from a given invocation ." alt="" coords="315,252,609,292"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="187,175,247,207,316,236,341,244,339,249,314,241,245,212,184,180"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="708,13,888,54"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="593,31,692,31,692,36,593,36"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="593,56,685,74,684,79,592,61"/>
+<area shape="poly" id="edge9_Node000007_Node000002" title=" " alt="" coords="561,248,608,236,726,198,727,203,610,241,562,253"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a26718aaaf2f856144517928db9325ddc" title="Handles a given custom event." alt="" coords="657,306,939,347"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="592,290,654,300,654,306,591,295"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a013461712a40946a3ac6590529df9e2e" title="Sends a command to DreamDaemon through /world/Topic().A ValueTask&lt;TResult&gt; resulting in the TopicResp..." alt="" coords="666,241,931,282"/>
+<area shape="poly" id="edge11_Node000007_Node000009" title=" " alt="" coords="609,264,650,263,650,269,610,270"/>
 </map>

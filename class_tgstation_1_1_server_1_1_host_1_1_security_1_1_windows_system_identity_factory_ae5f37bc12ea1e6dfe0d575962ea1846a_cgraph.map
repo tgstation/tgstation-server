@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Security.WindowsSystemIdentityFactory.CreateSystemIdentity" name="Tgstation.Server.Host.Security.WindowsSystemIdentityFactory.CreateSystemIdentity">
-<area shape="rect" id="node1" title="Create a ISystemIdentity for a given username and password. A Task&lt;TResult&gt; resulting in a new ISyste..." alt="" coords="5,41,251,96"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html#a4892a64479cbfc5e731be98b229ac114" title="Extract the username and domain name from a string in the format &quot;username\domainname&quot;." alt="" coords="299,5,555,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a788e0432d2e082ad31ad79bd6918829f" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/aa378184(v=vs.85).aspx." alt="" coords="327,85,526,125"/>
+<area shape="rect" id="Node000001" title="Create a ISystemIdentity for a given username and password.A Task&lt;TResult&gt; resulting in a new ISystem..." alt="" coords="5,41,250,97"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html#a4892a64479cbfc5e731be98b229ac114" title="Extract the username and domain name from a string in the format &quot;username\domainname&quot;." alt="" coords="298,5,553,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="250,52,282,48,283,53,250,57"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a788e0432d2e082ad31ad79bd6918829f" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/aa378184(v=vs.85).aspx." alt="" coords="327,85,524,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="250,81,311,89,311,94,250,87"/>
 </map>

@@ -1,8 +1,14 @@
 <map id="Tgstation.Server.Host.Components.Chat.IChatManager.QueueMessage" name="Tgstation.Server.Host.Components.Chat.IChatManager.QueueMessage">
-<area shape="rect" id="node1" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="709,105,936,145"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ad5b260f0cac6051983c75a9a6777b38b" title="Handle any TopicResponse.ChatResponses in a given topic result ." alt="" coords="355,57,661,97"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a02b569cf7792648fb692e8e70487fcd3" title="Handle a set of bridge parameters ." alt="" coords="377,146,639,201"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a8fea3476c8ac941fc42087b9c3e36077" title="Handle a chat command. A ValueTask&lt;TResult&gt; resulting in the MessageContent text to send back." alt="" coords="5,5,307,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aed9bd19e52b72a565e6e4cab00ac3e0a" title="Handle a given eventType . A ValueTask representing the running operation." alt="" coords="32,69,280,109"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a500e760430625c2b3bbbdf5bfe606c3d" title="Handle a set of bridge parameters . A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the requ..." alt="" coords="25,146,287,201"/>
+<area shape="rect" id="Node000001" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="708,107,934,147"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ad5b260f0cac6051983c75a9a6777b38b" title="Handle any TopicResponse.ChatResponses in a given topic result ." alt="" coords="354,59,660,99"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="692,110,644,103,645,97,693,105"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a02b569cf7792648fb692e8e70487fcd3" title="Handle a set of bridge parameters ." alt="" coords="376,147,638,203"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="693,149,638,158,637,152,692,144"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a8fea3476c8ac941fc42087b9c3e36077" title="Handle a chat command.A ValueTask&lt;TResult&gt; resulting in the MessageContent text to send back." alt="" coords="5,5,306,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="353,58,293,49,294,44,354,53"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aed9bd19e52b72a565e6e4cab00ac3e0a" title="Handle a given eventType .A ValueTask representing the running operation." alt="" coords="32,71,279,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="338,87,280,89,280,84,338,82"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="558,135,539,128,507,126,479,128,460,133,452,139,451,147,446,147,447,136,458,128,478,122,507,121,540,123,560,130"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a500e760430625c2b3bbbdf5bfe606c3d" title="Handle a set of bridge parameters .A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the reque..." alt="" coords="25,147,286,203"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="361,178,287,178,287,172,361,172"/>
 </map>

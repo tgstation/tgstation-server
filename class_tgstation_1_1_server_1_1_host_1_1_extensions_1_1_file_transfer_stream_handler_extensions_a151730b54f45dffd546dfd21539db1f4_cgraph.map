@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Extensions.FileTransferStreamHandlerExtensions.GenerateDownloadResponse" name="Tgstation.Server.Host.Extensions.FileTransferStreamHandlerExtensions.GenerateDownloadResponse">
-<area shape="rect" id="node1" title="Downloads a file with a given ticket ." alt="" coords="5,5,249,60"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a6576e93c54ef871332aecc63fae1c844" title="Gets the the Stream for a given ticketResponse &#160;associated with a pending download." alt="" coords="297,5,531,60"/>
+<area shape="rect" id="Node000001" title="Downloads a file with a given ticket ." alt="" coords="5,5,249,61"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a6576e93c54ef871332aecc63fae1c844" title="Gets the the Stream for a given ticketResponse &#160;associated with a pending download." alt="" coords="297,5,529,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="249,31,281,31,281,36,249,36"/>
 </map>

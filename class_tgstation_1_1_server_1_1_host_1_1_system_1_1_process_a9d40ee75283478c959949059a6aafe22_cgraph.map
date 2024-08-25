@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.System.Process.GetExecutingUsername" name="Tgstation.Server.Host.System.Process.GetExecutingUsername">
-<area shape="rect" id="node1" title="Get the name of the account executing the IProcess. The name of the account executing the IProcess." alt="" coords="5,37,216,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a1152b5270b66aae510f8a9d2f98d3032" title="Throws an ObjectDisposedException if a method of the Process was called after DisposeAsync." alt="" coords="297,5,496,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a52ab4ae774176eeed01605f35df723d2" title="Get the name of the user executing a given process ." alt="" coords="264,69,529,109"/>
+<area shape="rect" id="Node000001" title="Get the name of the account executing the IProcess.The name of the account executing the IProcess." alt="" coords="5,39,215,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a1152b5270b66aae510f8a9d2f98d3032" title="Throws an ObjectDisposedException if a method of the Process was called after DisposeAsync." alt="" coords="296,5,494,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,44,281,36,281,42,216,49"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a52ab4ae774176eeed01605f35df723d2" title="Get the name of the user executing a given process ." alt="" coords="263,71,527,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="216,68,247,72,247,77,215,73"/>
 </map>

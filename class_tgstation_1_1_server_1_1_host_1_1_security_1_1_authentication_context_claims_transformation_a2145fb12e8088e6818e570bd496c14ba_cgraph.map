@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation.AuthenticationContextClaimsTransformation" name="Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation.AuthenticationContextClaimsTransformation">
+<area shape="rect" id="Node000001" title="Initializes a new instance of the AuthenticationContextClaimsTransformation class." alt="" coords="5,5,284,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a0d2cfafc3896f75c1ae734d00ffad9a9" title="Initializes a new instance of the ApiHeaders class. Used for token authentication." alt="" coords="332,13,492,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="284,31,316,31,316,36,284,36"/>
+</map>

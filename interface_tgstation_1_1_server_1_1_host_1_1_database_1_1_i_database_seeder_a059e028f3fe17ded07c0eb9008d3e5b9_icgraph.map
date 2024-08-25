@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.IDatabaseSeeder.Downgrade" name="Tgstation.Server.Host.Database.IDatabaseSeeder.Downgrade">
-<area shape="rect" id="node1" title="Migrate a given databaseContext &#160;down." alt="" coords="248,5,457,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a7026c6fa1ee684b8c44ff5819eb7a184" title="Deregister with the swarm controller or put clients into querying state. A ValueTask representing the..." alt="" coords="5,5,200,45"/>
+<area shape="rect" id="Node000001" title="Migrate a given databaseContext &#160;down." alt="" coords="248,5,456,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a7026c6fa1ee684b8c44ff5819eb7a184" title="Deregister with the swarm controller or put clients into querying state.A ValueTask representing the ..." alt="" coords="5,5,200,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,28,200,28,200,23,232,23"/>
 </map>

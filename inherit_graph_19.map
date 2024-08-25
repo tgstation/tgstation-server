@@ -1,4 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_service_base.html" title=" " alt="" coords="5,13,101,38"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html" title="Represents a IWatchdog as a ServiceBase." alt="" coords="149,5,348,45"/>
+<area shape="rect" id="Node000000" href="$class_model_snapshot.html" title=" " alt="" coords="5,140,117,166"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_my_sql_database_context_model_snapshot.html" title=" " alt="" coords="165,5,419,61"/>
+<area shape="poly" id="edge422_Node000000_Node000001" title=" " alt="" coords="85,128,121,99,163,71,189,59,191,64,166,76,124,103,88,132"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_postgres_sql_database_context_model_snapshot.html" title=" " alt="" coords="165,85,419,141"/>
+<area shape="poly" id="edge423_Node000000_Node000002" title=" " alt="" coords="131,138,164,133,165,138,132,144"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_sql_server_database_context_model_snapshot.html" title=" " alt="" coords="172,165,412,221"/>
+<area shape="poly" id="edge424_Node000000_Node000003" title=" " alt="" coords="132,163,172,170,171,175,131,168"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_sqlite_database_context_model_snapshot.html" title=" " alt="" coords="166,245,418,301"/>
+<area shape="poly" id="edge425_Node000000_Node000004" title=" " alt="" coords="88,174,124,203,166,231,191,243,189,247,163,236,121,208,85,178"/>
 </map>

@@ -1,13 +1,23 @@
 <map id="Tgstation.Server.Client.ApiException" name="Tgstation.Server.Client.ApiException">
-<area shape="rect" id="node1" title="API related Exceptions." alt="" coords="291,229,447,269"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_client_1_1_api_conflict_exception.html" title="Occurs when the server returns a bad request response if the ApiException.ErrorCode is present...." alt="" coords="523,5,679,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_conflict_exception.html" title="Occurs when the client performs an action that would result in data conflict." alt="" coords="523,69,679,109"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_client_1_1_insufficient_permissions_exception.html" title="Occurs when the client attempts to perform an action they do not have the rights for." alt="" coords="495,133,707,173"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_client_1_1_method_not_supported_exception.html" title="Occurs when the client tries to use a currently unsupported API." alt="" coords="500,197,701,237"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_client_1_1_rate_limit_exception.html" title="Occurs when a GitHub rate limit occurs." alt="" coords="523,261,679,301"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_client_1_1_server_error_exception.html" title="Occurs when an error occurs in the server." alt="" coords="523,325,679,365"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_client_1_1_unauthorized_exception.html" title="Occurs when the client provides invalid credentials." alt="" coords="523,389,679,429"/>
-<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_client_1_1_version_mismatch_exception.html" title="Occurs when the API version of the client is not compatible with the server&#39;s." alt="" coords="511,453,690,493"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients." alt="" coords="132,237,243,262"/>
-<area shape="rect" id="node3" href="$class_exception.html" title=" " alt="" coords="5,237,84,262"/>
+<area shape="rect" id="Node000001" title="API related Exceptions." alt="" coords="289,235,444,275"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_client_1_1_api_conflict_exception.html" title="Occurs when the server returns a bad request response if the ApiException.ErrorCode is present...." alt="" coords="520,5,676,46"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="379,219,396,181,421,138,452,94,491,57,519,41,521,46,494,61,456,98,425,141,401,184,384,222"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_client_1_1_conflict_exception.html" title="Occurs when the client performs an action that would result in data conflict." alt="" coords="520,71,676,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="390,220,433,170,461,144,491,122,519,108,521,113,494,127,464,148,437,174,394,224"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_client_1_1_insufficient_permissions_exception.html" title="Occurs when the client attempts to perform an action they do not have the rights for." alt="" coords="492,136,704,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="416,224,491,187,524,175,526,180,493,192,418,229"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_client_1_1_method_not_supported_exception.html" title="Occurs when the client tries to use a currently unsupported API." alt="" coords="498,201,698,242"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="459,239,497,234,498,239,460,244"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_client_1_1_rate_limit_exception.html" title="Occurs when a GitHub rate limit occurs." alt="" coords="520,267,676,307"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="460,265,520,274,519,279,459,270"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_client_1_1_server_error_exception.html" title="Occurs when an error occurs in the server." alt="" coords="520,332,676,373"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="419,281,493,317,527,329,525,334,491,321,417,286"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_client_1_1_unauthorized_exception.html" title="Occurs when the client provides invalid credentials." alt="" coords="520,397,676,438"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="394,286,437,335,464,360,494,382,521,396,519,400,491,387,461,365,433,339,390,289"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_client_1_1_version_mismatch_exception.html" title="Occurs when the API version of the client is not compatible with the server&#39;s." alt="" coords="509,463,687,503"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="384,289,401,326,426,369,456,411,494,448,514,460,511,464,491,452,452,415,421,372,397,329,379,291"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients." alt="" coords="131,242,241,268"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="257,252,289,252,289,258,257,258"/>
+<area shape="rect" id="Node000003" href="$class_exception.html" title=" " alt="" coords="5,242,83,268"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="98,252,130,252,130,258,98,258"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.CreateDump" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.CreateDump">
-<area shape="rect" id="node1" title="Attempt to create a process dump for DreamDaemon. A ValueTask representing the running operation." alt="" coords="5,37,252,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2d9e24a869875a2654715e7937462179" title="Attempt to create a process dump for the game server. Requires a lock on synchronizationSemaphore." alt="" coords="300,5,592,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="351,69,541,109"/>
+<area shape="rect" id="Node000001" title="Attempt to create a process dump for DreamDaemon.A ValueTask representing the running operation." alt="" coords="5,39,251,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2d9e24a869875a2654715e7937462179" title="Attempt to create a process dump for the game server. Requires a lock on synchronizationSemaphore." alt="" coords="299,5,590,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="251,43,283,40,283,45,251,49"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="350,71,539,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="251,69,334,77,334,83,251,74"/>
 </map>

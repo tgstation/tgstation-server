@@ -1,0 +1,15 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PrepServerForLaunch" name="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PrepServerForLaunch">
+<area shape="rect" id="Node000001" title="Prepare the server to launch a new instance with the WatchdogBase.ActiveLaunchParameters and a given ..." alt="" coords="5,85,272,141"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a0e09a241beb5aa99fcff9987bd6b5799" title="If the SwappableDmbProvider feature of the AdvancedWatchdog can be used with a given dmbProvider ." alt="" coords="320,5,632,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,82,340,63,341,68,259,87"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a6016884df4bb5dfa2b68761673935d7b" title="Create a SwappableDmbProvider for a given dmbProvider ." alt="" coords="324,85,628,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="272,111,309,111,309,116,272,116"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a1845f3dca4597a726053daa649565c5f" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="347,165,605,206"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="267,139,320,151,358,159,357,164,319,156,266,144"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a81dcefb142f64864408ddcf0e1c18a3b" title="Should be awaited. before calling MakeActive(CancellationToken) to ensure the SwappableDmbProvider is..." alt="" coords="697,121,966,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="604,170,681,162,682,167,605,175"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ad6e832b7e37fcfb95f47294a9a084c2e" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="680,201,983,242"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="605,196,665,202,664,207,604,201"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a66b1b3faeddd34cf469c46210b758881" title="Perform the swapping action." alt="" coords="1031,201,1315,242"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="984,219,1016,219,1016,224,984,224"/>
+</map>

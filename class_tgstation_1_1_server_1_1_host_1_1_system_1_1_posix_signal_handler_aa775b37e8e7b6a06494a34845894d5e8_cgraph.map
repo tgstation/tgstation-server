@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.System.PosixSignalHandler.SignalChecker" name="Tgstation.Server.Host.System.PosixSignalHandler.SignalChecker">
-<area shape="rect" id="node1" title="Thread for listening to signal." alt="" coords="5,37,228,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="293,5,474,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a11cee342f76c81a871edc028403fbea8" title="Gracefully shutsdown the Host." alt="" coords="276,69,491,109"/>
+<area shape="rect" id="Node000001" title="Thread for listening to signal." alt="" coords="5,39,227,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="292,5,472,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,42,276,36,277,41,227,48"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a11cee342f76c81a871edc028403fbea8" title="Gracefully shutsdown the Host." alt="" coords="275,71,489,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="227,70,260,74,259,79,227,75"/>
 </map>

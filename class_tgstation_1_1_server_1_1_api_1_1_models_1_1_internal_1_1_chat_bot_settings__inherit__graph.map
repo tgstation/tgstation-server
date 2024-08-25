@@ -1,10 +1,17 @@
 <map id="Tgstation.Server.Api.Models.Internal.ChatBotSettings" name="Tgstation.Server.Api.Models.Internal.ChatBotSettings">
-<area shape="rect" id="node1" title="Manage the server chat bots." alt="" coords="263,101,449,141"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_api_base.html" title=" " alt="" coords="502,69,689,109"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html" title=" " alt="" coords="497,133,693,173"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="119,109,215,134"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="5,109,71,134"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_chat_bot_create_request.html" title="Represents a request to update a chat bot." alt="" coords="743,5,950,45"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_chat_bot_update_request.html" title="Represents a request to update a chat bot." alt="" coords="741,69,952,109"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_chat_bot_response.html" title="Represents a chat bot response." alt="" coords="753,133,941,173"/>
+<area shape="rect" id="Node000001" title="Manage the server chat bots." alt="" coords="261,104,447,145"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_api_base.html" title=" " alt="" coords="500,71,686,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="462,107,499,101,500,107,463,112"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html" title=" " alt="" coords="495,136,691,177"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="463,136,495,141,494,146,462,142"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="118,112,213,137"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="229,122,260,122,260,127,229,127"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="5,112,70,137"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="85,122,117,122,117,127,85,127"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_chat_bot_create_request.html" title="Represents a request to update a chat bot." alt="" coords="741,5,946,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="688,64,762,44,763,49,689,69"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_chat_bot_update_request.html" title="Represents a request to update a chat bot." alt="" coords="739,71,948,111"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="702,88,738,88,738,94,702,94"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_chat_bot_response.html" title="Represents a chat bot response." alt="" coords="750,136,937,177"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="689,113,763,133,762,138,688,118"/>
 </map>

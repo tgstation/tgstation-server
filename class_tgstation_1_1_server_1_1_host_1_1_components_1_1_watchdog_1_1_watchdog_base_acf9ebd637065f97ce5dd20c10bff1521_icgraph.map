@@ -1,0 +1,33 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAndNullControllersImpl" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAndNullControllersImpl">
+<area shape="rect" id="Node000001" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="1620,223,1886,279"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ac84983fa4b27fcdf9044aaf68ae82a50" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="1306,137,1572,192"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1634,221,1541,195,1543,190,1635,216"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a6f69db8c3ceae298404f5d8d5a7312b3" title=" " alt="" coords="1311,288,1567,329"/>
+<area shape="poly" id="edge15_Node000001_Node000012" title=" " alt="" coords="1605,281,1555,290,1554,285,1604,275"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a075fb0946e843d7eb3f1d708314c5f13" title="Handles a watchdog health check." alt="" coords="954,115,1244,155"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1290,154,1244,150,1244,145,1290,149"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#adfec26f530228b80d384b86ee979ef2f" title="The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them." alt="" coords="622,128,892,169"/>
+<area shape="poly" id="edge11_Node000002_Node000004" title=" " alt="" coords="1291,172,1122,174,940,170,893,166,893,161,940,164,1122,169,1291,167"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ab24be19620df4ed6b473ad5b49ea8dea" title="Attempt to restart the monitor from scratch." alt="" coords="5,201,264,242"/>
+<area shape="poly" id="edge12_Node000002_Node000007" title=" " alt="" coords="1290,177,1258,179,704,204,264,220,264,215,704,199,1258,174,1290,172"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a857f98eb5a2516c2a70c35d684c2c21b" title=" " alt="" coords="633,37,882,78"/>
+<area shape="poly" id="edge10_Node000002_Node000010" title=" " alt="" coords="1397,128,1334,79,1297,57,1257,40,1204,27,1149,19,1093,15,1037,16,933,25,846,39,845,34,933,19,1037,10,1093,10,1149,13,1205,22,1259,35,1299,52,1337,74,1400,124"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2d53273beb40a057f7f9423b48850702" title="Call from InitController(ValueTask, ReattachInformation, CancellationToken) when a reattach operation..." alt="" coords="967,49,1231,90"/>
+<area shape="poly" id="edge13_Node000002_Node000011" title=" " alt="" coords="1345,133,1257,106,1207,93,1208,88,1258,100,1347,128"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="939,144,893,146,893,140,938,139"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#abbff1b419510f84375b7ca3dcf315b03" title="Launches the watchdog." alt="" coords="312,115,574,155"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="606,145,574,143,574,138,606,139"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ab7afe38b1ea6c4a0f1396a45a3ff013f" title="Start the IWatchdog.A ValueTask representing the running operation." alt="" coords="21,71,248,111"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="296,117,248,110,248,104,297,111"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="357,163,312,176,264,191,219,203,217,198,263,186,311,171,355,158"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a805a90319a8bdf4862ce9879f125b853" title="Restarts the watchdog.A ValueTask representing the running operation." alt="" coords="21,136,248,177"/>
+<area shape="poly" id="edge8_Node000005_Node000008" title=" " alt="" coords="297,148,248,151,248,146,296,142"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="16,5,253,46"/>
+<area shape="poly" id="edge9_Node000005_Node000009" title=" " alt="" coords="383,110,263,62,223,49,224,44,265,56,385,105"/>
+<area shape="poly" id="edge7_Node000007_Node000004" title=" " alt="" coords="279,202,621,162,622,167,279,207"/>
+<area shape="poly" id="edge14_Node000011_Node000010" title=" " alt="" coords="951,67,882,65,882,59,952,62"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#acb48f966670f07a01c89a708fc82411a" title="Initializes a new instance of the AdvancedWatchdog class." alt="" coords="940,360,1258,401"/>
+<area shape="poly" id="edge16_Node000012_Node000013" title=" " alt="" coords="1330,335,1258,351,1205,362,1204,357,1257,346,1329,330"/>
+<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a748bef1e44dcaf8fee7f3bee9a52d25c" title="Handler for MonitorActivationReason.NewDmbAvailable.A ValueTask representing the running operation." alt="" coords="964,281,1234,336"/>
+<area shape="poly" id="edge17_Node000012_Node000014" title=" " alt="" coords="1295,311,1234,311,1234,306,1295,306"/>
+</map>

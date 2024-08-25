@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Chat.Commands.KekCommand" name="Tgstation.Server.Host.Components.Chat.Commands.KekCommand">
-<area shape="rect" id="node1" title="kek." alt="" coords="5,93,232,133"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots." alt="" coords="20,5,105,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="130,5,219,31"/>
+<area shape="rect" id="Node000001" title="kek." alt="" coords="5,94,232,135"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots." alt="" coords="22,5,106,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,43,109,92,105,95,76,46"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="130,5,219,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="162,45,133,95,128,92,158,43"/>
 </map>

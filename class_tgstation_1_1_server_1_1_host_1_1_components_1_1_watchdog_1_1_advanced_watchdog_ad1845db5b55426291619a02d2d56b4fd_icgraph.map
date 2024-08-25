@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.ApplyInitialDmb" name="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.ApplyInitialDmb">
-<area shape="rect" id="node1" title="Set the ReattachInformation.InitialDmb for the BasicWatchdog.Server." alt="" coords="344,13,636,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a60d804c11d6598add968037617a3e06f" title="Called to save the current Server into the WatchdogBase.SessionPersistor when initially launched...." alt="" coords="5,5,296,60"/>
-</map>

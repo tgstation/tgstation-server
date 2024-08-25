@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.CopyDirectory" name="Tgstation.Server.Host.IO.IIOManager.CopyDirectory">
-<area shape="rect" id="node1" title="Copies a directory from src &#160;to dest ." alt="" coords="311,37,484,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ada85f53bf78a2dcd850dab0acfb35f27" title="Copies all files in the CodeModifications directory to destination . A ValueTask&lt;TResult&gt; resulting i..." alt="" coords="5,5,263,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a266c827b333e966af2733e773155352d" title="Copies the current working directory to a given path . A ValueTask representing the running operation..." alt="" coords="21,69,247,109"/>
+<area shape="rect" id="Node000001" title="Copies a directory from src &#160;to dest ." alt="" coords="310,39,482,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ada85f53bf78a2dcd850dab0acfb35f27" title="Copies all files in the CodeModifications directory to destination .A ValueTask&lt;TResult&gt; resulting in..." alt="" coords="5,5,262,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="294,49,262,45,262,39,294,43"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a266c827b333e966af2733e773155352d" title="Copies the current working directory to a given path .A ValueTask representing the running operation." alt="" coords="20,71,247,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="294,74,247,80,247,75,294,69"/>
 </map>

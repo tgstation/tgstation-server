@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Host.Security.IdentityCache" name="Tgstation.Server.Host.Security.IdentityCache">
-<area shape="rect" id="node1" title=" " alt="" coords="387,105,588,145"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys." alt="" coords="70,5,175,31"/>
-<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="59,55,186,80"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="32,105,213,145"/>
-<area shape="rect" id="node5" title=" " alt="" coords="5,169,240,209"/>
-<area shape="rect" id="node6" title=" " alt="" coords="23,233,223,288"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="385,105,585,145"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys." alt="" coords="70,5,174,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,28,239,40,341,70,430,101,428,106,340,75,238,45,189,33"/>
+<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="59,55,185,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,77,361,102,385,106,384,111,360,107,199,82"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="32,105,212,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="228,122,384,122,384,128,228,128"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,170,239,211"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="253,164,384,140,385,145,254,169"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="22,234,222,290"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="233,227,360,181,443,143,445,148,362,186,235,232"/>
 </map>

@@ -1,15 +1,27 @@
 <map id="Tgstation.Server.Host.Components.Engine.EngineManager" name="Tgstation.Server.Host.Components.Engine.EngineManager">
-<area shape="rect" id="node1" title=" " alt="" coords="975,261,1201,301"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_manager.html" title="For managing the engine installations." alt="" coords="507,33,622,59"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="167,5,303,31"/>
-<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
-<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="189,55,280,80"/>
-<area shape="rect" id="node6" title=" " alt="" coords="520,83,609,108"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="481,133,649,173"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html" title="For downloading and installing game engines for a given system." alt="" coords="451,197,678,237"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="451,261,678,301"/>
-<area shape="rect" id="node10" title=" " alt="" coords="439,325,690,380"/>
-<area shape="rect" id="node11" title=" " alt="" coords="352,404,777,488"/>
-<area shape="rect" id="node12" title=" " alt="" coords="482,512,647,537"/>
-<area shape="rect" id="node13" title=" " alt="" coords="486,561,643,587"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="971,263,1197,304"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_manager.html" title="For managing the engine installations." alt="" coords="506,33,620,59"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="636,34,705,30,786,34,870,50,910,64,948,83,974,101,997,123,1034,172,1061,222,1078,262,1073,264,1056,224,1029,175,993,126,970,105,946,87,908,69,869,55,786,39,705,35,636,39"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="166,5,301,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="317,23,505,39,505,44,317,28"/>
+<area shape="rect" id="Node000004" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="132,16,166,16,166,21,132,21"/>
+<area shape="rect" id="Node000005" href="$class_i_disposable.html" title=" " alt="" coords="189,55,278,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="294,61,505,47,506,52,294,66"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="519,83,607,108"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="623,94,692,99,775,111,864,133,907,149,948,168,983,189,1015,214,1065,261,1062,265,1012,218,980,194,946,173,905,154,862,138,774,116,692,104,623,99"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="479,133,647,173"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="662,162,799,185,874,203,948,224,1040,260,1038,265,946,229,873,208,798,191,661,167"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html" title="For downloading and installing game engines for a given system." alt="" coords="450,198,676,239"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="692,230,947,261,971,264,970,269,947,266,691,235"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="450,263,676,304"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="691,281,971,281,971,286,691,286"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="438,328,688,383"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="703,335,947,301,970,298,971,303,947,306,704,340"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="351,407,775,493"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="762,400,854,374,946,343,1040,302,1042,307,948,348,856,379,763,405"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="481,517,645,543"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="660,524,717,516,774,502,826,484,864,466,945,411,1012,354,1063,302,1066,306,1016,358,949,415,867,471,828,489,776,507,718,521,660,529"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="485,567,641,592"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="656,584,725,583,801,573,877,552,912,536,945,515,972,492,995,465,1033,406,1059,348,1075,303,1080,305,1064,350,1038,408,999,469,976,496,949,519,915,540,879,557,802,578,725,588,656,589"/>
 </map>

@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory" name="Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="515,45,747,85"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html" title="Factory for creating LibGit2Sharp.IRepositorys." alt="" coords="225,5,397,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html" title="For generating CredentialsHandlers." alt="" coords="5,5,144,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="193,55,428,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="512,46,744,87"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html" title="Factory for creating LibGit2Sharp.IRepositorys." alt="" coords="224,5,395,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="411,31,513,46,512,51,410,36"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html" title="For generating CredentialsHandlers." alt="" coords="5,5,144,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="159,16,223,16,223,21,159,21"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="193,56,426,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="442,74,512,70,512,75,442,79"/>
 </map>

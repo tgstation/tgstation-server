@@ -1,9 +1,15 @@
 <map id="Tgstation.Server.Host.Controllers.TransferController" name="Tgstation.Server.Host.Controllers.TransferController">
-<area shape="rect" id="node1" title="ApiController for file streaming." alt="" coords="182,285,398,325"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="155,190,251,215"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="5,80,132,105"/>
-<area shape="rect" id="node4" href="$class_controller.html" title=" " alt="" coords="30,5,107,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="157,80,250,105"/>
-<area shape="rect" id="node6" title=" " alt="" coords="323,80,369,105"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html" title="Reads and writes to Streams associated with FileTicketResponses." alt="" coords="275,183,478,223"/>
+<area shape="rect" id="Node000001" title="ApiController for file streaming." alt="" coords="179,288,394,328"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="154,192,249,217"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,227,272,285,268,289,219,231"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="5,80,131,106"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="96,114,188,189,185,193,93,118"/>
+<area shape="rect" id="Node000004" href="$class_controller.html" title=" " alt="" coords="30,5,106,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="71,46,71,80,65,80,65,46"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="155,80,248,106"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="204,122,204,191,199,191,199,122"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="320,80,365,106"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="339,122,329,143,315,162,285,176,237,194,236,188,283,171,312,158,325,140,334,120"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html" title="Reads and writes to Streams associated with FileTicketResponses." alt="" coords="273,184,474,225"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="349,238,305,289,301,286,345,235"/>
 </map>

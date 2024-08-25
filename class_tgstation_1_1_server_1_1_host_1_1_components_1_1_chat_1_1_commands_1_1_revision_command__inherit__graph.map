@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.Commands.RevisionCommand" name="Tgstation.Server.Host.Components.Chat.Commands.RevisionCommand">
-<area shape="rect" id="node1" title="For displaying Api.Models.Internal.RevisionInformation." alt="" coords="5,79,236,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots." alt="" coords="78,5,163,31"/>
+<area shape="rect" id="Node000001" title="For displaying Api.Models.Internal.RevisionInformation." alt="" coords="5,79,235,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots." alt="" coords="78,5,162,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,46,123,79,117,79,117,46"/>
 </map>

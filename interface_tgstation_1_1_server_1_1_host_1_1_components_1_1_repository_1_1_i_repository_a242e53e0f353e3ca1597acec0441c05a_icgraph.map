@@ -1,13 +1,13 @@
 <map id="Tgstation.Server.Host.Components.Repository.IRepository.TimestampCommit" name="Tgstation.Server.Host.Components.Repository.IRepository.TimestampCommit">
-<area shape="rect" id="node1" title="Gets the DateTimeOffset a given sha &#160;was created on." alt="" coords="1173,73,1437,113"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title=" " alt="" coords="839,37,1125,77"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_update_service.html#aef7f9e87dc3d0fd07ecde739fe526f21" title="Load the RevisionInformation for the current repository &#160;state into a given databaseContext ." alt="" coords="864,102,1100,157"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="559,37,786,77"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore. A ValueTask representing the running operation." alt="" coords="280,37,507,77"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,45"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,69,232,109"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a16cc955ac08b286dc475b60b045d63e0" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="565,107,781,147"/>
-<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_update_service.html#ab11d4f50183fc2f990b464da1fd0b240" title="The job entrypoint used by Controllers.RepositoryController to update the repository&#39;s current HEAD." alt="" coords="555,171,791,226"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a193a9906e18dd87c1f5d730bcd6f5613" title="Get the repository&#39;s status." alt="" coords="285,105,501,145"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="285,169,501,209"/>
+<area shape="rect" id="Node000001" title="Gets the DateTimeOffset a given sha &#160;was created on." alt="" coords="1162,39,1425,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title="Create and a compile job and insert it into the database. Meant to be called by a IJobManager...." alt="" coords="828,39,1114,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1146,62,1114,62,1114,56,1146,56"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="554,39,780,79"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="813,62,781,62,781,56,813,56"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore.A ValueTask representing the running operation." alt="" coords="280,39,506,79"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="538,62,507,62,507,56,538,56"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="264,46,232,42,233,37,264,41"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,71,232,111"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="264,77,233,80,232,75,264,71"/>
 </map>

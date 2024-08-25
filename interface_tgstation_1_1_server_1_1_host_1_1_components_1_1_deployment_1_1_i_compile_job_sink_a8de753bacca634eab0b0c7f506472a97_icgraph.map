@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Host.Components.Deployment.ICompileJobSink.LoadCompileJob" name="Tgstation.Server.Host.Components.Deployment.ICompileJobSink.LoadCompileJob">
-<area shape="rect" id="node1" title="Load a new job &#160;into the ICompileJobSink." alt="" coords="1164,37,1455,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title=" " alt="" coords="829,37,1116,77"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,37,781,77"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore. A ValueTask representing the running operation." alt="" coords="280,37,507,77"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,45"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,69,232,109"/>
+<area shape="rect" id="Node000001" title="Load a new job &#160;into the ICompileJobSink." alt="" coords="1162,39,1452,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title="Create and a compile job and insert it into the database. Meant to be called by a IJobManager...." alt="" coords="828,39,1114,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1146,62,1114,62,1114,56,1146,56"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="554,39,780,79"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="813,62,781,62,781,56,813,56"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore.A ValueTask representing the running operation." alt="" coords="280,39,506,79"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="538,62,507,62,507,56,538,56"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="264,46,232,42,233,37,264,41"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,71,232,111"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="264,77,233,80,232,75,264,71"/>
 </map>

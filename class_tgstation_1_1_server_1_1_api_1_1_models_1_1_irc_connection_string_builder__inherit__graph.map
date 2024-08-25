@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Api.Models.IrcConnectionStringBuilder" name="Tgstation.Server.Api.Models.IrcConnectionStringBuilder">
-<area shape="rect" id="node1" title="ChatConnectionStringBuilder for ChatProvider.Irc." alt="" coords="6,79,193,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html" title="Helper for building ChatBotSettings.ConnectionStrings." alt="" coords="5,5,193,31"/>
+<area shape="rect" id="Node000001" title="ChatConnectionStringBuilder for ChatProvider.Irc." alt="" coords="6,79,192,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html" title="Helper for building ChatBotSettings.ConnectionStrings." alt="" coords="5,5,193,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,46,102,79,96,79,96,46"/>
 </map>

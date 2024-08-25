@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Repository.RepositoryUpdateService.LoadRevisionInformation" name="Tgstation.Server.Host.Components.Repository.RepositoryUpdateService.LoadRevisionInformation">
-<area shape="rect" id="node1" title="Load the RevisionInformation for the current repository &#160;state into a given databaseContext ." alt="" coords="5,30,241,85"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#abd9cab598d35f6af8c789a1f01bba081" title="Add a given model &#160;to the the working set." alt="" coords="317,5,526,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a242e53e0f353e3ca1597acec0441c05a" title="Gets the DateTimeOffset a given sha &#160;was created on." alt="" coords="289,69,553,109"/>
-</map>

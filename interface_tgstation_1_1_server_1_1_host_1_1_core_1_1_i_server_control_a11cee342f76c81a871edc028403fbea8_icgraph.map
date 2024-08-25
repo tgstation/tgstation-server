@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Core.IServerControl.GracefulShutdown" name="Tgstation.Server.Host.Core.IServerControl.GracefulShutdown">
-<area shape="rect" id="node1" title="Gracefully shutsdown the Host." alt="" coords="547,37,761,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_command_pipe_manager.html#a9d6f05a5cf43388b439c5662df67abf0" title=" " alt="" coords="256,5,499,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#aa775b37e8e7b6a06494a34845894d5e8" title="Thread for listening to signal." alt="" coords="266,69,489,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a1251a072a3b3c3bce15ee2611a2e1e21" title=" " alt="" coords="5,69,208,109"/>
+<area shape="rect" id="Node000001" title="Gracefully shutsdown the Host." alt="" coords="544,39,758,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_command_pipe_manager.html#a9d6f05a5cf43388b439c5662df67abf0" title=" " alt="" coords="255,5,496,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="528,47,496,43,497,38,529,42"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#aa775b37e8e7b6a06494a34845894d5e8" title="Thread for listening to signal." alt="" coords="265,71,486,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="529,76,487,81,486,75,528,71"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a1251a072a3b3c3bce15ee2611a2e1e21" title=" " alt="" coords="5,71,207,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="249,94,207,94,207,88,249,88"/>
 </map>

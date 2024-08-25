@@ -1,7 +1,17 @@
 <map id="Tgstation.Server.Host.System.IProcess.Terminate" name="Tgstation.Server.Host.System.IProcess.Terminate">
-<area shape="rect" id="node1" title="Asycnhronously terminates the process." alt="" coords="939,78,1137,118"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a942e01f9d2d1d1bea135e4edf5ce6656" title="Terminates the server after ten seconds if it does not exit." alt="" coords="628,5,889,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a02b569cf7792648fb692e8e70487fcd3" title="Handle a set of bridge parameters ." alt="" coords="316,39,579,93"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installation_base.html#a90fbdcbc30cc27d22e31f00dd90b2675" title="Kills a given engine server process . A ValueTask representing the running operation." alt="" coords="627,136,891,191"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a500e760430625c2b3bbbdf5bfe606c3d" title="Handle a set of bridge parameters . A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the requ..." alt="" coords="5,39,268,93"/>
+<area shape="rect" id="Node000001" title="Asycnhronously terminates the process." alt="" coords="935,111,1133,151"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a89dd7970dd66a8630f036c9ecc67e834" title="Load a saved ReattachInformation.A ValueTask&lt;TResult&gt; resulting in the stored ReattachInformation if ..." alt="" coords="643,5,869,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="983,105,937,82,886,60,852,49,854,44,888,55,939,77,985,101"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a942e01f9d2d1d1bea135e4edf5ce6656" title="Terminates the server after ten seconds if it does not exit." alt="" coords="626,70,886,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="919,120,886,116,887,111,920,115"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a02b569cf7792648fb692e8e70487fcd3" title="Handle a set of bridge parameters ." alt="" coords="315,114,576,170"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="920,139,887,140,576,144,576,139,887,135,920,134"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installation_base.html#a90fbdcbc30cc27d22e31f00dd90b2675" title="Kills a given engine server process .A ValueTask representing the running operation." alt="" coords="624,201,887,256"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="960,160,838,202,837,197,958,154"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="327,5,564,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="627,28,564,28,564,23,627,23"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="610,121,577,126,576,120,610,116"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="496,102,477,95,445,92,418,94,400,99,391,106,391,114,386,113,386,103,397,94,417,89,445,87,478,90,497,97"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a500e760430625c2b3bbbdf5bfe606c3d" title="Handle a set of bridge parameters .A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the reque..." alt="" coords="5,114,267,170"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="299,144,267,144,267,139,299,139"/>
 </map>

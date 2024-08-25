@@ -1,0 +1,14 @@
+<map id="Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.FinishActivationPreparation" name="Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.FinishActivationPreparation">
+<area shape="rect" id="Node000001" title="Should be awaited. before calling MakeActive(CancellationToken) to ensure the SwappableDmbProvider is..." alt="" coords="734,73,1003,129"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a35cea102f4540006ad8988efd9e8e911" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,85,331,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="719,105,331,107,331,102,718,99"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a1845f3dca4597a726053daa649565c5f" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="404,17,661,58"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="718,75,642,61,643,55,719,70"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#ad7b9818a9a73bbf86d9353c30e23197f" title="Suspends the BasicWatchdog.Server and calls SwappableDmbProvider.MakeActive(CancellationToken) on a n..." alt="" coords="379,138,686,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="719,129,656,140,655,135,719,124"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a0d30150f31ceb9b4c0969877fde90044" title="Prepare the server to launch a new instance with the WatchdogBase.ActiveLaunchParameters and a given ..." alt="" coords="35,5,301,61"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="388,38,302,37,302,32,388,33"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="374,138,311,129,312,123,374,133"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a748bef1e44dcaf8fee7f3bee9a52d25c" title="Handler for MonitorActivationReason.NewDmbAvailable.A ValueTask representing the running operation." alt="" coords="33,149,303,205"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="363,170,303,173,303,168,363,165"/>
+</map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Security.TgsAuthorizeAttribute" name="Tgstation.Server.Host.Security.TgsAuthorizeAttribute">
-<area shape="rect" id="node1" title="Helper for using the AuthorizeAttribute with the Api.Rights system." alt="" coords="43,79,245,119"/>
-<area shape="rect" id="node2" href="$class_authorize_attribute.html" title=" " alt="" coords="5,5,131,31"/>
-<area shape="rect" id="node3" href="$class_i_authorization_filter.html" title=" " alt="" coords="155,5,285,31"/>
+<area shape="rect" id="Node000001" title="Helper for using the AuthorizeAttribute with the Api.Rights system." alt="" coords="42,79,242,120"/>
+<area shape="rect" id="Node000002" href="$class_authorize_attribute.html" title=" " alt="" coords="5,5,130,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,41,126,77,122,80,87,44"/>
+<area shape="rect" id="Node000003" href="$class_i_authorization_filter.html" title=" " alt="" coords="154,5,283,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="198,44,163,80,159,77,194,41"/>
 </map>

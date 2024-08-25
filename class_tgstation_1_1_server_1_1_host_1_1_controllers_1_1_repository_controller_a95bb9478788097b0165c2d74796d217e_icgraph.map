@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.RepositoryController.CreateRepositoryUpdateService" name="Tgstation.Server.Host.Controllers.RepositoryController.CreateRepositoryUpdateService">
-<area shape="rect" id="node1" title="Creates a RepositoryUpdateService." alt="" coords="269,30,509,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a1d27c403022b5a73d0bb92e068d542d2" title="Delete the repository." alt="" coords="5,5,221,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,69,221,109"/>
+<area shape="rect" id="Node000001" title="Creates a RepositoryUpdateService." alt="" coords="269,31,508,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a1d27c403022b5a73d0bb92e068d542d2" title="Delete the repository." alt="" coords="5,5,221,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,45,221,41,221,36,253,40"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,71,221,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,77,221,81,221,76,253,72"/>
 </map>

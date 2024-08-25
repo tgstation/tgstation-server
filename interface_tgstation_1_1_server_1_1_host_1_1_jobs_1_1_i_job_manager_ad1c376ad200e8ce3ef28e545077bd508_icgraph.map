@@ -1,9 +1,15 @@
 <map id="Tgstation.Server.Host.Jobs.IJobManager.WaitForJobCompletion" name="Tgstation.Server.Host.Jobs.IJobManager.WaitForJobCompletion">
-<area shape="rect" id="node1" title="Wait for a given job &#160;to complete." alt="" coords="888,49,1119,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="571,15,840,55"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="592,81,819,121"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect. A Task representing the runni..." alt="" coords="280,5,523,60"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore. A ValueTask representing the running operation." alt="" coords="288,85,515,125"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,53,232,93"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,117,232,157"/>
+<area shape="rect" id="Node000001" title="Wait for a given job &#160;to complete." alt="" coords="886,50,1117,91"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="570,16,838,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="871,58,839,54,839,49,871,53"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="591,82,817,123"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="871,87,818,93,818,88,871,82"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect.A Task representing the runnin..." alt="" coords="280,5,522,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="554,37,522,37,522,32,555,32"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore.A ValueTask representing the running operation." alt="" coords="288,85,514,126"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="575,106,514,107,514,102,575,101"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,52,232,92"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="272,93,232,88,232,83,273,87"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,117,232,158"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="273,122,232,127,232,122,272,117"/>
 </map>

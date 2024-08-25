@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.Provider.GetEngineCompilerPrefix" name="Tgstation.Server.Host.Components.Chat.Providers.Provider.GetEngineCompilerPrefix">
-<area shape="rect" id="node1" title="Get the prefix for messages about deployments." alt="" coords="301,53,605,93"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a49ebdac99fda358a35bcec563c0cdd3c" title=" " alt="" coords="12,5,247,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a22ba2f5d6507771c3d4ddfe1d3661fcd" title=" " alt="" coords="5,84,253,139"/>
+<area shape="rect" id="Node000001" title="Get the prefix for messages about deployments." alt="" coords="301,13,604,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a22ba2f5d6507771c3d4ddfe1d3661fcd" title="Send the message for a deployment.A ValueTask&lt;TResult&gt; resulting in a Func&lt;T1, T2,..." alt="" coords="5,5,253,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="285,36,253,36,253,31,285,31"/>
 </map>

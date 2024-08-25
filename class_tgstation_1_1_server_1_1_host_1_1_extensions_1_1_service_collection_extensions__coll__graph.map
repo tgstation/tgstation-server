@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Extensions.ServiceCollectionExtensions" name="Tgstation.Server.Host.Extensions.ServiceCollectionExtensions">
-<area shape="rect" id="node1" title="Extensions for IServiceCollection." alt="" coords="36,123,253,163"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,100,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="151,5,322,31"/>
+<area shape="rect" id="Node000001" title="Extensions for IServiceCollection." alt="" coords="36,124,253,165"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,100,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="49,46,48,73,56,99,68,111,82,121,79,126,64,115,52,101,43,74,44,46"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="152,5,321,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="234,47,225,75,209,102,183,126,179,122,205,98,220,72,229,46"/>
 </map>

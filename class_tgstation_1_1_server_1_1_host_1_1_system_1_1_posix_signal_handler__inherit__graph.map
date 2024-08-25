@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.System.PosixSignalHandler" name="Tgstation.Server.Host.System.PosixSignalHandler">
-<area shape="rect" id="node1" title="Handles POSIX signals." alt="" coords="25,79,223,119"/>
-<area shape="rect" id="node2" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="141,5,232,31"/>
+<area shape="rect" id="Node000001" title="Handles POSIX signals." alt="" coords="24,79,221,120"/>
+<area shape="rect" id="Node000002" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,42,109,77,105,80,78,45"/>
+<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="140,5,230,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="168,45,140,80,136,77,164,41"/>
 </map>

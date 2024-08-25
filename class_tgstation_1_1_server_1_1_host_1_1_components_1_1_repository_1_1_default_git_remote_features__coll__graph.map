@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Repository.DefaultGitRemoteFeatures" name="Tgstation.Server.Host.Components.Repository.DefaultGitRemoteFeatures">
-<area shape="rect" id="node1" title="The IGitRemoteFeatures used for unknown providers." alt="" coords="5,225,245,265"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html" title="Provides features for remote git services." alt="" coords="56,152,195,177"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_additional_information.html" title="Additional information from git remotes." alt="" coords="20,79,231,104"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html" title="Provides information about remote providers." alt="" coords="49,5,202,31"/>
+<area shape="rect" id="Node000001" title="The IGitRemoteFeatures used for unknown providers." alt="" coords="5,226,245,267"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html" title="Provides features for remote git services." alt="" coords="56,153,194,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,194,128,226,122,226,122,194"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_additional_information.html" title="Additional information from git remotes." alt="" coords="20,79,230,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="128,120,128,152,122,152,122,120"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html" title="Provides information about remote providers." alt="" coords="49,5,201,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="128,46,128,79,122,79,122,46"/>
 </map>

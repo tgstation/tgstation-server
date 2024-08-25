@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.StartDeployment" name="Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.StartDeployment">
-<area shape="rect" id="node1" title="Start a deployment for a given compileJob . A ValueTask representing the running operation." alt="" coords="5,163,300,217"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a6ec88b25682381d11b7d39a4414383e0" title="Create a newDeployment &#160;on a target repostiory." alt="" coords="354,5,593,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#afe4ffe75eea54d6dd06187485b9ccfea" title="Create a newDeploymentStatus &#160;on a target deployment." alt="" coords="354,84,593,139"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9" title="Create a IGitHubService." alt="" coords="354,163,593,217"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a74b8e7bffa82ab1a72c5e72259b0823e" title="Get a target repostiory&#39;s ID." alt="" coords="348,242,599,282"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="354,306,593,346"/>
+<area shape="rect" id="Node000001" title="Start a deployment for a given compileJob .A ValueTask representing the running operation." alt="" coords="5,165,300,221"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a6ec88b25682381d11b7d39a4414383e0" title="Create a newDeployment &#160;on a target repostiory." alt="" coords="354,5,592,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,163,262,117,346,71,361,64,363,69,349,76,265,121,195,167"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#afe4ffe75eea54d6dd06187485b9ccfea" title="Create a newDeploymentStatus &#160;on a target deployment." alt="" coords="354,85,592,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="266,162,343,143,344,148,267,167"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9" title="Create a IGitHubService." alt="" coords="354,165,592,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="300,191,338,191,338,196,300,196"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a74b8e7bffa82ab1a72c5e72259b0823e" title="Get a target repostiory&#39;s ID." alt="" coords="348,245,598,286"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="280,219,365,238,364,243,279,224"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="354,310,592,351"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="201,219,269,258,349,295,371,303,369,308,347,300,267,262,198,224"/>
 </map>

@@ -1,10 +1,17 @@
 <map id="Tgstation.Server.Host.Setup.PostSetupServices" name="Tgstation.Server.Host.Setup.PostSetupServices">
-<area shape="rect" id="node1" title=" " alt="" coords="420,183,608,223"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html" title="Set of objects needed to configure an Core.Application." alt="" coords="31,5,169,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="22,55,178,95"/>
-<area shape="rect" id="node4" title=" " alt="" coords="17,119,183,159"/>
-<area shape="rect" id="node5" title=" " alt="" coords="21,183,179,223"/>
-<area shape="rect" id="node6" title=" " alt="" coords="11,247,189,287"/>
-<area shape="rect" id="node7" title=" " alt="" coords="5,311,195,351"/>
-<area shape="rect" id="node8" title=" " alt="" coords="23,375,177,415"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="418,186,605,227"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html" title="Set of objects needed to configure an Core.Application." alt="" coords="31,5,168,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,17,234,22,288,32,343,48,395,72,429,97,459,127,500,184,496,187,455,131,426,101,392,76,341,53,287,37,233,28,183,22"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="22,55,177,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,85,291,106,395,137,441,159,481,183,478,188,438,164,393,142,290,111,192,91"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="17,121,182,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="198,153,394,184,418,187,417,193,393,189,197,158"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="21,186,178,227"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="194,204,417,204,417,209,194,209"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="11,251,188,292"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="204,263,296,254,393,239,448,225,450,230,394,244,297,259,204,268"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="5,317,194,357"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="209,335,301,324,348,313,393,298,421,283,448,264,489,225,493,229,451,268,424,287,395,303,349,318,302,329,210,340"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="23,382,176,423"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="191,403,240,399,292,391,344,377,392,355,429,326,459,291,482,256,498,226,503,228,487,258,463,294,432,330,395,359,346,382,293,397,240,405,192,408"/>
 </map>

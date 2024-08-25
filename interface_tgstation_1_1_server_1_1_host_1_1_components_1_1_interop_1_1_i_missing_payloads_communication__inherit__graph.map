@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Interop.IMissingPayloadsCommunication" name="Tgstation.Server.Host.Components.Interop.IMissingPayloadsCommunication">
-<area shape="rect" id="node1" title="A communication that can be missing chunk payloads." alt="" coords="5,69,263,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_response.html" title="A response to a bridge request." alt="" coords="323,5,549,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chunked_topic_parameters.html" title="TopicParameters for TopicCommandType.ReceiveChunk." alt="" coords="311,69,561,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_response.html" title="A response to a topic request." alt="" coords="323,133,549,173"/>
+<area shape="rect" id="Node000001" title="A communication that can be missing chunk payloads." alt="" coords="5,71,262,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_response.html" title="A response to a bridge request." alt="" coords="321,5,548,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,64,337,44,338,49,246,69"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chunked_topic_parameters.html" title="TopicParameters for TopicCommandType.ReceiveChunk." alt="" coords="310,71,559,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="277,88,309,88,309,94,277,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_response.html" title="A response to a topic request." alt="" coords="321,136,548,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="246,113,338,133,337,138,245,118"/>
 </map>

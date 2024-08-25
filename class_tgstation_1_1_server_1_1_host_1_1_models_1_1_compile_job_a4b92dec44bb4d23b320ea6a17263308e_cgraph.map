@@ -1,8 +1,11 @@
 <map id="Tgstation.Server.Host.Models.CompileJob.ToApi" name="Tgstation.Server.Host.Models.CompileJob.ToApi">
-<area shape="rect" id="node1" title=" " alt="" coords="5,69,201,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#aae23d16fba65bf4ffd01e614524f3709" title="Initializes a new instance of the EngineVersion class." alt="" coords="252,5,443,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="249,69,445,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a8e6f5b4375c0594f10c413c4119515b1" title=" " alt="" coords="249,133,445,173"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="497,69,686,109"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html#ac2943458d2fc3077a6684408fb26ab09" title=" " alt="" coords="493,133,689,173"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,201,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="249,5,444,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,43,233,38,234,44,202,48"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a8e6f5b4375c0594f10c413c4119515b1" title=" " alt="" coords="249,71,444,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="202,69,234,74,233,79,201,75"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="496,5,684,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="445,23,480,23,480,28,445,28"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html#ac2943458d2fc3077a6684408fb26ab09" title=" " alt="" coords="492,71,687,111"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="445,88,477,88,477,94,445,94"/>
 </map>

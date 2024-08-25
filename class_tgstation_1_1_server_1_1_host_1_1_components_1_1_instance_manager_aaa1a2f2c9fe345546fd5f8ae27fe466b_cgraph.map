@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager.StopAsync" name="Tgstation.Server.Host.Components.InstanceManager.StopAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,69,232,109"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#abcec01af471cee5fce210b9fbcb2fa74" title="Sets a newTitle &#160;console window." alt="" coords="309,5,477,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html#a6296d8313a5ce21888e6eb9f08b8379a" title="Deregister with the swarm controller or put clients into querying state." alt="" coords="280,69,507,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="285,134,501,189"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,71,232,111"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#abcec01af471cee5fce210b9fbcb2fa74" title="Sets a newTitle &#160;console window." alt="" coords="309,5,477,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="206,67,293,47,295,52,208,73"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html#a6296d8313a5ce21888e6eb9f08b8379a" title="Deregister with the swarm controller or put clients into querying state." alt="" coords="280,71,506,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,88,264,88,264,94,232,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="285,135,501,191"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="199,109,271,128,269,133,198,114"/>
 </map>

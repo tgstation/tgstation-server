@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Core.IServerControl.RegisterForRestart" name="Tgstation.Server.Host.Core.IServerControl.RegisterForRestart">
-<area shape="rect" id="node1" title="Register a given handler &#160;to run before stopping the server for a restart." alt="" coords="316,69,533,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a1c0349edb057491d7bb8c03612bc8753" title="Initializes a new instance of the ChatManager class." alt="" coords="23,5,250,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a6f58815e073d27699e473c74617f0fdc" title="Initializes a new instance of the SystemDManager class." alt="" coords="21,69,252,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a1a62de2c2fd2249c313a1a8d382d996b" title="Initializes a new instance of the WatchdogBase class." alt="" coords="5,133,268,173"/>
+<area shape="rect" id="Node000001" title="Register a given handler &#160;to run before stopping the server for a restart." alt="" coords="315,71,531,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a1c0349edb057491d7bb8c03612bc8753" title="Initializes a new instance of the ChatManager class." alt="" coords="23,5,249,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="315,69,228,49,229,44,316,64"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a6f58815e073d27699e473c74617f0fdc" title="Initializes a new instance of the SystemDManager class." alt="" coords="21,71,251,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="299,94,252,94,252,88,299,88"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a1a62de2c2fd2249c313a1a8d382d996b" title="Initializes a new instance of the WatchdogBase class." alt="" coords="5,136,267,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="316,118,229,138,228,133,315,113"/>
 </map>

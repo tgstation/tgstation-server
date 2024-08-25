@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager.WriteAllBytes" name="Tgstation.Server.Host.IO.DefaultIOManager.WriteAllBytes">
-<area shape="rect" id="node1" title="Writes some contents &#160;to a file at path &#160;overwriting previous content. A ValueTask representing the r..." alt="" coords="5,13,213,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a38ca4ff226c098355ef1b316aa32421d" title="Creates an asynchronous FileStream for sequential writing. The open FileStream." alt="" coords="261,5,527,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory. The full path of the current working directo..." alt="" coords="575,13,779,53"/>
+<area shape="rect" id="Node000001" title="Writes some contents &#160;to a file at path &#160;overwriting previous content.A ValueTask representing the ru..." alt="" coords="5,13,213,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a38ca4ff226c098355ef1b316aa32421d" title="Creates an asynchronous FileStream for sequential writing.The open FileStream." alt="" coords="261,5,525,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,31,245,31,245,36,213,36"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory.The full path of the current working director..." alt="" coords="573,13,776,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="526,31,557,31,557,36,526,36"/>
 </map>

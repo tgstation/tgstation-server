@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.Provider.EnqueueMessage" name="Tgstation.Server.Host.Components.Chat.Providers.Provider.EnqueueMessage">
-<area shape="rect" id="node1" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="653,133,917,173"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afe2edd40c945bc526ccd5dfea7a062b1" title=" " alt="" coords="329,5,573,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a48adcd32348dbab4150bd2c8087623e0" title=" " alt="" coords="296,69,605,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="316,133,585,173"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8d7bbc5ddb64df2800554c354ff1974a" title=" " alt="" coords="305,197,597,237"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a1494b2b91cc869199100c9338f91d864" title="Send a message to the IProvider. A ValueTask representing the running operation." alt="" coords="333,262,568,317"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect. A Task representing the runni..." alt="" coords="5,126,248,181"/>
+<area shape="rect" id="Node000001" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="612,39,875,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afe2edd40c945bc526ccd5dfea7a062b1" title=" " alt="" coords="308,5,552,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="597,46,552,41,552,36,597,41"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="296,71,564,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="597,77,565,80,564,75,596,71"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect.A Task representing the runnin..." alt="" coords="5,63,248,119"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="280,94,248,94,248,88,280,88"/>
 </map>

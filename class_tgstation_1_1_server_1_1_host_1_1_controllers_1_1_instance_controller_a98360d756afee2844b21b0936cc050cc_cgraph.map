@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Controllers.InstanceController.List" name="Tgstation.Server.Host.Controllers.InstanceController.List">
-<area shape="rect" id="node1" title="List Api.Models.Instances." alt="" coords="5,69,221,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ae6de3128c5d49b91d7bb8f6f2caf0ed5" title="Populate the InstanceResponse.Accessible property of a given instanceResponse ." alt="" coords="281,5,512,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext. A Task representing the running operation." alt="" coords="292,69,501,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#aba9306ee424759a221509c021cdf0cde" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="269,134,524,189"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61" title="Get the IInstanceReference associated with given metadata ." alt="" coords="572,141,831,181"/>
+<area shape="rect" id="Node000001" title="List Api.Models.Instances." alt="" coords="5,71,221,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ae6de3128c5d49b91d7bb8f6f2caf0ed5" title="Populate the InstanceResponse.Accessible property of a given instanceResponse ." alt="" coords="280,5,511,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,67,289,47,290,53,205,73"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="291,71,500,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,88,276,88,276,94,221,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#aba9306ee424759a221509c021cdf0cde" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="269,135,522,191"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="196,109,270,128,268,133,195,115"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61" title="Get the IInstanceReference associated with given metadata ." alt="" coords="570,143,828,183"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="523,160,554,160,554,166,523,166"/>
 </map>

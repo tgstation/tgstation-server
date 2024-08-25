@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.System.IProcessBase.CreateDump" name="Tgstation.Server.Host.System.IProcessBase.CreateDump">
-<area shape="rect" id="node1" title="Create a dump file of the process." alt="" coords="303,5,501,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a90348c4d78d87f68a7e8ec52574ccdf0" title="Create a dump file of the process. A ValueTask representing the running operation." alt="" coords="5,5,255,45"/>
+<area shape="rect" id="Node000001" title="Create a dump file of the process." alt="" coords="302,5,499,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a90348c4d78d87f68a7e8ec52574ccdf0" title="Create a dump file of the process.A ValueTask representing the running operation." alt="" coords="5,5,254,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="286,28,254,28,254,23,286,23"/>
 </map>

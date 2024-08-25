@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Interop.Bridge.BridgeResponse" name="Tgstation.Server.Host.Components.Interop.Bridge.BridgeResponse">
-<area shape="rect" id="node1" title="A response to a bridge request." alt="" coords="46,79,273,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_response.html" title="Common base for interop responses." alt="" coords="5,5,124,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_missing_payloads_communication.html" title="A communication that can be missing chunk payloads." alt="" coords="148,5,363,31"/>
+<area shape="rect" id="Node000001" title="A response to a bridge request." alt="" coords="46,79,272,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_response.html" title="Common base for interop responses." alt="" coords="5,5,124,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,39,138,77,134,81,89,43"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_missing_payloads_communication.html" title="A communication that can be missing chunk payloads." alt="" coords="147,5,361,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="230,43,184,81,181,77,226,39"/>
 </map>

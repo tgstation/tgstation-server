@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Security.OAuth.DiscordOAuthValidator" name="Tgstation.Server.Host.Security.OAuth.DiscordOAuthValidator">
-<area shape="rect" id="node1" title="OAuth validator for Discord." alt="" coords="54,183,255,223"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="77,108,232,133"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,13,120,38"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="145,5,349,45"/>
+<area shape="rect" id="Node000001" title="OAuth validator for Discord." alt="" coords="53,184,253,225"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="76,109,230,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,150,155,184,150,184,150,150"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,13,119,39"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="86,48,143,107,139,110,82,52"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="143,5,346,46"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="217,59,166,111,162,107,213,55"/>
 </map>

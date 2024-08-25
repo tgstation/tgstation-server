@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.Results.LimitedStreamResultExecutor.ExecuteAsync" name="Tgstation.Server.Host.Controllers.Results.LimitedStreamResultExecutor.ExecuteAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,249,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result.html#a7a426c34eac3920d440ac4ae0c93f62a" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="297,13,549,53"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,249,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result.html#a7a426c34eac3920d440ac4ae0c93f62a" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="297,13,548,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="249,31,281,31,281,36,249,36"/>
 </map>

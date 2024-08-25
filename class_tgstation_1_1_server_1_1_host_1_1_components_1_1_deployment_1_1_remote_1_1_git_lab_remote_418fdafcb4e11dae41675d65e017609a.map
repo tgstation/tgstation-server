@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Deployment.Remote.GitLabRemoteDeploymentManager" name="Tgstation.Server.Host.Components.Deployment.Remote.GitLabRemoteDeploymentManager">
-<area shape="rect" id="node1" title="IRemoteDeploymentManager for GitLab.com." alt="" coords="5,152,299,207"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html" title="Base class for implementing IRemoteDeploymentManagers." alt="" coords="45,79,259,104"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html" title="Creates and updates remote deployments." alt="" coords="57,5,247,31"/>
+<area shape="rect" id="Node000001" title="IRemoteDeploymentManager for GitLab.com." alt="" coords="5,153,298,208"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html" title="Base class for implementing IRemoteDeploymentManagers." alt="" coords="44,79,259,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,120,154,152,149,152,149,120"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html" title="Creates and updates remote deployments." alt="" coords="57,5,246,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="154,46,154,79,149,79,149,46"/>
 </map>

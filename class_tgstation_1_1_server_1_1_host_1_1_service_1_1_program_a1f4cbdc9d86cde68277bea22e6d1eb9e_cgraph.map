@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Service.Program.InvokeSC" name="Tgstation.Server.Host.Service.Program.InvokeSC">
-<area shape="rect" id="node1" title="Runs sc.exe to either uninstall a given serviceToUninstall &#160;or install the running ServerService." alt="" coords="5,29,204,69"/>
-<area shape="rect" id="node2" href="$_tgstation_8_server_8_host_8_service_2_program_8cs.html#a7a5d1a672c9435fca33efa3cdfda3f7a" title="Restarts a service using a given serviceController ." alt="" coords="252,37,360,62"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5" title="Gets the int value of a given command ." alt="" coords="408,29,660,69"/>
-</map>

@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Core.ServerUpdater.PrepareUpdateClearStagingAndBufferStream" name="Tgstation.Server.Host.Core.ServerUpdater.PrepareUpdateClearStagingAndBufferStream">
-<area shape="rect" id="node1" title="Prepares the swarm update, deletes the stagingDirectory , and buffers the ServerUpdateOperation...." alt="" coords="5,62,232,117"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="290,5,471,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a4bce9f341d4ff8b0dedbe2f1474e6dc8" title="Signal to the swarm that an update is requested." alt="" coords="280,69,481,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a9486c55f454c4f37c13adeb620523654" title="Attempt to abort a prepared swarm update." alt="" coords="290,133,471,173"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html#ac68948445b85942f29d2b618dfea9763" title="Attempt to abort an uncommitted update." alt="" coords="529,133,756,173"/>
+<area shape="rect" id="Node000001" title="Prepares the swarm update, deletes the stagingDirectory , and buffers the ServerUpdateOperation...." alt="" coords="5,63,231,119"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="289,5,469,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,60,280,48,281,53,232,65"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a4bce9f341d4ff8b0dedbe2f1474e6dc8" title="Signal to the swarm that an update is requested." alt="" coords="279,71,479,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="231,88,263,88,263,94,231,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a9486c55f454c4f37c13adeb620523654" title="Attempt to abort a prepared swarm update." alt="" coords="289,136,469,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="232,117,281,129,280,134,230,122"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html#ac68948445b85942f29d2b618dfea9763" title="Attempt to abort an uncommitted update." alt="" coords="527,136,753,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="470,154,511,154,511,159,470,159"/>
 </map>

@@ -1,9 +1,15 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.PathContainsParentAccess" name="Tgstation.Server.Host.IO.IIOManager.PathContainsParentAccess">
-<area shape="rect" id="node1" title="Check if a path &#160;contains the &#39;..&#39; parent directory accessor." alt="" coords="575,133,828,173"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ac87ffe36eed57c689bd66ca2a08453a1" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="297,126,527,181"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ad027b48cbc062a6a109c68c1f36db53e" title="Create a configuration directory." alt="" coords="5,5,249,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a05490adb221b9e0954caa76167121d33" title="Deletes an empty directory ." alt="" coords="6,69,249,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a4ba01f627952c9d3f1cdaa6f7849d25c" title="Get the contents of a directory at a directoryPath ." alt="" coords="19,133,235,173"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#aad0135f549d1c973f2a144b55fbf40b9" title="Get the contents of a file at a filePath ." alt="" coords="19,197,235,237"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a2a376160593ef985968f01f7dd93d24f" title="Write to a configuration file." alt="" coords="19,261,235,301"/>
+<area shape="rect" id="Node000001" title="Check if a path &#160;contains the &#39;..&#39; parent directory accessor." alt="" coords="573,136,825,177"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ac87ffe36eed57c689bd66ca2a08453a1" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="297,129,525,184"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="557,159,525,159,525,154,557,154"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ad027b48cbc062a6a109c68c1f36db53e" title="Create a configuration directory." alt="" coords="5,5,249,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="356,122,304,90,248,61,214,49,216,44,250,57,307,86,358,117"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a05490adb221b9e0954caa76167121d33" title="Deletes an empty directory ." alt="" coords="6,71,248,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="281,129,218,115,219,109,282,124"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a4ba01f627952c9d3f1cdaa6f7849d25c" title="Get the contents of a directory at a directoryPath ." alt="" coords="19,136,235,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="281,159,235,159,235,154,281,154"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#aad0135f549d1c973f2a144b55fbf40b9" title="Get the contents of a file at a filePath ." alt="" coords="19,201,235,242"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="282,189,219,203,218,198,281,183"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a2a376160593ef985968f01f7dd93d24f" title="Write to a configuration file." alt="" coords="19,267,235,307"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="358,195,307,227,250,256,216,269,214,264,248,251,304,222,356,191"/>
 </map>

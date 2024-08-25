@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Jobs.JobsHubGroupMapper.RefreshHubGroups" name="Tgstation.Server.Host.Jobs.JobsHubGroupMapper.RefreshHubGroups">
-<area shape="rect" id="node1" title="Refresh the hub Hub.Groups for clients associated with a given permissionSetId ." alt="" coords="5,5,272,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html#a3919b07ebc527849918921a4d532dda4" title="Get the group name for a given instanceId ." alt="" coords="320,5,503,45"/>
+<area shape="rect" id="Node000001" title="Refresh the hub Hub.Groups for clients associated with a given permissionSetId ." alt="" coords="5,5,271,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html#a3919b07ebc527849918921a4d532dda4" title="Get the group name for a given instanceId ." alt="" coords="319,5,500,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="271,23,303,23,303,28,271,28"/>
 </map>

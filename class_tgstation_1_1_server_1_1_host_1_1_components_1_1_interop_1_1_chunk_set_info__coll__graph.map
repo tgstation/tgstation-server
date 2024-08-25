@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Interop.ChunkSetInfo" name="Tgstation.Server.Host.Components.Interop.ChunkSetInfo">
-<area shape="rect" id="node1" title="Information about a chunked bridge request." alt="" coords="5,79,232,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_chunk_payload_id.html" title="Represents the payload ID of a set of chunked data." alt="" coords="59,5,179,31"/>
+<area shape="rect" id="Node000001" title="Information about a chunked bridge request." alt="" coords="5,79,232,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_chunk_payload_id.html" title="Represents the payload ID of a set of chunked data." alt="" coords="59,5,178,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,46,121,79,116,79,116,46"/>
 </map>

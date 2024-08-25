@@ -1,6 +1,10 @@
 <map id="Tgstation.Server.Host.Components.Interop.Bridge.BridgeRegistration" name="Tgstation.Server.Host.Components.Interop.Bridge.BridgeRegistration">
-<area shape="rect" id="node1" title=" " alt="" coords="21,152,248,192"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker.html" title="Runs a given disposeAction on Dispose." alt="" coords="5,79,117,104"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="89,5,180,31"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registration.html" title="Represents a registration of an interop session." alt="" coords="142,79,274,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="20,153,246,193"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker.html" title="Runs a given disposeAction on Dispose." alt="" coords="5,79,117,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,115,117,150,113,154,80,118"/>
+<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="88,5,178,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="112,44,75,80,71,77,108,40"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registration.html" title="Represents a registration of an interop session." alt="" coords="141,79,272,105"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="158,40,196,77,192,80,154,44"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="187,118,153,154,149,150,183,114"/>
 </map>

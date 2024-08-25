@@ -1,17 +1,35 @@
 <map id="Tgstation.Server.Api.Models.EngineVersion.ToString" name="Tgstation.Server.Api.Models.EngineVersion.ToString">
-<area shape="rect" id="node1" title=" " alt="" coords="1813,190,2000,230"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a4d0593064aa1c11835cfa1ab2823ec34" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="1164,80,1455,120"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#aa9978534a863e31d7d58e51c86b5886c" title="Change the active EngineVersion. A ValueTask representing the running operation." alt="" coords="851,18,1095,58"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a83a3cb2591bece1b30b408481ed13050" title="Deletes a given version &#160;from the disk. A Task representing the running operation." alt="" coords="1515,126,1753,166"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#ac06e9789785574f8d657a29fdd183795" title="Installs the files for a given BYOND version ." alt="" coords="1503,190,1765,230"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2394e942cf255412fe358bef742b580c" title="Executes and populate a given job ." alt="" coords="1503,254,1765,294"/>
-<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a22ba2f5d6507771c3d4ddfe1d3661fcd" title=" " alt="" coords="1510,319,1758,374"/>
-<area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a43d2c796792fcf3807acc665c1ea06ab" title=" " alt="" coords="555,390,781,430"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a803c2123e6edceee48d8b4897be532c6" title="Lock the current installation&#39;s location and return a IEngineExecutableLock. A ValueTask&lt;TResult&gt; res..." alt="" coords="847,82,1098,122"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad489ef5c91d097ff3366d5bc63d8277e" title="Run the compile implementation." alt="" coords="1196,290,1423,330"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title=" " alt="" coords="829,292,1116,332"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,292,781,332"/>
-<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore. A ValueTask representing the running operation." alt="" coords="280,294,507,334"/>
-<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,362,232,402"/>
-<area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,294,232,334"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="1809,191,1996,232"/>
+<area shape="poly" id="edge18_Node000001_Node000001" title=" " alt="" coords="1947,178,1931,172,1902,170,1876,172,1860,177,1854,183,1857,190,1852,192,1849,181,1858,172,1875,167,1903,165,1932,167,1949,173"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a4d0593064aa1c11835cfa1ab2823ec34" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="1162,79,1451,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1867,183,1819,146,1791,130,1760,117,1683,98,1603,88,1524,85,1451,87,1451,81,1524,79,1603,82,1684,92,1762,112,1793,125,1822,142,1871,179"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#aa9978534a863e31d7d58e51c86b5886c" title="Change the active EngineVersion.A ValueTask representing the running operation." alt="" coords="849,18,1093,59"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="1876,181,1827,127,1795,102,1760,82,1675,52,1586,31,1495,17,1404,10,1317,8,1234,11,1093,23,1093,17,1234,5,1317,3,1405,5,1495,12,1587,25,1677,47,1762,77,1798,97,1830,123,1880,177"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a83a3cb2591bece1b30b408481ed13050" title="Deletes a given version &#160;from the disk.A Task representing the running operation." alt="" coords="1512,126,1748,167"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="1799,190,1717,170,1719,165,1801,185"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#ac06e9789785574f8d657a29fdd183795" title="Installs the files for a given BYOND version ." alt="" coords="1499,191,1761,232"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="1794,214,1762,214,1762,209,1794,209"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2394e942cf255412fe358bef742b580c" title="Executes and populate a given job ." alt="" coords="1500,257,1760,297"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="1801,239,1719,259,1717,254,1799,234"/>
+<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a22ba2f5d6507771c3d4ddfe1d3661fcd" title="Send the message for a deployment.A ValueTask&lt;TResult&gt; resulting in a Func&lt;T1, T2,..." alt="" coords="1507,321,1754,377"/>
+<area shape="poly" id="edge15_Node000001_Node000014" title=" " alt="" coords="1866,244,1818,279,1763,312,1735,323,1733,318,1760,307,1815,275,1863,240"/>
+<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a43d2c796792fcf3807acc665c1ea06ab" title=" " alt="" coords="554,393,780,433"/>
+<area shape="poly" id="edge16_Node000001_Node000015" title=" " alt="" coords="1888,248,1868,284,1840,324,1805,362,1763,391,1697,421,1629,444,1559,463,1487,477,1343,492,1200,494,1065,486,942,472,836,454,751,437,752,431,837,449,943,467,1066,481,1200,489,1342,487,1486,471,1557,457,1627,439,1695,416,1760,387,1802,358,1836,321,1863,281,1883,245"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1176,79,1085,62,1086,57,1177,73"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a803c2123e6edceee48d8b4897be532c6" title="Lock the current installation&#39;s location and return a IEngineExecutableLock.A ValueTask&lt;TResult&gt; resu..." alt="" coords="846,83,1096,124"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="1146,104,1096,105,1096,100,1146,99"/>
+<area shape="poly" id="edge7_Node000006_Node000002" title=" " alt="" coords="1525,189,1498,181,1421,152,1352,123,1354,118,1423,147,1500,176,1527,184"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad489ef5c91d097ff3366d5bc63d8277e" title="Run the compile implementation." alt="" coords="1193,293,1420,333"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="1485,296,1420,303,1420,298,1484,291"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title="Create and a compile job and insert it into the database. Meant to be called by a IJobManager...." alt="" coords="828,294,1114,335"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="1178,316,1114,317,1114,311,1178,311"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="554,294,780,335"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="813,317,781,317,781,312,813,312"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore.A ValueTask representing the running operation." alt="" coords="280,297,506,337"/>
+<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="538,318,507,319,507,313,538,313"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,366,232,407"/>
+<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="295,344,202,368,201,363,294,339"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,297,232,337"/>
+<area shape="poly" id="edge14_Node000011_Node000013" title=" " alt="" coords="264,320,232,320,232,314,264,314"/>
+<area shape="poly" id="edge17_Node000015_Node000012" title=" " alt="" coords="538,410,232,395,232,389,538,404"/>
 </map>

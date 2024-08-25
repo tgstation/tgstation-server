@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Common.Http.IHttpClient" name="Tgstation.Server.Common.Http.IHttpClient">
-<area shape="rect" id="node1" title="For sending HTTP requests." alt="" coords="5,79,180,119"/>
-<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="47,5,138,31"/>
+<area shape="rect" id="Node000001" title="For sending HTTP requests." alt="" coords="5,79,180,120"/>
+<area shape="rect" id="Node000002" href="$class_i_disposable.html" title=" " alt="" coords="48,5,137,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,46,95,79,90,79,90,46"/>
 </map>

@@ -1,12 +1,21 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanUnusedCompileJobs" name="Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanUnusedCompileJobs">
-<area shape="rect" id="node1" title="Deletes all compile jobs that are inactive in the Game folder. A ValueTask representing the running o..." alt="" coords="5,213,324,253"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="406,5,589,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ae61cd8f1b66ca42385c1132128da40a1" title="Handles cleaning the resources of a CompileJob." alt="" coords="372,70,623,125"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2" title="Returns full directory names in a given path ." alt="" coords="409,149,585,189"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182" title="Gets the file name portion of a path ." alt="" coords="412,213,583,253"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="413,277,581,317"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="378,341,617,381"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="389,406,605,461"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="699,45,881,85"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="671,109,909,149"/>
+<area shape="rect" id="Node000001" title="Deletes all compile jobs that are inactive in the Game folder.A ValueTask representing the running op..." alt="" coords="5,215,324,255"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="406,5,587,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,212,259,135,312,92,370,55,390,46,393,51,373,60,315,97,262,139,186,216"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ae61cd8f1b66ca42385c1132128da40a1" title="Handles cleaning the resources of a CompileJob." alt="" coords="372,70,621,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="205,212,281,174,371,135,388,129,390,134,373,140,283,179,207,216"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2" title="Returns full directory names in a given path ." alt="" coords="409,149,584,190"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="271,211,393,187,394,192,272,217"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182" title="Gets the file name portion of a path ." alt="" coords="412,215,581,255"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="324,232,397,232,397,238,324,238"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="413,280,580,321"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="272,253,398,278,397,284,271,259"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="377,345,616,386"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="206,254,282,291,373,330,396,338,394,343,371,335,280,296,204,258"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="389,410,604,466"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="189,254,266,322,318,361,373,395,384,401,382,406,370,400,315,366,263,327,185,258"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="698,45,878,86"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="621,81,682,75,682,80,622,87"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="669,111,906,151"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="622,109,654,113,653,118,621,115"/>
 </map>

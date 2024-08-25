@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.IO.IConsole.SetTitle" name="Tgstation.Server.Host.IO.IConsole.SetTitle">
-<area shape="rect" id="node1" title="Sets a newTitle &#160;console window." alt="" coords="555,37,723,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="280,5,507,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aaa1a2f2c9fe345546fd5f8ae27fe466b" title=" " alt="" coords="280,69,507,109"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="5,5,232,45"/>
+<area shape="rect" id="Node000001" title="Sets a newTitle &#160;console window." alt="" coords="554,39,721,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="280,5,506,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="538,48,506,44,507,38,539,43"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aaa1a2f2c9fe345546fd5f8ae27fe466b" title=" " alt="" coords="280,71,506,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="539,75,507,79,506,74,538,69"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="5,5,232,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="264,28,232,28,232,23,264,23"/>
 </map>

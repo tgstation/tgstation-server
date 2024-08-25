@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Properties.MasterVersionsAttribute" name="Tgstation.Server.Host.Properties.MasterVersionsAttribute">
-<area shape="rect" id="node1" title="Attribute for bringing in the master versions list from MSBuild that aren&#39;t embedded into assemblies ..." alt="" coords="5,79,219,119"/>
-<area shape="rect" id="node2" href="$class_attribute.html" title=" " alt="" coords="77,5,147,31"/>
+<area shape="rect" id="Node000001" title="Attribute for bringing in the master versions list from MSBuild that aren&#39;t embedded into assemblies ..." alt="" coords="5,79,218,120"/>
+<area shape="rect" id="Node000002" href="$class_attribute.html" title=" " alt="" coords="76,5,147,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,46,114,79,109,79,109,46"/>
 </map>

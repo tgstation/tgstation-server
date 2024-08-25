@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Repository.IRepository.FetchOrigin" name="Tgstation.Server.Host.Components.Repository.IRepository.FetchOrigin">
-<area shape="rect" id="node1" title="Fetch commits from the origin repository." alt="" coords="336,5,563,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a80f999e3876ac5a4c9c92684df68ec12" title="Download a given engine version . A ValueTask&lt;TResult&gt; resulting in the IEngineInstallationData for t..." alt="" coords="5,5,288,45"/>
+<area shape="rect" id="Node000001" title="Fetch commits from the origin repository." alt="" coords="336,5,562,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a80f999e3876ac5a4c9c92684df68ec12" title="Download a given engine version .A ValueTask&lt;TResult&gt; resulting in the IEngineInstallationData for th..." alt="" coords="5,5,288,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="320,28,288,28,288,23,320,23"/>
 </map>

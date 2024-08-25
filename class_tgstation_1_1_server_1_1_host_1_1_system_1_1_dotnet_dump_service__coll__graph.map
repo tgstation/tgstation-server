@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.System.DotnetDumpService" name="Tgstation.Server.Host.System.DotnetDumpService">
-<area shape="rect" id="node1" title=" " alt="" coords="360,27,559,67"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html" title="Service for managing the dotnet&#45;dump installation." alt="" coords="68,5,211,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,55,273,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="359,27,556,68"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html" title="Service for managing the dotnet&#45;dump installation." alt="" coords="68,5,210,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,23,359,36,358,41,225,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,55,273,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="288,60,358,54,358,59,289,65"/>
 </map>

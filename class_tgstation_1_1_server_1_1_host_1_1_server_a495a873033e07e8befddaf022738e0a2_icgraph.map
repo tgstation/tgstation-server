@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Server.RestartImpl" name="Tgstation.Server.Host.Server.RestartImpl">
-<area shape="rect" id="node1" title="Implements Restart()." alt="" coords="264,27,456,67"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a14a8a5126b790adbcf8fb81cc573acf1" title="Kill the server with a fatal exception. A Task representing the running operation." alt="" coords="5,5,216,31"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a2343e099613579929e08bbc59f28c1c5" title="Attempt to update with a given updateExecutor . true if the update started successfully,..." alt="" coords="15,55,207,95"/>
+<area shape="rect" id="Node000001" title="Implements Restart()." alt="" coords="264,27,455,68"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a14a8a5126b790adbcf8fb81cc573acf1" title="Kill the server with a fatal exception.A Task representing the running operation." alt="" coords="5,5,216,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="248,37,216,33,216,28,248,32"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a2343e099613579929e08bbc59f28c1c5" title="Attempt to update with a given updateExecutor .true if the update started successfully,..." alt="" coords="15,55,206,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="249,63,207,67,206,62,248,57"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Jobs.JobsHubGroupMapper" name="Tgstation.Server.Host.Jobs.JobsHubGroupMapper">
-<area shape="rect" id="node1" title="Handles mapping groups for the JobsHub." alt="" coords="95,79,277,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html" title="Receives notifications about permissions updates." alt="" coords="5,5,193,31"/>
-<area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="218,5,330,31"/>
+<area shape="rect" id="Node000001" title="Handles mapping groups for the JobsHub." alt="" coords="95,79,276,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html" title="Receives notifications about permissions updates." alt="" coords="5,5,193,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,40,166,77,162,81,122,44"/>
+<area shape="rect" id="Node000003" href="$class_i_hosted_service.html" title=" " alt="" coords="217,5,328,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="250,44,209,81,205,77,246,40"/>
 </map>

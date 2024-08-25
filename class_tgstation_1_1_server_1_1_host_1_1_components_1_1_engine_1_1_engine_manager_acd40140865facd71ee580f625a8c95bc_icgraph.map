@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Host.Components.Engine.EngineManager.AddInstallationContainer" name="Tgstation.Server.Host.Components.Engine.EngineManager.AddInstallationContainer">
-<area shape="rect" id="node1" title="Create and add a new IEngineInstallation to installedVersions." alt="" coords="643,94,885,149"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a4d0593064aa1c11835cfa1ab2823ec34" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="304,69,595,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a43d2c796792fcf3807acc665c1ea06ab" title=" " alt="" coords="336,133,563,173"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#aa9978534a863e31d7d58e51c86b5886c" title="Change the active EngineVersion. A ValueTask representing the running operation." alt="" coords="9,5,253,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a803c2123e6edceee48d8b4897be532c6" title="Lock the current installation&#39;s location and return a IEngineExecutableLock. A ValueTask&lt;TResult&gt; res..." alt="" coords="5,69,256,109"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="17,133,244,173"/>
+<area shape="rect" id="Node000001" title="Create and add a new IEngineInstallation to installedVersions." alt="" coords="640,97,881,152"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a4d0593064aa1c11835cfa1ab2823ec34" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="303,71,592,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="624,113,592,109,592,104,625,107"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a43d2c796792fcf3807acc665c1ea06ab" title=" " alt="" coords="334,136,561,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="625,141,561,147,561,142,624,136"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#aa9978534a863e31d7d58e51c86b5886c" title="Change the active EngineVersion.A ValueTask representing the running operation." alt="" coords="8,5,252,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="330,70,232,49,233,44,331,64"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a803c2123e6edceee48d8b4897be532c6" title="Lock the current installation&#39;s location and return a IEngineExecutableLock.A ValueTask&lt;TResult&gt; resu..." alt="" coords="5,71,255,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="287,94,255,94,255,88,287,88"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="17,136,243,177"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="318,159,244,159,244,154,318,154"/>
 </map>

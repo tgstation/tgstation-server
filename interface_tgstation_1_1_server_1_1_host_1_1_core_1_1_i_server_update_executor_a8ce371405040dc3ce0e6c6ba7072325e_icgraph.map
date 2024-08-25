@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Core.IServerUpdateExecutor.ExecuteUpdate" name="Tgstation.Server.Host.Core.IServerUpdateExecutor.ExecuteUpdate">
-<area shape="rect" id="node1" title="Executes a pending server update by extracting the new server to a given updatePath ." alt="" coords="245,5,492,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a2343e099613579929e08bbc59f28c1c5" title="Attempt to update with a given updateExecutor . true if the update started successfully,..." alt="" coords="5,5,197,45"/>
+<area shape="rect" id="Node000001" title="Executes a pending server update by extracting the new server to a given updatePath ." alt="" coords="245,5,491,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a2343e099613579929e08bbc59f28c1c5" title="Attempt to update with a given updateExecutor .true if the update started successfully,..." alt="" coords="5,5,197,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="229,28,197,28,197,23,229,23"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Utils.PortAllocator" name="Tgstation.Server.Host.Utils.PortAllocator">
-<area shape="rect" id="node1" title=" " alt="" coords="25,79,207,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html" title="Gets unassigned ports for use by TGS." alt="" coords="5,5,107,31"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="131,5,221,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="24,79,204,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html" title="Gets unassigned ports for use by TGS." alt="" coords="5,5,106,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,42,102,77,98,80,71,45"/>
+<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="130,5,219,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="158,45,131,80,127,77,154,42"/>
 </map>

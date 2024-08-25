@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Api.Models.Internal.DreamDaemonSettings" name="Tgstation.Server.Api.Models.Internal.DreamDaemonSettings">
-<area shape="rect" id="node1" title="Configurable settings for DreamDaemon." alt="" coords="272,69,475,109"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_api_base.html" title="Base class for DreamDaemon API models." alt="" coords="523,37,725,77"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_daemon_settings.html" title=" " alt="" coords="526,101,722,141"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html" title="Launch settings for DreamDaemon." alt="" coords="5,77,224,102"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_dream_daemon_request.html" title="A request to update DreamDaemonSettings." alt="" coords="783,5,990,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_dream_daemon_response.html" title="Represents an instance of BYOND&#39;s DreamDaemon game server. Create action starts the server...." alt="" coords="773,69,1000,109"/>
+<area shape="rect" id="Node000001" title="Configurable settings for DreamDaemon." alt="" coords="271,71,472,111"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_api_base.html" title="Base class for DreamDaemon API models." alt="" coords="520,37,722,78"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="487,73,519,69,520,74,488,78"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_daemon_settings.html" title=" " alt="" coords="524,103,719,143"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="488,103,523,108,523,113,487,108"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html" title="Launch settings for DreamDaemon." alt="" coords="5,78,223,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,88,270,88,270,94,238,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_dream_daemon_request.html" title="A request to update DreamDaemonSettings." alt="" coords="780,5,987,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="738,41,780,36,780,41,738,46"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_dream_daemon_response.html" title="Represents an instance of BYOND&#39;s DreamDaemon game server. Create action starts the server...." alt="" coords="770,71,997,111"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="738,70,770,74,770,79,738,75"/>
 </map>

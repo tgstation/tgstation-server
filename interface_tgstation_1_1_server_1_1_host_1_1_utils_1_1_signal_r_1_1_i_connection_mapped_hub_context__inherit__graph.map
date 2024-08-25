@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Utils.SignalR.IConnectionMappedHubContext&lt; THub, THubMethods &gt;" name="Tgstation.Server.Host.Utils.SignalR.IConnectionMappedHubContext&lt; THub, THubMethods &gt;">
-<area shape="rect" id="node1" title="A IHubContext&lt;THub&gt; that maps Users to their connection IDs." alt="" coords="5,93,259,148"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r_1_1_comprehensive_hub_context.html" title="An implementation of IHubContext&lt;THub&gt; with User connection ID mapping." alt="" coords="18,196,246,251"/>
-<area shape="rect" id="node2" href="$class_i_hub_context.html" title=" " alt="" coords="61,5,203,45"/>
+<area shape="rect" id="Node000001" title="A IHubContext&lt;THub&gt; that maps Users to their connection IDs." alt="" coords="5,94,258,150"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r_1_1_comprehensive_hub_context.html" title="An implementation of IHubContext&lt;THub&gt; with User connection ID mapping." alt="" coords="18,198,245,253"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="134,165,134,197,129,197,129,165"/>
+<area shape="rect" id="Node000002" href="$class_i_hub_context.html" title=" " alt="" coords="61,5,202,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,61,134,93,129,93,129,61"/>
 </map>

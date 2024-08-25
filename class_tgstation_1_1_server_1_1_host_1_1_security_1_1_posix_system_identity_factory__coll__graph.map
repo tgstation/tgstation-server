@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Security.PosixSystemIdentityFactory" name="Tgstation.Server.Host.Security.PosixSystemIdentityFactory">
-<area shape="rect" id="node1" title="ISystemIdentityFactory for posix systems." alt="" coords="5,79,207,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys." alt="" coords="29,5,183,31"/>
+<area shape="rect" id="Node000001" title="ISystemIdentityFactory for posix systems." alt="" coords="5,79,206,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys." alt="" coords="28,5,183,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,46,108,79,103,79,103,46"/>
 </map>

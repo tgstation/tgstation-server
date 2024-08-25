@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.UserGroupController.Update" name="Tgstation.Server.Host.Controllers.UserGroupController.Update">
-<area shape="rect" id="node1" title="Update a UserGroup." alt="" coords="5,5,221,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext. A Task representing the running operation." alt="" coords="269,5,479,45"/>
+<area shape="rect" id="Node000001" title="Update a UserGroup." alt="" coords="5,5,221,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="269,5,477,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,23,253,23,253,28,221,28"/>
 </map>

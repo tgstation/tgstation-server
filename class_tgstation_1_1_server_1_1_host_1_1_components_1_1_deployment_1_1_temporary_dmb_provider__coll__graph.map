@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Deployment.TemporaryDmbProvider" name="Tgstation.Server.Host.Components.Deployment.TemporaryDmbProvider">
-<area shape="rect" id="node1" title="Temporary IDmbProvider." alt="" coords="5,225,235,265"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider_base.html" title=" " alt="" coords="57,152,183,177"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="69,79,171,104"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="57,5,183,31"/>
+<area shape="rect" id="Node000001" title="Temporary IDmbProvider." alt="" coords="5,226,234,267"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider_base.html" title=" " alt="" coords="56,153,183,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,194,122,226,117,226,117,194"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="69,79,170,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="122,120,122,152,117,152,117,120"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="57,5,182,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="122,46,122,79,117,79,117,46"/>
 </map>

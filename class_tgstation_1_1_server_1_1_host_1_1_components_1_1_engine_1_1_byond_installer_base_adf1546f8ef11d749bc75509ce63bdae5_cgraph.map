@@ -1,6 +1,10 @@
 <map id="Tgstation.Server.Host.Components.Engine.ByondInstallerBase.DownloadVersion" name="Tgstation.Server.Host.Components.Engine.ByondInstallerBase.DownloadVersion">
-<area shape="rect" id="node1" title="Download a given engine version . A ValueTask&lt;TResult&gt; resulting in the IEngineInstallationData for t..." alt="" coords="5,26,285,66"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="673,23,936,78"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#aba327aceb0182d4678f593c3385131de" title="Downloads a file from a given url ." alt="" coords="381,26,577,66"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#aad0f9b30cccd75058679a819522f0b74" title="Create a Uri pointing to the location of the download for a given version ." alt="" coords="333,90,625,130"/>
+<area shape="rect" id="Node000001" title="Download a given engine version .A ValueTask&lt;TResult&gt; resulting in the IEngineInstallationData for th..." alt="" coords="5,26,285,67"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="672,23,934,78"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="249,23,332,12,478,3,542,5,624,12,663,17,662,22,624,17,542,10,478,8,333,17,250,28"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#aba327aceb0182d4678f593c3385131de" title="Downloads a file from a given url ." alt="" coords="381,26,576,67"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="285,44,365,44,365,49,285,49"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#aad0f9b30cccd75058679a819522f0b74" title="Create a Uri pointing to the location of the download for a given version ." alt="" coords="333,91,624,132"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="253,65,357,85,356,90,252,70"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="589,88,657,75,658,81,590,93"/>
 </map>

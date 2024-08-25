@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Controllers.ConfigurationController.DeleteDirectory" name="Tgstation.Server.Host.Controllers.ConfigurationController.DeleteDirectory">
-<area shape="rect" id="node1" title="Deletes an empty directory ." alt="" coords="5,53,248,93"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ac87ffe36eed57c689bd66ca2a08453a1" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="298,5,527,60"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a9e5262a00e199825c5f7e2f25d6d76f0" title="Run a given action &#160;with the relevant IInstance." alt="" coords="296,84,529,139"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855" title="Check if a path &#160;contains the &#39;..&#39; parent directory accessor." alt="" coords="577,13,831,53"/>
+<area shape="rect" id="Node000001" title="Deletes an empty directory ." alt="" coords="5,53,248,94"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ac87ffe36eed57c689bd66ca2a08453a1" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="298,5,526,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="248,54,282,49,283,54,248,59"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a9e5262a00e199825c5f7e2f25d6d76f0" title="Run a given action &#160;with the relevant IInstance." alt="" coords="296,85,528,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="248,88,281,92,280,97,248,93"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855" title="Check if a path &#160;contains the &#39;..&#39; parent directory accessor." alt="" coords="576,13,828,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="526,31,561,31,561,36,526,36"/>
 </map>

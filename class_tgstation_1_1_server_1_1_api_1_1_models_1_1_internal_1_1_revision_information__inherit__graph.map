@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Api.Models.Internal.RevisionInformation" name="Tgstation.Server.Api.Models.Internal.RevisionInformation">
-<area shape="rect" id="node1" title="Represents information about a current git revison." alt="" coords="5,37,192,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html" title=" " alt="" coords="245,5,431,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html" title=" " alt="" coords="240,69,436,109"/>
+<area shape="rect" id="Node000001" title="Represents information about a current git revison." alt="" coords="5,39,192,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html" title=" " alt="" coords="244,5,431,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,41,243,36,244,41,207,47"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html" title=" " alt="" coords="240,71,435,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="207,71,239,75,239,81,207,76"/>
 </map>

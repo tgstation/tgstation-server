@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.System.SystemDManager.SendSDNotify" name="Tgstation.Server.Host.System.SystemDManager.SendSDNotify">
-<area shape="rect" id="node1" title="Send a sd_notify command ." alt="" coords="264,5,475,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a5aa8d815c6ce19d98874a95f0a6ecbfd" title=" " alt="" coords="5,5,216,45"/>
+<area shape="rect" id="Node000001" title="Send a sd_notify command ." alt="" coords="263,5,472,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a5aa8d815c6ce19d98874a95f0a6ecbfd" title=" " alt="" coords="5,5,215,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="247,28,215,28,215,23,247,23"/>
 </map>

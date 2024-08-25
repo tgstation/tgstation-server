@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Utils.IPortAllocator.GetAvailablePort" name="Tgstation.Server.Host.Utils.IPortAllocator.GetAvailablePort">
-<area shape="rect" id="node1" title="Gets a port not currently in use by TGS." alt="" coords="576,69,779,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a02be01c6c5cab421a7a0c9f01f213b30" title="Creates a default Models.Instance from initialSettings ." alt="" coords="269,5,528,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#aedb524ec7c65c10a241fc3d177902995" title="Update watchdog settings to be applied at next server reboot." alt="" coords="291,69,507,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a8421542abdd5514d09ea500079bd7dd4" title="Update deployment settings." alt="" coords="291,133,507,173"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ab462ce6aa240b963c67cab7d20927060" title="Create or attach an Api.Models.Instance." alt="" coords="5,5,221,45"/>
+<area shape="rect" id="Node000001" title="Gets a port not currently in use by TGS." alt="" coords="575,71,776,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a02be01c6c5cab421a7a0c9f01f213b30" title="Creates a default Models.Instance from initialSettings ." alt="" coords="269,5,527,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="571,69,487,49,488,44,572,64"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#aedb524ec7c65c10a241fc3d177902995" title="Update watchdog settings to be applied at next server reboot." alt="" coords="290,71,506,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="559,94,506,94,506,88,559,88"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a8421542abdd5514d09ea500079bd7dd4" title="Update deployment settings." alt="" coords="290,136,506,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="572,118,488,138,487,133,571,113"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ab462ce6aa240b963c67cab7d20927060" title="Create or attach an Api.Models.Instance." alt="" coords="5,5,221,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="253,28,221,28,221,23,253,23"/>
 </map>

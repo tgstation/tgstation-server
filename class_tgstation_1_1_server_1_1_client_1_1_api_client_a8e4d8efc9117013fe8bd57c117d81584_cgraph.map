@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Client.ApiClient.CreateHubConnection&lt; THubImplementation &gt;" name="Tgstation.Server.Client.ApiClient.CreateHubConnection&lt; THubImplementation &gt;">
-<area shape="rect" id="node1" title="Subscribe to all job updates available to the IServerClient. An IAsyncDisposable representing the lif..." alt="" coords="5,5,209,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a29146865adef1cd26ad94ad0068d4bf8" title="Adds the headers &#160;necessary for a SignalR hub connection." alt="" coords="257,13,489,53"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a879908a0994ff362021e3bc1303827a5" title="Create the stringified for of the ApiVersionHeader." alt="" coords="537,13,755,53"/>
+<area shape="rect" id="Node000001" title="Subscribe to all job updates available to the IServerClient.An IAsyncDisposable representing the life..." alt="" coords="5,5,209,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a29146865adef1cd26ad94ad0068d4bf8" title="Adds the headers &#160;necessary for a SignalR hub connection." alt="" coords="257,13,488,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,31,241,31,241,36,209,36"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a879908a0994ff362021e3bc1303827a5" title="Create the stringified for of the ApiVersionHeader." alt="" coords="536,13,752,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="489,31,520,31,520,36,489,36"/>
 </map>

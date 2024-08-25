@@ -1,8 +1,15 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanRegisteredCompileJob" name="Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanRegisteredCompileJob">
-<area shape="rect" id="node1" title="Delete the Api.Models.Internal.CompileJob.DirectoryName of job ." alt="" coords="5,84,267,139"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html#a4115cea1f220c4fdaede74566aa848d3" title="Creates a IRemoteDeploymentManager for a given remoteGitProvider ." alt="" coords="315,5,633,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ae61cd8f1b66ca42385c1132128da40a1" title="Handles cleaning the resources of a CompileJob." alt="" coords="349,84,599,139"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="366,163,582,217"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="710,59,891,99"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="681,123,920,163"/>
+<area shape="rect" id="Node000001" title="Delete the Api.Models.Internal.CompileJob.DirectoryName of job ." alt="" coords="5,125,266,181"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html#a4115cea1f220c4fdaede74566aa848d3" title="Creates a IRemoteDeploymentManager for a given remoteGitProvider ." alt="" coords="314,5,632,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,122,249,96,313,71,335,63,337,68,315,76,252,101,194,127"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ae61cd8f1b66ca42385c1132128da40a1" title="Handles cleaning the resources of a CompileJob." alt="" coords="348,85,598,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="266,135,332,127,333,132,267,140"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#ab12f6f5b2be9ed4ecf2dfb667a056501" title="Mark the deplotment for a given compileJob &#160;as inactive." alt="" coords="344,165,602,221"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="267,166,329,173,328,179,266,171"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="365,245,581,301"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="194,179,252,206,315,231,351,242,349,247,313,236,249,211,192,184"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="709,61,889,102"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="597,98,693,89,693,94,598,104"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="680,126,917,167"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="598,123,665,130,664,135,597,129"/>
 </map>

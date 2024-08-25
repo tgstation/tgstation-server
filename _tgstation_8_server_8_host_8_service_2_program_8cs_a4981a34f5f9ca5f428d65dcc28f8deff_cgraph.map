@@ -1,6 +1,0 @@
-<map id="RunConfigure" name="RunConfigure">
-<area shape="rect" id="node1" title="Runs the host application with the setup wizard." alt="" coords="5,70,104,95"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html#ad1ffef58b23302061a59e4332c031e79" title="Create a IWatchdog. A new IWatchdog." alt="" coords="152,5,375,45"/>
-<area shape="rect" id="node3" href="$_tgstation_8_server_8_host_8_service_2_program_8cs.html#a1c79ecbbbf76c50e43de105dbbde8571" title="Format PassthroughArgs into an Array." alt="" coords="192,70,335,95"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176" title="Run the IWatchdog." alt="" coords="157,120,369,160"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Service.Program" name="Tgstation.Server.Host.Service.Program">
-<area shape="rect" id="node1" title="Contains the entrypoint for the application." alt="" coords="12,108,211,148"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html" title="Factory for creating IWatchdogs." alt="" coords="5,5,217,45"/>
-</map>

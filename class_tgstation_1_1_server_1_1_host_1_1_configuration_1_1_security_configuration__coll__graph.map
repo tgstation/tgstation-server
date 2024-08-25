@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Configuration.SecurityConfiguration" name="Tgstation.Server.Host.Configuration.SecurityConfiguration">
-<area shape="rect" id="node1" title="Configuration options pertaining to user security." alt="" coords="499,87,728,127"/>
-<area shape="rect" id="node2" title=" " alt="" coords="77,5,166,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="100,95,143,120"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,144,237,199"/>
+<area shape="rect" id="Node000001" title="Configuration options pertaining to user security." alt="" coords="498,89,726,130"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="77,6,165,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,15,316,21,396,30,474,46,528,64,575,86,572,91,526,69,473,51,395,35,315,26,180,21"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="100,97,142,123"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="158,107,497,107,497,112,158,112"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,147,237,203"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="252,156,473,127,497,124,497,129,474,133,253,162"/>
 </map>

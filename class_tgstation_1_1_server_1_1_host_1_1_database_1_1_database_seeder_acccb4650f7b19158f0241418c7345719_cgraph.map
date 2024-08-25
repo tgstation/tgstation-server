@@ -1,10 +1,21 @@
 <map id="Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase" name="Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase">
-<area shape="rect" id="node1" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="5,74,228,114"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="829,6,1025,46"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a302d5aab480a8a4599d92f1126d79d10" title="Get or create the admin User." alt="" coords="277,44,487,84"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#a885378549e2e71bda33b550c252e6098" title="Normalize a path for consistency." alt="" coords="276,159,488,199"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad6ca6c5c2af3d00965272871489da978" title="Add a default system User to a given databaseContext ." alt="" coords="536,134,759,174"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a58329cfe5297b2569da770f7c05e1fbf" title="Add a default admin User to a given databaseContext ." alt="" coords="539,70,755,110"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#abd9cab598d35f6af8c789a1f01bba081" title="Add a given model &#160;to the the working set." alt="" coords="822,134,1031,174"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#aeab60aa0a0ee2cb5e2ad5dbde1983430" title="Sets a User.PasswordHash for a given user ." alt="" coords="807,70,1047,110"/>
+<area shape="rect" id="Node000001" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="5,75,227,115"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="826,5,1022,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,72,212,49,274,31,345,19,418,11,563,4,698,6,811,12,811,17,698,11,564,9,419,16,346,25,275,36,214,54,160,77"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a302d5aab480a8a4599d92f1126d79d10" title="Get or create the admin User." alt="" coords="276,45,485,86"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="227,80,260,76,261,82,227,85"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#a885378549e2e71bda33b550c252e6098" title="Normalize a path for consistency." alt="" coords="275,160,486,201"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="183,113,302,152,300,157,181,119"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad6ca6c5c2af3d00965272871489da978" title="Add a default system User to a given databaseContext ." alt="" coords="534,136,756,177"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="227,105,519,139,518,144,227,110"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="485,55,811,31,811,37,485,61"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a58329cfe5297b2569da770f7c05e1fbf" title="Add a default admin User to a given databaseContext ." alt="" coords="538,71,753,111"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="485,73,522,77,522,82,485,78"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="734,67,819,47,820,53,736,73"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#abd9cab598d35f6af8c789a1f01bba081" title="Add a given model &#160;to the the working set." alt="" coords="820,136,1028,177"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="736,109,820,129,819,135,734,115"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#aeab60aa0a0ee2cb5e2ad5dbde1983430" title="Sets a User.PasswordHash for a given user ." alt="" coords="804,71,1044,111"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="753,88,789,88,789,94,753,94"/>
+<area shape="poly" id="edge11_Node000008_Node000002" title=" " alt="" coords="733,133,755,121,770,106,778,90,786,73,803,57,812,51,815,56,806,61,791,76,783,92,774,109,758,125,735,138"/>
+<area shape="poly" id="edge10_Node000008_Node000005" title=" " alt="" coords="757,154,804,154,804,159,757,159"/>
 </map>

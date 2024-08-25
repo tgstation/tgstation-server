@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.NotFound" name="Tgstation.Server.Host.Controllers.ApiController.NotFound">
-<area shape="rect" id="node1" title="Generic 404 response." alt="" coords="269,133,485,173"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a3f98fb2e4e46b96258839c5cfe3665c2" title="Cancel a running JobResponse." alt="" coords="5,5,221,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a24c710252c4dc4faaad68c079f9e46d1" title="Get a CompileJob specified by a given id ." alt="" coords="5,69,221,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a72699cfab0e237d11d66fa001fdd5180" title="Get a specific JobResponse." alt="" coords="5,133,221,173"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a2918e163c7813f9862a677da59272edb" title="Get a specific User." alt="" coords="5,197,221,237"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#aee7cad3caaeb3811cf8ead87ad266357" title="Update a User." alt="" coords="5,261,221,301"/>
+<area shape="rect" id="Node000001" title="Generic 404 response." alt="" coords="269,136,484,177"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a3f98fb2e4e46b96258839c5cfe3665c2" title="Cancel a running JobResponse." alt="" coords="5,5,221,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="333,129,280,94,220,61,189,49,191,44,222,57,283,90,336,125"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a24c710252c4dc4faaad68c079f9e46d1" title="Get a CompileJob specified by a given id ." alt="" coords="5,71,221,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="276,134,197,115,199,109,277,129"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a72699cfab0e237d11d66fa001fdd5180" title="Get a specific JobResponse." alt="" coords="5,136,221,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="253,159,221,159,221,154,253,154"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a2918e163c7813f9862a677da59272edb" title="Get a specific User." alt="" coords="5,201,221,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="277,184,199,203,197,198,276,178"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#aee7cad3caaeb3811cf8ead87ad266357" title="Update a User." alt="" coords="5,267,221,307"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="336,188,283,223,222,256,191,269,189,264,220,251,280,218,333,184"/>
 </map>

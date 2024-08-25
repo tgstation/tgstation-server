@@ -1,11 +1,19 @@
 <map id="Tgstation.Server.Api.Models.Internal.UserModelBase" name="Tgstation.Server.Api.Models.Internal.UserModelBase">
-<area shape="rect" id="node1" title="Represents a server user." alt="" coords="396,67,583,107"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_api_base.html" title=" " alt="" coords="649,37,836,77"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html" title=" " alt="" coords="631,102,855,127"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html" title="Base class for user names." alt="" coords="263,74,348,99"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="119,74,215,99"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="5,74,71,99"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_update_request.html" title="For editing a given user." alt="" coords="903,5,1093,45"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_user_response.html" title=" " alt="" coords="905,69,1091,109"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_create_request.html" title="For creating a user." alt="" coords="1141,5,1328,45"/>
+<area shape="rect" id="Node000001" title="Represents a server user." alt="" coords="393,68,580,109"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_api_base.html" title=" " alt="" coords="646,39,833,79"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="595,73,645,67,646,72,596,78"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html" title=" " alt="" coords="628,104,851,129"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="595,98,628,101,627,107,595,103"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html" title="Base class for user names." alt="" coords="261,76,345,101"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="361,86,393,86,393,91,361,91"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="118,76,213,101"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="229,86,260,86,260,91,229,91"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="5,76,70,101"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="85,86,117,86,117,91,85,91"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_update_request.html" title="For editing a given user." alt="" coords="899,5,1089,46"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="848,42,898,35,899,41,849,47"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_user_response.html" title=" " alt="" coords="901,71,1087,111"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="849,70,901,77,900,82,848,75"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_create_request.html" title="For creating a user." alt="" coords="1137,5,1324,46"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1105,23,1137,23,1137,28,1105,28"/>
 </map>

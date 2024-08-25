@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.Unauthorized" name="Tgstation.Server.Host.Controllers.ApiController.Unauthorized">
-<area shape="rect" id="node1" title="Generic 401 response." alt="" coords="500,37,716,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a8c130b337cd8f08728c07a7f230707a6" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="236,5,452,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#ac68114c705ed3325880697d796fe8f0b" title="Main page of the Application." alt="" coords="236,69,452,109"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,5,188,45"/>
+<area shape="rect" id="Node000001" title="Generic 401 response." alt="" coords="499,39,714,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a8c130b337cd8f08728c07a7f230707a6" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="236,5,451,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="483,46,451,42,452,37,484,41"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#ac68114c705ed3325880697d796fe8f0b" title="Main page of the Application." alt="" coords="236,71,451,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="484,77,452,81,451,75,483,71"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,5,188,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="220,28,188,28,188,23,220,23"/>
 </map>

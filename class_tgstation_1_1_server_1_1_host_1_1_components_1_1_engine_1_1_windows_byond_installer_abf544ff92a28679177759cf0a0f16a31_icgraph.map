@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.SetNoPromptTrusted" name="Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.SetNoPromptTrusted">
-<area shape="rect" id="node1" title="Creates the BYOND cfg file that prevents the trusted mode dialog from appearing when launching DreamD..." alt="" coords="291,5,572,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a268c1e9ab92857d3bced172e22850b24" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,13,243,53"/>
+<area shape="rect" id="Node000001" title="Creates the BYOND cfg file that prevents the trusted mode dialog from appearing when launching DreamD..." alt="" coords="290,5,570,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a268c1e9ab92857d3bced172e22850b24" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="5,13,242,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="274,36,242,36,242,31,274,31"/>
 </map>

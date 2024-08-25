@@ -1,4 +1,7 @@
 <map id="Tgstation.Server.Client.Components.ConfigurationClient.Write" name="Tgstation.Server.Client.Components.ConfigurationClient.Write">
-<area shape="rect" id="node1" title="Overwrite a file . A ValueTask&lt;TResult&gt; resulting in the new ConfigurationFileResponse." alt="" coords="5,5,244,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a2962556fb0b3a82c83593d23d70ace2a" title="Uploads a given uploadStream &#160;for a given ticket . A ValueTask representing the running operation." alt="" coords="292,5,448,45"/>
+<area shape="rect" id="Node000001" title="Overwrite a file .A ValueTask&lt;TResult&gt; resulting in the new ConfigurationFileResponse." alt="" coords="5,39,244,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#ac032e7dafb940924e951b6e6a8a62dba" title="List configuration files.A List&lt;T&gt; of ConfigurationFileResponses in the directory ." alt="" coords="292,5,522,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="244,42,276,38,277,44,244,48"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a2962556fb0b3a82c83593d23d70ace2a" title="Uploads a given uploadStream &#160;for a given ticket .A ValueTask representing the running operation." alt="" coords="329,71,485,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="244,70,314,78,313,83,244,75"/>
 </map>

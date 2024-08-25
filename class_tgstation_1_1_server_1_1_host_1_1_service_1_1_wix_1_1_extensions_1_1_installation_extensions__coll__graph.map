@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Service.Wix.Extensions.InstallationExtensions" name="Tgstation.Server.Host.Service.Wix.Extensions.InstallationExtensions">
-<area shape="rect" id="node1" title="Extension methods for the .msi installer." alt="" coords="5,93,244,133"/>
-<area shape="rect" id="node2" title=" " alt="" coords="80,5,169,31"/>
+<area shape="rect" id="Node000001" title="Extension methods for the .msi installer." alt="" coords="5,94,243,135"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="80,5,168,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,46,127,93,121,93,121,46"/>
 </map>

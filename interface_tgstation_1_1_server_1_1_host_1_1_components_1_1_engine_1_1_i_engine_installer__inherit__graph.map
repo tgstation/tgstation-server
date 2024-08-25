@@ -1,10 +1,17 @@
 <map id="Tgstation.Server.Host.Components.Engine.IEngineInstaller" name="Tgstation.Server.Host.Components.Engine.IEngineInstaller">
-<area shape="rect" id="node1" title="For downloading and installing game engines for a given system." alt="" coords="5,69,232,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html" title="Implementation of IEngineInstaller that forwards calls to different IEngineInstaller based on their a..." alt="" coords="280,37,507,77"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html" title=" " alt="" coords="280,101,507,141"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html" title="Base implementation of IEngineInstaller for EngineType.Byond." alt="" coords="555,69,781,109"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html" title="Implementation of IEngineInstaller for EngineType.OpenDream." alt="" coords="555,133,781,173"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html" title="IEngineInstaller for Posix systems." alt="" coords="832,5,1059,45"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html" title="IEngineInstaller for windows systems." alt="" coords="832,69,1059,109"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html" title="Implementation of OpenDreamInstaller for Windows systems." alt="" coords="829,133,1061,173"/>
+<area shape="rect" id="Node000001" title="For downloading and installing game engines for a given system." alt="" coords="5,72,232,113"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html" title="Implementation of IEngineInstaller that forwards calls to different IEngineInstaller based on their a..." alt="" coords="280,39,506,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="247,74,279,70,279,75,248,79"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html" title=" " alt="" coords="280,104,506,145"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="248,105,279,108,279,114,247,110"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html" title="Base implementation of IEngineInstaller for EngineType.Byond." alt="" coords="554,71,780,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="521,106,553,102,554,107,522,111"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html" title="Implementation of IEngineInstaller for EngineType.OpenDream." alt="" coords="554,136,780,177"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="522,137,554,140,553,146,521,142"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html" title="IEngineInstaller for Posix systems." alt="" coords="831,5,1057,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="770,64,854,44,855,49,772,69"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html" title="IEngineInstaller for windows systems." alt="" coords="831,71,1057,111"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="796,88,831,88,831,94,796,94"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html" title="Implementation of OpenDreamInstaller for Windows systems." alt="" coords="828,136,1060,177"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="796,154,828,154,828,159,796,159"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Database.DatabaseSeeder.SeedSystemUser" name="Tgstation.Server.Host.Database.DatabaseSeeder.SeedSystemUser">
-<area shape="rect" id="node1" title="Add a default system User to a given databaseContext ." alt="" coords="5,37,228,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#abd9cab598d35f6af8c789a1f01bba081" title="Add a given model &#160;to the the working set." alt="" coords="276,5,485,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="283,69,479,109"/>
+<area shape="rect" id="Node000001" title="Add a default system User to a given databaseContext ." alt="" coords="5,39,228,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#abd9cab598d35f6af8c789a1f01bba081" title="Add a given model &#160;to the the working set." alt="" coords="276,5,484,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,42,260,38,261,43,228,48"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="282,71,478,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,70,267,75,266,80,228,75"/>
 </map>

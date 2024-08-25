@@ -1,6 +1,10 @@
 <map id="Tgstation.Server.Host.Database.DatabaseSeeder.GetAdminUser" name="Tgstation.Server.Host.Database.DatabaseSeeder.GetAdminUser">
-<area shape="rect" id="node1" title="Get or create the admin User." alt="" coords="561,37,771,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a374a1163eaa6f02afb419449a4478b48" title="Changes the admin password in IDatabaseContext back to it&#39;s default, enables the account,..." alt="" coords="263,5,513,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#acccb4650f7b19158f0241418c7345719" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="277,69,499,109"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext . A ValueTask representing the running operation." alt="" coords="5,37,215,77"/>
+<area shape="rect" id="Node000001" title="Get or create the admin User." alt="" coords="559,39,767,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a374a1163eaa6f02afb419449a4478b48" title="Changes the admin password in IDatabaseContext back to it&#39;s default, enables the account,..." alt="" coords="262,5,511,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="543,47,511,43,512,38,544,42"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#acccb4650f7b19158f0241418c7345719" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="276,71,497,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="544,75,498,81,497,76,543,70"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext .A ValueTask representing the running operation." alt="" coords="5,39,214,79"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="246,45,214,49,214,44,246,40"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="260,79,214,74,214,68,260,74"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Service.Wix.Extensions.InstallationExtensions.DetachStopTgsServiceIfRunning" name="Tgstation.Server.Host.Service.Wix.Extensions.InstallationExtensions.DetachStopTgsServiceIfRunning">
-<area shape="rect" id="node1" title="Attempts to detach stop the existing tgstation&#45;server service if it exists." alt="" coords="5,5,247,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5" title="Gets the int value of a given command ." alt="" coords="295,13,547,53"/>
+<area shape="rect" id="Node000001" title="Attempts to detach stop the existing tgstation&#45;server service if it exists." alt="" coords="5,5,246,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5" title="Gets the int value of a given command ." alt="" coords="294,13,545,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,31,278,31,278,36,246,36"/>
 </map>

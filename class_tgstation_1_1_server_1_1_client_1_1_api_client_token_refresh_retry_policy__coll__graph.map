@@ -1,22 +1,41 @@
 <map id="Tgstation.Server.Client.ApiClientTokenRefreshRetryPolicy" name="Tgstation.Server.Client.ApiClientTokenRefreshRetryPolicy">
-<area shape="rect" id="node1" title="A IRetryPolicy that attempts to refresh a given apiClient&#39;s token on the first disconnect." alt="" coords="1096,264,1316,304"/>
-<area shape="rect" id="node2" href="$class_i_retry_policy.html" title=" " alt="" coords="837,214,927,239"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html" title=" " alt="" coords="804,264,960,304"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="487,9,565,34"/>
-<area shape="rect" id="node5" href="$class_i_async_disposable.html" title=" " alt="" coords="42,9,169,34"/>
-<area shape="rect" id="node6" title=" " alt="" coords="438,58,614,83"/>
-<area shape="rect" id="node7" title=" " alt="" coords="431,108,621,148"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html" title="For sending HTTP requests." alt="" coords="439,172,613,212"/>
-<area shape="rect" id="node9" href="$class_i_disposable.html" title=" " alt="" coords="60,174,151,199"/>
-<area shape="rect" id="node10" title=" " alt="" coords="425,236,627,276"/>
-<area shape="rect" id="node11" title=" " alt="" coords="423,301,629,326"/>
-<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html" title="Represents the header that must be present for every server request." alt="" coords="445,351,607,391"/>
-<area shape="rect" id="node13" title=" " alt="" coords="61,309,150,334"/>
-<area shape="rect" id="node14" title=" " alt="" coords="29,358,181,383"/>
-<area shape="rect" id="node15" title=" " alt="" coords="5,407,205,433"/>
-<area shape="rect" id="node16" title=" " alt="" coords="35,457,176,482"/>
-<area shape="rect" id="node17" title=" " alt="" coords="443,415,609,441"/>
-<area shape="rect" id="node18" title=" " alt="" coords="477,465,575,490"/>
-<area shape="rect" id="node19" title=" " alt="" coords="503,514,549,539"/>
-<area shape="rect" id="node20" title=" " alt="" coords="811,329,953,354"/>
+<area shape="rect" id="Node000001" title="A IRetryPolicy that attempts to refresh a given apiClient&#39;s token on the first disconnect." alt="" coords="1091,265,1311,306"/>
+<area shape="rect" id="Node000002" href="$class_i_retry_policy.html" title=" " alt="" coords="834,215,924,241"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="940,236,1091,263,1090,268,939,241"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html" title=" " alt="" coords="801,265,956,306"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="972,283,1091,283,1091,288,972,288"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="486,8,563,34"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="578,8,626,3,680,5,733,19,757,32,779,49,797,74,803,99,801,124,795,149,789,175,786,200,789,226,803,252,814,263,810,266,799,255,784,227,781,200,784,174,790,148,796,123,797,99,792,76,775,52,755,36,731,24,679,11,626,9,578,13"/>
+<area shape="rect" id="Node000005" href="$class_i_async_disposable.html" title=" " alt="" coords="42,8,168,34"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="183,19,485,19,485,24,183,24"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="437,58,612,83"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="628,64,668,69,708,80,746,97,779,122,791,139,795,155,793,187,790,220,794,235,803,252,815,263,811,266,799,255,789,237,785,220,788,187,790,156,786,141,775,126,743,101,706,85,667,75,627,70"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="430,108,619,148"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="634,136,672,144,710,157,746,175,779,198,789,212,792,226,795,239,803,251,817,262,814,267,799,255,790,241,787,227,784,214,775,202,743,179,708,162,670,150,633,141"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html" title="For sending HTTP requests." alt="" coords="437,173,612,214"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="627,210,778,247,824,262,822,267,776,252,626,215"/>
+<area shape="rect" id="Node000009" href="$class_i_disposable.html" title=" " alt="" coords="60,174,150,199"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="165,185,437,189,437,195,165,190"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="424,238,625,279"/>
+<area shape="poly" id="edge9_Node000003_Node000010" title=" " alt="" coords="641,265,801,277,801,282,641,270"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="422,303,627,329"/>
+<area shape="poly" id="edge10_Node000003_Node000011" title=" " alt="" coords="642,307,777,296,800,294,801,299,777,302,642,312"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html" title="Represents the header that must be present for every server request." alt="" coords="444,353,605,394"/>
+<area shape="poly" id="edge11_Node000003_Node000012" title=" " alt="" coords="620,375,698,366,738,356,776,341,787,329,799,315,819,304,821,308,803,319,791,333,778,346,740,361,699,372,620,380"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="61,311,149,337"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="165,327,398,353,444,359,443,365,397,359,164,333"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="29,360,181,386"/>
+<area shape="poly" id="edge13_Node000012_Node000014" title=" " alt="" coords="197,371,444,371,444,376,197,376"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="5,410,205,435"/>
+<area shape="poly" id="edge14_Node000012_Node000015" title=" " alt="" coords="220,410,397,391,443,384,444,390,398,396,221,416"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="35,459,175,485"/>
+<area shape="poly" id="edge15_Node000012_Node000016" title=" " alt="" coords="191,472,240,469,293,462,346,449,396,429,408,417,420,403,443,392,445,396,423,407,412,420,399,433,348,454,294,467,240,475,191,477"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="442,418,607,443"/>
+<area shape="poly" id="edge16_Node000003_Node000017" title=" " alt="" coords="622,438,662,436,702,428,741,415,775,393,786,376,788,357,788,337,799,316,813,304,816,308,803,319,793,338,793,358,791,378,779,397,743,420,704,434,662,441,622,443"/>
+<area shape="rect" id="Node000018" title=" " alt="" coords="476,467,573,493"/>
+<area shape="poly" id="edge17_Node000003_Node000018" title=" " alt="" coords="588,491,634,496,685,494,733,483,755,472,775,457,788,441,792,425,789,391,784,354,788,335,799,316,811,304,815,308,803,319,793,337,790,355,794,390,798,426,792,444,779,461,758,476,735,488,685,500,634,501,588,497"/>
+<area shape="rect" id="Node000019" title=" " alt="" coords="502,516,547,542"/>
+<area shape="poly" id="edge18_Node000003_Node000019" title=" " alt="" coords="563,538,611,549,668,553,697,551,726,545,752,534,775,517,784,502,788,479,789,420,788,360,791,334,799,316,810,304,814,308,803,319,796,336,793,360,794,420,794,480,789,504,779,521,755,538,727,550,698,556,668,558,610,554,562,543"/>
+<area shape="rect" id="Node000020" title=" " alt="" coords="808,330,949,355"/>
+<area shape="poly" id="edge19_Node000001_Node000020" title=" " alt="" coords="964,325,1091,302,1092,307,965,330"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Models.ReattachInformation" name="Tgstation.Server.Host.Models.ReattachInformation">
-<area shape="rect" id="node1" title="Database representation of Components.Session.ReattachInformation." alt="" coords="5,152,201,192"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information_base.html" title="Base class for ReattachInformation." alt="" coords="19,79,188,104"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html" title="Common base for interop parameters." alt="" coords="39,5,167,31"/>
+<area shape="rect" id="Node000001" title="Database representation of Components.Session.ReattachInformation." alt="" coords="5,153,201,193"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information_base.html" title="Base class for ReattachInformation." alt="" coords="19,79,187,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,120,106,152,100,152,100,120"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html" title="Common base for interop parameters." alt="" coords="39,5,167,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="106,46,106,79,100,79,100,46"/>
 </map>

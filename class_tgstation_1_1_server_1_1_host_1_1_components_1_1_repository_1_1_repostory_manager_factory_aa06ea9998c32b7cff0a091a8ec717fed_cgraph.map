@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Repository.RepostoryManagerFactory.StartAsync" name="Tgstation.Server.Host.Components.Repository.RepostoryManagerFactory.StartAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,245,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repostory_manager_factory.html#a65f47f33156d8ee916389e1ae05c9d8d" title="Test that the repositoryFactory is functional." alt="" coords="293,5,533,60"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,245,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repostory_manager_factory.html#a65f47f33156d8ee916389e1ae05c9d8d" title="Test that the repositoryFactory is functional." alt="" coords="293,5,532,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,31,277,31,277,36,245,36"/>
 </map>

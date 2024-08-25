@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Transfer.FileUploadProvider" name="Tgstation.Server.Host.Transfer.FileUploadProvider">
-<area shape="rect" id="node1" title=" " alt="" coords="5,225,208,265"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload." alt="" coords="45,152,169,177"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="38,79,175,104"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="43,5,170,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,226,207,267"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload." alt="" coords="44,153,168,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,194,109,226,103,226,103,194"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="38,79,174,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="109,120,109,152,103,152,103,120"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="43,5,169,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="109,46,109,79,103,79,103,46"/>
 </map>

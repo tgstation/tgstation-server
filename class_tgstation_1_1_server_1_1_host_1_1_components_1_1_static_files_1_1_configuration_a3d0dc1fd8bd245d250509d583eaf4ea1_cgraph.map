@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.StaticFiles.Configuration.EnsureDirectories" name="Tgstation.Server.Host.Components.StaticFiles.Configuration.EnsureDirectories">
-<area shape="rect" id="node1" title="Ensures standard configuration directories exist." alt="" coords="5,13,272,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="320,5,536,60"/>
+<area shape="rect" id="Node000001" title="Ensures standard configuration directories exist." alt="" coords="5,13,272,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="320,5,535,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="272,31,304,31,304,36,272,36"/>
 </map>

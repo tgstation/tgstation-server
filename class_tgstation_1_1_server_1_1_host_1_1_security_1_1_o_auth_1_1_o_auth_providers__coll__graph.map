@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Security.OAuth.OAuthProviders" name="Tgstation.Server.Host.Security.OAuth.OAuthProviders">
-<area shape="rect" id="node1" title=" " alt="" coords="325,30,527,70"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html" title="Contains IOAuthValidators." alt="" coords="52,5,171,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,55,217,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="324,31,524,72"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html" title="Contains IOAuthValidators." alt="" coords="52,5,170,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,23,324,38,323,43,185,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,56,217,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,69,323,59,323,64,232,74"/>
 </map>

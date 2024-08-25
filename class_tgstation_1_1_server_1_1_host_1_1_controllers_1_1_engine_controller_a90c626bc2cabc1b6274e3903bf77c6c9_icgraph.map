@@ -1,4 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.EngineController.ValidateEngineVersion" name="Tgstation.Server.Host.Controllers.EngineController.ValidateEngineVersion">
-<area shape="rect" id="node1" title="Validate and normalize a given version ." alt="" coords="269,5,519,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html#ab7f273fdf713f726bdc0ebdbf75d9e4a" title="Changes the active engine version to the one specified in a given model ." alt="" coords="5,5,221,45"/>
+<area shape="rect" id="Node000001" title="Validate and normalize a given version ." alt="" coords="269,39,517,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html#a6fb5c0298099d86fa25de47159ad5dd5" title="Attempts to delete the BYOND version specified in a given model &#160;from the instance." alt="" coords="5,5,221,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,45,221,41,221,36,253,40"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html#ab7f273fdf713f726bdc0ebdbf75d9e4a" title="Changes the active engine version to the one specified in a given model ." alt="" coords="5,71,221,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,78,221,81,221,76,253,72"/>
 </map>

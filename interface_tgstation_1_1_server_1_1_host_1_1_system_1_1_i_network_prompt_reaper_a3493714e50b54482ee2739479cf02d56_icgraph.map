@@ -1,7 +1,12 @@
 <map id="Tgstation.Server.Host.System.INetworkPromptReaper.RegisterProcess" name="Tgstation.Server.Host.System.INetworkPromptReaper.RegisterProcess">
-<area shape="rect" id="node1" title="Register a given process &#160;for network prompt reaping." alt="" coords="949,46,1207,86"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a4f44ac08947e06971e21e3f39bdd3683" title="Creates the game server IProcess." alt="" coords="643,5,901,60"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#adc773a2a44c35f4ac1fb855fff929e22" title="Create a ISessionController from an existing DreamDaemon instance. A ValueTask&lt;TResult&gt; resulting in ..." alt="" coords="313,78,585,118"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#aa1f001876dbd9f80e47e492fc2ed9d39" title="Create a ISessionController from a freshly launch DreamDaemon instance. A ValueTask&lt;TResult&gt; resultin..." alt="" coords="304,14,595,54"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a857f98eb5a2516c2a70c35d684c2c21b" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,46,256,86"/>
+<area shape="rect" id="Node000001" title="Register a given process &#160;for network prompt reaping." alt="" coords="945,46,1202,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a4f44ac08947e06971e21e3f39bdd3683" title="Creates the game server IProcess." alt="" coords="640,5,897,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="929,53,897,50,898,45,930,48"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#adc773a2a44c35f4ac1fb855fff929e22" title="Create a ISessionController from an existing DreamDaemon instance.A ValueTask&lt;TResult&gt; resulting in a..." alt="" coords="312,78,583,119"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="930,76,583,94,583,89,930,71"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#aa1f001876dbd9f80e47e492fc2ed9d39" title="Create a ISessionController from a freshly launch DreamDaemon instance.A ValueTask&lt;TResult&gt; resulting..." alt="" coords="303,13,592,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="624,36,592,36,592,31,624,31"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a857f98eb5a2516c2a70c35d684c2c21b" title=" " alt="" coords="5,46,255,87"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="287,53,255,56,255,51,287,47"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="296,86,255,82,255,76,296,81"/>
 </map>

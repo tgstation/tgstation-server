@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Api.ApiHeaders" name="Tgstation.Server.Api.ApiHeaders">
-<area shape="rect" id="node1" title="Represents the header that must be present for every server request." alt="" coords="423,165,584,205"/>
-<area shape="rect" id="node2" title=" " alt="" coords="61,98,150,123"/>
-<area shape="rect" id="node3" title=" " alt="" coords="29,147,181,173"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,197,205,222"/>
-<area shape="rect" id="node5" title=" " alt="" coords="35,246,176,271"/>
+<area shape="rect" id="Node000001" title="Represents the header that must be present for every server request." alt="" coords="422,168,582,208"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="61,101,149,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,115,274,127,398,149,448,164,446,170,397,155,273,132,165,120"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="29,150,181,176"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="196,166,421,180,421,186,196,171"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,199,205,225"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="220,212,307,210,397,204,421,201,422,207,398,210,307,216,220,217"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="35,249,175,274"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="191,259,291,251,344,244,397,232,431,221,462,206,464,211,433,226,398,238,345,249,291,257,191,264"/>
 </map>

@@ -1,11 +1,25 @@
 <map id="Tgstation.Server.Host.Models.User.CanonicalizeName" name="Tgstation.Server.Host.Models.User.CanonicalizeName">
-<area shape="rect" id="node1" title="Change a UserName.Name into a CanonicalName." alt="" coords="1109,121,1305,161"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a302d5aab480a8a4599d92f1126d79d10" title="Get or create the admin User." alt="" coords="561,190,771,230"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#acccb4650f7b19158f0241418c7345719" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="277,65,499,105"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_database_collection_extensions.html#a2589e6a00a1bb42aa95f8a1b863003ce" title="Gets User with the name User.TgsSystemUserName." alt="" coords="819,114,1061,168"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a58329cfe5297b2569da770f7c05e1fbf" title="Add a default admin User to a given databaseContext ." alt="" coords="832,193,1048,233"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad6ca6c5c2af3d00965272871489da978" title="Add a default system User to a given databaseContext ." alt="" coords="829,49,1051,89"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a374a1163eaa6f02afb419449a4478b48" title="Changes the admin password in IDatabaseContext back to it&#39;s default, enables the account,..." alt="" coords="263,185,513,225"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext . A ValueTask representing the running operation." alt="" coords="5,125,215,165"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a59c3f85134ebd165aaa4df15c45d3901" title="Initially seed a given databaseContext ." alt="" coords="561,125,771,165"/>
+<area shape="rect" id="Node000001" title="Change a UserName.Name into a CanonicalName." alt="" coords="1106,121,1301,161"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a302d5aab480a8a4599d92f1126d79d10" title="Get or create the admin User." alt="" coords="559,191,767,232"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1173,174,1122,215,1091,233,1059,247,1016,258,971,264,882,263,799,251,730,235,731,230,800,246,883,258,971,258,1015,253,1057,242,1089,229,1119,211,1169,170"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#acccb4650f7b19158f0241418c7345719" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="276,65,497,105"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="1169,111,1119,71,1089,53,1057,39,975,20,891,10,806,9,723,14,644,25,571,38,455,67,454,61,570,33,643,19,722,9,806,3,891,5,976,14,1059,34,1091,48,1122,67,1173,107"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_database_collection_extensions.html#a2589e6a00a1bb42aa95f8a1b863003ce" title="Gets User with the name User.TgsSystemUserName." alt="" coords="815,113,1058,169"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="1090,144,1058,144,1058,138,1090,138"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a58329cfe5297b2569da770f7c05e1fbf" title="Add a default admin User to a given databaseContext ." alt="" coords="829,193,1044,233"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="1113,168,1058,183,1017,195,1016,189,1057,178,1112,163"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad6ca6c5c2af3d00965272871489da978" title="Add a default system User to a given databaseContext ." alt="" coords="825,49,1048,89"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="1112,119,1057,103,1016,92,1017,87,1058,98,1113,113"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a374a1163eaa6f02afb419449a4478b48" title="Changes the admin password in IDatabaseContext back to it&#39;s default, enables the account,..." alt="" coords="262,186,511,227"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="543,212,512,211,512,206,543,207"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="579,188,558,179,484,143,421,108,424,103,486,138,560,174,581,183"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext .A ValueTask representing the running operation." alt="" coords="5,125,214,165"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="276,185,204,168,205,163,277,179"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="275,112,207,127,206,121,274,106"/>
+<area shape="poly" id="edge9_Node000007_Node000002" title=" " alt="" coords="813,215,768,215,768,209,813,210"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a59c3f85134ebd165aaa4df15c45d3901" title="Initially seed a given databaseContext ." alt="" coords="559,125,767,165"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="836,191,747,168,748,163,838,186"/>
+<area shape="poly" id="edge11_Node000008_Node000004" title=" " alt="" coords="544,148,214,148,214,142,544,142"/>
+<area shape="poly" id="edge13_Node000009_Node000005" title=" " alt="" coords="810,75,498,84,498,79,810,70"/>
+<area shape="poly" id="edge14_Node000009_Node000008" title=" " alt="" coords="842,96,816,103,736,127,734,121,815,98,840,91"/>
 </map>

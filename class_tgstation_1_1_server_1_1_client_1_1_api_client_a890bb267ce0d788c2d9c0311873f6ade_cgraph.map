@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Client.ApiClient.RunRequest&lt; TResult &gt;" name="Tgstation.Server.Client.ApiClient.RunRequest&lt; TResult &gt;">
-<area shape="rect" id="node1" title="Main request method." alt="" coords="5,62,161,117"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a1c106673ce3f96456822b62e75b06774" title="Asyncronously creates a new CachedResponseStream." alt="" coords="209,5,444,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a5f9f37923fe9811ceb4556af0ebfc8aa" title="Set HttpRequestHeaders using the ApiHeaders. This initially clears headers ." alt="" coords="231,69,422,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="219,134,435,189"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a879908a0994ff362021e3bc1303827a5" title="Create the stringified for of the ApiVersionHeader." alt="" coords="492,69,709,109"/>
+<area shape="rect" id="Node000001" title="Main request method." alt="" coords="5,63,161,119"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a1c106673ce3f96456822b62e75b06774" title="Asyncronously creates a new CachedResponseStream." alt="" coords="209,5,443,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,68,232,48,234,53,162,73"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a5f9f37923fe9811ceb4556af0ebfc8aa" title="Set HttpRequestHeaders using the ApiHeaders. This initially clears headers ." alt="" coords="231,71,421,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,88,215,88,215,94,161,94"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="218,135,434,191"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="162,111,216,128,214,133,160,117"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a879908a0994ff362021e3bc1303827a5" title="Create the stringified for of the ApiVersionHeader." alt="" coords="491,71,707,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="421,88,475,88,475,94,421,94"/>
 </map>

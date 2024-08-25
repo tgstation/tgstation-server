@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Api.Models.Request.DreamDaemonRequest" name="Tgstation.Server.Api.Models.Request.DreamDaemonRequest">
-<area shape="rect" id="node1" title="A request to update DreamDaemonSettings." alt="" coords="11,225,218,265"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_api_base.html" title="Base class for DreamDaemon API models." alt="" coords="36,152,193,177"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html" title="Configurable settings for DreamDaemon." alt="" coords="37,79,193,104"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html" title="Launch settings for DreamDaemon." alt="" coords="5,5,224,31"/>
+<area shape="rect" id="Node000001" title="A request to update DreamDaemonSettings." alt="" coords="11,226,217,267"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_api_base.html" title="Base class for DreamDaemon API models." alt="" coords="36,153,192,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,194,117,226,111,226,111,194"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html" title="Configurable settings for DreamDaemon." alt="" coords="36,79,192,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="117,120,117,152,111,152,111,120"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html" title="Launch settings for DreamDaemon." alt="" coords="5,5,223,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="117,46,117,79,111,79,111,46"/>
 </map>

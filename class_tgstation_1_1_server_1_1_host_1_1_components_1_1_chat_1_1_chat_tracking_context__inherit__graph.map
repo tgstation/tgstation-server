@@ -1,7 +1,12 @@
 <map id="Tgstation.Server.Host.Components.Chat.ChatTrackingContext" name="Tgstation.Server.Host.Components.Chat.ChatTrackingContext">
-<area shape="rect" id="node1" title=" " alt="" coords="24,152,251,192"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker.html" title="Runs a given disposeAction on Dispose." alt="" coords="5,79,117,104"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="33,5,124,31"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html" title="Represents a tracking of dynamic chat json files." alt="" coords="141,79,288,104"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html" title="Notifyee of when ChannelRepresentations in a IChatTrackingContext are updated." alt="" coords="165,5,264,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="24,153,250,193"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker.html" title="Runs a given disposeAction on Dispose." alt="" coords="5,79,117,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,114,120,150,116,154,81,118"/>
+<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="35,5,124,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="75,46,67,79,62,78,70,45"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html" title="Represents a tracking of dynamic chat json files." alt="" coords="141,79,288,105"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="117,36,193,76,190,81,115,41"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="194,118,158,154,154,150,190,114"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html" title="Notifyee of when ChannelRepresentations in a IChatTrackingContext are updated." alt="" coords="165,5,264,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="217,46,217,79,212,79,212,46"/>
 </map>

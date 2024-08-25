@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Utils.FifoSemaphore.Dispose" name="Tgstation.Server.Host.Utils.FifoSemaphore.Dispose">
-<area shape="rect" id="node1" title=" " alt="" coords="588,5,769,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="280,5,540,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A ValueTask representin..." alt="" coords="5,5,232,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="587,5,767,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="280,5,539,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="571,28,539,28,539,23,571,23"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose.A ValueTask representing..." alt="" coords="5,5,232,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="264,28,232,28,232,23,264,23"/>
 </map>

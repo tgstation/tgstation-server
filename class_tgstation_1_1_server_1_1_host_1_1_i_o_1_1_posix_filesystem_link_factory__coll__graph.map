@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.IO.PosixFilesystemLinkFactory" name="Tgstation.Server.Host.IO.PosixFilesystemLinkFactory">
-<area shape="rect" id="node1" title="IFilesystemLinkFactory for POSIX systems." alt="" coords="5,79,191,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html" title="For creating filesystem symbolic links." alt="" coords="19,5,177,31"/>
+<area shape="rect" id="Node000001" title="IFilesystemLinkFactory for POSIX systems." alt="" coords="5,79,190,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html" title="For creating filesystem symbolic links." alt="" coords="19,5,176,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,46,100,79,95,79,95,46"/>
 </map>

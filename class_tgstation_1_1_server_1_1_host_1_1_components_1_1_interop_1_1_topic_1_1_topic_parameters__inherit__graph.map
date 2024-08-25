@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Interop.Topic.TopicParameters" name="Tgstation.Server.Host.Components.Interop.Topic.TopicParameters">
-<area shape="rect" id="node1" title="Parameters for a topic request." alt="" coords="17,79,244,119"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chunked_topic_parameters.html" title="TopicParameters for TopicCommandType.ReceiveChunk." alt="" coords="5,167,256,207"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html" title="Common base for interop parameters." alt="" coords="67,5,195,31"/>
+<area shape="rect" id="Node000001" title="Parameters for a topic request." alt="" coords="17,79,243,120"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chunked_topic_parameters.html" title="TopicParameters for TopicCommandType.ReceiveChunk." alt="" coords="5,168,255,208"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="133,135,133,167,127,167,127,135"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html" title="Common base for interop parameters." alt="" coords="66,5,194,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,46,133,79,127,79,127,46"/>
 </map>

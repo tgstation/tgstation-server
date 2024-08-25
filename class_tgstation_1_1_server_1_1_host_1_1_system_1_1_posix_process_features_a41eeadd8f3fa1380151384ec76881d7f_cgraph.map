@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump" name="Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump">
-<area shape="rect" id="node1" title="Create a dump file for a given process . A ValueTask representing the running operation." alt="" coords="5,37,233,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="281,5,449,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd" title="Moves a file at source &#160;to destination ." alt="" coords="281,69,449,109"/>
+<area shape="rect" id="Node000001" title="Create a dump file for a given process .A ValueTask representing the running operation." alt="" coords="5,39,233,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="281,5,448,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,41,265,36,265,42,234,46"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd" title="Moves a file at source &#160;to destination ." alt="" coords="281,71,448,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,71,265,75,265,81,233,77"/>
 </map>

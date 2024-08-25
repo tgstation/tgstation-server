@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.StaticFiles.Configuration.EnsureDirectories" name="Tgstation.Server.Host.Components.StaticFiles.Configuration.EnsureDirectories">
-<area shape="rect" id="node1" title="Ensures standard configuration directories exist." alt="" coords="311,69,577,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ada85f53bf78a2dcd850dab0acfb35f27" title="Copies all files in the CodeModifications directory to destination . A ValueTask&lt;TResult&gt; resulting i..." alt="" coords="5,5,263,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#abfbba9caf2deddcaf67fd8fd32e2723f" title="Get ConfigurationFileResponses for all items in a given configurationRelativePath ...." alt="" coords="15,69,253,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ae6e959ce6c3aab862b59e79b42a72e67" title="Reads a given configurationRelativePath . A ValueTask&lt;TResult&gt; resulting in the ConfigurationFileResp..." alt="" coords="21,133,247,173"/>
+<area shape="rect" id="Node000001" title="Ensures standard configuration directories exist." alt="" coords="310,71,576,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ada85f53bf78a2dcd850dab0acfb35f27" title="Copies all files in the CodeModifications directory to destination .A ValueTask&lt;TResult&gt; resulting in..." alt="" coords="5,5,262,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="328,70,233,49,234,44,329,64"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#abfbba9caf2deddcaf67fd8fd32e2723f" title="Get ConfigurationFileResponses for all items in a given configurationRelativePath ...." alt="" coords="15,71,252,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="294,94,253,94,253,88,294,88"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ae6e959ce6c3aab862b59e79b42a72e67" title="Reads a given configurationRelativePath .A ValueTask&lt;TResult&gt; resulting in the ConfigurationFileRespo..." alt="" coords="20,136,247,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="329,118,234,138,233,133,328,112"/>
 </map>

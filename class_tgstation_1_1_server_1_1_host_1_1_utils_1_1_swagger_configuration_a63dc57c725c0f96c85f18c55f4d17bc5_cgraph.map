@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Utils.SwaggerConfiguration.Apply" name="Tgstation.Server.Host.Utils.SwaggerConfiguration.Apply">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,188,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_open_api_enum_var_names_extension.html#a93407e10fe77d7c7f39084d4b1e3308f" title="Applies the extension to a give openApiSchema ." alt="" coords="236,5,495,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,188,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_open_api_enum_var_names_extension.html#a93407e10fe77d7c7f39084d4b1e3308f" title="Applies the extension to a give openApiSchema ." alt="" coords="236,5,493,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,23,220,23,220,28,188,28"/>
 </map>

@@ -1,8 +1,7 @@
 <map id="Tgstation.Server.Host.Common.PipeCommands.GetServiceCommandId" name="Tgstation.Server.Host.Common.PipeCommands.GetServiceCommandId">
-<area shape="rect" id="node1" title="Gets the int value of a given command ." alt="" coords="808,85,1060,125"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_wix_1_1_extensions_1_1_installation_extensions.html#abe67d66e594a1b751e607b230ba6d4b2" title="Attempts to detach stop the existing tgstation&#45;server service if it exists." alt="" coords="509,5,750,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1e2ad4a0782322f57acc5b988a771fb0" title="Handle a custom service command ." alt="" coords="499,85,760,125"/>
-<area shape="rect" id="node4" href="$_tgstation_8_server_8_host_8_service_2_program_8cs.html#a7a5d1a672c9435fca33efa3cdfda3f7a" title="Restarts a service using a given serviceController ." alt="" coords="575,149,683,175"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a1f4cbdc9d86cde68277bea22e6d1eb9e" title="Runs sc.exe to either uninstall a given serviceToUninstall &#160;or install the running ServerService." alt="" coords="252,113,451,153"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a86d24d735c64eb7c67a935b809927dd4" title="Command line handler, always runs." alt="" coords="5,142,204,182"/>
+<area shape="rect" id="Node000001" title="Gets the int value of a given command ." alt="" coords="314,49,565,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_wix_1_1_extensions_1_1_installation_extensions.html#abe67d66e594a1b751e607b230ba6d4b2" title="Attempts to detach stop the existing tgstation&#45;server service if it exists." alt="" coords="15,5,256,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,55,256,50,256,45,298,50"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1e2ad4a0782322f57acc5b988a771fb0" title="Handle a custom service command ." alt="" coords="5,85,266,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="299,89,267,92,266,87,298,83"/>
 </map>

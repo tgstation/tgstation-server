@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.IDiscordResponders" name="Tgstation.Server.Host.Components.Chat.Providers.IDiscordResponders">
-<area shape="rect" id="node1" title="Combined interface for the IResponder types used by TGS." alt="" coords="96,79,323,119"/>
-<area shape="rect" id="node2" href="$class_i_responder.html" title=" " alt="" coords="5,5,211,31"/>
-<area shape="rect" id="node3" href="$class_i_responder.html" title=" " alt="" coords="235,5,386,31"/>
+<area shape="rect" id="Node000001" title="Combined interface for the IResponder types used by TGS." alt="" coords="94,79,321,120"/>
+<area shape="rect" id="Node000002" href="$class_i_responder.html" title=" " alt="" coords="5,5,210,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="136,38,184,77,181,81,133,43"/>
+<area shape="rect" id="Node000003" href="$class_i_responder.html" title=" " alt="" coords="234,5,384,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="283,43,234,81,231,77,280,38"/>
 </map>

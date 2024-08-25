@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Service.ServerService.OnStop" name="Tgstation.Server.Host.Service.ServerService.OnStop">
-<area shape="rect" id="node1" title=" " alt="" coords="252,5,451,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a75ee7501b3cb59e3e34c05f382380292" title=" " alt="" coords="5,5,204,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="251,5,448,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a75ee7501b3cb59e3e34c05f382380292" title=" " alt="" coords="5,5,203,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,28,203,28,203,23,235,23"/>
 </map>

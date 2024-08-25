@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.InitialLink" name="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.InitialLink">
-<area shape="rect" id="node1" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="320,13,579,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a1bc14906a6fb391ce835039400575073" title="Prepare the server to launch a new instance with the WatchdogBase.ActiveLaunchParameters and a given ..." alt="" coords="5,5,272,60"/>
+<area shape="rect" id="Node000001" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="320,13,577,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a0d30150f31ceb9b4c0969877fde90044" title="Prepare the server to launch a new instance with the WatchdogBase.ActiveLaunchParameters and a given ..." alt="" coords="5,5,272,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="304,36,272,36,272,31,304,31"/>
 </map>

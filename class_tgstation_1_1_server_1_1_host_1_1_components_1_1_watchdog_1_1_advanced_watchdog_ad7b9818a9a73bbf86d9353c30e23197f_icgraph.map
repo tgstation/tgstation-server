@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PerformDmbSwap" name="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PerformDmbSwap">
-<area shape="rect" id="node1" title="Suspends the BasicWatchdog.Server and calls SwappableDmbProvider.MakeActive(CancellationToken) on a n..." alt="" coords="380,49,688,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#abc18654a9da3b33e0c5201fe3c376374" title="Handler for MonitorActivationReason.NewDmbAvailable. A ValueTask representing the running operation." alt="" coords="33,5,304,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a9a94dccebeb6abb16f75b2ad03a5eb28" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,85,332,125"/>
+<area shape="rect" id="Node000001" title="Suspends the BasicWatchdog.Server and calls SwappableDmbProvider.MakeActive(CancellationToken) on a n..." alt="" coords="379,49,686,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a748bef1e44dcaf8fee7f3bee9a52d25c" title="Handler for MonitorActivationReason.NewDmbAvailable.A ValueTask representing the running operation." alt="" coords="33,5,303,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="363,55,303,49,304,44,363,50"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a35cea102f4540006ad8988efd9e8e911" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,85,331,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="363,89,331,92,331,86,363,83"/>
 </map>

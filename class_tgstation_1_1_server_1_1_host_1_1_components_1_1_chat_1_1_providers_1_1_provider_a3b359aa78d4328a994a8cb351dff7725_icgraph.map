@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Components.Chat.Providers.Provider.DisconnectImpl" name="Tgstation.Server.Host.Components.Chat.Providers.Provider.DisconnectImpl">
+<area shape="rect" id="Node000001" title="Gracefully disconnects the provider." alt="" coords="612,39,862,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a33fc70620fa04585ab037bf6a9c1f9ab" title="Gracefully disconnects the provider. Permanently stops the reconnection timer.A ValueTask representin..." alt="" coords="317,5,543,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="596,46,543,41,544,35,597,41"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="296,71,564,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="597,76,565,80,564,74,596,71"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect.A Task representing the runnin..." alt="" coords="5,63,248,119"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="280,94,248,94,248,88,280,88"/>
+</map>

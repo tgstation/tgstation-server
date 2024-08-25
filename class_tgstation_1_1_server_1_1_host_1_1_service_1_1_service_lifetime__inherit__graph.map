@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Service.ServiceLifetime" name="Tgstation.Server.Host.Service.ServiceLifetime">
-<area shape="rect" id="node1" title="Represents the lifetime of the service." alt="" coords="32,79,231,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html" title="For relaying signals received to the host process." alt="" coords="5,5,116,31"/>
-<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="140,5,267,31"/>
+<area shape="rect" id="Node000001" title="Represents the lifetime of the service." alt="" coords="32,79,229,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html" title="For relaying signals received to the host process." alt="" coords="5,5,115,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,41,115,77,111,80,79,45"/>
+<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="139,5,264,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="182,45,150,80,146,77,178,41"/>
 </map>

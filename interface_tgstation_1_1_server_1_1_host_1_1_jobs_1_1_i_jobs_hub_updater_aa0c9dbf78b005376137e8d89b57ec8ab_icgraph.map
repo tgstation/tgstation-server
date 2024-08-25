@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Jobs.IJobsHubUpdater.QueueActiveJobUpdates" name="Tgstation.Server.Host.Jobs.IJobsHubUpdater.QueueActiveJobUpdates">
-<area shape="rect" id="node1" title="Queue a message to be sent to all clients with the current state of active jobs." alt="" coords="589,13,861,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#aaa6bddb0554f0ced9f4199fd23835f9a" title="Implementation of IConnectionMappedHubContext&lt;THub, THubMethods&gt;.OnConnectionMapGroups." alt="" coords="296,5,541,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#a42ddb16818a44e29fad21d618248a508" title="Initializes a new instance of the JobsHubGroupMapper class." alt="" coords="5,5,248,60"/>
+<area shape="rect" id="Node000001" title="Queue a message to be sent to all clients with the current state of active jobs." alt="" coords="587,13,858,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#aaa6bddb0554f0ced9f4199fd23835f9a" title="Implementation of IConnectionMappedHubContext&lt;THub, THubMethods&gt;.OnConnectionMapGroups." alt="" coords="295,5,539,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="571,36,540,36,540,31,571,31"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#a42ddb16818a44e29fad21d618248a508" title="Initializes a new instance of the JobsHubGroupMapper class." alt="" coords="5,5,247,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="279,36,247,36,247,31,279,31"/>
 </map>

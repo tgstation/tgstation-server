@@ -1,16 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html" title="Common base for interop parameters." alt="" coords="5,133,232,173"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html" title="Parameters for a bridge request." alt="" coords="295,5,522,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html" title="Parameters for a topic request." alt="" coords="295,133,522,173"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information_base.html" title="Base class for ReattachInformation." alt="" coords="311,325,507,365"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chunked_topic_parameters.html" title="TopicParameters for TopicCommandType.ReceiveChunk." alt="" coords="585,133,836,173"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session." alt="" coords="597,325,824,365"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information.html" title="Database representation of Components.Session.ReattachInformation." alt="" coords="613,389,809,429"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_response.html" title="Common base for interop responses." alt="" coords="295,261,522,301"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_response.html" title="A response to a bridge request." alt="" coords="597,197,824,237"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_response.html" title="A response to a topic request." alt="" coords="597,261,824,301"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_chunk_payload_id.html" title="Represents the payload ID of a set of chunked data." alt="" coords="295,69,522,109"/>
-<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunk_set_info.html" title="Information about a chunked bridge request." alt="" coords="597,69,824,109"/>
-<area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunk_data.html" title="A packet of a split serialized set of data." alt="" coords="884,69,1111,109"/>
-<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_missing_payloads_communication.html" title="A communication that can be missing chunk payloads." alt="" coords="280,197,537,237"/>
+<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html" title="Constants used for communication with the DMAPI." alt="" coords="5,5,232,46"/>
 </map>

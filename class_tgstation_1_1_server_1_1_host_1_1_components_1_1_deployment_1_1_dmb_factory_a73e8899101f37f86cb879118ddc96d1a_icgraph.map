@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanRegisteredCompileJob" name="Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanRegisteredCompileJob">
-<area shape="rect" id="node1" title="Delete the Api.Models.Internal.CompileJob.DirectoryName of job ." alt="" coords="964,30,1225,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a9483b9336043f913c7c1417f2a8c3df7" title="Gets a IDmbProvider and potentially the DeploymentLockManager for a given CompileJob." alt="" coords="652,30,916,85"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ae8efce198b61217f8e88ef2d772633d1" title="Gets a IDmbProvider for a given CompileJob. A ValueTask&lt;TResult&gt; resulting in a new IDmbProvider repr..." alt="" coords="340,5,604,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a3cb70d207b7e682b2c4793850c58befd" title="Load a new job &#160;into the ICompileJobSink. A ValueTask representing the running operation." alt="" coords="341,69,603,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#afc1dbfba155a6320604f4068083d9787" title="Set the ReattachInformation.InitialDmb for the BasicWatchdog.Server. A ValueTask representing the run..." alt="" coords="5,5,292,45"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ae898120e96809cdb6bbd582072bcff71" title=" " alt="" coords="33,69,264,109"/>
+<area shape="rect" id="Node000001" title="Delete the Api.Models.Internal.CompileJob.DirectoryName of job ." alt="" coords="962,31,1223,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a9483b9336043f913c7c1417f2a8c3df7" title="Gets a IDmbProvider and potentially the DeploymentLockManager for a given CompileJob." alt="" coords="651,31,914,87"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="947,62,915,62,915,56,947,56"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ae8efce198b61217f8e88ef2d772633d1" title="Gets a IDmbProvider for a given CompileJob.A ValueTask&lt;TResult&gt; resulting in a new IDmbProvider repre..." alt="" coords="340,5,603,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="635,46,603,42,604,37,636,41"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a3cb70d207b7e682b2c4793850c58befd" title="Load a new job &#160;into the ICompileJobSink.A ValueTask representing the running operation." alt="" coords="340,71,603,111"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="635,77,603,80,603,75,635,71"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#afc1dbfba155a6320604f4068083d9787" title=" " alt="" coords="5,5,292,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="324,28,292,28,292,23,324,23"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ae898120e96809cdb6bbd582072bcff71" title=" " alt="" coords="34,71,263,111"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="325,94,264,94,264,88,325,88"/>
 </map>

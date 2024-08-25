@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Instance.InstanceRenamed" name="Tgstation.Server.Host.Components.Instance.InstanceRenamed">
-<area shape="rect" id="node1" title="Called when the owning Instance is renamed. A ValueTask representing the running operation." alt="" coords="5,5,232,45"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html#a7c1c4de7ff2aeb837b875d9a6ac99f0a" title="Called when the owning Instance is renamed." alt="" coords="280,5,511,45"/>
+<area shape="rect" id="Node000001" title="Called when the owning Instance is renamed.A ValueTask representing the running operation." alt="" coords="5,5,232,46"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html#a7c1c4de7ff2aeb837b875d9a6ac99f0a" title="Called when the owning Instance is renamed." alt="" coords="280,5,509,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,23,264,23,264,28,232,28"/>
 </map>

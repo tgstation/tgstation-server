@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.IO.WindowsFilesystemLinkFactory.CreateSymbolicLink" name="Tgstation.Server.Host.IO.WindowsFilesystemLinkFactory.CreateSymbolicLink">
-<area shape="rect" id="node1" title="Create a symbolic link. A Task representing the running operation." alt="" coords="5,5,252,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#af5caf46cabd63e22c686f553aa6d9bc6" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winbase/nf&#45;winbase&#45;createsymboliclinkw." alt="" coords="300,13,529,53"/>
+<area shape="rect" id="Node000001" title="Create a symbolic link.A Task representing the running operation." alt="" coords="5,5,252,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#af5caf46cabd63e22c686f553aa6d9bc6" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winbase/nf&#45;winbase&#45;createsymboliclinkw." alt="" coords="300,13,528,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="252,31,284,31,284,36,252,36"/>
 </map>

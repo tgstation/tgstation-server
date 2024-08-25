@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Engine.ByondInstallerBase.GetDownloadZipUrl" name="Tgstation.Server.Host.Components.Engine.ByondInstallerBase.GetDownloadZipUrl">
-<area shape="rect" id="node1" title="Create a Uri pointing to the location of the download for a given version ." alt="" coords="5,13,297,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="345,5,608,60"/>
+<area shape="rect" id="Node000001" title="Create a Uri pointing to the location of the download for a given version ." alt="" coords="5,13,297,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="345,5,607,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="297,31,329,31,329,36,297,36"/>
 </map>

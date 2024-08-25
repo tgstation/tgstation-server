@@ -1,10 +1,19 @@
 <map id="Tgstation.Server.Api.Models.UserName.CreateUserName" name="Tgstation.Server.Api.Models.UserName.CreateUserName">
-<area shape="rect" id="node1" title="Create a copy of the UserName." alt="" coords="756,69,945,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#aa71fac864062f40aa138f93476950d8b" title="Generate a UserResponse from this." alt="" coords="512,37,708,77"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="512,101,708,141"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#adf927beefb84907b988ad6c473db0147" title="Delete the repository." alt="" coords="248,5,464,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a1d27c403022b5a73d0bb92e068d542d2" title="Delete the repository." alt="" coords="248,69,464,109"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a193b8881a4e6293ecbb071bdf0714ee0" title="Runner for JobHandlers." alt="" coords="265,133,447,173"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a4b92dec44bb4d23b320ea6a17263308e" title=" " alt="" coords="258,197,454,237"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ac57bb62634696c6dd5d50f333c0bf4c3" title="Registers a given Job and begins running it. A ValueTask representing a running operation." alt="" coords="5,133,200,173"/>
+<area shape="rect" id="Node000001" title="Create a copy of the UserName." alt="" coords="753,104,942,145"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#aa71fac864062f40aa138f93476950d8b" title="Generate a UserResponse from this." alt="" coords="510,71,705,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="737,112,705,107,706,102,738,106"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="510,136,705,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="738,142,706,146,705,141,737,136"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="247,5,462,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="517,131,508,125,492,109,484,92,476,76,460,61,439,49,441,44,464,57,480,73,488,90,497,105,512,121,519,126"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#adf927beefb84907b988ad6c473db0147" title="Delete the repository." alt="" coords="247,71,462,111"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="511,134,435,115,437,109,512,129"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a1d27c403022b5a73d0bb92e068d542d2" title="Delete the repository." alt="" coords="247,136,462,177"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="494,159,462,159,462,154,494,154"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a193b8881a4e6293ecbb071bdf0714ee0" title="Runner for JobHandlers." alt="" coords="264,201,445,242"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="512,184,437,203,435,198,511,179"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a4b92dec44bb4d23b320ea6a17263308e" title=" " alt="" coords="257,267,452,307"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="570,188,521,223,463,256,433,269,431,264,461,251,518,219,567,184"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ac57bb62634696c6dd5d50f333c0bf4c3" title="Registers a given Job and begins running it.A ValueTask representing a running operation." alt="" coords="5,201,199,242"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="248,224,199,224,199,219,248,219"/>
 </map>

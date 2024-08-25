@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Client.InstanceManagerClient" name="Tgstation.Server.Client.InstanceManagerClient">
-<area shape="rect" id="node1" title=" " alt="" coords="64,79,220,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results." alt="" coords="5,5,119,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html" title="For managing Instances." alt="" coords="143,5,301,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="64,79,219,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results." alt="" coords="5,5,118,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,40,124,77,120,81,83,44"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html" title="For managing Instances." alt="" coords="142,5,301,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,44,163,81,159,77,197,40"/>
 </map>

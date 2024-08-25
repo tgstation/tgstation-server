@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Utils.DisposeInvoker" name="Tgstation.Server.Host.Utils.DisposeInvoker">
-<area shape="rect" id="node1" title="Runs a given disposeAction on Dispose." alt="" coords="144,69,325,109"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html" title=" " alt="" coords="373,5,600,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_registration.html" title=" " alt="" coords="373,69,600,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html" title=" " alt="" coords="373,133,600,173"/>
-<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="5,77,96,102"/>
+<area shape="rect" id="Node000001" title="Runs a given disposeAction on Dispose." alt="" coords="143,71,323,111"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html" title=" " alt="" coords="371,5,597,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="328,64,402,44,404,49,329,69"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_registration.html" title=" " alt="" coords="371,71,597,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="339,88,370,88,370,94,339,94"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html" title=" " alt="" coords="371,136,597,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="329,113,404,133,402,138,328,118"/>
+<area shape="rect" id="Node000002" href="$class_i_disposable.html" title=" " alt="" coords="5,78,95,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,88,142,88,142,94,110,94"/>
 </map>

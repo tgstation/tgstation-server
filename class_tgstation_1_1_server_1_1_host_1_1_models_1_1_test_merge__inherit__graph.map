@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Models.TestMerge" name="Tgstation.Server.Host.Models.TestMerge">
-<area shape="rect" id="node1" title=" " alt="" coords="71,240,267,280"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_api_base.html" title="Represents a test merge of a remote commit source." alt="" coords="11,152,150,192"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_model_base.html" title="Layer of test merge data required internally." alt="" coords="6,79,155,104"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html" title="Parameters for creating a TestMerge." alt="" coords="5,5,156,31"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="174,152,339,192"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="71,241,266,282"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_api_base.html" title="Represents a test merge of a remote commit source." alt="" coords="11,153,150,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,203,150,239,147,243,109,206"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_model_base.html" title="Layer of test merge data required internally." alt="" coords="6,79,155,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="83,120,83,152,78,152,78,120"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html" title="Parameters for creating a TestMerge." alt="" coords="5,5,156,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="83,46,83,79,78,79,78,46"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="174,153,339,193"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="228,206,190,243,187,239,224,203"/>
 </map>

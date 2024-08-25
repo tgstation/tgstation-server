@@ -1,5 +1,0 @@
-<map id="RestartService" name="RestartService">
-<area shape="rect" id="node1" title="Restarts a service using a given serviceController ." alt="" coords="499,66,607,91"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a1f4cbdc9d86cde68277bea22e6d1eb9e" title="Runs sc.exe to either uninstall a given serviceToUninstall &#160;or install the running ServerService." alt="" coords="252,29,451,69"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a86d24d735c64eb7c67a935b809927dd4" title="Command line handler, always runs." alt="" coords="5,59,204,99"/>
-</map>

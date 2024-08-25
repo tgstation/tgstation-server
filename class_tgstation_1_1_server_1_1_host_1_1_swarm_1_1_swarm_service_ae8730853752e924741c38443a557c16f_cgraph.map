@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.AbortUpdate" name="Tgstation.Server.Host.Swarm.SwarmService.AbortUpdate">
-<area shape="rect" id="node1" title="Attempt to abort an uncommitted update. A ValueTask representing the running operation...." alt="" coords="5,85,200,125"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2d25eadf43c0a581335ab5f4dba51e5f" title="Sends out remote abort update requests." alt="" coords="248,85,476,125"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="543,5,749,60"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa9e9a887a475c9bbb5f90ae89867b350" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="524,85,768,125"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="538,149,754,204"/>
+<area shape="rect" id="Node000001" title="Attempt to abort an uncommitted update.A ValueTask representing the running operation...." alt="" coords="5,85,200,126"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2d25eadf43c0a581335ab5f4dba51e5f" title="Sends out remote abort update requests." alt="" coords="248,85,475,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,103,232,103,232,108,200,108"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="542,5,748,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="444,82,526,61,527,66,445,87"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa9e9a887a475c9bbb5f90ae89867b350" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="523,85,766,126"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="476,103,507,103,507,108,476,108"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="537,149,752,205"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="445,124,522,143,521,149,444,129"/>
 </map>

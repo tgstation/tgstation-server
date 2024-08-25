@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Security.AuthorizationContextHubFilter.ValidateAuthenticationContext" name="Tgstation.Server.Host.Security.AuthorizationContextHubFilter.ValidateAuthenticationContext">
-<area shape="rect" id="node1" title="Validates the IAuthenticationContext for the hub event." alt="" coords="365,41,609,96"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter.html#ade2195bb54c0c0abb4778294b88d3c43" title=" " alt="" coords="43,5,279,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter.html#aaed2136f6576228293288600f5dcd9e8" title=" " alt="" coords="5,85,317,125"/>
+<area shape="rect" id="Node000001" title="Validates the IAuthenticationContext for the hub event." alt="" coords="365,41,608,97"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter.html#ade2195bb54c0c0abb4778294b88d3c43" title=" " alt="" coords="43,5,279,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="349,57,279,49,279,44,349,51"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter.html#aaed2136f6576228293288600f5dcd9e8" title=" " alt="" coords="5,85,317,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="350,87,318,91,317,85,349,82"/>
 </map>

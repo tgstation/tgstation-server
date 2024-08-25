@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.GetFileName" name="Tgstation.Server.Host.IO.IIOManager.GetFileName">
-<area shape="rect" id="node1" title="Gets the file name portion of a path ." alt="" coords="372,101,543,141"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a077adeb753e3f95c3ef4dc29f7bcc264" title="Deletes all compile jobs that are inactive in the Game folder. A ValueTask representing the running o..." alt="" coords="5,5,324,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aab04508f9021893da0268cf94411226f" title="Download a LogFileResponse." alt="" coords="57,69,273,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="51,133,278,173"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a3373ed476e620fd7c223185ab4234551" title="List LogFileResponses present." alt="" coords="57,197,273,237"/>
+<area shape="rect" id="Node000001" title="Gets the file name portion of a path ." alt="" coords="372,104,541,145"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a077adeb753e3f95c3ef4dc29f7bcc264" title="Deletes all compile jobs that are inactive in the Game folder.A ValueTask representing the running op..." alt="" coords="5,5,324,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="405,99,365,79,323,62,281,49,283,44,325,56,367,74,407,94"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aab04508f9021893da0268cf94411226f" title="Download a LogFileResponse." alt="" coords="57,71,272,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="356,116,272,106,273,101,357,110"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="51,136,278,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="357,138,278,147,278,141,356,133"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a3373ed476e620fd7c223185ab4234551" title="List LogFileResponses present." alt="" coords="57,201,272,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="406,155,325,191,273,205,272,200,323,186,404,150"/>
 </map>

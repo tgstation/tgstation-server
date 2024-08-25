@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.IInstanceCore" name="Tgstation.Server.Host.Components.IInstanceCore">
-<area shape="rect" id="node1" title="For interacting with the instance services." alt="" coords="68,79,295,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,5,184,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="208,5,331,31"/>
+<area shape="rect" id="Node000001" title="For interacting with the instance services." alt="" coords="68,79,294,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,5,184,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,40,162,77,158,81,117,44"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="207,5,329,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="245,44,204,81,201,77,242,40"/>
 </map>

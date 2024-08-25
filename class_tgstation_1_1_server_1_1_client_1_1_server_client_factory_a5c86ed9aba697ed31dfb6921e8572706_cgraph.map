@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Client.ServerClientFactory.CreateFromOAuth" name="Tgstation.Server.Client.ServerClientFactory.CreateFromOAuth">
-<area shape="rect" id="node1" title="Create a IServerClient using am OAuth login. A ValueTask&lt;TResult&gt; resulting in a new IServerClient." alt="" coords="5,13,249,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a82e89289c41c190cbbe7da9b8304b4b9" title="Creates a IServerClient from a login operation." alt="" coords="297,5,500,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#aca41a822cce8517c0ccec8cf409555cd" title="Create an IApiClient. A new IApiClient." alt="" coords="548,13,759,53"/>
+<area shape="rect" id="Node000001" title="Create a IServerClient using am OAuth login.A ValueTask&lt;TResult&gt; resulting in a new IServerClient." alt="" coords="5,13,249,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a82e89289c41c190cbbe7da9b8304b4b9" title="Creates a IServerClient from a login operation." alt="" coords="297,5,499,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="249,31,281,31,281,36,249,36"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#aca41a822cce8517c0ccec8cf409555cd" title="Create an IApiClient.A new IApiClient." alt="" coords="547,13,756,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="500,31,531,31,531,36,500,36"/>
 </map>

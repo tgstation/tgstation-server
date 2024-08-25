@@ -1,4 +1,5 @@
 <map id="IEquatable" name="IEquatable">
-<area shape="rect" id="node1" title=" " alt="" coords="69,5,152,31"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html" title="Information about an engine installation." alt="" coords="5,79,216,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="69,5,151,31"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html" title="Information about an engine installation." alt="" coords="5,79,215,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,46,113,79,107,79,107,46"/>
 </map>

@@ -1,11 +1,19 @@
 <map id="Tgstation.Server.Host.IO.RequestFileStreamProvider" name="Tgstation.Server.Host.IO.RequestFileStreamProvider">
-<area shape="rect" id="node1" title="A IFileStreamProvider that represents the response of HttpRequestMessages." alt="" coords="547,142,728,182"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="221,5,359,31"/>
-<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,132,31"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html" title="For sending HTTP requests." alt="" coords="203,55,377,95"/>
-<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="23,63,114,88"/>
-<area shape="rect" id="node6" title=" " alt="" coords="191,120,389,145"/>
-<area shape="rect" id="node7" title=" " alt="" coords="200,170,380,210"/>
-<area shape="rect" id="node8" title=" " alt="" coords="181,235,399,260"/>
-<area shape="rect" id="node9" title=" " alt="" coords="267,284,313,309"/>
+<area shape="rect" id="Node000001" title="A IFileStreamProvider that represents the response of HttpRequestMessages." alt="" coords="543,142,724,183"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="220,5,356,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="366,33,397,41,460,57,521,81,569,110,609,139,606,144,566,114,518,86,458,62,396,46,364,38"/>
+<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,131,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="146,16,220,16,220,21,146,21"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html" title="For sending HTTP requests." alt="" coords="201,55,375,96"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="391,93,520,124,571,139,570,144,519,129,390,98"/>
+<area shape="rect" id="Node000005" href="$class_i_disposable.html" title=" " alt="" coords="23,63,113,88"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="128,73,201,73,201,78,128,78"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="189,120,387,146"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="403,140,543,152,543,157,403,145"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="199,170,378,211"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="393,183,519,175,543,172,543,177,520,180,393,189"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="180,235,396,260"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="399,229,519,203,583,180,584,186,520,208,400,234"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="266,284,311,310"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="326,291,416,278,468,264,518,245,569,215,609,181,612,185,572,219,520,250,470,269,417,283,327,297"/>
 </map>

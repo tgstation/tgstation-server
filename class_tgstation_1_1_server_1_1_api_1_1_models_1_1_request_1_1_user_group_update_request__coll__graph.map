@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Api.Models.Request.UserGroupUpdateRequest" name="Tgstation.Server.Api.Models.Request.UserGroupUpdateRequest">
-<area shape="rect" id="node1" title="Request to update a user group." alt="" coords="5,225,232,265"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html" title="Represents a group of users." alt="" coords="76,152,161,177"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="71,79,167,104"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="86,5,151,31"/>
+<area shape="rect" id="Node000001" title="Request to update a user group." alt="" coords="5,226,231,267"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html" title="Represents a group of users." alt="" coords="76,153,160,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,194,121,226,115,226,115,194"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="70,79,166,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="121,120,121,152,115,152,115,120"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="86,5,150,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="121,46,121,79,115,79,115,46"/>
 </map>

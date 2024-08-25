@@ -1,12 +1,22 @@
 <map id="Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.HardLinkDmbProvider" name="Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.HardLinkDmbProvider">
-<area shape="rect" id="node1" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,126,257,181"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#ad08ecabc53051ac3615beccdd91e8bf6" title="Mirror the Models.CompileJob." alt="" coords="305,126,563,181"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="649,37,830,77"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35" title="Recursively create tasks to create a hard link directory mirror of src &#160;to dest ." alt="" coords="611,126,868,181"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="655,205,823,245"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="970,5,1138,45"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="963,69,1145,109"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a1928b5f0f5dd2e3e36ce03c7850a2f49" title="Creates a hard link." alt="" coords="929,133,1179,173"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a0c13f92b0cab9a0e3028ec6eedbc38d9" title="Create a symbolic link." alt="" coords="916,197,1192,237"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="959,261,1149,301"/>
+<area shape="rect" id="Node000001" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,129,257,184"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#ad08ecabc53051ac3615beccdd91e8bf6" title="Mirror the Models.CompileJob." alt="" coords="305,129,561,184"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="257,154,289,154,289,159,257,159"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="647,40,827,81"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="506,125,608,90,632,83,634,88,610,95,508,130"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35" title="Recursively create tasks to create a hard link directory mirror of src &#160;to dest ." alt="" coords="609,129,865,184"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="562,154,594,154,594,159,562,159"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="654,208,821,249"/>
+<area shape="poly" id="edge10_Node000002_Node000010" title=" " alt="" coords="554,182,639,202,638,208,553,187"/>
+<area shape="poly" id="edge9_Node000004_Node000004" title=" " alt="" coords="678,128,679,118,690,109,709,104,737,102,769,104,789,111,787,116,768,110,737,107,710,109,692,114,684,120,684,128"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="967,5,1135,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="798,126,864,90,887,72,912,57,952,42,953,47,915,61,890,77,867,95,800,130"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="960,71,1142,111"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="865,127,945,110,946,116,867,132"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a1928b5f0f5dd2e3e36ce03c7850a2f49" title="Creates a hard link." alt="" coords="926,136,1176,177"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="866,154,910,154,910,159,866,159"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a0c13f92b0cab9a0e3028ec6eedbc38d9" title="Create a symbolic link." alt="" coords="913,201,1189,242"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="867,180,936,195,935,200,865,186"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="956,267,1146,307"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="846,182,867,194,883,209,891,224,900,238,915,251,943,265,941,270,912,256,896,242,887,227,878,212,864,198,843,187"/>
 </map>

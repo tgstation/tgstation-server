@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MYAddDreamDaemonVisibility" name="Tgstation.Server.Host.Database.Migrations.MYAddDreamDaemonVisibility">
-<area shape="rect" id="node1" title="Add DreamDaemon visibilty for MYSQL." alt="" coords="5,79,268,119"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="99,5,174,31"/>
+<area shape="rect" id="Node000001" title="Add DreamDaemon visibilty for MYSQL." alt="" coords="5,79,267,120"/>
+<area shape="rect" id="Node000002" href="$class_migration.html" title=" " alt="" coords="99,5,173,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="139,46,139,79,133,79,133,46"/>
 </map>

@@ -1,9 +1,17 @@
 <map id="Tgstation.Server.Host.IO.IConsole.WriteAsync" name="Tgstation.Server.Host.IO.IConsole.WriteAsync">
-<area shape="rect" id="node1" title="Write some text &#160;to the IConsole." alt="" coords="560,142,728,182"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a5159c34ab7d6272eacbc74ccc9686272" title="Prompts the user to create a DatabaseConfiguration." alt="" coords="9,18,216,58"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#acc633da006b738b03a5a24e879d1cade" title="Prompt the user for the DatabaseType." alt="" coords="279,46,501,86"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a261702710bd0cf128d0ee7ed689e1f64" title="Prompts the user to enter the port to host TGS on." alt="" coords="276,110,504,150"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#aaf24cb69ec5c26759c0d337dd36a9df9" title="A prompt for a yes or no value." alt="" coords="296,174,484,214"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ae58857460fa04099734e5b2ec6d0e2c7" title="Check that a given SQLite databaseName &#160;is can be accessed. Also prompts the user if they want to use..." alt="" coords="5,195,220,250"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#af79aa93220cd892232bc2f986d69b36e" title="Ensure a given testConnection &#160;works." alt="" coords="268,289,512,329"/>
+<area shape="rect" id="Node000001" title="Write some text &#160;to the IConsole." alt="" coords="559,145,726,186"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a5159c34ab7d6272eacbc74ccc9686272" title="Prompts the user to create a DatabaseConfiguration." alt="" coords="9,18,216,59"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="618,134,573,81,543,56,510,37,473,24,434,16,354,8,276,11,208,20,207,15,276,6,354,3,434,10,474,19,512,32,546,52,577,77,622,131"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#acc633da006b738b03a5a24e879d1cade" title="Prompt the user for the DatabaseType." alt="" coords="278,46,501,87"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="590,140,510,103,473,90,475,85,512,98,592,135"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a261702710bd0cf128d0ee7ed689e1f64" title="Prompts the user to enter the port to host TGS on." alt="" coords="276,112,503,152"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="543,155,503,150,504,144,544,150"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#aaf24cb69ec5c26759c0d337dd36a9df9" title="A prompt for a yes or no value." alt="" coords="296,177,483,218"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="544,181,484,188,483,183,543,175"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ae58857460fa04099734e5b2ec6d0e2c7" title="Check that a given SQLite databaseName &#160;is can be accessed. Also prompts the user if they want to use..." alt="" coords="5,198,220,253"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="597,196,557,217,512,232,436,244,360,249,286,247,220,243,220,237,286,242,360,243,436,239,510,227,555,212,595,192"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#af79aa93220cd892232bc2f986d69b36e" title="Ensure a given testConnection &#160;works." alt="" coords="268,292,511,332"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="612,199,567,238,512,276,471,294,469,289,510,271,564,234,609,195"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="262,57,216,52,216,47,263,51"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="281,211,221,217,220,212,280,206"/>
 </map>

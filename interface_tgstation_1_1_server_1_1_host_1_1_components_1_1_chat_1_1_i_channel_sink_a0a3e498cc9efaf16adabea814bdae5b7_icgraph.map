@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Chat.IChannelSink.UpdateChannels" name="Tgstation.Server.Host.Components.Chat.IChannelSink.UpdateChannels">
-<area shape="rect" id="node1" title="Called when newChannels &#160;are set." alt="" coords="607,37,835,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#ad1d363231f8eadf0c892891326539bdd" title="Called when newChannels &#160;are set. A ValueTask representing the running operation." alt="" coords="285,5,557,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae2f686caab499a7d4ff36174d99a81e7" title="Force an update with the active channels on all active IChatTrackingContexts. A ValueTask representin..." alt="" coords="284,69,559,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a627c57e5a0a6cc6f52a9f7f09cfa5694" title=" " alt="" coords="5,69,236,109"/>
+<area shape="rect" id="Node000001" title="Called when newChannels &#160;are set." alt="" coords="605,39,832,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#ad1d363231f8eadf0c892891326539bdd" title="Called when newChannels &#160;are set.A ValueTask representing the running operation." alt="" coords="284,5,556,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="589,47,556,43,556,38,590,42"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae2f686caab499a7d4ff36174d99a81e7" title="Force an update with the active channels on all active IChatTrackingContexts.A ValueTask representing..." alt="" coords="283,71,557,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="590,75,558,79,557,74,589,70"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a627c57e5a0a6cc6f52a9f7f09cfa5694" title=" " alt="" coords="5,71,235,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="267,94,235,94,235,88,267,88"/>
 </map>

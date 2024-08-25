@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.Migrations.SLRenameHeartbeatsToHealthChecks" name="Tgstation.Server.Host.Database.Migrations.SLRenameHeartbeatsToHealthChecks">
-<area shape="rect" id="node1" title="Renames the Heatbeat DreamDaemonSettings to HealthCheck for SQLite." alt="" coords="5,79,316,119"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="123,5,198,31"/>
+<area shape="rect" id="Node000001" title="Renames the Heatbeat DreamDaemonSettings to HealthCheck for SQLite." alt="" coords="5,79,316,120"/>
+<area shape="rect" id="Node000002" href="$class_migration.html" title=" " alt="" coords="123,5,198,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,46,163,79,158,79,158,46"/>
 </map>

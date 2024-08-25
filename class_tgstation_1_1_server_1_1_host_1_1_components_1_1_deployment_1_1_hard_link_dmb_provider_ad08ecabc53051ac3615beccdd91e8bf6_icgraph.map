@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorSourceDirectory" name="Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorSourceDirectory">
-<area shape="rect" id="node1" title="Mirror the Models.CompileJob." alt="" coords="305,5,563,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a74e2be734ec8fd5b0d2fa135e4b5f06c" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,5,257,60"/>
+<area shape="rect" id="Node000001" title="Mirror the Models.CompileJob." alt="" coords="305,5,561,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a74e2be734ec8fd5b0d2fa135e4b5f06c" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,5,257,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="289,36,257,36,257,31,289,31"/>
 </map>

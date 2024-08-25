@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.System.IProcess.GetExecutingUsername" name="Tgstation.Server.Host.System.IProcess.GetExecutingUsername">
-<area shape="rect" id="node1" title="Get the name of the account executing the IProcess." alt="" coords="948,13,1163,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a3ac5c5fc42697bf3146a1b0fc9271eb1" title="Make sure the BYOND pager is not running." alt="" coords="643,5,900,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#aa1f001876dbd9f80e47e492fc2ed9d39" title="Create a ISessionController from a freshly launch DreamDaemon instance. A ValueTask&lt;TResult&gt; resultin..." alt="" coords="304,13,595,53"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a857f98eb5a2516c2a70c35d684c2c21b" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,13,256,53"/>
+<area shape="rect" id="Node000001" title="Get the name of the account executing the IProcess." alt="" coords="944,13,1158,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a3ac5c5fc42697bf3146a1b0fc9271eb1" title="Make sure the BYOND pager is not running." alt="" coords="640,5,896,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="928,36,897,36,897,31,928,31"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#aa1f001876dbd9f80e47e492fc2ed9d39" title="Create a ISessionController from a freshly launch DreamDaemon instance.A ValueTask&lt;TResult&gt; resulting..." alt="" coords="303,13,592,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="625,36,592,36,592,31,625,31"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a857f98eb5a2516c2a70c35d684c2c21b" title=" " alt="" coords="5,13,255,54"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="287,36,255,36,255,31,287,31"/>
 </map>

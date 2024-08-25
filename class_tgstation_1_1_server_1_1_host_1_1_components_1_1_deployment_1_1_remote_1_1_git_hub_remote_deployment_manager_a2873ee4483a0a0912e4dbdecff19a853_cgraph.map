@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.RemoveMergedTestMerges" name="Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.RemoveMergedTestMerges">
-<area shape="rect" id="node1" title="Get the updated list of TestMerges for an origin merge. A ValueTask&lt;TResult&gt; resulting in the IReadOn..." alt="" coords="5,34,300,89"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ab8e15b3dd9fe05cabc167ad5e6b3cdcd" title="Check if a given committish &#160;is a parent of the current Head." alt="" coords="348,5,617,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9" title="Create a IGitHubService." alt="" coords="363,70,602,125"/>
+<area shape="rect" id="Node000001" title="Get the updated list of TestMerges for an origin merge.A ValueTask&lt;TResult&gt; resulting in the IReadOnl..." alt="" coords="5,34,300,90"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ab8e15b3dd9fe05cabc167ad5e6b3cdcd" title="Check if a given committish &#160;is a parent of the current Head." alt="" coords="348,5,616,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="300,43,332,39,333,45,300,48"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9" title="Create a IGitHubService." alt="" coords="363,70,601,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="300,75,348,80,347,86,300,80"/>
 </map>

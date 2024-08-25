@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.GetLogger" name="Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.GetLogger">
-<area shape="rect" id="node1" title="Gets a ILogger from a given httpContext ." alt="" coords="328,91,581,131"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#ac119fdfd544f8d4e196bedaba59247ad" title="Suppress global::System.Threading.Tasks.TaskCanceledException warnings when a user aborts a request." alt="" coords="6,5,279,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9fb7c6b75b76c45a6102bec991a311c4" title="Return a ConflictObjectResult for DbUpdateExceptions." alt="" coords="5,84,280,139"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a879c6c603a37c9aebf25174e7aee4b2d" title="Suppress all in flight Exceptions for the request with error 500." alt="" coords="15,163,270,217"/>
+<area shape="rect" id="Node000001" title="Gets a ILogger from a given httpContext ." alt="" coords="328,93,580,134"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#ac119fdfd544f8d4e196bedaba59247ad" title="Suppress global::System.Threading.Tasks.TaskCanceledException warnings when a user aborts a request." alt="" coords="6,5,279,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="356,91,253,64,254,59,358,86"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9fb7c6b75b76c45a6102bec991a311c4" title="Return a ConflictObjectResult for DbUpdateExceptions." alt="" coords="5,85,280,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="312,116,280,116,280,111,312,111"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a879c6c603a37c9aebf25174e7aee4b2d" title="Suppress all in flight Exceptions for the request with error 500." alt="" coords="16,165,269,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="358,140,254,167,253,162,356,135"/>
 </map>

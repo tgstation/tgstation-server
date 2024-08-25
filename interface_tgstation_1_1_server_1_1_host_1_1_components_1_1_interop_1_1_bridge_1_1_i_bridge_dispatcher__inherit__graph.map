@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Interop.Bridge.IBridgeDispatcher" name="Tgstation.Server.Host.Components.Interop.Bridge.IBridgeDispatcher">
-<area shape="rect" id="node1" title="Handler for BridgeParameters." alt="" coords="5,37,232,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="280,5,507,45"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_handler.html" title=" " alt="" coords="280,69,507,109"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html" title=" " alt="" coords="555,5,781,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title=" " alt="" coords="555,69,781,109"/>
+<area shape="rect" id="Node000001" title="Handler for BridgeParameters." alt="" coords="5,39,232,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="280,5,506,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="247,41,279,37,279,42,248,46"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_handler.html" title=" " alt="" coords="280,71,506,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="248,71,279,75,279,80,247,77"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html" title=" " alt="" coords="554,5,780,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="522,23,553,23,553,28,522,28"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title=" " alt="" coords="554,71,780,111"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="522,88,553,88,553,94,522,94"/>
 </map>

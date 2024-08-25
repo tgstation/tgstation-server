@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Interop.Topic.ChunkedTopicParameters" name="Tgstation.Server.Host.Components.Interop.Topic.ChunkedTopicParameters">
-<area shape="rect" id="node1" title="TopicParameters for TopicCommandType.ReceiveChunk." alt="" coords="136,152,387,192"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html" title="Parameters for a topic request." alt="" coords="9,79,130,104"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html" title="Common base for interop parameters." alt="" coords="5,5,133,31"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_missing_payloads_communication.html" title="A communication that can be missing chunk payloads." alt="" coords="154,79,369,104"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_chunk_payload_id.html" title="Represents the payload ID of a set of chunked data." alt="" coords="393,79,513,104"/>
+<area shape="rect" id="Node000001" title="TopicParameters for TopicCommandType.ReceiveChunk." alt="" coords="135,153,384,193"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html" title="Parameters for a topic request." alt="" coords="9,79,129,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,109,213,150,211,155,111,114"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html" title="Common base for interop parameters." alt="" coords="5,5,133,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="72,46,72,79,66,79,66,46"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_missing_payloads_communication.html" title="A communication that can be missing chunk payloads." alt="" coords="153,79,366,105"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="262,120,262,152,257,152,257,120"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_chunk_payload_id.html" title="Represents the payload ID of a set of chunked data." alt="" coords="391,79,510,105"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="408,114,308,155,306,150,406,109"/>
 </map>

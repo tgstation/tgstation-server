@@ -1,4 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository.RawCheckout" name="Tgstation.Server.Host.Components.Repository.Repository.RawCheckout">
-<area shape="rect" id="node1" title="Runs a blocking force checkout to committish ." alt="" coords="296,5,527,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a632cb5984c52022a23716cbabb1e4a40" title="Checks out a given committish . A ValueTask representing the running operation." alt="" coords="5,5,248,45"/>
+<area shape="rect" id="Node000001" title="Runs a blocking force checkout to committish ." alt="" coords="296,39,526,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a3a8561c6ba67a42fec9a9830a043fbdc" title="Attempt to merge the revision specified by a given set of testMergeParameters &#160;into HEAD...." alt="" coords="9,5,244,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="280,46,244,42,244,37,280,41"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a632cb5984c52022a23716cbabb1e4a40" title="Checks out a given committish .A ValueTask representing the running operation." alt="" coords="5,71,248,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="281,76,248,80,248,75,280,71"/>
 </map>

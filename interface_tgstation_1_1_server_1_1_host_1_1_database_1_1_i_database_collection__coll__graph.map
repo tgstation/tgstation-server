@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Database.IDatabaseCollection&lt; TModel &gt;" name="Tgstation.Server.Host.Database.IDatabaseCollection&lt; TModel &gt;">
-<area shape="rect" id="node1" title="Represents a database table." alt="" coords="73,79,282,119"/>
-<area shape="rect" id="node2" href="$class_i_queryable.html" title=" " alt="" coords="5,5,155,31"/>
-<area shape="rect" id="node3" href="$class_i_async_enumerable.html" title=" " alt="" coords="179,5,373,31"/>
+<area shape="rect" id="Node000001" title="Represents a database table." alt="" coords="73,79,281,120"/>
+<area shape="rect" id="Node000002" href="$class_i_queryable.html" title=" " alt="" coords="5,5,154,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,39,154,77,151,81,104,43"/>
+<area shape="rect" id="Node000003" href="$class_i_async_enumerable.html" title=" " alt="" coords="178,5,373,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="250,43,203,81,200,77,247,39"/>
 </map>

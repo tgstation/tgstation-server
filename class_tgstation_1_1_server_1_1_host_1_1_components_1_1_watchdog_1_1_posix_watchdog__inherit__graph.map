@@ -1,14 +1,25 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.PosixWatchdog" name="Tgstation.Server.Host.Components.Watchdog.PosixWatchdog">
-<area shape="rect" id="node1" title="A variant of the AdvancedWatchdog that works on POSIX systems." alt="" coords="343,445,569,485"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of filesystem links to swa..." alt="" coords="387,372,525,397"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="399,299,513,324"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="401,225,511,251"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="261,152,345,177"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="5,79,141,104"/>
-<area shape="rect" id="node7" href="$class_i_hosted_service.html" title=" " alt="" coords="17,5,129,31"/>
-<area shape="rect" id="node8" href="$class_i_async_disposable.html" title=" " alt="" coords="166,79,293,104"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="317,79,435,104"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="460,79,583,104"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="369,152,543,177"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="567,152,681,177"/>
+<area shape="rect" id="Node000001" title="A variant of the AdvancedWatchdog that works on POSIX systems." alt="" coords="340,447,566,488"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of filesystem links to swa..." alt="" coords="384,374,522,399"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="456,415,456,447,450,447,450,415"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="397,300,509,326"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="456,341,456,373,450,373,450,341"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="398,226,508,252"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="456,267,456,300,450,300,450,267"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="258,153,341,178"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="341,183,428,223,426,228,338,188"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="5,79,141,105"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="127,107,262,150,260,155,125,112"/>
+<area shape="rect" id="Node000007" href="$class_i_hosted_service.html" title=" " alt="" coords="17,5,129,31"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="76,46,76,79,70,79,70,46"/>
+<area shape="rect" id="Node000008" href="$class_i_async_disposable.html" title=" " alt="" coords="165,79,290,105"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="252,114,289,150,286,154,249,117"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="314,79,432,105"/>
+<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="352,117,314,154,310,150,348,114"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="456,79,578,105"/>
+<area shape="poly" id="edge9_Node000005_Node000010" title=" " alt="" coords="467,112,338,155,336,150,465,107"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="366,153,540,178"/>
+<area shape="poly" id="edge10_Node000004_Node000011" title=" " alt="" coords="456,194,456,226,450,226,450,194"/>
+<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="565,153,677,178"/>
+<area shape="poly" id="edge11_Node000004_Node000012" title=" " alt="" coords="580,187,483,228,481,223,577,182"/>
 </map>

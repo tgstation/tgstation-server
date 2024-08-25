@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.Migrations.PGCreate" name="Tgstation.Server.Host.Database.Migrations.PGCreate">
-<area shape="rect" id="node1" title="Create initial schema for PostgresSQL." alt="" coords="5,79,215,119"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="73,5,147,31"/>
+<area shape="rect" id="Node000001" title="Create initial schema for PostgresSQL." alt="" coords="5,79,214,120"/>
+<area shape="rect" id="Node000002" href="$class_migration.html" title=" " alt="" coords="72,5,147,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,46,112,79,107,79,107,46"/>
 </map>

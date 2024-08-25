@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Deployment.SymlinkDmbProvider.DoSwap" name="Tgstation.Server.Host.Components.Deployment.SymlinkDmbProvider.DoSwap">
-<area shape="rect" id="node1" title="Perform the swapping action. A ValueTask representing the running operation." alt="" coords="5,101,272,141"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a0c13f92b0cab9a0e3028ec6eedbc38d9" title="Create a symbolic link." alt="" coords="320,5,596,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="367,69,549,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a" title="Deletes a file at path ." alt="" coords="374,133,542,173"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="374,197,542,237"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,104,271,145"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a0c13f92b0cab9a0e3028ec6eedbc38d9" title="Create a symbolic link." alt="" coords="319,5,594,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,101,318,56,348,48,349,53,319,62,193,106"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="366,71,547,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="271,108,350,99,351,105,271,113"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a" title="Deletes a file at path ." alt="" coords="373,136,540,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="271,135,357,144,357,149,271,140"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="373,201,540,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="194,143,319,186,358,197,357,202,318,191,193,148"/>
 </map>

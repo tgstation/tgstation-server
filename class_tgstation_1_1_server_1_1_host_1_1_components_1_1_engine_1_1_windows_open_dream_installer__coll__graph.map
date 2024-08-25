@@ -1,13 +1,23 @@
 <map id="Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller" name="Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller">
-<area shape="rect" id="node1" title="Implementation of OpenDreamInstaller for Windows systems." alt="" coords="851,219,1083,259"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html" title="Implementation of IEngineInstaller for EngineType.OpenDream." alt="" coords="583,187,721,212"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html" title=" " alt="" coords="210,5,347,31"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html" title="For downloading and installing game engines for a given system." alt="" coords="5,5,116,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="234,107,323,132"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="179,157,378,197"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys." alt="" coords="165,221,392,261"/>
-<area shape="rect" id="node8" href="$class_i_disposable.html" title=" " alt="" coords="15,228,106,253"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="188,285,369,325"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="177,349,381,389"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html" title="For creating filesystem symbolic links." alt="" coords="568,237,736,277"/>
+<area shape="rect" id="Node000001" title="Implementation of OpenDreamInstaller for Windows systems." alt="" coords="848,223,1079,264"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html" title="Implementation of IEngineInstaller for EngineType.OpenDream." alt="" coords="582,191,718,216"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="734,211,847,226,847,231,733,217"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html" title=" " alt="" coords="210,5,346,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="362,8,405,9,453,15,500,26,544,47,582,79,612,119,634,159,646,189,642,191,629,161,608,122,578,83,541,51,498,32,452,20,405,14,361,14"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html" title="For downloading and installing game engines for a given system." alt="" coords="5,5,116,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="131,16,210,16,210,21,131,21"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="234,109,322,135"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="338,127,435,143,543,166,612,187,611,193,542,171,434,149,337,133"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="180,159,377,200"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="393,184,581,196,581,202,392,190"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys." alt="" coords="165,225,391,265"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="406,229,542,215,581,210,582,215,543,220,407,235"/>
+<area shape="rect" id="Node000008" href="$class_i_disposable.html" title=" " alt="" coords="16,232,105,258"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="121,242,164,242,164,248,121,248"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="188,290,368,331"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="383,298,463,280,503,267,541,250,553,239,565,227,592,214,594,219,568,231,556,242,544,254,505,272,464,285,384,303"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="177,355,380,396"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="395,371,434,364,472,352,509,335,540,311,548,302,552,292,552,271,552,250,556,238,564,227,581,215,584,219,568,231,561,241,558,250,557,271,557,293,553,304,544,315,511,340,474,357,435,369,396,376"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html" title="For creating filesystem symbolic links." alt="" coords="566,241,734,281"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="749,253,847,247,847,253,749,258"/>
 </map>

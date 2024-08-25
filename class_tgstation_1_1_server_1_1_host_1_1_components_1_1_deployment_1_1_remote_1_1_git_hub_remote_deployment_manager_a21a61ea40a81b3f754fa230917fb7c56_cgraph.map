@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.UpdateDeployment" name="Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.UpdateDeployment">
-<area shape="rect" id="node1" title="Update the deployment for a given compileJob ." alt="" coords="5,41,300,96"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9" title="Create a IGitHubService." alt="" coords="348,5,587,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="348,85,587,125"/>
+<area shape="rect" id="Node000001" title="Update the deployment for a given compileJob ." alt="" coords="5,41,300,97"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9" title="Create a IGitHubService." alt="" coords="348,5,586,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="300,50,332,46,333,51,300,55"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="348,85,586,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="300,83,333,87,332,92,300,89"/>
 </map>

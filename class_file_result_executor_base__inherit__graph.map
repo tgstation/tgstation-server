@@ -1,4 +1,5 @@
 <map id="FileResultExecutorBase" name="FileResultExecutorBase">
-<area shape="rect" id="node1" title=" " alt="" coords="46,5,206,31"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result_executor.html" title="IActionResultExecutor&lt;TResult&gt; for LimitedStreamResults." alt="" coords="5,79,247,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="46,5,205,31"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result_executor.html" title="IActionResultExecutor&lt;TResult&gt; for LimitedStreamResults." alt="" coords="5,79,246,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,46,128,79,123,79,123,46"/>
 </map>

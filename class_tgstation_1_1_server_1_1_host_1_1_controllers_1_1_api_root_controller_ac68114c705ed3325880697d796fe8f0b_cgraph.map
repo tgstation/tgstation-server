@@ -1,9 +1,15 @@
 <map id="Tgstation.Server.Host.Controllers.ApiRootController.ServerInfo" name="Tgstation.Server.Host.Controllers.ApiRootController.ServerInfo">
-<area shape="rect" id="node1" title="Main page of the Application." alt="" coords="5,149,221,189"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_api_headers_provider.html#a3def189103a04956cec01d2453f7318d" title="Attempt to create Api.ApiHeaders without checking for the presence of an Microsoft...." alt="" coords="273,5,504,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a19bad61be74a63558b5cac2ba8a0e82a" title="Gets the list of SwarmServerResponses in the swarm, including the current one." alt="" coords="278,85,499,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a5333dd9534ea615440e2360016e75be4" title="Response for missing/Invalid headers." alt="" coords="281,149,497,189"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a733dbba10de53f9c5dfa8daf99b7cdab" title="Gets a Dictionary&lt;TKey, TValue&gt; of the provider client IDs." alt="" coords="269,213,508,253"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a84d1c4f6e52c2f6b83d40930646bd9f5" title="Generic 401 response." alt="" coords="281,277,497,317"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="556,149,772,189"/>
+<area shape="rect" id="Node000001" title="Main page of the Application." alt="" coords="5,150,221,191"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_api_headers_provider.html#a3def189103a04956cec01d2453f7318d" title="Attempt to create Api.ApiHeaders without checking for the presence of an Microsoft...." alt="" coords="273,5,502,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,147,198,109,267,71,280,65,283,70,270,76,201,114,144,152"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a19bad61be74a63558b5cac2ba8a0e82a" title="Gets the list of SwarmServerResponses in the swarm, including the current one." alt="" coords="277,85,498,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="201,147,283,127,285,132,202,152"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a5333dd9534ea615440e2360016e75be4" title="Response for missing/Invalid headers." alt="" coords="280,150,495,191"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="221,168,264,168,264,173,221,173"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a733dbba10de53f9c5dfa8daf99b7cdab" title="Gets a Dictionary&lt;TKey, TValue&gt; of the provider client IDs." alt="" coords="269,216,506,256"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="202,189,285,209,283,214,201,194"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a84d1c4f6e52c2f6b83d40930646bd9f5" title="Generic 401 response." alt="" coords="280,281,495,322"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="143,189,200,228,270,265,288,273,286,278,268,270,197,232,140,194"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="554,150,769,191"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="496,168,538,168,538,173,496,173"/>
 </map>

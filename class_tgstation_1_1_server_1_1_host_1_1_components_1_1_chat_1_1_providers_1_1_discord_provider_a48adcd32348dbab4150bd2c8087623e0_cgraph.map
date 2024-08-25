@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannelsImpl" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannelsImpl">
-<area shape="rect" id="node1" title=" " alt="" coords="5,77,315,117"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a6a6dd225ccb27e30c2cc06562b035ebe" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="363,5,627,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ab92d4920074cec3e48fa204af595a498" title="Get all text IChannels accessible to and supported by the bot." alt="" coords="374,70,615,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="675,103,891,158"/>
-</map>

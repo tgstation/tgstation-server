@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Interop.Bridge.IBridgeDispatcher.ProcessBridgeRequest" name="Tgstation.Server.Host.Components.Interop.Bridge.IBridgeDispatcher.ProcessBridgeRequest">
-<area shape="rect" id="node1" title="Handle a set of bridge parameters ." alt="" coords="312,30,571,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_bridge_controller.html#ae2967e31eb38ce5eb75e6328f939463f" title="Processes a bridge request." alt="" coords="27,5,243,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad5ab3803515d1f7387db7d7bbdc2a7e0" title="Handle a set of bridge parameters . A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the requ..." alt="" coords="5,69,264,109"/>
+<area shape="rect" id="Node000001" title="Handle a set of bridge parameters ." alt="" coords="311,31,569,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_bridge_controller.html#ae2967e31eb38ce5eb75e6328f939463f" title="Processes a bridge request." alt="" coords="26,5,242,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="295,46,242,40,242,35,296,41"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad5ab3803515d1f7387db7d7bbdc2a7e0" title="Handle a set of bridge parameters .A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the reque..." alt="" coords="5,71,263,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="296,77,263,80,263,75,295,71"/>
 </map>

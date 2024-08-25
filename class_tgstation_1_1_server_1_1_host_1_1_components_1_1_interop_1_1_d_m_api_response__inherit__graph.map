@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Interop.DMApiResponse" name="Tgstation.Server.Host.Components.Interop.DMApiResponse">
-<area shape="rect" id="node1" title="Common base for interop responses." alt="" coords="5,37,232,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_response.html" title="A response to a bridge request." alt="" coords="280,5,507,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_response.html" title="A response to a topic request." alt="" coords="280,69,507,109"/>
+<area shape="rect" id="Node000001" title="Common base for interop responses." alt="" coords="5,39,232,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_response.html" title="A response to a bridge request." alt="" coords="280,5,506,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="247,41,279,37,279,42,248,46"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_response.html" title="A response to a topic request." alt="" coords="280,71,506,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="248,71,279,75,279,80,247,77"/>
 </map>

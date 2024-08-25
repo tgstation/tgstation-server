@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Deployment.IDmbProvider.KeepAlive" name="Tgstation.Server.Host.Components.Deployment.IDmbProvider.KeepAlive">
-<area shape="rect" id="node1" title="Disposing the IDmbProvider won&#39;t cause a cleanup of the working directory." alt="" coords="280,37,515,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_lock.html#a9faf72f5aaf3782b71403ed8de6d95eb" title="Disposing the IDmbProvider won&#39;t cause a cleanup of the working directory." alt="" coords="5,5,232,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A ValueTask representin..." alt="" coords="5,69,232,109"/>
+<area shape="rect" id="Node000001" title="Disposing the IDmbProvider won&#39;t cause a cleanup of the working directory." alt="" coords="280,39,513,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_lock.html#a9faf72f5aaf3782b71403ed8de6d95eb" title="Disposing the IDmbProvider won&#39;t cause a cleanup of the working directory." alt="" coords="5,5,232,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,46,232,42,232,37,264,40"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose.A ValueTask representing..." alt="" coords="5,71,232,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="264,77,232,81,232,75,264,72"/>
 </map>

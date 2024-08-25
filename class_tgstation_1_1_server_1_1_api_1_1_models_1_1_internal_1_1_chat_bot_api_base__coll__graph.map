@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Api.Models.Internal.ChatBotApiBase" name="Tgstation.Server.Api.Models.Internal.ChatBotApiBase">
-<area shape="rect" id="node1" title=" " alt="" coords="5,225,192,265"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html" title="Manage the server chat bots." alt="" coords="40,152,157,177"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="51,79,147,104"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="66,5,131,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,226,192,267"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html" title="Manage the server chat bots." alt="" coords="40,153,157,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,194,101,226,96,226,96,194"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="51,79,146,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="101,120,101,152,96,152,96,120"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="66,5,131,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="101,46,101,79,96,79,96,46"/>
 </map>

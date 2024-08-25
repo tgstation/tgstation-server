@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Configuration.SessionConfiguration" name="Tgstation.Server.Host.Configuration.SessionConfiguration">
-<area shape="rect" id="node1" title="Configuration options for the game sessions." alt="" coords="5,108,235,148"/>
-<area shape="rect" id="node2" title=" " alt="" coords="30,5,119,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="143,5,190,31"/>
+<area shape="rect" id="Node000001" title="Configuration options for the game sessions." alt="" coords="5,109,234,150"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="30,5,118,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,46,91,84,105,107,101,110,86,86,75,47"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="142,5,188,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,46,130,110,125,108,152,44"/>
 </map>

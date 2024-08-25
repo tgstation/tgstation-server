@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Jobs.JobsHubGroupMapper.JobsHubGroupMapper" name="Tgstation.Server.Host.Jobs.JobsHubGroupMapper.JobsHubGroupMapper">
-<area shape="rect" id="node1" title="Initializes a new instance of the JobsHubGroupMapper class." alt="" coords="5,62,248,117"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#aaa6bddb0554f0ced9f4199fd23835f9a" title="Implementation of IConnectionMappedHubContext&lt;THub, THubMethods&gt;.OnConnectionMapGroups." alt="" coords="296,62,541,117"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html#a3919b07ebc527849918921a4d532dda4" title="Get the group name for a given instanceId ." alt="" coords="634,5,817,45"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater.html#aa0c9dbf78b005376137e8d89b57ec8ab" title="Queue a message to be sent to all clients with the current state of active jobs." alt="" coords="589,69,861,109"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="606,133,845,173"/>
+<area shape="rect" id="Node000001" title="Initializes a new instance of the JobsHubGroupMapper class." alt="" coords="5,63,247,119"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#aaa6bddb0554f0ced9f4199fd23835f9a" title="Implementation of IConnectionMappedHubContext&lt;THub, THubMethods&gt;.OnConnectionMapGroups." alt="" coords="295,63,539,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="247,88,279,88,279,94,247,94"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html#a3919b07ebc527849918921a4d532dda4" title="Get the group name for a given instanceId ." alt="" coords="632,5,813,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="539,62,616,46,617,51,540,68"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater.html#aa0c9dbf78b005376137e8d89b57ec8ab" title="Queue a message to be sent to all clients with the current state of active jobs." alt="" coords="587,71,858,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="539,88,571,88,571,94,539,94"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="604,136,842,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="540,114,610,130,609,135,539,120"/>
 </map>

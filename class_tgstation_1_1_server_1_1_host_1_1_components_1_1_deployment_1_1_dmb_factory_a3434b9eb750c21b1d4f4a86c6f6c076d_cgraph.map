@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DmbFactory.LockNextDmb" name="Tgstation.Server.Host.Components.Deployment.DmbFactory.LockNextDmb">
-<area shape="rect" id="node1" title="Gets the next IDmbProvider. DmbAvailable is a precondition. A new IDmbProvider." alt="" coords="5,13,255,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html#a39d7e3a1358f3bcd08ca17cf4640ed51" title="Add a lock to the managed IDmbProvider." alt="" coords="303,13,597,53"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html#ae03467243a3241ddd1b7038871a8b397" title="Creates a DmbLock and adds it to locks." alt="" coords="645,13,956,53"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html#a2abafa30d9487b73499e18ff9c3d2d96" title="Generates a verbose description of a given dmbLock ." alt="" coords="1004,5,1268,60"/>
+<area shape="rect" id="Node000001" title="Gets the next IDmbProvider. DmbAvailable is a precondition.A new IDmbProvider." alt="" coords="5,13,254,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html#a39d7e3a1358f3bcd08ca17cf4640ed51" title="Add a lock to the managed IDmbProvider." alt="" coords="302,13,596,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="254,31,286,31,286,36,254,36"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html#ae03467243a3241ddd1b7038871a8b397" title="Creates a DmbLock and adds it to locks." alt="" coords="644,13,953,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="596,31,628,31,628,36,596,36"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html#a2abafa30d9487b73499e18ff9c3d2d96" title="Generates a verbose description of a given dmbLock ." alt="" coords="1001,5,1265,61"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="954,31,986,31,986,36,954,36"/>
 </map>

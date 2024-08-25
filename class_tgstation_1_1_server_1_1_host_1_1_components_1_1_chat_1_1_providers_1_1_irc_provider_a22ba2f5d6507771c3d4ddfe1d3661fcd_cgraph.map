@@ -1,6 +1,10 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.SendUpdateMessage" name="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.SendUpdateMessage">
-<area shape="rect" id="node1" title=" " alt="" coords="5,62,253,117"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a838ad29e96221a58a71b29358c086c0c" title="Get the prefix for messages about deployments." alt="" coords="301,5,605,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#aba0049859728d558ecee46cefed5f930" title="Send a message to the IProvider. A ValueTask representing the running operation." alt="" coords="324,69,583,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a5576a2503f8e4371139e9abe80df44d2" title=" " alt="" coords="360,157,547,197"/>
+<area shape="rect" id="Node000001" title="Send the message for a deployment.A ValueTask&lt;TResult&gt; resulting in a Func&lt;T1, T2,..." alt="" coords="5,63,253,119"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a838ad29e96221a58a71b29358c086c0c" title="Get the prefix for messages about deployments." alt="" coords="301,5,604,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="252,63,333,47,334,52,253,69"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#aba0049859728d558ecee46cefed5f930" title="Send a message to the IProvider.A ValueTask representing the running operation." alt="" coords="323,71,582,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,88,307,88,307,94,253,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a5576a2503f8e4371139e9abe80df44d2" title=" " alt="" coords="359,160,546,201"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="233,117,362,153,361,158,232,122"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="393,160,389,150,399,141,420,135,452,133,487,136,507,142,506,147,486,141,452,139,421,141,402,145,395,151,398,158"/>
 </map>

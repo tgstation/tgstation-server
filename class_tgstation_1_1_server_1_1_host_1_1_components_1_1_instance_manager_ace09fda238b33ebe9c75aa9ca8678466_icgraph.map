@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager.GetInstanceReference" name="Tgstation.Server.Host.Components.InstanceManager.GetInstanceReference">
-<area shape="rect" id="node1" title="Get the IInstanceReference associated with given metadata . The IInstance associated with the given m..." alt="" coords="280,5,535,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad3dc0cfcb7f415f1dd8a98bfd018f90e" title="Move an IInstance. A ValueTask representing the running operation." alt="" coords="5,5,232,45"/>
+<area shape="rect" id="Node000001" title="Get the IInstanceReference associated with given metadata .The IInstance associated with the given me..." alt="" coords="280,5,534,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad3dc0cfcb7f415f1dd8a98bfd018f90e" title="Move an IInstance.A ValueTask representing the running operation." alt="" coords="5,5,232,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,28,232,28,232,23,264,23"/>
 </map>

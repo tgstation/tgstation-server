@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Restart" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Restart">
-<area shape="rect" id="node1" title="Restarts the watchdog. A ValueTask representing the running operation." alt="" coords="336,5,563,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a86e19b422334b36dbb2a7f84d5393b99" title="Cancels pending graceful actions. A ValueTask representing the running operation." alt="" coords="5,5,288,45"/>
-</map>

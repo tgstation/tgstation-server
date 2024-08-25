@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory" name="Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="417,85,660,125"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html" title="Factory for creating IGitRemoteFeatures." alt="" coords="31,5,214,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html" title="Factory for IGitHubServices." alt="" coords="23,55,222,95"/>
-<area shape="rect" id="node4" title=" " alt="" coords="43,120,203,145"/>
-<area shape="rect" id="node5" title=" " alt="" coords="5,169,240,224"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="415,85,656,125"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html" title="Factory for creating IGitRemoteFeatures." alt="" coords="31,5,213,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,31,391,64,462,81,460,86,390,69,223,37"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html" title="Factory for IGitHubServices." alt="" coords="23,55,221,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="237,81,414,94,414,99,236,86"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="42,120,202,146"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="216,127,390,117,414,115,415,121,391,122,217,132"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,170,239,226"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="253,174,390,145,469,123,470,128,391,150,254,179"/>
 </map>

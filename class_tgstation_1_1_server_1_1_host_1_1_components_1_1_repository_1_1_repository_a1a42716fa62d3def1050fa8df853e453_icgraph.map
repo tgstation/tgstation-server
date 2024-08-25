@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository.ResetToSha" name="Tgstation.Server.Host.Components.Repository.Repository.ResetToSha">
-<area shape="rect" id="node1" title="Requires the current HEAD to be a reference. Hard resets the reference to the given sha...." alt="" coords="287,5,513,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#afe952092abaede9670adeaf6114d7d73" title="Requires the current HEAD to be a tracked reference. Hard resets the reference to what it tracks on t..." alt="" coords="5,5,239,45"/>
+<area shape="rect" id="Node000001" title="Requires the current HEAD to be a reference. Hard resets the reference to the given sha...." alt="" coords="286,5,512,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#afe952092abaede9670adeaf6114d7d73" title="Requires the current HEAD to be a tracked reference. Hard resets the reference to what it tracks on t..." alt="" coords="5,5,238,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="270,28,238,28,238,23,270,23"/>
 </map>

@@ -1,12 +1,21 @@
 <map id="Tgstation.Server.Host.Controllers.UserController.Update" name="Tgstation.Server.Host.Controllers.UserController.Update">
-<area shape="rect" id="node1" title="Update a User." alt="" coords="5,165,221,205"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a25d1cac0938bd3dba05b32c47df199cb" title="Check if a given model &#160;has a valid UserName.Name specified." alt="" coords="296,5,512,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType . The value of rightsType . Note that if InstancePermissionSet is..." alt="" coords="303,69,505,109"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f" title="Generic 404 response." alt="" coords="296,133,512,173"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext. A Task representing the running operation." alt="" coords="299,197,509,237"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a9311c1b5a318b013f9f370be614d91e3" title="Attempt to change the password of a given dbUser ." alt="" coords="296,261,512,301"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html#a004e032cd9c1cb54c6ba3eb13faef180" title="Called when a given User is successfully disabled." alt="" coords="269,325,539,365"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="611,37,802,77"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="615,101,798,141"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#aeab60aa0a0ee2cb5e2ad5dbde1983430" title="Sets a User.PasswordHash for a given user ." alt="" coords="587,261,827,301"/>
+<area shape="rect" id="Node000001" title="Update a User." alt="" coords="5,169,221,210"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a25d1cac0938bd3dba05b32c47df199cb" title="Check if a given model &#160;has a valid UserName.Name specified." alt="" coords="295,5,511,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="131,167,188,112,226,82,267,57,283,50,285,54,270,61,229,86,192,116,134,171"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="302,71,504,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="157,166,268,122,295,113,297,119,270,127,159,171"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f" title="Generic 404 response." alt="" coords="295,136,511,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="221,175,280,168,280,173,222,180"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="299,201,507,242"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="222,199,284,206,283,211,221,204"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a9311c1b5a318b013f9f370be614d91e3" title="Attempt to change the password of a given dbUser ." alt="" coords="295,267,511,307"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="161,208,270,251,297,259,295,265,268,256,159,213"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html#a004e032cd9c1cb54c6ba3eb13faef180" title="Called when a given User is successfully disabled." alt="" coords="269,332,537,373"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="135,209,192,263,229,292,270,317,285,324,283,328,267,321,226,296,189,267,131,212"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="610,39,800,79"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="504,78,594,68,594,73,505,83"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="614,104,795,145"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="505,100,599,110,598,115,504,105"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#aeab60aa0a0ee2cb5e2ad5dbde1983430" title="Sets a User.PasswordHash for a given user ." alt="" coords="585,267,824,307"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="511,284,570,284,570,290,511,290"/>
 </map>

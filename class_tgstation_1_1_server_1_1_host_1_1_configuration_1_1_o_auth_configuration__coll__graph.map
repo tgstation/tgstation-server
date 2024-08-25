@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Configuration.OAuthConfiguration" name="Tgstation.Server.Host.Configuration.OAuthConfiguration">
-<area shape="rect" id="node1" title="OAuth configuration options." alt="" coords="5,79,235,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html" title="Base OAuth options." alt="" coords="38,5,202,31"/>
+<area shape="rect" id="Node000001" title="OAuth configuration options." alt="" coords="5,79,234,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html" title="Base OAuth options." alt="" coords="38,5,201,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,46,122,79,117,79,117,46"/>
 </map>

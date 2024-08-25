@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.ChatController.StandardModelChecks" name="Tgstation.Server.Host.Controllers.ChatController.StandardModelChecks">
-<area shape="rect" id="node1" title="Perform some basic validation of a given model ." alt="" coords="5,13,244,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_api_base.html#a393108fb661ee80354d0d13112fc4867" title="Validates Channels are correct for the ChatBotSettings.Provider." alt="" coords="292,5,507,60"/>
-</map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller.HandleExtremelyLongPathOperation" name="Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller.HandleExtremelyLongPathOperation">
-<area shape="rect" id="node1" title="Perform an operation on a very long path. A ValueTask representing the running operation." alt="" coords="5,30,281,85"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a0c13f92b0cab9a0e3028ec6eedbc38d9" title="Create a symbolic link." alt="" coords="329,5,605,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="377,69,558,109"/>
+<area shape="rect" id="Node000001" title="Perform an operation on a very long path.A ValueTask representing the running operation." alt="" coords="5,31,281,87"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a0c13f92b0cab9a0e3028ec6eedbc38d9" title="Create a symbolic link." alt="" coords="329,5,604,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="281,42,313,39,313,44,282,47"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="376,71,557,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="282,70,361,78,360,83,281,75"/>
 </map>

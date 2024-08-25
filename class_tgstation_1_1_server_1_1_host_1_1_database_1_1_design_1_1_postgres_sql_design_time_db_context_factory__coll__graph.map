@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.Design.PostgresSqlDesignTimeDbContextFactory" name="Tgstation.Server.Host.Database.Design.PostgresSqlDesignTimeDbContextFactory">
-<area shape="rect" id="node1" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating PostgresSqlDatabaseContexts." alt="" coords="5,93,271,148"/>
-<area shape="rect" id="node2" href="$class_i_design_time_db_context_factory.html" title=" " alt="" coords="31,5,245,45"/>
+<area shape="rect" id="Node000001" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating PostgresSqlDatabaseContexts." alt="" coords="5,94,270,150"/>
+<area shape="rect" id="Node000002" href="$class_i_design_time_db_context_factory.html" title=" " alt="" coords="31,5,244,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,61,140,93,135,93,135,61"/>
 </map>

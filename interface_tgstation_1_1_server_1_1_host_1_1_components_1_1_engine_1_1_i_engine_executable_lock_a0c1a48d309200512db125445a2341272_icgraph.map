@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Engine.IEngineExecutableLock.DoNotDeleteThisSession" name="Tgstation.Server.Host.Components.Engine.IEngineExecutableLock.DoNotDeleteThisSession">
-<area shape="rect" id="node1" title="Call if, during a detach, this version should not be deleted." alt="" coords="280,5,556,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A ValueTask representin..." alt="" coords="5,13,232,53"/>
+<area shape="rect" id="Node000001" title="Call if, during a detach, this version should not be deleted." alt="" coords="280,5,555,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose.A ValueTask representing..." alt="" coords="5,13,232,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,36,232,36,232,31,264,31"/>
 </map>

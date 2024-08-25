@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.TransferController.Download" name="Tgstation.Server.Host.Controllers.TransferController.Download">
-<area shape="rect" id="node1" title="Downloads a file with a given ticket ." alt="" coords="236,5,452,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,5,188,45"/>
+<area shape="rect" id="Node000001" title="Downloads a file with a given ticket ." alt="" coords="236,5,451,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,5,188,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,28,188,28,188,23,220,23"/>
 </map>

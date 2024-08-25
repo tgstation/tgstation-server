@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MYFixCascadingDelete" name="Tgstation.Server.Host.Database.Migrations.MYFixCascadingDelete">
-<area shape="rect" id="node1" title="Fix cascading data deletes for Models.Instances on MYSQL." alt="" coords="5,79,225,119"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="78,5,153,31"/>
+<area shape="rect" id="Node000001" title="Fix cascading data deletes for Models.Instances on MYSQL." alt="" coords="5,79,225,120"/>
+<area shape="rect" id="Node000002" href="$class_migration.html" title=" " alt="" coords="78,5,152,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,46,118,79,112,79,112,46"/>
 </map>

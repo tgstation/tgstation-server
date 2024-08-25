@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Watchdog.IWatchdog.RunAsync" name="Tgstation.Server.Host.Watchdog.IWatchdog.RunAsync">
-<area shape="rect" id="node1" title="Run the IWatchdog." alt="" coords="507,39,719,79"/>
-<area shape="rect" id="node2" href="$_tgstation_8_server_8_host_8_service_2_program_8cs.html#a4981a34f5f9ca5f428d65dcc28f8deff" title="Runs the host application with the setup wizard." alt="" coords="310,15,409,41"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#aca6fdfa37c501c190e4698c758cd0b94" title="Executes the watchdog , stopping the service if it exits." alt="" coords="260,67,459,107"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a86d24d735c64eb7c67a935b809927dd4" title="Command line handler, always runs." alt="" coords="9,5,208,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a925943af5c4c8e2254ef174e007d1350" title="Initializes a new instance of the ServiceLifetime class." alt="" coords="5,69,212,109"/>
+<area shape="rect" id="Node000001" title="Run the IWatchdog." alt="" coords="505,5,716,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#aca6fdfa37c501c190e4698c758cd0b94" title="Executes the watchdog , stopping the service if it exits." alt="" coords="260,5,457,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="489,28,457,28,457,23,489,23"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a925943af5c4c8e2254ef174e007d1350" title="Initializes a new instance of the ServiceLifetime class." alt="" coords="5,5,212,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="244,28,212,28,212,23,244,23"/>
 </map>

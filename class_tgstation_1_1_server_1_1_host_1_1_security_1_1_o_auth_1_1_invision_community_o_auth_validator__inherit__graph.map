@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Security.OAuth.InvisionCommunityOAuthValidator" name="Tgstation.Server.Host.Security.OAuth.InvisionCommunityOAuthValidator">
-<area shape="rect" id="node1" title="OAuth validator for Invision Community (selfhosted)." alt="" coords="5,152,265,192"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="58,79,213,104"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="78,5,193,31"/>
+<area shape="rect" id="Node000001" title="OAuth validator for Invision Community (selfhosted)." alt="" coords="5,153,265,193"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="58,79,212,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,120,138,152,132,152,132,120"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="78,5,192,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="138,46,138,79,132,79,132,46"/>
 </map>

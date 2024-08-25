@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Controllers.InstancePermissionSetController.Create" name="Tgstation.Server.Host.Controllers.InstancePermissionSetController.Create">
-<area shape="rect" id="node1" title="Create an InstancePermissionSet." alt="" coords="5,77,259,117"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4" title="Generic 201 response with a given payload ." alt="" coords="319,5,535,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html#af74918a720028e721b99f9947fe9fc76" title="Called when a given instancePermissionSet &#160;is successfully created." alt="" coords="307,70,548,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext. A Task representing the running operation." alt="" coords="323,149,532,189"/>
+<area shape="rect" id="Node000001" title="Create an InstancePermissionSet." alt="" coords="5,77,258,118"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4" title="Generic 201 response with a given payload ." alt="" coords="318,5,534,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,74,324,48,325,53,218,79"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html#af74918a720028e721b99f9947fe9fc76" title="Called when a given instancePermissionSet &#160;is successfully created." alt="" coords="306,70,546,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="258,95,290,95,290,100,258,100"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="322,149,530,190"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="218,116,325,142,324,148,217,121"/>
 </map>

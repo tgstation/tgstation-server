@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Program.Program" name="Tgstation.Server.Host.Program.Program">
-<area shape="rect" id="node1" title="Initializes a new instance of the Program class." alt="" coords="284,5,487,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_program.html#a1365c8dcb9e4b4d51819f577874e2128" title="Entrypoint for the Program." alt="" coords="5,13,236,38"/>
+<area shape="rect" id="Node000001" title="Initializes a new instance of the Program class." alt="" coords="284,5,486,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_program.html#a1365c8dcb9e4b4d51819f577874e2128" title="Entrypoint for the Program." alt="" coords="5,13,236,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="268,28,236,28,236,23,268,23"/>
 </map>

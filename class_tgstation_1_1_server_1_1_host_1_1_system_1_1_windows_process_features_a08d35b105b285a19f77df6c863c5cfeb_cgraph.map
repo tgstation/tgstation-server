@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.System.WindowsProcessFeatures.SuspendProcess" name="Tgstation.Server.Host.System.WindowsProcessFeatures.SuspendProcess">
-<area shape="rect" id="node1" title="Suspend a given process ." alt="" coords="5,69,281,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a97a77860bb8d601d2ee381c6f93ebcf5" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms724211(v=vs.85).aspx." alt="" coords="332,5,531,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a2327fd6dfaab1a02b21c51a8b5db4924" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms684335(v=vs.85).aspx." alt="" coords="332,69,531,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a35f0201cc5934e298fed6050342bb4b7" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms686345(v=vs.85).aspx." alt="" coords="329,133,533,173"/>
+<area shape="rect" id="Node000001" title="Suspend a given process ." alt="" coords="5,71,281,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a97a77860bb8d601d2ee381c6f93ebcf5" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms724211(v=vs.85).aspx." alt="" coords="332,5,529,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,67,322,47,324,53,236,73"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a2327fd6dfaab1a02b21c51a8b5db4924" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms684335(v=vs.85).aspx." alt="" coords="332,71,529,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="281,88,316,88,316,94,281,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a35f0201cc5934e298fed6050342bb4b7" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms686345(v=vs.85).aspx." alt="" coords="329,136,532,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="236,109,324,129,322,135,235,115"/>
 </map>

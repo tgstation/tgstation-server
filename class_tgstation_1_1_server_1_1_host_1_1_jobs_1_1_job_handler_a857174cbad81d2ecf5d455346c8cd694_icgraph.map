@@ -1,5 +1,10 @@
 <map id="Tgstation.Server.Host.Jobs.JobHandler.Wait" name="Tgstation.Server.Host.Jobs.JobHandler.Wait">
-<area shape="rect" id="node1" title="Wait for task to complete." alt="" coords="275,37,457,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab01da8111a05f92c51fc1c9a855cbb92" title="Cancels a give job . A ValueTask&lt;TResult&gt; resulting in the updated job &#160;if it was cancelled,..." alt="" coords="25,5,207,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ae1d7175b4603a84b3448bd1c43979327" title="Wait for a given job &#160;to complete. A ValueTask&lt;TResult&gt; representing the Job. Results in true if the ..." alt="" coords="5,69,227,109"/>
+<area shape="rect" id="Node000001" title="Wait for task to complete." alt="" coords="503,43,684,83"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab01da8111a05f92c51fc1c9a855cbb92" title="Cancels a give job .A ValueTask&lt;TResult&gt; resulting in the updated job &#160;if it was cancelled,..." alt="" coords="274,13,455,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="487,52,455,48,456,43,488,47"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ae1d7175b4603a84b3448bd1c43979327" title="Wait for a given job &#160;to complete.A ValueTask&lt;TResult&gt; representing the Job. Results in true if the J..." alt="" coords="5,71,226,111"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="487,72,226,87,226,82,487,67"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a46f9c3765d722cbd274dc7af7c02165d" title=" " alt="" coords="25,5,206,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="258,33,206,31,207,26,258,28"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="259,61,208,73,206,67,258,55"/>
 </map>

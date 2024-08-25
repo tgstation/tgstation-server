@@ -1,11 +1,19 @@
 <map id="Tgstation.Server.Host.Components.InstanceFactory.CreateInstance" name="Tgstation.Server.Host.Components.InstanceFactory.CreateInstance">
-<area shape="rect" id="node1" title="Create an IInstance. A ValueTask&lt;TResult&gt; resulting in a new IInstance." alt="" coords="5,185,232,225"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html#a018e6e40f5996e0f47441b03e54b32b3" title="Create a IChatManager." alt="" coords="301,5,545,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#abc5cd4823f3a51c21285deec37a5ffe9" title="Create the IIOManager pointing to the &quot;Game&quot; directory of a given instanceIOManager ." alt="" coords="296,85,551,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#aca4d800a58f36ba2411cc86b5e37ace0" title="Create the IIOManager for a given set of instance metadata ." alt="" coords="288,149,559,189"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager_factory.html#a8676a75231873c278c61026aab0a97c9" title="Create a IRepositoryManager." alt="" coords="300,213,547,268"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html#a7776b90becee310dbf88b39c649ed4e7" title="Creates a IWatchdog." alt="" coords="280,293,567,333"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a923eeba6faee2b5573a1fa4bc37c2216" title=" " alt="" coords="310,357,537,397"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#af9c1035ed4c517ccd84124b09fa6faa4" title=" " alt="" coords="625,325,851,365"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a61b0a56eced0f9e75057c0c9f17b5d1d" title=" " alt="" coords="615,389,861,429"/>
+<area shape="rect" id="Node000001" title="Create an IInstance.A ValueTask&lt;TResult&gt; resulting in a new IInstance." alt="" coords="5,186,232,227"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html#a018e6e40f5996e0f47441b03e54b32b3" title="Create a IChatManager." alt="" coords="301,5,545,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,184,197,128,236,97,278,71,290,65,292,70,281,75,239,102,200,132,141,188"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#abc5cd4823f3a51c21285deec37a5ffe9" title="Create the IIOManager pointing to the &quot;Game&quot; directory of a given instanceIOManager ." alt="" coords="296,85,550,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="162,183,217,159,279,136,307,127,309,133,281,141,219,164,165,188"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#aca4d800a58f36ba2411cc86b5e37ace0" title="Create the IIOManager for a given set of instance metadata ." alt="" coords="288,150,558,191"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="232,190,273,186,273,191,232,196"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager_factory.html#a8676a75231873c278c61026aab0a97c9" title="Create a IRepositoryManager." alt="" coords="300,215,546,270"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="232,217,285,223,284,229,232,223"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html#a7776b90becee310dbf88b39c649ed4e7" title="Creates a IWatchdog." alt="" coords="280,294,566,335"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="159,225,215,253,281,280,303,287,301,292,279,285,213,258,156,230"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a923eeba6faee2b5573a1fa4bc37c2216" title=" " alt="" coords="310,360,536,400"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="139,225,198,285,238,317,281,344,296,351,294,356,278,349,234,321,194,289,135,229"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#af9c1035ed4c517ccd84124b09fa6faa4" title=" " alt="" coords="624,326,850,367"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="536,365,608,357,609,363,537,370"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a61b0a56eced0f9e75057c0c9f17b5d1d" title=" " alt="" coords="614,392,860,432"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="537,389,599,395,598,400,536,394"/>
 </map>

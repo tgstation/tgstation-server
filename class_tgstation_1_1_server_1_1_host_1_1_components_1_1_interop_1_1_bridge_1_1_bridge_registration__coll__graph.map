@@ -1,8 +1,14 @@
 <map id="Tgstation.Server.Host.Components.Interop.Bridge.BridgeRegistration" name="Tgstation.Server.Host.Components.Interop.Bridge.BridgeRegistration">
-<area shape="rect" id="node1" title=" " alt="" coords="45,168,271,208"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker.html" title="Runs a given disposeAction on Dispose." alt="" coords="162,93,274,119"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="42,5,133,31"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registration.html" title="Represents a registration of an interop session." alt="" coords="5,93,137,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="160,5,271,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="312,5,351,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="45,169,271,210"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker.html" title="Runs a given disposeAction on Dispose." alt="" coords="161,94,272,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,134,174,170,170,167,196,131"/>
+<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="42,5,132,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="119,38,200,91,197,96,116,42"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registration.html" title="Represents a registration of an interop session." alt="" coords="5,94,137,120"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="85,47,76,94,71,93,79,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="159,5,268,31"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="217,46,219,94,213,94,212,46"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="310,5,349,31"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="321,47,302,72,282,86,261,96,258,91,280,81,298,68,317,44"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="97,128,138,167,135,171,93,132"/>
 </map>

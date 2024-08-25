@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.System.WindowsNetworkPromptReaper" name="Tgstation.Server.Host.System.WindowsNetworkPromptReaper">
-<area shape="rect" id="node1" title=" " alt="" coords="55,79,261,119"/>
-<area shape="rect" id="node2" href="$class_background_service.html" title=" " alt="" coords="5,5,140,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html" title="On Windows, DreamDaemon will show an unskippable prompt when using /world/proc/OpenPort()...." alt="" coords="164,5,323,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="53,79,260,120"/>
+<area shape="rect" id="Node000002" href="$class_background_service.html" title=" " alt="" coords="5,5,140,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,40,138,77,134,81,94,44"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html" title="On Windows, DreamDaemon will show an unskippable prompt when using /world/proc/OpenPort()...." alt="" coords="163,5,321,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="220,44,179,81,176,77,216,40"/>
 </map>

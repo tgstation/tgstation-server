@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MYNullableAndForeignKeyCleanup" name="Tgstation.Server.Host.Database.Migrations.MYNullableAndForeignKeyCleanup">
-<area shape="rect" id="node1" title="Cleans up of nullable columns and foreign keys MySQL/MariaDB." alt="" coords="5,79,245,133"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="88,5,163,31"/>
+<area shape="rect" id="Node000001" title="Cleans up of nullable columns and foreign keys MySQL/MariaDB." alt="" coords="5,79,245,135"/>
+<area shape="rect" id="Node000002" href="$class_migration.html" title=" " alt="" coords="88,5,162,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,47,128,78,122,78,122,47"/>
 </map>

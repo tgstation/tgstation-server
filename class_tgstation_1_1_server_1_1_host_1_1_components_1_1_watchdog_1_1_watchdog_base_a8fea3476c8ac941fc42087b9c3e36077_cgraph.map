@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleChatCommand" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleChatCommand">
-<area shape="rect" id="node1" title="Handle a chat command. A ValueTask&lt;TResult&gt; resulting in the MessageContent text to send back." alt="" coords="5,69,307,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ab53c08e5a2f37233940f3492207a760b" title="Get the active ISessionController." alt="" coords="365,5,651,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ad5b260f0cac6051983c75a9a6777b38b" title="Handle any TopicResponse.ChatResponses in a given topic result ." alt="" coords="355,69,661,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="413,133,603,173"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#af9226f864c0c82403eab7ac5f8e43002" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="709,69,936,109"/>
+<area shape="rect" id="Node000001" title="Handle a chat command.A ValueTask&lt;TResult&gt; resulting in the MessageContent text to send back." alt="" coords="5,71,306,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0dfb6c0c3c1c717e3d56b939ce0df4ec" title="Get the active ISessionController." alt="" coords="364,5,650,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="268,67,379,47,380,52,269,73"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ad5b260f0cac6051983c75a9a6777b38b" title="Handle any TopicResponse.ChatResponses in a given topic result ." alt="" coords="354,71,660,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="306,88,338,88,338,94,306,94"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="412,136,602,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="269,109,398,133,397,139,268,115"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#af9226f864c0c82403eab7ac5f8e43002" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="708,71,934,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="660,88,692,88,692,94,660,94"/>
 </map>

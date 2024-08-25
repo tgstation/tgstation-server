@@ -1,11 +1,19 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.Provider" name="Tgstation.Server.Host.Components.Chat.Providers.Provider">
-<area shape="rect" id="node1" title=" " alt="" coords="609,191,836,231"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="273,5,348,31"/>
-<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,132,31"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="219,55,402,95"/>
-<area shape="rect" id="node5" title=" " alt="" coords="181,120,440,175"/>
-<area shape="rect" id="node6" title=" " alt="" coords="232,199,389,224"/>
-<area shape="rect" id="node7" title=" " alt="" coords="257,248,365,273"/>
-<area shape="rect" id="node8" title=" " alt="" coords="285,297,336,323"/>
-<area shape="rect" id="node9" title=" " alt="" coords="222,347,399,372"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="605,193,832,233"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="272,5,345,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="361,20,410,27,467,39,526,58,583,84,619,109,652,137,702,190,699,194,649,141,616,113,580,88,524,63,465,44,409,32,360,25"/>
+<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,131,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="146,16,272,16,272,21,146,21"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="218,55,399,96"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="415,92,498,111,582,138,637,163,685,190,682,194,635,168,580,143,496,117,414,97"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="180,120,437,175"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="453,156,582,174,647,189,646,195,581,179,453,162"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="231,200,387,226"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="402,210,605,210,605,216,402,216"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="255,249,362,275"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="377,253,581,231,605,227,605,233,582,236,378,258"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="284,299,334,324"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="349,305,455,292,518,280,581,265,628,249,672,231,674,236,630,254,582,270,519,285,455,297,350,311"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="221,348,397,374"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="412,352,496,338,539,327,580,312,614,295,645,273,694,232,698,236,648,278,616,299,582,317,541,332,497,344,413,357"/>
 </map>

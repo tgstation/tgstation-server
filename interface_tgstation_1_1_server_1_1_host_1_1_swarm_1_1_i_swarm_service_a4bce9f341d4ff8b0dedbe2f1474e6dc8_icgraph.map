@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Swarm.ISwarmService.PrepareUpdate" name="Tgstation.Server.Host.Swarm.ISwarmService.PrepareUpdate">
-<area shape="rect" id="node1" title="Signal to the swarm that an update is requested." alt="" coords="525,13,727,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a4947e51e573b4cd8fde63e074fa2460e" title="Prepares the swarm update, deletes the stagingDirectory , and buffers the ServerUpdateOperation...." alt="" coords="251,5,477,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a2a702f9141f98d0ba1aae9a70688704c" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="5,13,203,53"/>
+<area shape="rect" id="Node000001" title="Signal to the swarm that an update is requested." alt="" coords="523,13,723,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a4947e51e573b4cd8fde63e074fa2460e" title="Prepares the swarm update, deletes the stagingDirectory , and buffers the ServerUpdateOperation...." alt="" coords="250,5,475,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="507,36,476,36,476,31,507,31"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a2a702f9141f98d0ba1aae9a70688704c" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="5,13,202,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="234,36,202,36,202,31,234,31"/>
 </map>

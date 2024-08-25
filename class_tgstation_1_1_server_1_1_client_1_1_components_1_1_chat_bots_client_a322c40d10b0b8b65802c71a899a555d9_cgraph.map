@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Client.Components.ChatBotsClient.ChatBotsClient" name="Tgstation.Server.Client.Components.ChatBotsClient.ChatBotsClient">
+<area shape="rect" id="Node000001" title="Initializes a new instance of the ChatBotsClient class." alt="" coords="5,5,220,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_chat_bots_client.html#a4a8fed90ab23a9b038edbfea5584a21d" title="List the chat bots.A ValueTask&lt;TResult&gt; resulting in a List&lt;T&gt; of the ChatBotResponses." alt="" coords="268,13,477,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,31,252,31,252,36,220,36"/>
+</map>

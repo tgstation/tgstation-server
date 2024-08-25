@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.Provider.DisposeAsync" name="Tgstation.Server.Host.Components.Chat.Providers.Provider.DisposeAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,37,249,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a6a6dd225ccb27e30c2cc06562b035ebe" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="315,5,579,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a19cca90f9904a5d3535cd27c3e3fe3fe" title="Stops and awaits the reconnectTask." alt="" coords="297,69,597,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,249,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a6a6dd225ccb27e30c2cc06562b035ebe" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="315,5,578,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="249,44,299,38,300,44,249,49"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a19cca90f9904a5d3535cd27c3e3fe3fe" title="Stops and awaits the reconnectTask." alt="" coords="297,71,596,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="249,69,282,72,281,77,249,74"/>
 </map>

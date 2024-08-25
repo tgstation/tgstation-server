@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Controllers.EngineController.ValidateEngineVersion" name="Tgstation.Server.Host.Controllers.EngineController.ValidateEngineVersion">
+<area shape="rect" id="Node000001" title="Validate and normalize a given version ." alt="" coords="5,5,254,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html#a6c50de2719864e29aee2b19dc39fcaed" title="Remove the Version.Build from a given version &#160;if present." alt="" coords="302,5,558,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="254,23,286,23,286,28,254,28"/>
+</map>

@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Common.Http.CachedResponseStream" name="Tgstation.Server.Common.Http.CachedResponseStream">
-<area shape="rect" id="node1" title="Caches the Stream from a HttpResponseMessage for later use." alt="" coords="68,93,263,133"/>
-<area shape="rect" id="node2" href="$class_stream.html" title=" " alt="" coords="5,5,69,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="94,5,237,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="261,5,376,31"/>
+<area shape="rect" id="Node000001" title="Caches the Stream from a HttpResponseMessage for later use." alt="" coords="67,94,260,135"/>
+<area shape="rect" id="Node000002" href="$class_stream.html" title=" " alt="" coords="5,5,69,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="67,38,139,91,136,96,64,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="93,5,235,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,46,166,93,161,93,161,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="259,5,373,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="300,45,272,72,227,96,225,91,269,68,296,41"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Jobs.JobsHubGroupMapper.InstancePermissionSetCreated" name="Tgstation.Server.Host.Jobs.JobsHubGroupMapper.InstancePermissionSetCreated">
-<area shape="rect" id="node1" title="Called when a given instancePermissionSet &#160;is successfully created. A ValueTask representing the runn..." alt="" coords="5,5,276,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#af13128352230eb91cf2a9125f36143a1" title="Refresh the hub Hub.Groups for clients associated with a given permissionSetId ." alt="" coords="324,13,591,53"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html#a3919b07ebc527849918921a4d532dda4" title="Get the group name for a given instanceId ." alt="" coords="639,13,821,53"/>
+<area shape="rect" id="Node000001" title="Called when a given instancePermissionSet &#160;is successfully created.A ValueTask representing the runni..." alt="" coords="5,5,275,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#af13128352230eb91cf2a9125f36143a1" title="Refresh the hub Hub.Groups for clients associated with a given permissionSetId ." alt="" coords="323,13,588,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="275,31,307,31,307,36,275,36"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html#a3919b07ebc527849918921a4d532dda4" title="Get the group name for a given instanceId ." alt="" coords="636,13,817,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="589,31,621,31,621,36,589,36"/>
 </map>

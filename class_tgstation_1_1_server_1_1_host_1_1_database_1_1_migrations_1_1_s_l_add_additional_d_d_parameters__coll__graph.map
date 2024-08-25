@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.Migrations.SLAddAdditionalDDParameters" name="Tgstation.Server.Host.Database.Migrations.SLAddAdditionalDDParameters">
-<area shape="rect" id="node1" title="Adds columns for GitHub deployments for SQLite." alt="" coords="5,79,272,119"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="101,5,176,31"/>
+<area shape="rect" id="Node000001" title="Adds columns for GitHub deployments for SQLite." alt="" coords="5,79,272,120"/>
+<area shape="rect" id="Node000002" href="$class_migration.html" title=" " alt="" coords="101,5,176,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,46,141,79,136,79,136,46"/>
 </map>

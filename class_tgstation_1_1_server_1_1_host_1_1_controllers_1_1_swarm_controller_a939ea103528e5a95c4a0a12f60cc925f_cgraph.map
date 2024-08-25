@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.SwarmController.PrepareUpdate" name="Tgstation.Server.Host.Controllers.SwarmController.PrepareUpdate">
-<area shape="rect" id="node1" title="Update initiation endpoint." alt="" coords="5,49,221,89"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a7e8067294cc6dec3fcf9617703f3b85f" title="Notify the node of an update request from the controller." alt="" coords="269,5,520,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f" title="Check that the RequestRegistrationId is valid." alt="" coords="276,85,513,125"/>
+<area shape="rect" id="Node000001" title="Update initiation endpoint." alt="" coords="5,49,221,90"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a7e8067294cc6dec3fcf9617703f3b85f" title="Notify the node of an update request from the controller." alt="" coords="269,5,518,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,53,253,49,254,54,222,58"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f" title="Check that the RequestRegistrationId is valid." alt="" coords="275,85,512,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="222,80,260,85,259,91,221,86"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Client.Components.ChatBotsClient" name="Tgstation.Server.Client.Components.ChatBotsClient">
-<area shape="rect" id="node1" title=" " alt="" coords="37,79,223,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results." alt="" coords="5,5,119,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_chat_bots_client.html" title="For managing the chat bots." alt="" coords="143,5,256,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="37,79,222,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results." alt="" coords="5,5,118,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,41,115,77,111,80,80,44"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_chat_bots_client.html" title="For managing the chat bots." alt="" coords="141,5,254,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="179,44,148,80,144,77,175,41"/>
 </map>

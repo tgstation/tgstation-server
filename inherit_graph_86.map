@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_update_service.html" title="Service for performing the complex Job of updating the repository on user request." alt="" coords="5,5,239,45"/>
+<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html" title="For low level interactions with a LibGit2Sharp.IRepository." alt="" coords="5,5,232,46"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_commands.html" title=" " alt="" coords="280,5,506,46"/>
+<area shape="poly" id="edge553_Node000000_Node000001" title=" " alt="" coords="248,23,279,23,279,28,248,28"/>
 </map>

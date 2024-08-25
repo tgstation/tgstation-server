@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Api.ApiHeaders.SetHubConnectionHeaders" name="Tgstation.Server.Api.ApiHeaders.SetHubConnectionHeaders">
-<area shape="rect" id="node1" title="Adds the headers &#160;necessary for a SignalR hub connection." alt="" coords="5,5,237,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a879908a0994ff362021e3bc1303827a5" title="Create the stringified for of the ApiVersionHeader." alt="" coords="285,5,503,45"/>
+<area shape="rect" id="Node000001" title="Adds the headers &#160;necessary for a SignalR hub connection." alt="" coords="5,5,237,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a879908a0994ff362021e3bc1303827a5" title="Create the stringified for of the ApiVersionHeader." alt="" coords="285,5,501,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="237,23,269,23,269,28,237,28"/>
 </map>

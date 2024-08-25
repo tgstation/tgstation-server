@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.SendRawTopic" name="Tgstation.Server.Host.Components.Session.SessionController.SendRawTopic">
-<area shape="rect" id="node1" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="607,13,872,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#adfbdffdd72092dd6cf553d8d5ebcb25a" title="Send a topic request for given parameters &#160;to DreamDaemon, chunking it if necessary." alt="" coords="320,5,559,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a144442907558321c94c8c2afa9e53764" title="Sends a command to DreamDaemon through /world/Topic()." alt="" coords="5,13,272,53"/>
+<area shape="rect" id="Node000001" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="605,13,869,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#adfbdffdd72092dd6cf553d8d5ebcb25a" title="Send a topic request for given parameters &#160;to DreamDaemon, chunking it if necessary." alt="" coords="319,5,557,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="589,36,557,36,557,31,589,31"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a144442907558321c94c8c2afa9e53764" title="Sends a command to DreamDaemon through /world/Topic()." alt="" coords="5,13,271,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="303,36,271,36,271,31,303,31"/>
 </map>

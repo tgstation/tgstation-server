@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Chat.Commands.CustomCommand" name="Tgstation.Server.Host.Components.Chat.Commands.CustomCommand">
-<area shape="rect" id="node1" title="Represents a command made from DM code." alt="" coords="24,108,251,148"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots." alt="" coords="5,13,91,38"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="115,5,341,45"/>
+<area shape="rect" id="Node000001" title="Represents a command made from DM code." alt="" coords="24,109,250,150"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots." alt="" coords="5,13,90,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="70,48,122,107,118,110,66,52"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="114,5,341,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,60,156,110,152,107,198,56"/>
 </map>

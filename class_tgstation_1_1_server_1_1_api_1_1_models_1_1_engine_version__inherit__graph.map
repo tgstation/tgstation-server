@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Api.Models.EngineVersion" name="Tgstation.Server.Api.Models.EngineVersion">
-<area shape="rect" id="node1" title="Information about an engine installation." alt="" coords="6,79,193,119"/>
-<area shape="rect" id="node2" href="$class_i_equatable.html" title=" " alt="" coords="5,5,193,31"/>
+<area shape="rect" id="Node000001" title="Information about an engine installation." alt="" coords="6,79,192,120"/>
+<area shape="rect" id="Node000002" href="$class_i_equatable.html" title=" " alt="" coords="5,5,193,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,46,102,79,96,79,96,46"/>
 </map>

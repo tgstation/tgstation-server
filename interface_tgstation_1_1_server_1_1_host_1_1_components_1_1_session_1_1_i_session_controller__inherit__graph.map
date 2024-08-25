@@ -1,7 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Session.ISessionController" name="Tgstation.Server.Host.Components.Session.ISessionController">
-<area shape="rect" id="node1" title="Handles communication with a DreamDaemon IProcess." alt="" coords="81,79,308,119"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title=" " alt="" coords="81,167,308,207"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime." alt="" coords="5,5,109,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="133,5,256,31"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="281,5,407,31"/>
+<area shape="rect" id="Node000001" title="Handles communication with a DreamDaemon IProcess." alt="" coords="80,79,306,120"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title=" " alt="" coords="80,168,306,208"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="196,135,196,167,190,167,190,135"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime." alt="" coords="5,5,109,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,37,161,76,158,81,89,41"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="132,5,254,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="196,46,196,79,190,79,190,46"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="278,5,404,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="306,41,231,81,228,76,304,36"/>
 </map>

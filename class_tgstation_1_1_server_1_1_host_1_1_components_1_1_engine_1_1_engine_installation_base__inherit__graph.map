@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Engine.EngineInstallationBase" name="Tgstation.Server.Host.Components.Engine.EngineInstallationBase">
-<area shape="rect" id="node1" title=" " alt="" coords="181,37,408,77"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installation.html" title="Implementation of IEngineInstallation for EngineType.Byond." alt="" coords="456,5,683,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installation.html" title="Implementation of IEngineInstallation for EngineType.OpenDream." alt="" coords="456,69,683,109"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation." alt="" coords="5,45,133,70"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="181,39,407,79"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installation.html" title="Implementation of IEngineInstallation for EngineType.Byond." alt="" coords="455,5,681,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="422,41,454,37,455,42,423,46"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installation.html" title="Implementation of IEngineInstallation for EngineType.OpenDream." alt="" coords="455,71,681,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="423,71,455,75,454,80,422,77"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation." alt="" coords="5,46,133,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,56,180,56,180,62,148,62"/>
 </map>

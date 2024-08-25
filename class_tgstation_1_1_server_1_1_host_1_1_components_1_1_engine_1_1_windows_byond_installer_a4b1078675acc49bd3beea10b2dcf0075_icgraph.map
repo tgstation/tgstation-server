@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall" name="Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall">
-<area shape="rect" id="node1" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="304,34,567,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a268c1e9ab92857d3bced172e22850b24" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="12,5,249,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#abdb765cab1e3405e710040bdcb223085" title="Does actions necessary to get upgrade a version installed by a previous version of TGS...." alt="" coords="5,70,256,125"/>
+<area shape="rect" id="Node000001" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="304,34,566,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a268c1e9ab92857d3bced172e22850b24" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="12,5,249,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="288,47,249,42,249,37,289,42"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#abdb765cab1e3405e710040bdcb223085" title="Does actions necessary to get upgrade a version installed by a previous version of TGS...." alt="" coords="5,70,256,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="289,82,257,85,256,80,288,76"/>
 </map>

@@ -1,6 +1,10 @@
 <map id="Tgstation.Server.Host.Database.DatabaseSeeder.SeedSystemUser" name="Tgstation.Server.Host.Database.DatabaseSeeder.SeedSystemUser">
-<area shape="rect" id="node1" title="Add a default system User to a given databaseContext ." alt="" coords="533,37,756,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#acccb4650f7b19158f0241418c7345719" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="263,5,485,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a59c3f85134ebd165aaa4df15c45d3901" title="Initially seed a given databaseContext ." alt="" coords="269,69,479,109"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext . A ValueTask representing the running operation." alt="" coords="5,37,215,77"/>
+<area shape="rect" id="Node000001" title="Add a default system User to a given databaseContext ." alt="" coords="531,39,753,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#acccb4650f7b19158f0241418c7345719" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="262,5,483,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="515,46,483,42,484,37,516,41"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a59c3f85134ebd165aaa4df15c45d3901" title="Initially seed a given databaseContext ." alt="" coords="268,71,477,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="516,77,477,81,476,76,515,71"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext .A ValueTask representing the running operation." alt="" coords="5,39,214,79"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="246,44,215,48,214,43,246,39"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="253,79,214,74,215,69,253,74"/>
 </map>

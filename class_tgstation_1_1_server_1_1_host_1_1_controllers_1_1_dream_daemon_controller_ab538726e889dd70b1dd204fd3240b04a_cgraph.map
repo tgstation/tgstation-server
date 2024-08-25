@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.DreamDaemonController.CreateDump" name="Tgstation.Server.Host.Controllers.DreamDaemonController.CreateDump">
-<area shape="rect" id="node1" title="Creates a JobResponse to generate a DreamDaemon process dump." alt="" coords="5,37,244,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#afb982e4f4d1492aced7dcf14d9ba5d97" title="Creates a new job for registering in the Jobs.IJobService." alt="" coords="296,5,492,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95" title="Registers a given Job and begins running it." alt="" coords="292,69,496,109"/>
+<area shape="rect" id="Node000001" title="Creates a JobResponse to generate a DreamDaemon process dump." alt="" coords="5,39,243,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#afb982e4f4d1492aced7dcf14d9ba5d97" title="Creates a new job for registering in the Jobs.IJobService." alt="" coords="295,5,490,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,42,279,37,279,42,243,47"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95" title="Registers a given Job and begins running it." alt="" coords="291,71,494,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="243,71,275,74,275,80,243,76"/>
 </map>

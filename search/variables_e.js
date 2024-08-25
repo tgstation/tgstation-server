@@ -11,6 +11,5 @@ var searchData=
   ['ondispose_8',['onDispose',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html#abbfde34e5e8abed9539e26d1952345af',1,'Tgstation::Server::Host::Components::Deployment::DmbProvider']]],
   ['onzeroreferencestcs_9',['onZeroReferencesTcs',['../class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a0850503053d3a6538454590ab061525a',1,'Tgstation::Server::Host::Utils::ReferenceCountingContainer']]],
   ['originalconsoletitle_10',['originalConsoleTitle',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad66bf7714d6593c0793e5612b60335b8',1,'Tgstation::Server::Host::Components::InstanceManager']]],
-  ['origintrackingerrortemplate_11',['OriginTrackingErrorTemplate',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a160b164a1b668c2951ac4cff5db5205b',1,'Tgstation::Server::Host::Components::Repository::Repository']]],
-  ['outputdisplaytype_12',['outputDisplayType',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a96681c4d5a393d80bd2ff022eed95ee5',1,'Tgstation::Server::Host::Components::Chat::Providers::DiscordProvider']]]
+  ['origintrackingerrortemplate_11',['OriginTrackingErrorTemplate',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a160b164a1b668c2951ac4cff5db5205b',1,'Tgstation::Server::Host::Components::Repository::Repository']]]
 ];

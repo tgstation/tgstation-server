@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.InstanceFactory.CreateGameIOManager" name="Tgstation.Server.Host.Components.InstanceFactory.CreateGameIOManager">
-<area shape="rect" id="node1" title="Create the IIOManager pointing to the &quot;Game&quot; directory of a given instanceIOManager ." alt="" coords="308,37,563,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#adf149e45487115e81f6e75a5dc1ff5a7" title="Create an IIOManager that resolves to the &quot;Game&quot; directory of the Models.Instance defined by metadata..." alt="" coords="5,5,260,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ae84e92a0d103d6df381a3e9531a7c279" title="Create an IInstance. A ValueTask&lt;TResult&gt; resulting in a new IInstance." alt="" coords="19,69,246,109"/>
+<area shape="rect" id="Node000001" title="Create the IIOManager pointing to the &quot;Game&quot; directory of a given instanceIOManager ." alt="" coords="308,39,562,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#adf149e45487115e81f6e75a5dc1ff5a7" title="Create an IIOManager that resolves to the &quot;Game&quot; directory of the Models.Instance defined by metadata..." alt="" coords="5,5,260,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="292,46,260,42,260,37,292,41"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ae84e92a0d103d6df381a3e9531a7c279" title="Create an IInstance.A ValueTask&lt;TResult&gt; resulting in a new IInstance." alt="" coords="19,71,246,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="293,77,246,82,246,76,292,71"/>
 </map>

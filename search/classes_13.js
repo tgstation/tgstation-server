@@ -7,7 +7,7 @@ var searchData=
   ['userapibase_4',['UserApiBase',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_api_base.html',1,'Tgstation::Server::Api::Models::Internal']]],
   ['usercontroller_5',['UserController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['usercreaterequest_6',['UserCreateRequest',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_create_request.html',1,'Tgstation::Server::Api::Models::Request']]],
-  ['usergroup_7',['UserGroup',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html',1,'Tgstation.Server.Api.Models.Internal.UserGroup'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html',1,'Tgstation.Server.Host.Models.UserGroup']]],
+  ['usergroup_7',['usergroup',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html',1,'Tgstation.Server.Api.Models.Internal.UserGroup'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html',1,'Tgstation.Server.Host.Models.UserGroup']]],
   ['usergroupcontroller_8',['UserGroupController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['usergroupcreaterequest_9',['UserGroupCreateRequest',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_group_create_request.html',1,'Tgstation::Server::Api::Models::Request']]],
   ['usergroupresponse_10',['UserGroupResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_user_group_response.html',1,'Tgstation::Server::Api::Models::Response']]],

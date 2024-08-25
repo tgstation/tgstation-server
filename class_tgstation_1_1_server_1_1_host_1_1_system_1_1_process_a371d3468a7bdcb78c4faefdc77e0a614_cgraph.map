@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.System.Process.CreateDump" name="Tgstation.Server.Host.System.Process.CreateDump">
-<area shape="rect" id="node1" title="Create a dump file of the process. A ValueTask representing the running operation." alt="" coords="5,37,204,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a1152b5270b66aae510f8a9d2f98d3032" title="Throws an ObjectDisposedException if a method of the Process was called after DisposeAsync." alt="" coords="253,5,451,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a62e862994d11a56a415e6a02475f4067" title="Create a dump file for a given process ." alt="" coords="252,69,452,109"/>
+<area shape="rect" id="Node000001" title="Create a dump file of the process.A ValueTask representing the running operation." alt="" coords="5,39,203,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a1152b5270b66aae510f8a9d2f98d3032" title="Throws an ObjectDisposedException if a method of the Process was called after DisposeAsync." alt="" coords="252,5,449,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,43,236,38,237,44,203,48"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a62e862994d11a56a415e6a02475f4067" title="Create a dump file for a given process ." alt="" coords="251,71,450,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="203,69,235,73,235,79,203,74"/>
 </map>

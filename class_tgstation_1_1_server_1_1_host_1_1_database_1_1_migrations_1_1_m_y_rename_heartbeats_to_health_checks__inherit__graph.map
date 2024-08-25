@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MYRenameHeartbeatsToHealthChecks" name="Tgstation.Server.Host.Database.Migrations.MYRenameHeartbeatsToHealthChecks">
-<area shape="rect" id="node1" title="Renames the Heatbeat DreamDaemonSettings to HealthCheck for MYSQL." alt="" coords="5,79,320,119"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="125,5,200,31"/>
+<area shape="rect" id="Node000001" title="Renames the Heatbeat DreamDaemonSettings to HealthCheck for MYSQL." alt="" coords="5,79,319,120"/>
+<area shape="rect" id="Node000002" href="$class_migration.html" title=" " alt="" coords="125,5,199,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,46,165,79,159,79,159,46"/>
 </map>

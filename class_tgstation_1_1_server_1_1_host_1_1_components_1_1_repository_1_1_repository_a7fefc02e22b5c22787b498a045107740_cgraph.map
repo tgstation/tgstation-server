@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository.UpdateSubmodules" name="Tgstation.Server.Host.Components.Repository.Repository.UpdateSubmodules">
-<area shape="rect" id="node1" title="Recusively update all Submodules in the libGitRepo." alt="" coords="5,45,269,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="321,13,551,53"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="317,77,555,117"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="603,5,823,60"/>
+<area shape="rect" id="Node000001" title="Recusively update all Submodules in the libGitRepo." alt="" coords="5,46,269,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="321,13,549,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="269,49,305,45,306,50,269,54"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="317,78,553,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="269,78,302,82,301,87,269,83"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="601,5,820,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="550,31,586,31,586,36,550,36"/>
 </map>

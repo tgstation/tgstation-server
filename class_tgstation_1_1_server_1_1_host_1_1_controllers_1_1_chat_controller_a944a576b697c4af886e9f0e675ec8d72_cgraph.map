@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Controllers.ChatController.List" name="Tgstation.Server.Host.Controllers.ChatController.List">
-<area shape="rect" id="node1" title="List ChatBots." alt="" coords="5,37,221,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType . The value of rightsType . Note that if InstancePermissionSet is..." alt="" coords="269,37,472,77"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="520,5,711,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="524,69,707,109"/>
+<area shape="rect" id="Node000001" title="List ChatBots." alt="" coords="5,39,221,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="269,39,471,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,56,253,56,253,62,221,62"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="519,5,709,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="471,43,503,38,504,43,472,48"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="524,71,705,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="472,70,508,74,508,80,471,75"/>
 </map>

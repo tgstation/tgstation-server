@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.CreateSwappableDmbProvider" name="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.CreateSwappableDmbProvider">
+<area shape="rect" id="Node000001" title="Create a SwappableDmbProvider for a given dmbProvider ." alt="" coords="323,45,626,101"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a748bef1e44dcaf8fee7f3bee9a52d25c" title="Handler for MonitorActivationReason.NewDmbAvailable.A ValueTask representing the running operation." alt="" coords="5,5,275,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="307,56,275,52,275,47,307,51"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a0d30150f31ceb9b4c0969877fde90044" title="Prepare the server to launch a new instance with the WatchdogBase.ActiveLaunchParameters and a given ..." alt="" coords="7,85,273,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="308,96,274,100,273,95,307,91"/>
+</map>

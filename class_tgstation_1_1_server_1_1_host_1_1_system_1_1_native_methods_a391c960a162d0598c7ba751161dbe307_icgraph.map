@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.System.NativeMethods.EnumChildWindows" name="Tgstation.Server.Host.System.NativeMethods.EnumChildWindows">
-<area shape="rect" id="node1" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;enumchildwindows." alt="" coords="640,13,868,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#adcd1b50a331c6d1876e3f91c1794d66e" title="Get all the child windows handles of a given mainWindow ." alt="" coords="345,5,592,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afe4594add2f59816b1b76998d95eef66" title=" " alt="" coords="5,13,297,53"/>
+<area shape="rect" id="Node000001" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;enumchildwindows." alt="" coords="638,13,865,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#adcd1b50a331c6d1876e3f91c1794d66e" title="Get all the child windows handles of a given mainWindow ." alt="" coords="345,5,590,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="622,36,590,36,590,31,622,31"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afe4594add2f59816b1b76998d95eef66" title=" " alt="" coords="5,13,297,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="329,36,297,36,297,31,329,31"/>
 </map>

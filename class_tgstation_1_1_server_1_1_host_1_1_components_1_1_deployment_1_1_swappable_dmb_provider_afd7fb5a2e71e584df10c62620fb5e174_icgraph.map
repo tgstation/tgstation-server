@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.DisposeAsync" name="Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.DisposeAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="325,13,644,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#ad685dab25c922c43bff30f2822811c2b" title="Call IDisposable.Dispose and null the fields for all ISessionControllers. A ValueTask representing th..." alt="" coords="5,5,277,60"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="325,13,642,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a64c8e372170f1f0b200cfc14e6ef55af" title=" " alt="" coords="5,5,277,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="309,36,277,36,277,31,309,31"/>
 </map>

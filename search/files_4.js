@@ -30,7 +30,7 @@ var searchData=
   ['dmbprovider_2ecs_27',['DmbProvider.cs',['../_dmb_provider_8cs.html',1,'']]],
   ['dmbproviderbase_2ecs_28',['DmbProviderBase.cs',['../_dmb_provider_base_8cs.html',1,'']]],
   ['dotnetdumpservice_2ecs_29',['DotnetDumpService.cs',['../_dotnet_dump_service_8cs.html',1,'']]],
-  ['dotnethelper_2ecs_30',['DotnetHelper.cs',['../_tgstation_8_server_8_host_2_system_2_dotnet_helper_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_common_2_dotnet_helper_8cs.html',1,'(Global Namespace)']]],
+  ['dotnethelper_2ecs_30',['dotnethelper.cs',['../_tgstation_8_server_8_host_2_system_2_dotnet_helper_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_common_2_dotnet_helper_8cs.html',1,'(Global Namespace)']]],
   ['dreamdaemonapibase_2ecs_31',['DreamDaemonApiBase.cs',['../_dream_daemon_api_base_8cs.html',1,'']]],
   ['dreamdaemonclient_2ecs_32',['DreamDaemonClient.cs',['../_dream_daemon_client_8cs.html',1,'']]],
   ['dreamdaemoncontroller_2ecs_33',['DreamDaemonController.cs',['../_dream_daemon_controller_8cs.html',1,'']]],
@@ -39,7 +39,7 @@ var searchData=
   ['dreamdaemonresponse_2ecs_36',['DreamDaemonResponse.cs',['../_dream_daemon_response_8cs.html',1,'']]],
   ['dreamdaemonrights_2ecs_37',['DreamDaemonRights.cs',['../_dream_daemon_rights_8cs.html',1,'']]],
   ['dreamdaemonsecurity_2ecs_38',['DreamDaemonSecurity.cs',['../_dream_daemon_security_8cs.html',1,'']]],
-  ['dreamdaemonsettings_2ecs_39',['DreamDaemonSettings.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_dream_daemon_settings_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_dream_daemon_settings_8cs.html',1,'(Global Namespace)']]],
+  ['dreamdaemonsettings_2ecs_39',['dreamdaemonsettings.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_dream_daemon_settings_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_dream_daemon_settings_8cs.html',1,'(Global Namespace)']]],
   ['dreamdaemonvisibility_2ecs_40',['DreamDaemonVisibility.cs',['../_dream_daemon_visibility_8cs.html',1,'']]],
   ['dreammaker_2ecs_41',['DreamMaker.cs',['../_dream_maker_8cs.html',1,'']]],
   ['dreammakerclient_2ecs_42',['DreamMakerClient.cs',['../_dream_maker_client_8cs.html',1,'']]],
@@ -47,5 +47,5 @@ var searchData=
   ['dreammakerrequest_2ecs_44',['DreamMakerRequest.cs',['../_dream_maker_request_8cs.html',1,'']]],
   ['dreammakerresponse_2ecs_45',['DreamMakerResponse.cs',['../_dream_maker_response_8cs.html',1,'']]],
   ['dreammakerrights_2ecs_46',['DreamMakerRights.cs',['../_dream_maker_rights_8cs.html',1,'']]],
-  ['dreammakersettings_2ecs_47',['DreamMakerSettings.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_dream_maker_settings_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_dream_maker_settings_8cs.html',1,'(Global Namespace)']]]
+  ['dreammakersettings_2ecs_47',['dreammakersettings.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_dream_maker_settings_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_dream_maker_settings_8cs.html',1,'(Global Namespace)']]]
 ];

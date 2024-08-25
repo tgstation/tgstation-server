@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Terminate" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Terminate">
-<area shape="rect" id="node1" title="Stops the watchdog. A ValueTask representing the running operation." alt="" coords="311,5,543,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a04162b14c55443e4bf8d2f0956ea0b9b" title="Handle a restart of the server. A ValueTask representing the running operation." alt="" coords="5,5,263,45"/>
+<area shape="rect" id="Node000001" title="Stops the watchdog.A ValueTask representing the running operation." alt="" coords="310,5,541,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a04162b14c55443e4bf8d2f0956ea0b9b" title="Handle a restart of the server.A ValueTask representing the running operation." alt="" coords="5,5,262,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="294,28,262,28,262,23,294,23"/>
 </map>

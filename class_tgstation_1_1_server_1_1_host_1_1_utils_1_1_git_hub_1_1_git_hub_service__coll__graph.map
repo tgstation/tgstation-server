@@ -1,10 +1,17 @@
 <map id="Tgstation.Server.Host.Utils.GitHub.GitHubService" name="Tgstation.Server.Host.Utils.GitHub.GitHubService">
-<area shape="rect" id="node1" title="Service for interacting with the GitHub API. Authenticated or otherwise." alt="" coords="736,79,917,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html" title="IGitHubService that exposes functions that require authentication." alt="" coords="353,5,543,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html" title="Service for interacting with the GitHub API." alt="" coords="5,5,116,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="373,55,523,80"/>
-<area shape="rect" id="node5" title=" " alt="" coords="343,104,553,159"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html" title="Configuration for the automatic update system." alt="" coords="333,183,563,223"/>
-<area shape="rect" id="node7" title=" " alt="" coords="16,165,105,191"/>
-<area shape="rect" id="node8" title=" " alt="" coords="37,215,84,240"/>
+<area shape="rect" id="Node000001" title="Service for interacting with the GitHub API. Authenticated or otherwise." alt="" coords="732,81,912,121"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html" title="IGitHubService that exposes functions that require authentication." alt="" coords="351,5,541,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="557,29,632,41,709,58,769,77,767,82,707,63,631,47,556,34"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html" title="Service for interacting with the GitHub API." alt="" coords="5,5,116,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="132,16,350,16,350,21,132,21"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="371,55,521,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="537,73,732,90,731,96,536,78"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="342,105,550,161"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="565,121,708,109,731,107,732,112,708,114,566,126"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html" title="Configuration for the automatic update system." alt="" coords="332,185,560,225"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="561,178,707,140,768,119,769,124,709,145,562,183"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="16,167,105,192"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="120,181,331,195,331,200,120,186"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="38,216,83,242"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="98,227,193,226,307,221,331,219,331,224,308,226,193,232,98,232"/>
 </map>

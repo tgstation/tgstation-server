@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Setup.SetupWizard.PromptYesNo" name="Tgstation.Server.Host.Setup.SetupWizard.PromptYesNo">
-<area shape="rect" id="node1" title="A prompt for a yes or no value." alt="" coords="5,37,193,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#acae9e2a36d9f2907a69390221443db34" title="Read a line from the IConsole." alt="" coords="241,5,409,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a1ea8d75d4508cc393e3445db997479f0" title="Write some text &#160;to the IConsole." alt="" coords="241,69,409,109"/>
+<area shape="rect" id="Node000001" title="A prompt for a yes or no value." alt="" coords="5,39,193,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#acae9e2a36d9f2907a69390221443db34" title="Read a line from the IConsole." alt="" coords="241,5,408,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,43,225,38,225,43,193,48"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a1ea8d75d4508cc393e3445db997479f0" title="Write some text &#160;to the IConsole." alt="" coords="241,71,408,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,70,225,74,225,80,192,75"/>
 </map>

@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PerformDmbSwap" name="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PerformDmbSwap">
-<area shape="rect" id="node1" title="Suspends the BasicWatchdog.Server and calls SwappableDmbProvider.MakeActive(CancellationToken) on a n..." alt="" coords="5,49,313,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a62c2020413dd770a7b3b0482e91ffbf3" title="Should be awaited. before calling MakeActive(CancellationToken) to ensure the SwappableDmbProvider is..." alt="" coords="378,5,649,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ad6e832b7e37fcfb95f47294a9a084c2e" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="361,85,665,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a92d654ad97877a24e3abab5c0cd595ab" title="Perform the swapping action." alt="" coords="713,85,997,125"/>
+<area shape="rect" id="Node000001" title="Suspends the BasicWatchdog.Server and calls SwappableDmbProvider.MakeActive(CancellationToken) on a n..." alt="" coords="5,49,313,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a81dcefb142f64864408ddcf0e1c18a3b" title="Should be awaited. before calling MakeActive(CancellationToken) to ensure the SwappableDmbProvider is..." alt="" coords="378,5,647,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="313,51,362,46,363,51,313,56"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ad6e832b7e37fcfb95f47294a9a084c2e" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="361,85,664,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="313,82,346,86,345,91,313,88"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a66b1b3faeddd34cf469c46210b758881" title="Perform the swapping action." alt="" coords="712,85,995,126"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="664,103,696,103,696,108,664,108"/>
 </map>

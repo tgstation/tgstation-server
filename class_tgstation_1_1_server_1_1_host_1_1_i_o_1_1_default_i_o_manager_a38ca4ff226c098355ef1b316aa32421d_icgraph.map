@@ -1,7 +1,12 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialWriteStream" name="Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialWriteStream">
-<area shape="rect" id="node1" title="Creates an asynchronous FileStream for sequential writing. The open FileStream." alt="" coords="803,54,1068,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a4a19eba6ec1164aff77fe737dd979338" title="Copy a file from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="561,29,741,69"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a6c82a1e8625f86797f961e220d7b0f03" title="Writes some contents &#160;to a file at path &#160;overwriting previous content. A ValueTask representing the r..." alt="" coords="547,93,755,133"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc" title="Copies a directory from src &#160;to dest ." alt="" coords="264,29,499,69"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a80c967c4b5eba7fc884348a79c1733aa" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,29,216,69"/>
+<area shape="rect" id="Node000001" title="Creates an asynchronous FileStream for sequential writing.The open FileStream." alt="" coords="800,55,1065,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a4a19eba6ec1164aff77fe737dd979338" title="Copy a file from src &#160;to dest .A ValueTask representing the running operation." alt="" coords="559,29,738,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="785,68,738,63,739,58,785,63"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a6c82a1e8625f86797f961e220d7b0f03" title="Writes some contents &#160;to a file at path &#160;overwriting previous content.A ValueTask representing the ru..." alt="" coords="545,95,752,135"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="785,102,753,106,752,101,785,97"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc" title="Copies a directory from src &#160;to dest ." alt="" coords="263,29,497,70"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="543,52,498,52,498,47,543,47"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="424,16,408,10,380,8,354,10,338,15,332,21,335,28,330,29,327,19,335,10,353,5,380,3,409,5,426,11"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a80c967c4b5eba7fc884348a79c1733aa" title="Copies a directory from src &#160;to dest .A ValueTask representing the running operation." alt="" coords="5,29,215,70"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="247,52,215,52,215,47,247,47"/>
 </map>

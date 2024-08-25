@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.ChatManager.RemoveProviderChannels" name="Tgstation.Server.Host.Components.Chat.ChatManager.RemoveProviderChannels">
-<area shape="rect" id="node1" title="Remove a IProvider from mappedChannels optionally removing the provider itself from providers and upd..." alt="" coords="284,5,567,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a627c57e5a0a6cc6f52a9f7f09cfa5694" title=" " alt="" coords="5,5,236,45"/>
+<area shape="rect" id="Node000001" title="Remove a IProvider from mappedChannels optionally removing the provider itself from providers and upd..." alt="" coords="283,5,564,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a627c57e5a0a6cc6f52a9f7f09cfa5694" title=" " alt="" coords="5,5,235,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="267,28,235,28,235,23,267,23"/>
 </map>

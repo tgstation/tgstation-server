@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Client.IApiClient.AddRequestLogger" name="Tgstation.Server.Client.IApiClient.AddRequestLogger">
-<area shape="rect" id="node1" title="Adds a requestLogger &#160;to the request pipeline." alt="" coords="252,13,444,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#aa5461ed5834609085bdc98b12d242171" title="Gets the ServerInformationResponse for a given host . A ValueTask&lt;TResult&gt; resulting in the ServerInf..." alt="" coords="5,5,204,60"/>
+<area shape="rect" id="Node000001" title="Adds a requestLogger &#160;to the request pipeline." alt="" coords="251,13,442,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#aa5461ed5834609085bdc98b12d242171" title="Gets the ServerInformationResponse for a given host .A ValueTask&lt;TResult&gt; resulting in the ServerInfo..." alt="" coords="5,5,203,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,36,203,36,203,31,235,31"/>
 </map>

@@ -1,9 +1,15 @@
 <map id="Tgstation.Server.Host.Jobs.JobService" name="Tgstation.Server.Host.Jobs.JobService">
-<area shape="rect" id="node1" title=" " alt="" coords="165,225,348,265"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html" title="The service that manages everything to do with jobs." alt="" coords="79,152,170,177"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="5,79,103,104"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="127,79,263,104"/>
-<area shape="rect" id="node5" href="$class_i_hosted_service.html" title=" " alt="" coords="139,5,251,31"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater.html" title="Allows manually triggering jobs hub updates." alt="" coords="195,152,319,177"/>
-<area shape="rect" id="node7" href="$class_i_disposable.html" title=" " alt="" coords="343,152,434,177"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="163,226,344,267"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html" title="The service that manages everything to do with jobs." alt="" coords="78,153,168,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,184,223,224,220,228,154,189"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="5,79,102,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="77,114,113,150,109,154,73,117"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="126,79,261,105"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="173,117,137,154,133,150,169,114"/>
+<area shape="rect" id="Node000005" href="$class_i_hosted_service.html" title=" " alt="" coords="138,5,249,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="196,46,196,79,191,79,191,46"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater.html" title="Allows manually triggering jobs hub updates." alt="" coords="192,153,315,178"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="256,194,256,226,251,226,251,194"/>
+<area shape="rect" id="Node000007" href="$class_i_disposable.html" title=" " alt="" coords="340,153,429,178"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="353,189,287,228,284,224,350,184"/>
 </map>

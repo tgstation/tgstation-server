@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Transfer.FileTransferService.SetUploadStream" name="Tgstation.Server.Host.Transfer.FileTransferService.SetUploadStream">
-<area shape="rect" id="node1" title="Sets the Stream for a given ticketResponse &#160;associated with a pending upload. A ValueTask&lt;TResult&gt; re..." alt="" coords="5,5,247,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a3e7de991e922a1a5a91c23c7f0bc7742" title="Resolve the stream &#160;for the FileUploadProvider and awaits the upload." alt="" coords="295,5,497,45"/>
+<area shape="rect" id="Node000001" title="Sets the Stream for a given ticketResponse &#160;associated with a pending upload.A ValueTask&lt;TResult&gt; res..." alt="" coords="5,5,246,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a3e7de991e922a1a5a91c23c7f0bc7742" title="Resolve the stream &#160;for the FileUploadProvider and awaits the upload." alt="" coords="294,5,495,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,23,278,23,278,28,246,28"/>
 </map>

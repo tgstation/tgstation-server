@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.UserController.Read" name="Tgstation.Server.Host.Controllers.UserController.Read">
-<area shape="rect" id="node1" title="Get information about the current User." alt="" coords="269,5,485,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a2918e163c7813f9862a677da59272edb" title="Get a specific User." alt="" coords="5,5,221,45"/>
+<area shape="rect" id="Node000001" title="Get information about the current User." alt="" coords="269,5,484,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a2918e163c7813f9862a677da59272edb" title="Get a specific User." alt="" coords="5,5,221,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,28,221,28,221,23,253,23"/>
 </map>

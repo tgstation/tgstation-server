@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.Design.MySqlDesignTimeDbContextFactory" name="Tgstation.Server.Host.Database.Design.MySqlDesignTimeDbContextFactory">
-<area shape="rect" id="node1" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating MySqlDatabaseContexts." alt="" coords="5,93,279,133"/>
-<area shape="rect" id="node2" href="$class_i_design_time_db_context_factory.html" title=" " alt="" coords="43,5,241,45"/>
+<area shape="rect" id="Node000001" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating MySqlDatabaseContexts." alt="" coords="5,94,278,135"/>
+<area shape="rect" id="Node000002" href="$class_i_design_time_db_context_factory.html" title=" " alt="" coords="43,5,240,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,62,144,94,139,94,139,62"/>
 </map>

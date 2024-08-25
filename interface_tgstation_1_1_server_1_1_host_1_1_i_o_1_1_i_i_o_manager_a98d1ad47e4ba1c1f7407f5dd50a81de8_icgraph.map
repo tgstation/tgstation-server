@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialWriteStream" name="Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialWriteStream">
-<area shape="rect" id="node1" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="817,5,1045,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a2306b74b2bb7f77e8e6880c681d8c12f" title="Consume the stdout/stderr streams into a Task." alt="" coords="543,13,769,53"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a060adda85e21f5414fa5d75c4608dcfb" title="Launch a IProcess. A ValueTask&lt;TResult&gt; resulting in the new IProcess." alt="" coords="280,13,495,53"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,13,232,53"/>
+<area shape="rect" id="Node000001" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="814,5,1042,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a2306b74b2bb7f77e8e6880c681d8c12f" title="Consume the stdout/stderr streams into a Task." alt="" coords="541,13,766,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="799,36,767,36,767,31,799,31"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a060adda85e21f5414fa5d75c4608dcfb" title="Launch a IProcess.A ValueTask&lt;TResult&gt; resulting in the new IProcess." alt="" coords="280,13,493,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="525,36,494,36,494,31,525,31"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="5,13,232,54"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="264,36,232,36,232,31,264,31"/>
 </map>

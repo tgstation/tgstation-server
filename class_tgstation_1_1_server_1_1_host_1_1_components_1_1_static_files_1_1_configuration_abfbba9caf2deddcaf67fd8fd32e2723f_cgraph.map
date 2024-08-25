@@ -1,10 +1,17 @@
 <map id="Tgstation.Server.Host.Components.StaticFiles.Configuration.ListDirectory" name="Tgstation.Server.Host.Components.StaticFiles.Configuration.ListDirectory">
-<area shape="rect" id="node1" title="Get ConfigurationFileResponses for all items in a given configurationRelativePath ...." alt="" coords="5,173,244,213"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a3d0dc1fd8bd245d250509d583eaf4ea1" title="Ensures standard configuration directories exist." alt="" coords="292,13,559,53"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#ab4bf2b5d0c4cd791206d970f67d46924" title="Enumerate directories in a given path ." alt="" coords="300,77,551,117"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a76ee03fa9595a6f3b9241d5f29e7906e" title="Enumerate files in a given path ." alt="" coords="317,141,534,181"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a9b525a56c704424ce14e78edcb7d003e" title="Runs a given action &#160;in the context of the ISystemIdentity." alt="" coords="317,205,534,245"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a845b509221a192d7adfeefa1043f0dfa" title="Asyncronously attempts to lock a semaphore ." alt="" coords="321,269,529,309"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a15e04b6716165e1fea4850b44040711e" title="Resolve a given configurationRelativePath &#160;to it&#39;s full path or throw an InvalidOperationException if..." alt="" coords="301,333,549,388"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="607,5,823,60"/>
+<area shape="rect" id="Node000001" title="Get ConfigurationFileResponses for all items in a given configurationRelativePath ...." alt="" coords="5,177,243,218"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a3d0dc1fd8bd245d250509d583eaf4ea1" title="Ensures standard configuration directories exist." alt="" coords="291,13,557,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,174,206,119,246,89,289,64,306,57,308,62,292,69,249,94,209,123,148,178"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#ab4bf2b5d0c4cd791206d970f67d46924" title="Enumerate directories in a given path ." alt="" coords="299,78,549,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="173,174,290,129,318,121,319,126,292,134,175,179"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a76ee03fa9595a6f3b9241d5f29e7906e" title="Enumerate files in a given path ." alt="" coords="316,144,532,184"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="243,181,300,175,301,180,244,187"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a9b525a56c704424ce14e78edcb7d003e" title="Runs a given action &#160;in the context of the ISystemIdentity." alt="" coords="316,209,532,250"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="243,207,301,213,300,219,243,213"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a845b509221a192d7adfeefa1043f0dfa" title="Asyncronously attempts to lock a semaphore ." alt="" coords="320,274,528,315"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="176,216,292,259,320,267,318,272,290,264,174,221"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a15e04b6716165e1fea4850b44040711e" title="Resolve a given configurationRelativePath &#160;to it&#39;s full path or throw an InvalidOperationException if..." alt="" coords="300,339,548,394"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="148,216,210,270,250,299,292,324,304,330,301,335,289,329,247,303,207,274,145,220"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="605,5,820,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="557,31,589,31,589,36,557,36"/>
 </map>

@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionControllerFactory.PortBindTest" name="Tgstation.Server.Host.Components.Session.SessionControllerFactory.PortBindTest">
-<area shape="rect" id="node1" title="Check if a given port &#160;can be bound to." alt="" coords="5,37,249,92"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="297,13,515,53"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="315,77,497,117"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="563,5,803,60"/>
+<area shape="rect" id="Node000001" title="Check if a given port &#160;can be bound to." alt="" coords="5,39,249,94"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="297,13,513,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="249,49,281,45,282,51,249,55"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="315,78,495,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="249,78,300,84,299,89,249,83"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="561,5,800,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="513,31,546,31,546,36,513,36"/>
 </map>

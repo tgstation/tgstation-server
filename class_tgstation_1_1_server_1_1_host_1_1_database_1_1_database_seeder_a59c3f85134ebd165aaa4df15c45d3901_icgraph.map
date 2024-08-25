@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.DatabaseSeeder.SeedDatabase" name="Tgstation.Server.Host.Database.DatabaseSeeder.SeedDatabase">
-<area shape="rect" id="node1" title="Initially seed a given databaseContext ." alt="" coords="263,5,472,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext . A ValueTask representing the running operation." alt="" coords="5,5,215,45"/>
+<area shape="rect" id="Node000001" title="Initially seed a given databaseContext ." alt="" coords="262,5,470,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext .A ValueTask representing the running operation." alt="" coords="5,5,214,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,28,214,28,214,23,246,23"/>
 </map>

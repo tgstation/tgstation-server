@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle" name="Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle">
-<area shape="rect" id="node1" title="Create a IProcess given an existing handle ." alt="" coords="296,62,532,117"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04581cbc596b3a53ef3e17752ca3cfb" title="Get a IProcess representing the running executable. The current IProcess." alt="" coords="9,5,244,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#aa12f9ec9d7b8e3cd572687ba24b06324" title="Get a IProcess by id . The IProcess represented by id &#160;on success, null on failure." alt="" coords="27,69,226,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#aa4e5226f6af338844aa6d74f810d9910" title="Get a IProcess with a given name . The IProcess represented by name &#160;on success, null on failure." alt="" coords="5,133,248,173"/>
+<area shape="rect" id="Node000001" title="Create a IProcess given an existing handle ." alt="" coords="295,63,530,119"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04581cbc596b3a53ef3e17752ca3cfb" title="Get a IProcess representing the running executable.The current IProcess." alt="" coords="9,5,243,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="279,63,218,49,219,44,281,58"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#aa12f9ec9d7b8e3cd572687ba24b06324" title="Get a IProcess by id .The IProcess represented by id &#160;on success, null on failure." alt="" coords="27,71,225,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="279,94,225,94,225,88,279,88"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#aa4e5226f6af338844aa6d74f810d9910" title="Get a IProcess with a given name .The IProcess represented by name &#160;on success, null on failure." alt="" coords="5,136,247,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="281,124,219,138,218,133,279,119"/>
 </map>

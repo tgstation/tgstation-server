@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Api.Models.Response.InstancePermissionSetResponse" name="Tgstation.Server.Api.Models.Response.InstancePermissionSetResponse">
-<area shape="rect" id="node1" title="A response containing an instance permission set." alt="" coords="5,79,281,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_instance_permission_set.html" title="Represents a PermissionSets permissions in an Instance." alt="" coords="65,5,222,31"/>
+<area shape="rect" id="Node000001" title="A response containing an instance permission set." alt="" coords="5,79,281,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_instance_permission_set.html" title="Represents a PermissionSets permissions in an Instance." alt="" coords="65,5,221,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,46,146,79,140,79,140,46"/>
 </map>

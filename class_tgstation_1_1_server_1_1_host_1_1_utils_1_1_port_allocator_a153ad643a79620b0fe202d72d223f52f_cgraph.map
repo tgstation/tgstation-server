@@ -1,5 +1,8 @@
 <map id="Tgstation.Server.Host.Utils.PortAllocator.GetAvailablePort" name="Tgstation.Server.Host.Utils.PortAllocator.GetAvailablePort">
-<area shape="rect" id="node1" title="Gets a port not currently in use by TGS. A ValueTask&lt;TResult&gt; resulting in the first available port o..." alt="" coords="5,37,204,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="276,5,467,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="252,69,491,109"/>
+<area shape="rect" id="Node000001" title="Gets a port not currently in use by TGS.A ValueTask&lt;TResult&gt; resulting in the first available port on..." alt="" coords="5,39,203,79"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="54,39,52,29,60,20,77,14,104,12,133,14,149,21,148,26,131,20,104,17,78,19,63,24,57,30,59,37"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="275,5,465,46"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="203,44,260,37,260,42,204,49"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="251,71,489,111"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="204,68,236,72,235,77,203,74"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.GetLaunchResult" name="Tgstation.Server.Host.Components.Session.SessionController.GetLaunchResult">
-<area shape="rect" id="node1" title="The Task&lt;TResult&gt; for LaunchResult." alt="" coords="5,37,284,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="375,5,556,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a013461712a40946a3ac6590529df9e2e" title="Sends a command to DreamDaemon through /world/Topic(). A ValueTask&lt;TResult&gt; resulting in the TopicRes..." alt="" coords="332,69,599,109"/>
+<area shape="rect" id="Node000001" title="The Task&lt;TResult&gt; for LaunchResult." alt="" coords="5,39,283,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="373,5,554,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="283,42,358,34,358,39,284,47"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a013461712a40946a3ac6590529df9e2e" title="Sends a command to DreamDaemon through /world/Topic().A ValueTask&lt;TResult&gt; resulting in the TopicResp..." alt="" coords="331,71,596,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="284,70,316,74,315,79,283,76"/>
 </map>

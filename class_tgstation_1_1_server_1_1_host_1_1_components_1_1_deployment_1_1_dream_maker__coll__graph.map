@@ -1,28 +1,57 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DreamMaker" name="Tgstation.Server.Host.Components.Deployment.DreamMaker">
-<area shape="rect" id="node1" title=" " alt="" coords="1080,607,1307,647"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dream_maker.html" title="For managing the compiler." alt="" coords="647,17,747,42"/>
-<area shape="rect" id="node3" title=" " alt="" coords="211,86,301,112"/>
-<area shape="rect" id="node21" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html" title="Configuration options for the game sessions." alt="" coords="583,142,812,182"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_manager.html" title="For managing the engine installations." alt="" coords="584,332,811,372"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="188,320,324,345"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="584,268,811,308"/>
-<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="5,320,117,345"/>
-<area shape="rect" id="node7" href="$class_i_disposable.html" title=" " alt="" coords="211,386,301,412"/>
-<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys." alt="" coords="584,396,811,436"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="613,460,781,500"/>
-<area shape="rect" id="node9" title=" " alt="" coords="655,525,739,550"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html" title="Factory for ISessionControllers." alt="" coords="584,575,811,615"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="584,639,811,679"/>
-<area shape="rect" id="node13" href="$class_i_async_disposable.html" title=" " alt="" coords="193,270,319,296"/>
-<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="598,703,797,743"/>
-<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs." alt="" coords="584,767,811,807"/>
-<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="167,774,345,800"/>
-<area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="568,832,827,886"/>
-<area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="607,911,788,951"/>
-<area shape="rect" id="node20" title=" " alt="" coords="577,976,818,1030"/>
-<area shape="rect" id="node22" title=" " alt="" coords="233,185,279,210"/>
-<area shape="rect" id="node23" title=" " alt="" coords="677,1054,718,1080"/>
-<area shape="rect" id="node24" title=" " alt="" coords="643,1104,751,1129"/>
-<area shape="rect" id="node25" title=" " alt="" coords="625,1154,769,1194"/>
-<area shape="rect" id="node26" title=" " alt="" coords="667,1218,728,1244"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="1076,613,1302,654"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dream_maker.html" title="For managing the compiler." alt="" coords="645,17,745,42"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="760,13,827,5,905,5,945,11,984,21,1021,38,1053,61,1069,79,1084,103,1110,166,1132,245,1151,331,1176,498,1188,613,1183,613,1171,499,1145,332,1127,246,1105,168,1079,105,1065,82,1050,65,1018,42,982,26,944,16,905,10,827,10,760,18"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="211,86,299,112"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="315,94,496,89,728,88,840,91,937,97,1011,107,1037,114,1053,122,1068,137,1082,159,1107,214,1129,283,1147,359,1174,508,1188,612,1183,613,1169,509,1142,360,1123,284,1102,216,1077,161,1064,141,1050,126,1035,119,1010,112,937,102,840,96,728,94,496,95,315,99"/>
+<area shape="rect" id="Node000021" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html" title="Configuration options for the game sessions." alt="" coords="581,141,809,182"/>
+<area shape="poly" id="edge23_Node000021_Node000003" title=" " alt="" coords="315,105,369,112,581,143,580,148,368,118,314,110"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_manager.html" title="For managing the engine installations." alt="" coords="582,334,808,375"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="824,357,957,371,1013,383,1053,399,1081,421,1105,448,1143,508,1170,566,1185,612,1180,614,1165,568,1139,510,1101,451,1077,425,1050,404,1012,388,956,376,823,362"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="188,323,323,349"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="339,337,581,347,581,353,338,342"/>
+<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="582,269,808,310"/>
+<area shape="poly" id="edge12_Node000012_Node000005" title=" " alt="" coords="338,325,581,299,582,304,339,330"/>
+<area shape="rect" id="Node000006" href="$class_i_hosted_service.html" title=" " alt="" coords="5,323,117,349"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="132,333,187,333,187,339,132,339"/>
+<area shape="rect" id="Node000007" href="$class_i_disposable.html" title=" " alt="" coords="211,390,300,416"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="315,394,581,364,582,370,316,399"/>
+<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys." alt="" coords="582,400,808,440"/>
+<area shape="poly" id="edge16_Node000015_Node000007" title=" " alt="" coords="316,402,582,413,581,418,315,408"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="611,465,779,506"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="795,486,920,501,987,516,1053,538,1085,553,1116,572,1166,610,1163,615,1113,577,1083,558,1051,543,986,521,919,507,794,491"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="653,530,737,556"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="753,545,889,561,1052,589,1127,610,1125,615,1051,595,889,567,752,550"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html" title="Factory for ISessionControllers." alt="" coords="582,580,808,620"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="824,606,1075,623,1075,628,823,611"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="582,645,808,686"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="824,656,1051,642,1075,640,1075,645,1052,647,824,661"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="823,278,881,281,941,291,1000,310,1053,341,1085,370,1112,405,1134,443,1152,482,1176,557,1187,612,1182,613,1170,558,1147,484,1130,445,1108,408,1082,374,1050,345,998,315,940,296,881,286,823,283"/>
+<area shape="rect" id="Node000013" href="$class_i_async_disposable.html" title=" " alt="" coords="193,274,318,300"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="333,285,581,286,581,291,333,290"/>
+<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="596,710,794,751"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="809,716,926,699,1051,675,1130,652,1131,657,1052,680,927,705,810,721"/>
+<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="824,416,880,421,939,431,998,448,1053,472,1095,503,1131,541,1159,580,1179,611,1174,614,1155,583,1127,545,1092,507,1050,477,996,453,938,436,879,426,823,421"/>
+<area shape="rect" id="Node000016" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs." alt="" coords="582,776,808,816"/>
+<area shape="poly" id="edge17_Node000001_Node000016" title=" " alt="" coords="823,786,936,768,995,753,1051,733,1084,715,1115,694,1165,652,1168,656,1118,698,1087,720,1053,738,996,758,937,773,824,791"/>
+<area shape="rect" id="Node000017" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="166,783,344,809"/>
+<area shape="poly" id="edge18_Node000016_Node000017" title=" " alt="" coords="360,793,581,793,581,799,360,799"/>
+<area shape="rect" id="Node000018" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="566,840,824,896"/>
+<area shape="poly" id="edge19_Node000001_Node000018" title=" " alt="" coords="839,864,892,857,947,845,1000,828,1050,803,1093,770,1129,728,1157,687,1175,653,1180,655,1161,689,1133,731,1097,773,1053,808,1002,833,948,850,893,862,840,869"/>
+<area shape="rect" id="Node000019" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="605,920,785,960"/>
+<area shape="poly" id="edge20_Node000001_Node000019" title=" " alt="" coords="801,945,862,943,927,933,992,915,1022,901,1050,884,1079,859,1103,830,1124,799,1141,766,1166,702,1180,654,1186,655,1172,704,1146,768,1129,801,1107,834,1082,863,1053,888,1024,906,993,920,928,939,862,948,801,950"/>
+<area shape="rect" id="Node000020" title=" " alt="" coords="575,984,815,1040"/>
+<area shape="poly" id="edge21_Node000001_Node000020" title=" " alt="" coords="831,1023,887,1021,945,1012,1000,994,1050,965,1085,931,1114,891,1136,848,1153,802,1175,716,1183,654,1189,654,1180,717,1158,804,1141,850,1118,894,1089,935,1053,969,1002,999,946,1017,887,1026,831,1029"/>
+<area shape="poly" id="edge22_Node000001_Node000021" title=" " alt="" coords="825,142,883,142,943,151,1001,169,1028,183,1053,201,1097,247,1130,301,1155,360,1172,421,1182,480,1188,534,1191,612,1185,613,1183,534,1177,481,1167,422,1150,362,1126,303,1093,250,1050,205,1026,188,999,174,942,156,882,148,824,147"/>
+<area shape="rect" id="Node000022" title=" " alt="" coords="233,186,278,212"/>
+<area shape="poly" id="edge29_Node000001_Node000022" title=" " alt="" coords="294,198,718,222,942,241,1017,250,1053,259,1093,297,1124,343,1148,393,1165,445,1177,496,1184,542,1190,612,1184,613,1179,543,1171,497,1160,447,1143,395,1119,346,1089,301,1050,264,1016,255,941,246,718,228,293,203"/>
+<area shape="poly" id="edge24_Node000021_Node000022" title=" " alt="" coords="293,193,542,173,580,169,581,175,543,178,294,198"/>
+<area shape="rect" id="Node000023" title=" " alt="" coords="675,1065,715,1090"/>
+<area shape="poly" id="edge25_Node000001_Node000023" title=" " alt="" coords="731,1083,796,1094,881,1097,926,1094,970,1084,1012,1069,1050,1045,1092,1002,1124,952,1148,896,1165,838,1176,782,1182,730,1185,654,1191,654,1187,731,1181,783,1170,839,1153,897,1129,954,1096,1006,1053,1049,1015,1073,972,1089,927,1099,881,1103,796,1099,730,1088"/>
+<area shape="rect" id="Node000024" title=" " alt="" coords="641,1114,749,1140"/>
+<area shape="poly" id="edge26_Node000001_Node000024" title=" " alt="" coords="764,1132,841,1139,926,1142,1001,1137,1030,1130,1050,1120,1064,1106,1077,1087,1101,1035,1122,970,1141,897,1168,755,1182,654,1188,655,1173,756,1146,898,1127,971,1106,1037,1081,1089,1068,1109,1053,1124,1032,1135,1002,1142,926,1147,841,1144,764,1138"/>
+<area shape="rect" id="Node000025" title=" " alt="" coords="623,1164,767,1204"/>
+<area shape="poly" id="edge27_Node000001_Node000025" title=" " alt="" coords="782,1203,847,1212,918,1211,954,1206,988,1197,1021,1183,1050,1164,1065,1148,1078,1127,1103,1069,1125,997,1143,918,1169,762,1183,654,1188,655,1175,763,1148,919,1130,999,1108,1071,1083,1129,1069,1152,1053,1168,1023,1188,990,1202,955,1212,919,1217,847,1217,782,1208"/>
+<area shape="rect" id="Node000026" title=" " alt="" coords="665,1229,725,1254"/>
+<area shape="poly" id="edge28_Node000001_Node000026" title=" " alt="" coords="741,1253,808,1270,890,1278,933,1277,975,1270,1014,1255,1050,1233,1066,1215,1082,1191,1109,1125,1131,1043,1149,952,1173,775,1183,654,1189,655,1178,776,1154,953,1136,1044,1114,1127,1086,1193,1071,1219,1053,1237,1017,1260,976,1275,933,1282,890,1284,807,1275,740,1259"/>
 </map>

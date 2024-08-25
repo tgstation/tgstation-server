@@ -1,15 +1,27 @@
 <map id="Tgstation.Server.Host.Controllers.InstanceRequiredController" name="Tgstation.Server.Host.Controllers.InstanceRequiredController">
-<area shape="rect" id="node1" title="ComponentInterfacingController for operations that require an instance." alt="" coords="701,229,917,269"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html" title="ApiController for managing ChatBots." alt="" coords="965,5,1181,45"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html" title="The ApiController for IConfigurationFiles." alt="" coords="965,69,1181,109"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html" title="ApiController for managing the DreamDaemonResponse." alt="" coords="965,133,1181,173"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html" title="ApiController for managing the deployment system." alt="" coords="965,197,1181,237"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html" title="Controller for managing engine installations." alt="" coords="965,261,1181,301"/>
-<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html" title="ApiController for managing InstancePermissionSets." alt="" coords="965,325,1181,365"/>
-<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html" title="ApiController for Jobs." alt="" coords="965,389,1181,429"/>
-<area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html" title="ApiController for managing the git repository." alt="" coords="965,453,1181,493"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html" title="ApiController for operations on IInstanceCores." alt="" coords="449,237,653,262"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="305,237,401,262"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="131,237,257,262"/>
-<area shape="rect" id="node5" href="$class_controller.html" title=" " alt="" coords="5,237,83,262"/>
+<area shape="rect" id="Node000001" title="ComponentInterfacingController for operations that require an instance." alt="" coords="698,235,913,275"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html" title="ApiController for managing ChatBots." alt="" coords="961,5,1176,46"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="822,220,845,182,877,138,915,95,959,57,982,44,985,49,963,61,919,98,881,142,850,185,827,223"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html" title="The ApiController for IConfigurationFiles." alt="" coords="961,71,1176,111"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="835,222,890,171,924,145,960,122,987,110,989,114,962,127,927,149,893,175,838,225"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html" title="ApiController for managing the DreamDaemonResponse." alt="" coords="961,136,1176,177"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="866,226,960,187,996,175,998,180,962,192,868,231"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html" title="ApiController for managing the deployment system." alt="" coords="961,201,1176,242"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="928,237,960,233,961,238,929,242"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html" title="Controller for managing engine installations." alt="" coords="961,267,1176,307"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="929,267,961,271,960,277,928,273"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html" title="ApiController for managing InstancePermissionSets." alt="" coords="961,332,1176,373"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="869,279,962,316,998,329,996,334,960,322,867,284"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html" title="ApiController for Jobs." alt="" coords="961,397,1176,438"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="839,285,894,335,927,360,962,382,989,394,987,399,960,387,924,364,890,339,835,289"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html" title="ApiController for managing the git repository." alt="" coords="961,463,1176,503"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="827,288,850,325,881,368,919,411,963,447,985,460,982,465,959,452,915,415,877,371,846,328,823,290"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html" title="ApiController for operations on IInstanceCores." alt="" coords="446,242,650,268"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="665,252,697,252,697,258,665,258"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="303,242,398,268"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="414,252,446,252,446,258,414,258"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="130,242,255,268"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="271,252,302,252,302,258,271,258"/>
+<area shape="rect" id="Node000005" href="$class_controller.html" title=" " alt="" coords="5,242,82,268"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="97,252,129,252,129,258,97,258"/>
 </map>

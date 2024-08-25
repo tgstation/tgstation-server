@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Security.OAuth.KeycloakOAuthValidator" name="Tgstation.Server.Host.Security.OAuth.KeycloakOAuthValidator">
-<area shape="rect" id="node1" title="OAuth validator for Keycloak." alt="" coords="5,152,208,192"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="29,79,184,104"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="49,5,164,31"/>
+<area shape="rect" id="Node000001" title="OAuth validator for Keycloak." alt="" coords="5,153,208,193"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="29,79,184,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,120,109,152,104,152,104,120"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="50,5,163,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="109,46,109,79,104,79,104,46"/>
 </map>

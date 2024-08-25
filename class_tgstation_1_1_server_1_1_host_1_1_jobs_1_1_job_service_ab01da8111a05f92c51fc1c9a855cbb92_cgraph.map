@@ -1,5 +1,9 @@
 <map id="Tgstation.Server.Host.Jobs.JobService.CancelJob" name="Tgstation.Server.Host.Jobs.JobService.CancelJob">
-<area shape="rect" id="node1" title="Cancels a give job . A ValueTask&lt;TResult&gt; resulting in the updated job &#160;if it was cancelled,..." alt="" coords="5,37,188,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a674342b0dc8050c0ab42a299aa4a7762" title="Cancels task." alt="" coords="236,5,419,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a857174cbad81d2ecf5d455346c8cd694" title="Wait for task to complete." alt="" coords="236,69,419,109"/>
+<area shape="rect" id="Node000001" title="Cancels a give job .A ValueTask&lt;TResult&gt; resulting in the updated job &#160;if it was cancelled,..." alt="" coords="5,71,187,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a674342b0dc8050c0ab42a299aa4a7762" title="Cancels task." alt="" coords="263,5,445,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,67,255,48,257,53,180,73"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="235,71,473,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="187,88,219,88,219,94,187,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a857174cbad81d2ecf5d455346c8cd694" title="Wait for task to complete." alt="" coords="263,136,445,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="180,109,257,129,255,134,178,115"/>
 </map>

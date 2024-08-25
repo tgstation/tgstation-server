@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Jobs.IJobManager.CancelJob" name="Tgstation.Server.Host.Jobs.IJobManager.CancelJob">
-<area shape="rect" id="node1" title="Cancels a give job ." alt="" coords="280,69,463,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a3f98fb2e4e46b96258839c5cfe3665c2" title="Cancel a running JobResponse." alt="" coords="11,5,227,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#af207019cbf73d4992ff3172c0968b163" title="Offline an IInstance. A ValueTask representing the running operation." alt="" coords="5,69,232,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="11,133,227,173"/>
+<area shape="rect" id="Node000001" title="Cancels a give job ." alt="" coords="280,71,461,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a3f98fb2e4e46b96258839c5cfe3665c2" title="Cancel a running JobResponse." alt="" coords="11,5,226,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="274,69,199,49,200,44,275,64"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#af207019cbf73d4992ff3172c0968b163" title="Offline an IInstance.A ValueTask representing the running operation." alt="" coords="5,71,232,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="264,94,232,94,232,88,264,88"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="11,136,226,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="275,118,200,138,199,133,274,113"/>
 </map>

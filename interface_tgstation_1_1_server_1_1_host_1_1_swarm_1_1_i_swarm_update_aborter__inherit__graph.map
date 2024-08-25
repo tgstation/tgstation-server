@@ -1,6 +1,10 @@
 <map id="Tgstation.Server.Host.Swarm.ISwarmUpdateAborter" name="Tgstation.Server.Host.Swarm.ISwarmUpdateAborter">
-<area shape="rect" id="node1" title="Allows aborting a swarm distributed update operation." alt="" coords="5,37,200,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html" title="Swarm service operations for the Controllers.SwarmController." alt="" coords="248,5,443,45"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="248,69,443,109"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html" title="Helps keep servers connected to the same database in sync by coordinating updates." alt="" coords="491,37,685,77"/>
+<area shape="rect" id="Node000001" title="Allows aborting a swarm distributed update operation." alt="" coords="5,39,200,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html" title="Swarm service operations for the Controllers.SwarmController." alt="" coords="248,5,442,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,41,247,36,248,42,216,46"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="248,71,442,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="216,71,248,76,247,81,215,77"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html" title="Helps keep servers connected to the same database in sync by coordinating updates." alt="" coords="490,39,684,79"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="458,39,490,43,489,48,457,44"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="457,73,489,69,490,74,458,79"/>
 </map>

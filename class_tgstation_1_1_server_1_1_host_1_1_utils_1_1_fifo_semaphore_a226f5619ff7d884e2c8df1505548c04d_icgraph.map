@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Host.Utils.FifoSemaphore.Lock" name="Tgstation.Server.Host.Utils.FifoSemaphore.Lock">
-<area shape="rect" id="node1" title="Locks the FifoSemaphore." alt="" coords="920,41,1101,81"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="609,8,869,48"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ae798eec3595b7b010cdc42eafd3e9659" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="607,73,872,113"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A ValueTask representin..." alt="" coords="326,5,553,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#adfbdffdd72092dd6cf553d8d5ebcb25a" title="Send a topic request for given parameters &#160;to DreamDaemon, chunking it if necessary." alt="" coords="320,70,559,125"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a144442907558321c94c8c2afa9e53764" title="Sends a command to DreamDaemon through /world/Topic()." alt="" coords="5,77,272,117"/>
+<area shape="rect" id="Node000001" title="Locks the FifoSemaphore." alt="" coords="917,43,1098,83"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="608,8,867,49"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="901,52,867,48,868,42,902,47"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ae798eec3595b7b010cdc42eafd3e9659" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="605,75,869,115"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="902,78,870,82,869,77,902,73"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose.A ValueTask representing..." alt="" coords="325,5,551,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="592,30,552,29,552,24,592,24"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#adfbdffdd72092dd6cf553d8d5ebcb25a" title="Send a topic request for given parameters &#160;to DreamDaemon, chunking it if necessary." alt="" coords="319,70,557,126"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="589,99,557,99,557,94,589,94"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a144442907558321c94c8c2afa9e53764" title="Sends a command to DreamDaemon through /world/Topic()." alt="" coords="5,77,271,118"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="303,100,271,100,271,95,303,95"/>
 </map>

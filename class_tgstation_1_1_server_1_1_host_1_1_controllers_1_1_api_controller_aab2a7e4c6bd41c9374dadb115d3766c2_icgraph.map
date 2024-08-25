@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.ValidateRequest" name="Tgstation.Server.Host.Controllers.ApiController.ValidateRequest">
-<area shape="rect" id="node1" title="Performs validation a request." alt="" coords="269,5,485,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a7c7235c3ee61017e2ae5734a100c53bf" title="Hook for executing a request. A ValueTask&lt;TResult&gt; resulting in an IActionResult that,..." alt="" coords="5,5,221,45"/>
+<area shape="rect" id="Node000001" title="Performs validation a request." alt="" coords="269,5,484,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a7c7235c3ee61017e2ae5734a100c53bf" title="Hook for executing a request.A ValueTask&lt;TResult&gt; resulting in an IActionResult that,..." alt="" coords="5,5,221,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,28,221,28,221,23,253,23"/>
 </map>

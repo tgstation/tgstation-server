@@ -1,8 +1,13 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.RateLimit" name="Tgstation.Server.Host.Controllers.ApiController.RateLimit">
-<area shape="rect" id="node1" title="429 response for a given rateLimitException ." alt="" coords="608,69,824,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#adec6b42180102b20b513582ff608abc8" title="Attempt to initiate an update." alt="" coords="269,5,560,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a8c130b337cd8f08728c07a7f230707a6" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="307,69,523,109"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a78ba36d622724a4e4740d4d792025c89" title="Get AdministrationResponse server information." alt="" coords="307,133,523,173"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a8ebab47feb25dc4b96387761e546740a" title="Attempt to perform a server upgrade." alt="" coords="5,5,221,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="22,69,205,109"/>
+<area shape="rect" id="Node000001" title="429 response for a given rateLimitException ." alt="" coords="606,71,821,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#adec6b42180102b20b513582ff608abc8" title="Attempt to initiate an update." alt="" coords="269,5,558,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="602,69,509,49,511,44,603,64"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a8c130b337cd8f08728c07a7f230707a6" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="306,71,521,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="591,94,522,94,522,88,591,88"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a78ba36d622724a4e4740d4d792025c89" title="Get AdministrationResponse server information." alt="" coords="306,136,521,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="603,118,511,138,509,133,602,113"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a8ebab47feb25dc4b96387761e546740a" title="Attempt to perform a server upgrade." alt="" coords="5,5,221,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="253,28,221,28,221,23,253,23"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="22,71,204,111"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="290,94,204,94,204,88,290,88"/>
 </map>

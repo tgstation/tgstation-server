@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Server.WatchForShutdownFileCreation" name="Tgstation.Server.Host.Server.WatchForShutdownFileCreation">
-<area shape="rect" id="node1" title="Event handler for the updatePath&#39;s FileSystemWatcher. Triggers shutdown if requested by host watchdog..." alt="" coords="268,5,473,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a212053f7976ab724d82653b5e8373fd6" title="Runs the IServer. A ValueTask representing the running operation." alt="" coords="5,13,220,38"/>
+<area shape="rect" id="Node000001" title="Event handler for the updatePath&#39;s FileSystemWatcher. Triggers shutdown if requested by host watchdog..." alt="" coords="268,5,472,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a212053f7976ab724d82653b5e8373fd6" title="Runs the IServer.A ValueTask representing the running operation." alt="" coords="5,13,220,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="252,28,220,28,220,23,252,23"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Repository.RepositoryManager.LoadRepository" name="Tgstation.Server.Host.Components.Repository.RepositoryManager.LoadRepository">
-<area shape="rect" id="node1" title="Attempt to load the IRepository from the default location. A ValueTask&lt;TResult&gt; resulting in the load..." alt="" coords="5,49,296,89"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa2a092f96f2408453c2a1b5d5b0a4f30" title="Load a LibGit2Sharp.IRepository from a given path ." alt="" coords="344,5,583,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="379,85,547,125"/>
+<area shape="rect" id="Node000001" title="Attempt to load the IRepository from the default location.A ValueTask&lt;TResult&gt; resulting in the loade..." alt="" coords="5,49,295,90"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa2a092f96f2408453c2a1b5d5b0a4f30" title="Load a LibGit2Sharp.IRepository from a given path ." alt="" coords="343,5,581,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="295,50,327,46,328,51,295,55"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="378,85,546,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="295,83,363,91,363,96,295,89"/>
 </map>

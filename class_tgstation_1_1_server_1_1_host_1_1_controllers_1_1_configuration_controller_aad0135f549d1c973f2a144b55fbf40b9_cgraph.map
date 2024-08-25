@@ -1,6 +1,9 @@
 <map id="Tgstation.Server.Host.Controllers.ConfigurationController.File" name="Tgstation.Server.Host.Controllers.ConfigurationController.File">
-<area shape="rect" id="node1" title="Get the contents of a file at a filePath ." alt="" coords="5,53,221,93"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ac87ffe36eed57c689bd66ca2a08453a1" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="271,5,501,60"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a9e5262a00e199825c5f7e2f25d6d76f0" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,84,503,139"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855" title="Check if a path &#160;contains the &#39;..&#39; parent directory accessor." alt="" coords="551,13,804,53"/>
+<area shape="rect" id="Node000001" title="Get the contents of a file at a filePath ." alt="" coords="5,53,221,94"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ac87ffe36eed57c689bd66ca2a08453a1" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="271,5,499,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,55,255,50,256,55,221,60"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a9e5262a00e199825c5f7e2f25d6d76f0" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,85,501,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="221,86,253,91,253,96,221,92"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855" title="Check if a path &#160;contains the &#39;..&#39; parent directory accessor." alt="" coords="549,13,801,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="499,31,534,31,534,36,499,36"/>
 </map>

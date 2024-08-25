@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager.GetLastModified" name="Tgstation.Server.Host.IO.DefaultIOManager.GetLastModified">
-<area shape="rect" id="node1" title="Get the DateTimeOffset of when a given path &#160;was last modified. A Task&lt;TResult&gt; resulting in the Date..." alt="" coords="5,5,231,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory. The full path of the current working directo..." alt="" coords="279,5,483,45"/>
+<area shape="rect" id="Node000001" title="Get the DateTimeOffset of when a given path &#160;was last modified.A Task&lt;TResult&gt; resulting in the DateT..." alt="" coords="5,5,230,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory.The full path of the current working director..." alt="" coords="278,5,481,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,23,262,23,262,28,230,28"/>
 </map>

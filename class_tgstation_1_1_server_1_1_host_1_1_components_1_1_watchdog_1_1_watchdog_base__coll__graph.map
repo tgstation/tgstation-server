@@ -1,25 +1,47 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase">
-<area shape="rect" id="node1" title="Base class for IWatchdogs." alt="" coords="864,486,1091,526"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="439,79,523,104"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="167,5,303,31"/>
-<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
-<area shape="rect" id="node5" href="$class_i_async_disposable.html" title=" " alt="" coords="171,55,298,80"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="175,104,294,129"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="173,153,296,179"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="394,128,569,153"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="425,177,538,203"/>
-<area shape="rect" id="node10" title=" " alt="" coords="461,227,502,252"/>
-<area shape="rect" id="node11" title=" " alt="" coords="399,276,564,301"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="368,326,595,366"/>
-<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="390,390,573,430"/>
-<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="391,454,572,494"/>
-<area shape="rect" id="node15" href="$class_i_disposable.html" title=" " alt="" coords="189,461,280,487"/>
-<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="397,518,565,558"/>
-<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="352,583,611,637"/>
-<area shape="rect" id="node18" title=" " alt="" coords="458,661,505,687"/>
-<area shape="rect" id="node19" title=" " alt="" coords="403,711,560,736"/>
-<area shape="rect" id="node20" title=" " alt="" coords="393,760,570,785"/>
-<area shape="rect" id="node21" title=" " alt="" coords="456,809,507,835"/>
-<area shape="rect" id="node22" title=" " alt="" coords="422,859,541,884"/>
-<area shape="rect" id="node23" title=" " alt="" coords="462,908,501,933"/>
+<area shape="rect" id="Node000001" title="Base class for IWatchdogs." alt="" coords="860,490,1086,531"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="438,79,521,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="536,78,603,72,683,73,724,79,764,90,803,106,838,128,877,168,909,215,932,266,949,319,961,371,969,418,974,489,969,490,963,419,956,372,944,321,927,268,904,217,873,171,834,132,800,110,763,95,723,84,682,78,603,77,537,84"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="166,5,301,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="295,33,438,77,437,82,293,39"/>
+<area shape="rect" id="Node000004" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="132,16,166,16,166,21,132,21"/>
+<area shape="rect" id="Node000005" href="$class_i_async_disposable.html" title=" " alt="" coords="171,55,296,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="312,72,437,85,437,90,312,78"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="175,104,292,130"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="307,107,437,93,437,98,308,112"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="173,153,294,179"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="288,145,300,140,324,126,350,113,394,101,437,93,437,99,395,106,352,118,327,130,303,145,290,150"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="392,128,567,154"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="570,123,634,119,704,124,774,140,807,154,838,173,874,207,903,248,926,292,943,339,965,425,973,489,968,490,960,426,938,340,921,295,899,251,870,211,834,178,805,159,772,145,703,129,634,125,570,128"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="423,177,536,203"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="550,174,615,167,691,168,729,174,767,183,804,197,838,216,871,245,898,279,920,317,938,357,961,432,972,489,967,490,956,434,933,359,915,320,894,282,867,248,834,220,802,202,766,188,728,179,690,174,616,173,551,179"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="459,227,500,252"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="515,236,591,235,685,238,775,247,811,255,837,267,866,289,891,317,913,348,930,380,956,441,970,489,965,490,951,443,925,382,908,350,887,320,863,293,835,271,810,260,774,252,685,243,591,240,515,241"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="397,276,562,302"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="578,292,725,309,791,322,837,338,881,372,917,413,945,454,964,488,959,491,941,457,913,416,877,376,835,343,789,327,724,314,577,298"/>
+<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="366,326,593,367"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="609,354,722,374,781,390,837,410,870,427,901,448,951,487,948,492,898,452,868,432,835,415,779,395,721,379,608,359"/>
+<area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="389,391,570,432"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="586,422,706,441,837,466,910,487,909,492,835,471,705,446,585,427"/>
+<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="389,457,570,497"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="585,481,860,500,859,505,585,487"/>
+<area shape="rect" id="Node000015" href="$class_i_disposable.html" title=" " alt="" coords="189,464,278,490"/>
+<area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="294,474,389,474,389,480,294,480"/>
+<area shape="rect" id="Node000016" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="396,522,563,563"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="579,539,701,536,836,528,859,525,860,531,836,533,702,542,579,545"/>
+<area shape="rect" id="Node000017" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="351,586,608,642"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="623,598,728,583,835,560,925,528,926,533,837,565,729,588,624,603"/>
+<area shape="rect" id="Node000018" title=" " alt="" coords="457,667,502,692"/>
+<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="518,682,580,687,662,686,750,675,794,664,835,647,874,622,909,590,937,557,957,529,961,532,941,561,913,594,878,627,837,652,795,669,751,680,662,692,580,692,517,687"/>
+<area shape="rect" id="Node000019" title=" " alt="" coords="401,716,558,742"/>
+<area shape="poly" id="edge18_Node000001_Node000019" title=" " alt="" coords="564,742,627,747,697,746,768,734,802,723,835,708,860,691,882,669,920,620,946,570,963,530,967,532,951,572,924,623,886,673,863,695,837,713,804,728,769,740,697,751,626,753,563,747"/>
+<area shape="rect" id="Node000020" title=" " alt="" coords="391,765,568,791"/>
+<area shape="poly" id="edge19_Node000001_Node000020" title=" " alt="" coords="583,785,655,789,728,789,791,783,816,777,835,770,865,746,891,717,912,684,929,649,953,582,966,530,971,532,959,583,934,651,917,686,895,720,869,750,837,774,818,783,792,788,728,794,655,794,583,790"/>
+<area shape="rect" id="Node000021" title=" " alt="" coords="454,815,505,840"/>
+<area shape="poly" id="edge20_Node000001_Node000021" title=" " alt="" coords="520,828,596,833,689,835,776,829,810,821,835,811,868,782,896,747,918,708,935,667,957,589,967,531,972,531,963,590,940,669,923,711,900,750,872,786,837,815,812,827,777,834,689,840,596,838,519,834"/>
+<area shape="rect" id="Node000022" title=" " alt="" coords="421,864,538,890"/>
+<area shape="poly" id="edge21_Node000001_Node000022" title=" " alt="" coords="554,879,630,882,712,881,786,874,814,866,834,856,872,822,901,781,924,735,941,687,961,596,968,531,974,531,967,597,946,689,929,737,906,783,876,826,838,861,816,871,787,879,713,887,630,888,554,885"/>
+<area shape="rect" id="Node000023" title=" " alt="" coords="460,913,499,939"/>
+<area shape="poly" id="edge22_Node000001_Node000023" title=" " alt="" coords="514,933,579,945,664,951,709,949,754,941,796,926,834,903,875,863,907,815,931,762,948,707,959,654,965,604,969,531,975,531,971,605,964,655,953,709,936,764,912,818,879,867,838,907,798,931,755,946,710,954,664,957,579,950,513,938"/>
 </map>
