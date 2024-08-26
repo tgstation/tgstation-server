@@ -6,7 +6,11 @@ on:
       - dev
       - master
   pull_request_target:
-    types: [opened, reopened, labeled, synchronize]
+    types:
+      - opened
+      - reopened
+      - labeled
+      - synchronize
     branches:
       - dev
       - master
