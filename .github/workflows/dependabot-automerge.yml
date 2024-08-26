@@ -11,10 +11,6 @@ concurrency:
   group: "dependabot-automerge-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
   cancel-in-progress: true
 
-env:
-  TGS_DOTNET_VERSION: 8
-  TGS_DOTNET_QUALITY: ga
-
 jobs:
   automerge:
     name: Enable Automerge on Dependabot PRs

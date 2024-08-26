@@ -8,10 +8,6 @@ on:
       - "*"
   workflow_dispatch:
 
-env:
-  TGS_DOTNET_VERSION: 8
-  TGS_DOTNET_QUALITY: ga
-
 concurrency:
   group: "ss13-mirror-sync"
   cancel-in-progress: true
