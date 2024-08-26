@@ -23,6 +23,6 @@ jobs:
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Run Labeller
-        uses: pascalgn/size-label-action@bbbaa0d5ccce8e2e76254560df5c64b82dac2e12
+        uses: pascalgn/size-label-action@be08a2d5f857dc99c5b9426cdb5a8ea1aa7f0399
         env:
           GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
