@@ -1,6 +1,10 @@
 name: Size Labelling
 on:
   pull_request_target:
+    types:
+      - reopened
+      - labeled
+      - synchronize
 
 concurrency:
   group: "size-labelling-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
