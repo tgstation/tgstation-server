@@ -20,8 +20,6 @@ jobs:
     name: Check CI Clearance
     if: github.event_name == 'pull_request_target' && (github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id || github.event.pull_request.user.id == 49699333) && github.event.pull_request.state == 'open'
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
     steps:
       - name: Generate App Token
         id: app-token-generation

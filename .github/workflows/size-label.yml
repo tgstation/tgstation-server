@@ -9,9 +9,6 @@ concurrency:
 jobs:
   size-label:
     name: Add Size Label
-    permissions:
-      contents: read
-      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: Generate App Token
