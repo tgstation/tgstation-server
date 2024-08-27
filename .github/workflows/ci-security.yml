@@ -62,7 +62,7 @@ jobs:
 
       - name: "Add 'CI Approval Required' Label"
         if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
-        uses: actions-ecosystem/action-add-labels@bd52874380e3909a1ac983768df6976535ece7f8
+        uses: actions-ecosystem/action-add-labels@18f1af5e3544586314bbe15c0273249c770b2daf
         with:
           labels: CI Approval Required
           github_token: ${{ steps.app-token-generation.outputs.token }}
