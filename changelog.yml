@@ -176,7 +176,6 @@ Components:
     Unreleased: true
   - Version: 6.9.2
     ComponentVersions:
-      Core: 6.9.1
       HttpApi: 10.7.0
       DreamMakerApi: 7.2.1
       Configuration: 5.2.0
@@ -186,7 +185,11 @@ Components:
       NugetApi: 13.7.0
       NugetClient: 16.0.0
       WebControlPanel: 6.1.0
-    Changes: []
+    Changes:
+    - Descriptions:
+      - Fixed version reporting not working if the user directory for TGS didn't already exist.
+      Author: Cyberboss
+      PullRequest: 1916
     Unreleased: true
   - Version: 6.9.1
     ComponentVersions:
