@@ -119,15 +119,17 @@ namespace Tgstation.Server.Host.Core
 
 			try
 			{
+				var telemetryIdDirectory = ioManager.GetPathInLocalDirectory(assemblyInformationProvider);
 				var telemetryIdFile = ioManager.ResolvePath(
 					ioManager.ConcatPath(
-						ioManager.GetPathInLocalDirectory(assemblyInformationProvider),
+						telemetryIdDirectory,
 						"telemetry.id"));
 
 				Guid telemetryId;
 				if (!await ioManager.FileExists(telemetryIdFile, stoppingToken))
 				{
 					telemetryId = Guid.NewGuid();
+					await ioManager.CreateDirectory(telemetryIdDirectory, stoppingToken);
 					await ioManager.WriteAllBytes(telemetryIdFile, Encoding.UTF8.GetBytes(telemetryId.ToString()), stoppingToken);
 					logger.LogInformation("Generated telemetry ID {telemetryId} and wrote to {file}", telemetryId, telemetryIdFile);
 				}

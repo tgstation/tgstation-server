@@ -2156,9 +2156,17 @@ jobs:
       - name: Parse TGS version
         run: echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
+      - name: Generate App Token
+        id: app-token-generation
+        uses: actions/create-github-app-token@v1
+        with:
+          repositories: tgstation-ppa
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Trigger tgstation-ppa workflow
         run: |
-          curl -XPOST -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/tgstation/tgstation-ppa/actions/workflows/add_tgs_version.yml/dispatches --data '{"ref":"main","inputs":{"tgs_semver": "${{ env.TGS_VERSION }}"}}'
+          curl -XPOST -u "tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/tgstation/tgstation-ppa/actions/workflows/add_tgs_version.yml/dispatches --data '{"ref":"main","inputs":{"tgs_semver": "${{ env.TGS_VERSION }}"}}'
 
   deploy-winget:
     name: Deploy TGS (winget)
