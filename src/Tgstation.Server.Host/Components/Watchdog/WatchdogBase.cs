@@ -39,6 +39,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public long? SessionId => GetActiveController()?.ReattachInformation.Id;
 
 		/// <inheritdoc />
+		public DateTimeOffset? LaunchTime => GetActiveController()?.LaunchTime;
+
+		/// <inheritdoc />
 		public WatchdogStatus Status
 		{
 			get => status;

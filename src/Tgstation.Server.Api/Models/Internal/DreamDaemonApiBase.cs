@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Api.Models.Internal
+﻿using System;
+
+namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
 	/// Base class for DreamDaemon API models.
@@ -10,6 +12,12 @@
 		/// </summary>
 		[ResponseOptions]
 		public long? SessionId { get; set; }
+
+		/// <summary>
+		/// When the current server execution was started.
+		/// </summary>
+		[ResponseOptions]
+		public DateTimeOffset? LaunchTime { get; set; }
 
 		/// <summary>
 		/// If the server is undergoing a soft reset. This may be automatically set by changes to other fields.

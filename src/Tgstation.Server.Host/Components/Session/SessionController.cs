@@ -124,6 +124,9 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public long? MemoryUsage => process.MemoryUsage;
 
+		/// <inheritdoc />
+		public DateTimeOffset? LaunchTime => process.LaunchTime;
+
 		/// <summary>
 		/// The <see cref="Byond.TopicSender.ITopicClient"/> for the <see cref="SessionController"/>.
 		/// </summary>
