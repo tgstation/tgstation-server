@@ -367,6 +367,7 @@ namespace Tgstation.Server.Host.Controllers
 						result.Status = dd.Status;
 						result.SessionId = dd.SessionId;
 						result.LaunchTime = dd.LaunchTime;
+						result.ClientCount = dd.ClientCount;
 					}
 					while (result.Status == WatchdogStatus.Online && !result.SessionId.HasValue); // this is the one invalid combo, it's not that racy
 

@@ -20,6 +20,12 @@ namespace Tgstation.Server.Api.Models.Internal
 		public DateTimeOffset? LaunchTime { get; set; }
 
 		/// <summary>
+		/// The last known count of connected players. Requires <see cref="DreamDaemonLaunchParameters.HealthCheckSeconds"/> to not be 0 and a game server interop version >= 5.10.0 to populate.
+		/// </summary>
+		[ResponseOptions]
+		public int? ClientCount { get; set; }
+
+		/// <summary>
 		/// If the server is undergoing a soft reset. This may be automatically set by changes to other fields.
 		/// </summary>
 		[ResponseOptions]

@@ -39,6 +39,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public long? SessionId => GetActiveController()?.ReattachInformation.Id;
 
 		/// <inheritdoc />
+		public int? ClientCount { get; private set; }
+
+		/// <inheritdoc />
 		public DateTimeOffset? LaunchTime => GetActiveController()?.LaunchTime;
 
 		/// <inheritdoc />
@@ -570,6 +573,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			// since neither server is running, this is safe to do
 			LastLaunchParameters = ActiveLaunchParameters;
 			healthChecksMissed = 0;
+			ClientCount = null;
 
 			try
 			{
@@ -667,6 +671,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			// we lost the server, just restart entirely
 			// DCT: Operation must always run
 			await DisposeAndNullControllers(CancellationToken.None);
+			ClientCount = null;
 			const string FailReattachMessage = "Unable to properly reattach to server! Restarting watchdog...";
 			Logger.LogWarning(FailReattachMessage);
 
@@ -1183,7 +1188,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 			}
 			else
+			{
 				healthChecksMissed = 0;
+				ClientCount = response.ClientCount;
+			}
 
 			return MonitorAction.Continue;
 		}

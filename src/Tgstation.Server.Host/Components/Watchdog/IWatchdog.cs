@@ -25,6 +25,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		DateTimeOffset? LaunchTime { get; }
 
 		/// <summary>
+		/// Last known client count queried from the DMAPI. Requires health checks to be enabled to populate.
+		/// </summary>
+		int? ClientCount { get; }
+
+		/// <summary>
 		/// The current <see cref="WatchdogStatus"/>.
 		/// </summary>
 		WatchdogStatus Status { get; }
