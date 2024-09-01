@@ -22,10 +22,10 @@ namespace Tgstation.Server.Host.Utils.GitHub
 	sealed class GitHubClientFactory : IGitHubClientFactory, IDisposable
 	{
 		/// <summary>
-		/// Limit to the amount of days a <see cref="GitHubClient"/> can live in the <see cref="clientCache"/>.
+		/// Limit to the amount of hours a <see cref="GitHubClient"/> can live in the <see cref="clientCache"/>.
 		/// </summary>
-		/// <remarks>God forbid someone leak server memory by constantly changing an instance's GitHub token.</remarks>
-		const uint ClientCacheDays = 7;
+		/// <remarks>Set to app installation token lifetime, which is the lowest. See https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-an-installation-access-token-for-a-github-app.</remarks>
+		const uint ClientCacheHours = 1;
 
 		/// <summary>
 		/// The <see cref="clientCache"/> <see cref="KeyValuePair{TKey, TValue}.Key"/> used in place of <see langword="null"/> when accessing a configuration-based client with no token set in <see cref="GeneralConfiguration.GitHubAccessToken"/>.
@@ -220,7 +220,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 
 				// Prune the cache
 				var purgeCount = 0U;
-				var purgeAfter = now.AddDays(-ClientCacheDays);
+				var purgeAfter = now.AddHours(-ClientCacheHours);
 				foreach (var key in clientCache.Keys.ToList())
 				{
 					if (key == cacheKey)
@@ -236,9 +236,9 @@ namespace Tgstation.Server.Host.Utils.GitHub
 
 				if (purgeCount > 0)
 					logger.LogDebug(
-						"Pruned {count} expired GitHub client(s) from cache that haven't been used in {purgeAfterHours} days.",
+						"Pruned {count} expired GitHub client(s) from cache that haven't been used in {purgeAfterHours} hours.",
 						purgeCount,
-						ClientCacheDays);
+						ClientCacheHours);
 			}
 
 			var rateLimitInfo = client.GetLastApiInfo()?.RateLimit;
