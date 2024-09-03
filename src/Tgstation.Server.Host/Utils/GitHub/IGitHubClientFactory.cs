@@ -26,12 +26,12 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		ValueTask<IGitHubClient> CreateClient(string accessToken, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Creates a GitHub App client for an installation.
+		/// Creates a GitHub client that will only be used for a given <paramref name="repositoryIdentifier"/>.
 		/// </summary>
-		/// <param name="pem">The private key <see cref="string"/>.</param>
-		/// <param name="repositoryId">The GitHub repository ID.</param>
+		/// <param name="accessString">The GitHub personal access token or TGS encoded app private key <see cref="string"/>.</param>
+		/// <param name="repositoryIdentifier">The <see cref="RepositoryIdentifier"/> for the GitHub ID that the client will be used to connect to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IGitHubClient"/> for the given <paramref name="repositoryId"/> or <see langword="null"/> if authentication failed.</returns>
-		ValueTask<IGitHubClient?> CreateInstallationClient(string pem, long repositoryId, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IGitHubClient"/> for the given <paramref name="repositoryIdentifier"/> or <see langword="null"/> if authentication failed.</returns>
+		ValueTask<IGitHubClient?> CreateClientForRepository(string accessString, RepositoryIdentifier repositoryIdentifier, CancellationToken cancellationToken);
 	}
 }

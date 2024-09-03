@@ -8,6 +8,11 @@ namespace Tgstation.Server.Api.Models.Internal
 	public class RepositorySettings
 	{
 		/// <summary>
+		/// Prefix for TGS encoded app private keys. This is encoded in the format PREFIX + (APP_ID OR CLIENT_ID) + ':' + BASE64(APP_PRIVATE_KEY).
+		/// </summary>
+		public const string TgsAppPrivateKeyPrefix = "TGS_GHPK_";
+
+		/// <summary>
 		/// The name of the committer.
 		/// </summary>
 		[Required]
@@ -23,14 +28,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		public string? CommitterEmail { get; set; }
 
 		/// <summary>
-		/// The username to access the git repository with.
+		/// The username to access the git repository with. If using a TGS encoded app private key for <see cref="AccessToken"/>, this should be the app's name.
 		/// </summary>
 		[StringLength(Limits.MaximumStringLength)]
 		[ResponseOptions]
 		public string? AccessUser { get; set; }
 
 		/// <summary>
-		/// The token/password to access the git repository with.
+		/// The token/password to access the git repository with. Can also be a TGS encoded app private key. <see cref="TgsAppPrivateKeyPrefix"/> for details.
 		/// </summary>
 		[StringLength(Limits.MaximumStringLength)]
 		[ResponseOptions(Presence = FieldPresence.Ignored)]

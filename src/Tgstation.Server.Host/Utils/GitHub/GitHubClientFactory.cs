@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 
 using Octokit;
 
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
 
@@ -94,18 +95,18 @@ namespace Tgstation.Server.Host.Utils.GitHub
 				cancellationToken))!;
 
 		/// <inheritdoc />
-		public ValueTask<IGitHubClient?> CreateInstallationClient(string serializedPem, long repositoryId, CancellationToken cancellationToken)
-			=> GetOrCreateClient(serializedPem, repositoryId, cancellationToken);
+		public ValueTask<IGitHubClient?> CreateClientForRepository(string accessString, RepositoryIdentifier repositoryIdentifier, CancellationToken cancellationToken)
+			=> GetOrCreateClient(accessString, repositoryIdentifier, cancellationToken);
 
 		/// <summary>
-		/// Retrieve a <see cref="GitHubClient"/> from the <see cref="clientCache"/> or add a new one based on a given <paramref name="accessTokenOrSerializedPem"/>.
+		/// Retrieve a <see cref="GitHubClient"/> from the <see cref="clientCache"/> or add a new one based on a given <paramref name="accessString"/>.
 		/// </summary>
-		/// <param name="accessTokenOrSerializedPem">Optional access token to use as credentials or GitHub App private key. If using a private key, <paramref name="installationRepositoryId"/> must be set.</param>
-		/// <param name="installationRepositoryId">Setting this specifies <paramref name="accessTokenOrSerializedPem"/> is a private key and a GitHub App installation authenticated client will be returned.</param>
+		/// <param name="accessString">Optional access token to use as credentials or GitHub App private key. If using a TGS encoded app private key, <paramref name="repositoryIdentifier"/> must be set.</param>
+		/// <param name="repositoryIdentifier">The optional <see cref="RepositoryIdentifier"/> for the GitHub ID that the client will be used to connect to. Must be set if <paramref name="accessString"/> is a TGS encoded app private key.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="GitHubClient"/> for the given <paramref name="accessTokenOrSerializedPem"/> or <see langword="null"/> if authentication failed.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="GitHubClient"/> for the given <paramref name="accessString"/> or <see langword="null"/> if authentication failed.</returns>
 #pragma warning disable CA1506 // TODO: Decomplexify
-		async ValueTask<IGitHubClient?> GetOrCreateClient(string? accessTokenOrSerializedPem, long? installationRepositoryId, CancellationToken cancellationToken)
+		async ValueTask<IGitHubClient?> GetOrCreateClient(string? accessString, RepositoryIdentifier? repositoryIdentifier, CancellationToken cancellationToken)
 #pragma warning restore CA1506
 		{
 			GitHubClient client;
@@ -114,13 +115,13 @@ namespace Tgstation.Server.Host.Utils.GitHub
 			using (await SemaphoreSlimContext.Lock(clientCacheSemaphore, cancellationToken))
 			{
 				string cacheKey;
-				if (String.IsNullOrWhiteSpace(accessTokenOrSerializedPem))
+				if (String.IsNullOrWhiteSpace(accessString))
 				{
-					accessTokenOrSerializedPem = null;
+					accessString = null;
 					cacheKey = DefaultCacheKey;
 				}
 				else
-					cacheKey = accessTokenOrSerializedPem;
+					cacheKey = accessString;
 
 				cacheHit = clientCache.TryGetValue(cacheKey, out var tuple);
 
@@ -134,12 +135,15 @@ namespace Tgstation.Server.Host.Utils.GitHub
 							product.Name,
 							product.Version));
 
-					if (accessTokenOrSerializedPem != null)
+					if (accessString != null)
 					{
-						if (installationRepositoryId.HasValue)
+						if (accessString.StartsWith(RepositorySettings.TgsAppPrivateKeyPrefix))
 						{
-							logger.LogTrace("Performing GitHub App authentication for installation on repository {installationRepositoryId}", installationRepositoryId.Value);
-							var splits = accessTokenOrSerializedPem.Split(':');
+							if (repositoryIdentifier == null)
+								throw new InvalidOperationException("Cannot create app installation key without target repositoryIdentifier!");
+
+							logger.LogTrace("Performing GitHub App authentication for installation on repository {installationRepositoryId}", repositoryIdentifier);
+							var splits = accessString.Split(':');
 							if (splits.Length != 2)
 							{
 								logger.LogError("Failed to parse serialized Client ID & PEM! Expected 2 chunks, got {chunkCount}", splits.Length);
@@ -167,9 +171,11 @@ namespace Tgstation.Server.Host.Utils.GitHub
 
 							var nowDateTime = DateTime.UtcNow;
 
+							var appOrClientId = splits[0][RepositorySettings.TgsAppPrivateKeyPrefix.Length..];
+
 							var jwt = jwtSecurityTokenHandler.CreateToken(new SecurityTokenDescriptor
 							{
-								Issuer = splits[0],
+								Issuer = appOrClientId,
 								Expires = nowDateTime.AddMinutes(10),
 								IssuedAt = nowDateTime,
 								SigningCredentials = signingCredentials,
@@ -182,7 +188,10 @@ namespace Tgstation.Server.Host.Utils.GitHub
 							Installation installation;
 							try
 							{
-								installation = await client.GitHubApps.GetRepositoryInstallationForCurrent(installationRepositoryId.Value);
+								var installationTask = repositoryIdentifier.IsSlug
+									? client.GitHubApps.GetRepositoryInstallationForCurrent(repositoryIdentifier.Owner, repositoryIdentifier.Name)
+									: client.GitHubApps.GetRepositoryInstallationForCurrent(repositoryIdentifier.RepositoryId.Value);
+								installation = await installationTask;
 							}
 							catch (Exception ex)
 							{
@@ -204,7 +213,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 							}
 						}
 						else
-							client.Credentials = new Credentials(accessTokenOrSerializedPem);
+							client.Credentials = new Credentials(accessString);
 					}
 
 					clientCache.Add(cacheKey, (Client: client, LastUsed: now));
