@@ -369,7 +369,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (currentModel == default)
 				return this.Gone();
 
-			bool CheckModified<T>(Expression<Func<Api.Models.Internal.RepositorySettings, T>> expression, RepositoryRights requiredRight)
+			bool CheckModified<T>(Expression<Func<Api.Models.RepositorySettings, T>> expression, RepositoryRights requiredRight)
 			{
 				var memberSelectorExpression = (MemberExpression)expression.Body;
 				var property = (PropertyInfo)memberSelectorExpression.Member;
@@ -531,7 +531,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="currentModel">The current <see cref="RepositorySettings"/>.</param>
 		/// <returns>A new <see cref="RepositoryUpdateService"/>.</returns>
-		RepositoryUpdateService CreateRepositoryUpdateService(RepositorySettings currentModel)
+		RepositoryUpdateService CreateRepositoryUpdateService(Models.RepositorySettings currentModel)
 			=> new(
 				currentModel,
 				AuthenticationContext.User,

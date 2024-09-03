@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Tgstation.Server.Api.Models.Internal
+namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Represents configurable settings for a git repository.
 	/// </summary>
-	public class RepositorySettings
+	public abstract class RepositorySettings
 	{
 		/// <summary>
 		/// Prefix for TGS encoded app private keys. This is encoded in the format PREFIX + (APP_ID OR CLIENT_ID) + ':' + BASE64(APP_PRIVATE_KEY).

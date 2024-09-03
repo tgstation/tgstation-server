@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// The current <see cref="RepositorySettings"/> for the <see cref="RepositoryUpdateService"/>.
 		/// </summary>
-		readonly RepositorySettings currentModel;
+		readonly Models.RepositorySettings currentModel;
 
 		/// <summary>
 		/// The <see cref="User"/> that initiated the repository update.
@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="instanceId">The value of <see cref="instanceId"/>.</param>
 		public RepositoryUpdateService(
-			RepositorySettings currentModel,
+			Models.RepositorySettings currentModel,
 			User initiatingUser,
 			ILogger<RepositoryUpdateService> logger,
 			long instanceId)

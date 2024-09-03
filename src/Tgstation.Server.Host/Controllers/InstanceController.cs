@@ -770,7 +770,7 @@ namespace Tgstation.Server.Host.Controllers
 				AutoUpdateInterval = initialSettings.AutoUpdateInterval ?? 0,
 				AutoUpdateCron = initialSettings.AutoUpdateCron ?? String.Empty,
 				ChatBotLimit = initialSettings.ChatBotLimit ?? Models.Instance.DefaultChatBotLimit,
-				RepositorySettings = new RepositorySettings
+				RepositorySettings = new Models.RepositorySettings
 				{
 					CommitterEmail = Components.Repository.Repository.DefaultCommitterEmail,
 					CommitterName = Components.Repository.Repository.DefaultCommitterName,

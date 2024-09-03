@@ -4,8 +4,8 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
-	/// <inheritdoc cref="Api.Models.Internal.RepositorySettings" />
-	public sealed class RepositorySettings : Api.Models.Internal.RepositorySettings, IApiTransformable<RepositoryResponse>
+	/// <inheritdoc cref="Api.Models.RepositorySettings" />
+	public sealed class RepositorySettings : Api.Models.RepositorySettings, IApiTransformable<RepositoryResponse>
 	{
 		/// <summary>
 		/// The row Id.

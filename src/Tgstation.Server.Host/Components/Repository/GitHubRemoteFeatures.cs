@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Octokit;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Components.Repository

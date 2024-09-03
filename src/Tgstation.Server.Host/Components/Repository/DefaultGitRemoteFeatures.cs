@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public ValueTask<Models.TestMerge> GetTestMerge(
 			TestMergeParameters parameters,
-			Api.Models.Internal.RepositorySettings repositorySettings,
+			RepositorySettings repositorySettings,
 			CancellationToken cancellationToken) => throw new NotSupportedException();
 	}
 }

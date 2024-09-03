@@ -12,7 +12,7 @@ using Moq;
 
 using Octokit;
 
-using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
 
