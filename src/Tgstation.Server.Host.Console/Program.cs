@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Hosting.Systemd;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Common;
@@ -43,6 +45,11 @@ namespace Tgstation.Server.Host.Console
 			var arguments = new List<string>(args);
 			var trace = arguments.Remove("--trace-host-watchdog");
 			var debug = arguments.Remove("--debug-host-watchdog");
+
+			const string SystemDArg = "--Internal:UsingSystemD=true";
+			if (!arguments.Any(arg => arg.Equals(SystemDArg, StringComparison.OrdinalIgnoreCase))
+				&& SystemdHelpers.IsSystemdService())
+				arguments.Add(SystemDArg);
 
 			using var loggerFactory = LoggerFactory.Create(builder =>
 			{
