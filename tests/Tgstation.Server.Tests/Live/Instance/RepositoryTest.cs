@@ -128,9 +128,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			updated = await Checkout(new RepositoryUpdateRequest { Reference = "master" }, false, true, cancellationToken);
 
 			// enable the good shit if possible
-			if (TestingUtils.RunningInGitHubActions
-				|| String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"))
-				|| Environment.MachineName.Equals("CYBERSTATIONXVI", StringComparison.OrdinalIgnoreCase))
+			if (!String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 				await repositoryClient.Update(new RepositoryUpdateRequest
 				{
 					CreateGitHubDeployments = true,
