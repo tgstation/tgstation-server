@@ -33,5 +33,12 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IGitHubClient"/> for the given <paramref name="repositoryIdentifier"/> or <see langword="null"/> if authentication failed.</returns>
 		ValueTask<IGitHubClient?> CreateClientForRepository(string accessString, RepositoryIdentifier repositoryIdentifier, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Create an App (not installation) authenticated <see cref="IGitHubClient"/>.
+		/// </summary>
+		/// <param name="tgsEncodedAppPrivateKey">The TGS encoded app private key string.</param>
+		/// <returns>A new app auth <see cref="IGitHubClient"/> for the given <paramref name="tgsEncodedAppPrivateKey"/> on success <see langword="null"/> on failure.</returns>
+		IGitHubClient? CreateAppClient(string tgsEncodedAppPrivateKey);
 	}
 }

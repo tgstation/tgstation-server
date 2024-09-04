@@ -98,6 +98,10 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		public ValueTask<IGitHubClient?> CreateClientForRepository(string accessString, RepositoryIdentifier repositoryIdentifier, CancellationToken cancellationToken)
 			=> GetOrCreateClient(accessString, repositoryIdentifier, cancellationToken);
 
+		/// <inheritdoc />
+		public IGitHubClient? CreateAppClient(string tgsEncodedAppPrivateKey)
+			=> CreateAppClientInternal(tgsEncodedAppPrivateKey ?? throw new ArgumentNullException(nameof(tgsEncodedAppPrivateKey)));
+
 		/// <summary>
 		/// Retrieve a <see cref="GitHubClient"/> from the <see cref="clientCache"/> or add a new one based on a given <paramref name="accessString"/>.
 		/// </summary>
@@ -109,7 +113,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		async ValueTask<IGitHubClient?> GetOrCreateClient(string? accessString, RepositoryIdentifier? repositoryIdentifier, CancellationToken cancellationToken)
 #pragma warning restore CA1506
 		{
-			GitHubClient client;
+			GitHubClient? client;
 			bool cacheHit;
 			DateTimeOffset? lastUsed;
 			using (await SemaphoreSlimContext.Lock(clientCacheSemaphore, cancellationToken))
@@ -129,11 +133,6 @@ namespace Tgstation.Server.Host.Utils.GitHub
 				if (!cacheHit)
 				{
 					logger.LogTrace("Creating new GitHubClient...");
-					var product = assemblyInformationProvider.ProductInfoHeaderValue.Product!;
-					client = new GitHubClient(
-						new ProductHeaderValue(
-							product.Name,
-							product.Version));
 
 					if (accessString != null)
 					{
@@ -143,47 +142,10 @@ namespace Tgstation.Server.Host.Utils.GitHub
 								throw new InvalidOperationException("Cannot create app installation key without target repositoryIdentifier!");
 
 							logger.LogTrace("Performing GitHub App authentication for installation on repository {installationRepositoryId}", repositoryIdentifier);
-							var splits = accessString.Split(':');
-							if (splits.Length != 2)
-							{
-								logger.LogError("Failed to parse serialized Client ID & PEM! Expected 2 chunks, got {chunkCount}", splits.Length);
+
+							client = CreateAppClientInternal(accessString);
+							if (client == null)
 								return null;
-							}
-
-							byte[] pemBytes;
-							try
-							{
-								pemBytes = Convert.FromBase64String(splits[1]);
-							}
-							catch (Exception ex)
-							{
-								logger.LogError(ex, "Failed to parse supposed base64 PEM!");
-								return null;
-							}
-
-							var pem = Encoding.UTF8.GetString(pemBytes);
-
-							using var rsa = RSA.Create();
-							rsa.ImportFromPem(pem);
-
-							var signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
-							var jwtSecurityTokenHandler = new JwtSecurityTokenHandler { SetDefaultTimesOnTokenCreation = false };
-
-							var nowDateTime = DateTime.UtcNow;
-
-							var appOrClientId = splits[0][RepositorySettings.TgsAppPrivateKeyPrefix.Length..];
-
-							var jwt = jwtSecurityTokenHandler.CreateToken(new SecurityTokenDescriptor
-							{
-								Issuer = appOrClientId,
-								Expires = nowDateTime.AddMinutes(10),
-								IssuedAt = nowDateTime,
-								SigningCredentials = signingCredentials,
-							});
-
-							var jwtStr = jwtSecurityTokenHandler.WriteToken(jwt);
-
-							client.Credentials = new Credentials(jwtStr, AuthenticationType.Bearer);
 
 							Installation installation;
 							try
@@ -213,8 +175,13 @@ namespace Tgstation.Server.Host.Utils.GitHub
 							}
 						}
 						else
+						{
+							client = CreateUnauthenticatedClient();
 							client.Credentials = new Credentials(accessString);
+						}
 					}
+					else
+						client = CreateUnauthenticatedClient();
 
 					clientCache.Add(cacheKey, (Client: client, LastUsed: now));
 					lastUsed = null;
@@ -270,6 +237,79 @@ namespace Tgstation.Server.Host.Utils.GitHub
 						rateLimitInfo.Reset.ToString("o"));
 
 			return client;
+		}
+
+		/// <summary>
+		/// Create an App (not installation) authenticated <see cref="GitHubClient"/>.
+		/// </summary>
+		/// <param name="tgsEncodedAppPrivateKey">The TGS encoded app private key string.</param>
+		/// <returns>A new app auth <see cref="GitHubClient"/> for the given <paramref name="tgsEncodedAppPrivateKey"/> on success <see langword="null"/> on failure.</returns>
+		GitHubClient? CreateAppClientInternal(string tgsEncodedAppPrivateKey)
+		{
+			var splits = tgsEncodedAppPrivateKey.Split(':');
+			if (splits.Length != 2)
+			{
+				logger.LogError("Failed to parse serialized Client ID & PEM! Expected 2 chunks, got {chunkCount}", splits.Length);
+				return null;
+			}
+
+			byte[] pemBytes;
+			try
+			{
+				pemBytes = Convert.FromBase64String(splits[1]);
+			}
+			catch (Exception ex)
+			{
+				logger.LogError(ex, "Failed to parse supposed base64 PEM!");
+				return null;
+			}
+
+			var pem = Encoding.UTF8.GetString(pemBytes);
+
+			using var rsa = RSA.Create();
+			rsa.ImportFromPem(pem);
+
+			var signingCredentials = new SigningCredentials(
+				 new RsaSecurityKey(rsa),
+				 SecurityAlgorithms.RsaSha256)
+			{
+				// https://stackoverflow.com/questions/62307933/rsa-disposed-object-error-every-other-test
+				CryptoProviderFactory = new CryptoProviderFactory
+				{
+					CacheSignatureProviders = false,
+				},
+			};
+			var jwtSecurityTokenHandler = new JwtSecurityTokenHandler { SetDefaultTimesOnTokenCreation = false };
+
+			var nowDateTime = DateTime.UtcNow;
+
+			var appOrClientId = splits[0][RepositorySettings.TgsAppPrivateKeyPrefix.Length..];
+
+			var jwt = jwtSecurityTokenHandler.CreateToken(new SecurityTokenDescriptor
+			{
+				Issuer = appOrClientId,
+				Expires = nowDateTime.AddMinutes(10),
+				IssuedAt = nowDateTime,
+				SigningCredentials = signingCredentials,
+			});
+
+			var jwtStr = jwtSecurityTokenHandler.WriteToken(jwt);
+			var client = CreateUnauthenticatedClient();
+			client.Credentials = new Credentials(jwtStr, AuthenticationType.Bearer);
+			return client;
+		}
+
+		/// <summary>
+		/// Creates an unauthenticated <see cref="GitHubClient"/>.
+		/// </summary>
+		/// <returns>A new <see cref="GitHubClient"/>.</returns>
+		GitHubClient CreateUnauthenticatedClient()
+		{
+			var product = assemblyInformationProvider.ProductInfoHeaderValue.Product!;
+			return new GitHubClient(
+				new ProductHeaderValue(
+					product.Name,
+					product.Version));
 		}
 	}
 }

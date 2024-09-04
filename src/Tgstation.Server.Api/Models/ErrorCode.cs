@@ -657,5 +657,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Could not load configured .dme due to it being outside the deployment directory! This should be a relative path.")]
 		DeploymentWrongDme,
+
+		/// <summary>
+		/// Entered wrong username for a repository access token.
+		/// </summary>
+		[Description("Provided repository username doesn't match the user of the corresponding access token!")]
+		RepoTokenUsernameMismatch,
 	}
 }
