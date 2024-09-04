@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.System
@@ -8,6 +9,11 @@ namespace Tgstation.Server.Host.System
 	/// </summary>
 	public interface IProcessBase
 	{
+		/// <summary>
+		/// When the process was started.
+		/// </summary>
+		DateTimeOffset? LaunchTime { get; }
+
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> resulting in the exit code of the process or <see langword="null"/> if the process was detached.
 		/// </summary>

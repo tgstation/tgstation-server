@@ -2,9 +2,12 @@
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+
+using GitLabApiClient;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +26,7 @@ using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
+using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -44,6 +48,16 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IJobManager jobManager;
 
 		/// <summary>
+		/// The <see cref="IGitRemoteFeaturesFactory"/> for the <see cref="RepositoryController"/>.
+		/// </summary>
+		readonly IGitRemoteFeaturesFactory gitRemoteFeaturesFactory;
+
+		/// <summary>
+		/// The <see cref="IGitHubClientFactory"/> for the <see cref="RepositoryController"/>.
+		/// </summary>
+		readonly IGitHubClientFactory gitHubClientFactory;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="RepositoryController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
@@ -52,6 +66,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
+		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
+		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
 		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="InstanceRequiredController"/>.</param>
 		public RepositoryController(
 			IDatabaseContext databaseContext,
@@ -60,6 +76,8 @@ namespace Tgstation.Server.Host.Controllers
 			IInstanceManager instanceManager,
 			ILoggerFactory loggerFactory,
 			IJobManager jobManager,
+			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
+			IGitHubClientFactory gitHubClientFactory,
 			IApiHeadersProvider apiHeaders)
 			: base(
 				  databaseContext,
@@ -70,6 +88,8 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
+			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 		}
 
 		/// <summary>
@@ -109,6 +129,11 @@ namespace Tgstation.Server.Host.Controllers
 				return this.Gone();
 
 			currentModel.UpdateSubmodules = model.UpdateSubmodules ?? true;
+
+			var earlyOut = await ValidateCredentials(model, model.Origin, cancellationToken);
+			if (earlyOut != null)
+				return earlyOut;
+
 			currentModel.AccessToken = model.AccessToken;
 			currentModel.AccessUser = model.AccessUser;
 
@@ -369,7 +394,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (currentModel == default)
 				return this.Gone();
 
-			bool CheckModified<T>(Expression<Func<Api.Models.Internal.RepositorySettings, T>> expression, RepositoryRights requiredRight)
+			bool CheckModified<T>(Expression<Func<Api.Models.RepositorySettings, T>> expression, RepositoryRights requiredRight)
 			{
 				var memberSelectorExpression = (MemberExpression)expression.Body;
 				var property = (PropertyInfo)memberSelectorExpression.Member;
@@ -425,6 +450,11 @@ namespace Tgstation.Server.Host.Controllers
 						using var repo = await repoManager.LoadRepository(cancellationToken);
 						if (repo == null)
 							return Conflict(new ErrorMessageResponse(ErrorCode.RepoMissing));
+
+						var credAuthFailure = await ValidateCredentials(model, repo.Origin, cancellationToken);
+						if (credAuthFailure != null)
+							return credAuthFailure;
+
 						await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken);
 
 						return null;
@@ -531,11 +561,97 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="currentModel">The current <see cref="RepositorySettings"/>.</param>
 		/// <returns>A new <see cref="RepositoryUpdateService"/>.</returns>
-		RepositoryUpdateService CreateRepositoryUpdateService(RepositorySettings currentModel)
+		RepositoryUpdateService CreateRepositoryUpdateService(Models.RepositorySettings currentModel)
 			=> new(
 				currentModel,
 				AuthenticationContext.User,
 				loggerFactory.CreateLogger<RepositoryUpdateService>(),
 				Instance.Require(x => x.Id));
+
+		/// <summary>
+		/// Validates the <see cref="Api.Models.RepositorySettings.AccessToken"/> of a given <paramref name="model"/> if it is set.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.RepositorySettings"/> to validate.</param>
+		/// <param name="origin">The repository's origin <see cref="Uri"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="null"/> on success, or an <see cref="IActionResult"/> on validation failure.</returns>
+		async ValueTask<IActionResult?> ValidateCredentials(Api.Models.RepositorySettings model, Uri origin, CancellationToken cancellationToken)
+		{
+			if (String.IsNullOrWhiteSpace(model.AccessToken))
+				return null;
+
+			Logger.LogDebug("Repository access token updated, performing auth check...");
+			var remoteFeatures = gitRemoteFeaturesFactory.CreateGitRemoteFeatures(origin);
+			switch (remoteFeatures.RemoteGitProvider!.Value)
+			{
+				case RemoteGitProvider.GitHub:
+					var gitHubClient = await gitHubClientFactory.CreateClientForRepository(
+						model.AccessToken,
+						new RepositoryIdentifier(
+							remoteFeatures.RemoteRepositoryOwner!,
+							remoteFeatures.RemoteRepositoryName!),
+						cancellationToken);
+					if (gitHubClient == null)
+					{
+						return this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
+						{
+							AdditionalData = "GitHub authentication failed!",
+						});
+					}
+
+					try
+					{
+						string username;
+						if (!model.AccessToken.StartsWith(Api.Models.RepositorySettings.TgsAppPrivateKeyPrefix))
+						{
+							var user = await gitHubClient.User.Current();
+							username = user.Login;
+						}
+						else
+						{
+							// we literally need to app auth again to get the damn bot username
+							var appClient = gitHubClientFactory.CreateAppClient(model.AccessToken)!;
+							var app = await appClient.GitHubApps.GetCurrent();
+							username = app.Name;
+						}
+
+						if (username != model.AccessUser)
+							return Conflict(new ErrorMessageResponse(ErrorCode.RepoTokenUsernameMismatch));
+					}
+					catch (Exception ex)
+					{
+						return this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
+						{
+							AdditionalData = $"GitHub Authentication Failure: {ex.Message}",
+						});
+					}
+
+					break;
+				case RemoteGitProvider.GitLab:
+					// need to abstract this eventually
+					var gitLabClient = new GitLabClient(GitLabRemoteFeatures.GitLabUrl, model.AccessToken);
+					try
+					{
+						var user = await gitLabClient.Users.GetCurrentSessionAsync();
+						if (user.Username != model.AccessUser)
+							return Conflict(new ErrorMessageResponse(ErrorCode.RepoTokenUsernameMismatch));
+					}
+					catch (Exception ex)
+					{
+						return this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
+						{
+							AdditionalData = $"GitLab Authentication Failure: {ex.Message}",
+						});
+					}
+
+					break;
+				case RemoteGitProvider.Unknown:
+				default:
+					Logger.LogWarning("RemoteGitProvider is {provider}, no auth check implemented!", remoteFeatures.RemoteGitProvider.Value);
+					break;
+			}
+
+			return null;
+		}
 	}
 }

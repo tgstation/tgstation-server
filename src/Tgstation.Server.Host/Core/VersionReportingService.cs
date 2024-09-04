@@ -222,9 +222,9 @@ namespace Tgstation.Server.Host.Core
 					: $"\"{serverFriendlyName}\"");
 			try
 			{
-				var gitHubClient = await gitHubClientFactory.CreateInstallationClient(
+				var gitHubClient = await gitHubClientFactory.CreateClientForRepository(
 					serializedPem,
-					repositoryId,
+					new RepositoryIdentifier(repositoryId),
 					cancellationToken);
 
 				if (gitHubClient == null)

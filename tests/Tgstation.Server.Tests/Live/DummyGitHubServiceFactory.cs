@@ -29,6 +29,14 @@ namespace Tgstation.Server.Tests.Live
 			return ValueTask.FromResult<IAuthenticatedGitHubService>(CreateDummyService());
 		}
 
+		public ValueTask<IAuthenticatedGitHubService> CreateService(string accessString, RepositoryIdentifier repositoryIdentifier, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(accessString);
+			ArgumentNullException.ThrowIfNull(repositoryIdentifier);
+
+			return ValueTask.FromResult<IAuthenticatedGitHubService>(CreateDummyService());
+		}
+
 		TestingGitHubService CreateDummyService() => new TestingGitHubService(cryptographySuite, logger);
 	}
 }

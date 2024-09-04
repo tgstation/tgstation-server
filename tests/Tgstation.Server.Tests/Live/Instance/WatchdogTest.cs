@@ -682,6 +682,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
 			Assert.IsFalse(daemonStatus.SessionId.HasValue);
+			Assert.IsFalse(daemonStatus.LaunchTime.HasValue);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Trusted, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
@@ -730,6 +731,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			Assert.IsFalse(daemonStatus.SessionId.HasValue);
+			Assert.IsFalse(daemonStatus.LaunchTime.HasValue);
 			await ExpectGameDirectoryCount(1, cancellationToken);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken, false);
@@ -741,12 +743,18 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}, cancellationToken);
 			Assert.AreEqual(string.Empty, daemonStatus.AdditionalParameters);
 			Assert.IsFalse(daemonStatus.SessionId.HasValue);
+			Assert.IsFalse(daemonStatus.LaunchTime.HasValue);
 		}
 
 		long? sessionIdTracker;
 		void ValidateSessionId(DreamDaemonResponse daemonStatus, bool? knownIncrease)
 		{
 			Assert.IsTrue(daemonStatus.SessionId.HasValue, $"Expected a session ID in the DreamDaemonResponse");
+			Assert.IsTrue(daemonStatus.LaunchTime.HasValue);
+			Assert.IsTrue(daemonStatus.LaunchTime.Value >= DateTimeOffset.UtcNow.AddHours(-1));
+
+			if (daemonStatus.ClientCount.HasValue)
+				Assert.AreEqual(0U, daemonStatus.ClientCount.Value);
 
 			if (sessionIdTracker.HasValue)
 				if (knownIncrease.HasValue)
@@ -856,6 +864,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			// Ensure it's responding to health checks
 			await Task.WhenAny(Task.Delay(7000, cancellationToken), ourProcessHandler.Lifetime);
 			Assert.IsFalse(ddProc.HasExited);
+			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.AreEqual(0U, daemonStatus.ClientCount);
 
 			// check DD agrees
 			var topicRequestResult = await SendTestTopic(

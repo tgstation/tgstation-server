@@ -45,18 +45,24 @@ namespace Tgstation.Server.Host.Components.Repository
 		public IGitRemoteFeatures CreateGitRemoteFeatures(IRepository repository)
 		{
 			ArgumentNullException.ThrowIfNull(repository);
+			return CreateGitRemoteFeatures(repository.Origin);
+		}
 
-			var primaryRemote = repository.Origin;
-			var remoteGitProvider = ParseRemoteGitProviderFromOrigin(primaryRemote);
+		/// <inheritdoc />
+		public IGitRemoteFeatures CreateGitRemoteFeatures(Uri origin)
+		{
+			ArgumentNullException.ThrowIfNull(origin);
+
+			var remoteGitProvider = ParseRemoteGitProviderFromOrigin(origin);
 			return remoteGitProvider switch
 			{
 				RemoteGitProvider.GitHub => new GitHubRemoteFeatures(
 					gitHubServiceFactory,
 					loggerFactory.CreateLogger<GitHubRemoteFeatures>(),
-					primaryRemote),
+					origin),
 				RemoteGitProvider.GitLab => new GitLabRemoteFeatures(
 					loggerFactory.CreateLogger<GitLabRemoteFeatures>(),
-					primaryRemote),
+					origin),
 				RemoteGitProvider.Unknown => new DefaultGitRemoteFeatures(),
 				_ => throw new InvalidOperationException($"Unknown RemoteGitProvider: {remoteGitProvider}!"),
 			};

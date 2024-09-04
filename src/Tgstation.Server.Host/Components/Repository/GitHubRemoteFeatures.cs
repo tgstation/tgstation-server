@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Octokit;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Components.Repository
@@ -49,33 +48,39 @@ namespace Tgstation.Server.Host.Components.Repository
 			CancellationToken cancellationToken)
 		{
 			var gitHubService = repositorySettings.AccessToken != null
-				? await gitHubServiceFactory.CreateService(repositorySettings.AccessToken, cancellationToken)
+				? await gitHubServiceFactory.CreateService(
+					repositorySettings.AccessToken,
+					new RepositoryIdentifier(this),
+					cancellationToken)
 				: await gitHubServiceFactory.CreateService(cancellationToken);
 
 			PullRequest? pr = null;
 			ApiException? exception = null;
 			string? errorMessage = null;
-			try
-			{
-				pr = await gitHubService.GetPullRequest(RemoteRepositoryOwner, RemoteRepositoryName, parameters.Number, cancellationToken);
-			}
-			catch (RateLimitExceededException ex)
-			{
-				// you look at your anonymous access and sigh
-				errorMessage = "GITHUB API ERROR: RATE LIMITED";
-				exception = ex;
-			}
-			catch (AuthorizationException ex)
-			{
-				errorMessage = "GITHUB API ERROR: BAD CREDENTIALS";
-				exception = ex;
-			}
-			catch (NotFoundException ex)
-			{
-				// you look at your shithub and sigh
-				errorMessage = "GITHUB API ERROR: PULL REQUEST NOT FOUND";
-				exception = ex;
-			}
+			if (gitHubService == null)
+				errorMessage = "GITHUB API ERROR: AUTH FAILURE";
+			else
+				try
+				{
+					pr = await gitHubService.GetPullRequest(RemoteRepositoryOwner, RemoteRepositoryName, parameters.Number, cancellationToken);
+				}
+				catch (RateLimitExceededException ex)
+				{
+					// you look at your anonymous access and sigh
+					errorMessage = "GITHUB API ERROR: RATE LIMITED";
+					exception = ex;
+				}
+				catch (AuthorizationException ex)
+				{
+					errorMessage = "GITHUB API ERROR: BAD CREDENTIALS";
+					exception = ex;
+				}
+				catch (NotFoundException ex)
+				{
+					// you look at your shithub and sigh
+					errorMessage = "GITHUB API ERROR: PULL REQUEST NOT FOUND";
+					exception = ex;
+				}
 
 			if (exception != null)
 				Logger.LogWarning(exception, "Error retrieving pull request metadata!");

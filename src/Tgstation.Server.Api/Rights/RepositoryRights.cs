@@ -19,7 +19,7 @@ namespace Tgstation.Server.Api.Rights
 		CancelPendingChanges = 1 << 0,
 
 		/// <summary>
-		/// User may clone the repository if it does not exist. This also allows setting <see cref="Models.Internal.RepositorySettings.UpdateSubmodules"/>, <see cref="Models.Internal.RepositorySettings.AccessUser"/>, and <see cref="Models.Internal.RepositorySettings.AccessToken"/> at clone time.
+		/// User may clone the repository if it does not exist. This also allows setting <see cref="Models.RepositorySettings.UpdateSubmodules"/>, <see cref="Models.RepositorySettings.AccessUser"/>, and <see cref="Models.RepositorySettings.AccessToken"/> at clone time.
 		/// </summary>
 		SetOrigin = 1 << 1,
 
@@ -39,17 +39,17 @@ namespace Tgstation.Server.Api.Rights
 		UpdateBranch = 1 << 4,
 
 		/// <summary>
-		/// User may change <see cref="Models.Internal.RepositorySettings.CommitterName"/> and <see cref="Models.Internal.RepositorySettings.CommitterEmail"/>.
+		/// User may change <see cref="Models.RepositorySettings.CommitterName"/> and <see cref="Models.RepositorySettings.CommitterEmail"/>.
 		/// </summary>
 		ChangeCommitter = 1 << 5,
 
 		/// <summary>
-		/// User may change <see cref="Models.Internal.RepositorySettings.PushTestMergeCommits"/>, <see cref="Models.Internal.RepositorySettings.PostTestMergeComment"/>, and <see cref="Models.Internal.RepositorySettings.CreateGitHubDeployments"/>.
+		/// User may change <see cref="Models.RepositorySettings.PushTestMergeCommits"/>, <see cref="Models.RepositorySettings.PostTestMergeComment"/>, and <see cref="Models.RepositorySettings.CreateGitHubDeployments"/>.
 		/// </summary>
 		ChangeTestMergeCommits = 1 << 6,
 
 		/// <summary>
-		/// User may read and change <see cref="Models.Internal.RepositorySettings.AccessUser"/> and <see cref="Models.Internal.RepositorySettings.AccessToken"/>.
+		/// User may read and change <see cref="Models.RepositorySettings.AccessUser"/> and <see cref="Models.RepositorySettings.AccessToken"/>.
 		/// </summary>
 		ChangeCredentials = 1 << 7,
 
@@ -64,7 +64,7 @@ namespace Tgstation.Server.Api.Rights
 		Read = 1 << 9,
 
 		/// <summary>
-		/// User may change <see cref="Models.Internal.RepositorySettings.AutoUpdatesKeepTestMerges"/> and <see cref="Models.Internal.RepositorySettings.AutoUpdatesSynchronize"/>.
+		/// User may change <see cref="Models.RepositorySettings.AutoUpdatesKeepTestMerges"/> and <see cref="Models.RepositorySettings.AutoUpdatesSynchronize"/>.
 		/// </summary>
 		ChangeAutoUpdateSettings = 1 << 10,
 
