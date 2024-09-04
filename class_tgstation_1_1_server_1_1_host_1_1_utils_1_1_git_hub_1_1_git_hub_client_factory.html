@@ -200,9 +200,9 @@ Private Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
-<tr class="memitem:ad09403ccc82d2ba57cae58beb5b6f04f" id="r_ad09403ccc82d2ba57cae58beb5b6f04f"><td class="memItemLeft" align="right" valign="top">const uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad09403ccc82d2ba57cae58beb5b6f04f">ClientCacheDays</a> = 7</td></tr>
-<tr class="memdesc:ad09403ccc82d2ba57cae58beb5b6f04f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Limit to the amount of days a GitHubClient can live in the clientCache.  <br /></td></tr>
-<tr class="separator:ad09403ccc82d2ba57cae58beb5b6f04f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4e99c99ca5fc55e7fe819fa8da5eeea" id="r_af4e99c99ca5fc55e7fe819fa8da5eeea"><td class="memItemLeft" align="right" valign="top">const uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#af4e99c99ca5fc55e7fe819fa8da5eeea">ClientCacheHours</a> = 1</td></tr>
+<tr class="memdesc:af4e99c99ca5fc55e7fe819fa8da5eeea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Limit to the amount of hours a GitHubClient can live in the clientCache.  <br /></td></tr>
+<tr class="separator:af4e99c99ca5fc55e7fe819fa8da5eeea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a126b64745b7f4949a5f0c4ae6bb4479e" id="r_a126b64745b7f4949a5f0c4ae6bb4479e"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a126b64745b7f4949a5f0c4ae6bb4479e">DefaultCacheKey</a> = &quot;~!@TGS_DEFAULT_GITHUB_CLIENT_CACHE_KEY@!~&quot;</td></tr>
 <tr class="memdesc:a126b64745b7f4949a5f0c4ae6bb4479e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The clientCache KeyValuePair&lt;TKey, TValue&gt;.Key used in place of <code>null</code> when accessing a configuration-based client with no token set in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a8522f39f33dcca058cd36743a1d444df" title="A classic GitHub personal access token to use for bypassing rate limits on requests....">GeneralConfiguration.GitHubAccessToken</a>.  <br /></td></tr>
 <tr class="separator:a126b64745b7f4949a5f0c4ae6bb4479e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -573,7 +573,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  220</span> </div>
 <div class="line"><span class="lineno">  221</span>                <span class="comment">// Prune the cache</span></div>
 <div class="line"><span class="lineno">  222</span>                var purgeCount = 0U;</div>
-<div class="line"><span class="lineno">  223</span>                var purgeAfter = now.AddDays(-<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad09403ccc82d2ba57cae58beb5b6f04f">ClientCacheDays</a>);</div>
+<div class="line"><span class="lineno">  223</span>                var purgeAfter = now.AddHours(-<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#af4e99c99ca5fc55e7fe819fa8da5eeea">ClientCacheHours</a>);</div>
 <div class="line"><span class="lineno">  224</span>                <span class="keywordflow">foreach</span> (var key <span class="keywordflow">in</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a1bc46d3fa34340d5bf40f02d4bb3b340">clientCache</a>.Keys.ToList())</div>
 <div class="line"><span class="lineno">  225</span>                {</div>
 <div class="line"><span class="lineno">  226</span>                    <span class="keywordflow">if</span> (key == cacheKey)</div>
@@ -589,9 +589,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  236</span> </div>
 <div class="line"><span class="lineno">  237</span>                <span class="keywordflow">if</span> (purgeCount &gt; 0)</div>
 <div class="line"><span class="lineno">  238</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a78e1ae3c2b180077dec7f628ff14b5e0">logger</a>.LogDebug(</div>
-<div class="line"><span class="lineno">  239</span>                        <span class="stringliteral">&quot;Pruned {count} expired GitHub client(s) from cache that haven&#39;t been used in {purgeAfterHours} days.&quot;</span>,</div>
+<div class="line"><span class="lineno">  239</span>                        <span class="stringliteral">&quot;Pruned {count} expired GitHub client(s) from cache that haven&#39;t been used in {purgeAfterHours} hours.&quot;</span>,</div>
 <div class="line"><span class="lineno">  240</span>                        purgeCount,</div>
-<div class="line"><span class="lineno">  241</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad09403ccc82d2ba57cae58beb5b6f04f">ClientCacheDays</a>);</div>
+<div class="line"><span class="lineno">  241</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#af4e99c99ca5fc55e7fe819fa8da5eeea">ClientCacheHours</a>);</div>
 <div class="line"><span class="lineno">  242</span>            }</div>
 <div class="line"><span class="lineno">  243</span> </div>
 <div class="line"><span class="lineno">  244</span>            var rateLimitInfo = client.GetLastApiInfo()?.RateLimit;</div>
@@ -617,10 +617,10 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  264</span>        }</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory_html_a126b64745b7f4949a5f0c4ae6bb4479e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a126b64745b7f4949a5f0c4ae6bb4479e">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.DefaultCacheKey</a></div><div class="ttdeci">const string DefaultCacheKey</div><div class="ttdoc">The clientCache KeyValuePair&lt;TKey, TValue&gt;.Key used in place of null when accessing a configuration-b...</div><div class="ttdef"><b>Definition</b> <a href="_git_hub_client_factory_8cs_source.html#l00033">GitHubClientFactory.cs:33</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory_html_ad09403ccc82d2ba57cae58beb5b6f04f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad09403ccc82d2ba57cae58beb5b6f04f">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.ClientCacheDays</a></div><div class="ttdeci">const uint ClientCacheDays</div><div class="ttdoc">Limit to the amount of days a GitHubClient can live in the clientCache.</div><div class="ttdef"><b>Definition</b> <a href="_git_hub_client_factory_8cs_source.html#l00028">GitHubClientFactory.cs:28</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory_html_af4e99c99ca5fc55e7fe819fa8da5eeea"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#af4e99c99ca5fc55e7fe819fa8da5eeea">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.ClientCacheHours</a></div><div class="ttdeci">const uint ClientCacheHours</div><div class="ttdoc">Limit to the amount of hours a GitHubClient can live in the clientCache.</div><div class="ttdef"><b>Definition</b> <a href="_git_hub_client_factory_8cs_source.html#l00028">GitHubClientFactory.cs:28</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_ac576ee50be1f68ebbaeaa959fa304aa8"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ac576ee50be1f68ebbaeaa959fa304aa8">Tgstation.Server.Host.System.IAssemblyInformationProvider.ProductInfoHeaderValue</a></div><div class="ttdeci">ProductInfoHeaderValue ProductInfoHeaderValue</div><div class="ttdoc">The ProductInfoHeaderValue for the assembly.</div><div class="ttdef"><b>Definition</b> <a href="_i_assembly_information_provider_8cs_source.html#l00040">IAssemblyInformationProvider.cs:40</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_git_hub_client_factory_8cs_source.html#l00038">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.assemblyInformationProvider</a>, <a class="el" href="_git_hub_client_factory_8cs_source.html#l00053">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.clientCache</a>, <a class="el" href="_git_hub_client_factory_8cs_source.html#l00028">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.ClientCacheDays</a>, <a class="el" href="_git_hub_client_factory_8cs_source.html#l00058">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.clientCacheSemaphore</a>, <a class="el" href="_git_hub_client_factory_8cs_source.html#l00033">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.DefaultCacheKey</a>, <a class="el" href="_semaphore_slim_context_8cs_source.html#l00018">Tgstation.Server.Host.Utils.SemaphoreSlimContext.Lock()</a>, <a class="el" href="_git_hub_client_factory_8cs_source.html#l00043">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.logger</a>, and <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00040">Tgstation.Server.Host.System.IAssemblyInformationProvider.ProductInfoHeaderValue</a>.</p>
+<p class="reference">References <a class="el" href="_git_hub_client_factory_8cs_source.html#l00038">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.assemblyInformationProvider</a>, <a class="el" href="_git_hub_client_factory_8cs_source.html#l00053">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.clientCache</a>, <a class="el" href="_git_hub_client_factory_8cs_source.html#l00028">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.ClientCacheHours</a>, <a class="el" href="_git_hub_client_factory_8cs_source.html#l00058">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.clientCacheSemaphore</a>, <a class="el" href="_git_hub_client_factory_8cs_source.html#l00033">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.DefaultCacheKey</a>, <a class="el" href="_semaphore_slim_context_8cs_source.html#l00018">Tgstation.Server.Host.Utils.SemaphoreSlimContext.Lock()</a>, <a class="el" href="_git_hub_client_factory_8cs_source.html#l00043">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.logger</a>, and <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00040">Tgstation.Server.Host.System.IAssemblyInformationProvider.ProductInfoHeaderValue</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -691,8 +691,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="ad09403ccc82d2ba57cae58beb5b6f04f" name="ad09403ccc82d2ba57cae58beb5b6f04f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad09403ccc82d2ba57cae58beb5b6f04f">&#9670;&#160;</a></span>ClientCacheDays</h2>
+<a id="af4e99c99ca5fc55e7fe819fa8da5eeea" name="af4e99c99ca5fc55e7fe819fa8da5eeea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4e99c99ca5fc55e7fe819fa8da5eeea">&#9670;&#160;</a></span>ClientCacheHours</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -701,7 +701,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const uint Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.ClientCacheDays = 7</td>
+          <td class="memname">const uint Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.ClientCacheHours = 1</td>
         </tr>
       </table>
   </td>
@@ -711,8 +711,8 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Limit to the amount of days a GitHubClient can live in the clientCache. </p>
-<p>God forbid someone leak server memory by constantly changing an instance's GitHub token.</p>
+<p>Limit to the amount of hours a GitHubClient can live in the clientCache. </p>
+<p>Set to app installation token lifetime, which is the lowest. See <a href="https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-an-installation-access-token-for-a-github-app">https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-an-installation-access-token-for-a-github-app</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_git_hub_client_factory_8cs_source.html#l00028">28</a> of file <a class="el" href="_git_hub_client_factory_8cs_source.html">GitHubClientFactory.cs</a>.</p>
 
