@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory.CreateServiceImpl" name="Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory.CreateServiceImpl">
+<area shape="rect" id="Node000001" title="Create a GitHubService." alt="" coords="288,5,522,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory.html#a290b4dd64604e79bf714105742a610e2" title="Create an IAuthenticatedGitHubService.A ValueTask&lt;TResult&gt; resulting in a new IAuthenticatedGitHubSer..." alt="" coords="5,5,240,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="272,36,240,36,240,31,272,31"/>
+</map>

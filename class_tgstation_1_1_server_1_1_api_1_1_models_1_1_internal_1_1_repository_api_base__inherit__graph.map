@@ -6,6 +6,6 @@
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="386,88,418,88,418,94,386,94"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_repository_response.html" title="Represents a git repository." alt="" coords="429,136,630,177"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="374,113,449,133,447,138,372,118"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html" title="Represents configurable settings for a git repository." alt="" coords="5,78,136,104"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html" title="Represents configurable settings for a git repository." alt="" coords="5,78,136,104"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,88,183,88,183,94,151,94"/>
 </map>

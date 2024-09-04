@@ -2,6 +2,6 @@
 <area shape="rect" id="Node000001" title="Represents a request to clone the repository." alt="" coords="5,153,225,193"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base.html" title="Base class for repository models." alt="" coords="49,79,181,105"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,120,118,152,112,152,112,120"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html" title="Represents configurable settings for a git repository." alt="" coords="50,5,180,31"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html" title="Represents configurable settings for a git repository." alt="" coords="50,5,180,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="118,46,118,79,112,79,112,46"/>
 </map>

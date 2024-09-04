@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Models.RepositorySettings" name="Tgstation.Server.Host.Models.RepositorySettings">
-<area shape="rect" id="Node000001" title=" " alt="" coords="60,94,256,135"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html" title="Represents configurable settings for a git repository." alt="" coords="5,5,143,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,56,141,92,137,95,102,59"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="166,5,321,46"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="215,59,179,95,175,92,212,55"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="111,94,306,135"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html" title="Represents configurable settings for a git repository." alt="" coords="5,13,209,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,47,187,92,184,96,131,51"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="233,5,387,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="277,58,233,96,230,92,273,54"/>
 </map>

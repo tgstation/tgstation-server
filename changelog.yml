@@ -159,20 +159,25 @@ Components:
   Core:
   - Version: 6.10.0
     ComponentVersions:
-      HttpApi: 10.7.0
-      DreamMakerApi: 7.2.1
+      HttpApi: 10.8.0
+      DreamMakerApi: 7.3.0
       Configuration: 5.2.0
-      InteropApi: 5.9.0
-      HostWatchdog: 1.4.1
+      InteropApi: 5.10.0
+      HostWatchdog: 1.5.0
       NugetCommon: 7.0.0
-      NugetApi: 13.7.0
-      NugetClient: 16.0.0
+      NugetApi: 14.0.0
+      NugetClient: 17.0.0
       WebControlPanel: 6.1.0
     Changes:
     - Descriptions:
       - Running as root on Linux now issues a warning.
       Author: ZephyrTFA
       PullRequest: 1882
+    - Descriptions:
+      - GitHub and GitLab credentials for instances are now validated when created/updated.
+      - The host watchdog no longer needs to be launched with a special parameter to enable SystemD interoperability.
+      Author: Cyberboss
+      PullRequest: 1920
     Unreleased: true
   - Version: 6.9.3
     ComponentVersions:
@@ -3811,6 +3816,17 @@ Components:
       Author: alexkar598
       PullRequest: 1133
   HttpApi:
+  - Version: 10.8.0
+    Changes:
+    - Descriptions:
+      - HTTP 424 will be returned during PUT or POST `/api/Repository` if provided credentials are determined to be invalid.
+      - Added error code 108 for if a repository `accessToken` was determined to be for a user different to `accessUser`.
+      - 'Repository access credentials can now use GitHub App private keys in a special encoded format: `"TGS_PK_" + (APP_ID OR CLIENT_ID) + ":" + BASE64(APP_PRIVATE_KEY)` (Clients should perform this formatting for users). If this is used, the app name should be set as the username. Required permissions are `contents: read` for cloning, `contents: write` for pushing test merge commits, `pull_requests: write` for posting test merge comments, and `contents: write` + `deployments: write` for enabling GitHub deployments.'
+      - Added ISO8601 `launchTime` field to DreamDaemon response model.
+      - Added `clientCount` field to DreamDaemon response model. Requires game side interop version >= 5.10.0 and watchdog health checks to be enabled to function.
+      Author: Cyberboss
+      PullRequest: 1920
+    Unreleased: true
   - Version: 10.7.0
     Changes:
     - Descriptions:
@@ -4327,6 +4343,13 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   DreamMakerApi:
+  - Version: 7.3.0
+    Changes:
+    - Descriptions:
+      - Added support for relaying current client count back to TGS during health checks.
+      Author: Cyberboss
+      PullRequest: 1920
+    Unreleased: true
   - Version: 7.2.1
     Changes:
     - Descriptions:
@@ -4599,6 +4622,16 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 14.0.0
+    Changes:
+    - Descriptions:
+      - '**BREAKING:** Moved `RepositorySettings` out of `Internal` namespace and made abstract.'
+      - Added TGS encoded app private key prefix to `RepositorySettings`.
+      - Added `DreamDaemonApiBase.LaunchTime`.
+      - Added `DreamDaemonApiBase.ClientCount`.
+      Author: Cyberboss
+      PullRequest: 1920
+    Unreleased: true
   - Version: 13.5.0
     Changes:
     - Descriptions:
@@ -4682,4 +4715,11 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient: []
+  NugetClient:
+  - Version: 17.0.0
+    Changes:
+    - Descriptions:
+      - '**BREAKING:** Updated API definitions library to 14.0.0.'
+      Author: Cyberboss
+      PullRequest: 1920
+    Unreleased: true

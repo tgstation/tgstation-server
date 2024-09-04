@@ -1,25 +1,35 @@
 <map id="Tgstation.Server.Host.Controllers.RepositoryController.Create" name="Tgstation.Server.Host.Controllers.RepositoryController.Create">
-<area shape="rect" id="Node000001" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="5,235,221,275"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#afb982e4f4d1492aced7dcf14d9ba5d97" title="Creates a new job for registering in the Jobs.IJobService." alt="" coords="287,5,483,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,233,144,195,177,148,218,99,267,57,277,51,279,56,270,61,222,102,181,151,149,198,127,236"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4" title="Generic 201 response with a given payload ." alt="" coords="277,71,493,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="131,232,189,178,227,148,267,122,282,115,284,120,270,127,230,152,192,182,135,236"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="284,136,486,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="159,232,268,187,291,179,293,184,270,192,161,237"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a16cc955ac08b286dc475b60b045d63e0" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="277,201,493,242"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="221,239,261,234,262,239,221,244"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95" title="Registers a given Job and begins running it." alt="" coords="283,267,487,307"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="221,265,268,271,267,276,221,270"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="281,332,489,373"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="162,273,270,316,293,324,292,329,268,322,160,278"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="287,397,483,438"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="135,274,192,328,230,357,270,382,284,389,282,394,267,387,227,361,189,332,131,277"/>
-<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a9e5262a00e199825c5f7e2f25d6d76f0" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,462,501,518"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="128,274,150,311,182,358,223,406,270,448,277,452,274,456,267,452,219,410,178,361,145,314,123,277"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="549,104,739,145"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="486,141,533,135,534,141,487,146"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="554,169,735,210"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="487,167,539,173,538,179,486,172"/>
-<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="550,397,738,438"/>
-<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="483,415,535,415,535,420,483,420"/>
+<area shape="rect" id="Node000001" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="5,267,221,307"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#afb982e4f4d1492aced7dcf14d9ba5d97" title="Creates a new job for registering in the Jobs.IJobService." alt="" coords="297,5,493,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,265,140,222,171,165,214,107,239,80,267,57,282,48,285,52,270,61,243,84,218,110,176,168,145,224,125,267"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4" title="Generic 201 response with a given payload ." alt="" coords="287,71,503,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="126,264,182,194,222,155,267,122,280,115,282,120,270,127,225,159,186,198,130,268"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="294,136,496,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="140,264,197,225,268,187,287,180,289,185,270,192,200,230,143,269"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a16cc955ac08b286dc475b60b045d63e0" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="287,201,503,242"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="203,263,289,243,290,249,204,269"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95" title="Registers a given Job and begins running it." alt="" coords="293,267,497,307"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="221,284,278,284,278,290,221,290"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="291,332,499,373"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="204,305,290,325,289,331,203,311"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="297,397,493,438"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="143,305,200,344,270,382,289,389,287,394,268,387,197,349,140,310"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6d2ca4edeaf1bebf658305727ced5f45" title="Validates the Api.Models.RepositorySettings.AccessToken of a given model &#160;if it is set." alt="" coords="269,463,521,503"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="130,306,186,376,225,415,270,447,282,454,280,459,267,452,222,419,182,380,126,310"/>
+<area shape="rect" id="Node000017" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a9e5262a00e199825c5f7e2f25d6d76f0" title="Run a given action &#160;with the relevant IInstance." alt="" coords="279,527,511,583"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="125,307,145,350,177,405,219,463,243,490,270,513,276,517,273,521,267,517,240,494,214,467,172,408,140,352,120,309"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="598,103,788,143"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="496,142,582,133,583,138,497,148"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="603,168,784,209"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="497,165,587,174,587,180,496,170"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="599,311,787,351"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="481,394,520,382,568,361,589,354,590,359,570,365,522,387,482,399"/>
+<area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aa5d1848316036724f9d9cf073539b879" title="Create an App (not installation) authenticated IGitHubClient." alt="" coords="580,375,807,431"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="474,460,520,447,573,433,574,438,522,452,475,465"/>
+<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a3a92711bc701286ce65bd637c0f9dc7b" title="Creates a GitHub client that will only be used for a given repositoryIdentifier ." alt="" coords="580,455,807,511"/>
+<area shape="poly" id="edge13_Node000012_Node000014" title=" " alt="" coords="522,480,564,480,564,486,522,486"/>
+<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ac68dccad767316b6c071ca0687bf3b9f" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="569,535,817,591"/>
+<area shape="poly" id="edge14_Node000012_Node000015" title=" " alt="" coords="480,501,522,512,578,528,577,533,520,518,478,507"/>
+<area shape="rect" id="Node000016" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="586,615,801,655"/>
+<area shape="poly" id="edge15_Node000012_Node000016" title=" " alt="" coords="505,502,523,513,541,535,548,558,554,580,571,601,575,604,572,609,567,605,549,583,542,560,536,538,519,517,502,506"/>
 </map>

@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title="Delete the repository." alt="" coords="5,113,221,154"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#afb982e4f4d1492aced7dcf14d9ba5d97" title="Creates a new job for registering in the Jobs.IJobService." alt="" coords="291,5,486,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,110,205,82,268,55,287,49,288,54,270,60,207,87,153,115"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a95bb9478788097b0165c2d74796d217e" title="Creates a RepositoryUpdateService." alt="" coords="269,70,508,126"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac5e66649d7e9e536517d64e9b045f22c" title="Creates a RepositoryUpdateService." alt="" coords="269,70,508,126"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,117,253,113,253,118,222,122"/>
 <area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95" title="Registers a given Job and begins running it." alt="" coords="287,149,490,190"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="222,145,271,152,271,157,221,150"/>

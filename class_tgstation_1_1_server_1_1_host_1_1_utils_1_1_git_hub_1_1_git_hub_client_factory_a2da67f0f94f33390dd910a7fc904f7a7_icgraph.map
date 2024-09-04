@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.CreateAppClientInternal" name="Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.CreateAppClientInternal">
+<area shape="rect" id="Node000001" title="Create an App (not installation) authenticated GitHubClient." alt="" coords="274,5,497,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a91779983ec90a97e9d61ad933df13809" title="Retrieve a GitHubClient from the clientCache or add a new one based on a given accessString ." alt="" coords="5,5,226,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,36,226,36,226,31,258,31"/>
+</map>

@@ -1,5 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.CreateGitRemoteFeatures" name="Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.CreateGitRemoteFeatures">
-<area shape="rect" id="Node000001" title="Create the IGitRemoteFeatures for a given repository .A new IGitRemoteFeatures instance." alt="" coords="5,5,250,61"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#a2ff0a4312b655dab33456d56e371775e" title="Gets the RemoteGitProvider for a given origin .The RemoteGitProvider of the origin ." alt="" coords="298,5,542,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="250,31,282,31,282,36,250,36"/>
+<area shape="rect" id="Node000001" title="Create the IGitRemoteFeatures for a given repository .A new IGitRemoteFeatures instance." alt="" coords="5,29,250,85"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="80,29,80,19,89,10,105,5,128,3,153,5,169,12,167,17,152,10,127,8,106,10,92,15,85,21,85,29"/>
 </map>

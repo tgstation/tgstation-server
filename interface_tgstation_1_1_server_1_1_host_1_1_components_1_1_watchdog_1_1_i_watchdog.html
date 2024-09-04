@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.9.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.10.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -171,6 +171,12 @@ Properties</h2></td></tr>
 <tr class="memitem:a4f701ad6f7337369f5360ff583a3cc7a" id="r_a4f701ad6f7337369f5360ff583a3cc7a"><td class="memItemLeft" align="right" valign="top">long?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#a4f701ad6f7337369f5360ff583a3cc7a">SessionId</a><code> [get]</code></td></tr>
 <tr class="memdesc:a4f701ad6f7337369f5360ff583a3cc7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">An incrementing ID for representing current server execution.  <br /></td></tr>
 <tr class="separator:a4f701ad6f7337369f5360ff583a3cc7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cc1cbcb158c249bc4e7646c8a13b280" id="r_a1cc1cbcb158c249bc4e7646c8a13b280"><td class="memItemLeft" align="right" valign="top">DateTimeOffset?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#a1cc1cbcb158c249bc4e7646c8a13b280">LaunchTime</a><code> [get]</code></td></tr>
+<tr class="memdesc:a1cc1cbcb158c249bc4e7646c8a13b280"><td class="mdescLeft">&#160;</td><td class="mdescRight">When the current server executions was started.  <br /></td></tr>
+<tr class="separator:a1cc1cbcb158c249bc4e7646c8a13b280"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb075935f2bf46e16e4b1e2438e79b29" id="r_aeb075935f2bf46e16e4b1e2438e79b29"><td class="memItemLeft" align="right" valign="top">uint?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#aeb075935f2bf46e16e4b1e2438e79b29">ClientCount</a><code> [get]</code></td></tr>
+<tr class="memdesc:aeb075935f2bf46e16e4b1e2438e79b29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Last known client count queried from the DMAPI. Requires health checks to be enabled to populate.  <br /></td></tr>
+<tr class="separator:aeb075935f2bf46e16e4b1e2438e79b29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81f00a3e7109a861886d14e6233d8b43" id="r_a81f00a3e7109a861886d14e6233d8b43"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683">WatchdogStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#a81f00a3e7109a861886d14e6233d8b43">Status</a><code> [get]</code></td></tr>
 <tr class="memdesc:a81f00a3e7109a861886d14e6233d8b43"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683" title="The current status of the watchdog.">WatchdogStatus</a>.  <br /></td></tr>
 <tr class="separator:a81f00a3e7109a861886d14e6233d8b43"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -470,8 +476,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a30c1f65bce4d161d81063e4c426265f4">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00040">40</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00050">50</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_engine_command_8cs_source.html#l00049">Tgstation.Server.Host.Components.Chat.Commands.EngineCommand.Invoke()</a>, <a class="el" href="_pull_requests_command_8cs_source.html#l00082">Tgstation.Server.Host.Components.Chat.Commands.PullRequestsCommand.Invoke()</a>, and <a class="el" href="_revision_command_8cs_source.html#l00050">Tgstation.Server.Host.Components.Chat.Commands.RevisionCommand.Invoke()</a>.</p>
 
@@ -501,8 +507,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a9affc2eeae2903d1bdb0fa81a6550fc4">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00045">45</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00055">55</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   55</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -530,8 +536,37 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#aab354486232b251f67b55956510c409b">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a5434fa9ad6406db7516fcaafd30bd2ab">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00035">35</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00045">45</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   45</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aeb075935f2bf46e16e4b1e2438e79b29" name="aeb075935f2bf46e16e4b1e2438e79b29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb075935f2bf46e16e4b1e2438e79b29">&#9670;&#160;</a></span>ClientCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint? Tgstation.Server.Host.Components.Watchdog.IWatchdog.ClientCount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Last known client count queried from the DMAPI. Requires health checks to be enabled to populate. </p>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a9c03f73bf2ce461ad5c3fff69469f711">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00030">30</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -560,8 +595,37 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a38066e15427a18f6e71f00526e797088">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00051">51</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   51</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00061">61</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   61</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a1cc1cbcb158c249bc4e7646c8a13b280" name="a1cc1cbcb158c249bc4e7646c8a13b280"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cc1cbcb158c249bc4e7646c8a13b280">&#9670;&#160;</a></span>LaunchTime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DateTimeOffset? Tgstation.Server.Host.Components.Watchdog.IWatchdog.LaunchTime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>When the current server executions was started. </p>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a39a1b0e9b0b6d9d0306b2aca8d76c984">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00025">25</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   25</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -589,8 +653,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a8b4fa4e8d788b4ab297342e88b5714e8">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00030">30</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   30</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00040">40</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   40</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -618,8 +682,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a9e53440db7666ec16e93e62b19f376d3">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a7edf24932031f65b3cfcad7126cd0ea5">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00056">56</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   56</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00066">66</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   66</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -676,8 +740,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a5fa8be05b0c448ea097a70e5d8708ffb">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00025">25</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   25</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html#l00035">35</a> of file <a class="el" href="_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_engine_command_8cs_source.html#l00049">Tgstation.Server.Host.Components.Chat.Commands.EngineCommand.Invoke()</a>, <a class="el" href="_pull_requests_command_8cs_source.html#l00082">Tgstation.Server.Host.Components.Chat.Commands.PullRequestsCommand.Invoke()</a>, and <a class="el" href="_revision_command_8cs_source.html#l00050">Tgstation.Server.Host.Components.Chat.Commands.RevisionCommand.Invoke()</a>.</p>
 

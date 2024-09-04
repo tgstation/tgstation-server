@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.9.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.10.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -102,15 +102,63 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aaee2563f4a0bc25bbec554b03e34d888" id="r_aaee2563f4a0bc25bbec554b03e34d888"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; IGitHubClient &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aaee2563f4a0bc25bbec554b03e34d888">CreateClient</a> (string accessToken, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aaee2563f4a0bc25bbec554b03e34d888"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a client with authentication using a personal access token.  <br /></td></tr>
 <tr class="separator:aaee2563f4a0bc25bbec554b03e34d888"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa302bca3fac22588fffb288afed631d7" id="r_aa302bca3fac22588fffb288afed631d7"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; IGitHubClient?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aa302bca3fac22588fffb288afed631d7">CreateInstallationClient</a> (string pem, long repositoryId, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aa302bca3fac22588fffb288afed631d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a GitHub App client for an installation.  <br /></td></tr>
-<tr class="separator:aa302bca3fac22588fffb288afed631d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a92711bc701286ce65bd637c0f9dc7b" id="r_a3a92711bc701286ce65bd637c0f9dc7b"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; IGitHubClient?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a3a92711bc701286ce65bd637c0f9dc7b">CreateClientForRepository</a> (string accessString, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_repository_identifier.html">RepositoryIdentifier</a> repositoryIdentifier, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a3a92711bc701286ce65bd637c0f9dc7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a GitHub client that will only be used for a given <em>repositoryIdentifier</em> .  <br /></td></tr>
+<tr class="separator:a3a92711bc701286ce65bd637c0f9dc7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5d1848316036724f9d9cf073539b879" id="r_aa5d1848316036724f9d9cf073539b879"><td class="memItemLeft" align="right" valign="top">IGitHubClient?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aa5d1848316036724f9d9cf073539b879">CreateAppClient</a> (string tgsEncodedAppPrivateKey)</td></tr>
+<tr class="memdesc:aa5d1848316036724f9d9cf073539b879"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an App (not installation) authenticated IGitHubClient.  <br /></td></tr>
+<tr class="separator:aa5d1848316036724f9d9cf073539b879"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>For creating IGitHubClients. </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_git_hub_client_factory_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_git_hub_client_factory_8cs_source.html">IGitHubClientFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa5d1848316036724f9d9cf073539b879" name="aa5d1848316036724f9d9cf073539b879"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5d1848316036724f9d9cf073539b879">&#9670;&#160;</a></span>CreateAppClient()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IGitHubClient? Tgstation.Server.Host.Utils.GitHub.IGitHubClientFactory.CreateAppClient </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>tgsEncodedAppPrivateKey</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create an App (not installation) authenticated IGitHubClient. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tgsEncodedAppPrivateKey</td><td>The TGS encoded app private key string.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new app auth IGitHubClient for the given <em>tgsEncodedAppPrivateKey</em>  on success <code>null</code> on failure.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a42315dedc105d1cedaccc9ad8241b90e">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00578">Tgstation.Server.Host.Controllers.RepositoryController.ValidateCredentials()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_aa5d1848316036724f9d9cf073539b879_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_aa5d1848316036724f9d9cf073539b879_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_aa5d1848316036724f9d9cf073539b879_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_aa5d1848316036724f9d9cf073539b879_icgraph">
+<area shape="rect" title="Create an App (not installation) authenticated IGitHubClient." alt="" coords="569,31,796,87"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6d2ca4edeaf1bebf658305727ced5f45" title="Validates the Api.Models.RepositorySettings.AccessToken of a given model &#160;if it is set." alt="" coords="269,39,521,79"/>
+<area shape="poly" title=" " alt="" coords="554,62,521,62,521,56,554,56"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="5,5,221,46"/>
+<area shape="poly" title=" " alt="" coords="253,45,221,41,222,36,253,40"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,71,221,111"/>
+<area shape="poly" title=" " alt="" coords="253,78,222,81,221,76,253,72"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a401cf4b0e26d478e741e195ac02563eb" name="a401cf4b0e26d478e741e195ac02563eb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a401cf4b0e26d478e741e195ac02563eb">&#9670;&#160;</a></span>CreateClient() <span class="overload">[1/2]</span></h2>
 
@@ -180,23 +228,23 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aa302bca3fac22588fffb288afed631d7" name="aa302bca3fac22588fffb288afed631d7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa302bca3fac22588fffb288afed631d7">&#9670;&#160;</a></span>CreateInstallationClient()</h2>
+<a id="a3a92711bc701286ce65bd637c0f9dc7b" name="a3a92711bc701286ce65bd637c0f9dc7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a92711bc701286ce65bd637c0f9dc7b">&#9670;&#160;</a></span>CreateClientForRepository()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ValueTask&lt; IGitHubClient?&gt; Tgstation.Server.Host.Utils.GitHub.IGitHubClientFactory.CreateInstallationClient </td>
+          <td class="memname">ValueTask&lt; IGitHubClient?&gt; Tgstation.Server.Host.Utils.GitHub.IGitHubClientFactory.CreateClientForRepository </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>pem</em>, </td>
+          <td class="paramname"><em>accessString</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>repositoryId</em>, </td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_repository_identifier.html">RepositoryIdentifier</a>&#160;</td>
+          <td class="paramname"><em>repositoryIdentifier</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -212,30 +260,38 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Creates a GitHub App client for an installation. </p>
+<p>Creates a GitHub client that will only be used for a given <em>repositoryIdentifier</em> . </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pem</td><td>The private key string.</td></tr>
-    <tr><td class="paramname">repositoryId</td><td>The GitHub repository ID.</td></tr>
+    <tr><td class="paramname">accessString</td><td>The GitHub personal access token or TGS encoded app private key string.</td></tr>
+    <tr><td class="paramname">repositoryIdentifier</td><td>The RepositoryIdentifier for the GitHub ID that the client will be used to connect to.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new IGitHubClient for the given <em>repositoryId</em>  or <code>null</code> if authentication failed.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new IGitHubClient for the given <em>repositoryIdentifier</em>  or <code>null</code> if authentication failed.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ac0cf3449f87ccb92ed87b45b2fb0fa80">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#afe91fbff3572348bf2ba567e8715069a">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_version_reporting_service_8cs_source.html#l00209">Tgstation.Server.Host.Core.VersionReportingService.TryReportVersion()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_service_factory_8cs_source.html#l00061">Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory.CreateService()</a>, <a class="el" href="_version_reporting_service_8cs_source.html#l00209">Tgstation.Server.Host.Core.VersionReportingService.TryReportVersion()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00578">Tgstation.Server.Host.Controllers.RepositoryController.ValidateCredentials()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_aa302bca3fac22588fffb288afed631d7_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_aa302bca3fac22588fffb288afed631d7_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_aa302bca3fac22588fffb288afed631d7_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_aa302bca3fac22588fffb288afed631d7_icgraph">
-<area shape="rect" title="Creates a GitHub App client for an installation." alt="" coords="574,5,801,61"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_version_reporting_service.html#a25d48d3008ed009d139ce3d79885d633" title="Make an attempt to report the current IAssemblyInformationProvider.Version to the configured GitHub r..." alt="" coords="303,5,526,61"/>
-<area shape="poly" title=" " alt="" coords="558,36,527,36,527,31,558,31"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_version_reporting_service.html#a80b969d62c493eaecb088134c4b29111" title=" " alt="" coords="5,13,255,54"/>
-<area shape="poly" title=" " alt="" coords="287,36,255,36,255,31,287,31"/>
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_a3a92711bc701286ce65bd637c0f9dc7b_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_a3a92711bc701286ce65bd637c0f9dc7b_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_a3a92711bc701286ce65bd637c0f9dc7b_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_a3a92711bc701286ce65bd637c0f9dc7b_icgraph">
+<area shape="rect" title="Creates a GitHub client that will only be used for a given repositoryIdentifier ." alt="" coords="603,85,830,141"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory.html#a290b4dd64604e79bf714105742a610e2" title="Create an IAuthenticatedGitHubService.A ValueTask&lt;TResult&gt; resulting in a new IAuthenticatedGitHubSer..." alt="" coords="312,5,546,61"/>
+<area shape="poly" title=" " alt="" coords="599,83,531,64,532,59,600,78"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_version_reporting_service.html#a25d48d3008ed009d139ce3d79885d633" title="Make an attempt to report the current IAssemblyInformationProvider.Version to the configured GitHub r..." alt="" coords="317,85,541,141"/>
+<area shape="poly" title=" " alt="" coords="587,116,541,116,541,111,587,111"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6d2ca4edeaf1bebf658305727ced5f45" title="Validates the Api.Models.RepositorySettings.AccessToken of a given model &#160;if it is set." alt="" coords="303,165,555,206"/>
+<area shape="poly" title=" " alt="" coords="588,148,514,167,512,162,587,143"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_version_reporting_service.html#a80b969d62c493eaecb088134c4b29111" title=" " alt="" coords="5,93,255,134"/>
+<area shape="poly" title=" " alt="" coords="301,116,255,116,255,111,301,111"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="22,161,238,202"/>
+<area shape="poly" title=" " alt="" coords="287,186,238,185,238,180,287,181"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="22,226,238,267"/>
+<area shape="poly" title=" " alt="" coords="312,212,233,228,232,223,311,207"/>
 </map>
 </div>
 

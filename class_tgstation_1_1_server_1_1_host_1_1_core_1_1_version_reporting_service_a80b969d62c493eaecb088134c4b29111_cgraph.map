@@ -16,6 +16,6 @@
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="156,274,220,327,261,356,304,382,314,387,312,392,301,387,258,360,217,331,152,278"/>
 <area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="329,476,500,517"/>
 <area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="145,274,169,314,205,365,250,417,304,462,316,469,313,474,301,467,247,421,201,368,165,317,140,277"/>
-<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aa302bca3fac22588fffb288afed631d7" title="Creates a GitHub App client for an installation." alt="" coords="574,397,801,452"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a3a92711bc701286ce65bd637c0f9dc7b" title="Creates a GitHub client that will only be used for a given repositoryIdentifier ." alt="" coords="574,397,801,452"/>
 <area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="527,422,558,422,558,427,527,427"/>
 </map>

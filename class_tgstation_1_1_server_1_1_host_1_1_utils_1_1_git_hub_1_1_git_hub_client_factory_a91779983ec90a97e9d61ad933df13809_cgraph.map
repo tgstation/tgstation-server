@@ -1,0 +1,10 @@
+<map id="Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.GetOrCreateClient" name="Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.GetOrCreateClient">
+<area shape="rect" id="Node000001" title="Retrieve a GitHubClient from the clientCache or add a new one based on a given accessString ." alt="" coords="5,71,226,126"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a2da67f0f94f33390dd910a7fc904f7a7" title="Create an App (not installation) authenticated GitHubClient." alt="" coords="274,5,497,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,69,258,61,259,66,227,74"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a551b5e26f7192825af66a6c47811931e" title="Creates an unauthenticated GitHubClient." alt="" coords="545,39,768,94"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="226,89,529,71,530,77,226,95"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="291,136,480,176"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="227,119,276,130,275,135,226,125"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="498,44,530,48,529,54,497,50"/>
+</map>

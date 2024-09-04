@@ -1,30 +1,36 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.StatusCode" name="Tgstation.Server.Host.Controllers.ApiController.StatusCode">
-<area shape="rect" id="Node000001" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="921,189,1137,230"/>
+<area shape="rect" id="Node000001" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="921,216,1137,257"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#adec6b42180102b20b513582ff608abc8" title="Attempt to initiate an update." alt="" coords="269,5,558,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="999,180,944,126,910,101,872,80,795,53,713,36,633,27,558,23,558,18,633,22,714,31,796,48,874,75,913,96,948,122,1003,176"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a930c1ed07039457ab6f9a8751fd462a6" title="Create a new chat bot model ." alt="" coords="632,255,847,295"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="921,237,833,257,832,251,920,231"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ae3e93234d44fcffb26c0a4ae7c057c43" title="Attempts to restart the server." alt="" coords="632,320,847,361"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="990,241,937,277,874,309,840,322,838,317,872,305,934,272,987,237"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a5333dd9534ea615440e2360016e75be4" title="Response for missing/Invalid headers." alt="" coords="632,189,847,230"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="906,212,848,212,848,207,906,207"/>
-<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="632,124,847,165"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="920,188,832,168,833,163,921,183"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1008,204,985,167,954,127,916,89,872,59,835,43,796,30,715,14,634,9,559,10,559,5,634,3,715,9,797,25,837,38,875,54,920,85,958,124,989,164,1012,201"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a930c1ed07039457ab6f9a8751fd462a6" title="Create a new chat bot model ." alt="" coords="632,248,847,289"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="907,253,848,259,848,254,906,247"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ae3e93234d44fcffb26c0a4ae7c057c43" title="Attempts to restart the server." alt="" coords="632,313,847,354"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="969,266,874,303,832,315,831,310,872,298,967,261"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a5333dd9534ea615440e2360016e75be4" title="Response for missing/Invalid headers." alt="" coords="632,183,847,223"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="906,225,848,218,848,213,907,220"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="632,68,847,109"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="991,208,936,168,872,129,827,112,829,107,875,125,939,163,994,204"/>
 <area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a78ba36d622724a4e4740d4d792025c89" title="Get AdministrationResponse server information." alt="" coords="306,71,521,111"/>
-<area shape="poly" id="edge14_Node000001_Node000012" title=" " alt="" coords="990,182,937,145,905,128,873,115,782,94,689,83,600,81,522,83,522,78,600,76,690,78,783,89,874,110,908,123,939,140,993,177"/>
-<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a526173be91476b48ade7f0bc0cac6287" title="Generic 501 response." alt="" coords="606,385,873,426"/>
-<area shape="poly" id="edge15_Node000001_Node000013" title=" " alt="" coords="1008,244,953,311,916,345,875,375,848,387,846,382,872,370,912,341,949,307,1004,241"/>
+<area shape="poly" id="edge14_Node000001_Node000012" title=" " alt="" coords="970,211,923,191,873,174,731,146,521,111,522,106,732,141,874,168,925,186,973,206"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a526173be91476b48ade7f0bc0cac6287" title="Generic 501 response." alt="" coords="606,379,873,419"/>
+<area shape="poly" id="edge15_Node000001_Node000013" title=" " alt="" coords="1000,270,945,321,911,346,875,368,845,380,843,376,872,363,908,342,942,317,996,266"/>
+<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6d2ca4edeaf1bebf658305727ced5f45" title="Validates the Api.Models.RepositorySettings.AccessToken of a given model &#160;if it is set." alt="" coords="614,444,866,485"/>
+<area shape="poly" id="edge16_Node000001_Node000014" title=" " alt="" coords="1012,271,990,309,958,353,920,397,875,433,851,446,848,441,872,429,916,393,954,350,985,307,1008,269"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a8ebab47feb25dc4b96387761e546740a" title="Attempt to perform a server upgrade." alt="" coords="5,5,221,46"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="253,28,221,28,221,23,253,23"/>
 <area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a8c130b337cd8f08728c07a7f230707a6" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="306,136,521,177"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="616,192,521,177,522,171,617,187"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a7c7235c3ee61017e2ae5734a100c53bf" title="Hook for executing a request.A ValueTask&lt;TResult&gt; resulting in an IActionResult that,..." alt="" coords="306,267,521,307"/>
-<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="639,237,559,256,506,269,505,263,557,251,638,232"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#ac68114c705ed3325880697d796fe8f0b" title="Main page of the Application." alt="" coords="306,201,521,242"/>
-<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="616,217,522,220,521,215,616,212"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="616,188,521,174,522,169,617,183"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a7c7235c3ee61017e2ae5734a100c53bf" title="Hook for executing a request.A ValueTask&lt;TResult&gt; resulting in an IActionResult that,..." alt="" coords="306,201,521,242"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="616,213,522,218,521,213,616,207"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#ac68114c705ed3325880697d796fe8f0b" title="Main page of the Application." alt="" coords="306,267,521,307"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="636,230,607,239,559,256,513,269,511,263,557,251,605,234,635,225"/>
 <area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="22,136,204,177"/>
 <area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="290,159,204,159,204,154,290,154"/>
-<area shape="poly" id="edge11_Node000011_Node000002" title=" " alt="" coords="686,119,625,89,557,62,516,49,518,44,559,56,627,84,688,114"/>
-<area shape="poly" id="edge12_Node000011_Node000007" title=" " alt="" coords="616,152,522,155,521,150,616,146"/>
-<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="616,127,521,111,522,106,617,122"/>
+<area shape="poly" id="edge11_Node000011_Node000002" title=" " alt="" coords="616,67,523,49,524,44,617,62"/>
+<area shape="poly" id="edge12_Node000011_Node000007" title=" " alt="" coords="625,115,515,138,514,133,623,110"/>
+<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="616,92,521,93,521,87,616,87"/>
+<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="306,476,521,517"/>
+<area shape="poly" id="edge17_Node000014_Node000015" title=" " alt="" coords="598,481,522,488,521,483,598,476"/>
+<area shape="rect" id="Node000016" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="306,411,521,451"/>
+<area shape="poly" id="edge18_Node000014_Node000016" title=" " alt="" coords="598,453,521,445,522,439,598,447"/>
 </map>

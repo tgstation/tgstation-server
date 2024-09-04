@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.9.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.10.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -99,6 +99,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac68dccad767316b6c071ca0687bf3b9f" id="r_ac68dccad767316b6c071ca0687bf3b9f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html">IGitRemoteFeatures</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ac68dccad767316b6c071ca0687bf3b9f">CreateGitRemoteFeatures</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html">IRepository</a> repository)</td></tr>
 <tr class="memdesc:ac68dccad767316b6c071ca0687bf3b9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the IGitRemoteFeatures for a given <em>repository</em> .  <br /></td></tr>
 <tr class="separator:ac68dccad767316b6c071ca0687bf3b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff753eefce0822703e9b7373f2344997" id="r_aff753eefce0822703e9b7373f2344997"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html">IGitRemoteFeatures</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#aff753eefce0822703e9b7373f2344997">CreateGitRemoteFeatures</a> (Uri origin)</td></tr>
+<tr class="memdesc:aff753eefce0822703e9b7373f2344997"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the IGitRemoteFeatures for a given <em>origin</em> .  <br /></td></tr>
+<tr class="separator:aff753eefce0822703e9b7373f2344997"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7e26c0b76d3cd67c5c2939fbe6136d3" id="r_ae7e26c0b76d3cd67c5c2939fbe6136d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ae7e26c0b76d3cd67c5c2939fbe6136d3">ParseRemoteGitProviderFromOrigin</a> (Uri origin)</td></tr>
 <tr class="memdesc:ae7e26c0b76d3cd67c5c2939fbe6136d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17" title="Indicates the remote git host.">RemoteGitProvider</a> for a given <em>origin</em> .  <br /></td></tr>
 <tr class="separator:ae7e26c0b76d3cd67c5c2939fbe6136d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -109,7 +112,7 @@ Public Member Functions</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_i_git_remote_features_factory_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_git_remote_features_factory_8cs_source.html">IGitRemoteFeaturesFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ac68dccad767316b6c071ca0687bf3b9f" name="ac68dccad767316b6c071ca0687bf3b9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac68dccad767316b6c071ca0687bf3b9f">&#9670;&#160;</a></span>CreateGitRemoteFeatures()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac68dccad767316b6c071ca0687bf3b9f">&#9670;&#160;</a></span>CreateGitRemoteFeatures() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -127,7 +130,7 @@ Public Member Functions</h2></td></tr>
 <p>Create the IGitRemoteFeatures for a given <em>repository</em> . </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">repository</td><td>The IRepository to create IGitRemoteFeatures for.</td></tr>
+    <tr><td class="paramname">repository</td><td>The IRepository containing the IRepository.Origin to create IGitRemoteFeatures for.</td></tr>
   </table>
   </dd>
 </dl>
@@ -135,19 +138,21 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#ab73a7c2a4b8d0350263d37b77f4c5a11">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_repository_8cs_source.html#l00144">Tgstation.Server.Host.Components.Repository.Repository.Repository()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_8cs_source.html#l00143">Tgstation.Server.Host.Components.Repository.Repository.Repository()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00578">Tgstation.Server.Host.Controllers.RepositoryController.ValidateCredentials()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory_ac68dccad767316b6c071ca0687bf3b9f_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory_ac68dccad767316b6c071ca0687bf3b9f_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory_ac68dccad767316b6c071ca0687bf3b9f_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory_ac68dccad767316b6c071ca0687bf3b9f_icgraph">
-<area shape="rect" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="1436,31,1684,87"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ade7f7da8e9b448bd2a9b1b7eb0ecbe75" title="Initializes a new instance of the Repository class." alt="" coords="1162,39,1388,79"/>
-<area shape="poly" title=" " alt="" coords="1420,62,1388,62,1388,56,1420,56"/>
+<area shape="rect" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="1462,97,1710,152"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ade7f7da8e9b448bd2a9b1b7eb0ecbe75" title="Initializes a new instance of the Repository class." alt="" coords="1175,71,1401,111"/>
+<area shape="poly" title=" " alt="" coords="1446,111,1401,106,1402,101,1447,106"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6d2ca4edeaf1bebf658305727ced5f45" title="Validates the Api.Models.RepositorySettings.AccessToken of a given model &#160;if it is set." alt="" coords="1162,136,1414,177"/>
+<area shape="poly" title=" " alt="" coords="1447,142,1415,145,1414,140,1446,137"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title="Create and a compile job and insert it into the database. Meant to be called by a IJobManager...." alt="" coords="828,5,1114,46"/>
-<area shape="poly" title=" " alt="" coords="1146,48,1114,44,1114,39,1147,42"/>
+<area shape="poly" title=" " alt="" coords="1170,70,1072,49,1074,44,1171,64"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ae437eb5855fbd7575d4a5b0c71217745" title="The JobEntrypoint for updating the repository." alt="" coords="858,71,1084,111"/>
-<area shape="poly" title=" " alt="" coords="1147,75,1085,82,1084,76,1146,70"/>
+<area shape="poly" title=" " alt="" coords="1159,94,1084,94,1084,88,1159,88"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="554,39,780,79"/>
 <area shape="poly" title=" " alt="" coords="813,46,781,49,780,44,813,40"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore.A ValueTask representing the running operation." alt="" coords="280,39,506,79"/>
@@ -157,8 +162,41 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,71,232,111"/>
 <area shape="poly" title=" " alt="" coords="264,77,233,80,232,75,264,71"/>
 <area shape="poly" title=" " alt="" coords="842,80,780,74,781,68,843,75"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="863,136,1079,177"/>
+<area shape="poly" title=" " alt="" coords="1147,159,1079,159,1079,154,1147,154"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="863,201,1079,242"/>
+<area shape="poly" title=" " alt="" coords="1171,183,1074,203,1072,198,1170,178"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="aff753eefce0822703e9b7373f2344997" name="aff753eefce0822703e9b7373f2344997"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff753eefce0822703e9b7373f2344997">&#9670;&#160;</a></span>CreateGitRemoteFeatures() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html">IGitRemoteFeatures</a> Tgstation.Server.Host.Components.Repository.IGitRemoteFeaturesFactory.CreateGitRemoteFeatures </td>
+          <td>(</td>
+          <td class="paramtype">Uri&#160;</td>
+          <td class="paramname"><em>origin</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create the IGitRemoteFeatures for a given <em>origin</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">origin</td><td>The Uri of the IGitRemoteFeatures origing URL.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new IGitRemoteFeatures instance.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#a4002fc4acc4cdeca93c97339d0498f0a">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory</a>.</p>
 
 </div>
 </div>

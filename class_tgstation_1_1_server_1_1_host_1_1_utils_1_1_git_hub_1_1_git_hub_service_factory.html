@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.9.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.10.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -142,6 +142,18 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html" title="IGitHubService that exposes functions that require authentication.">IAuthenticatedGitHubService</a>.</dd></dl>
   <br /></td></tr>
 <tr class="separator:aff1e22777d02c1db6ae947c82696f5d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a290b4dd64604e79bf714105742a610e2" id="r_a290b4dd64604e79bf714105742a610e2"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html">IAuthenticatedGitHubService</a>?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory.html#a290b4dd64604e79bf714105742a610e2">CreateService</a> (string accessString, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_repository_identifier.html">RepositoryIdentifier</a> repositoryIdentifier, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a290b4dd64604e79bf714105742a610e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html" title="IGitHubService that exposes functions that require authentication.">IAuthenticatedGitHubService</a>.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">accessString</td><td>The access token to use for communication with <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub.html">GitHub</a>.</td></tr>
+    <tr><td class="paramname">repositoryIdentifier</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_repository_identifier.html" title="Identifies a repository either by its RepositoryId or Owner and Name.">RepositoryIdentifier</a> for the repository the service will be talking with.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html" title="IGitHubService that exposes functions that require authentication.">IAuthenticatedGitHubService</a>.</dd></dl>
+  <br /></td></tr>
+<tr class="separator:a290b4dd64604e79bf714105742a610e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -223,7 +235,7 @@ Private Attributes</h2></td></tr>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a4e4ce135a3b461b348f859066addbbc6" name="a4e4ce135a3b461b348f859066addbbc6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e4ce135a3b461b348f859066addbbc6">&#9670;&#160;</a></span>CreateService() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e4ce135a3b461b348f859066addbbc6">&#9670;&#160;</a></span>CreateService() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -251,8 +263,83 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a290b4dd64604e79bf714105742a610e2" name="a290b4dd64604e79bf714105742a610e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a290b4dd64604e79bf714105742a610e2">&#9670;&#160;</a></span>CreateService() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">async ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html">IAuthenticatedGitHubService</a>?&gt; Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory.CreateService </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>accessString</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_repository_identifier.html">RepositoryIdentifier</a>&#160;</td>
+          <td class="paramname"><em>repositoryIdentifier</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html" title="IGitHubService that exposes functions that require authentication.">IAuthenticatedGitHubService</a>.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">accessString</td><td>The access token to use for communication with <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub.html">GitHub</a>.</td></tr>
+    <tr><td class="paramname">repositoryIdentifier</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_repository_identifier.html" title="Identifies a repository either by its RepositoryId or Owner and Name.">RepositoryIdentifier</a> for the repository the service will be talking with.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html" title="IGitHubService that exposes functions that require authentication.">IAuthenticatedGitHubService</a>.</dd></dl>
+ </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a1d5d7a3a6ae2f9f6c4a2980b60d0d321">Tgstation.Server.Host.Utils.GitHub.IGitHubServiceFactory</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_git_hub_service_factory_8cs_source.html#l00061">61</a> of file <a class="el" href="_git_hub_service_factory_8cs_source.html">GitHubServiceFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   62</span>        {</div>
+<div class="line"><span class="lineno">   63</span>            var client = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory.html#abfe7065abd16b2e82a4d318008f4844a">gitHubClientFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a3a92711bc701286ce65bd637c0f9dc7b">CreateClientForRepository</a>(</div>
+<div class="line"><span class="lineno">   64</span>                accessString ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(accessString)),</div>
+<div class="line"><span class="lineno">   65</span>                repositoryIdentifier,</div>
+<div class="line"><span class="lineno">   66</span>                cancellationToken);</div>
+<div class="line"><span class="lineno">   67</span>            <span class="keywordflow">if</span> (client == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   68</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory.html#a430d5dd1da8b91cd0527e44c0c325050">CreateServiceImpl</a>(client);</div>
+<div class="line"><span class="lineno">   71</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory_html_a430d5dd1da8b91cd0527e44c0c325050"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory.html#a430d5dd1da8b91cd0527e44c0c325050">Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory.CreateServiceImpl</a></div><div class="ttdeci">GitHubService CreateServiceImpl(IGitHubClient gitHubClient)</div><div class="ttdoc">Create a GitHubService.</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_html_a3a92711bc701286ce65bd637c0f9dc7b"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a3a92711bc701286ce65bd637c0f9dc7b">Tgstation.Server.Host.Utils.GitHub.IGitHubClientFactory.CreateClientForRepository</a></div><div class="ttdeci">ValueTask&lt; IGitHubClient?&gt; CreateClientForRepository(string accessString, RepositoryIdentifier repositoryIdentifier, CancellationToken cancellationToken)</div><div class="ttdoc">Creates a GitHub client that will only be used for a given repositoryIdentifier .</div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a3a92711bc701286ce65bd637c0f9dc7b">Tgstation.Server.Host.Utils.GitHub.IGitHubClientFactory.CreateClientForRepository()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory.html#a430d5dd1da8b91cd0527e44c0c325050">Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory.CreateServiceImpl()</a>, and <a class="el" href="_git_hub_service_factory_8cs_source.html#l00020">Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory.gitHubClientFactory</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory_a290b4dd64604e79bf714105742a610e2_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory_a290b4dd64604e79bf714105742a610e2_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory_a290b4dd64604e79bf714105742a610e2_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory_a290b4dd64604e79bf714105742a610e2_cgraph">
+<area shape="rect" title="Create an IAuthenticatedGitHubService.A ValueTask&lt;TResult&gt; resulting in a new IAuthenticatedGitHubSer..." alt="" coords="5,45,240,101"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a3a92711bc701286ce65bd637c0f9dc7b" title="Creates a GitHub client that will only be used for a given repositoryIdentifier ." alt="" coords="291,5,519,61"/>
+<area shape="poly" title=" " alt="" coords="240,54,275,49,276,54,240,59"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory.html#a430d5dd1da8b91cd0527e44c0c325050" title="Create a GitHubService." alt="" coords="288,85,522,141"/>
+<area shape="poly" title=" " alt="" coords="240,87,273,92,272,97,240,92"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="aff1e22777d02c1db6ae947c82696f5d4" name="aff1e22777d02c1db6ae947c82696f5d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff1e22777d02c1db6ae947c82696f5d4">&#9670;&#160;</a></span>CreateService() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aff1e22777d02c1db6ae947c82696f5d4">&#9670;&#160;</a></span>CreateService() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -324,6 +411,18 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new GitHubService.</dd></dl>
 
+<p class="reference">Referenced by <a class="el" href="_git_hub_service_factory_8cs_source.html#l00061">Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory.CreateService()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory_a430d5dd1da8b91cd0527e44c0c325050_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory_a430d5dd1da8b91cd0527e44c0c325050_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory_a430d5dd1da8b91cd0527e44c0c325050_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory_a430d5dd1da8b91cd0527e44c0c325050_icgraph">
+<area shape="rect" title="Create a GitHubService." alt="" coords="288,5,522,61"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory.html#a290b4dd64604e79bf714105742a610e2" title="Create an IAuthenticatedGitHubService.A ValueTask&lt;TResult&gt; resulting in a new IAuthenticatedGitHubSer..." alt="" coords="5,5,240,61"/>
+<area shape="poly" title=" " alt="" coords="272,36,240,36,240,31,272,31"/>
+</map>
+</div>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -351,7 +450,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_git_hub_service_factory_8cs_source.html#l00020">20</a> of file <a class="el" href="_git_hub_service_factory_8cs_source.html">GitHubServiceFactory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_git_hub_service_factory_8cs_source.html#l00038">Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory.GitHubServiceFactory()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_service_factory_8cs_source.html#l00061">Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory.CreateService()</a>, and <a class="el" href="_git_hub_service_factory_8cs_source.html#l00038">Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory.GitHubServiceFactory()</a>.</p>
 
 </div>
 </div>
