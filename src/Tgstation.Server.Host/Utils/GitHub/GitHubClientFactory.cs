@@ -267,7 +267,16 @@ namespace Tgstation.Server.Host.Utils.GitHub
 			var pem = Encoding.UTF8.GetString(pemBytes);
 
 			using var rsa = RSA.Create();
-			rsa.ImportFromPem(pem);
+
+			try
+			{
+				rsa.ImportFromPem(pem);
+			}
+			catch (Exception ex)
+			{
+				logger.LogWarning(ex, "Failed to parse PEM!");
+				return null;
+			}
 
 			var signingCredentials = new SigningCredentials(
 				 new RsaSecurityKey(rsa),
