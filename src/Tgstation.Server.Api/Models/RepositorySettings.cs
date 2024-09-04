@@ -10,7 +10,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Prefix for TGS encoded app private keys. This is encoded in the format PREFIX + (APP_ID OR CLIENT_ID) + ':' + BASE64(APP_PRIVATE_KEY).
 		/// </summary>
-		public const string TgsAppPrivateKeyPrefix = "TGS_GHPK_";
+		public const string TgsAppPrivateKeyPrefix = "TGS_PK_";
 
 		/// <summary>
 		/// The name of the committer.
