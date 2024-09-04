@@ -61,37 +61,46 @@ namespace Tgstation.Server.Host.Console
 				builder.AddConsole();
 			});
 
-			if (trace && debug)
-			{
-				loggerFactory.CreateLogger(nameof(Program)).LogCritical("Please specify only 1 of --trace-host-watchdog or --debug-host-watchdog!");
-				return 2;
-			}
-
-			using var cts = new CancellationTokenSource();
-			void AppDomainHandler(object? a, EventArgs b) => cts.Cancel();
-			AppDomain.CurrentDomain.ProcessExit += AppDomainHandler;
+			var logger = loggerFactory.CreateLogger(nameof(Program));
 			try
 			{
-				System.Console.CancelKeyPress += (a, b) =>
+				if (trace && debug)
 				{
-					b.Cancel = true;
-					cts.Cancel();
-				};
+					logger.LogCritical("Please specify only 1 of --trace-host-watchdog or --debug-host-watchdog!");
+					return 2;
+				}
 
-				var watchdog = WatchdogFactory.CreateWatchdog(
-					RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-						? new NoopSignalChecker()
-						: new PosixSignalChecker(
-							loggerFactory.CreateLogger<PosixSignalChecker>()),
-					loggerFactory);
+				using var cts = new CancellationTokenSource();
+				void AppDomainHandler(object? a, EventArgs b) => cts.Cancel();
+				AppDomain.CurrentDomain.ProcessExit += AppDomainHandler;
+				try
+				{
+					System.Console.CancelKeyPress += (a, b) =>
+					{
+						b.Cancel = true;
+						cts.Cancel();
+					};
 
-				return await watchdog.RunAsync(false, arguments.ToArray(), cts.Token)
-					? 0
-					: 1;
+					var watchdog = WatchdogFactory.CreateWatchdog(
+						RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+							? new NoopSignalChecker()
+							: new PosixSignalChecker(
+								loggerFactory.CreateLogger<PosixSignalChecker>()),
+						loggerFactory);
+
+					return await watchdog.RunAsync(false, arguments.ToArray(), cts.Token)
+						? 0
+						: 1;
+				}
+				finally
+				{
+					AppDomain.CurrentDomain.ProcessExit -= AppDomainHandler;
+				}
 			}
-			finally
+			catch (Exception ex)
 			{
-				AppDomain.CurrentDomain.ProcessExit -= AppDomainHandler;
+				logger.LogCritical(ex, "Failed to run!");
+				return 3;
 			}
 		}
 	}
