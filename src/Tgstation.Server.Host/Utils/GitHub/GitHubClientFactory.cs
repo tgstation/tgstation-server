@@ -246,6 +246,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <returns>A new app auth <see cref="GitHubClient"/> for the given <paramref name="tgsEncodedAppPrivateKey"/> on success <see langword="null"/> on failure.</returns>
 		GitHubClient? CreateAppClientInternal(string tgsEncodedAppPrivateKey)
 		{
+			var client = CreateUnauthenticatedClient();
 			var splits = tgsEncodedAppPrivateKey.Split(':');
 			if (splits.Length != 2)
 			{
@@ -303,7 +304,6 @@ namespace Tgstation.Server.Host.Utils.GitHub
 			});
 
 			var jwtStr = jwtSecurityTokenHandler.WriteToken(jwt);
-			var client = CreateUnauthenticatedClient();
 			client.Credentials = new Credentials(jwtStr, AuthenticationType.Bearer);
 			return client;
 		}
