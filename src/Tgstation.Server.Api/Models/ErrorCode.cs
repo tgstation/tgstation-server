@@ -659,7 +659,7 @@ namespace Tgstation.Server.Api.Models
 		DeploymentWrongDme,
 
 		/// <summary>
-		/// Entered wrong username for a repository access token.
+		/// Entered wrong <see cref="RepositorySettings.AccessUser"/> for a <see cref="RepositorySettings.AccessToken"/>.
 		/// </summary>
 		[Description("Provided repository username doesn't match the user of the corresponding access token!")]
 		RepoTokenUsernameMismatch,
