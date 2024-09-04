@@ -754,7 +754,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsTrue(daemonStatus.LaunchTime.Value >= DateTimeOffset.UtcNow.AddHours(-1));
 
 			if (daemonStatus.ClientCount.HasValue)
-				Assert.AreEqual(0, daemonStatus.ClientCount.Value);
+				Assert.AreEqual(0U, daemonStatus.ClientCount.Value);
 
 			if (sessionIdTracker.HasValue)
 				if (knownIncrease.HasValue)
@@ -865,7 +865,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await Task.WhenAny(Task.Delay(7000, cancellationToken), ourProcessHandler.Lifetime);
 			Assert.IsFalse(ddProc.HasExited);
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-			Assert.AreEqual(0, daemonStatus.ClientCount);
+			Assert.AreEqual(0U, daemonStatus.ClientCount);
 
 			// check DD agrees
 			var topicRequestResult = await SendTestTopic(

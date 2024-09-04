@@ -40,6 +40,6 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// The number of connected clients to the game. Added in Interop 5.10.0.
 		/// </summary>
-		public int? ClientCount { get; set; }
+		public uint? ClientCount { get; set; }
 	}
 }

@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Last known client count queried from the DMAPI. Requires health checks to be enabled to populate.
 		/// </summary>
-		int? ClientCount { get; }
+		uint? ClientCount { get; }
 
 		/// <summary>
 		/// The current <see cref="WatchdogStatus"/>.

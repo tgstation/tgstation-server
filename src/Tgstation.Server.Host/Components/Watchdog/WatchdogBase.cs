@@ -39,7 +39,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public long? SessionId => GetActiveController()?.ReattachInformation.Id;
 
 		/// <inheritdoc />
-		public int? ClientCount { get; private set; }
+		public uint? ClientCount { get; private set; }
 
 		/// <inheritdoc />
 		public DateTimeOffset? LaunchTime => GetActiveController()?.LaunchTime;
