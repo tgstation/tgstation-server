@@ -4349,6 +4349,10 @@ Components:
       - Added support for relaying current client count back to TGS during health checks.
       Author: Cyberboss
       PullRequest: 1920
+    - Descriptions:
+      - Fixed internal define `DMAPI5_PARAMETER_TOPIC_PORT` leaking out of module.
+      Author: Cyberboss
+      PullRequest: 1921
     Unreleased: true
   - Version: 7.2.1
     Changes:
