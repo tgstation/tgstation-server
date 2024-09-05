@@ -274,7 +274,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(true, cancellationToken);
 
-			if (!String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
+			if (!String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"))
+				&& !(Boolean.TryParse(Environment.GetEnvironmentVariable("TGS_TEST_OD_EXCLUSIVE"), out var odExclusive) && odExclusive))
 				await instanceClient.Repository.Update(new RepositoryUpdateRequest
 				{
 					CreateGitHubDeployments = true,

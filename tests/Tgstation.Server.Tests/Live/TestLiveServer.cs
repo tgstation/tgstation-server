@@ -1228,7 +1228,7 @@ namespace Tgstation.Server.Tests.Live
 		[TestMethod]
 		public Task TestOpenDreamExclusiveTgsOperation()
 		{
-			if (Environment.GetEnvironmentVariable("TGS_TEST_OD_EXCLUSIVE") != "true")
+			if (!Boolean.TryParse(Environment.GetEnvironmentVariable("TGS_TEST_OD_EXCLUSIVE"), out var odExclusive) || !odExclusive)
 				Assert.Inconclusive("This test is covered by TestStandardTgsOperation");
 
 			return TestStandardTgsOperation(true);

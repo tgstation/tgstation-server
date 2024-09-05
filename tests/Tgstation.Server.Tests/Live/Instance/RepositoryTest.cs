@@ -128,7 +128,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			updated = await Checkout(new RepositoryUpdateRequest { Reference = "master" }, false, true, cancellationToken);
 
 			// enable the good shit if possible
-			if (!String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
+			if (!String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"))
+				&& !(Boolean.TryParse(Environment.GetEnvironmentVariable("TGS_TEST_OD_EXCLUSIVE"), out var odExclusive) && odExclusive))
 				await repositoryClient.Update(new RepositoryUpdateRequest
 				{
 					CreateGitHubDeployments = true,
