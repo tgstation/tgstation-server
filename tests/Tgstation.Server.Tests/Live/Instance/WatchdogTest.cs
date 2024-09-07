@@ -25,6 +25,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
@@ -185,7 +186,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 				ApiAssert.ThrowsException<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.CreateDump(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask(),
 				ApiAssert.ThrowsException<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.Restart(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask());
 
-			await RunBasicTest(cancellationToken);
+			await RunBasicTest(false, cancellationToken);
+			await RunBasicTest(true, cancellationToken);
 
 			await TestDMApiFreeDeploy(cancellationToken);
 
@@ -220,7 +222,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}, cancellationToken);
 
 			// for the restart staging tests
-			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
+			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, DMApiValidationMode.Required, cancellationToken);
 
 			System.Console.WriteLine($"TEST: END WATCHDOG TESTS {instanceClient.Metadata.Name}");
 		}
@@ -234,7 +236,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					SecurityLevel = useTrusted ? DreamDaemonSecurity.Trusted : DreamDaemonSecurity.Safe,
 				}, cancellationToken);
-				var currentStatus = await DeployTestDme("long_running_test_rooted", DreamDaemonSecurity.Trusted, true, cancellationToken);
+				var currentStatus = await DeployTestDme("long_running_test_rooted", DreamDaemonSecurity.Trusted, DMApiValidationMode.Required, cancellationToken);
 				await ddUpdateTask;
 
 				Assert.AreEqual(WatchdogStatus.Offline, currentStatus.Status);
@@ -378,7 +380,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await WaitForJob(restartJob, 10, false, null, cancellationToken);
 
 			// we need to cycle deployments twice because TGS holds the initial deployment
-			var currentStatus = await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
+			var currentStatus = await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, DMApiValidationMode.Required, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
 			Assert.IsNotNull(currentStatus.StagedCompileJob);
@@ -399,7 +401,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(topicRequestResult);
 			Assert.AreEqual("we love casting spells", topicRequestResult.StringData);
 
-			currentStatus = await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
+			currentStatus = await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, DMApiValidationMode.Required, cancellationToken);
 			Assert.AreEqual(watchdogRestartsProcess, currentStatus.SoftRestart);
 			ValidateSessionId(currentStatus, false);
 
@@ -515,7 +517,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.IsNotNull(deleteJob);
 
-			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Safe, true, cancellationToken);
+			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Safe, DMApiValidationMode.Required, cancellationToken);
 			return deleteJob;
 		}
 
@@ -600,7 +602,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		async Task TestDMApiFreeDeploy(CancellationToken cancellationToken)
 		{
 			System.Console.WriteLine("TEST: WATCHDOG API FREE TEST");
-			var daemonStatus = await DeployTestDme("ApiFree/api_free", DreamDaemonSecurity.Safe, false, cancellationToken);
+			var daemonStatus = await DeployTestDme("ApiFree/api_free", DreamDaemonSecurity.Safe, DMApiValidationMode.Optional, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
@@ -626,7 +628,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 
-			daemonStatus = await DeployTestDme("BasicOperation/basic operation_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
+			daemonStatus = await DeployTestDme("BasicOperation/basic operation_test", DreamDaemonSecurity.Trusted, DMApiValidationMode.Required, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			Assert.AreEqual(false, daemonStatus.SoftRestart); // dme name change triggered, instant reboot
@@ -668,7 +670,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(expected, nonLiveDirs, $"Directories present: {String.Join(", ", lastDirectories.Select(Path.GetFileName))}");
 		}
 
-		async Task RunBasicTest(CancellationToken cancellationToken)
+		async Task RunBasicTest(bool skipApiValidation, CancellationToken cancellationToken)
 		{
 			System.Console.WriteLine("TEST: WATCHDOG BASIC TEST");
 
@@ -677,15 +679,25 @@ namespace Tgstation.Server.Tests.Live.Instance
 				AdditionalParameters = "test=bababooey"
 			}, cancellationToken);
 			Assert.AreEqual("test=bababooey", daemonStatus.AdditionalParameters);
-			daemonStatus = await DeployTestDme("BasicOperation/basic operation_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
+			daemonStatus = await DeployTestDme($"BasicOperation/basic operation_test{(skipApiValidation ? "_nov3" : String.Empty)}", DreamDaemonSecurity.Trusted, skipApiValidation ? DMApiValidationMode.Skipped : DMApiValidationMode.Required, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
+
+			if (skipApiValidation)
+			{
+				Assert.IsNull(daemonStatus.ActiveCompileJob.DMApiVersion);
+				Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
+			}
+			else
+			{
+				Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.ActiveCompileJob.DMApiVersion);
+				Assert.AreEqual(DreamDaemonSecurity.Trusted, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
+			}
+
 			Assert.IsFalse(daemonStatus.SessionId.HasValue);
 			Assert.IsFalse(daemonStatus.LaunchTime.HasValue);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
-			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.ActiveCompileJob.DMApiVersion);
-			Assert.AreEqual(DreamDaemonSecurity.Trusted, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
 
 			await ExpectGameDirectoryCount(1, cancellationToken);
 
@@ -726,6 +738,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsTrue(daemonStatus.ImmediateMemoryUsage.HasValue);
 			Assert.AreNotEqual(0, daemonStatus.ImmediateMemoryUsage.Value);
 
+			if (skipApiValidation)
+				Assert.IsFalse(daemonStatus.ClientCount.HasValue);
+
 			await GracefulWatchdogShutdown(cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -734,7 +749,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsFalse(daemonStatus.LaunchTime.HasValue);
 			await ExpectGameDirectoryCount(1, cancellationToken);
 
-			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken, false);
+			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken, false, skipApiValidation);
 
 			daemonStatus = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
@@ -1245,7 +1260,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			System.Console.WriteLine("TEST: WATCHDOG LONG RUNNING WITH UPDATE TEST");
 			const string DmeName = "LongRunning/long_running_test";
 
-			var daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Trusted, true, cancellationToken);
+			var daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Trusted, DMApiValidationMode.Required, cancellationToken);
 
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
 			Assert.IsNotNull(initialCompileJob);
@@ -1259,7 +1274,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
-			daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, true, cancellationToken);
+			daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, DMApiValidationMode.Required, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			ValidateSessionId(daemonStatus, true);
@@ -1292,7 +1307,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			System.Console.WriteLine("TEST: WATCHDOG LONG RUNNING WITH NEW DME TEST");
 
-			var daemonStatus = await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
+			var daemonStatus = await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, DMApiValidationMode.Required, cancellationToken);
 
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
@@ -1306,7 +1321,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
-			daemonStatus = await DeployTestDme("LongRunning/long_running_test_copy", DreamDaemonSecurity.Safe, true, cancellationToken);
+			daemonStatus = await DeployTestDme("LongRunning/long_running_test_copy", DreamDaemonSecurity.Safe, DMApiValidationMode.Required, cancellationToken);
 
 			ValidateSessionId(daemonStatus, true);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
@@ -1371,7 +1386,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			const string DmeName = "LongRunning/long_running_test";
 
-			await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, true, cancellationToken);
+			await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, DMApiValidationMode.Required, cancellationToken);
 
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
@@ -1512,13 +1527,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 			return daemonStatus;
 		}
 
-		async Task<DreamDaemonResponse> DeployTestDme(string dmeName, DreamDaemonSecurity deploymentSecurity, bool requireApi, CancellationToken cancellationToken)
+		async Task<DreamDaemonResponse> DeployTestDme(string dmeName, DreamDaemonSecurity deploymentSecurity, DMApiValidationMode dmApiValidationMode, CancellationToken cancellationToken)
 		{
 			var refreshed = await instanceClient.DreamMaker.Update(new DreamMakerRequest
 			{
 				ApiValidationSecurityLevel = deploymentSecurity,
 				ProjectName = dmeName.Contains("rooted") ? dmeName : $"tests/DMAPI/{dmeName}",
-				RequireDMApiValidation = requireApi,
+				DMApiValidationMode = dmApiValidationMode,
 				Timeout = !ranTimeoutTest ? TimeSpan.FromMilliseconds(1) : TimeSpan.FromMinutes(5),
 			}, cancellationToken);
 
@@ -1526,7 +1541,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			if (!ranTimeoutTest)
 			{
 				Assert.AreEqual(deploymentSecurity, refreshed.ApiValidationSecurityLevel);
-				Assert.AreEqual(requireApi, refreshed.RequireDMApiValidation);
+				Assert.AreEqual(dmApiValidationMode, refreshed.DMApiValidationMode);
 				Assert.AreEqual(TimeSpan.FromMilliseconds(1), refreshed.Timeout);
 
 				compileJobJob = await instanceClient.DreamMaker.Compile(cancellationToken);
@@ -1550,7 +1565,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
 			var targetJob = ddInfo.StagedCompileJob ?? ddInfo.ActiveCompileJob;
 			Assert.IsNotNull(targetJob);
-			if (requireApi)
+			if (dmApiValidationMode == DMApiValidationMode.Required)
 				Assert.IsNotNull(targetJob.DMApiVersion);
 			else
 				Assert.IsNull(targetJob.DMApiVersion);
@@ -1582,12 +1597,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 			while (timeout > 0);
 		}
 
-		async Task CheckDMApiFail(CompileJobResponse compileJob, CancellationToken cancellationToken, bool checkLogs = true)
+		async Task CheckDMApiFail(CompileJobResponse compileJob, CancellationToken cancellationToken, bool checkLogs = true, bool expectInitialBridgeFailure = false)
 		{
 			var gameDir = Path.Combine(instanceClient.Metadata.Path, "Game", compileJob.DirectoryName.Value.ToString(), Path.GetDirectoryName(compileJob.DmeName));
 			var failFile = Path.Combine(gameDir, "test_fail_reason.txt");
+
 			if (!File.Exists(failFile))
 			{
+				var bridgeFailFile = Path.Combine(gameDir, "initial_bridge_failed.txt");
+				var initialBridgeFailed = File.Exists(bridgeFailFile);
+				Assert.AreEqual(expectInitialBridgeFailure, initialBridgeFailed, "Initial bridge failure expectancy not met");
+
 				var successFile = Path.Combine(gameDir, "test_success.txt");
 				Assert.IsTrue(File.Exists(successFile));
 			}

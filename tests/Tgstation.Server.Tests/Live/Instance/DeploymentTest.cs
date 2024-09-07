@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
@@ -58,8 +59,69 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsTrue(deployJob.ErrorCode == ErrorCode.RepoCloning || deployJob.ErrorCode == ErrorCode.RepoMissing);
 
 			var dmSettings = await dreamMakerClient.Read(cancellationToken);
+#pragma warning disable CS0618 // Type or member is obsolete
 			Assert.AreEqual(true, dmSettings.RequireDMApiValidation);
+#pragma warning restore CS0618 // Type or member is obsolete
+			Assert.AreEqual(DMApiValidationMode.Required, dmSettings.DMApiValidationMode);
 			Assert.AreEqual(null, dmSettings.ProjectName);
+
+			// test legacy back and forth
+			dmSettings = await dreamMakerClient.Update(new DreamMakerRequest
+			{
+				DMApiValidationMode = DMApiValidationMode.Optional,
+			}, cancellationToken);
+			Assert.AreEqual(DMApiValidationMode.Optional, dmSettings.DMApiValidationMode);
+#pragma warning disable CS0618 // Type or member is obsolete
+			Assert.AreEqual(false, dmSettings.RequireDMApiValidation);
+#pragma warning restore CS0618 // Type or member is obsolete
+
+			dmSettings = await dreamMakerClient.Update(new DreamMakerRequest
+			{
+				DMApiValidationMode = DMApiValidationMode.Skipped,
+			}, cancellationToken);
+			Assert.AreEqual(DMApiValidationMode.Skipped, dmSettings.DMApiValidationMode);
+#pragma warning disable CS0618 // Type or member is obsolete
+			Assert.AreEqual(false, dmSettings.RequireDMApiValidation);
+#pragma warning restore CS0618 // Type or member is obsolete
+
+			dmSettings = await dreamMakerClient.Update(new DreamMakerRequest
+			{
+				DMApiValidationMode = DMApiValidationMode.Required,
+			}, cancellationToken);
+			Assert.AreEqual(DMApiValidationMode.Required, dmSettings.DMApiValidationMode);
+#pragma warning disable CS0618 // Type or member is obsolete
+			Assert.AreEqual(true, dmSettings.RequireDMApiValidation);
+#pragma warning restore CS0618 // Type or member is obsolete
+
+			dmSettings = await dreamMakerClient.Update(new DreamMakerRequest
+			{
+#pragma warning disable CS0618 // Type or member is obsolete
+				RequireDMApiValidation = false,
+#pragma warning restore CS0618 // Type or member is obsolete
+			}, cancellationToken);
+			Assert.AreEqual(DMApiValidationMode.Optional, dmSettings.DMApiValidationMode);
+#pragma warning disable CS0618 // Type or member is obsolete
+			Assert.AreEqual(false, dmSettings.RequireDMApiValidation);
+#pragma warning restore CS0618 // Type or member is obsolete
+
+			dmSettings = await dreamMakerClient.Update(new DreamMakerRequest
+			{
+#pragma warning disable CS0618 // Type or member is obsolete
+				RequireDMApiValidation = true,
+#pragma warning restore CS0618 // Type or member is obsolete
+			}, cancellationToken);
+			Assert.AreEqual(DMApiValidationMode.Required, dmSettings.DMApiValidationMode);
+#pragma warning disable CS0618 // Type or member is obsolete
+			Assert.AreEqual(true, dmSettings.RequireDMApiValidation);
+#pragma warning restore CS0618 // Type or member is obsolete
+
+			await ApiAssert.ThrowsException<ApiConflictException, DreamMakerResponse>(() => dreamMakerClient.Update(new DreamMakerRequest
+			{
+#pragma warning disable CS0618 // Type or member is obsolete
+				RequireDMApiValidation = true,
+				DMApiValidationMode = DMApiValidationMode.Required,
+#pragma warning restore CS0618 // Type or member is obsolete
+			}, cancellationToken), ErrorCode.ModelValidationFailure);
 		}
 
 		async ValueTask CheckDreamDaemonPriority(Task deploymentJobWaitTask, CancellationToken cancellationToken)

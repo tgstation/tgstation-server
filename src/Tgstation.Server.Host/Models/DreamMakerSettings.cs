@@ -29,7 +29,10 @@ namespace Tgstation.Server.Host.Models
 			ProjectName = ProjectName,
 			ApiValidationPort = ApiValidationPort,
 			ApiValidationSecurityLevel = ApiValidationSecurityLevel,
-			RequireDMApiValidation = RequireDMApiValidation,
+#pragma warning disable CS0618 // Type or member is obsolete
+			RequireDMApiValidation = DMApiValidationMode == Api.Models.DMApiValidationMode.Required,
+#pragma warning restore CS0618 // Type or member is obsolete
+			DMApiValidationMode = DMApiValidationMode,
 			Timeout = Timeout,
 			CompilerAdditionalArguments = CompilerAdditionalArguments,
 		};

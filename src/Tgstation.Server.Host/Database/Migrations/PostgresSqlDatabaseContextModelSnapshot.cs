@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "8.0.7")
+				.HasAnnotation("ProductVersion", "8.0.8")
 				.HasAnnotation("Relational:MaxIdentifierLength", 63);
 
 			NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -261,16 +261,15 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(10000)
 					.HasColumnType("character varying(10000)");
 
+				b.Property<int>("DMApiValidationMode")
+					.HasColumnType("integer");
+
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
 
 				b.Property<string>("ProjectName")
 					.HasMaxLength(10000)
 					.HasColumnType("character varying(10000)");
-
-				b.Property<bool?>("RequireDMApiValidation")
-					.IsRequired()
-					.HasColumnType("boolean");
 
 				b.Property<TimeSpan?>("Timeout")
 					.IsRequired()

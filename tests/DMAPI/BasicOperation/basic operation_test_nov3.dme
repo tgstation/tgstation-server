@@ -1,0 +1,18 @@
+// Hand crafted DME, will not work if saved with DreamMaker
+
+// BEGIN_INTERNALS
+// END_INTERNALS
+
+// BEGIN_FILE_DIR
+#define FILE_DIR .
+// END_FILE_DIR
+
+// BEGIN_PREFERENCES
+// END_PREFERENCES
+
+// BEGIN_INCLUDE
+#include "Config.dm"
+#undef TGS_V3_API
+#include "../test_prelude.dm"
+#include "Test.dm"
+// END_INCLUDE

@@ -176,6 +176,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BasicOperation", "BasicOperation", "{F32B9514-AAD9-429D-841A-ED810FC2598C}"
 	ProjectSection(SolutionItems) = preProject
 		tests\DMAPI\BasicOperation\basic operation_test.dme = tests\DMAPI\BasicOperation\basic operation_test.dme
+		tests\DMAPI\BasicOperation\basic operation_test_nov3.dme = tests\DMAPI\BasicOperation\basic operation_test_nov3.dme
 		tests\DMAPI\BasicOperation\Config.dm = tests\DMAPI\BasicOperation\Config.dm
 		tests\DMAPI\BasicOperation\Test.dm = tests\DMAPI\BasicOperation\Test.dm
 		tests\DMAPI\BasicOperation\test_event-qwer.bat = tests\DMAPI\BasicOperation\test_event-qwer.bat
