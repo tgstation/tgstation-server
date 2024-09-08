@@ -159,14 +159,14 @@ Components:
   Core:
   - Version: 6.10.0
     ComponentVersions:
-      HttpApi: 10.8.0
+      HttpApi: 10.9.0
       DreamMakerApi: 7.3.0
       Configuration: 5.2.0
       InteropApi: 5.10.0
       HostWatchdog: 1.5.0
       NugetCommon: 7.0.0
-      NugetApi: 14.0.0
-      NugetClient: 17.0.0
+      NugetApi: 14.1.0
+      NugetClient: 17.1.0
       WebControlPanel: 6.1.0
     Changes:
     - Descriptions:
@@ -178,6 +178,13 @@ Components:
       - The host watchdog no longer needs to be launched with a special parameter to enable SystemD interoperability.
       Author: Cyberboss
       PullRequest: 1920
+    - Descriptions:
+      - Allowed DMAPI validation to be skipped. Note that skipping DMAPI validation disables all DMAPI functionality for a deployment, even if it is present in your DM code.
+      - "\U0001F191 HTTP API"
+      - Added `dmApiValidationMode` to `/api/DreamMaker` request and response model. This enum can either be `0` for validation optional, `1` for validation required, or `2` for validation skipped.
+      - '**Deprecation:** `requireDMApiValidation` in the `/api/DreamMaker` request and response models is now deprecated, use `dmApiValidationMode` instead.'
+      Author: Cyberboss
+      PullRequest: 1923
     Unreleased: true
   - Version: 6.9.3
     ComponentVersions:
@@ -4626,6 +4633,15 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 14.1.0
+    Changes:
+    - Descriptions:
+      - Added `Tgstation.Server.Api.Models.DMApiValidationMode`.
+      - Added `DreamMakerSettings.DMApiValidationMode`.
+      - '**Deprecation:** Make `DreamMakerSettings.RequireDMApiValidation` obsolete. Use `DreamMakerSettings.DMApiValidationMode` instead.'
+      Author: Cyberboss
+      PullRequest: 1923
+    Unreleased: true
   - Version: 14.0.0
     Changes:
     - Descriptions:
@@ -4720,6 +4736,13 @@ Components:
       Author: Cyberboss
       PullRequest: 1629
   NugetClient:
+  - Version: 17.1.0
+    Changes:
+    - Descriptions:
+      - Updated `Tgstation.Server.Api` dependency to 14.1.0 for TGS API version 10.9.0.
+      Author: Cyberboss
+      PullRequest: 1923
+    Unreleased: true
   - Version: 17.0.0
     Changes:
     - Descriptions:

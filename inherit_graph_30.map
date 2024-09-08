@@ -1,13 +1,13 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html" title="Launch settings for DreamDaemon." alt="" coords="5,72,269,113"/>
 <area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html" title="Configurable settings for DreamDaemon." alt="" coords="317,72,518,113"/>
-<area shape="poly" id="edge470_Node000000_Node000001" title=" " alt="" coords="284,90,316,90,316,95,284,95"/>
+<area shape="poly" id="edge474_Node000000_Node000001" title=" " alt="" coords="284,90,316,90,316,95,284,95"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_api_base.html" title="Base class for DreamDaemon API models." alt="" coords="566,39,768,79"/>
-<area shape="poly" id="edge471_Node000001_Node000002" title=" " alt="" coords="533,74,565,70,566,75,534,79"/>
+<area shape="poly" id="edge475_Node000001_Node000002" title=" " alt="" coords="533,74,565,70,566,75,534,79"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_daemon_settings.html" title=" " alt="" coords="570,104,765,145"/>
-<area shape="poly" id="edge474_Node000001_Node000005" title=" " alt="" coords="534,105,569,109,569,114,533,110"/>
+<area shape="poly" id="edge478_Node000001_Node000005" title=" " alt="" coords="534,105,569,109,569,114,533,110"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_dream_daemon_request.html" title="A request to update DreamDaemonSettings." alt="" coords="826,5,1033,46"/>
-<area shape="poly" id="edge472_Node000002_Node000003" title=" " alt="" coords="784,42,826,36,826,41,784,47"/>
+<area shape="poly" id="edge476_Node000002_Node000003" title=" " alt="" coords="784,42,826,36,826,41,784,47"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_dream_daemon_response.html" title="Represents an instance of BYOND&#39;s DreamDaemon game server. Create action starts the server...." alt="" coords="816,71,1043,111"/>
-<area shape="poly" id="edge473_Node000002_Node000004" title=" " alt="" coords="784,71,816,75,816,80,784,76"/>
+<area shape="poly" id="edge477_Node000002_Node000004" title=" " alt="" coords="784,71,816,75,816,80,784,76"/>
 </map>

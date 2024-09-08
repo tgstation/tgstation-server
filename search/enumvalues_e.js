@@ -9,5 +9,5 @@ var searchData=
   ['opendream_6',['OpenDream',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad8fb60934662752c4bbed899440208eaa0a5fd98a56c4df94bfb50cb751058c91',1,'Tgstation::Server::Api::Models']]],
   ['opendreamcantfinddotnet_7',['OpenDreamCantFindDotnet',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a3706b0f65fdb6e3326b5394c7cafddb0',1,'Tgstation::Server::Api::Models']]],
   ['opendreamtooold_8',['OpenDreamTooOld',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a0101fd941564b6792976162ec53ebba4',1,'Tgstation::Server::Api::Models']]],
-  ['optional_9',['Optional',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2a982b7013d51aecc5738e6eec96cb8aaebb061953c0454b2c8ee7b0ac615ebcd',1,'Tgstation::Server::Api::Models']]]
+  ['optional_9',['optional',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ae758c5cd6d61f61a7dc4b6f3c7000b52aebb061953c0454b2c8ee7b0ac615ebcd',1,'Tgstation.Server.Api.Models.Optional'],['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2a982b7013d51aecc5738e6eec96cb8aaebb061953c0454b2c8ee7b0ac615ebcd',1,'Tgstation.Server.Api.Models.Optional']]]
 ];

@@ -20,7 +20,7 @@
 <area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="155,372,221,441,265,480,315,513,329,519,327,524,312,517,262,484,217,445,152,375"/>
 <area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a5576a2503f8e4371139e9abe80df44d2" title=" " alt="" coords="354,617,540,658"/>
 <area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="150,371,175,414,213,468,260,527,315,578,367,608,365,613,312,582,256,530,208,472,171,416,146,374"/>
-<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a8e48d885b68d66ad74f17d0d192e86c0" title="Run a quick DD instance to test the DMAPI is installed on the target code." alt="" coords="334,683,560,723"/>
+<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a188d9b663c305c1ed438b5ca1494652c" title="Run a quick DD instance to test the DMAPI is installed on the target code." alt="" coords="334,683,560,723"/>
 <area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="145,372,163,431,197,512,220,554,247,596,279,634,315,668,323,673,320,677,312,672,275,638,243,599,216,557,192,514,158,433,140,374"/>
 <area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a18af4979c4f16687cb4891d0cbb9b668" title="Return the command line arguments for compiling a given dmePath &#160;if compilation is necessary." alt="" coords="628,485,892,540"/>
 <area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="580,530,612,527,613,532,581,536"/>

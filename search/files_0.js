@@ -303,5 +303,13 @@ var searchData=
   ['20240719010209_5fpgaddopendreamtopicport_2ecs_300',['20240719010209_PGAddOpenDreamTopicPort.cs',['../20240719010209___p_g_add_open_dream_topic_port_8cs.html',1,'']]],
   ['20240719010209_5fpgaddopendreamtopicport_2edesigner_2ecs_301',['20240719010209_PGAddOpenDreamTopicPort.Designer.cs',['../20240719010209___p_g_add_open_dream_topic_port_8_designer_8cs.html',1,'']]],
   ['20240719010216_5fsladdopendreamtopicport_2ecs_302',['20240719010216_SLAddOpenDreamTopicPort.cs',['../20240719010216___s_l_add_open_dream_topic_port_8cs.html',1,'']]],
-  ['20240719010216_5fsladdopendreamtopicport_2edesigner_2ecs_303',['20240719010216_SLAddOpenDreamTopicPort.Designer.cs',['../20240719010216___s_l_add_open_dream_topic_port_8_designer_8cs.html',1,'']]]
+  ['20240719010216_5fsladdopendreamtopicport_2edesigner_2ecs_303',['20240719010216_SLAddOpenDreamTopicPort.Designer.cs',['../20240719010216___s_l_add_open_dream_topic_port_8_designer_8cs.html',1,'']]],
+  ['20240907172236_5fmsadddmapivalidationmode_2ecs_304',['20240907172236_MSAddDMApiValidationMode.cs',['../20240907172236___m_s_add_d_m_api_validation_mode_8cs.html',1,'']]],
+  ['20240907172236_5fmsadddmapivalidationmode_2edesigner_2ecs_305',['20240907172236_MSAddDMApiValidationMode.Designer.cs',['../20240907172236___m_s_add_d_m_api_validation_mode_8_designer_8cs.html',1,'']]],
+  ['20240907172244_5fmyadddmapivalidationmode_2ecs_306',['20240907172244_MYAddDMApiValidationMode.cs',['../20240907172244___m_y_add_d_m_api_validation_mode_8cs.html',1,'']]],
+  ['20240907172244_5fmyadddmapivalidationmode_2edesigner_2ecs_307',['20240907172244_MYAddDMApiValidationMode.Designer.cs',['../20240907172244___m_y_add_d_m_api_validation_mode_8_designer_8cs.html',1,'']]],
+  ['20240907172251_5fpgadddmapivalidationmode_2ecs_308',['20240907172251_PGAddDMApiValidationMode.cs',['../20240907172251___p_g_add_d_m_api_validation_mode_8cs.html',1,'']]],
+  ['20240907172251_5fpgadddmapivalidationmode_2edesigner_2ecs_309',['20240907172251_PGAddDMApiValidationMode.Designer.cs',['../20240907172251___p_g_add_d_m_api_validation_mode_8_designer_8cs.html',1,'']]],
+  ['20240907172259_5fsladddmapivalidationmode_2ecs_310',['20240907172259_SLAddDMApiValidationMode.cs',['../20240907172259___s_l_add_d_m_api_validation_mode_8cs.html',1,'']]],
+  ['20240907172259_5fsladddmapivalidationmode_2edesigner_2ecs_311',['20240907172259_SLAddDMApiValidationMode.Designer.cs',['../20240907172259___s_l_add_d_m_api_validation_mode_8_designer_8cs.html',1,'']]]
 ];

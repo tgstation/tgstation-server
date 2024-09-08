@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Database.DatabaseContext.SchemaDowngradeForServerVersion" name="Tgstation.Server.Host.Database.DatabaseContext.SchemaDowngradeForServerVersion">
+<area shape="rect" id="Node000001" title="Attempt to downgrade the schema to the migration used for a given server targetVersion ...." alt="" coords="5,5,261,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#acd429c89b6bdb8ecdf2fba48ab184de9" title="Gets the name of the migration to run for migrating down to a given targetVersion &#160;for the currentDat..." alt="" coords="309,13,543,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="261,31,293,31,293,36,261,36"/>
+</map>
