@@ -15,7 +15,9 @@
 	var/ibf = message == "Failed initial bridge request!"
 	if(ibf || message == "Failed bridge request, bad json: null" || findtext(message, "byond_world_export: Failed request: ") || message == "Failed to activate API!")
 		if(ibf)
-			text2file("yes", "initial_bridge_failed.txt")
+			world.log << "Writing test fail file..."
+			text2file("BRIDGE FAILED", "initial_bridge_failed.txt")
+			world.log << "File exists: [fexists("initial_bridge_failed.txt")]"
 			del(world)
 			sleep(1)
 

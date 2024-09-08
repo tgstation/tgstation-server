@@ -698,6 +698,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsFalse(daemonStatus.SessionId.HasValue);
 			Assert.IsFalse(daemonStatus.LaunchTime.HasValue);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
+			Assert.AreNotEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.SecurityLevel);
 
 			await ExpectGameDirectoryCount(1, cancellationToken);
 
@@ -1606,7 +1607,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 			{
 				var bridgeFailFile = Path.Combine(gameDir, "initial_bridge_failed.txt");
 				var initialBridgeFailed = File.Exists(bridgeFailFile);
-				Assert.AreEqual(expectInitialBridgeFailure, initialBridgeFailed, "Initial bridge failure expectancy not met");
+
+				System.Console.WriteLine($"Files in game dir:{Environment.NewLine}{String.Join(Environment.NewLine, Directory.GetFiles(gameDir))}");
+
+				Assert.AreEqual(expectInitialBridgeFailure, initialBridgeFailed, $"Initial bridge failure expectancy not met in {gameDir}");
 
 				var successFile = Path.Combine(gameDir, "test_success.txt");
 				Assert.IsTrue(File.Exists(successFile));
