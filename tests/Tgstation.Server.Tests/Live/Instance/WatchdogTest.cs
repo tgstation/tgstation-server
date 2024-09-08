@@ -187,7 +187,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 				ApiAssert.ThrowsException<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.Restart(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask());
 
 			await RunBasicTest(false, cancellationToken);
-			await RunBasicTest(true, cancellationToken);
+
+			// hardlinks and DMAPI checks don't play well together
+			bool linuxAdvancedWatchdogWeirdness = testVersion.Engine.Value == EngineType.Byond
+				&& !new PlatformIdentifier().IsWindows
+				&& !watchdogRestartsProcess;
+			if (!linuxAdvancedWatchdogWeirdness)
+				await RunBasicTest(true, cancellationToken);
 
 			await TestDMApiFreeDeploy(cancellationToken);
 
