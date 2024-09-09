@@ -1,6 +1,8 @@
 ﻿#pragma warning disable CA1724
 
-namespace Tgstation.Server.Host.GraphQL.Types
+using Tgstation.Server.Host.GraphQL.Types;
+
+namespace Tgstation.Server.Host.GraphQL
 {
 	/// <summary>
 	/// GraphQL query <see cref="global::System.Type"/>.
@@ -8,9 +10,9 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	public sealed class Query
 	{
 		/// <summary>
-		/// Gets the <see cref="Types.ServerSwarm"/>.
+		/// Gets the <see cref="ServerSwarm"/>.
 		/// </summary>
-		/// <returns>A new <see cref="Types.ServerSwarm"/>.</returns>
+		/// <returns>A new <see cref="ServerSwarm"/>.</returns>
 		public ServerSwarm Swarm() => new();
 	}
 }

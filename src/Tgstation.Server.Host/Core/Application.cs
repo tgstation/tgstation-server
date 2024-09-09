@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
@@ -52,7 +52,7 @@ using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
-using Tgstation.Server.Host.GraphQL.Types;
+using Tgstation.Server.Host.GraphQL;
 using Tgstation.Server.Host.GraphQL.Types.Scalars;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
