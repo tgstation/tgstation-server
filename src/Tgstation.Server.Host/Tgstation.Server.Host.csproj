@@ -40,7 +40,7 @@
 
   <Target Name="ExportGraphQLApiSchema" AfterTargets="AfterBuild" Outputs="../../artifacts/tgs-api.graphql">
     <Message Text="Exporting GraphQL API Schema..." Importance="high" />
-    <Exec Command="dotnet $(TargetPath)" EnvironmentVariables="General__SetupWizardMode=Never;Internal__DumpGraphQLApiPath=../../artifacts/tgs-api.graphql" />
+    <Exec Command="dotnet $(TargetPath)" EnvironmentVariables="General__SetupWizardMode=Never;Internal__DumpGraphQLApiPath=../../artifacts/tgs-api.graphql;Internal__EnableGraphQL=true" />
   </Target>
 
   <Target Name="NpmClean" AfterTargets="Clean">
