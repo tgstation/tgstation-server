@@ -294,8 +294,7 @@ namespace Tgstation.Server.Host.Core
 					.AddAuthorization()
 					.AddType<UnsignedIntType>()
 					.BindRuntimeType<Version, SemverType>()
-					.AddQueryType<Query>()
-					.AddMutationType<Mutation>();
+					.AddQueryType<Query>();
 
 			void AddTypedContext<TContext>()
 				where TContext : DatabaseContext
