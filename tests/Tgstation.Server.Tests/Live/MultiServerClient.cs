@@ -15,11 +15,11 @@ namespace Tgstation.Server.Tests.Live
 
 		readonly bool useGraphQL;
 
-		public MultiServerClient(IRestServerClient restServerClient, IGraphQLServerClient graphQLServerClient, bool useGraphQL)
+		public MultiServerClient(IRestServerClient restServerClient, IGraphQLServerClient graphQLServerClient)
 		{
 			this.restServerClient = restServerClient ?? throw new ArgumentNullException(nameof(restServerClient));
 			this.graphQLServerClient = graphQLServerClient ?? throw new ArgumentNullException(nameof(graphQLServerClient));
-			this.useGraphQL = useGraphQL;
+			this.useGraphQL = Boolean.TryParse(Environment.GetEnvironmentVariable("TGS_TEST_GRAPHQL"), out var result) && result;
 		}
 
 		public ValueTask Execute(
