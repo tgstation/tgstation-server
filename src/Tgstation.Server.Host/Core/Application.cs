@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
@@ -294,7 +294,8 @@ namespace Tgstation.Server.Host.Core
 					.AddAuthorization()
 					.AddType<UnsignedIntType>()
 					.BindRuntimeType<Version, SemverType>()
-					.AddQueryType<Query>();
+					.AddQueryType<Query>()
+					.AddMutationType<Mutation>();
 
 			void AddTypedContext<TContext>()
 				where TContext : DatabaseContext
