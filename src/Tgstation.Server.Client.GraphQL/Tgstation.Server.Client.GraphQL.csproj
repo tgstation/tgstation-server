@@ -13,6 +13,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Client\Tgstation.Server.Client.csproj" />
+    <ProjectReference Include="..\Tgstation.Server.Host\Tgstation.Server.Host.csproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
 
   <Target Name="DeleteGeneratedFiles" BeforeTargets="ImportGraphQLApiSchema">

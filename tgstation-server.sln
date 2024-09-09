@@ -271,9 +271,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Shared.Tests", "tests\Tgstation.Server.Shared.Tests\Tgstation.Server.Shared.Tests.csproj", "{EAB84FD0-5514-4254-B188-7D90ACB7284D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Client.GraphQL", "src\Tgstation.Server.Client.GraphQL\Tgstation.Server.Client.GraphQL.csproj", "{8BF95E2D-FD27-470C-82B7-C21AC01BFBD7}"
-	ProjectSection(ProjectDependencies) = postProject
-		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A} = {2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
