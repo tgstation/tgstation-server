@@ -8,6 +8,8 @@ using Cyberboss.AspNetCore.AsyncInitializer;
 
 using Elastic.CommonSchema.Serilog;
 
+using HotChocolate.Types;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -50,6 +52,8 @@ using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.GraphQL.Types;
+using Tgstation.Server.Host.GraphQL.Types.Scalars;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Properties;
@@ -282,6 +286,14 @@ namespace Tgstation.Server.Host.Core
 			// Enable managed HTTP clients
 			services.AddHttpClient();
 			services.AddSingleton<IAbstractHttpClientFactory, AbstractHttpClientFactory>();
+
+			// configure graphql
+			services
+				.AddGraphQLServer()
+				.AddAuthorization()
+				.AddType<UnsignedIntType>()
+				.BindRuntimeType<Version, SemverType>()
+				.AddQueryType<Query>();
 
 			void AddTypedContext<TContext>()
 				where TContext : DatabaseContext
@@ -596,6 +608,8 @@ namespace Tgstation.Server.Host.Core
 
 				// majority of handling is done in the controllers
 				endpoints.MapControllers();
+
+				endpoints.MapGraphQL(Routes.GraphQL);
 			});
 
 			// 404 anything that gets this far

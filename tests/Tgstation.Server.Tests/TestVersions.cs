@@ -270,7 +270,7 @@ namespace Tgstation.Server.Tests
 			var versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsClientVersion").Value + ".0";
 			Assert.IsNotNull(versionString);
 			Assert.IsTrue(Version.TryParse(versionString, out var expected));
-			var actual = typeof(ServerClientFactory).Assembly.GetName().Version;
+			var actual = typeof(RestServerClientFactory).Assembly.GetName().Version;
 			Assert.AreEqual(expected, actual);
 		}
 

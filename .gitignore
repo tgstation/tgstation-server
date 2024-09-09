@@ -15,6 +15,7 @@ artifacts/
 *.dmb
 *.int
 *.lk
+/src/Tgstation.Server.Client.GraphQL/schema.graphql
 /src/Tgstation.Server.Host/appsettings.*.json
 /src/Tgstation.Server.Host/appsettings.*.yml
 /src/Tgstation.Server.Host/wwwroot

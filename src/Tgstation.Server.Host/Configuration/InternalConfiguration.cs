@@ -31,6 +31,11 @@
 		public bool UsingDocker { get; set; }
 
 		/// <summary>
+		/// Used at compile time to write the GraphQL API schema to this path and exit.
+		/// </summary>
+		public string? DumpGraphQLApiPath { get; set; }
+
+		/// <summary>
 		/// The base path for the app settings configuration files.
 		/// </summary>
 		public string AppSettingsBasePath { get; set; } = "UNINITIALIZED"; // this is set in a hacky way in ServerFactory

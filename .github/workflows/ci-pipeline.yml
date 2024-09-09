@@ -577,6 +577,7 @@ jobs:
         configuration: ["Debug", "Release"]
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
+      TGS_TEST_GRAPHQL: true
     runs-on: windows-latest
     steps:
       - name: Setup dotnet

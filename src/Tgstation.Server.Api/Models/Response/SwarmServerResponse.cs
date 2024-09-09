@@ -3,11 +3,14 @@
 namespace Tgstation.Server.Api.Models.Response
 {
 	/// <inheritdoc />
-	public sealed class SwarmServerResponse : SwarmServer
+	public sealed class SwarmServerResponse : SwarmServerInformation
 	{
 		/// <summary>
-		/// If the <see cref="SwarmServerResponse"/> is the controller.
+		/// Initializes a new instance of the <see cref="SwarmServerResponse"/> class.
 		/// </summary>
-		public bool Controller { get; set; }
+		/// <param name="swarmServerInfo">The <see cref="SwarmServerInformation"/> to copy.</param>
+		public SwarmServerResponse(SwarmServerInformation swarmServerInfo)
+		{
+		}
 	}
 }

@@ -13,6 +13,11 @@ namespace Tgstation.Server.Api
 		public const string ApiRoot = "/api/";
 
 		/// <summary>
+		/// The GraphQL route.
+		/// </summary>
+		public const string GraphQL = ApiRoot + "graphql";
+
+		/// <summary>
 		/// The root route of all hubs.
 		/// </summary>
 		public const string HubsRoot = ApiRoot + "hubs";

@@ -12,37 +12,37 @@ using Tgstation.Server.Api.Models.Response;
 namespace Tgstation.Server.Client
 {
 	/// <inheritdoc />
-	public sealed class ServerClientFactory : IServerClientFactory
+	public sealed class RestServerClientFactory : IRestServerClientFactory
 	{
 		/// <summary>
-		/// The <see cref="IApiClientFactory"/> for the <see cref="ServerClientFactory"/>.
+		/// The <see cref="IApiClientFactory"/> for the <see cref="RestServerClientFactory"/>.
 		/// </summary>
 		internal static IApiClientFactory ApiClientFactory { get; set; }
 
 		/// <summary>
-		/// The <see cref="ProductHeaderValue"/> for the <see cref="ServerClientFactory"/>.
+		/// The <see cref="ProductHeaderValue"/> for the <see cref="RestServerClientFactory"/>.
 		/// </summary>
 		readonly ProductHeaderValue productHeaderValue;
 
 		/// <summary>
-		/// Initializes static members of the <see cref="ServerClientFactory"/> class.
+		/// Initializes static members of the <see cref="RestServerClientFactory"/> class.
 		/// </summary>
-		static ServerClientFactory()
+		static RestServerClientFactory()
 		{
 			ApiClientFactory = new ApiClientFactory();
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ServerClientFactory"/> class.
+		/// Initializes a new instance of the <see cref="RestServerClientFactory"/> class.
 		/// </summary>
 		/// <param name="productHeaderValue">The value of <see cref="productHeaderValue"/>.</param>
-		public ServerClientFactory(ProductHeaderValue productHeaderValue)
+		public RestServerClientFactory(ProductHeaderValue productHeaderValue)
 		{
 			this.productHeaderValue = productHeaderValue ?? throw new ArgumentNullException(nameof(productHeaderValue));
 		}
 
 		/// <inheritdoc />
-		public ValueTask<IServerClient> CreateFromLogin(
+		public ValueTask<IRestServerClient> CreateFromLogin(
 			Uri host,
 			string username,
 			string password,
@@ -69,7 +69,7 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public ValueTask<IServerClient> CreateFromOAuth(
+		public ValueTask<IRestServerClient> CreateFromOAuth(
 			Uri host,
 			string oAuthCode,
 			OAuthProvider oAuthProvider,
@@ -93,7 +93,7 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public IServerClient CreateFromToken(Uri host, TokenResponse token)
+		public IRestServerClient CreateFromToken(Uri host, TokenResponse token)
 		{
 			if (host == null)
 				throw new ArgumentNullException(nameof(host));
@@ -102,7 +102,7 @@ namespace Tgstation.Server.Client
 			if (token.Bearer == null)
 				throw new InvalidOperationException("token.Bearer should not be null!");
 
-			var serverClient = new ServerClient(
+			var serverClient = new RestServerClient(
 				ApiClientFactory.CreateApiClient(
 					host,
 					new ApiHeaders(
@@ -142,16 +142,16 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
-		/// Creates a <see cref="IServerClient"/> from a login operation.
+		/// Creates a <see cref="IRestServerClient"/> from a login operation.
 		/// </summary>
 		/// <param name="host">The URL to access TGS.</param>
 		/// <param name="loginHeaders">The <see cref="ApiHeaders"/> to use for the login operation.</param>
-		/// <param name="requestLoggers">Optional initial <see cref="IRequestLogger"/>s to add to the <see cref="IServerClient"/>.</param>
+		/// <param name="requestLoggers">Optional initial <see cref="IRequestLogger"/>s to add to the <see cref="IRestServerClient"/>.</param>
 		/// <param name="timeout">Optional <see cref="TimeSpan"/> representing timeout for the connection.</param>
 		/// <param name="attemptLoginRefresh">If <paramref name="loginHeaders"/> may be used to re-login in the future.</param>
 		/// <param name="cancellationToken">Optional <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IServerClient"/>.</returns>
-		async ValueTask<IServerClient> CreateWithNewToken(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IRestServerClient"/>.</returns>
+		async ValueTask<IRestServerClient> CreateWithNewToken(
 			Uri host,
 			ApiHeaders loginHeaders,
 			IEnumerable<IRequestLogger>? requestLoggers,
@@ -173,7 +173,7 @@ namespace Tgstation.Server.Client
 			}
 
 			var apiHeaders = new ApiHeaders(productHeaderValue, token);
-			var client = new ServerClient(
+			var client = new RestServerClient(
 				ApiClientFactory.CreateApiClient(
 					host,
 					apiHeaders,

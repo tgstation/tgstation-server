@@ -13,7 +13,7 @@ namespace Tgstation.Server.Client
 	/// <summary>
 	/// Main client for communicating with a server.
 	/// </summary>
-	public interface IServerClient : IAsyncDisposable
+	public interface IRestServerClient : IAsyncDisposable
 	{
 		/// <summary>
 		/// The connected server's root <see cref="Uri"/>.
@@ -51,14 +51,20 @@ namespace Tgstation.Server.Client
 		IUserGroupsClient Groups { get; }
 
 		/// <summary>
-		/// The <see cref="ServerInformationResponse"/> of the <see cref="IServerClient"/>.
+		/// Access the <see cref="ITransferClient"/>.
+		/// </summary>
+		/// <remarks>Most client methods handle transfers in their invocations. There is rarely any reason to use the <see cref="ITransferClient"/> directly.</remarks>
+		ITransferClient Transfer { get; }
+
+		/// <summary>
+		/// The <see cref="ServerInformationResponse"/> of the <see cref="IRestServerClient"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerInformationResponse"/> of the target server.</returns>
 		ValueTask<ServerInformationResponse> ServerInformation(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Subscribe to all job updates available to the <see cref="IServerClient"/>.
+		/// Subscribe to all job updates available to the <see cref="IRestServerClient"/>.
 		/// </summary>
 		/// <param name="jobsReceiver">The <see cref="IJobsHub"/> to use to subscribe to updates.</param>
 		/// <param name="retryPolicy">The optional <see cref="IRetryPolicy"/> to use for the backing connection. The default retry policy waits for 1, 2, 4, 8, and 16 seconds, then 30s repeatedly.</param>

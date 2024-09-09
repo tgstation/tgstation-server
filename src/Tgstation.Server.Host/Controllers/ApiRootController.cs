@@ -181,7 +181,10 @@ namespace Tgstation.Server.Host.Controllers
 				UserGroupLimit = generalConfiguration.UserGroupLimit,
 				ValidInstancePaths = generalConfiguration.ValidInstancePaths,
 				WindowsHost = platformIdentifier.IsWindows,
-				SwarmServers = swarmService.GetSwarmServers(),
+				SwarmServers = swarmService
+					.GetSwarmServers()
+					?.Select(swarmServerInfo => new SwarmServerResponse(swarmServerInfo))
+					.ToList(),
 				OAuthProviderInfos = oAuthProviders.ProviderInfos(),
 				UpdateInProgress = serverControl.UpdateInProgress,
 			});

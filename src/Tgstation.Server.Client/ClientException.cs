@@ -5,7 +5,7 @@ using System.Net.Http;
 namespace Tgstation.Server.Client
 {
 	/// <summary>
-	/// Exceptions thrown by <see cref="IServerClient"/>s.
+	/// Exceptions thrown by <see cref="IRestServerClient"/>s.
 	/// </summary>
 	public abstract class ClientException : Exception
 	{
