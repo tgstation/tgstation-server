@@ -236,12 +236,28 @@ namespace Tgstation.Server.Host.Controllers
 				hostModel.ApiValidationSecurityLevel = model.ApiValidationSecurityLevel;
 			}
 
-			if (model.RequireDMApiValidation.HasValue)
+#pragma warning disable CS0618 // Type or member is obsolete
+			bool? legacyRequireDMApiValidation = model.RequireDMApiValidation;
+#pragma warning restore CS0618 // Type or member is obsolete
+			if (legacyRequireDMApiValidation.HasValue)
 			{
 				if (!dreamMakerRights.HasFlag(DreamMakerRights.SetApiValidationRequirement))
 					return Forbid();
 
-				hostModel.RequireDMApiValidation = model.RequireDMApiValidation;
+				hostModel.DMApiValidationMode = legacyRequireDMApiValidation.Value
+					? DMApiValidationMode.Required
+					: DMApiValidationMode.Optional;
+			}
+
+			if (model.DMApiValidationMode.HasValue)
+			{
+				if (legacyRequireDMApiValidation.HasValue)
+					return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
+
+				if (!dreamMakerRights.HasFlag(DreamMakerRights.SetApiValidationRequirement))
+					return Forbid();
+
+				hostModel.DMApiValidationMode = model.DMApiValidationMode;
 			}
 
 			if (model.Timeout.HasValue)

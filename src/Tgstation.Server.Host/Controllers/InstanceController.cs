@@ -760,7 +760,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					ApiValidationPort = dmPort,
 					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe,
-					RequireDMApiValidation = true,
+					DMApiValidationMode = DMApiValidationMode.Required,
 					Timeout = TimeSpan.FromHours(1),
 					CompilerAdditionalArguments = null,
 				},

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -29,10 +30,18 @@ namespace Tgstation.Server.Api.Models.Internal
 		public DreamDaemonSecurity? ApiValidationSecurityLevel { get; set; }
 
 		/// <summary>
-		/// If API validation should be required for a deployment to succeed.
+		/// If API validation should be required for a deployment to succeed. Must not be set on mutation if <see cref="DMApiValidationMode"/> is set.
 		/// </summary>
 		[Required]
+		[NotMapped]
+		[Obsolete($"Use {nameof(DMApiValidationMode)} instead.")]
 		public bool? RequireDMApiValidation { get; set; }
+
+		/// <summary>
+		/// The current <see cref="Models.DMApiValidationMode"/>. Must not be set on mutation if <see cref="RequireDMApiValidation"/> is set.
+		/// </summary>
+		[Required]
+		public DMApiValidationMode? DMApiValidationMode { get; set; }
 
 		/// <summary>
 		/// Amount of time before an in-progress deployment is cancelled.

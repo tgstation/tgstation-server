@@ -648,14 +648,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 							ErrorCode.DeploymentExitCode,
 							new JobException($"Compilation failed:{Environment.NewLine}{Environment.NewLine}{job.Output}"));
 
-					progressReporter.StageName = "Validating DMAPI";
 					await VerifyApi(
 						launchParameters.StartupTimeout!.Value,
 						dreamMakerSettings.ApiValidationSecurityLevel!.Value,
 						job,
+						progressReporter,
 						engineLock,
 						dreamMakerSettings.ApiValidationPort!.Value,
-						dreamMakerSettings.RequireDMApiValidation!.Value,
+						dreamMakerSettings.DMApiValidationMode!.Value,
 						launchParameters.LogOutput!.Value,
 						cancellationToken);
 				}
@@ -767,9 +767,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="timeout">The timeout in seconds for validation.</param>
 		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> level to use to validate the API.</param>
 		/// <param name="job">The <see cref="CompileJob"/> for the operation.</param>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/>.</param>
 		/// <param name="engineLock">The current <see cref="IEngineExecutableLock"/>.</param>
 		/// <param name="portToUse">The port to use for API validation.</param>
-		/// <param name="requireValidate">If the API validation is required to complete the deployment.</param>
+		/// <param name="validationMode">The <see cref="DMApiValidationMode"/>.</param>
 		/// <param name="logOutput">If output should be logged to the DreamDaemon Diagnostics folder.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
@@ -777,12 +778,23 @@ namespace Tgstation.Server.Host.Components.Deployment
 			uint timeout,
 			DreamDaemonSecurity securityLevel,
 			Models.CompileJob job,
+			JobProgressReporter progressReporter,
 			IEngineExecutableLock engineLock,
 			ushort portToUse,
-			bool requireValidate,
+			DMApiValidationMode validationMode,
 			bool logOutput,
 			CancellationToken cancellationToken)
 		{
+			if (validationMode == DMApiValidationMode.Skipped)
+			{
+				logger.LogDebug("Skipping DMAPI validation");
+				job.MinimumSecurityLevel = DreamDaemonSecurity.Ultrasafe;
+				return;
+			}
+
+			progressReporter.StageName = "Validating DMAPI";
+
+			var requireValidate = validationMode == DMApiValidationMode.Required;
 			logger.LogTrace("Verifying {possiblyRequired}DMAPI...", requireValidate ? "required " : String.Empty);
 			var launchParameters = new DreamDaemonLaunchParameters
 			{

@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "8.0.7")
+				.HasAnnotation("ProductVersion", "8.0.8")
 				.HasAnnotation("Relational:MaxIdentifierLength", 128);
 
 			SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -263,16 +263,15 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(10000)
 					.HasColumnType("nvarchar(max)");
 
+				b.Property<int>("DMApiValidationMode")
+					.HasColumnType("int");
+
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
 
 				b.Property<string>("ProjectName")
 					.HasMaxLength(10000)
 					.HasColumnType("nvarchar(max)");
-
-				b.Property<bool?>("RequireDMApiValidation")
-					.IsRequired()
-					.HasColumnType("bit");
 
 				b.Property<TimeSpan?>("Timeout")
 					.IsRequired()
