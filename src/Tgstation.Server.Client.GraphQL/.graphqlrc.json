@@ -4,7 +4,7 @@
   "extensions": {
     "strawberryShake": {
       "name": "GraphQLClient",
-      "url": "../../artifacts/tgs-api.gql",
+      "url": "../../artifacts/tgs-api.graphql",
       "namespace": "Tgstation.Server.Client.GraphQL",
       "records": {
         "inputs": false,

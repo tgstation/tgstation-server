@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <GraphQL Remove="schema.extensions.gql" />
-  </ItemGroup>
-
-  <ItemGroup>
     <!-- GraphQL connector and code generator -->
     <PackageReference Include="StrawberryShake.Server" Version="13.9.12" />
   </ItemGroup>
@@ -18,13 +14,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Client\Tgstation.Server.Client.csproj" />
   </ItemGroup>
-  
+
   <Target Name="DeleteGeneratedFiles" BeforeTargets="ImportGraphQLApiSchema">
     <RemoveDir Directories="$(IntermediateOutputPath)berry" />
   </Target>
 
-  <Target Name="ImportGraphQLApiSchema" BeforeTargets="BeforeBuild" Inputs="../../artifacts/tgs-api.gql" Outputs="schema.graphql">
-    <Copy SkipUnchangedFiles="true" SourceFiles="../../artifacts/tgs-api.gql" DestinationFiles="schema.graphql" />
+  <Target Name="ImportGraphQLApiSchema" BeforeTargets="BeforeBuild" Inputs="../../artifacts/tgs-api.graphql" Outputs="schema.graphql">
+    <Copy SkipUnchangedFiles="true" SourceFiles="../../artifacts/tgs-api.graphql" DestinationFiles="schema.graphql" />
   </Target>
 
   <Target Name="FixWarningsInGeneratedSchema" BeforeTargets="CoreCompile">
@@ -34,5 +30,5 @@
     </PropertyGroup>
     <WriteLinesToFile File="$(OutputFile)" Lines="$([System.IO.File]::ReadAllText($(InputFile)).Replace('/ &lt;auto-generated/&gt;','/ &lt;auto-generated /&gt;%0d%0a#pragma warning disable'))" Overwrite="true" Encoding="Unicode" />
   </Target>
-  
+
 </Project>
