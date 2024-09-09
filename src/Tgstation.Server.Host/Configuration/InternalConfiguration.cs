@@ -36,6 +36,16 @@
 		public string? DumpGraphQLApiPath { get; set; }
 
 		/// <summary>
+		/// Enables hosting the experimental GraphQL API in Release builds.
+		/// </summary>
+		public bool EnableGraphQL
+#if DEBUG
+			=> true;
+#else
+		{ get; set; }
+#endif
+
+		/// <summary>
 		/// The base path for the app settings configuration files.
 		/// </summary>
 		public string AppSettingsBasePath { get; set; } = "UNINITIALIZED"; // this is set in a hacky way in ServerFactory

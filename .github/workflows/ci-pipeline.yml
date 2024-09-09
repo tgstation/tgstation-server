@@ -40,6 +40,7 @@ env:
   TGS_WEBPANEL_NODE_VERSION: 20.x
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
+  Internal__EnableGraphQL: true
 
 concurrency:
   group: "ci-${{ (github.event_name != 'push' && github.event_name != 'schedule' && github.event.inputs.pull_request_number) || github.run_id }}-${{ github.event_name }}"
