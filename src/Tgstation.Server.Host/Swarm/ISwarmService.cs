@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Swarm
@@ -35,9 +35,9 @@ namespace Tgstation.Server.Host.Swarm
 		ValueTask<SwarmCommitResult> CommitUpdate(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Gets the list of <see cref="SwarmServerResponse"/>s in the swarm, including the current one.
+		/// Gets the list of <see cref="SwarmServerInformation"/>s in the swarm, including the current one.
 		/// </summary>
-		/// <returns>A <see cref="List{T}"/> of <see cref="SwarmServerResponse"/>s in the swarm. If the server is not part of a swarm, <see langword="null"/> will be returned.</returns>
-		List<SwarmServerResponse>? GetSwarmServers();
+		/// <returns>A <see cref="List{T}"/> of <see cref="SwarmServerInformation"/>s in the swarm. If the server is not part of a swarm, <see langword="null"/> will be returned.</returns>
+		List<SwarmServerInformation>? GetSwarmServers();
 	}
 }

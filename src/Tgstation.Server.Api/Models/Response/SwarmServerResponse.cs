@@ -1,13 +1,27 @@
-﻿using Tgstation.Server.Api.Models.Internal;
+﻿using System;
+
+using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Api.Models.Response
 {
 	/// <inheritdoc />
-	public sealed class SwarmServerResponse : SwarmServer
+	public sealed class SwarmServerResponse : SwarmServerInformation
 	{
 		/// <summary>
-		/// If the <see cref="SwarmServerResponse"/> is the controller.
+		/// Initializes a new instance of the <see cref="SwarmServerResponse"/> class.
 		/// </summary>
-		public bool Controller { get; set; }
+		[Obsolete("For JSON deserialization only", true)]
+		public SwarmServerResponse()
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SwarmServerResponse"/> class.
+		/// </summary>
+		/// <param name="swarmServerInfo">The <see cref="SwarmServerInformation"/> to copy.</param>
+		public SwarmServerResponse(SwarmServerInformation swarmServerInfo)
+			: base(swarmServerInfo)
+		{
+		}
 	}
 }

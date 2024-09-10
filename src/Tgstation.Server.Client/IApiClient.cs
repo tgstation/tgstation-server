@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,14 +7,13 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {
 	/// <summary>
 	/// Web interface for the API.
 	/// </summary>
-	interface IApiClient : IAsyncDisposable
+	interface IApiClient : ITransferClient, IAsyncDisposable
 	{
 		/// <summary>
 		/// The <see cref="ApiHeaders"/> the <see cref="IApiClient"/> uses.
@@ -39,7 +37,7 @@ namespace Tgstation.Server.Client
 		void AddRequestLogger(IRequestLogger requestLogger);
 
 		/// <summary>
-		/// Subscribe to all job updates available to the <see cref="IServerClient"/>.
+		/// Subscribe to all job updates available to the <see cref="IRestServerClient"/>.
 		/// </summary>
 		/// <typeparam name="THubImplementation">The <see cref="Type"/> of the hub being implemented.</typeparam>
 		/// <param name="hubImplementation">The <typeparamref name="THubImplementation"/> to use for proxying the methods of the hub connection.</param>
@@ -239,22 +237,5 @@ namespace Tgstation.Server.Client
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask<TResult> Delete<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
 			where TBody : class;
-
-		/// <summary>
-		/// Downloads a file <see cref="Stream"/> for a given <paramref name="ticket"/>.
-		/// </summary>
-		/// <param name="ticket">The <see cref="FileTicketResponse"/> to download.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the downloaded <see cref="Stream"/>.</returns>
-		ValueTask<Stream> Download(FileTicketResponse ticket, CancellationToken cancellationToken);
-
-		/// <summary>
-		/// Uploads a given <paramref name="uploadStream"/> for a given <paramref name="ticket"/>.
-		/// </summary>
-		/// <param name="ticket">The <see cref="FileTicketResponse"/> to download.</param>
-		/// <param name="uploadStream">The <see cref="Stream"/> to upload. <see langword="null"/> represents an empty file.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask Upload(FileTicketResponse ticket, Stream? uploadStream, CancellationToken cancellationToken);
 	}
 }

@@ -24,12 +24,12 @@ namespace Tgstation.Server.Tests.Live
 	{
 		public const string TestInstanceName = "IntegrationTestInstance";
 
-		readonly IServerClient serverClient;
+		readonly IRestServerClient serverClient;
 		readonly IInstanceManagerClient instanceManagerClient;
 		readonly IUsersClient usersClient;
 		readonly string testRootPath;
 
-		public InstanceManagerTest(IServerClient serverClient, string testRootPath)
+		public InstanceManagerTest(IRestServerClient serverClient, string testRootPath)
 		{
 			this.serverClient = serverClient ?? throw new ArgumentNullException(nameof(serverClient));
 			instanceManagerClient = serverClient.Instances;

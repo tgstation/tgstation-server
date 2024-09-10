@@ -8,6 +8,8 @@ using Cyberboss.AspNetCore.AsyncInitializer;
 
 using Elastic.CommonSchema.Serilog;
 
+using HotChocolate.Types;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -50,6 +52,8 @@ using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.GraphQL;
+using Tgstation.Server.Host.GraphQL.Types.Scalars;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Properties;
@@ -283,6 +287,15 @@ namespace Tgstation.Server.Host.Core
 			services.AddHttpClient();
 			services.AddSingleton<IAbstractHttpClientFactory, AbstractHttpClientFactory>();
 
+			// configure graphql
+			if (postSetupServices.InternalConfiguration.EnableGraphQL)
+				services
+					.AddGraphQLServer()
+					.AddAuthorization()
+					.AddType<UnsignedIntType>()
+					.BindRuntimeType<Version, SemverType>()
+					.AddQueryType<Query>();
+
 			void AddTypedContext<TContext>()
 				where TContext : DatabaseContext
 			{
@@ -454,6 +467,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SwarmConfiguration"/> to use.</param>
+		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="InternalConfiguration"/> to use.</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/>.</param>
 		public void Configure(
 			IApplicationBuilder applicationBuilder,
@@ -464,6 +478,7 @@ namespace Tgstation.Server.Host.Core
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
+			IOptions<InternalConfiguration> internalConfigurationOptions,
 			ILogger<Application> logger)
 		{
 			ArgumentNullException.ThrowIfNull(applicationBuilder);
@@ -477,6 +492,7 @@ namespace Tgstation.Server.Host.Core
 			var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 			var generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			var swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
+			var internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
 
 			ArgumentNullException.ThrowIfNull(logger);
 
@@ -596,6 +612,12 @@ namespace Tgstation.Server.Host.Core
 
 				// majority of handling is done in the controllers
 				endpoints.MapControllers();
+
+				if (internalConfiguration.EnableGraphQL)
+				{
+					logger.LogWarning("Enabling GraphQL. This API is experimental and breaking changes may occur at any time!");
+					endpoints.MapGraphQL(Routes.GraphQL);
+				}
 			});
 
 			// 404 anything that gets this far

@@ -20,8 +20,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 {
 	sealed class JobsHubTests : IJobsHub
 	{
-		readonly IServerClient permedUser;
-		readonly IServerClient permlessUser;
+		readonly IRestServerClient permedUser;
+		readonly IRestServerClient permlessUser;
 
 		readonly TaskCompletionSource finishTcs;
 
@@ -34,7 +34,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		long? permlessPsId;
 
-		public JobsHubTests(IServerClient permedUser, IServerClient permlessUser)
+		public JobsHubTests(IRestServerClient permedUser, IRestServerClient permlessUser)
 		{
 			this.permedUser = permedUser;
 			this.permlessUser = permlessUser;

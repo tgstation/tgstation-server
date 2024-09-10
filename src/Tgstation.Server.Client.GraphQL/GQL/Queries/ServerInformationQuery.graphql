@@ -1,0 +1,34 @@
+query ServerInformationQuery {
+  swarm {
+    metadata {
+      apiVersion
+      dmApiVersion
+      updateInProgress
+      version
+    }
+    localServer {
+      information {
+        instanceLimit
+        minimumPasswordLength
+        userGroupLimit
+        userLimit
+        validInstancePaths
+        windowsHost
+        oAuthProviderInfos {
+          key
+          value {
+            clientId
+            redirectUri
+            serverUrl
+          }
+        }
+      }
+    }
+    servers {
+      address
+      controller
+      identifier
+      publicAddress
+    }
+  }
+}

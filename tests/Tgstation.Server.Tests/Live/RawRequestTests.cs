@@ -31,7 +31,7 @@ namespace Tgstation.Server.Tests.Live
 {
 	static class RawRequestTests
 	{
-		static async Task TestRequestValidation(IServerClient serverClient, CancellationToken cancellationToken)
+		static async Task TestRequestValidation(IRestServerClient serverClient, CancellationToken cancellationToken)
 		{
 			var url = serverClient.Url;
 			var token = serverClient.Token.Bearer;
@@ -196,7 +196,7 @@ namespace Tgstation.Server.Tests.Live
 			}
 		}
 
-		static async Task TestServerInformation(IServerClientFactory clientFactory, IServerClient serverClient, CancellationToken cancellationToken)
+		static async Task TestServerInformation(IRestServerClientFactory clientFactory, IRestServerClient serverClient, CancellationToken cancellationToken)
 		{
 			var serverInfo = await serverClient.ServerInformation(default);
 
@@ -220,7 +220,7 @@ namespace Tgstation.Server.Tests.Live
 			await ApiAssert.ThrowsException<UnauthorizedException, ServerInformationResponse>(() => badClient.ServerInformation(cancellationToken));
 		}
 
-		static async Task TestOAuthFails(IServerClient serverClient, CancellationToken cancellationToken)
+		static async Task TestOAuthFails(IRestServerClient serverClient, CancellationToken cancellationToken)
 		{
 			var url = serverClient.Url;
 			var token = serverClient.Token.Bearer;
@@ -242,7 +242,7 @@ namespace Tgstation.Server.Tests.Live
 				}
 		}
 
-		static async Task TestInvalidTransfers(IServerClient serverClient, CancellationToken cancellationToken)
+		static async Task TestInvalidTransfers(IRestServerClient serverClient, CancellationToken cancellationToken)
 		{
 			var url = serverClient.Url;
 			var token = serverClient.Token.Bearer;
@@ -317,7 +317,7 @@ namespace Tgstation.Server.Tests.Live
 			}
 		}
 
-		static async Task RegressionTestForLeakedPasswordHashesBug(IServerClient serverClient, CancellationToken cancellationToken)
+		static async Task RegressionTestForLeakedPasswordHashesBug(IRestServerClient serverClient, CancellationToken cancellationToken)
 		{
 			// See what https://github.com/tgstation/tgstation-server/commit/6c8dc87c4af36620885b262175d7974aca2b3c2b fixed
 
@@ -361,7 +361,7 @@ namespace Tgstation.Server.Tests.Live
 				=> ProxyFunc(job, cancellationToken);
 		}
 
-		static async Task TestSignalRUsage(IServerClientFactory serverClientFactory, IServerClient serverClient, CancellationToken cancellationToken)
+		static async Task TestSignalRUsage(IRestServerClientFactory serverClientFactory, IRestServerClient serverClient, CancellationToken cancellationToken)
 		{
 			// test regular creation works without error
 			var hubConnectionBuilder = new HubConnectionBuilder();
@@ -374,7 +374,7 @@ namespace Tgstation.Server.Tests.Live
 				options =>
 				{
 					options.AccessTokenProvider = () => tokenRetrivalFunc();
-					((IApiClient)typeof(ServerClient)
+					((IApiClient)typeof(RestServerClient)
 						.GetField(
 							"apiClient",
 							BindingFlags.NonPublic | BindingFlags.Instance)
@@ -457,7 +457,7 @@ namespace Tgstation.Server.Tests.Live
 			}
 		}
 
-		public static Task Run(IServerClientFactory clientFactory, IServerClient serverClient, CancellationToken cancellationToken)
+		public static Task Run(IRestServerClientFactory clientFactory, IRestServerClient serverClient, CancellationToken cancellationToken)
 			=> Task.WhenAll(
 				TestRequestValidation(serverClient, cancellationToken),
 				TestOAuthFails(serverClient, cancellationToken),

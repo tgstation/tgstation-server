@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Swarm
 {
@@ -11,9 +11,9 @@ namespace Tgstation.Server.Host.Swarm
 	public sealed class SwarmServersUpdateRequest
 	{
 		/// <summary>
-		/// The <see cref="ICollection{T}"/> of updated <see cref="SwarmServerResponse"/>s.
+		/// The <see cref="ICollection{T}"/> of updated <see cref="SwarmServerInformation"/>s.
 		/// </summary>
 		[Required]
-		public ICollection<SwarmServerResponse>? SwarmServers { get; set; }
+		public ICollection<SwarmServerInformation>? SwarmServers { get; set; }
 	}
 }

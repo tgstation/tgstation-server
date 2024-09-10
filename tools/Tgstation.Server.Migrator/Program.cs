@@ -476,8 +476,8 @@ try
 	var giveUpAt = DateTimeOffset.UtcNow.AddMinutes(MaxWaitMinutes);
 
 	var serverUrl = new Uri($"http://localhost:{configuredApiPort}");
-	var clientFactory = new ServerClientFactory(productInfoHeaderValue.Product);
-	IServerClient TGS6Client;
+	var clientFactory = new RestServerClientFactory(productInfoHeaderValue.Product);
+	IRestServerClient TGS6Client;
 	for (var I = 1; ; ++I)
 	{
 		try

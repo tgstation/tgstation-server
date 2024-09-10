@@ -35,6 +35,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Client.GraphQL;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
@@ -71,7 +72,7 @@ namespace Tgstation.Server.Tests.Live
 			_ = mainDMPort.Value;
 		}
 
-		readonly ServerClientFactory clientFactory = new (new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+		readonly RestServerClientFactory clientFactory = new (new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
 		public static List<System.Diagnostics.Process> GetEngineServerProcessesOnPort(EngineType engineType, ushort? port)
 		{
@@ -205,7 +206,7 @@ namespace Tgstation.Server.Tests.Live
 			await CachingFileDownloader.InitializeAndInjectForLiveTests(default);
 
 			DummyChatProvider.RandomDisconnections(true);
-			ServerClientFactory.ApiClientFactory = new RateLimitRetryingApiClientFactory();
+			RestServerClientFactory.ApiClientFactory = new RateLimitRetryingApiClientFactory();
 
 			var connectionString = Environment.GetEnvironmentVariable("TGS_TEST_CONNECTION_STRING");
 			if (String.IsNullOrWhiteSpace(connectionString))
@@ -290,7 +291,7 @@ namespace Tgstation.Server.Tests.Live
 			var serverTask = server.Run(cancellationToken).AsTask();
 			try
 			{
-				async ValueTask<ServerUpdateResponse> TestWithoutAndWithPermission(Func<ValueTask<ServerUpdateResponse>> action, IServerClient client, AdministrationRights right)
+				async ValueTask<ServerUpdateResponse> TestWithoutAndWithPermission(Func<ValueTask<ServerUpdateResponse>> action, IRestServerClient client, AdministrationRights right)
 				{
 					var ourUser = await client.Users.Read(cancellationToken);
 					var update = new UserUpdateRequest
@@ -321,7 +322,7 @@ namespace Tgstation.Server.Tests.Live
 						request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 						request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
 						request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.OAuthAuthenticationScheme, adminClient.Token.Bearer);
-						request.Headers.Add(ApiHeaders.OAuthProviderHeader, OAuthProvider.GitHub.ToString());
+						request.Headers.Add(ApiHeaders.OAuthProviderHeader, Api.Models.OAuthProvider.GitHub.ToString());
 						using var response = await httpClient.SendAsync(request, cancellationToken);
 						Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 						var content = await response.Content.ReadAsStringAsync();
@@ -875,7 +876,7 @@ namespace Tgstation.Server.Tests.Live
 
 					var controllerInfo = await controllerClient.ServerInformation(cancellationToken);
 
-					async Task WaitForSwarmServerUpdate(IServerClient client, int currentServerCount)
+					async Task WaitForSwarmServerUpdate(IRestServerClient client, int currentServerCount)
 					{
 						ServerInformationResponse serverInformation;
 						do
@@ -1371,7 +1372,43 @@ namespace Tgstation.Server.Tests.Live
 					await ApiAssert.ThrowsException<UnauthorizedException, UserResponse>(() => tokenOnlyClient.Users.Read(cancellationToken), null);
 				}
 
-				async ValueTask<IServerClient> CreateUserWithNoInstancePerms()
+				// basic graphql test, to be used everywhere eventually
+				await using (var graphQLClient = new GraphQLServerClientFactory(clientFactory).CreateUnauthenticated(server.RootUrl))
+				{
+					// test getting server info
+					var multiClient = new MultiServerClient(firstAdminClient, graphQLClient);
+
+					await multiClient.ExecuteReadOnlyConfirmEquivalence(
+						restClient => restClient.ServerInformation(cancellationToken),
+						async gqlClient => (await gqlClient.ServerInformationQuery.ExecuteAsync(cancellationToken)).Data,
+						(restServerInfo, gqlServerInfo) => restServerInfo.UpdateInProgress == gqlServerInfo.Swarm.Metadata.UpdateInProgress
+							&& restServerInfo.Version == gqlServerInfo.Swarm.Metadata.Version
+							&& restServerInfo.DMApiVersion == gqlServerInfo.Swarm.Metadata.DmApiVersion
+							&& restServerInfo.InstanceLimit == gqlServerInfo.Swarm.LocalServer.Information.InstanceLimit
+							&& restServerInfo.UserGroupLimit == gqlServerInfo.Swarm.LocalServer.Information.UserGroupLimit
+							&& restServerInfo.ValidInstancePaths.SequenceEqual(gqlServerInfo.Swarm.LocalServer.Information.ValidInstancePaths)
+							&& restServerInfo.UserLimit == gqlServerInfo.Swarm.LocalServer.Information.UserLimit
+							&& restServerInfo.MinimumPasswordLength == gqlServerInfo.Swarm.LocalServer.Information.MinimumPasswordLength
+							&& (restServerInfo.SwarmServers == gqlServerInfo.Swarm.Servers
+								|| restServerInfo.SwarmServers.SequenceEqual(gqlServerInfo.Swarm.Servers.Select(x => new SwarmServerResponse(new Api.Models.Internal.SwarmServerInformation
+								{
+									Address = x.Address,
+									PublicAddress = x.PublicAddress,
+									Controller = x.Controller,
+									Identifier = x.Identifier,
+								}))))
+							&& (restServerInfo.OAuthProviderInfos == gqlServerInfo.Swarm.LocalServer.Information.OAuthProviderInfos
+								|| restServerInfo.OAuthProviderInfos.All(kvp =>
+								{
+									var info = gqlServerInfo.Swarm.LocalServer.Information.OAuthProviderInfos.FirstOrDefault(x => (int)x.Key == (int)kvp.Key);
+									return info != null
+										&& info.Value.ServerUrl == kvp.Value.ServerUrl
+										&& info.Value.ClientId == kvp.Value.ClientId
+										&& info.Value.RedirectUri == kvp.Value.RedirectUri;
+								})));
+				}
+
+				async ValueTask<IRestServerClient> CreateUserWithNoInstancePerms()
 				{
 					var createRequest = new UserCreateRequest()
 					{
@@ -1457,10 +1494,10 @@ namespace Tgstation.Server.Tests.Live
 					}
 
 					var instanceTest = new InstanceTest(
-							firstAdminClient.Instances,
-							fileDownloader,
-							GetInstanceManager(),
-							(ushort)server.ApiUrl.Port);
+						firstAdminClient.Instances,
+						fileDownloader,
+						GetInstanceManager(),
+						(ushort)server.ApiUrl.Port);
 
 					async Task RunInstanceTests()
 					{
@@ -1811,7 +1848,7 @@ namespace Tgstation.Server.Tests.Live
 			await serverTask;
 		}
 
-		async Task<IServerClient> CreateAdminClient(Uri url, CancellationToken cancellationToken)
+		async Task<IRestServerClient> CreateAdminClient(Uri url, CancellationToken cancellationToken)
 		{
 			url = new Uri(url.ToString().Replace(Routes.ApiRoot, String.Empty));
 			var giveUpAt = DateTimeOffset.UtcNow.AddMinutes(2);
