@@ -8,7 +8,7 @@
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="703,160,652,109,621,83,587,61,559,49,561,44,589,57,624,79,656,105,707,156"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a6417881aa109cd3b7f5c786e571428c1" title="Implementation of PrepareUpdate(ISeekableFileStreamProvider, Version, CancellationToken),..." alt="" coords="351,71,572,111"/>
 <area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="676,165,587,127,548,115,550,109,589,122,678,160"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a3c3257b2cbbae59658945fe7d699b7a9" title="Attempt to register a given node &#160;with the controller.A ValueTask&lt;TResult&gt; resulting in true if the r..." alt="" coords="364,136,559,177"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a70bee694c088ecbaca183b8d343f4f27" title="Attempt to register a given node &#160;with the controller.A ValueTask&lt;TResult&gt; resulting in true if the r..." alt="" coords="364,136,559,177"/>
 <area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="620,179,559,171,559,166,621,173"/>
 <area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="673,219,589,256,550,269,548,263,587,251,670,214"/>
 <area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a19995c107d8efaee1fe2dfdda5c509cc" title="Attempt to unregister a node with a given registrationId &#160;with the controller.A ValueTask representin..." alt="" coords="361,201,562,242"/>

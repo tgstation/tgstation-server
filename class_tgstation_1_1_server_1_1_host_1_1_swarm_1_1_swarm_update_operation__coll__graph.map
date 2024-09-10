@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmUpdateOperation" name="Tgstation.Server.Host.Swarm.SwarmUpdateOperation">
-<area shape="rect" id="Node000001" title="Represents the state of a distributed swarm update." alt="" coords="411,71,605,111"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,186,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,39,387,68,411,72,410,77,386,74,201,44"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="17,71,174,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="189,88,410,88,410,94,189,94"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="26,136,165,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="180,149,279,140,386,124,443,109,444,114,387,129,280,145,181,154"/>
+<area shape="rect" id="Node000001" title="Represents the state of a distributed swarm update." alt="" coords="418,71,612,111"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,193,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,39,394,68,418,72,417,77,393,74,207,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="21,71,177,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,88,417,88,417,94,193,94"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="30,136,168,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="183,149,284,140,393,124,450,109,451,115,394,129,285,145,184,155"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Client.IApiClient" name="Tgstation.Server.Client.IApiClient">
-<area shape="rect" id="Node000001" title="Web interface for the API." alt="" coords="5,79,161,120"/>
-<area shape="rect" id="Node000002" href="$class_i_async_disposable.html" title=" " alt="" coords="20,5,146,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,46,86,79,80,79,80,46"/>
+<area shape="rect" id="Node000001" title="Web interface for the API." alt="" coords="50,79,206,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_transfer_client.html" title="For transferring data Streams." alt="" coords="5,5,112,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,41,113,77,109,80,77,44"/>
+<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="136,5,261,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,45,147,80,143,77,176,41"/>
 </map>

@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory" name="Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory">
+<area shape="rect" id="Node000001" title=" " alt="" coords="81,109,325,150"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_i_graph_q_l_server_client_factory.html" title="Factory for creating IGraphQLServerClients." alt="" coords="5,13,198,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,48,185,107,181,110,122,51"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_rest_server_client_factory.html" title="Factory for creating IRestServerClients." alt="" coords="222,5,389,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="277,59,224,110,221,107,273,55"/>
+</map>

@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Client.ServerClientFactory.CreateWithNewToken" name="Tgstation.Server.Client.ServerClientFactory.CreateWithNewToken">
-<area shape="rect" id="Node000001" title="Creates a IServerClient from a login operation." alt="" coords="297,31,499,87"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a430da725226ffc80e16a8585c7d7eab9" title="Create a IServerClient using a password login.A ValueTask&lt;TResult&gt; resulting in a new IServerClient." alt="" coords="8,5,246,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="281,47,246,43,247,38,282,42"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a5c86ed9aba697ed31dfb6921e8572706" title="Create a IServerClient using am OAuth login.A ValueTask&lt;TResult&gt; resulting in a new IServerClient." alt="" coords="5,71,249,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="282,75,250,79,249,74,281,70"/>
-</map>

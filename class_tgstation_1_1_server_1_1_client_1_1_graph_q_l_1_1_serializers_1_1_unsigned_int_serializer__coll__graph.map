@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Client.GraphQL.Serializers.UnsignedIntSerializer" name="Tgstation.Server.Client.GraphQL.Serializers.UnsignedIntSerializer">
+<area shape="rect" id="Node000001" title="ScalarSerializer&lt;TSerialized, TRuntime&gt; for UInt32s." alt="" coords="5,79,201,135"/>
+<area shape="rect" id="Node000002" href="$class_scalar_serializer.html" title=" " alt="" coords="26,5,180,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,47,106,78,100,78,100,47"/>
+</map>

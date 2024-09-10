@@ -1,0 +1,7 @@
+<map id="ScalarSerializer" name="ScalarSerializer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,60,117,86"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_serializers_1_1_semver_serializer.html" title="ScalarSerializer&lt;TSerialized, TRuntime&gt; for UInt32s." alt="" coords="165,5,403,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,58,164,52,165,57,133,63"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_serializers_1_1_unsigned_int_serializer.html" title="ScalarSerializer&lt;TSerialized, TRuntime&gt; for UInt32s." alt="" coords="186,85,382,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="132,83,186,93,185,98,131,88"/>
+</map>

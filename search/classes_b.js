@@ -6,5 +6,7 @@ var searchData=
   ['limitedstreamresult_3',['LimitedStreamResult',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result.html',1,'Tgstation::Server::Host::Controllers::Results']]],
   ['limitedstreamresultexecutor_4',['LimitedStreamResultExecutor',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result_executor.html',1,'Tgstation::Server::Host::Controllers::Results']]],
   ['limits_5',['Limits',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_limits.html',1,'Tgstation::Server::Api::Models']]],
-  ['logfileresponse_6',['LogFileResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html',1,'Tgstation::Server::Api::Models::Response']]]
+  ['localserver_6',['LocalServer',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_local_server.html',1,'Tgstation::Server::Host::GraphQL::Types']]],
+  ['localserverinformation_7',['LocalServerInformation',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_local_server_information.html',1,'Tgstation::Server::Api::Models::Internal']]],
+  ['logfileresponse_8',['LogFileResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html',1,'Tgstation::Server::Api::Models::Response']]]
 ];

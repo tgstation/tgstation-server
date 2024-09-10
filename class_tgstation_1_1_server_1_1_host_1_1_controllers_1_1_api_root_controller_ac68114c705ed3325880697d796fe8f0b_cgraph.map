@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title="Main page of the Application." alt="" coords="5,150,221,191"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_api_headers_provider.html#a3def189103a04956cec01d2453f7318d" title="Attempt to create Api.ApiHeaders without checking for the presence of an Microsoft...." alt="" coords="273,5,502,61"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,147,198,109,267,71,280,65,283,70,270,76,201,114,144,152"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a19bad61be74a63558b5cac2ba8a0e82a" title="Gets the list of SwarmServerResponses in the swarm, including the current one." alt="" coords="277,85,498,126"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#abda536785999219476ca30f6a0d16c56" title="Gets the list of SwarmServerInformations in the swarm, including the current one." alt="" coords="277,85,498,126"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="201,147,283,127,285,132,202,152"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a5333dd9534ea615440e2360016e75be4" title="Response for missing/Invalid headers." alt="" coords="280,150,495,191"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="221,168,264,168,264,173,221,173"/>

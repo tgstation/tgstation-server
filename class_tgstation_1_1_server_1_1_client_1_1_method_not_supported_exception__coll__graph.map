@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title="Occurs when the client tries to use a currently unsupported API." alt="" coords="5,226,206,267"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_api_exception.html" title="API related Exceptions." alt="" coords="57,153,154,178"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,194,108,226,103,226,103,194"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients." alt="" coords="50,79,161,105"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IRestServerClients." alt="" coords="50,79,161,105"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="108,120,108,152,103,152,103,120"/>
 <area shape="rect" id="Node000004" href="$class_exception.html" title=" " alt="" coords="67,5,144,31"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="108,46,108,79,103,79,103,46"/>

@@ -112,6 +112,9 @@ Static Public Attributes</h2></td></tr>
 <tr class="memitem:a8c6219903a85b89432912919b1762e49" id="r_a8c6219903a85b89432912919b1762e49"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">const</a> <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8c6219903a85b89432912919b1762e49">ApiRoot</a> = &quot;/api/&quot;</td></tr>
 <tr class="memdesc:a8c6219903a85b89432912919b1762e49"><td class="mdescLeft">&#160;</td><td class="mdescRight">The root of API methods.  <br /></td></tr>
 <tr class="separator:a8c6219903a85b89432912919b1762e49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a502122c533fa679ec8c34ddb89431fa6" id="r_a502122c533fa679ec8c34ddb89431fa6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">const</a> <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a502122c533fa679ec8c34ddb89431fa6">GraphQL</a> = <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8c6219903a85b89432912919b1762e49">ApiRoot</a> + &quot;graphql&quot;</td></tr>
+<tr class="memdesc:a502122c533fa679ec8c34ddb89431fa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The GraphQL route.  <br /></td></tr>
+<tr class="separator:a502122c533fa679ec8c34ddb89431fa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a592881a5c0b75edd77acb148c13b52b9" id="r_a592881a5c0b75edd77acb148c13b52b9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">const</a> <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a592881a5c0b75edd77acb148c13b52b9">HubsRoot</a> = <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8c6219903a85b89432912919b1762e49">ApiRoot</a> + &quot;hubs&quot;</td></tr>
 <tr class="memdesc:a592881a5c0b75edd77acb148c13b52b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The root route of all hubs.  <br /></td></tr>
 <tr class="separator:a592881a5c0b75edd77acb148c13b52b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -246,16 +249,16 @@ Static Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The sanitized path.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00135">135</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  136</span>        {</div>
-<div class="line"><span class="lineno">  137</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">path</a> ??= <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">String</a>.Empty;</div>
-<div class="line"><span class="lineno">  138</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">path</a>.Length == 0 || <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">path</a>[0] != <span class="charliteral">&#39;/&#39;</span>)</div>
-<div class="line"><span class="lineno">  139</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">path</a> = <span class="charliteral">&#39;/&#39;</span> + <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">path</a>;</div>
-<div class="line"><span class="lineno">  140</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">path</a>;</div>
-<div class="line"><span class="lineno">  141</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_a63077d90c7d1f0afef5045211241fb47"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">Tgstation.Server.Api.Routes.List</a></div><div class="ttdeci">const string List</div><div class="ttdoc">The postfix for list operations.</div><div class="ttdef"><b>Definition</b> <a href="_routes_8cs_source.html#l00108">Routes.cs:108</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00140">140</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  141</span>        {</div>
+<div class="line"><span class="lineno">  142</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">path</a> ??= <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">String</a>.Empty;</div>
+<div class="line"><span class="lineno">  143</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">path</a>.Length == 0 || <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">path</a>[0] != <span class="charliteral">&#39;/&#39;</span>)</div>
+<div class="line"><span class="lineno">  144</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">path</a> = <span class="charliteral">&#39;/&#39;</span> + <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">path</a>;</div>
+<div class="line"><span class="lineno">  145</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">path</a>;</div>
+<div class="line"><span class="lineno">  146</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_a63077d90c7d1f0afef5045211241fb47"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">Tgstation.Server.Api.Routes.List</a></div><div class="ttdeci">const string List</div><div class="ttdoc">The postfix for list operations.</div><div class="ttdef"><b>Definition</b> <a href="_routes_8cs_source.html#l00113">Routes.cs:113</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_routes_8cs_source.html#l00108">Tgstation.Server.Api.Routes.List</a>.</p>
+<p class="reference">References <a class="el" href="_routes_8cs_source.html#l00113">Tgstation.Server.Api.Routes.List</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_administration_client_8cs_source.html#l00060">Tgstation.Server.Client.AdministrationClient.GetLog()</a>, and <a class="el" href="_configuration_client_8cs_source.html#l00051">Tgstation.Server.Client.Components.ConfigurationClient.Read()</a>.</p>
 <div class="dynheader">
@@ -342,7 +345,7 @@ Here is the caller graph for this function:</div>
 
 <p>The server administration controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00023">23</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00028">28</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_administration_client_8cs_source.html#l00030">Tgstation.Server.Client.AdministrationClient.Update()</a>.</p>
 
@@ -372,7 +375,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00013">13</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_client_factory_8cs_source.html#l00154">Tgstation.Server.Client.ServerClientFactory.CreateWithNewToken()</a>, <a class="el" href="_server_client_factory_8cs_source.html#l00117">Tgstation.Server.Client.ServerClientFactory.GetServerInformation()</a>, and <a class="el" href="_api_client_8cs_source.html#l00336">Tgstation.Server.Client.ApiClient.RefreshToken()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_rest_server_client_factory_8cs_source.html#l00154">Tgstation.Server.Client.RestServerClientFactory.CreateWithNewToken()</a>, <a class="el" href="_rest_server_client_factory_8cs_source.html#l00117">Tgstation.Server.Client.RestServerClientFactory.GetServerInformation()</a>, and <a class="el" href="_api_client_8cs_source.html#l00336">Tgstation.Server.Client.ApiClient.RefreshToken()</a>.</p>
 
 </div>
 </div>
@@ -398,7 +401,7 @@ Here is the caller graph for this function:</div>
 
 <p>The chat bot controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00088">88</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00093">93</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 </div>
 </div>
@@ -424,7 +427,7 @@ Here is the caller graph for this function:</div>
 
 <p>The configuration controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00068">68</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00073">73</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_configuration_client_8cs_source.html#l00073">Tgstation.Server.Client.Components.ConfigurationClient.Write()</a>.</p>
 
@@ -452,7 +455,7 @@ Here is the caller graph for this function:</div>
 
 <p>Full combination of Configuration and File. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00078">78</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00083">83</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 </div>
 </div>
@@ -478,7 +481,7 @@ Here is the caller graph for this function:</div>
 
 <p>For accessing DD diagnostics. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00063">63</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00068">68</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 </div>
 </div>
@@ -504,7 +507,7 @@ Here is the caller graph for this function:</div>
 
 <p>The DreamDaemon controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00058">58</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00063">63</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 </div>
 </div>
@@ -530,7 +533,7 @@ Here is the caller graph for this function:</div>
 
 <p>The deployment controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00093">93</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00098">98</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 </div>
 </div>
@@ -556,7 +559,7 @@ Here is the caller graph for this function:</div>
 
 <p>The engine controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00048">48</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00053">53</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_engine_client_8cs_source.html#l00045">Tgstation.Server.Client.Components.EngineClient.SetActiveVersion()</a>.</p>
 
@@ -584,7 +587,35 @@ Here is the caller graph for this function:</div>
 
 <p>To be paired with Configuration for accessing Models.IConfigurationFiles. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00073">73</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00078">78</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+
+</div>
+</div>
+<a id="a502122c533fa679ec8c34ddb89431fa6" name="a502122c533fa679ec8c34ddb89431fa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a502122c533fa679ec8c34ddb89431fa6">&#9670;&#160;</a></span>GraphQL</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">const</a> <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a63077d90c7d1f0afef5045211241fb47">string</a> Tgstation.Server.Api.Routes.GraphQL = <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8c6219903a85b89432912919b1762e49">ApiRoot</a> + &quot;graphql&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The GraphQL route. </p>
+
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00018">18</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00472">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_graph_q_l_server_client_factory_8cs_source.html#l00048">Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory.CreateUnauthenticated()</a>.</p>
 
 </div>
 </div>
@@ -610,9 +641,9 @@ Here is the caller graph for this function:</div>
 
 <p>The root route of all hubs. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00018">18</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00023">23</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00619">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00641">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline()</a>.</p>
 
 </div>
 </div>
@@ -638,7 +669,7 @@ Here is the caller graph for this function:</div>
 
 <p>The Models.Instance controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00043">43</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00048">48</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 </div>
 </div>
@@ -664,7 +695,7 @@ Here is the caller graph for this function:</div>
 
 <p>The instance permission set controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00083">83</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00088">88</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 </div>
 </div>
@@ -690,7 +721,7 @@ Here is the caller graph for this function:</div>
 
 <p>The jobs controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00098">98</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00103">103</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 </div>
 </div>
@@ -716,9 +747,9 @@ Here is the caller graph for this function:</div>
 
 <p>The root route of all hubs. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00113">113</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00118">118</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00458">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_api_client_8cs_source.html#l00360">Tgstation.Server.Client.ApiClient.CreateHubConnection&lt; THubImplementation &gt;()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00472">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_api_client_8cs_source.html#l00360">Tgstation.Server.Client.ApiClient.CreateHubConnection&lt; THubImplementation &gt;()</a>.</p>
 
 </div>
 </div>
@@ -744,9 +775,9 @@ Here is the caller graph for this function:</div>
 
 <p>The postfix for list operations. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00108">108</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00113">113</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_routes_8cs_source.html#l00135">Tgstation.Server.Api.Routes.SanitizeGetPath()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_routes_8cs_source.html#l00140">Tgstation.Server.Api.Routes.SanitizeGetPath()</a>.</p>
 
 </div>
 </div>
@@ -772,7 +803,7 @@ Here is the caller graph for this function:</div>
 
 <p>The endpoint to download server logs. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00028">28</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00033">33</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 </div>
 </div>
@@ -798,7 +829,7 @@ Here is the caller graph for this function:</div>
 
 <p>The git repository controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00053">53</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00058">58</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 </div>
 </div>
@@ -824,7 +855,7 @@ Here is the caller graph for this function:</div>
 
 <p>The transfer controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00103">103</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00108">108</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 </div>
 </div>
@@ -850,7 +881,7 @@ Here is the caller graph for this function:</div>
 
 <p>The user controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00033">33</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00038">38</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 </div>
 </div>
@@ -876,7 +907,7 @@ Here is the caller graph for this function:</div>
 
 <p>The user group controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00038">38</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_routes_8cs_source.html#l00043">43</a> of file <a class="el" href="_routes_8cs_source.html">Routes.cs</a>.</p>
 
 </div>
 </div>

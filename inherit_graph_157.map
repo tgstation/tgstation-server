@@ -1,9 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="5,5,261,61"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html" title=" " alt="" coords="309,17,504,58"/>
-<area shape="poly" id="edge586_Node000000_Node000001" title=" " alt="" coords="276,33,308,33,308,38,276,38"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html" title="Represents information about a current git revison." alt="" coords="40,85,226,126"/>
-<area shape="poly" id="edge588_Node000002_Node000001" title=" " alt="" coords="232,78,321,55,323,61,233,83"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html" title=" " alt="" coords="313,85,500,126"/>
-<area shape="poly" id="edge587_Node000002_Node000003" title=" " alt="" coords="242,103,313,103,313,108,242,108"/>
+<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_swarm_metadata.html" title="Represents information that is constant across all servers in a ServerSwarm." alt="" coords="5,5,191,46"/>
 </map>

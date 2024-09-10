@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,340,83,365"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html" title="Thrown when trying to generate ApiHeaders from Microsoft.AspNetCore.Http.Headers.RequestHeaders fails..." alt="" coords="131,267,321,307"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,331,130,318,164,305,166,310,132,323,96,336"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients." alt="" coords="148,332,304,373"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IRestServerClients." alt="" coords="148,332,304,373"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="98,350,148,350,148,355,98,355"/>
 <area shape="rect" id="Node000016" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html" title="Operation exceptions thrown from the context of a Models.Job." alt="" coords="135,397,317,438"/>
 <area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="96,369,132,382,166,394,164,399,130,387,94,374"/>

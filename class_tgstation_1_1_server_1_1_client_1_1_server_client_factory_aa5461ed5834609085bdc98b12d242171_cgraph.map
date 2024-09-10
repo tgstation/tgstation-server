@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Client.ServerClientFactory.GetServerInformation" name="Tgstation.Server.Client.ServerClientFactory.GetServerInformation">
-<area shape="rect" id="Node000001" title="Gets the ServerInformationResponse for a given host .A ValueTask&lt;TResult&gt; resulting in the ServerInfo..." alt="" coords="5,31,203,87"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a55853418698889c9f90804d1e9067b51" title="Adds a requestLogger &#160;to the request pipeline." alt="" coords="260,5,451,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,43,244,38,244,43,204,49"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#aca41a822cce8517c0ccec8cf409555cd" title="Create an IApiClient.A new IApiClient." alt="" coords="251,71,460,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="204,69,235,73,235,78,203,74"/>
-</map>

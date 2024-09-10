@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Client.ServerClientFactory.CreateFromToken" name="Tgstation.Server.Client.ServerClientFactory.CreateFromToken">
-<area shape="rect" id="Node000001" title="Create a IServerClient.A new IServerClient." alt="" coords="5,5,248,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#aca41a822cce8517c0ccec8cf409555cd" title="Create an IApiClient.A new IApiClient." alt="" coords="296,5,505,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="248,23,280,23,280,28,248,28"/>
-</map>

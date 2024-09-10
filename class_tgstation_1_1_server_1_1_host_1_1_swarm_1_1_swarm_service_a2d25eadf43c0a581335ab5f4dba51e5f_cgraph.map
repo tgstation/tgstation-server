@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title="Sends out remote abort update requests." alt="" coords="5,85,233,126"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="299,5,506,61"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,82,283,61,285,66,203,87"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa9e9a887a475c9bbb5f90ae89867b350" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="281,85,524,126"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0284d2a7f1508bc31dd208906cfbe4d3" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="281,85,524,126"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,103,265,103,265,108,233,108"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="295,149,510,205"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="203,124,280,143,279,149,201,129"/>

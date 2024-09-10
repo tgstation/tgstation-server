@@ -1,5 +1,16 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_i_equatable.html" title=" " alt="" coords="5,13,88,39"/>
+<area shape="rect" id="Node000000" href="$class_i_equatable.html" title=" " alt="" coords="5,70,88,96"/>
 <area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html" title="Information about an engine installation." alt="" coords="136,5,322,46"/>
-<area shape="poly" id="edge260_Node000000_Node000001" title=" " alt="" coords="103,23,135,23,135,28,103,28"/>
+<area shape="poly" id="edge264_Node000000_Node000001" title=" " alt="" coords="102,63,161,44,163,49,103,68"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="136,121,322,162"/>
+<area shape="poly" id="edge265_Node000000_Node000002" title=" " alt="" coords="103,98,164,118,163,123,101,103"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server_information.html" title="Represents information about a running SwarmServer." alt="" coords="379,60,590,101"/>
+<area shape="poly" id="edge270_Node000000_Node000003" title=" " alt="" coords="103,80,378,78,378,84,103,85"/>
+<area shape="poly" id="edge266_Node000002_Node000003" title=" " alt="" coords="331,115,396,99,397,104,332,120"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="370,125,598,166"/>
+<area shape="poly" id="edge268_Node000002_Node000005" title=" " alt="" coords="338,141,370,141,370,147,338,146"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_request.html" title="A request to register with a swarm controller." alt="" coords="387,191,581,231"/>
+<area shape="poly" id="edge269_Node000002_Node000006" title=" " alt="" coords="322,164,407,188,406,193,321,169"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html" title=" " alt="" coords="646,60,866,101"/>
+<area shape="poly" id="edge267_Node000003_Node000004" title=" " alt="" coords="605,78,646,78,646,83,605,83"/>
 </map>

@@ -2,9 +2,9 @@
 <area shape="rect" id="Node000001" title="Send a given updateRequest &#160;out to nodes from the swarm controller." alt="" coords="5,77,232,133"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="300,5,507,61"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,74,284,60,285,66,232,79"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a454f66212f15d38ac9a1716bae7de63d" title="Create a FileTicketResponse for downloading the content of a given initiatorProvider &#160;for the rest of..." alt="" coords="280,85,527,126"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ab8668c1ac98d71d5d4c62ec1276ddf82" title="Create a FileTicketResponse for downloading the content of a given initiatorProvider &#160;for the rest of..." alt="" coords="280,85,527,126"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,103,264,103,264,108,232,108"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa9e9a887a475c9bbb5f90ae89867b350" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="282,150,525,191"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0284d2a7f1508bc31dd208906cfbe4d3" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="282,150,525,191"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="233,129,298,144,296,149,232,134"/>
 <area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html#a911dc864e5e9ba44772382900ad6998b" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="575,41,789,97"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="527,87,559,82,560,88,528,92"/>

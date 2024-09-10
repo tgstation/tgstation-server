@@ -1,23 +1,25 @@
 <map id="Tgstation.Server.Host.Controllers.SwarmController" name="Tgstation.Server.Host.Controllers.SwarmController">
-<area shape="rect" id="Node000001" title="For swarm server communication." alt="" coords="735,154,950,195"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="321,5,446,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="462,20,582,38,648,54,712,77,744,93,773,113,821,151,818,155,770,117,741,98,710,82,647,59,581,43,461,26"/>
-<area shape="rect" id="Node000003" href="$class_controller.html" title=" " alt="" coords="42,5,119,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="134,16,320,16,320,21,134,21"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html" title="Swarm service operations for the Controllers.SwarmController." alt="" coords="286,55,481,96"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="496,89,601,107,712,130,782,151,781,156,710,135,600,112,495,94"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html" title="Allows aborting a swarm distributed update operation." alt="" coords="5,63,156,88"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="171,73,286,73,286,78,171,78"/>
-<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html" title="Reads and writes to Streams associated with FileTicketResponses." alt="" coords="283,121,484,161"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="500,147,735,164,735,169,499,152"/>
-<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="285,186,482,227"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="498,197,711,183,734,181,735,186,711,188,498,202"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="251,251,516,292"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="531,249,620,234,710,215,783,193,785,198,712,220,621,239,532,255"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="269,317,498,357"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="512,322,611,303,662,288,710,269,741,253,771,232,819,193,822,197,774,237,744,257,712,274,663,293,613,308,514,327"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="30,299,131,324"/>
-<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="146,314,269,325,269,330,146,320"/>
-<area shape="rect" id="Node000011" title=" " alt="" coords="36,348,125,374"/>
-<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="140,354,269,343,269,349,140,359"/>
+<area shape="rect" id="Node000001" title="For swarm server communication." alt="" coords="968,154,1183,195"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="553,5,679,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="695,20,815,38,881,54,945,77,976,93,1006,113,1054,151,1050,155,1003,117,974,98,943,82,879,59,814,43,694,26"/>
+<area shape="rect" id="Node000003" href="$class_controller.html" title=" " alt="" coords="275,5,351,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="367,16,553,16,553,21,367,21"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html" title="Swarm service operations for the Controllers.SwarmController." alt="" coords="519,55,713,96"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="729,89,834,107,944,130,1015,151,1013,156,943,135,833,112,728,94"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html" title="Allows aborting a swarm distributed update operation." alt="" coords="238,63,388,88"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="404,73,519,73,519,78,404,78"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html" title="Reads and writes to Streams associated with FileTicketResponses." alt="" coords="515,121,717,161"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="732,147,968,164,967,169,732,152"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="517,186,715,227"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="730,197,943,183,967,181,968,186,944,188,731,202"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="483,251,749,292"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="764,249,853,234,943,215,1016,193,1018,198,944,220,854,239,765,255"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="502,317,730,357"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="745,322,844,303,894,288,943,269,974,253,1004,232,1051,193,1055,197,1007,237,977,257,945,274,896,293,845,308,746,327"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="263,299,363,324"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="379,314,502,325,502,330,379,320"/>
+<area shape="rect" id="Node000011" href="$class_i_equatable.html" title=" " alt="" coords="5,299,189,324"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="204,309,262,309,262,314,204,314"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="269,348,357,374"/>
+<area shape="poly" id="edge11_Node000009_Node000012" title=" " alt="" coords="373,355,459,349,501,346,502,351,460,354,373,360"/>
 </map>

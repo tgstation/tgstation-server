@@ -1,0 +1,5 @@
+<map id="ScalarType" name="ScalarType">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,20,92,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_scalars_1_1_semver_type.html" title="A ScalarType&lt;TRuntimeType, TLiteral&gt; for semantic Versions." alt="" coords="140,5,340,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,31,139,31,139,36,107,36"/>
+</map>

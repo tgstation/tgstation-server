@@ -4,7 +4,7 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="693,128,644,94,587,61,555,49,557,44,589,57,647,89,697,124"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a6417881aa109cd3b7f5c786e571428c1" title="Implementation of PrepareUpdate(ISeekableFileStreamProvider, Version, CancellationToken),..." alt="" coords="351,71,572,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="630,134,548,115,550,109,631,129"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a3c3257b2cbbae59658945fe7d699b7a9" title="Attempt to register a given node &#160;with the controller.A ValueTask&lt;TResult&gt; resulting in true if the r..." alt="" coords="364,136,559,177"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a70bee694c088ecbaca183b8d343f4f27" title="Attempt to register a given node &#160;with the controller.A ValueTask&lt;TResult&gt; resulting in true if the r..." alt="" coords="364,136,559,177"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="621,159,559,159,559,154,621,154"/>
 <area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a4eb3f6f8b8b60249e8307dbe5aede15d" title="Notify the controller that the node with the given registrationId &#160;is ready to commit or notify the n..." alt="" coords="335,201,588,242"/>
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="631,183,550,203,548,198,630,178"/>

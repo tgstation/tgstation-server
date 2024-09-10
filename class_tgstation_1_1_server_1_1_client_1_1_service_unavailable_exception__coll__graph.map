@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Client.ServiceUnavailableException" name="Tgstation.Server.Client.ServiceUnavailableException">
 <area shape="rect" id="Node000001" title="Occurs when the client makes a request while the server is starting or stopping." alt="" coords="5,153,195,193"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients." alt="" coords="45,79,155,105"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IRestServerClients." alt="" coords="45,79,155,105"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,120,103,152,97,152,97,120"/>
 <area shape="rect" id="Node000003" href="$class_exception.html" title=" " alt="" coords="61,5,139,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="103,46,103,79,97,79,97,46"/>

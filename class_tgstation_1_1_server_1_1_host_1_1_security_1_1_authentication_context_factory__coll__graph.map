@@ -1,44 +1,46 @@
 <map id="Tgstation.Server.Host.Security.AuthenticationContextFactory" name="Tgstation.Server.Host.Security.AuthenticationContextFactory">
-<area shape="rect" id="Node000001" title=" " alt="" coords="1741,202,1942,243"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html" title="For creating and accessing authentication contexts." alt="" coords="1313,5,1508,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1524,6,1572,8,1622,15,1672,28,1719,49,1760,83,1794,124,1818,166,1834,200,1830,203,1814,169,1789,127,1757,86,1716,54,1670,33,1621,20,1571,14,1523,12"/>
-<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="1062,125,1152,151"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1167,134,1272,133,1409,138,1564,152,1642,163,1718,178,1787,199,1785,204,1717,183,1641,169,1563,157,1409,144,1272,139,1167,139"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html" title=" " alt="" coords="1310,169,1510,209"/>
-<area shape="poly" id="edge11_Node000010_Node000003" title=" " alt="" coords="1167,145,1310,170,1309,175,1166,151"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database." alt="" coords="1306,234,1514,275"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1530,250,1622,247,1717,240,1740,237,1741,242,1718,245,1622,252,1530,256"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys." alt="" coords="1310,299,1510,340"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1526,306,1620,292,1717,271,1796,240,1798,245,1718,276,1621,297,1527,311"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="1297,364,1523,419"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1538,376,1628,357,1673,342,1716,324,1747,306,1775,284,1820,241,1824,245,1779,288,1750,310,1719,329,1675,347,1629,362,1539,381"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="993,50,1221,91"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1236,69,1342,75,1464,89,1593,112,1718,146,1771,171,1814,199,1812,204,1768,176,1716,151,1592,117,1464,94,1342,81,1236,74"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="694,55,794,80"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="810,65,992,67,992,72,810,71"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="700,104,788,130"/>
-<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="803,108,968,88,992,85,992,90,969,93,804,113"/>
-<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html" title=" " alt="" coords="995,181,1219,207"/>
-<area shape="poly" id="edge18_Node000012_Node000009" title=" " alt="" coords="804,127,1044,178,1043,183,803,132"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1526,195,1741,212,1741,217,1526,200"/>
-<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Models.User." alt="" coords="1031,231,1183,256"/>
-<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="1196,225,1309,204,1310,209,1197,230"/>
-<area shape="poly" id="edge12_Node000010_Node000012" title=" " alt="" coords="1234,196,1273,196,1309,194,1310,199,1273,201,1234,202"/>
-<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html" title="Represents a server user." alt="" coords="675,154,813,195"/>
-<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="828,176,995,185,994,191,828,181"/>
-<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html" title="Base class for user names." alt="" coords="348,171,432,196"/>
-<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="448,179,675,173,675,179,448,185"/>
-<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="161,181,256,207"/>
-<area shape="poly" id="edge15_Node000014_Node000015" title=" " alt="" coords="272,188,347,183,348,189,272,193"/>
-<area shape="rect" id="Node000016" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="5,207,70,232"/>
-<area shape="poly" id="edge16_Node000015_Node000016" title=" " alt="" coords="85,210,161,199,161,204,86,215"/>
-<area shape="rect" id="Node000019" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html" title="Represents a set of server permissions." alt="" coords="119,231,298,256"/>
-<area shape="poly" id="edge21_Node000019_Node000016" title=" " alt="" coords="85,223,119,228,118,233,85,229"/>
-<area shape="rect" id="Node000017" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="676,219,812,260"/>
-<area shape="poly" id="edge17_Node000012_Node000017" title=" " alt="" coords="827,227,998,205,999,210,828,232"/>
-<area shape="rect" id="Node000018" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html" title=" " alt="" coords="456,241,651,281"/>
-<area shape="poly" id="edge19_Node000010_Node000018" title=" " alt="" coords="667,279,784,293,924,300,998,299,1073,294,1148,283,1220,266,1243,257,1258,245,1274,233,1296,220,1328,207,1330,212,1298,225,1277,237,1261,250,1245,262,1222,271,1149,288,1074,299,998,305,923,306,783,298,666,284"/>
-<area shape="poly" id="edge20_Node000018_Node000019" title=" " alt="" coords="314,246,456,253,456,259,313,251"/>
-<area shape="rect" id="Node000020" title=" " alt="" coords="1391,444,1429,470"/>
-<area shape="poly" id="edge22_Node000001_Node000020" title=" " alt="" coords="1445,456,1501,455,1571,447,1646,429,1682,415,1716,396,1756,361,1789,319,1813,276,1830,242,1834,244,1818,279,1793,322,1760,365,1719,401,1685,420,1648,434,1572,452,1501,460,1445,461"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="1784,222,1985,263"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html" title="For creating and accessing authentication contexts." alt="" coords="1355,5,1550,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1566,16,1614,22,1665,32,1715,48,1762,72,1802,106,1835,146,1860,187,1877,221,1872,223,1856,190,1831,150,1798,109,1759,76,1713,53,1664,37,1613,27,1565,21"/>
+<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="1106,332,1195,358"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1211,341,1371,335,1469,327,1566,316,1663,296,1760,270,1799,261,1801,266,1761,275,1665,301,1567,321,1469,332,1372,340,1211,347"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html" title=" " alt="" coords="1352,386,1552,427"/>
+<area shape="poly" id="edge12_Node000011_Node000003" title=" " alt="" coords="1210,354,1352,383,1351,388,1209,359"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database." alt="" coords="1348,121,1556,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1572,156,1665,173,1761,196,1831,219,1830,224,1760,201,1664,178,1571,161"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys." alt="" coords="1352,186,1552,227"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1568,213,1784,231,1784,236,1567,218"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="1339,250,1565,306"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1581,265,1760,251,1784,248,1784,254,1761,256,1581,271"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="1338,55,1566,96"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1582,88,1672,108,1718,123,1762,141,1792,159,1820,179,1865,219,1862,223,1817,183,1789,163,1759,146,1716,128,1671,113,1581,93"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="1100,63,1201,88"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1216,73,1338,73,1338,78,1216,78"/>
+<area shape="rect" id="Node000009" href="$class_i_equatable.html" title=" " alt="" coords="675,63,859,88"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="874,73,1100,73,1100,78,874,78"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="723,225,811,251"/>
+<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="826,222,1362,94,1363,99,827,227"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html" title=" " alt="" coords="1039,432,1262,458"/>
+<area shape="poly" id="edge19_Node000013_Node000010" title=" " alt="" coords="811,256,908,311,964,348,1017,390,1028,405,1040,419,1062,429,1060,434,1037,423,1024,409,1013,393,961,352,906,316,808,261"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1568,412,1615,410,1664,404,1713,393,1759,375,1795,351,1826,320,1869,261,1873,265,1830,324,1798,355,1762,380,1715,398,1665,410,1615,416,1568,417"/>
+<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Models.User." alt="" coords="1074,383,1227,408"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="1242,396,1352,400,1352,405,1242,401"/>
+<area shape="poly" id="edge13_Node000011_Node000013" title=" " alt="" coords="1271,427,1351,416,1352,422,1271,432"/>
+<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html" title="Represents a server user." alt="" coords="698,359,836,400"/>
+<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="851,391,1071,429,1070,434,850,396"/>
+<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html" title="Base class for user names." alt="" coords="348,376,432,402"/>
+<area shape="poly" id="edge15_Node000014_Node000015" title=" " alt="" coords="447,385,698,379,698,384,448,390"/>
+<area shape="rect" id="Node000016" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="161,387,256,412"/>
+<area shape="poly" id="edge16_Node000015_Node000016" title=" " alt="" coords="272,393,347,389,348,394,272,398"/>
+<area shape="rect" id="Node000017" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="5,412,70,438"/>
+<area shape="poly" id="edge17_Node000016_Node000017" title=" " alt="" coords="85,415,161,404,161,409,86,421"/>
+<area shape="rect" id="Node000020" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html" title="Represents a set of server permissions." alt="" coords="119,436,298,462"/>
+<area shape="poly" id="edge22_Node000020_Node000017" title=" " alt="" coords="85,429,119,434,118,439,85,434"/>
+<area shape="rect" id="Node000018" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="699,425,835,465"/>
+<area shape="poly" id="edge18_Node000013_Node000018" title=" " alt="" coords="850,442,1038,442,1038,448,850,448"/>
+<area shape="rect" id="Node000019" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html" title=" " alt="" coords="456,446,651,487"/>
+<area shape="poly" id="edge20_Node000011_Node000019" title=" " alt="" coords="667,479,790,490,940,495,1101,490,1183,481,1261,468,1283,461,1299,453,1337,436,1371,425,1373,430,1339,441,1302,458,1285,466,1263,473,1183,486,1102,495,940,501,790,495,666,484"/>
+<area shape="poly" id="edge21_Node000019_Node000020" title=" " alt="" coords="314,451,456,459,456,464,313,457"/>
+<area shape="rect" id="Node000021" title=" " alt="" coords="1433,451,1471,476"/>
+<area shape="poly" id="edge23_Node000001_Node000021" title=" " alt="" coords="1487,467,1543,472,1613,472,1689,461,1725,449,1759,432,1782,415,1802,395,1836,348,1860,300,1874,262,1879,264,1865,302,1840,350,1806,398,1785,419,1762,437,1727,454,1690,466,1614,478,1542,478,1486,472"/>
 </map>

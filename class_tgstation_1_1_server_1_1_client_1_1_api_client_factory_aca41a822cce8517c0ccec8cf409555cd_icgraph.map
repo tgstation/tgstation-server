@@ -1,13 +1,13 @@
 <map id="Tgstation.Server.Client.ApiClientFactory.CreateApiClient" name="Tgstation.Server.Client.ApiClientFactory.CreateApiClient">
-<area shape="rect" id="Node000001" title="Create an IApiClient.A new IApiClient." alt="" coords="587,77,796,118"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#af526e8ead3e961581e00c65865a1978a" title="Create a IServerClient.A new IServerClient." alt="" coords="297,5,539,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="596,75,497,49,499,44,598,70"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a82e89289c41c190cbbe7da9b8304b4b9" title="Creates a IServerClient from a login operation." alt="" coords="317,70,519,126"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="572,100,520,100,520,95,572,95"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#aa5461ed5834609085bdc98b12d242171" title="Gets the ServerInformationResponse for a given host .A ValueTask&lt;TResult&gt; resulting in the ServerInfo..." alt="" coords="319,150,517,206"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="606,125,516,152,515,147,604,120"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a430da725226ffc80e16a8585c7d7eab9" title="Create a IServerClient using a password login.A ValueTask&lt;TResult&gt; resulting in a new IServerClient." alt="" coords="8,45,246,86"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="301,88,246,81,247,76,302,82"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a5c86ed9aba697ed31dfb6921e8572706" title="Create a IServerClient using am OAuth login.A ValueTask&lt;TResult&gt; resulting in a new IServerClient." alt="" coords="5,111,249,151"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="302,114,249,120,249,114,301,108"/>
+<area shape="rect" id="Node000001" title="Create an IApiClient.A new IApiClient." alt="" coords="529,93,738,134"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_rest_server_client_factory.html#aaab5241f30e12e96bc7aff5aac7e01bb" title="Create a IRestServerClient.A new IRestServerClient." alt="" coords="267,5,471,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="549,90,463,64,464,59,550,85"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_rest_server_client_factory.html#aaf71d54ad26e542407afd3b567383d9b" title="Creates a IRestServerClient from a login operation." alt="" coords="267,85,471,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="513,116,471,116,471,111,513,111"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_client_1_1_rest_server_client_factory.html#a81e390657b5361c8bbf21de91d7d56af" title="Gets the ServerInformationResponse for a given host .A ValueTask&lt;TResult&gt; resulting in the ServerInfo..." alt="" coords="257,165,481,221"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="550,141,464,167,463,162,549,136"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_client_1_1_rest_server_client_factory.html#acb18be1dbdae1cf2afb73bc2c75fc337" title="Create a IRestServerClient using a password login.A ValueTask&lt;TResult&gt; resulting in a new IRestServer..." alt="" coords="5,45,209,101"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="251,98,209,91,209,86,252,93"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_client_1_1_rest_server_client_factory.html#acdea41a68f5a25093cbe6c1cbe4709ba" title="Create a IRestServerClient using an OAuth login.A ValueTask&lt;TResult&gt; resulting in a new IRestServerCl..." alt="" coords="5,125,209,181"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="252,134,209,140,209,135,251,128"/>
 </map>

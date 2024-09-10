@@ -1,7 +1,9 @@
 <map id="Tgstation.Server.Client.ApiClient" name="Tgstation.Server.Client.ApiClient">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,153,161,193"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="44,79,122,105"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,120,86,152,80,152,80,120"/>
-<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="20,5,146,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="86,46,86,79,80,79,80,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="50,153,206,193"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="89,79,167,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="131,120,131,152,125,152,125,120"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_transfer_client.html" title="For transferring data Streams." alt="" coords="5,5,112,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="82,40,118,77,114,80,78,44"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="136,5,261,31"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="178,44,142,80,138,77,174,40"/>
 </map>

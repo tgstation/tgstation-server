@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Server.DumpGraphQLSchemaIfRequested" name="Tgstation.Server.Host.Server.DumpGraphQLSchemaIfRequested">
+<area shape="rect" id="Node000001" title="Checks if InternalConfiguration.DumpGraphQLApiPath is set and dumps the GraphQL API Schema to it if s..." alt="" coords="5,5,232,46"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="280,5,450,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,23,264,23,264,28,232,28"/>
+</map>

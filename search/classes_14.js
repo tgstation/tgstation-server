@@ -1,9 +1,23 @@
 var searchData=
 [
-  ['valuetaskextensions_0',['ValueTaskExtensions',['../class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html',1,'Tgstation::Server::Common::Extensions']]],
-  ['versioncommand_1',['VersionCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]],
-  ['versionconverter_2',['VersionConverter',['../class_tgstation_1_1_server_1_1_shared_1_1_version_converter.html',1,'Tgstation::Server::Shared']]],
-  ['versionextensions_3',['VersionExtensions',['../class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_version_extensions.html',1,'Tgstation::Server::Common::Extensions']]],
-  ['versionmismatchexception_4',['VersionMismatchException',['../class_tgstation_1_1_server_1_1_client_1_1_version_mismatch_exception.html',1,'Tgstation::Server::Client']]],
-  ['versionreportingservice_5',['VersionReportingService',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_version_reporting_service.html',1,'Tgstation::Server::Host::Core']]]
+  ['unauthorizedexception_0',['UnauthorizedException',['../class_tgstation_1_1_server_1_1_client_1_1_unauthorized_exception.html',1,'Tgstation::Server::Client']]],
+  ['unrecognizedresponseexception_1',['UnrecognizedResponseException',['../class_tgstation_1_1_server_1_1_client_1_1_unrecognized_response_exception.html',1,'Tgstation::Server::Client']]],
+  ['unsignedintserializer_2',['UnsignedIntSerializer',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_serializers_1_1_unsigned_int_serializer.html',1,'Tgstation::Server::Client::GraphQL::Serializers']]],
+  ['updateinformation_3',['UpdateInformation',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_update_information.html',1,'Tgstation::Server::Api::Models::Internal']]],
+  ['updatesconfiguration_4',['UpdatesConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html',1,'Tgstation::Server::Host::Configuration']]],
+  ['user_5',['user',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user.html',1,'Tgstation.Server.Host.GraphQL.Types.User'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html',1,'Tgstation.Server.Host.Models.User']]],
+  ['userapibase_6',['UserApiBase',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_api_base.html',1,'Tgstation::Server::Api::Models::Internal']]],
+  ['usercontroller_7',['UserController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html',1,'Tgstation::Server::Host::Controllers']]],
+  ['usercreaterequest_8',['UserCreateRequest',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_create_request.html',1,'Tgstation::Server::Api::Models::Request']]],
+  ['usergroup_9',['usergroup',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_group.html',1,'Tgstation.Server.Host.GraphQL.Types.UserGroup'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html',1,'Tgstation.Server.Host.Models.UserGroup'],['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html',1,'Tgstation.Server.Api.Models.Internal.UserGroup']]],
+  ['usergroupcontroller_10',['UserGroupController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html',1,'Tgstation::Server::Host::Controllers']]],
+  ['usergroupcreaterequest_11',['UserGroupCreateRequest',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_group_create_request.html',1,'Tgstation::Server::Api::Models::Request']]],
+  ['usergroupresponse_12',['UserGroupResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_user_group_response.html',1,'Tgstation::Server::Api::Models::Response']]],
+  ['usergroupsclient_13',['UserGroupsClient',['../class_tgstation_1_1_server_1_1_client_1_1_user_groups_client.html',1,'Tgstation::Server::Client']]],
+  ['usergroupupdaterequest_14',['UserGroupUpdateRequest',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_group_update_request.html',1,'Tgstation::Server::Api::Models::Request']]],
+  ['usermodelbase_15',['UserModelBase',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html',1,'Tgstation::Server::Api::Models::Internal']]],
+  ['username_16',['UserName',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html',1,'Tgstation::Server::Api::Models']]],
+  ['userresponse_17',['UserResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_user_response.html',1,'Tgstation::Server::Api::Models::Response']]],
+  ['usersclient_18',['UsersClient',['../class_tgstation_1_1_server_1_1_client_1_1_users_client.html',1,'Tgstation::Server::Client']]],
+  ['userupdaterequest_19',['UserUpdateRequest',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_update_request.html',1,'Tgstation::Server::Api::Models::Request']]]
 ];

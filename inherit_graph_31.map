@@ -1,11 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html" title="Represents the state of the DreamMaker compiler. Create action starts a new compile...." alt="" coords="51,71,241,111"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_dream_maker_request.html" title="A request to the DreamMaker controller." alt="" coords="345,5,539,46"/>
-<area shape="poly" id="edge479_Node000000_Node000001" title=" " alt="" coords="256,64,346,44,347,49,257,69"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_dream_maker_response.html" title="A request to the DreamMaker controller." alt="" coords="335,71,549,111"/>
-<area shape="poly" id="edge480_Node000000_Node000002" title=" " alt="" coords="256,88,334,88,334,94,256,94"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html" title=" " alt="" coords="344,136,540,177"/>
-<area shape="poly" id="edge481_Node000000_Node000003" title=" " alt="" coords="257,113,347,133,346,138,256,118"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="5,136,287,177"/>
-<area shape="poly" id="edge482_Node000004_Node000003" title=" " alt="" coords="302,154,344,154,344,159,302,159"/>
+<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html" title="Helper for building ChatBotSettings.ConnectionStrings." alt="" coords="5,39,239,79"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html" title="ChatConnectionStringBuilder for ChatProvider.Discord." alt="" coords="287,5,491,46"/>
+<area shape="poly" id="edge485_Node000000_Node000001" title=" " alt="" coords="254,40,286,36,287,41,255,45"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html" title="ChatConnectionStringBuilder for ChatProvider.Irc." alt="" coords="296,71,482,111"/>
+<area shape="poly" id="edge486_Node000000_Node000002" title=" " alt="" coords="254,72,295,77,295,82,254,77"/>
 </map>

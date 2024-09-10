@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Client.RestServerClientFactory.CreateFromOAuth" name="Tgstation.Server.Client.RestServerClientFactory.CreateFromOAuth">
+<area shape="rect" id="Node000001" title="Create a IRestServerClient using an OAuth login.A ValueTask&lt;TResult&gt; resulting in a new IRestServerCl..." alt="" coords="5,5,209,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_rest_server_client_factory.html#aaf71d54ad26e542407afd3b567383d9b" title="Creates a IRestServerClient from a login operation." alt="" coords="257,5,460,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,31,241,31,241,36,209,36"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#aca41a822cce8517c0ccec8cf409555cd" title="Create an IApiClient.A new IApiClient." alt="" coords="508,13,717,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="461,31,493,31,493,36,461,36"/>
+</map>

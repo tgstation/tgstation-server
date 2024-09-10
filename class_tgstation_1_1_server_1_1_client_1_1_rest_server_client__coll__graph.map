@@ -1,0 +1,12 @@
+<map id="Tgstation.Server.Client.RestServerClient" name="Tgstation.Server.Client.RestServerClient">
+<area shape="rect" id="Node000001" title=" " alt="" coords="71,184,226,225"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_rest_server_client.html" title="Main client for communicating with a server." alt="" coords="5,88,129,114"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="88,124,135,182,130,185,84,127"/>
+<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="23,5,148,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="82,47,72,88,67,87,77,46"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="153,80,309,121"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="122,37,197,78,194,82,120,41"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="207,135,166,185,162,182,203,132"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_transfer_client.html" title="For transferring data Streams." alt="" coords="178,5,284,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="234,47,234,80,228,80,228,47"/>
+</map>

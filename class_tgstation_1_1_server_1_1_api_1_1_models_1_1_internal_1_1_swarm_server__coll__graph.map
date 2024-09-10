@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Api.Models.Internal.SwarmServer" name="Tgstation.Server.Api.Models.Internal.SwarmServer">
+<area shape="rect" id="Node000001" title="Information about a server in the swarm." alt="" coords="5,79,192,120"/>
+<area shape="rect" id="Node000002" href="$class_i_equatable.html" title=" " alt="" coords="7,5,190,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,46,101,79,96,79,96,46"/>
+</map>

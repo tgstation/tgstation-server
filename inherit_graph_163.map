@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_program.html" title="Entrypoint for the Process." alt="" coords="5,5,205,31"/>
+<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server.html" title="Represents the host." alt="" coords="5,5,198,31"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html" title=" " alt="" coords="246,35,434,60"/>
+<area shape="poly" id="edge598_Node000000_Node000001" title=" " alt="" coords="213,29,246,33,245,39,213,35"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="11,55,192,96"/>
+<area shape="poly" id="edge599_Node000002_Node000001" title=" " alt="" coords="207,60,245,56,246,61,208,66"/>
 </map>

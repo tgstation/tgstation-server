@@ -13,11 +13,12 @@ var searchData=
   ['engineversion_10',['EngineVersion',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html',1,'Tgstation::Server::Api::Models']]],
   ['engineversiondeleterequest_11',['EngineVersionDeleteRequest',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_engine_version_delete_request.html',1,'Tgstation::Server::Api::Models::Request']]],
   ['engineversionrequest_12',['EngineVersionRequest',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_engine_version_request.html',1,'Tgstation::Server::Api::Models::Request']]],
-  ['entityid_13',['EntityId',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html',1,'Tgstation::Server::Api::Models']]],
-  ['errorcodeextensions_14',['ErrorCodeExtensions',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_code_extensions.html',1,'Tgstation::Server::Api::Models']]],
-  ['errormessageresponse_15',['ErrorMessageResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html',1,'Tgstation::Server::Api::Models::Response']]],
-  ['eventconsumer_16',['EventConsumer',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html',1,'Tgstation::Server::Host::Components::Events']]],
-  ['eventnotification_17',['EventNotification',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_event_notification.html',1,'Tgstation::Server::Host::Components::Interop::Topic']]],
-  ['eventscriptattribute_18',['EventScriptAttribute',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_script_attribute.html',1,'Tgstation::Server::Host::Components::Events']]],
-  ['exception_19',['Exception',['../class_exception.html',1,'']]]
+  ['entity_13',['Entity',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_entity.html',1,'Tgstation::Server::Host::GraphQL::Types']]],
+  ['entityid_14',['EntityId',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html',1,'Tgstation::Server::Api::Models']]],
+  ['errorcodeextensions_15',['ErrorCodeExtensions',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_code_extensions.html',1,'Tgstation::Server::Api::Models']]],
+  ['errormessageresponse_16',['ErrorMessageResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html',1,'Tgstation::Server::Api::Models::Response']]],
+  ['eventconsumer_17',['EventConsumer',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html',1,'Tgstation::Server::Host::Components::Events']]],
+  ['eventnotification_18',['EventNotification',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_event_notification.html',1,'Tgstation::Server::Host::Components::Interop::Topic']]],
+  ['eventscriptattribute_19',['EventScriptAttribute',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_script_attribute.html',1,'Tgstation::Server::Host::Components::Events']]],
+  ['exception_20',['Exception',['../class_exception.html',1,'']]]
 ];

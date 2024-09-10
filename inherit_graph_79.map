@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html" title="Constants used for communication with the DMAPI." alt="" coords="5,5,232,46"/>
+<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_provider.html" title="Represents information about a ChatEmbed provider." alt="" coords="5,5,232,46"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_author.html" title="Represents information about a ChatEmbed author." alt="" coords="280,5,506,46"/>
+<area shape="poly" id="edge550_Node000000_Node000001" title=" " alt="" coords="248,23,279,23,279,28,248,28"/>
 </map>

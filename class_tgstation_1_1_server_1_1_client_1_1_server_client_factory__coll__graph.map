@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Client.ServerClientFactory" name="Tgstation.Server.Client.ServerClientFactory">
-<area shape="rect" id="Node000001" title=" " alt="" coords="92,94,247,135"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html" title="Factory for creating IServerClients." alt="" coords="5,5,145,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,40,152,92,148,95,96,44"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="168,5,361,31"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="244,44,191,95,188,92,240,40"/>
-</map>

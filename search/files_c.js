@@ -6,5 +6,7 @@ var searchData=
   ['limitedstreamresult_2ecs_3',['LimitedStreamResult.cs',['../_limited_stream_result_8cs.html',1,'']]],
   ['limitedstreamresultexecutor_2ecs_4',['LimitedStreamResultExecutor.cs',['../_limited_stream_result_executor_8cs.html',1,'']]],
   ['limits_2ecs_5',['Limits.cs',['../_limits_8cs.html',1,'']]],
-  ['logfileresponse_2ecs_6',['LogFileResponse.cs',['../_log_file_response_8cs.html',1,'']]]
+  ['localserver_2ecs_6',['LocalServer.cs',['../_local_server_8cs.html',1,'']]],
+  ['localserverinformation_2ecs_7',['LocalServerInformation.cs',['../_local_server_information_8cs.html',1,'']]],
+  ['logfileresponse_2ecs_8',['LogFileResponse.cs',['../_log_file_response_8cs.html',1,'']]]
 ];

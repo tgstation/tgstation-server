@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Client.RequestTimeoutException" name="Tgstation.Server.Client.RequestTimeoutException">
 <area shape="rect" id="Node000001" title="Occurs when the client provides invalid credentials." alt="" coords="5,153,178,193"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients." alt="" coords="36,79,147,105"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IRestServerClients." alt="" coords="36,79,147,105"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,120,94,152,89,152,89,120"/>
 <area shape="rect" id="Node000003" href="$class_exception.html" title=" " alt="" coords="53,5,130,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="94,46,94,79,89,79,89,46"/>

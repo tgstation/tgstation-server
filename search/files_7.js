@@ -12,5 +12,7 @@ var searchData=
   ['gitlabremotedeploymentmanager_2ecs_9',['GitLabRemoteDeploymentManager.cs',['../_git_lab_remote_deployment_manager_8cs.html',1,'']]],
   ['gitlabremotefeatures_2ecs_10',['GitLabRemoteFeatures.cs',['../_git_lab_remote_features_8cs.html',1,'']]],
   ['gitremotefeaturesbase_2ecs_11',['GitRemoteFeaturesBase.cs',['../_git_remote_features_base_8cs.html',1,'']]],
-  ['gitremotefeaturesfactory_2ecs_12',['GitRemoteFeaturesFactory.cs',['../_git_remote_features_factory_8cs.html',1,'']]]
+  ['gitremotefeaturesfactory_2ecs_12',['GitRemoteFeaturesFactory.cs',['../_git_remote_features_factory_8cs.html',1,'']]],
+  ['graphqlserverclient_2ecs_13',['GraphQLServerClient.cs',['../_graph_q_l_server_client_8cs.html',1,'']]],
+  ['graphqlserverclientfactory_2ecs_14',['GraphQLServerClientFactory.cs',['../_graph_q_l_server_client_factory_8cs.html',1,'']]]
 ];

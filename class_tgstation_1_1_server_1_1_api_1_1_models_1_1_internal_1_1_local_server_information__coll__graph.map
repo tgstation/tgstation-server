@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Api.Models.Internal.LocalServerInformation" name="Tgstation.Server.Api.Models.Internal.LocalServerInformation">
+<area shape="rect" id="Node000001" title="Information about the local tgstation&#45;server." alt="" coords="5,79,208,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="29,5,184,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,46,109,79,104,79,104,46"/>
+</map>

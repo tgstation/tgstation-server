@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Client.UnrecognizedResponseException" name="Tgstation.Server.Client.UnrecognizedResponseException">
 <area shape="rect" id="Node000001" title="Occurs when a response is received that did not deserialize to one of the expected Api...." alt="" coords="5,153,220,193"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients." alt="" coords="57,79,168,105"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IRestServerClients." alt="" coords="57,79,168,105"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,120,115,152,110,152,110,120"/>
 <area shape="rect" id="Node000003" href="$class_exception.html" title=" " alt="" coords="74,5,151,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="115,46,115,79,110,79,110,46"/>

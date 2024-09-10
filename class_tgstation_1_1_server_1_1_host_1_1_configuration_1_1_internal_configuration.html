@@ -115,6 +115,12 @@ Properties</h2></td></tr>
 <tr class="memitem:a1f50fda278b5586a9bc01c4f50f83f77" id="r_a1f50fda278b5586a9bc01c4f50f83f77"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#a1f50fda278b5586a9bc01c4f50f83f77">UsingDocker</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a1f50fda278b5586a9bc01c4f50f83f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the server is running inside of a Docker container.  <br /></td></tr>
 <tr class="separator:a1f50fda278b5586a9bc01c4f50f83f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad05efeef4b191400c7c15f0cc630c61e" id="r_ad05efeef4b191400c7c15f0cc630c61e"><td class="memItemLeft" align="right" valign="top">string?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#ad05efeef4b191400c7c15f0cc630c61e">DumpGraphQLApiPath</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ad05efeef4b191400c7c15f0cc630c61e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used at compile time to write the GraphQL API schema to this path and exit.  <br /></td></tr>
+<tr class="separator:ad05efeef4b191400c7c15f0cc630c61e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3852d47f676956516d770d2e14beb968" id="r_a3852d47f676956516d770d2e14beb968"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#a3852d47f676956516d770d2e14beb968">EnableGraphQL</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a3852d47f676956516d770d2e14beb968"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables hosting the experimental GraphQL API in Release builds.  <br /></td></tr>
+<tr class="separator:a3852d47f676956516d770d2e14beb968"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add1fd36adcba522710b5f52fe6fb5649" id="r_add1fd36adcba522710b5f52fe6fb5649"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#add1fd36adcba522710b5f52fe6fb5649">AppSettingsBasePath</a> = &quot;UNINITIALIZED&quot;<code> [get, set]</code></td></tr>
 <tr class="memdesc:add1fd36adcba522710b5f52fe6fb5649"><td class="mdescLeft">&#160;</td><td class="mdescRight">The base path for the app settings configuration files.  <br /></td></tr>
 <tr class="separator:add1fd36adcba522710b5f52fe6fb5649"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,8 +185,8 @@ Properties</h2></td></tr>
 
 <p>The base path for the app settings configuration files. </p>
 
-<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00036">36</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   36</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="stringliteral">&quot;UNINITIALIZED&quot;</span>; <span class="comment">// this is set in a hacky way in ServerFactory</span></div>
+<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00051">51</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   51</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="stringliteral">&quot;UNINITIALIZED&quot;</span>; <span class="comment">// this is set in a hacky way in ServerFactory</span></div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00305">Tgstation.Server.Host.Setup.SetupWizard.ValidateNonExistantSqliteDBName()</a>.</p>
 
@@ -215,6 +221,62 @@ Properties</h2></td></tr>
 
 </div>
 </div>
+<a id="ad05efeef4b191400c7c15f0cc630c61e" name="ad05efeef4b191400c7c15f0cc630c61e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad05efeef4b191400c7c15f0cc630c61e">&#9670;&#160;</a></span>DumpGraphQLApiPath</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string? Tgstation.Server.Host.Configuration.InternalConfiguration.DumpGraphQLApiPath</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Used at compile time to write the GraphQL API schema to this path and exit. </p>
+
+<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00036">36</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   36</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a3852d47f676956516d770d2e14beb968" name="a3852d47f676956516d770d2e14beb968"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3852d47f676956516d770d2e14beb968">&#9670;&#160;</a></span>EnableGraphQL</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Configuration.InternalConfiguration.EnableGraphQL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Enables hosting the experimental GraphQL API in Release builds. </p>
+
+<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00041">41</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   45</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00135">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>.</p>
+
+</div>
+</div>
 <a id="a13fdaf7fa69a89f806d2f5abce0d67c4" name="a13fdaf7fa69a89f806d2f5abce0d67c4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a13fdaf7fa69a89f806d2f5abce0d67c4">&#9670;&#160;</a></span>MariaDBDefaultRootPassword</h2>
 
@@ -237,8 +299,8 @@ Properties</h2></td></tr>
 
 <p>Generate default configuration using the given DatabaseType.MariaDB default password. </p>
 
-<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00046">46</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   46</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00061">61</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   61</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -264,8 +326,8 @@ Properties</h2></td></tr>
 
 <p>Coerce the Setup.SetupWizard to select DatabaseType.MariaDB. </p>
 
-<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00041">41</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   41</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00056">56</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   56</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00408">Tgstation.Server.Host.Setup.SetupWizard.ConfigureDatabase()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l00358">Tgstation.Server.Host.Setup.SetupWizard.PromptDatabaseType()</a>.</p>
 
@@ -354,7 +416,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00026">26</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   26</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00131">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00135">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>.</p>
 
 </div>
 </div>

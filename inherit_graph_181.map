@@ -1,5 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="5,5,203,46"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html" title=" " alt="" coords="251,5,448,46"/>
-<area shape="poly" id="edge615_Node000000_Node000001" title=" " alt="" coords="218,23,250,23,250,28,218,28"/>
+<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html" title="DI root for configuring a SetupWizard." alt="" coords="5,5,193,46"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html" title="Sets up dependency injection." alt="" coords="241,5,421,46"/>
+<area shape="poly" id="edge628_Node000000_Node000001" title=" " alt="" coords="208,23,240,23,240,28,208,28"/>
 </map>

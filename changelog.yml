@@ -3608,6 +3608,16 @@ Components:
       Author: AffectedArc07
       PullRequest: 1408
   WebControlPanel:
+  - Version: 6.2.0
+    Changes:
+    - Descriptions:
+      - Repository credentials management is now more guided. Added option for GitHub App private keys.
+      - Added display for connected client count to server page.
+      - Added display for server uptime to server page.
+      - Updated DMAPI validation selector to include the "skip" option.
+      Author: Cyberboss
+      PullRequest: 1924
+    Unreleased: true
   - Version: 6.1.0
     Changes:
     - Descriptions:
@@ -4633,6 +4643,14 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 15.0.0
+    Changes:
+    - Descriptions:
+      - '**BREAKING**: Reorganized the internal structure of several classes. Sum of parts remains unchanged.'
+      - '**BREAKING**: `SwarmServerResponse` can no longer be constructed directly. Instantiate one of its child classes instead.'
+      Author: Cyberboss
+      PullRequest: 1924
+    Unreleased: true
   - Version: 14.1.0
     Changes:
     - Descriptions:
@@ -4736,6 +4754,14 @@ Components:
       Author: Cyberboss
       PullRequest: 1629
   NugetClient:
+  - Version: 18.0.0
+    Changes:
+    - Descriptions:
+      - '**BREAKING**: Renamed types similar to "ServerClient" to "RestServerClient"'
+      - Added `ITransferClient` and `IRestServerClient.Transfer` to access the underlying raw file transfer API.
+      Author: Cyberboss
+      PullRequest: 1924
+    Unreleased: true
   - Version: 17.1.0
     Changes:
     - Descriptions:

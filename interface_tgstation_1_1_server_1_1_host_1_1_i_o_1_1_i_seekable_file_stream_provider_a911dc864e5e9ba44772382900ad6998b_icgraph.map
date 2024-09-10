@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.IO.ISeekableFileStreamProvider.GetOwnedResult" name="Tgstation.Server.Host.IO.ISeekableFileStreamProvider.GetOwnedResult">
 <area shape="rect" id="Node000001" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="1174,39,1388,94"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a454f66212f15d38ac9a1716bae7de63d" title="Create a FileTicketResponse for downloading the content of a given initiatorProvider &#160;for the rest of..." alt="" coords="878,46,1126,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ab8668c1ac98d71d5d4c62ec1276ddf82" title="Create a FileTicketResponse for downloading the content of a given initiatorProvider &#160;for the rest of..." alt="" coords="878,46,1126,87"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1158,69,1126,69,1126,64,1158,64"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a072bf30b2a5cbce33c3a96e12f6a31c2" title="Send a given updateRequest &#160;out to nodes from the swarm controller." alt="" coords="604,5,830,61"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="862,53,831,49,831,44,863,48"/>

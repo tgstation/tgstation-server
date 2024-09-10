@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Client.ITransferClient" name="Tgstation.Server.Client.ITransferClient">
+<area shape="rect" id="Node000001" title="For transferring data Streams." alt="" coords="5,5,161,46"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="5,94,161,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,62,86,94,80,94,80,62"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html" title=" " alt="" coords="5,183,161,223"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="86,150,86,182,80,182,80,150"/>
+</map>

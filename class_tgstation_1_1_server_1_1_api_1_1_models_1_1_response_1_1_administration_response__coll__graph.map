@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Api.Models.Response.AdministrationResponse" name="Tgstation.Server.Api.Models.Response.AdministrationResponse">
+<area shape="rect" id="Node000001" title="Represents administrative server information." alt="" coords="5,79,229,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_update_information.html" title="Indicates data from the TGS update source." alt="" coords="53,5,181,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,46,120,79,114,79,114,46"/>
+</map>

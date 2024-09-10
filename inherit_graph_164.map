@@ -1,5 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions." alt="" coords="5,5,206,46"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html" title=" " alt="" coords="254,5,454,46"/>
-<area shape="poly" id="edge599_Node000000_Node000001" title=" " alt="" coords="221,23,253,23,253,28,221,28"/>
+<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html" title="For creating IServers." alt="" coords="5,5,198,46"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_server_factory.html" title="Implementation of IServerFactory." alt="" coords="246,5,434,46"/>
+<area shape="poly" id="edge600_Node000000_Node000001" title=" " alt="" coords="213,23,245,23,245,28,213,28"/>
 </map>

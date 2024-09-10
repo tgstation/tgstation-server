@@ -1,33 +1,33 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="Node000000" href="$class_exception.html" title=" " alt="" coords="5,340,83,365"/>
 <area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html" title="Thrown when trying to generate ApiHeaders from Microsoft.AspNetCore.Http.Headers.RequestHeaders fails..." alt="" coords="131,267,321,307"/>
-<area shape="poly" id="edge230_Node000000_Node000001" title=" " alt="" coords="94,331,130,318,164,305,166,310,132,323,96,336"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients." alt="" coords="148,332,304,373"/>
-<area shape="poly" id="edge231_Node000000_Node000002" title=" " alt="" coords="98,350,148,350,148,355,98,355"/>
+<area shape="poly" id="edge234_Node000000_Node000001" title=" " alt="" coords="94,331,130,318,164,305,166,310,132,323,96,336"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IRestServerClients." alt="" coords="148,332,304,373"/>
+<area shape="poly" id="edge235_Node000000_Node000002" title=" " alt="" coords="98,350,148,350,148,355,98,355"/>
 <area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html" title="Operation exceptions thrown from the context of a Models.Job." alt="" coords="135,397,317,438"/>
-<area shape="poly" id="edge244_Node000000_Node000015" title=" " alt="" coords="96,369,132,382,166,394,164,399,130,387,94,374"/>
+<area shape="poly" id="edge248_Node000000_Node000015" title=" " alt="" coords="96,369,132,382,166,394,164,399,130,387,94,374"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_api_exception.html" title="API related Exceptions." alt="" coords="399,233,554,274"/>
-<area shape="poly" id="edge232_Node000002_Node000003" title=" " alt="" coords="306,323,320,317,343,301,368,285,398,272,400,277,370,289,346,305,322,321,308,328"/>
+<area shape="poly" id="edge236_Node000002_Node000003" title=" " alt="" coords="306,323,320,317,343,301,368,285,398,272,400,277,370,289,346,305,322,321,308,328"/>
 <area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_client_1_1_request_timeout_exception.html" title="Occurs when the client provides invalid credentials." alt="" coords="390,299,562,339"/>
-<area shape="poly" id="edge241_Node000002_Node000012" title=" " alt="" coords="318,337,389,328,390,333,319,343"/>
+<area shape="poly" id="edge245_Node000002_Node000012" title=" " alt="" coords="318,337,389,328,390,333,319,343"/>
 <area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_client_1_1_service_unavailable_exception.html" title="Occurs when the client makes a request while the server is starting or stopping." alt="" coords="382,364,571,405"/>
-<area shape="poly" id="edge242_Node000002_Node000013" title=" " alt="" coords="319,362,381,370,381,375,319,367"/>
+<area shape="poly" id="edge246_Node000002_Node000013" title=" " alt="" coords="319,362,381,370,381,375,319,367"/>
 <area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_client_1_1_unrecognized_response_exception.html" title="Occurs when a response is received that did not deserialize to one of the expected Api...." alt="" coords="369,429,583,470"/>
-<area shape="poly" id="edge243_Node000002_Node000014" title=" " alt="" coords="307,376,322,383,346,399,370,414,401,426,399,431,368,419,343,403,320,388,305,381"/>
+<area shape="poly" id="edge247_Node000002_Node000014" title=" " alt="" coords="307,376,322,383,346,399,370,414,401,426,399,431,368,419,343,403,320,388,305,381"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_client_1_1_api_conflict_exception.html" title="Occurs when the server returns a bad request response if the ApiException.ErrorCode is present...." alt="" coords="659,5,815,46"/>
-<area shape="poly" id="edge233_Node000003_Node000004" title=" " alt="" coords="493,218,517,181,548,137,586,94,630,57,658,42,660,47,633,61,590,98,552,141,521,184,498,221"/>
+<area shape="poly" id="edge237_Node000003_Node000004" title=" " alt="" coords="493,218,517,181,548,137,586,94,630,57,658,42,660,47,633,61,590,98,552,141,521,184,498,221"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_client_1_1_conflict_exception.html" title="Occurs when the client performs an action that would result in data conflict." alt="" coords="659,71,815,111"/>
-<area shape="poly" id="edge234_Node000003_Node000005" title=" " alt="" coords="506,220,561,170,594,144,630,122,658,109,660,114,633,127,597,149,564,174,509,224"/>
+<area shape="poly" id="edge238_Node000003_Node000005" title=" " alt="" coords="506,220,561,170,594,144,630,122,658,109,660,114,633,127,597,149,564,174,509,224"/>
 <area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_client_1_1_insufficient_permissions_exception.html" title="Occurs when the client attempts to perform an action they do not have the rights for." alt="" coords="631,136,843,177"/>
-<area shape="poly" id="edge235_Node000003_Node000006" title=" " alt="" coords="538,224,630,187,667,175,668,180,632,192,540,229"/>
+<area shape="poly" id="edge239_Node000003_Node000006" title=" " alt="" coords="538,224,630,187,667,175,668,180,632,192,540,229"/>
 <area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_client_1_1_method_not_supported_exception.html" title="Occurs when the client tries to use a currently unsupported API." alt="" coords="637,201,837,242"/>
-<area shape="poly" id="edge236_Node000003_Node000007" title=" " alt="" coords="569,240,636,231,637,237,569,245"/>
+<area shape="poly" id="edge240_Node000003_Node000007" title=" " alt="" coords="569,240,636,231,637,237,569,245"/>
 <area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_client_1_1_rate_limit_exception.html" title="Occurs when a GitHub rate limit occurs." alt="" coords="659,267,815,307"/>
-<area shape="poly" id="edge237_Node000003_Node000008" title=" " alt="" coords="570,263,659,274,658,280,569,268"/>
+<area shape="poly" id="edge241_Node000003_Node000008" title=" " alt="" coords="570,263,659,274,658,280,569,268"/>
 <area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_client_1_1_server_error_exception.html" title="Occurs when an error occurs in the server." alt="" coords="659,332,815,373"/>
-<area shape="poly" id="edge238_Node000003_Node000009" title=" " alt="" coords="568,277,585,285,609,301,633,317,662,329,660,334,630,321,606,305,582,289,566,282"/>
+<area shape="poly" id="edge242_Node000003_Node000009" title=" " alt="" coords="568,277,585,285,609,301,633,317,662,329,660,334,630,321,606,305,582,289,566,282"/>
 <area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_client_1_1_unauthorized_exception.html" title="Occurs when the client provides invalid credentials." alt="" coords="659,397,815,438"/>
-<area shape="poly" id="edge239_Node000003_Node000010" title=" " alt="" coords="569,274,585,285,597,297,604,310,610,335,616,359,622,371,633,382,660,399,658,403,630,386,618,374,611,361,605,336,599,312,592,300,582,289,566,278"/>
+<area shape="poly" id="edge243_Node000003_Node000010" title=" " alt="" coords="569,274,585,285,597,297,604,310,610,335,616,359,622,371,633,382,660,399,658,403,630,386,618,374,611,361,605,336,599,312,592,300,582,289,566,278"/>
 <area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_client_1_1_version_mismatch_exception.html" title="Occurs when the API version of the client is not compatible with the server&#39;s." alt="" coords="648,463,826,503"/>
-<area shape="poly" id="edge240_Node000003_Node000011" title=" " alt="" coords="570,273,585,285,601,306,608,327,610,368,612,409,619,428,633,448,649,460,646,464,629,452,614,431,606,410,605,368,603,328,596,308,581,289,566,277"/>
+<area shape="poly" id="edge244_Node000003_Node000011" title=" " alt="" coords="570,273,585,285,601,306,608,327,610,368,612,409,619,428,633,448,649,460,646,464,629,452,614,431,606,410,605,368,603,328,596,308,581,289,566,277"/>
 </map>

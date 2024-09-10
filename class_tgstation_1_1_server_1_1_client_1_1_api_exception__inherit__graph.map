@@ -16,7 +16,7 @@
 <area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="394,286,437,335,464,360,494,382,521,396,519,400,491,387,461,365,433,339,390,289"/>
 <area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_client_1_1_version_mismatch_exception.html" title="Occurs when the API version of the client is not compatible with the server&#39;s." alt="" coords="509,463,687,503"/>
 <area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="384,289,401,326,426,369,456,411,494,448,514,460,511,464,491,452,452,415,421,372,397,329,379,291"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients." alt="" coords="131,242,241,268"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IRestServerClients." alt="" coords="131,242,241,268"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="257,252,289,252,289,258,257,258"/>
 <area shape="rect" id="Node000003" href="$class_exception.html" title=" " alt="" coords="5,242,83,268"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="98,252,130,252,130,258,98,258"/>

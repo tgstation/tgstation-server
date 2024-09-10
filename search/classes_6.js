@@ -12,5 +12,7 @@ var searchData=
   ['gitlabremotedeploymentmanager_9',['GitLabRemoteDeploymentManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_lab_remote_deployment_manager.html',1,'Tgstation::Server::Host::Components::Deployment::Remote']]],
   ['gitlabremotefeatures_10',['GitLabRemoteFeatures',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html',1,'Tgstation::Server::Host::Components::Repository']]],
   ['gitremotefeaturesbase_11',['GitRemoteFeaturesBase',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html',1,'Tgstation::Server::Host::Components::Repository']]],
-  ['gitremotefeaturesfactory_12',['GitRemoteFeaturesFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html',1,'Tgstation::Server::Host::Components::Repository']]]
+  ['gitremotefeaturesfactory_12',['GitRemoteFeaturesFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html',1,'Tgstation::Server::Host::Components::Repository']]],
+  ['graphqlserverclient_13',['GraphQLServerClient',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html',1,'Tgstation::Server::Client::GraphQL']]],
+  ['graphqlserverclientfactory_14',['GraphQLServerClientFactory',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html',1,'Tgstation::Server::Client::GraphQL']]]
 ];
