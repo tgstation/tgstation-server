@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+
+using HotChocolate;
+
+using Tgstation.Server.Host.Authority;
+using Tgstation.Server.Host.Authority.Core;
+using Tgstation.Server.Host.GraphQL.Interfaces;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
 	/// <summary>
 	/// A user registered in the server.
 	/// </summary>
-	public sealed class User : NamedEntity
+	public sealed class User : NamedEntity, IUserName
 	{
 		/// <summary>
 		/// If the <see cref="User"/> is enabled since users cannot be deleted. System users cannot be disabled.
@@ -72,9 +79,23 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// The <see cref="User"/> who created this <see cref="User"/>.
 		/// </summary>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="User"/> who created this <see cref="User"/>, if any.</returns>
-		public ValueTask<User?> CreatedBy()
-			=> throw new NotImplementedException();
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>The <see cref="IUserName"/> that created this <see cref="User"/>, if any.</returns>
+		public async ValueTask<IUserName?> CreatedBy(
+			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(userAuthority);
+			if (!createdById.HasValue)
+				return null;
+
+			var user = await userAuthority.InvokeTransformable<Models.User, User>(authority => authority.GetId(createdById.Value, false, true, cancellationToken));
+			if (user.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
+				return new UserName(user);
+
+			return user;
+		}
 
 		/// <summary>
 		/// List of <see cref="OAuthConnection"/>s associated with the user if OAuth is configured.

@@ -5,6 +5,7 @@ using HotChocolate;
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.GraphQL.Interfaces;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {

@@ -28,10 +28,11 @@ namespace Tgstation.Server.Host.Authority
 		/// </summary>
 		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="User"/>.</param>
 		/// <param name="includeJoins">If related entities should be loaded.</param>
+		/// <param name="allowSystemUser">If the <see cref="User.TgsSystemUserName"/> may be returned.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="User"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
-		public ValueTask<AuthorityResponse<User>> GetId(long id, bool includeJoins, CancellationToken cancellationToken);
+		public ValueTask<AuthorityResponse<User>> GetId(long id, bool includeJoins, bool allowSystemUser, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Gets all registered <see cref="User"/>s.

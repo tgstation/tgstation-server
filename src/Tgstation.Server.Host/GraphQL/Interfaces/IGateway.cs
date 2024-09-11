@@ -2,13 +2,13 @@
 using HotChocolate.Authorization;
 
 using Microsoft.Extensions.Options;
-
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.GraphQL.Types;
 using Tgstation.Server.Host.Security.OAuth;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Host.GraphQL.Types
+namespace Tgstation.Server.Host.GraphQL.Interfaces
 {
 	/// <summary>
 	/// Management interface for the parent <see cref="Node"/>.

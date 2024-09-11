@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Authority
 			=> ValueTask.FromResult(new AuthorityResponse<User>(authenticationContext.User));
 
 		/// <inheritdoc />
-		public async ValueTask<AuthorityResponse<User>> GetId(long id, bool includeJoins, CancellationToken cancellationToken)
+		public async ValueTask<AuthorityResponse<User>> GetId(long id, bool includeJoins, bool allowSystemUser, CancellationToken cancellationToken)
 		{
 			var queryable = ListCore(includeJoins);
 
@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Authority
 			if (user == default)
 				return NotFound<User>();
 
-			if (user.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))
+			if (!allowSystemUser && user.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))
 				return Forbid<User>();
 
 			return new AuthorityResponse<User>(user);

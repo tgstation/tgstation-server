@@ -300,6 +300,7 @@ namespace Tgstation.Server.Host.Core
 					.AddErrorFilter<ErrorMessageFilter>()
 					.AddType<LocalGateway>()
 					.AddType<RemoteGateway>()
+					.AddType<GraphQL.Types.UserName>()
 					.AddType<UnsignedIntType>()
 					.BindRuntimeType<Version, SemverType>()
 					.AddQueryType<Query>()

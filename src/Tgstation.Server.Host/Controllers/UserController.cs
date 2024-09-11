@@ -414,7 +414,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			return await userAuthority.InvokeTransformable<User, UserResponse>(
 				this,
-				authority => authority.GetId(id, true, cancellationToken));
+				authority => authority.GetId(id, true, false, cancellationToken));
 		}
 
 		/// <summary>

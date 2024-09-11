@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			return await userAuthority.InvokeTransformable<Models.User, User>(authority => authority.GetId(id, false, cancellationToken));
+			return await userAuthority.InvokeTransformable<Models.User, User>(authority => authority.GetId(id, false, false, cancellationToken));
 		}
 
 		/// <summary>

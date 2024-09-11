@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Tgstation.Server.Host.GraphQL.Interfaces;
+
 namespace Tgstation.Server.Host.GraphQL.Types
 {
 	/// <summary>
@@ -11,6 +13,16 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// The name of the <see cref="NamedEntity"/>.
 		/// </summary>
 		public string Name { get; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="NamedEntity"/> class.
+		/// </summary>
+		/// <param name="copy">The <see cref="IUserName"/> to copy.</param>
+		protected NamedEntity(NamedEntity copy)
+			: base(copy?.Id ?? throw new ArgumentNullException(nameof(copy)))
+		{
+			Name = copy.Name;
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NamedEntity"/> class.
