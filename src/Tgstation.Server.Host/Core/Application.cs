@@ -297,6 +297,10 @@ namespace Tgstation.Server.Host.Core
 					.AddGraphQLServer()
 					.AddAuthorization()
 					.AddMutationConventions()
+					.ModifyOptions(options =>
+					{
+						options.EnableDefer = true;
+					})
 					.AddErrorFilter<ErrorMessageFilter>()
 					.AddType<LocalGateway>()
 					.AddType<RemoteGateway>()
