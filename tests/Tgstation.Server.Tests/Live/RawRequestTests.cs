@@ -26,6 +26,9 @@ using Tgstation.Server.Client;
 using Tgstation.Server.Client.Extensions;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host;
+using Tgstation.Server.Client.GraphQL;
+using System.Linq;
+using StrawberryShake;
 
 namespace Tgstation.Server.Tests.Live
 {
@@ -63,7 +66,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
-				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
+				Assert.AreEqual(Api.Models.ErrorCode.BadHeaders, message.ErrorCode);
 			}
 
 			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
@@ -90,7 +93,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
-				Assert.AreEqual(ErrorCode.ApiMismatch, message.ErrorCode);
+				Assert.AreEqual(Api.Models.ErrorCode.ApiMismatch, message.ErrorCode);
 			}
 
 			using (var request = new HttpRequestMessage(HttpMethod.Get, string.Concat(url.ToString(), Routes.Administration.AsSpan(1))))
@@ -104,7 +107,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
-				Assert.AreEqual(ErrorCode.ApiMismatch, message.ErrorCode);
+				Assert.AreEqual(Api.Models.ErrorCode.ApiMismatch, message.ErrorCode);
 			}
 
 			using (var request = new HttpRequestMessage(HttpMethod.Post, string.Concat(url.ToString(), Routes.Administration.AsSpan(1))))
@@ -122,7 +125,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
-				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
+				Assert.AreEqual(Api.Models.ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}
 
 			using (var request = new HttpRequestMessage(HttpMethod.Post, string.Concat(url.ToString(), Routes.DreamDaemon.AsSpan(1))))
@@ -146,7 +149,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
-				Assert.AreEqual(ErrorCode.InstanceHeaderRequired, message.ErrorCode);
+				Assert.AreEqual(Api.Models.ErrorCode.InstanceHeaderRequired, message.ErrorCode);
 			}
 
 			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
@@ -160,7 +163,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
-				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
+				Assert.AreEqual(Api.Models.ErrorCode.BadHeaders, message.ErrorCode);
 			}
 
 			using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString() + Routes.ApiRoot.TrimStart('/')))
@@ -175,7 +178,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
-				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
+				Assert.AreEqual(Api.Models.ErrorCode.BadHeaders, message.ErrorCode);
 			}
 
 			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
@@ -192,7 +195,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
-				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
+				Assert.AreEqual(Api.Models.ErrorCode.BadHeaders, message.ErrorCode);
 			}
 		}
 
@@ -228,7 +231,7 @@ namespace Tgstation.Server.Tests.Live
 			using var httpClient = new HttpClient();
 
 			// just hitting each type of oauth provider for coverage
-			foreach (var I in Enum.GetValues(typeof(OAuthProvider)))
+			foreach (var I in Enum.GetValues(typeof(Api.Models.OAuthProvider)))
 				using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 				{
 					request.Headers.Accept.Clear();
@@ -261,7 +264,7 @@ namespace Tgstation.Server.Tests.Live
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(MediaTypeNames.Application.Json, response.Content.Headers.ContentType.MediaType);
-				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
+				Assert.AreEqual(Api.Models.ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}
 
 			using (var request = new HttpRequestMessage(HttpMethod.Put, string.Concat(url.ToString(), Routes.Transfer.AsSpan(1))))
@@ -276,7 +279,7 @@ namespace Tgstation.Server.Tests.Live
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(MediaTypeNames.Application.Json, response.Content.Headers.ContentType.MediaType);
-				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
+				Assert.AreEqual(Api.Models.ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}
 
 			using (var request = new HttpRequestMessage(HttpMethod.Get, string.Concat(url.ToString(), Routes.Transfer.AsSpan(1), "?ticket=veryfaketicket")))
@@ -457,9 +460,29 @@ namespace Tgstation.Server.Tests.Live
 			}
 		}
 
+		static async Task TestGraphQLLogin(IRestServerClientFactory clientFactory, IRestServerClient restClient, CancellationToken cancellationToken)
+		{
+			await using var gqlClient = new GraphQLServerClientFactory(clientFactory).CreateUnauthenticated(restClient.Url);
+			IOperationResult<ILoginResult> result = null;
+			await gqlClient.RunQuery(async client =>
+			{
+				result = await client.Login.ExecuteAsync(cancellationToken);
+			});
+
+			Assert.IsNull(result.Data.Login);
+			Assert.AreEqual(1, result.Data.Login.Errors.Count);
+			var castResult = result.Data.Login.Errors.First() is ILogin_Login_Errors_ErrorMessageError loginError;
+			Assert.IsTrue(castResult);
+			loginError = (ILogin_Login_Errors_ErrorMessageError)result.Data.Login.Errors.First();
+			Assert.AreEqual(Client.GraphQL.ErrorCode.BadHeaders, loginError.ErrorCode.Value);
+			Assert.IsNotNull(loginError.Message);
+			Assert.IsNotNull(loginError.AdditionalData);
+		}
+
 		public static Task Run(IRestServerClientFactory clientFactory, IRestServerClient serverClient, CancellationToken cancellationToken)
 			=> Task.WhenAll(
 				TestRequestValidation(serverClient, cancellationToken),
+				TestGraphQLLogin(clientFactory, serverClient, cancellationToken),
 				TestOAuthFails(serverClient, cancellationToken),
 				TestServerInformation(clientFactory, serverClient, cancellationToken),
 				TestInvalidTransfers(serverClient, cancellationToken),

@@ -327,7 +327,7 @@ namespace Tgstation.Server.Tests.Live
 						Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 						var content = await response.Content.ReadAsStringAsync();
 						var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
-						Assert.AreEqual(ErrorCode.OAuthProviderDisabled, message.ErrorCode);
+						Assert.AreEqual(Api.Models.ErrorCode.OAuthProviderDisabled, message.ErrorCode);
 					}
 
 					//attempt to update to stable
@@ -457,7 +457,7 @@ namespace Tgstation.Server.Tests.Live
 						},
 						null,
 						cancellationToken),
-					ErrorCode.ResourceNotPresent);
+					Api.Models.ErrorCode.ResourceNotPresent);
 			}
 			finally
 			{
@@ -698,8 +698,8 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(controllerInstance.Id, controllerInstanceList[0].Id);
 					Assert.IsNotNull(await controllerClient.Instances.GetId(controllerInstance, cancellationToken));
 
-					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => controllerClient.Instances.GetId(node2Instance, cancellationToken), ErrorCode.ResourceNotPresent);
-					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => node1Client.Instances.GetId(controllerInstance, cancellationToken), ErrorCode.ResourceNotPresent);
+					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => controllerClient.Instances.GetId(node2Instance, cancellationToken), Api.Models.ErrorCode.ResourceNotPresent);
+					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => node1Client.Instances.GetId(controllerInstance, cancellationToken), Api.Models.ErrorCode.ResourceNotPresent);
 
 					// test update
 					await node1Client.Administration.Update(
@@ -749,7 +749,7 @@ namespace Tgstation.Server.Tests.Live
 							NewVersion = TestUpdateVersion
 						},
 						null,
-						cancellationToken), ErrorCode.SwarmIntegrityCheckFailed);
+						cancellationToken), Api.Models.ErrorCode.SwarmIntegrityCheckFailed);
 
 					// regression: test updating also works from the controller
 					serverTask = Task.WhenAll(
@@ -986,7 +986,7 @@ namespace Tgstation.Server.Tests.Live
 						},
 						null,
 						cancellationToken),
-						ErrorCode.SwarmIntegrityCheckFailed);
+						Api.Models.ErrorCode.SwarmIntegrityCheckFailed);
 
 					node2Task = node2.Run(cancellationToken).AsTask();
 					await using var node2Client2 = await CreateAdminClient(node2.ApiUrl, cancellationToken);
@@ -1517,7 +1517,7 @@ namespace Tgstation.Server.Tests.Live
 									server.OpenDreamUrl,
 									cancellationToken).AsTask());
 
-							Assert.AreEqual(ErrorCode.OpenDreamTooOld, ex.ErrorCode);
+							Assert.AreEqual(Api.Models.ErrorCode.OpenDreamTooOld, ex.ErrorCode);
 
 							await instanceTest
 								.RunCompatTests(

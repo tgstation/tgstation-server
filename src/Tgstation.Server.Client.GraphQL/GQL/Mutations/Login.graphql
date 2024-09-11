@@ -1,0 +1,12 @@
+mutation Login {
+  login {
+    string
+    errors {
+      ... on ErrorMessageError {
+        message
+        errorCode
+        additionalData
+      }
+    }
+  }
+}
