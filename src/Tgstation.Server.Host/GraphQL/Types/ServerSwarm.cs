@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using HotChocolate;
+
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Swarm;
@@ -34,6 +35,12 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// </summary>
 		/// <returns>A new <see cref="Types.LocalServer"/>.</returns>
 		public LocalServer LocalServer() => new();
+
+		/// <summary>
+		/// Gets the swarm's <see cref="Types.Users"/>.
+		/// </summary>
+		/// <returns>A new <see cref="Types.Users"/>.</returns>
+		public Users Users() => new();
 
 		/// <summary>
 		/// Gets the <see cref="SwarmServerInformation"/> for all servers in a swarm.

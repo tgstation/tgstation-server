@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.GraphQL.Types
+﻿using HotChocolate.Types.Relay;
+
+namespace Tgstation.Server.Host.GraphQL.Types
 {
 	/// <summary>
 	/// Represents a database entity.
@@ -8,6 +10,7 @@
 		/// <summary>
 		/// The ID of the <see cref="Entity"/>.
 		/// </summary>
+		[ID]
 		public long Id { get; }
 
 		/// <summary>

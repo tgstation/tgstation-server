@@ -104,6 +104,19 @@ namespace Tgstation.Server.Host.Controllers
 			this.requireHeaders = requireHeaders;
 		}
 
+		/// <summary>
+		/// Generic 201 response with a given <paramref name="payload"/>.
+		/// </summary>
+		/// <param name="payload">The accompanying API payload.</param>
+		/// <returns>A <see cref="HttpStatusCode.Created"/> <see cref="ObjectResult"/> with the given <paramref name="payload"/>.</returns>
+		public ObjectResult Created(object payload) => StatusCode((int)HttpStatusCode.Created, payload);
+
+		/// <summary>
+		/// Generic 401 response.
+		/// </summary>
+		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
+		public new ObjectResult Unauthorized() => this.StatusCode(HttpStatusCode.Unauthorized, null);
+
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
 		protected override async ValueTask<IActionResult?> HookExecuteAction(Func<Task> executeAction, CancellationToken cancellationToken)
@@ -187,12 +200,6 @@ namespace Tgstation.Server.Host.Controllers
 		protected new NotFoundObjectResult NotFound() => NotFound(new ErrorMessageResponse(ErrorCode.ResourceNeverPresent));
 
 		/// <summary>
-		/// Generic 401 response.
-		/// </summary>
-		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
-		protected new ObjectResult Unauthorized() => this.StatusCode(HttpStatusCode.Unauthorized, null);
-
-		/// <summary>
 		/// Generic 501 response.
 		/// </summary>
 		/// <param name="ex">The <see cref="NotImplementedException"/> that was thrown.</param>
@@ -209,13 +216,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>
 		/// <returns>A <see cref="StatusCodeResult"/> with the given <paramref name="statusCode"/>.</returns>
 		protected StatusCodeResult StatusCode(HttpStatusCode statusCode) => StatusCode((int)statusCode);
-
-		/// <summary>
-		/// Generic 201 response with a given <paramref name="payload"/>.
-		/// </summary>
-		/// <param name="payload">The accompanying API payload.</param>
-		/// <returns>A <see cref="HttpStatusCode.Created"/> <see cref="ObjectResult"/> with the given <paramref name="payload"/>.</returns>
-		protected ObjectResult Created(object payload) => StatusCode((int)HttpStatusCode.Created, payload);
 
 		/// <summary>
 		/// 429 response for a given <paramref name="rateLimitException"/>.

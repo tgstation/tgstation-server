@@ -9,7 +9,7 @@ using Tgstation.Server.Api.Models.Response;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.UserModelBase" />
-	public sealed class User : Api.Models.Internal.UserModelBase, IApiTransformable<UserResponse>
+	public sealed class User : Api.Models.Internal.UserModelBase, IApiTransformable<UserResponse>, IApiTransformable<GraphQL.Types.User>
 	{
 		/// <summary>
 		/// Username used when creating jobs automatically.
@@ -27,12 +27,17 @@ namespace Tgstation.Server.Host.Models
 		public User? CreatedBy { get; set; }
 
 		/// <summary>
+		/// The <see cref="EntityId.Id"/> of the <see cref="User"/>'s <see cref="CreatedBy"/> <see cref="User"/>.
+		/// </summary>
+		public long? CreatedById { get; set; }
+
+		/// <summary>
 		/// The <see cref="UserGroup"/> the <see cref="User"/> belongs to, if any.
 		/// </summary>
 		public UserGroup? Group { get; set; }
 
 		/// <summary>
-		/// The ID of the <see cref="User"/>'s <see cref="UserGroup"/>.
+		/// The <see cref="EntityId.Id"/> of the <see cref="User"/>'s <see cref="Group"/>.
 		/// </summary>
 		public long? GroupId { get; set; }
 
@@ -77,6 +82,18 @@ namespace Tgstation.Server.Host.Models
 
 		/// <inheritdoc />
 		public UserResponse ToApi() => CreateUserResponse(true);
+
+		/// <inheritdoc />
+		GraphQL.Types.User IApiTransformable<GraphQL.Types.User>.ToApi()
+			=> new(
+				Id!.Value,
+				Name!,
+				CanonicalName!,
+				SystemIdentifier,
+				CreatedAt!.Value,
+				CreatedById,
+				GroupId,
+				Enabled!.Value);
 
 		/// <summary>
 		/// Generate a <see cref="UserResponse"/> from <see langword="this"/>.

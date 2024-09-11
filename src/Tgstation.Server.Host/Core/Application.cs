@@ -8,6 +8,7 @@ using Cyberboss.AspNetCore.AsyncInitializer;
 
 using Elastic.CommonSchema.Serilog;
 
+using HotChocolate.AspNetCore;
 using HotChocolate.Types;
 
 using Microsoft.AspNetCore.Authentication;
@@ -37,6 +38,8 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Http;
+using Tgstation.Server.Host.Authority;
+using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment.Remote;
@@ -292,9 +295,12 @@ namespace Tgstation.Server.Host.Core
 				services
 					.AddGraphQLServer()
 					.AddAuthorization()
+					.AddMutationConventions()
+					.AddErrorFilter<ErrorMessageFilter>()
 					.AddType<UnsignedIntType>()
 					.BindRuntimeType<Version, SemverType>()
-					.AddQueryType<Query>();
+					.AddQueryType<Query>()
+					.AddMutationType<Mutation>();
 
 			void AddTypedContext<TContext>()
 				where TContext : DatabaseContext
@@ -430,6 +436,12 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IServerUpdater, ServerUpdater>();
 			services.AddSingleton<IServerUpdateInitiator, ServerUpdateInitiator>();
 			services.AddSingleton<IDotnetDumpService, DotnetDumpService>();
+
+			// configure authorities
+			services.AddScoped(typeof(IRestAuthorityInvoker<>), typeof(AuthorityInvoker<>));
+			services.AddScoped(typeof(IGraphQLAuthorityInvoker<>), typeof(AuthorityInvoker<>));
+			services.AddScoped<ILoginAuthority, LoginAuthority>();
+			services.AddScoped<IUserAuthority, UserAuthority>();
 
 			// configure misc services
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
@@ -616,7 +628,12 @@ namespace Tgstation.Server.Host.Core
 				if (internalConfiguration.EnableGraphQL)
 				{
 					logger.LogWarning("Enabling GraphQL. This API is experimental and breaking changes may occur at any time!");
-					endpoints.MapGraphQL(Routes.GraphQL);
+					endpoints
+						.MapGraphQL(Routes.GraphQL)
+						.WithOptions(new GraphQLServerOptions
+						{
+							EnableBatching = true,
+						});
 				}
 			});
 

@@ -14,6 +14,8 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Host.Authority;
+using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
@@ -46,6 +48,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IPermissionsUpdateNotifyee permissionsUpdateNotifyee;
 
 		/// <summary>
+		/// The <see cref="IRestAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.
+		/// </summary>
+		readonly IRestAuthorityInvoker<IUserAuthority> userAuthority;
+
+		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="UserController"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -57,6 +64,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
+		/// <param name="userAuthority">The value of <see cref="userAuthority"/>.</param>
 		/// <param name="permissionsUpdateNotifyee">The value of <see cref="permissionsUpdateNotifyee"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
@@ -67,6 +75,7 @@ namespace Tgstation.Server.Host.Controllers
 			ISystemIdentityFactory systemIdentityFactory,
 			ICryptographySuite cryptographySuite,
 			IPermissionsUpdateNotifyee permissionsUpdateNotifyee,
+			IRestAuthorityInvoker<IUserAuthority> userAuthority,
 			ILogger<UserController> logger,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IApiHeadersProvider apiHeaders)
@@ -80,6 +89,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.permissionsUpdateNotifyee = permissionsUpdateNotifyee ?? throw new ArgumentNullException(nameof(permissionsUpdateNotifyee));
+			this.userAuthority = userAuthority ?? throw new ArgumentNullException(nameof(userAuthority));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
@@ -343,12 +353,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Get information about the current <see cref="User"/>.
 		/// </summary>
-		/// <returns>The <see cref="IActionResult"/> of the operation.</returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">The <see cref="User"/> was retrieved successfully.</response>
 		[HttpGet]
-		[TgsAuthorize]
+		[TgsRestAuthorize<IUserAuthority>(nameof(IUserAuthority.Read))]
 		[ProducesResponseType(typeof(UserResponse), 200)]
-		public IActionResult Read() => Json(AuthenticationContext.User.ToApi());
+		public ValueTask<IActionResult> Read(CancellationToken cancellationToken)
+			=> userAuthority.InvokeTransformable<User, UserResponse>(this, authority => authority.Read(cancellationToken));
 
 		/// <summary>
 		/// List all <see cref="User"/>s in the server.
@@ -395,27 +407,14 @@ namespace Tgstation.Server.Host.Controllers
 		public async ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			if (id == AuthenticationContext.User.Id)
-				return Read();
+				return await Read(cancellationToken);
 
 			if (!((AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration)).HasFlag(AdministrationRights.ReadUsers))
 				return Forbid();
 
-			var user = await DatabaseContext.Users
-				.AsQueryable()
-				.Where(x => x.Id == id)
-				.Include(x => x.CreatedBy)
-				.Include(x => x.OAuthConnections)
-				.Include(x => x.Group!)
-					.ThenInclude(x => x.PermissionSet)
-				.Include(x => x.PermissionSet)
-				.FirstOrDefaultAsync(cancellationToken);
-			if (user == default)
-				return NotFound();
-
-			if (user.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
-				return Forbid();
-
-			return Json(user.ToApi());
+			return await userAuthority.InvokeTransformable<User, UserResponse>(
+				this,
+				authority => authority.GetId(id, true, cancellationToken));
 		}
 
 		/// <summary>

@@ -180,8 +180,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Authority\" />
     <Folder Include="GraphQL\DataLoaders\" />
+    <Folder Include="GraphQL\Mutations\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 </Project>
