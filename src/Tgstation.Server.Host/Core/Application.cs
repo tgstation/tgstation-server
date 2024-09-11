@@ -56,6 +56,7 @@ using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.GraphQL;
+using Tgstation.Server.Host.GraphQL.Types;
 using Tgstation.Server.Host.GraphQL.Types.Scalars;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -297,6 +298,8 @@ namespace Tgstation.Server.Host.Core
 					.AddAuthorization()
 					.AddMutationConventions()
 					.AddErrorFilter<ErrorMessageFilter>()
+					.AddType<LocalGateway>()
+					.AddType<RemoteGateway>()
 					.AddType<UnsignedIntType>()
 					.BindRuntimeType<Version, SemverType>()
 					.AddQueryType<Query>()

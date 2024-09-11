@@ -5,7 +5,7 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// <summary>
 	/// Information about the local tgstation-server.
 	/// </summary>
-	public class LocalServerInformation : ServerInformationBase
+	public class GatewayInformation : GatewayInformationBase
 	{
 		/// <summary>
 		/// If the server is running on a windows operating system.

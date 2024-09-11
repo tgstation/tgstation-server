@@ -33,5 +33,14 @@ namespace Tgstation.Server.Host.GraphQL
 			ErrorCode = errorMessage.ErrorCode != default ? errorMessage.ErrorCode : null;
 			AdditionalData = errorMessage.AdditionalData;
 		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ErrorMessageException"/> class.
+		/// </summary>
+		/// <param name="errorCode">The <see cref="ErrorCode"/>.</param>
+		public ErrorMessageException(ErrorCode errorCode)
+			: this(new ErrorMessageResponse(errorCode), String.Empty)
+		{
+		}
 	}
 }

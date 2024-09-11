@@ -5,7 +5,7 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// <summary>
 	/// Base class for <see cref="Response.ServerInformationResponse"/>.
 	/// </summary>
-	public abstract class ServerInformationBase
+	public abstract class GatewayInformationBase
 	{
 		/// <summary>
 		/// Minimum length of database user passwords.

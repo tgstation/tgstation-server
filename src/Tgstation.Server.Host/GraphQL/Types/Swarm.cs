@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using HotChocolate;
 
-using Tgstation.Server.Api.Models.Internal;
+using Microsoft.Extensions.Options;
+
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
@@ -13,7 +16,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// <summary>
 	/// Represents a tgstation-server swarm.
 	/// </summary>
-	public sealed class ServerSwarm
+	public sealed class Swarm
 	{
 		/// <summary>
 		/// Gets the <see cref="SwarmMetadata"/> for the swarm.
@@ -31,27 +34,41 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		}
 
 		/// <summary>
-		/// Gets the local <see cref="Types.LocalServer"/>.
-		/// </summary>
-		/// <returns>A new <see cref="Types.LocalServer"/>.</returns>
-		public LocalServer LocalServer() => new();
-
-		/// <summary>
 		/// Gets the swarm's <see cref="Types.Users"/>.
 		/// </summary>
 		/// <returns>A new <see cref="Types.Users"/>.</returns>
 		public Users Users() => new();
 
 		/// <summary>
-		/// Gets the <see cref="SwarmServerInformation"/> for all servers in a swarm.
+		/// Gets the connected <see cref="Node"/> server.
 		/// </summary>
 		/// <param name="swarmService">The <see cref="ISwarmService"/> to use.</param>
-		/// <returns>A <see cref="List{T}"/> of <see cref="SwarmServerInformation"/>s if the local server is part of a swarm, <see langword="null"/> otherwise.</returns>
-		public List<SwarmServerInformation>? Servers(
+		/// <param name="swarmConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the current <see cref="SwarmConfiguration"/>.</param>
+		/// <returns>A new <see cref="Node"/>.</returns>
+		public Node CurrentNode(
+			[Service] ISwarmService swarmService,
+			[Service] IOptionsSnapshot<SwarmConfiguration> swarmConfigurationOptions)
+		{
+			ArgumentNullException.ThrowIfNull(swarmService);
+			ArgumentNullException.ThrowIfNull(swarmConfigurationOptions);
+
+			var nodeInfos = Nodes(swarmService);
+			if (nodeInfos != null)
+				return nodeInfos.First(x => x.Info!.Identifier == swarmConfigurationOptions.Value.Identifier);
+
+			return new Node(null);
+		}
+
+		/// <summary>
+		/// Gets all <see cref="Node"/> servers in the swarm.
+		/// </summary>
+		/// <param name="swarmService">The <see cref="ISwarmService"/> to use.</param>
+		/// <returns>A <see cref="List{T}"/> of <see cref="Node"/>s if the local server is part of a swarm, <see langword="null"/> otherwise.</returns>
+		public List<Node>? Nodes(
 			[Service] ISwarmService swarmService)
 		{
 			ArgumentNullException.ThrowIfNull(swarmService);
-			return swarmService.GetSwarmServers();
+			return swarmService.GetSwarmServers()?.Select(x => new Node(new NodeInformation(x))).ToList();
 		}
 	}
 }

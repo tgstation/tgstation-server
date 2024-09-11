@@ -1380,27 +1380,27 @@ namespace Tgstation.Server.Tests.Live
 
 					await multiClient.ExecuteReadOnlyConfirmEquivalence(
 						restClient => restClient.ServerInformation(cancellationToken),
-						async gqlClient => (await gqlClient.ServerInformationQuery.ExecuteAsync(cancellationToken)).Data,
+						async gqlClient => (await gqlClient.ServerInformation.ExecuteAsync(cancellationToken)).Data,
 						(restServerInfo, gqlServerInfo) => restServerInfo.UpdateInProgress == gqlServerInfo.Swarm.Metadata.UpdateInProgress
 							&& restServerInfo.Version == gqlServerInfo.Swarm.Metadata.Version
 							&& restServerInfo.DMApiVersion == gqlServerInfo.Swarm.Metadata.DmApiVersion
-							&& restServerInfo.InstanceLimit == gqlServerInfo.Swarm.LocalServer.Information.InstanceLimit
-							&& restServerInfo.UserGroupLimit == gqlServerInfo.Swarm.LocalServer.Information.UserGroupLimit
-							&& restServerInfo.ValidInstancePaths.SequenceEqual(gqlServerInfo.Swarm.LocalServer.Information.ValidInstancePaths)
-							&& restServerInfo.UserLimit == gqlServerInfo.Swarm.LocalServer.Information.UserLimit
-							&& restServerInfo.MinimumPasswordLength == gqlServerInfo.Swarm.LocalServer.Information.MinimumPasswordLength
-							&& (restServerInfo.SwarmServers == gqlServerInfo.Swarm.Servers
-								|| restServerInfo.SwarmServers.SequenceEqual(gqlServerInfo.Swarm.Servers.Select(x => new SwarmServerResponse(new Api.Models.Internal.SwarmServerInformation
+							&& restServerInfo.InstanceLimit == gqlServerInfo.Swarm.CurrentNode.Gateway.Information.InstanceLimit
+							&& restServerInfo.UserGroupLimit == gqlServerInfo.Swarm.CurrentNode.Gateway.Information.UserGroupLimit
+							&& restServerInfo.ValidInstancePaths.SequenceEqual(gqlServerInfo.Swarm.CurrentNode.Gateway.Information.ValidInstancePaths)
+							&& restServerInfo.UserLimit == gqlServerInfo.Swarm.CurrentNode.Gateway.Information.UserLimit
+							&& restServerInfo.MinimumPasswordLength == gqlServerInfo.Swarm.CurrentNode.Gateway.Information.MinimumPasswordLength
+							&& ((object)restServerInfo.SwarmServers == gqlServerInfo.Swarm.Nodes
+								|| restServerInfo.SwarmServers.SequenceEqual(gqlServerInfo.Swarm.Nodes.Select(x => new SwarmServerResponse(new Api.Models.Internal.SwarmServerInformation
 								{
-									Address = x.Address,
-									PublicAddress = x.PublicAddress,
-									Controller = x.Controller,
-									Identifier = x.Identifier,
+									Address = x.Info.Address,
+									PublicAddress = x.Info.PublicAddress,
+									Controller = x.Info.Controller,
+									Identifier = x.Info.Identifier,
 								}))))
-							&& (restServerInfo.OAuthProviderInfos == gqlServerInfo.Swarm.LocalServer.Information.OAuthProviderInfos
+							&& (restServerInfo.OAuthProviderInfos == gqlServerInfo.Swarm.CurrentNode.Gateway.Information.OAuthProviderInfos
 								|| restServerInfo.OAuthProviderInfos.All(kvp =>
 								{
-									var info = gqlServerInfo.Swarm.LocalServer.Information.OAuthProviderInfos.FirstOrDefault(x => (int)x.Key == (int)kvp.Key);
+									var info = gqlServerInfo.Swarm.CurrentNode.Gateway.Information.OAuthProviderInfos.FirstOrDefault(x => (int)x.Key == (int)kvp.Key);
 									return info != null
 										&& info.Value.ServerUrl == kvp.Value.ServerUrl
 										&& info.Value.ClientId == kvp.Value.ClientId

@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models.Response
 	/// <summary>
 	/// Represents basic server information.
 	/// </summary>
-	public sealed class ServerInformationResponse : Internal.LocalServerInformation
+	public sealed class ServerInformationResponse : Internal.GatewayInformation
 	{
 		/// <summary>
 		/// The version of the host.

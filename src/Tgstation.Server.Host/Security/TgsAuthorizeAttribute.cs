@@ -24,6 +24,32 @@ namespace Tgstation.Server.Host.Security
 		public RightsType? RightsType { get; }
 
 		/// <summary>
+		/// Implementation of <see cref="IAuthorizationFilter.OnAuthorization(AuthorizationFilterContext)"/>.
+		/// </summary>
+		/// <param name="context">The <see cref="AuthorizationFilterContext"/>.</param>
+		public static void OnAuthorizationHelper(AuthorizationFilterContext context)
+		{
+			ArgumentNullException.ThrowIfNull(context);
+
+			var services = context.HttpContext.RequestServices;
+			var authenticationContext = services.GetRequiredService<IAuthenticationContext>();
+			var logger = services.GetRequiredService<ILogger<TgsAuthorizeAttribute>>();
+
+			if (!authenticationContext.Valid)
+			{
+				logger.LogTrace("authenticationContext is invalid!");
+				context.Result = new UnauthorizedResult();
+				return;
+			}
+
+			if (authenticationContext.User.Require(x => x.Enabled))
+				return;
+
+			logger.LogTrace("authenticationContext is for a disabled user!");
+			context.Result = new ForbidResult();
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="TgsAuthorizeAttribute"/> class.
 		/// </summary>
 		public TgsAuthorizeAttribute()
@@ -122,23 +148,6 @@ namespace Tgstation.Server.Host.Security
 
 		/// <inheritdoc />
 		public void OnAuthorization(AuthorizationFilterContext context)
-		{
-			var services = context.HttpContext.RequestServices;
-			var authenticationContext = services.GetRequiredService<IAuthenticationContext>();
-			var logger = services.GetRequiredService<ILogger<TgsAuthorizeAttribute>>();
-
-			if (!authenticationContext.Valid)
-			{
-				logger.LogTrace("authenticationContext is invalid!");
-				context.Result = new UnauthorizedResult();
-				return;
-			}
-
-			if (authenticationContext.User.Require(x => x.Enabled))
-				return;
-
-			logger.LogTrace("authenticationContext is for a disabled user!");
-			context.Result = new ForbidResult();
-		}
+			=> OnAuthorizationHelper(context);
 	}
 }

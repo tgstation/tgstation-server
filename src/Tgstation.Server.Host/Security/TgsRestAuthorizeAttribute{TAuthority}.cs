@@ -2,6 +2,7 @@
 using System.Reflection;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 using Tgstation.Server.Host.Authority.Core;
 
@@ -12,7 +13,7 @@ namespace Tgstation.Server.Host.Security
 	/// </summary>
 	/// <typeparam name="TAuthority">The <see cref="IAuthority"/> being wrapped.</typeparam>
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-	public sealed class TgsRestAuthorizeAttribute<TAuthority> : AuthorizeAttribute
+	public sealed class TgsRestAuthorizeAttribute<TAuthority> : AuthorizeAttribute, IAuthorizationFilter
 		where TAuthority : IAuthority
 	{
 		/// <summary>
@@ -40,5 +41,9 @@ namespace Tgstation.Server.Host.Security
 			MethodName = methodName;
 			Roles = authorizeAttribute.Roles;
 		}
+
+		/// <inheritdoc />
+		public void OnAuthorization(AuthorizationFilterContext context)
+			=> TgsAuthorizeAttribute.OnAuthorizationHelper(context);
 	}
 }

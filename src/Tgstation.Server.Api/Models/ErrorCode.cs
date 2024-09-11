@@ -461,7 +461,7 @@ namespace Tgstation.Server.Api.Models
 		RepoTestMergeConflict,
 
 		/// <summary>
-		/// Attempted to create an instance outside of the <see cref="Internal.ServerInformationBase.ValidInstancePaths"/>.
+		/// Attempted to create an instance outside of the <see cref="Internal.GatewayInformationBase.ValidInstancePaths"/>.
 		/// </summary>
 		[Description("The new instance's path is not under a white-listed path.")]
 		InstanceNotAtWhitelistedPath,
@@ -663,5 +663,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Provided repository username doesn't match the user of the corresponding access token!")]
 		RepoTokenUsernameMismatch,
+
+		/// <summary>
+		/// Attempted to make a cross swarm server request using the GraphQL API.
+		/// </summary>
+		[Description("GraphQL swarm remote gateways not implemented!")]
+		RemoteGatewaysNotImplemented,
 	}
 }
