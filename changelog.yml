@@ -157,17 +157,26 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.11.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.10.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.10.0
     ComponentVersions:
+      Core: 6.10.0
       HttpApi: 10.9.0
       DreamMakerApi: 7.3.0
       Configuration: 5.2.0
       InteropApi: 5.10.0
       HostWatchdog: 1.5.0
       NugetCommon: 7.0.0
-      NugetApi: 14.1.0
-      NugetClient: 17.1.0
-      WebControlPanel: 6.1.0
+      NugetApi: 15.0.0
+      NugetClient: 18.0.0
+      WebControlPanel: 6.2.0
     Changes:
     - Descriptions:
       - Running as root on Linux now issues a warning.
@@ -185,24 +194,6 @@ Components:
       - '**Deprecation:** `requireDMApiValidation` in the `/api/DreamMaker` request and response models is now deprecated, use `dmApiValidationMode` instead.'
       Author: Cyberboss
       PullRequest: 1923
-    Unreleased: true
-  - Version: 6.9.3
-    ComponentVersions:
-      HttpApi: 10.7.0
-      DreamMakerApi: 7.2.1
-      Configuration: 5.2.0
-      InteropApi: 5.9.0
-      HostWatchdog: 1.4.1
-      NugetCommon: 7.0.0
-      NugetApi: 13.7.0
-      NugetClient: 16.0.0
-      WebControlPanel: 6.1.0
-    Changes:
-    - Descriptions:
-      - Fixed issue where GitHub app tokens were being cached longer than their 1 hour expiry.
-      Author: Cyberboss
-      PullRequest: 1919
-    Unreleased: true
   - Version: 6.9.2
     ComponentVersions:
       HttpApi: 10.7.0
@@ -3617,7 +3608,6 @@ Components:
       - Updated DMAPI validation selector to include the "skip" option.
       Author: Cyberboss
       PullRequest: 1924
-    Unreleased: true
   - Version: 6.1.0
     Changes:
     - Descriptions:
@@ -3843,7 +3833,6 @@ Components:
       - Added `clientCount` field to DreamDaemon response model. Requires game side interop version >= 5.10.0 and watchdog health checks to be enabled to function.
       Author: Cyberboss
       PullRequest: 1920
-    Unreleased: true
   - Version: 10.7.0
     Changes:
     - Descriptions:
@@ -4370,7 +4359,6 @@ Components:
       - Fixed internal define `DMAPI5_PARAMETER_TOPIC_PORT` leaking out of module.
       Author: Cyberboss
       PullRequest: 1921
-    Unreleased: true
   - Version: 7.2.1
     Changes:
     - Descriptions:
@@ -4646,29 +4634,23 @@ Components:
   - Version: 15.0.0
     Changes:
     - Descriptions:
-      - '**BREAKING**: Reorganized the internal structure of several classes. Sum of parts remains unchanged.'
-      - '**BREAKING**: `SwarmServerResponse` can no longer be constructed directly. Instantiate one of its child classes instead.'
-      Author: Cyberboss
-      PullRequest: 1924
-    Unreleased: true
-  - Version: 14.1.0
-    Changes:
-    - Descriptions:
-      - Added `Tgstation.Server.Api.Models.DMApiValidationMode`.
-      - Added `DreamMakerSettings.DMApiValidationMode`.
-      - '**Deprecation:** Make `DreamMakerSettings.RequireDMApiValidation` obsolete. Use `DreamMakerSettings.DMApiValidationMode` instead.'
-      Author: Cyberboss
-      PullRequest: 1923
-    Unreleased: true
-  - Version: 14.0.0
-    Changes:
-    - Descriptions:
       - '**BREAKING:** Moved `RepositorySettings` out of `Internal` namespace and made abstract.'
       - Added TGS encoded app private key prefix to `RepositorySettings`.
       - Added `DreamDaemonApiBase.LaunchTime`.
       - Added `DreamDaemonApiBase.ClientCount`.
       Author: Cyberboss
       PullRequest: 1920
+    - Descriptions:
+      - Added `Tgstation.Server.Api.Models.DMApiValidationMode`.
+      - Added `DreamMakerSettings.DMApiValidationMode`.
+      - '**Deprecation:** Make `DreamMakerSettings.RequireDMApiValidation` obsolete. Use `DreamMakerSettings.DMApiValidationMode` instead.'
+      Author: Cyberboss
+      PullRequest: 1923
+    - Descriptions:
+      - '**BREAKING**: Reorganized the internal structure of several classes. Sum of parts remains unchanged.'
+      - '**BREAKING**: `SwarmServerResponse` can no longer be constructed directly. Instantiate one of its child classes instead.'
+      Author: Cyberboss
+      PullRequest: 1924
     Unreleased: true
   - Version: 13.5.0
     Changes:
@@ -4757,22 +4739,16 @@ Components:
   - Version: 18.0.0
     Changes:
     - Descriptions:
-      - '**BREAKING**: Renamed types similar to "ServerClient" to "RestServerClient"'
-      - Added `ITransferClient` and `IRestServerClient.Transfer` to access the underlying raw file transfer API.
+      - '**BREAKING:** Updated API definitions library to 14.0.0.'
       Author: Cyberboss
-      PullRequest: 1924
-    Unreleased: true
-  - Version: 17.1.0
-    Changes:
+      PullRequest: 1920
     - Descriptions:
       - Updated `Tgstation.Server.Api` dependency to 14.1.0 for TGS API version 10.9.0.
       Author: Cyberboss
       PullRequest: 1923
-    Unreleased: true
-  - Version: 17.0.0
-    Changes:
     - Descriptions:
-      - '**BREAKING:** Updated API definitions library to 14.0.0.'
+      - '**BREAKING**: Renamed types similar to "ServerClient" to "RestServerClient"'
+      - Added `ITransferClient` and `IRestServerClient.Transfer` to access the underlying raw file transfer API.
       Author: Cyberboss
-      PullRequest: 1920
+      PullRequest: 1924
     Unreleased: true
