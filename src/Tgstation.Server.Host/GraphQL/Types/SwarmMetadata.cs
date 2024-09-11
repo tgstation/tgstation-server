@@ -7,7 +7,7 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.GraphQL.Types
 {
 	/// <summary>
-	/// Represents information that is constant across all servers in a <see cref="Swarm"/>.
+	/// Represents information that is constant across all servers in a <see cref="ServerSwarm"/>.
 	/// </summary>
 	public sealed class SwarmMetadata
 	{

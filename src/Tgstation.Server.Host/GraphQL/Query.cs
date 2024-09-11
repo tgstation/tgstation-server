@@ -8,9 +8,9 @@ namespace Tgstation.Server.Host.GraphQL
 	public sealed class Query
 	{
 		/// <summary>
-		/// Gets the <see cref="Types.Swarm"/>.
+		/// Gets the <see cref="Types.ServerSwarm"/>.
 		/// </summary>
-		/// <returns>A new <see cref="Types.Swarm"/>.</returns>
-		public Types.Swarm Swarm() => new();
+		/// <returns>A new <see cref="Types.ServerSwarm"/>.</returns>
+		public Types.ServerSwarm Swarm() => new();
 	}
 }

@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// <summary>
 	/// Represents a tgstation-server swarm.
 	/// </summary>
-	public sealed class Swarm
+	public sealed class ServerSwarm
 	{
 		/// <summary>
 		/// Gets the <see cref="SwarmMetadata"/> for the swarm.
