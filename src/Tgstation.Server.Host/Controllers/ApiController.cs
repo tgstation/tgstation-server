@@ -104,19 +104,6 @@ namespace Tgstation.Server.Host.Controllers
 			this.requireHeaders = requireHeaders;
 		}
 
-		/// <summary>
-		/// Generic 201 response with a given <paramref name="payload"/>.
-		/// </summary>
-		/// <param name="payload">The accompanying API payload.</param>
-		/// <returns>A <see cref="HttpStatusCode.Created"/> <see cref="ObjectResult"/> with the given <paramref name="payload"/>.</returns>
-		public ObjectResult Created(object payload) => StatusCode((int)HttpStatusCode.Created, payload);
-
-		/// <summary>
-		/// Generic 401 response.
-		/// </summary>
-		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
-		public new ObjectResult Unauthorized() => this.StatusCode(HttpStatusCode.Unauthorized, null);
-
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
 		protected override async ValueTask<IActionResult?> HookExecuteAction(Func<Task> executeAction, CancellationToken cancellationToken)

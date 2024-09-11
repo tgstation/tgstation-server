@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Controllers
 			await DatabaseContext.Save(cancellationToken);
 			Logger.LogInformation("Created new user group {groupName} ({groupId})", dbGroup.Name, dbGroup.Id);
 
-			return Created(dbGroup.ToApi(true));
+			return this.Created(dbGroup.ToApi(true));
 		}
 
 		/// <summary>

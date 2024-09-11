@@ -205,7 +205,7 @@ namespace Tgstation.Server.Host.Controllers
 					api.Reference = model.Reference;
 					api.ActiveJob = job.ToApi();
 
-					return Created(api);
+					return this.Created(api);
 				});
 		}
 
@@ -326,7 +326,7 @@ namespace Tgstation.Server.Host.Controllers
 					{
 						// user may have fucked with the repo manually, do what we can
 						await DatabaseContext.Save(cancellationToken);
-						return Created(api);
+						return this.Created(api);
 					}
 
 					return Json(api);

@@ -169,7 +169,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			Logger.LogInformation("Created new user {name} ({id})", dbUser.Name, dbUser.Id);
 
-			return Created(dbUser.ToApi());
+			return this.Created(dbUser.ToApi());
 		}
 #pragma warning restore CA1502, CA1506
 
