@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
-			modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
+			modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 			{
@@ -256,16 +256,15 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(10000)
 					.HasColumnType("TEXT");
 
+				b.Property<int>("DMApiValidationMode")
+					.HasColumnType("INTEGER");
+
 				b.Property<long>("InstanceId")
 					.HasColumnType("INTEGER");
 
 				b.Property<string>("ProjectName")
 					.HasMaxLength(10000)
 					.HasColumnType("TEXT");
-
-				b.Property<bool?>("RequireDMApiValidation")
-					.IsRequired()
-					.HasColumnType("INTEGER");
 
 				b.Property<TimeSpan?>("Timeout")
 					.IsRequired()

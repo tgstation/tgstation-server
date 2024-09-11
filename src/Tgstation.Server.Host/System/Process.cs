@@ -17,6 +17,23 @@ namespace Tgstation.Server.Host.System
 		public int Id { get; }
 
 		/// <inheritdoc />
+		public DateTimeOffset? LaunchTime
+		{
+			get
+			{
+				try
+				{
+					return handle.StartTime;
+				}
+				catch (Exception ex)
+				{
+					logger.LogWarning(ex, "Failed to get PID {pid}'s memory usage!", Id);
+					return null;
+				}
+			}
+		}
+
+		/// <inheritdoc />
 		public Task Startup { get; }
 
 		/// <inheritdoc />

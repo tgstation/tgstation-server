@@ -9,9 +9,9 @@ using Tgstation.Server.Api.Models.Response;
 namespace Tgstation.Server.Client
 {
 	/// <summary>
-	/// Factory for creating <see cref="IServerClient"/>s.
+	/// Factory for creating <see cref="IRestServerClient"/>s.
 	/// </summary>
-	public interface IServerClientFactory
+	public interface IRestServerClientFactory
 	{
 		/// <summary>
 		/// Gets the <see cref="ServerInformationResponse"/> for a given <paramref name="host"/>.
@@ -28,17 +28,17 @@ namespace Tgstation.Server.Client
 			   CancellationToken cancellationToken = default);
 
 		/// <summary>
-		/// Create a <see cref="IServerClient"/> using a password login.
+		/// Create a <see cref="IRestServerClient"/> using a password login.
 		/// </summary>
 		/// <param name="host">The URL to access TGS.</param>
-		/// <param name="username">The username to for the <see cref="IServerClient"/>.</param>
-		/// <param name="password">The password for the <see cref="IServerClient"/>.</param>
-		/// <param name="requestLoggers">Optional initial <see cref="IRequestLogger"/>s to add to the <see cref="IServerClient"/>.</param>
+		/// <param name="username">The username to for the <see cref="IRestServerClient"/>.</param>
+		/// <param name="password">The password for the <see cref="IRestServerClient"/>.</param>
+		/// <param name="requestLoggers">Optional initial <see cref="IRequestLogger"/>s to add to the <see cref="IRestServerClient"/>.</param>
 		/// <param name="timeout">Optional <see cref="TimeSpan"/> representing timeout for the connection.</param>
 		/// <param name="attemptLoginRefresh">Attempt to refresh the received <see cref="TokenResponse"/> when it expires or becomes invalid. <paramref name="username"/> and <paramref name="password"/> will be stored in memory if this is <see langword="true"/>.</param>
 		/// <param name="cancellationToken">Optional <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IServerClient"/>.</returns>
-		ValueTask<IServerClient> CreateFromLogin(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IRestServerClient"/>.</returns>
+		ValueTask<IRestServerClient> CreateFromLogin(
 			Uri host,
 			string username,
 			string password,
@@ -48,16 +48,16 @@ namespace Tgstation.Server.Client
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
-		/// Create a <see cref="IServerClient"/> using am OAuth login.
+		/// Create a <see cref="IRestServerClient"/> using an OAuth login.
 		/// </summary>
 		/// <param name="host">The URL to access TGS.</param>
 		/// <param name="oAuthCode">The OAuth code used to complete the flow.</param>
 		/// <param name="oAuthProvider">The <see cref="OAuthProvider"/>.</param>
-		/// <param name="requestLoggers">Optional initial <see cref="IRequestLogger"/>s to add to the <see cref="IServerClient"/>.</param>
+		/// <param name="requestLoggers">Optional initial <see cref="IRequestLogger"/>s to add to the <see cref="IRestServerClient"/>.</param>
 		/// <param name="timeout">Optional <see cref="TimeSpan"/> representing timeout for the connection.</param>
 		/// <param name="cancellationToken">Optional <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IServerClient"/>.</returns>
-		ValueTask<IServerClient> CreateFromOAuth(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IRestServerClient"/>.</returns>
+		ValueTask<IRestServerClient> CreateFromOAuth(
 			Uri host,
 			string oAuthCode,
 			OAuthProvider oAuthProvider,
@@ -66,12 +66,12 @@ namespace Tgstation.Server.Client
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
-		/// Create a <see cref="IServerClient"/>.
+		/// Create a <see cref="IRestServerClient"/>.
 		/// </summary>
 		/// <param name="host">The URL to access TGS.</param>
 		/// <param name="token">The <see cref="TokenResponse"/> to access the API with.</param>
-		/// <returns>A new <see cref="IServerClient"/>.</returns>
-		IServerClient CreateFromToken(
+		/// <returns>A new <see cref="IRestServerClient"/>.</returns>
+		IRestServerClient CreateFromToken(
 			Uri host,
 			TokenResponse token);
 	}

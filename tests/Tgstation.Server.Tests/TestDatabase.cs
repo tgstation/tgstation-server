@@ -13,6 +13,7 @@ using Tgstation.Server.Host.Database.Migrations;
 using Tgstation.Server.Host.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Tests
 {
@@ -130,7 +131,7 @@ namespace Tgstation.Server.Tests
 				{
 					ApiValidationPort = 1557,
 					ApiValidationSecurityLevel = DreamDaemonSecurity.Trusted,
-					RequireDMApiValidation = false,
+					DMApiValidationMode = DMApiValidationMode.Skipped,
 					Timeout = TimeSpan.FromSeconds(13),
 				},
 				InstancePermissionSets = new List<Host.Models.InstancePermissionSet>

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Swarm
 {
@@ -16,7 +15,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// All of the <see cref="SwarmServer"/>s that are involved in the updates.
 		/// </summary>
-		public IReadOnlyList<SwarmServerResponse> InvolvedServers => initialInvolvedServers ?? throw new InvalidOperationException("This property can only be checked on controller SwarmUpdateOperations!");
+		public IReadOnlyList<SwarmServerInformation> InvolvedServers => initialInvolvedServers ?? throw new InvalidOperationException("This property can only be checked on controller SwarmUpdateOperations!");
 
 		/// <summary>
 		/// The <see cref="Version"/> being updated to.
@@ -31,7 +30,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// Backing field for <see cref="InvolvedServers"/>.
 		/// </summary>
-		readonly IReadOnlyList<SwarmServerResponse>? initialInvolvedServers;
+		readonly IReadOnlyList<SwarmServerInformation>? initialInvolvedServers;
 
 		/// <summary>
 		/// The backing <see cref="TaskCompletionSource{TResult}"/> for <see cref="CommitGate"/>.
@@ -58,9 +57,9 @@ namespace Tgstation.Server.Host.Swarm
 		/// Initializes a new instance of the <see cref="SwarmUpdateOperation"/> class.
 		/// </summary>
 		/// <param name="targetVersion">The value of <see cref="TargetVersion"/>.</param>
-		/// <param name="currentNodes">An <see cref="IEnumerable{T}"/> of the controller's current nodes as <see cref="SwarmServerResponse"/>s. Must have <see cref="SwarmServer.Address"/> and <see cref="SwarmServer.Identifier"/> set.</param>
+		/// <param name="currentNodes">An <see cref="IEnumerable{T}"/> of the controller's current nodes as <see cref="SwarmServerInformation"/>s. Must have <see cref="SwarmServer.Address"/> and <see cref="SwarmServer.Identifier"/> set.</param>
 		/// <remarks>This is the variant for use by the controller.</remarks>
-		public SwarmUpdateOperation(Version targetVersion, IEnumerable<SwarmServerResponse> currentNodes)
+		public SwarmUpdateOperation(Version targetVersion, IEnumerable<SwarmServerInformation> currentNodes)
 			: this(targetVersion)
 		{
 			initialInvolvedServers = currentNodes?.ToList() ?? throw new ArgumentNullException(nameof(currentNodes));

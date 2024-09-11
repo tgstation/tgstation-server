@@ -10,8 +10,8 @@ namespace Tgstation.Server.Client.Tests
 		[TestMethod]
 		public void TestConstruction()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerClientFactory(null));
-			new ServerClientFactory(new ProductHeaderValue("Tgstation.Server.Client.Tests", GetType().Assembly.GetName().Version.ToString()));
+			Assert.ThrowsException<ArgumentNullException>(() => new RestServerClientFactory(null));
+			new RestServerClientFactory(new ProductHeaderValue("Tgstation.Server.Client.Tests", GetType().Assembly.GetName().Version.ToString()));
 		}
 	}
 }

@@ -72,7 +72,7 @@ static class Program
 				assemblyName.Version!.Semver().ToString());
 
 		var serverUrl = new Uri($"http://localhost:{apiPort}");
-		var clientFactory = new ServerClientFactory(productInfoHeaderValue.Product);
+		var clientFactory = new RestServerClientFactory(productInfoHeaderValue.Product);
 		var TGS6Client = await clientFactory.CreateFromLogin(
 			serverUrl,
 			DefaultCredentials.AdminUserName,

@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Indicates the remote git host.
 	/// </summary>
-	public enum RemoteGitProvider
+	public enum RemoteGitProvider // Note if adding more: There's an assumption that all but unknown can derive a slug
 	{
 		/// <summary>
 		/// Unknown remote git provider.

@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models.Response
 	/// <summary>
 	/// Represents basic server information.
 	/// </summary>
-	public sealed class ServerInformationResponse : Internal.ServerInformationBase
+	public sealed class ServerInformationResponse : Internal.LocalServerInformation
 	{
 		/// <summary>
 		/// The version of the host.
@@ -24,11 +24,6 @@ namespace Tgstation.Server.Api.Models.Response
 		public Version? DMApiVersion { get; set; }
 
 		/// <summary>
-		/// If the server is running on a windows operating system.
-		/// </summary>
-		public bool WindowsHost { get; set; }
-
-		/// <summary>
 		/// If there is a server update in progress.
 		/// </summary>
 		public bool UpdateInProgress { get; set; }
@@ -38,10 +33,5 @@ namespace Tgstation.Server.Api.Models.Response
 		/// </summary>
 		[ResponseOptions]
 		public ICollection<SwarmServerResponse>? SwarmServers { get; set; }
-
-		/// <summary>
-		/// Map of <see cref="OAuthProvider"/> to the <see cref="OAuthProviderInfo"/> for them.
-		/// </summary>
-		public IDictionary<OAuthProvider, OAuthProviderInfo>? OAuthProviderInfos { get; set; }
 	}
 }

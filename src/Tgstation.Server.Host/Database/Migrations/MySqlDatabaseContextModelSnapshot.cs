@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "8.0.7")
+				.HasAnnotation("ProductVersion", "8.0.8")
 				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
 			MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -286,6 +286,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(10000)
 					.HasColumnType("varchar(10000)");
 
+				b.Property<int>("DMApiValidationMode")
+					.HasColumnType("int");
+
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
 
@@ -294,10 +297,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("longtext");
 
 				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ProjectName"), "utf8mb4");
-
-				b.Property<bool?>("RequireDMApiValidation")
-					.IsRequired()
-					.HasColumnType("tinyint(1)");
 
 				b.Property<TimeSpan?>("Timeout")
 					.IsRequired()

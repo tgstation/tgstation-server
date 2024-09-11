@@ -57,6 +57,19 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					accessToken ?? throw new ArgumentNullException(nameof(accessToken)),
 					cancellationToken));
 
+		/// <inheritdoc />
+		public async ValueTask<IAuthenticatedGitHubService?> CreateService(string accessString, RepositoryIdentifier repositoryIdentifier, CancellationToken cancellationToken)
+		{
+			var client = await gitHubClientFactory.CreateClientForRepository(
+				accessString ?? throw new ArgumentNullException(nameof(accessString)),
+				repositoryIdentifier,
+				cancellationToken);
+			if (client == null)
+				return null;
+
+			return CreateServiceImpl(client);
+		}
+
 		/// <summary>
 		/// Create a <see cref="GitHubService"/>.
 		/// </summary>

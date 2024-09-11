@@ -36,5 +36,10 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 
 		/// <inheritdoc />
 		public IReadOnlyCollection<uint>? MissingChunks { get; set; }
+
+		/// <summary>
+		/// The number of connected clients to the game. Added in Interop 5.10.0.
+		/// </summary>
+		public uint? ClientCount { get; set; }
 	}
 }

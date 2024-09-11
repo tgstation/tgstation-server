@@ -40,6 +40,7 @@ env:
   TGS_WEBPANEL_NODE_VERSION: 20.x
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
+  Internal__EnableGraphQL: true
 
 concurrency:
   group: "ci-${{ (github.event_name != 'push' && github.event_name != 'schedule' && github.event.inputs.pull_request_number) || github.run_id }}-${{ github.event_name }}"
@@ -432,8 +433,6 @@ jobs:
       matrix:
         configuration: ["Debug", "Release"]
     env:
-      TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-      TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
@@ -486,6 +485,12 @@ jobs:
 
       - name: Run Unit Tests
         run: sudo dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
+        env:
+          TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
+          TGS_TEST_APP_ID: ${{ secrets.APP_ID }}
+          TGS_TEST_APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+          TGS_TEST_REPO_SLUG: ${{ github.repository }}
 
       - name: Store Code Coverage
         uses: actions/upload-artifact@v4
@@ -500,8 +505,6 @@ jobs:
       matrix:
         configuration: ["Debug", "Release"]
     env:
-      TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-      TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     runs-on: windows-latest
     steps:
@@ -550,6 +553,12 @@ jobs:
 
       - name: Run Unit Tests
         run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
+        env:
+          TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
+          TGS_TEST_APP_ID: ${{ secrets.APP_ID }}
+          TGS_TEST_APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+          TGS_TEST_REPO_SLUG: ${{ github.repository }}
 
       - name: Store Code Coverage
         uses: actions/upload-artifact@v4
@@ -569,6 +578,7 @@ jobs:
         configuration: ["Debug", "Release"]
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
+      TGS_TEST_GRAPHQL: true
     runs-on: windows-latest
     steps:
       - name: Setup dotnet

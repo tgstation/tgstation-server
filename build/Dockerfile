@@ -69,6 +69,7 @@ EXPOSE 5000
 
 ENV General__ValidInstancePaths__0 /tgs_instances
 ENV FileLogging__Directory /tgs_logs
+ENV Internal__UsingDocker true
 
 WORKDIR /app
 

@@ -548,7 +548,7 @@ All users with access to an instance have an InstanceUser object associated with
 
 The `Repository` folder is a git repository containing the code of the game you wish to host. It can be cloned from any public or private remote repository and has capabilities to affect changes back to it. All the standard benefits of git are utilized (i.e. check out any revision or reference).
 
-Additional features become available if the remote repository is hosted on https://github.com/. Namely the Test Merge feature, which allows you to take a pull request opened on the repository and compile it into a game deployment for testing. Information about test merges is available in game via the DMAPI and via the main API as well.
+Additional features become available if the remote repository is hosted on https://github.com/. Namely the Test Merge feature, which allows you to take a pull request opened on the repository and compile it into a game deployment for testing. Information about test merges is available in game via the DMAPI and via the main API as well. These require a valid personal access token with `repo` scope or an installed GitHub App with the following permissions: `contents: write`, `pull_requests: write`, and `deployments: write`.
 
 Manual operations on the repository while an instance is running may lead to git data corruption. Thankfully, it's simple enough to delete and reclone the repository via the API.
 

@@ -12,7 +12,6 @@ using LibGit2Sharp.Handlers;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Swarm
 {
@@ -15,8 +15,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// Pass in an updated list of <paramref name="swarmServers"/> to the node.
 		/// </summary>
-		/// <param name="swarmServers">An <see cref="IEnumerable{T}"/> of the updated <see cref="SwarmServerResponse"/>s.</param>
-		void UpdateSwarmServersList(IEnumerable<SwarmServerResponse> swarmServers);
+		/// <param name="swarmServers">An <see cref="IEnumerable{T}"/> of the updated <see cref="SwarmServerInformation"/>s.</param>
+		void UpdateSwarmServersList(IEnumerable<SwarmServerInformation> swarmServers);
 
 		/// <summary>
 		/// Notify the node of an update request from the controller.
@@ -36,11 +36,11 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// Attempt to register a given <paramref name="node"/> with the controller.
 		/// </summary>
-		/// <param name="node">The <see cref="SwarmServerResponse"/> that is registering.</param>
+		/// <param name="node">The <see cref="SwarmServer"/> that is registering.</param>
 		/// <param name="registrationId">The registration <see cref="Guid"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the registration was successful, <see langword="false"/> otherwise.</returns>
-		ValueTask<bool> RegisterNode(Api.Models.Internal.SwarmServer node, Guid registrationId, CancellationToken cancellationToken);
+		ValueTask<bool> RegisterNode(SwarmServer node, Guid registrationId, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempt to unregister a node with a given <paramref name="registrationId"/> with the controller.

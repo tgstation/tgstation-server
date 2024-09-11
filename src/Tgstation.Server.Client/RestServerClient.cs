@@ -12,7 +12,7 @@ using Tgstation.Server.Api.Models.Response;
 namespace Tgstation.Server.Client
 {
 	/// <inheritdoc />
-	sealed class ServerClient : IServerClient
+	sealed class RestServerClient : IRestServerClient
 	{
 		/// <inheritdoc />
 		public Uri Url => apiClient.Url;
@@ -43,16 +43,19 @@ namespace Tgstation.Server.Client
 		/// <inheritdoc />
 		public IUserGroupsClient Groups { get; }
 
+		/// <inheritdoc />
+		public ITransferClient Transfer => apiClient;
+
 		/// <summary>
-		/// The <see cref="IApiClient"/> for the <see cref="ServerClient"/>.
+		/// The <see cref="IApiClient"/> for the <see cref="RestServerClient"/>.
 		/// </summary>
 		readonly IApiClient apiClient;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ServerClient"/> class.
+		/// Initializes a new instance of the <see cref="RestServerClient"/> class.
 		/// </summary>
 		/// <param name="apiClient">The value of <see cref="apiClient"/>.</param>
-		public ServerClient(IApiClient apiClient)
+		public RestServerClient(IApiClient apiClient)
 		{
 			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
 

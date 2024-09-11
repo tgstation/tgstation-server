@@ -49,7 +49,7 @@ namespace Tgstation.Server.Api.Rights
 		SetSecurityLevel = 1 << 6,
 
 		/// <summary>
-		/// User may modify <see cref="Models.Internal.DreamMakerSettings.RequireDMApiValidation"/>.
+		/// User may modify <see cref="Models.Internal.DreamMakerSettings.DMApiValidationMode"/> and <see cref="Models.Internal.DreamMakerSettings.RequireDMApiValidation"/>.
 		/// </summary>
 		SetApiValidationRequirement = 1 << 7,
 

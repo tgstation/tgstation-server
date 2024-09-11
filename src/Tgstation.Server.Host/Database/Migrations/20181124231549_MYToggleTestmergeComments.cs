@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
-	/// Add the <see cref="Api.Models.Internal.RepositorySettings.PostTestMergeComment"/> column for MySQL/MariaDB.
+	/// Add the <see cref="Api.Models.RepositorySettings.PostTestMergeComment"/> column for MySQL/MariaDB.
 	/// </summary>
 	public partial class MYToggleTestmergeComments : Migration
 	{

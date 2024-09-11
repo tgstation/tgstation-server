@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../build/SrcCommon.props" />
+
+  <PropertyGroup>
+    <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
+    <Version>$(TgsApiVersion)</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- GraphQL connector and code generator -->
+    <PackageReference Include="StrawberryShake.Server" Version="13.9.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tgstation.Server.Client\Tgstation.Server.Client.csproj" />
+  </ItemGroup>
+
+  <!-- https://github.com/dotnet/msbuild/issues/2661#issuecomment-338808147 -->
+  <Target Name="WorkaroundSdk939" BeforeTargets="ImportGraphQLApiSchema">
+    <MSBuild Projects="..\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
+  </Target>
+
+  <Target Name="DeleteGeneratedFiles" BeforeTargets="ImportGraphQLApiSchema">
+    <RemoveDir Directories="$(IntermediateOutputPath)berry" />
+  </Target>
+
+  <!-- https://github.com/ChilliCream/graphql-platform/blob/c0c8df525ca0f47bf3b3b409a8b22cbe37f7a9c0/src/StrawberryShake/MetaPackages/Common/MSBuild/StrawberryShake.targets#L20 -->
+  <Target Name="ImportGraphQLApiSchema" BeforeTargets="_GraphQLCodeGenerationRoot" Inputs="../../artifacts/tgs-api.graphql" Outputs="schema.graphql">
+    <Copy SkipUnchangedFiles="true" SourceFiles="../../artifacts/tgs-api.graphql" DestinationFiles="schema.graphql" />
+  </Target>
+
+  <Target Name="FixWarningsInGeneratedSchema" AfterTargets="GenerateGraphQLCode">
+    <PropertyGroup>
+      <InputFile>$(IntermediateOutputPath)berry/GraphQLClient.Client.cs</InputFile>
+      <OutputFile>$(IntermediateOutputPath)berry/GraphQLClient.Client.cs</OutputFile>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(OutputFile)" Lines="$([System.IO.File]::ReadAllText($(InputFile)).Replace('/ &lt;auto-generated/&gt;','/ &lt;auto-generated /&gt;%0d%0a#pragma warning disable'))" Overwrite="true" Encoding="Unicode" />
+  </Target>
+
+</Project>

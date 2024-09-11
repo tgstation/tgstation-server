@@ -10,6 +10,21 @@
 	set waitfor = FALSE
 	Run()
 
+/proc/TgsError(message)
+	world.log << "TGS Error: [message]"
+	var/ibf = message == "Failed initial bridge request!"
+	if(ibf || message == "Failed bridge request, bad json: null" || findtext(message, "byond_world_export: Failed request: ") || message == "Failed to activate API!")
+		if(ibf)
+			world.log << "Writing test fail file..."
+			text2file("BRIDGE FAILED", "initial_bridge_failed.txt")
+			world.log << "File exists: [fexists("initial_bridge_failed.txt")]"
+			del(world)
+			sleep(1)
+
+		return
+
+	FailTest("DMAPI Error: [message]")
+
 /proc/Run()
 	world.log << "sleep"
 	sleep(50)

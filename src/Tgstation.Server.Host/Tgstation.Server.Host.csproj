@@ -38,6 +38,11 @@
     <Exec WorkingDirectory="ClientApp" Command="yarn run msbuild" />
   </Target>
 
+  <Target Name="ExportGraphQLApiSchema" AfterTargets="AfterBuild" Outputs="../../artifacts/tgs-api.graphql">
+    <Message Text="Exporting GraphQL API Schema..." Importance="high" />
+    <Exec Command="dotnet $(TargetPath)" EnvironmentVariables="General__SetupWizardMode=Never;Internal__DumpGraphQLApiPath=../../artifacts/tgs-api.graphql;Internal__EnableGraphQL=true" />
+  </Target>
+
   <Target Name="NpmClean" AfterTargets="Clean">
     <Message Text="Cleaning web control panel..." Importance="high" />
     <RemoveDir Directories="wwwroot" />
@@ -61,11 +66,8 @@
 
   <Target Condition="'$(TGS_TELEMETRY_KEY_FILE)' != ''" Name="ApplyTelemetryAppSerializedKey" BeforeTargets="CoreCompile">
     <Error Condition="!Exists('$(TGS_TELEMETRY_KEY_FILE)')" Text="TGS_TELEMETRY_KEY_FILE set but does not exist!" />
-    <ReadLinesFromFile
-        File="$(TGS_TELEMETRY_KEY_FILE)" >
-        <Output
-            TaskParameter="Lines"
-            ItemName="SerializedTelemetryKey"/>
+    <ReadLinesFromFile File="$(TGS_TELEMETRY_KEY_FILE)">
+        <Output TaskParameter="Lines" ItemName="SerializedTelemetryKey" />
     </ReadLinesFromFile>
     <ItemGroup>
       <TelemetryAppSerializedKeyAssemblyAttributes Include="Tgstation.Server.Host.Properties.TelemetryAppSerializedKeyAttribute">
@@ -79,7 +81,7 @@
   </Target>
 
   <Target Condition="'$(TGS_TELEMETRY_KEY_FILE)' == '' And '$(CI)' != ''" Name="FailBuildInCIWithoutTelemetryKey" BeforeTargets="CoreCompile">
-    <Error Text="The TGS_TELEMETRY_KEY_FILE environment variable should be set in CI!"/>
+    <Error Text="The TGS_TELEMETRY_KEY_FILE environment variable should be set in CI!" />
   </Target>
 
   <ItemGroup>
@@ -97,6 +99,12 @@
     <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.11.1" />
     <!-- Usage: GitLab interop -->
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
+    <!-- Usage: GraphQL API Engine -->
+    <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.12" />
+    <!-- Usage: GraphQL Authorization Plugin -->
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.9.12" />
+    <!-- Usage: GraphQL additional scalar type definitions -->
+    <PackageReference Include="HotChocolate.Types.Scalars" Version="13.9.12" />
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
@@ -137,9 +145,9 @@
     <!-- Usage: File logging plugin -->
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
     <!-- Usage: OpenAPI spec generator -->
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.7.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.7.3" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
@@ -172,6 +180,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Authority\" />
+    <Folder Include="GraphQL\DataLoaders\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 </Project>

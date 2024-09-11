@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Components.Repository
 {

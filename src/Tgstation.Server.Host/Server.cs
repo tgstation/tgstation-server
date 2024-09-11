@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using HotChocolate.Execution;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +16,7 @@ using Microsoft.Extensions.Options;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host
@@ -137,6 +141,9 @@ namespace Tgstation.Server.Host
 						{
 							using (cancellationToken.Register(() => logger.LogInformation("Server termination requested!")))
 							{
+								if (await DumpGraphQLSchemaIfRequested(Host.Services, cancellationToken))
+									return;
+
 								var generalConfigurationOptions = Host.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
 								generalConfiguration = generalConfigurationOptions.Value;
 								await Host.RunAsync(cancellationTokenSource.Token);
@@ -262,6 +269,31 @@ namespace Tgstation.Server.Host
 
 			StopServerImmediate();
 			return ValueTask.CompletedTask;
+		}
+
+		/// <summary>
+		/// Checks if <see cref="InternalConfiguration.DumpGraphQLApiPath"/> is set and dumps the GraphQL API Schema to it if so.
+		/// </summary>
+		/// <param name="services">The <see cref="IServiceProvider"/> to resolve services from.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the GraphQL API was dumped, <see langword="false"/> otherwise.</returns>
+		async ValueTask<bool> DumpGraphQLSchemaIfRequested(IServiceProvider services, CancellationToken cancellationToken)
+		{
+			var internalConfigurationOptions = services.GetRequiredService<IOptions<InternalConfiguration>>();
+			var apiDumpPath = internalConfigurationOptions.Value.DumpGraphQLApiPath;
+			if (String.IsNullOrWhiteSpace(apiDumpPath))
+				return false;
+
+			logger!.LogInformation("Dumping GraphQL API spec to {path} and exiting...", apiDumpPath);
+
+			// https://github.com/ChilliCream/graphql-platform/discussions/5885
+			var resolver = services.GetRequiredService<IRequestExecutorResolver>();
+			var executor = await resolver.GetRequestExecutorAsync(cancellationToken: cancellationToken);
+			var sdl = executor.Schema.Print();
+
+			var ioManager = services.GetRequiredService<IIOManager>();
+			await ioManager.WriteAllBytes(apiDumpPath, Encoding.UTF8.GetBytes(sdl), cancellationToken);
+			return true;
 		}
 
 		/// <summary>

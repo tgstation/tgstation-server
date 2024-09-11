@@ -17,9 +17,9 @@ namespace Tgstation.Server.Tests.Live
 {
 	sealed class UsersTest
 	{
-		readonly IServerClient serverClient;
+		readonly IRestServerClient serverClient;
 
-		public UsersTest(IServerClient serverClient)
+		public UsersTest(IRestServerClient serverClient)
 		{
 			this.serverClient = serverClient ?? throw new ArgumentNullException(nameof(serverClient));
 		}

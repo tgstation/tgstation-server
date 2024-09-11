@@ -319,6 +319,63 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <inheritdoc />
+		public async ValueTask SchemaDowngradeForServerVersion(
+			ILogger<DatabaseContext> logger,
+			Version targetVersion,
+			DatabaseType currentDatabaseType,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(logger);
+			ArgumentNullException.ThrowIfNull(targetVersion);
+			if (targetVersion < new Version(4, 0))
+				throw new ArgumentOutOfRangeException(nameof(targetVersion), targetVersion, "Cannot migrate below version 4.0.0!");
+
+			if (currentDatabaseType == DatabaseType.PostgresSql && targetVersion < new Version(4, 3, 0))
+				throw new NotSupportedException("Cannot migrate below version 4.3.0 with PostgresSql!");
+
+			if (currentDatabaseType == DatabaseType.MariaDB)
+				currentDatabaseType = DatabaseType.MySql; // Keeping switch expressions while avoiding `or` syntax from C#9
+
+			if (targetVersion < new Version(4, 1, 0))
+				throw new NotSupportedException("Cannot migrate below version 4.1.0!");
+
+			var targetMigration = GetTargetMigration(targetVersion, currentDatabaseType);
+
+			if (targetMigration == null)
+			{
+				logger.LogDebug("No down migration required.");
+				return;
+			}
+
+			// already setup
+			var migrationSubstitution = currentDatabaseType switch
+			{
+				DatabaseType.SqlServer => null, // already setup
+				DatabaseType.MySql => "MY{0}",
+				DatabaseType.Sqlite => "SL{0}",
+				DatabaseType.PostgresSql => "PG{0}",
+				_ => throw new InvalidOperationException($"Invalid DatabaseType: {currentDatabaseType}"),
+			};
+
+			if (migrationSubstitution != null)
+				targetMigration = String.Format(CultureInfo.InvariantCulture, migrationSubstitution, targetMigration[2..]);
+
+			// even though it clearly implements it in the DatabaseFacade definition this won't work without casting (╯ಠ益ಠ)╯︵ ┻━┻
+			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;
+			var migrator = dbServiceProvider.GetRequiredService<IMigrator>();
+
+			logger.LogInformation("Migrating down to version {targetVersion}. Target: {targetMigration}", targetVersion, targetMigration);
+			try
+			{
+				await migrator.MigrateAsync(targetMigration, cancellationToken);
+			}
+			catch (Exception e)
+			{
+				logger.LogCritical(e, "Failed to migrate!");
+			}
+		}
+
+		/// <inheritdoc />
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			ArgumentNullException.ThrowIfNull(modelBuilder);
@@ -393,45 +450,31 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddOpenDreamTopicPort);
+		internal static readonly Type MSLatestMigration = typeof(MSAddDMApiValidationMode);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddOpenDreamTopicPort);
+		internal static readonly Type MYLatestMigration = typeof(MYAddDMApiValidationMode);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddOpenDreamTopicPort);
+		internal static readonly Type PGLatestMigration = typeof(PGAddDMApiValidationMode);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddOpenDreamTopicPort);
+		internal static readonly Type SLLatestMigration = typeof(SLAddDMApiValidationMode);
 
-		/// <inheritdoc />
-#pragma warning disable CA1502 // Cyclomatic complexity
-		public async ValueTask SchemaDowngradeForServerVersion(
-			ILogger<DatabaseContext> logger,
-			Version targetVersion,
-			DatabaseType currentDatabaseType,
-			CancellationToken cancellationToken)
+		/// <summary>
+		/// Gets the name of the migration to run for migrating down to a given <paramref name="targetVersion"/> for the <paramref name="currentDatabaseType"/>.
+		/// </summary>
+		/// <param name="targetVersion">The <see cref="Version"/> TGS is being migratied down to.</param>
+		/// <param name="currentDatabaseType">The currently running <see cref="DatabaseType"/>.</param>
+		/// <returns>The name of the migration to run on success, <see langword="null"/> otherwise.</returns>
+		private string? GetTargetMigration(Version targetVersion, DatabaseType currentDatabaseType)
 		{
-			ArgumentNullException.ThrowIfNull(logger);
-			ArgumentNullException.ThrowIfNull(targetVersion);
-			if (targetVersion < new Version(4, 0))
-				throw new ArgumentOutOfRangeException(nameof(targetVersion), targetVersion, "Cannot migrate below version 4.0.0!");
-
-			if (currentDatabaseType == DatabaseType.PostgresSql && targetVersion < new Version(4, 3, 0))
-				throw new NotSupportedException("Cannot migrate below version 4.3.0 with PostgresSql!");
-
-			if (currentDatabaseType == DatabaseType.MariaDB)
-				currentDatabaseType = DatabaseType.MySql; // Keeping switch expressions while avoiding `or` syntax from C#9
-
-			if (targetVersion < new Version(4, 1, 0))
-				throw new NotSupportedException("Cannot migrate below version 4.1.0!");
-
 			// Update this with new migrations as they are made
 			string? targetMigration = null;
 
@@ -603,42 +646,11 @@ namespace Tgstation.Server.Host.Database
 					DatabaseType.Sqlite => nameof(SLRemoveSoftColumns),
 					_ => BadDatabaseType(),
 				};
+
 			if (targetVersion < new Version(4, 2, 0))
 				targetMigration = currentDatabaseType == DatabaseType.Sqlite ? nameof(SLRebuild) : nameof(MSFixCascadingDelete);
 
-			if (targetMigration == null)
-			{
-				logger.LogDebug("No down migration required.");
-				return;
-			}
-
-			// already setup
-			var migrationSubstitution = currentDatabaseType switch
-			{
-				DatabaseType.SqlServer => null, // already setup
-				DatabaseType.MySql => "MY{0}",
-				DatabaseType.Sqlite => "SL{0}",
-				DatabaseType.PostgresSql => "PG{0}",
-				_ => throw new InvalidOperationException($"Invalid DatabaseType: {currentDatabaseType}"),
-			};
-
-			if (migrationSubstitution != null)
-				targetMigration = String.Format(CultureInfo.InvariantCulture, migrationSubstitution, targetMigration[2..]);
-
-			// even though it clearly implements it in the DatabaseFacade definition this won't work without casting (╯ಠ益ಠ)╯︵ ┻━┻
-			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;
-			var migrator = dbServiceProvider.GetRequiredService<IMigrator>();
-
-			logger.LogInformation("Migrating down to version {targetVersion}. Target: {targetMigration}", targetVersion, targetMigration);
-			try
-			{
-				await migrator.MigrateAsync(targetMigration, cancellationToken);
-			}
-			catch (Exception e)
-			{
-				logger.LogCritical(e, "Failed to migrate!");
-			}
+			return targetMigration;
 		}
-#pragma warning restore CA1502 // Cyclomatic complexity
 	}
 }
