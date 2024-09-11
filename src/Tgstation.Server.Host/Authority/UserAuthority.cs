@@ -49,18 +49,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <inheritdoc />
 		public async ValueTask<AuthorityResponse<User>> GetId(long id, bool includeJoins, CancellationToken cancellationToken)
 		{
-			var queryable = databaseContext
-				.Users
-				.AsQueryable();
-
-			if (includeJoins)
-				queryable = queryable
-					.Where(x => x.Id == id)
-					.Include(x => x.CreatedBy)
-					.Include(x => x.OAuthConnections)
-					.Include(x => x.Group!)
-						.ThenInclude(x => x.PermissionSet)
-					.Include(x => x.PermissionSet);
+			var queryable = ListCore(includeJoins);
 
 			var user = await queryable.FirstOrDefaultAsync(
 				dbModel => dbModel.Id == id,
@@ -75,9 +64,35 @@ namespace Tgstation.Server.Host.Authority
 		}
 
 		/// <inheritdoc />
-		public ValueTask<AuthorityResponse<IQueryable<User>>> List(bool includeJoins, CancellationToken cancellationToken)
+		public ValueTask<AuthorityResponse<IQueryable<User>>> List(bool includeJoins)
 		{
-			throw new NotImplementedException();
+			var systemUserCanonicalName = User.CanonicalizeName(User.TgsSystemUserName);
+			return ValueTask.FromResult(
+				new AuthorityResponse<IQueryable<User>>(
+					ListCore(includeJoins)
+						.Where(x => x.CanonicalName != systemUserCanonicalName)));
+		}
+
+		/// <summary>
+		/// Generates an <see cref="IQueryable{T}"/> for listing <see cref="User"/>s.
+		/// </summary>
+		/// <param name="includeJoins">If related entities should be loaded.</param>
+		/// <returns>A new <see cref="IQueryable{T}"/> of <see cref="User"/>s.</returns>
+		private IQueryable<User> ListCore(bool includeJoins)
+		{
+			var queryable = databaseContext
+				.Users
+				.AsQueryable();
+
+			if (includeJoins)
+				queryable = queryable
+					.Include(x => x.CreatedBy)
+					.Include(x => x.OAuthConnections)
+					.Include(x => x.Group!)
+						.ThenInclude(x => x.PermissionSet)
+					.Include(x => x.PermissionSet);
+
+			return queryable;
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Authority.Core;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
 #pragma warning disable CA1724 // conflict with GitLabApiClient.Models.Users. They can fuck off
@@ -40,7 +42,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="id">The <see cref="Entity.Id"/> of the <see cref="User"/>.</param>
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="User"/>.</returns>
+		/// <returns>The <see cref="User"/> represented by <paramref name="id"/>, if any.</returns>
 		[Error(typeof(ErrorMessageException))]
 		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.GetId))]
 		public async ValueTask<User?> ById(
@@ -50,6 +52,23 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
 			return await userAuthority.InvokeTransformable<Models.User, User>(authority => authority.GetId(id, false, cancellationToken));
+		}
+
+		/// <summary>
+		/// Lists all registered <see cref="User"/>s.
+		/// </summary>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <returns>A list of all registered <see cref="User"/>s.</returns>
+		[UsePaging(IncludeTotalCount = true)]
+		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.List))]
+		public async ValueTask<IQueryable<User?>> List(
+			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
+		{
+			ArgumentNullException.ThrowIfNull(userAuthority);
+			var dtoQueryable = await userAuthority.Invoke<IQueryable<Models.User>, IQueryable<Models.User>>(authority => authority.List(false));
+			return dtoQueryable
+				.Cast<IApiTransformable<User>>()
+				.Select(dto => dto.ToApi());
 		}
 	}
 }
