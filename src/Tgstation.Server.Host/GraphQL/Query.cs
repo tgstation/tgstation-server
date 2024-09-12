@@ -1,4 +1,4 @@
-﻿#pragma warning disable CA1724
+﻿#pragma warning disable CA1724 // Dumb conflict with Microsoft.EntityFrameworkCore.Query
 
 namespace Tgstation.Server.Host.GraphQL
 {
