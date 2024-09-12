@@ -455,8 +455,8 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IDotnetDumpService, DotnetDumpService>();
 
 			// configure authorities
-			services.AddScoped(typeof(IRestAuthorityInvoker<>), typeof(AuthorityInvoker<>));
-			services.AddScoped(typeof(IGraphQLAuthorityInvoker<>), typeof(AuthorityInvoker<>));
+			services.AddScoped(typeof(IRestAuthorityInvoker<>), typeof(RestAuthorityInvoker<>));
+			services.AddScoped(typeof(IGraphQLAuthorityInvoker<>), typeof(GraphQLAuthorityInvoker<>));
 			services.AddScoped<ILoginAuthority, LoginAuthority>();
 			services.AddScoped<IUserAuthority, UserAuthority>();
 
