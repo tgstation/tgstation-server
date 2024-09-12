@@ -96,9 +96,9 @@ namespace Tgstation.Server.Host.Controllers
 				return StatusCode((int)HttpStatusCode.UpgradeRequired);
 
 			var registrationResult = await swarmOperations.RegisterNode(registrationRequest, RequestRegistrationId, cancellationToken);
-			if (!registrationResult)
+			if (registrationResult == null)
 				return Conflict();
-			return NoContent();
+			return Json(registrationResult);
 		}
 
 		/// <summary>

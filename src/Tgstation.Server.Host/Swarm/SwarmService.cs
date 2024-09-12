@@ -24,6 +24,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
@@ -88,6 +89,11 @@ namespace Tgstation.Server.Host.Swarm
 		/// The <see cref="IFileTransferTicketProvider"/> for the <see cref="SwarmService"/>.
 		/// </summary>
 		readonly IFileTransferTicketProvider transferService;
+
+		/// <summary>
+		/// The <see cref="ITokenFactory"/> for the <see cref="SwarmService"/>.
+		/// </summary>
+		readonly ITokenFactory tokenFactory;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SwarmService"/>.
@@ -159,6 +165,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="transferService">The value of <see cref="transferService"/>.</param>
+		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public SwarmService(
@@ -169,6 +176,7 @@ namespace Tgstation.Server.Host.Swarm
 			IAsyncDelayer asyncDelayer,
 			IServerUpdater serverUpdater,
 			IFileTransferTicketProvider transferService,
+			ITokenFactory tokenFactory,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<SwarmService> logger)
 		{
@@ -179,6 +187,7 @@ namespace Tgstation.Server.Host.Swarm
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 			this.transferService = transferService ?? throw new ArgumentNullException(nameof(transferService));
+			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
@@ -540,7 +549,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<bool> RegisterNode(SwarmServer node, Guid registrationId, CancellationToken cancellationToken)
+		public async ValueTask<SwarmRegistrationResponse?> RegisterNode(SwarmServer node, Guid registrationId, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(node);
 
@@ -560,6 +569,11 @@ namespace Tgstation.Server.Host.Swarm
 
 			await AbortUpdate();
 
+			SwarmRegistrationResponse CreateResponse() => new()
+			{
+				TokenSigningKeyBase64 = Convert.ToBase64String(tokenFactory.SigningKey),
+			};
+
 			var registrationIdsAndTimes = this.registrationIdsAndTimes!;
 			lock (swarmServers)
 			{
@@ -569,7 +583,7 @@ namespace Tgstation.Server.Host.Swarm
 					if (preExistingRegistrationKvp.Key == node.Identifier)
 					{
 						logger.LogWarning("Node {nodeId} has already registered!", node.Identifier);
-						return true;
+						return CreateResponse();
 					}
 
 					logger.LogWarning(
@@ -577,7 +591,7 @@ namespace Tgstation.Server.Host.Swarm
 						node.Identifier,
 						preExistingRegistrationKvp.Key,
 						registrationId);
-					return false;
+					return null;
 				}
 
 				if (registrationIdsAndTimes.TryGetValue(node.Identifier, out var oldRegistration))
@@ -599,7 +613,7 @@ namespace Tgstation.Server.Host.Swarm
 
 			logger.LogInformation("Registered node {nodeId} ({nodeIP}) with ID {registrationId}", node.Identifier, node.Address, registrationId);
 			MarkServersDirty();
-			return true;
+			return CreateResponse();
 		}
 
 		/// <inheritdoc />
@@ -1281,6 +1295,36 @@ namespace Tgstation.Server.Host.Swarm
 				using var response = await httpClient.SendAsync(registrationRequest, HttpCompletionOption.ResponseContentRead, cancellationToken);
 				if (response.IsSuccessStatusCode)
 				{
+					try
+					{
+						var json = await response.Content.ReadAsStringAsync(cancellationToken);
+						if (json == null)
+						{
+							logger.LogDebug("Error reading registration response content stream! Text was null!");
+							return SwarmRegistrationResult.PayloadFailure;
+						}
+
+						var registrationResponse = JsonConvert.DeserializeObject<SwarmRegistrationResponse>(json);
+						if (registrationResponse == null)
+						{
+							logger.LogDebug("Error reading registration response content stream! Payload was null!");
+							return SwarmRegistrationResult.PayloadFailure;
+						}
+
+						if (registrationResponse.TokenSigningKeyBase64 == null)
+						{
+							logger.LogDebug("Error reading registration response content stream! SigningKey was null!");
+							return SwarmRegistrationResult.PayloadFailure;
+						}
+
+						tokenFactory.SigningKey = Convert.FromBase64String(registrationResponse.TokenSigningKeyBase64);
+					}
+					catch (Exception ex)
+					{
+						logger.LogDebug(ex, "Error reading registration response content stream!");
+						return SwarmRegistrationResult.PayloadFailure;
+					}
+
 					logger.LogInformation("Sucessfully registered with ID {registrationId}", requestedRegistrationId);
 					controllerRegistration = requestedRegistrationId;
 					lastControllerHealthCheck = DateTimeOffset.UtcNow;
