@@ -26,7 +26,9 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// <param name="authorityResponse">The potentially errored <paramref name="authorityResponse"/>.</param>
 		static void ThrowGraphQLErrorIfNecessary(AuthorityResponse authorityResponse)
 		{
-			if (authorityResponse.Success)
+			if (authorityResponse.Success
+				|| authorityResponse.FailureResponse.Value == HttpFailureResponse.NotFound
+				|| authorityResponse.FailureResponse.Value == HttpFailureResponse.Gone)
 				return;
 
 			var fallbackString = authorityResponse.FailureResponse.ToString()!;
