@@ -129,6 +129,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
     <!-- Usage: POSIX support for syscalls, signals, and symlinks -->
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
+    <!-- Usage: Cron string parsing -->
     <PackageReference Include="NCrontab.Signed" Version="3.3.3" />
     <!-- Usage: YAML config plugin -->
     <PackageReference Include="NetEscapades.Configuration.Yaml" Version="3.1.0" />
