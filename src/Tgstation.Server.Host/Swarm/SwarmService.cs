@@ -24,6 +24,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
@@ -34,7 +35,9 @@ namespace Tgstation.Server.Host.Swarm
 	/// <summary>
 	/// Helps keep servers connected to the same database in sync by coordinating updates.
 	/// </summary>
+#pragma warning disable CA1506 // TODO: Decomplexify
 	sealed class SwarmService : ISwarmService, ISwarmServiceController, ISwarmOperations, IDisposable
+#pragma warning restore CA1506
 	{
 		/// <inheritdoc />
 		public bool ExpectedNumberOfNodesConnected
@@ -1282,7 +1285,7 @@ namespace Tgstation.Server.Host.Swarm
 				null,
 				HttpMethod.Post,
 				SwarmConstants.RegisterRoute,
-				new SwarmRegistrationRequest(assemblyInformationProvider.Version)
+				new SwarmRegistrationRequest(Version.Parse(MasterVersionsAttribute.Instance.RawSwarmProtocolVersion))
 				{
 					Identifier = swarmConfiguration.Identifier,
 					Address = swarmConfiguration.Address,
