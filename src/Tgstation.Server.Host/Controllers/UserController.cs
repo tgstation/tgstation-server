@@ -371,21 +371,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Retrieved <see cref="User"/>s successfully.</response>
 		[HttpGet(Routes.List)]
-		[TgsAuthorize(AdministrationRights.ReadUsers)]
+		[TgsRestAuthorize<IUserAuthority>(nameof(IUserAuthority.Queryable))]
 		[ProducesResponseType(typeof(PaginatedResponse<UserResponse>), 200)]
 		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<User, UserResponse>(
 				() => ValueTask.FromResult(
 					new PaginatableResult<User>(
-						DatabaseContext
-							.Users
-							.AsQueryable()
-							.Where(x => x.CanonicalName != Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
-							.Include(x => x.CreatedBy)
-							.Include(x => x.PermissionSet)
-							.Include(x => x.OAuthConnections)
-							.Include(x => x.Group!)
-								.ThenInclude(x => x.PermissionSet)
+						userAuthority.InvokeQueryable(
+							authority => authority.Queryable(true))
 							.OrderBy(x => x.Id))),
 				null,
 				page,

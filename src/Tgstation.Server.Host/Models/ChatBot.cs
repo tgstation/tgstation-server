@@ -8,7 +8,7 @@ using Tgstation.Server.Api.Models.Response;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.ChatBotSettings" />
-	public sealed class ChatBot : Api.Models.Internal.ChatBotSettings, IApiTransformable<ChatBotResponse>
+	public sealed class ChatBot : Api.Models.Internal.ChatBotSettings, ILegacyApiTransformable<ChatBotResponse>
 	{
 		/// <summary>
 		/// Default for <see cref="Api.Models.Internal.ChatBotSettings.ChannelLimit"/>.

@@ -5,11 +5,14 @@ using System.Linq;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Host.Models.Transformers;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.UserModelBase" />
-	public sealed class User : Api.Models.Internal.UserModelBase, IApiTransformable<UserResponse>, IApiTransformable<GraphQL.Types.User>
+	public sealed class User : Api.Models.Internal.UserModelBase,
+		ILegacyApiTransformable<UserResponse>,
+		IApiTransformable<User, GraphQL.Types.User, UserGraphQLTransformer>
 	{
 		/// <summary>
 		/// Username used when creating jobs automatically.
@@ -82,18 +85,6 @@ namespace Tgstation.Server.Host.Models
 
 		/// <inheritdoc />
 		public UserResponse ToApi() => CreateUserResponse(true);
-
-		/// <inheritdoc />
-		GraphQL.Types.User IApiTransformable<GraphQL.Types.User>.ToApi()
-			=> new(
-				Id!.Value,
-				Name!,
-				CanonicalName!,
-				SystemIdentifier,
-				CreatedAt!.Value,
-				CreatedById,
-				GroupId,
-				Enabled!.Value);
 
 		/// <summary>
 		/// Generate a <see cref="UserResponse"/> from <see langword="this"/>.

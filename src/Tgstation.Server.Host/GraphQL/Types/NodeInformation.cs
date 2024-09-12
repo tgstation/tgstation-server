@@ -1,14 +1,34 @@
 ﻿using System;
+using System.Linq;
 
+using HotChocolate;
 using HotChocolate.Types.Relay;
+
+using Tgstation.Server.Host.Swarm;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
 	/// <summary>
 	/// Represent a server in the TGS server swarm.
 	/// </summary>
+	[Node]
 	public sealed class NodeInformation
 	{
+		public NodeInformation? GetNodeInformation(
+			string identifier,
+			[Service] ISwarmService swarmService)
+		{
+			ArgumentNullException.ThrowIfNull(identifier);
+			ArgumentNullException.ThrowIfNull(swarmService);
+
+			var node = swarmService.GetSwarmServers()
+				?.FirstOrDefault(node => node.Identifier == identifier);
+			if (node == null)
+				return null;
+
+			return new NodeInformation(node);
+		}
+
 		/// <summary>
 		/// The swarm server ID.
 		/// </summary>

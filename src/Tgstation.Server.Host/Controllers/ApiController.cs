@@ -288,7 +288,7 @@ namespace Tgstation.Server.Host.Controllers
 			int? pageQuery,
 			int? pageSizeQuery,
 			CancellationToken cancellationToken)
-			where TModel : IApiTransformable<TApiModel>
+			where TModel : ILegacyApiTransformable<TApiModel>
 			=> PaginatedImpl(
 				queryGenerator,
 				resultTransformer,
@@ -299,7 +299,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Generates a paginated response.
 		/// </summary>
-		/// <typeparam name="TModel">The <see cref="Type"/> of model being generated. If different from <typeparamref name="TResultModel"/>, must implement <see cref="IApiTransformable{TApiModel}"/> for <typeparamref name="TResultModel"/>.</typeparam>
+		/// <typeparam name="TModel">The <see cref="Type"/> of model being generated. If different from <typeparamref name="TResultModel"/>, must implement <see cref="ILegacyApiTransformable{TApiModel}"/> for <typeparamref name="TResultModel"/>.</typeparam>
 		/// <typeparam name="TResultModel">The <see cref="Type"/> of model being returned.</typeparam>
 		/// <param name="queryGenerator">A <see cref="Func{TResult}"/> resulting in a <see cref="ValueTask{TResult}"/> resulting in the generated <see cref="PaginatableResult{TModel}"/>.</param>
 		/// <param name="resultTransformer">A <see cref="Func{T, TResult}"/> to transform the <typeparamref name="TResultModel"/>s after being queried.</param>
@@ -356,7 +356,7 @@ namespace Tgstation.Server.Host.Controllers
 				finalResults = (List<TResultModel>)(object)pagedResults; // clearly a safe cast
 			else
 				finalResults = pagedResults
-					.OfType<IApiTransformable<TResultModel>>()
+					.OfType<ILegacyApiTransformable<TResultModel>>()
 					.Select(x => x.ToApi())
 					.ToList();
 

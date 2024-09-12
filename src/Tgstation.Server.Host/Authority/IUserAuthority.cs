@@ -38,8 +38,8 @@ namespace Tgstation.Server.Host.Authority
 		/// Gets all registered <see cref="User"/>s.
 		/// </summary>
 		/// <param name="includeJoins">If related entities should be loaded.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="IQueryable{T}"/> <see cref="User"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
+		/// <returns>A <see cref="IQueryable{T}"/> of <see cref="User"/>s.</returns>
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
-		public ValueTask<AuthorityResponse<IQueryable<User>>> List(bool includeJoins);
+		public IQueryable<User> Queryable(bool includeJoins);
 	}
 }

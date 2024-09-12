@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Authority.Core
 	/// Invokes <typeparamref name="TAuthority"/> methods and generates <see cref="IActionResult"/> responses.
 	/// </summary>
 	/// <typeparam name="TAuthority">The type of <see cref="IAuthority"/>.</typeparam>
-	public interface IRestAuthorityInvoker<TAuthority>
+	public interface IRestAuthorityInvoker<TAuthority> : IAuthorityInvoker<TAuthority>
 		where TAuthority : IAuthority
 	{
 		/// <summary>
@@ -43,7 +43,7 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> returning a <see cref="ValueTask{TResult}"/> resulting in the <see cref="AuthorityResponse{TResult}"/>.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> generated for the resulting <see cref="AuthorityResponse{TResult}"/>.</returns>
 		ValueTask<IActionResult> InvokeTransformable<TResult, TApiModel>(ApiController controller, Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
-			where TResult : notnull, IApiTransformable<TApiModel>
+			where TResult : notnull, ILegacyApiTransformable<TApiModel>
 			where TApiModel : notnull;
 	}
 }

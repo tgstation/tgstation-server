@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// <summary>
 	/// Represents a node server in a swarm.
 	/// </summary>
-	public sealed class Node
+	public sealed class SwarmNode
 	{
 		/// <summary>
 		/// Gets the <see cref="NodeInformation"/>.
@@ -20,20 +20,20 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		public NodeInformation? Info { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Node"/> class.
+		/// Initializes a new instance of the <see cref="SwarmNode"/> class.
 		/// </summary>
 		/// <param name="info">The value of <see cref="Info"/>.</param>
-		public Node(NodeInformation? info)
+		public SwarmNode(NodeInformation? info)
 		{
 			Info = info;
 		}
 
 		/// <summary>
-		/// Gets the <see cref="Node"/>'s <see cref="IGateway"/>.
+		/// Gets the <see cref="SwarmNode"/>'s <see cref="IGateway"/>.
 		/// </summary>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the current <see cref="SwarmConfiguration"/>.</param>
 		/// <returns>A new <see cref="IGateway"/>.</returns>
-		/// <remarks>The <see cref="Node"/>'s <see cref="IGateway"/>.</remarks>
+		/// <remarks>The <see cref="SwarmNode"/>'s <see cref="IGateway"/>.</remarks>
 		public IGateway? Gateway([Service] IOptionsSnapshot<SwarmConfiguration> swarmConfigurationOptions)
 		{
 			ArgumentNullException.ThrowIfNull(swarmConfigurationOptions);

@@ -1,10 +1,15 @@
-﻿using Tgstation.Server.Api.Rights;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using HotChocolate.Types.Relay;
+
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
 	/// <summary>
 	/// Represents a set of permissions for the server.
 	/// </summary>
+	[Node]
 	public sealed class PermissionSet : Entity
 	{
 		/// <summary>
@@ -23,6 +28,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="id">The <see cref="Entity.Id"/>.</param>
 		/// <param name="administrationRights">The value of <see cref="AdministrationRights"/>.</param>
 		/// <param name="instanceManagerRights">The value of <see cref="InstanceManagerRights"/>.</param>
+		[SetsRequiredMembers]
 		public PermissionSet(long id, AdministrationRights administrationRights, InstanceManagerRights instanceManagerRights)
 			: base(id)
 		{

@@ -14,7 +14,7 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.GraphQL.Types
 {
 	/// <summary>
-	/// <see cref="IGateway"/> for accessing remote <see cref="Node"/>s.
+	/// <see cref="IGateway"/> for accessing remote <see cref="SwarmNode"/>s.
 	/// </summary>
 	/// <remarks>This is currently unimplemented.</remarks>
 	public sealed class RemoteGateway : IGateway

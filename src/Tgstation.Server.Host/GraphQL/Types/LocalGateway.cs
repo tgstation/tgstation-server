@@ -13,7 +13,7 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.GraphQL.Types
 {
 	/// <summary>
-	/// <see cref="IGateway"/> for the <see cref="Node"/> this query is executing on.
+	/// <see cref="IGateway"/> for the <see cref="SwarmNode"/> this query is executing on.
 	/// </summary>
 	public sealed class LocalGateway : IGateway
 	{

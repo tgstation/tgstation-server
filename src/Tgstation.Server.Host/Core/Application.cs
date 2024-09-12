@@ -297,10 +297,19 @@ namespace Tgstation.Server.Host.Core
 					.AddGraphQLServer()
 					.AddAuthorization()
 					.AddMutationConventions()
+					.AddGlobalObjectIdentification()
 					.ModifyOptions(options =>
 					{
 						options.EnableDefer = true;
 					})
+					.ModifyPagingOptions(pagingOptions =>
+					{
+						pagingOptions.IncludeTotalCount = true;
+						pagingOptions.RequirePagingBoundaries = false;
+					})
+					.AddFiltering()
+					.AddSorting()
+					.AddHostTypes()
 					.AddErrorFilter<ErrorMessageFilter>()
 					.AddType<LocalGateway>()
 					.AddType<RemoteGateway>()

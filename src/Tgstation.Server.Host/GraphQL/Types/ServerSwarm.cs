@@ -40,12 +40,12 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		public Users Users() => new();
 
 		/// <summary>
-		/// Gets the connected <see cref="Node"/> server.
+		/// Gets the connected <see cref="SwarmNode"/> server.
 		/// </summary>
 		/// <param name="swarmService">The <see cref="ISwarmService"/> to use.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the current <see cref="SwarmConfiguration"/>.</param>
-		/// <returns>A new <see cref="Node"/>.</returns>
-		public Node CurrentNode(
+		/// <returns>A new <see cref="SwarmNode"/>.</returns>
+		public SwarmNode CurrentNode(
 			[Service] ISwarmService swarmService,
 			[Service] IOptionsSnapshot<SwarmConfiguration> swarmConfigurationOptions)
 		{
@@ -56,19 +56,19 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			if (nodeInfos != null)
 				return nodeInfos.First(x => x.Info!.Identifier == swarmConfigurationOptions.Value.Identifier);
 
-			return new Node(null);
+			return new SwarmNode(null);
 		}
 
 		/// <summary>
-		/// Gets all <see cref="Node"/> servers in the swarm.
+		/// Gets all <see cref="SwarmNode"/> servers in the swarm.
 		/// </summary>
 		/// <param name="swarmService">The <see cref="ISwarmService"/> to use.</param>
-		/// <returns>A <see cref="List{T}"/> of <see cref="Node"/>s if the local server is part of a swarm, <see langword="null"/> otherwise.</returns>
-		public List<Node>? Nodes(
+		/// <returns>A <see cref="List{T}"/> of <see cref="SwarmNode"/>s if the local server is part of a swarm, <see langword="null"/> otherwise.</returns>
+		public List<SwarmNode>? Nodes(
 			[Service] ISwarmService swarmService)
 		{
 			ArgumentNullException.ThrowIfNull(swarmService);
-			return swarmService.GetSwarmServers()?.Select(x => new Node(new NodeInformation(x))).ToList();
+			return swarmService.GetSwarmServers()?.Select(x => new SwarmNode(new NodeInformation(x))).ToList();
 		}
 	}
 }

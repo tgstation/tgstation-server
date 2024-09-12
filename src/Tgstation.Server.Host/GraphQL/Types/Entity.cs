@@ -1,4 +1,6 @@
-﻿using HotChocolate.Types.Relay;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using HotChocolate.Types.Relay;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
@@ -11,12 +13,20 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// The ID of the <see cref="Entity"/>.
 		/// </summary>
 		[ID]
-		public long Id { get; }
+		public required long Id { get; init; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Entity"/> class.
+		/// </summary>
+		protected Entity()
+		{
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Entity"/> class.
 		/// </summary>
 		/// <param name="id">The value of <see cref="Id"/>.</param>
+		[SetsRequiredMembers]
 		protected Entity(long id)
 		{
 			Id = id;

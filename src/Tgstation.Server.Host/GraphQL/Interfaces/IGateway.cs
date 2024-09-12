@@ -11,7 +11,7 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.GraphQL.Interfaces
 {
 	/// <summary>
-	/// Management interface for the parent <see cref="Node"/>.
+	/// Management interface for the parent <see cref="SwarmNode"/>.
 	/// </summary>
 	public interface IGateway
 	{

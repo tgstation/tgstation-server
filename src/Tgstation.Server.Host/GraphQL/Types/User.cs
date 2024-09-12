@@ -4,76 +4,61 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using HotChocolate;
+using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.GraphQL.Interfaces;
+using Tgstation.Server.Host.Models.Transformers;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
 	/// <summary>
 	/// A user registered in the server.
 	/// </summary>
+	[Node]
 	public sealed class User : NamedEntity, IUserName
 	{
 		/// <summary>
 		/// If the <see cref="User"/> is enabled since users cannot be deleted. System users cannot be disabled.
 		/// </summary>
-		public bool Enabled { get; }
+		public required bool Enabled { get; init; }
 
 		/// <summary>
 		/// The user's canonical (Uppercase) name.
 		/// </summary>
-		public string CanonicalName { get; }
+		public required string CanonicalName { get; init; }
 
 		/// <summary>
 		/// When the <see cref="User"/> was created.
 		/// </summary>
-		public DateTimeOffset CreatedAt { get; }
+		public required DateTimeOffset CreatedAt { get; init; }
 
 		/// <summary>
 		/// The SID/UID of the <see cref="User"/> on Windows/POSIX respectively.
 		/// </summary>
-		public string? SystemIdentifier { get; }
+		public required string? SystemIdentifier { get; init; }
 
 		/// <summary>
 		/// The <see cref="Entity.Id"/> of the <see cref="CreatedBy"/> <see cref="User"/>.
 		/// </summary>
-		readonly long? createdById;
+		[GraphQLIgnore]
+		public required long? CreatedById { get; init; }
 
 		/// <summary>
 		/// The <see cref="Entity.Id"/> of the <see cref="Group"/>.
 		/// </summary>
-		readonly long? groupId;
+		[GraphQLIgnore]
+		public required long? GroupId { get; init; }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="User"/> class.
-		/// </summary>
-		/// <param name="id">The <see cref="Entity.Id"/>.</param>
-		/// <param name="name">The <see cref="NamedEntity.Name"/>.</param>
-		/// <param name="canonicalName">The value of <see cref="CanonicalName"/>.</param>
-		/// <param name="systemIdentifier">The value of <see cref="SystemIdentifier"/>.</param>
-		/// <param name="createdAt">The value of <see cref="CreatedAt"/>.</param>
-		/// <param name="createdById">The value of <see cref="createdById"/>.</param>
-		/// <param name="groupId">The value of <see cref="groupId"/>.</param>
-		/// <param name="enabled">The value of <see cref="Enabled"/>.</param>
-		public User(
+		public static ValueTask<User> GetUser(
 			long id,
-			string name,
-			string canonicalName,
-			string? systemIdentifier,
-			DateTimeOffset createdAt,
-			long? createdById,
-			long? groupId,
-			bool enabled)
-			: base(id, name)
+			[Service] IGraphQLAuthorityInvoker<IUserAuthority> authorityInvoker,
+			CancellationToken cancellationToken)
 		{
-			SystemIdentifier = systemIdentifier;
-			CanonicalName = canonicalName ?? throw new ArgumentNullException(nameof(canonicalName));
-			CreatedAt = createdAt;
-			this.createdById = createdById;
-			Enabled = enabled;
-			this.groupId = groupId;
+			ArgumentNullException.ThrowIfNull(authorityInvoker);
+			return authorityInvoker.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
+				authority => authority.GetId(id, false, false, cancellationToken));
 		}
 
 		/// <summary>
@@ -87,10 +72,10 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			if (!createdById.HasValue)
+			if (!CreatedById.HasValue)
 				return null;
 
-			var user = await userAuthority.InvokeTransformable<Models.User, User>(authority => authority.GetId(createdById.Value, false, true, cancellationToken));
+			var user = await userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(authority => authority.GetId(CreatedById.Value, false, true, cancellationToken));
 			if (user.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 				return new UserName(user);
 

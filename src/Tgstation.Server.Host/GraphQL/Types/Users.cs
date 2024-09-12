@@ -4,12 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using HotChocolate;
+using HotChocolate.Data;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Authority.Core;
-using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.Models.Transformers;
 using Tgstation.Server.Host.Security;
 
 #pragma warning disable CA1724 // conflict with GitLabApiClient.Models.Users. They can fuck off
@@ -33,7 +34,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.InvokeTransformable<Models.User, User>(authority => authority.Read(cancellationToken));
+			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(authority => authority.Read(cancellationToken));
 		}
 
 		/// <summary>
@@ -49,26 +50,23 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			[ID(nameof(User))] long id,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(userAuthority);
-			return await userAuthority.InvokeTransformable<Models.User, User>(authority => authority.GetId(id, false, false, cancellationToken));
-		}
+			=> await User.GetUser(id, userAuthority, cancellationToken);
 
 		/// <summary>
 		/// Lists all registered <see cref="User"/>s.
 		/// </summary>
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
 		/// <returns>A list of all registered <see cref="User"/>s.</returns>
-		[UsePaging(IncludeTotalCount = true)]
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.List))]
-		public async ValueTask<IQueryable<User?>> List(
+		[UsePaging]
+		[UseFiltering]
+		[UseSorting]
+		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Queryable))]
+		public IQueryable<User>? Queryable(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			var dtoQueryable = await userAuthority.Invoke<IQueryable<Models.User>, IQueryable<Models.User>>(authority => authority.List(false));
-			return dtoQueryable
-				.Cast<IApiTransformable<User>>()
-				.Select(dto => dto.ToApi());
+			var dtoQueryable = userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(authority => authority.Queryable(false));
+			return dtoQueryable;
 		}
 	}
 }

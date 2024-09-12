@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 using HotChocolate.Types;
@@ -22,6 +23,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="id">The <see cref="Entity.Id"/>.</param>
 		/// <param name="name">The <see cref="NamedEntity.Name"/>.</param>
 		/// <param name="permissionSetId">The value of <see cref="permissionSetId"/>.</param>
+		[SetsRequiredMembers]
 		public UserGroup(
 			long id,
 			string name,
