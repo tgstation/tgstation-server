@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -19,7 +20,23 @@ namespace Tgstation.Server.Host.Security
 	sealed class TokenFactory : ITokenFactory
 	{
 		/// <inheritdoc />
-		public TokenValidationParameters ValidationParameters { get; }
+		public TokenValidationParameters ValidationParameters { get; private set; }
+
+		/// <inheritdoc />
+		public ReadOnlySpan<byte> SigningKey
+		{
+			get => signingKey;
+			set
+			{
+				signingKey = value.ToArray();
+				SetValidationParameters();
+			}
+		}
+
+		/// <summary>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="TokenFactory"/>.
+		/// </summary>
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="SecurityConfiguration"/> for the <see cref="TokenFactory"/>.
@@ -37,10 +54,15 @@ namespace Tgstation.Server.Host.Security
 		readonly JwtSecurityTokenHandler tokenHandler;
 
 		/// <summary>
+		/// Backing field for <see cref="SigningKey"/>.
+		/// </summary>
+		byte[] signingKey;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="TokenFactory"/> class.
 		/// </summary>
 		/// <param name="cryptographySuite">The <see cref="ICryptographySuite"/> used for generating the <see cref="ValidationParameters"/>.</param>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> used to generate the issuer name.</param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="securityConfiguration"/>.</param>
 		public TokenFactory(
 			ICryptographySuite cryptographySuite,
@@ -48,32 +70,15 @@ namespace Tgstation.Server.Host.Security
 			IOptions<SecurityConfiguration> securityConfigurationOptions)
 		{
 			ArgumentNullException.ThrowIfNull(cryptographySuite);
-			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 
-			var signingKeyBytes = String.IsNullOrWhiteSpace(securityConfiguration.CustomTokenSigningKeyBase64)
+			signingKey = String.IsNullOrWhiteSpace(securityConfiguration.CustomTokenSigningKeyBase64)
 				? cryptographySuite.GetSecureBytes(securityConfiguration.TokenSigningKeyByteCount)
 				: Convert.FromBase64String(securityConfiguration.CustomTokenSigningKeyBase64);
 
-			ValidationParameters = new TokenValidationParameters
-			{
-				ValidateIssuerSigningKey = true,
-				IssuerSigningKey = new SymmetricSecurityKey(signingKeyBytes),
-
-				ValidateIssuer = true,
-				ValidIssuer = assemblyInformationProvider.AssemblyName.Name,
-
-				ValidateLifetime = true,
-				ValidateAudience = true,
-				ValidAudience = typeof(TokenResponse).Assembly.GetName().Name,
-
-				ClockSkew = TimeSpan.FromMinutes(securityConfiguration.TokenClockSkewMinutes),
-
-				RequireSignedTokens = true,
-
-				RequireExpirationTime = true,
-			};
+			SetValidationParameters();
 
 			tokenHeader = new JwtHeader(
 				new SigningCredentials(
@@ -128,5 +133,29 @@ namespace Tgstation.Server.Host.Security
 
 			return tokenResponse;
 		}
+
+		/// <summary>
+		/// Initializes <see cref="ValidationParameters"/> based on fields.
+		/// </summary>
+		[MemberNotNull(nameof(ValidationParameters))]
+		void SetValidationParameters()
+			=> ValidationParameters = new TokenValidationParameters
+			{
+				ValidateIssuerSigningKey = true,
+				IssuerSigningKey = new SymmetricSecurityKey(signingKey),
+
+				ValidateIssuer = true,
+				ValidIssuer = assemblyInformationProvider.AssemblyName.Name,
+
+				ValidateLifetime = true,
+				ValidateAudience = true,
+				ValidAudience = typeof(TokenResponse).Assembly.GetName().Name,
+
+				ClockSkew = TimeSpan.FromMinutes(securityConfiguration.TokenClockSkewMinutes),
+
+				RequireSignedTokens = true,
+
+				RequireExpirationTime = true,
+			};
 	}
 }
