@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,7 +7,6 @@ using HotChocolate.Types;
 
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Authority;
-using Tgstation.Server.Host.Authority.Core;
 
 namespace Tgstation.Server.Host.GraphQL
 {

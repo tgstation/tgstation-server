@@ -15,7 +15,6 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority;
-using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;

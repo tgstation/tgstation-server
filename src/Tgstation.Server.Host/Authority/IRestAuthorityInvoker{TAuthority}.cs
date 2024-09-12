@@ -2,10 +2,12 @@
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+
+using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Authority.Core
+namespace Tgstation.Server.Host.Authority
 {
 	/// <summary>
 	/// Invokes <typeparamref name="TAuthority"/> methods and generates <see cref="IActionResult"/> responses.

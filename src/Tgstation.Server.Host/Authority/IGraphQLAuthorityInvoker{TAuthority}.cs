@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Authority.Core
+namespace Tgstation.Server.Host.Authority
 {
 	/// <summary>
 	/// Invokes <typeparamref name="TAuthority"/>s from GraphQL endpoints.

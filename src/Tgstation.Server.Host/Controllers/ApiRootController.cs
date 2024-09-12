@@ -15,7 +15,6 @@ using Octokit;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Authority;
-using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;

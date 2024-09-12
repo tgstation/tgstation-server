@@ -9,7 +9,6 @@ using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
-using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Models.Transformers;
 using Tgstation.Server.Host.Security;
 

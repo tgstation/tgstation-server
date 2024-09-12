@@ -7,7 +7,6 @@ using HotChocolate;
 using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
-using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.GraphQL.Interfaces;
 using Tgstation.Server.Host.Models.Transformers;
 
