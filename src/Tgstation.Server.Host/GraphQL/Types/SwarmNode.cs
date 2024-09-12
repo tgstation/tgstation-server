@@ -4,6 +4,7 @@ using HotChocolate;
 
 using Microsoft.Extensions.Options;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.GraphQL.Interfaces;
 
@@ -42,7 +43,9 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			if (local)
 				return new LocalGateway();
 
-			return new RemoteGateway();
+			throw new ErrorMessageException(ErrorCode.RemoteGatewaysNotImplemented);
+
+			// return new RemoteGateway();
 		}
 	}
 }
