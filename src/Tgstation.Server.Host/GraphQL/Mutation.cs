@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,7 +32,7 @@ namespace Tgstation.Server.Host.GraphQL
 			var tokenResponse = await loginAuthority.Invoke<TokenResponse, TokenResponse>(
 				authority => authority.AttemptLogin(cancellationToken));
 
-			return tokenResponse.Bearer!;
+			return tokenResponse!.Bearer!;
 		}
 	}
 }
