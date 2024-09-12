@@ -14,6 +14,12 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	[Node]
 	public sealed class NodeInformation
 	{
+		/// <summary>
+		/// Node resolver for <see cref="NodeInformation"/>s.
+		/// </summary>
+		/// <param name="identifier">The <see cref="Identifier"/> to lookup.</param>
+		/// <param name="swarmService">The <see cref="ISwarmService"/> to use.</param>
+		/// <returns>The queried <see cref="NodeInformation"/>, if present.</returns>
 		public NodeInformation? GetNodeInformation(
 			string identifier,
 			[Service] ISwarmService swarmService)

@@ -86,6 +86,23 @@ namespace Tgstation.Server.Host.Authority.Core
 		}
 
 		/// <inheritdoc />
+		public async ValueTask<TApiModel?> InvokeTransformable<TResult, TApiModel, TTransformer>(Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
+			where TResult : notnull, IApiTransformable<TResult, TApiModel, TTransformer>
+			where TApiModel : notnull
+			where TTransformer : ITransformer<TResult, TApiModel>, new()
+		{
+			ArgumentNullException.ThrowIfNull(authorityInvoker);
+
+			var authorityResponse = await authorityInvoker(authority);
+			ThrowGraphQLErrorIfNecessary(authorityResponse);
+			var result = authorityResponse.Result;
+			if (result == null)
+				return default;
+
+			return result.ToApi();
+		}
+
+		/// <inheritdoc />
 		async ValueTask IGraphQLAuthorityInvoker<TAuthority>.Invoke(Func<TAuthority, ValueTask<AuthorityResponse>> authorityInvoker)
 		{
 			ArgumentNullException.ThrowIfNull(authorityInvoker);
@@ -95,7 +112,7 @@ namespace Tgstation.Server.Host.Authority.Core
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<TApiModel> Invoke<TResult, TApiModel>(Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
+		public async ValueTask<TApiModel?> Invoke<TResult, TApiModel>(Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
 			where TResult : TApiModel
 			where TApiModel : notnull
 		{
@@ -103,17 +120,7 @@ namespace Tgstation.Server.Host.Authority.Core
 
 			var authorityResponse = await authorityInvoker(authority);
 			ThrowGraphQLErrorIfNecessary(authorityResponse);
-			return authorityResponse.Result!;
-		}
-
-		/// <inheritdoc />
-		async ValueTask<TApiModel> IGraphQLAuthorityInvoker<TAuthority>.InvokeTransformable<TResult, TApiModel, TTransformer>(Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
-		{
-			ArgumentNullException.ThrowIfNull(authorityInvoker);
-
-			var authorityResponse = await authorityInvoker(authority);
-			ThrowGraphQLErrorIfNecessary(authorityResponse);
-			return authorityResponse.Result!.ToApi();
+			return authorityResponse.Result;
 		}
 
 		/// <inheritdoc />

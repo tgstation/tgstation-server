@@ -11,6 +11,7 @@ namespace Tgstation.Server.Host.Models
 	/// <typeparam name="TApiModel">The API model <see cref="Type"/>.</typeparam>
 	/// <typeparam name="TTransformer">The <see cref="ITransformer{TModel, TApiModel}"/> <see cref="Type"/>.</typeparam>
 	public interface IApiTransformable<TModel, TApiModel, TTransformer>
+		where TApiModel : notnull
 		where TModel : IApiTransformable<TModel, TApiModel, TTransformer>
 		where TTransformer : ITransformer<TModel, TApiModel>, new()
 	{

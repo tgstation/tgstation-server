@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(authority => authority.Read(cancellationToken));
+			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(authority => authority.Read(cancellationToken))!;
 		}
 
 		/// <summary>

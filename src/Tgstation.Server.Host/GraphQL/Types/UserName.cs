@@ -19,14 +19,24 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	[Node]
 	public sealed class UserName : NamedEntity, IUserName
 	{
-		public static async ValueTask<UserName> GetUserName(
+		/// <summary>
+		/// Node resolver for <see cref="UserName"/>s.
+		/// </summary>
+		/// <param name="id">The <see cref="Entity.Id"/> to lookup.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask"/> resulting in the queried <see cref="UserName"/>, if present.</returns>
+		public static async ValueTask<UserName?> GetUserName(
 			long id,
-			[Service] IGraphQLAuthorityInvoker<IUserAuthority> authorityInvoker,
+			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
-			ArgumentNullException.ThrowIfNull(authorityInvoker);
-			var user = await authorityInvoker.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
+			ArgumentNullException.ThrowIfNull(userAuthority);
+			var user = await userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
 				authority => authority.GetId(id, false, true, cancellationToken));
+
+			if (user == null)
+				return null;
 
 			return new UserName(user);
 		}
