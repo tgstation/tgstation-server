@@ -39,8 +39,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="node">The <see cref="SwarmServer"/> that is registering.</param>
 		/// <param name="registrationId">The registration <see cref="Guid"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the registration was successful, <see langword="false"/> otherwise.</returns>
-		ValueTask<bool> RegisterNode(SwarmServer node, Guid registrationId, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="SwarmRegistrationResponse"/> if the registration was successful, <see langword="null"/> otherwise.</returns>
+		ValueTask<SwarmRegistrationResponse?> RegisterNode(SwarmServer node, Guid registrationId, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempt to unregister a node with a given <paramref name="registrationId"/> with the controller.

@@ -56,6 +56,7 @@
         <_Parameter3>$(TgsWebpanelVersion)</_Parameter3>
         <_Parameter4>$(TgsHostWatchdogVersion)</_Parameter4>
         <_Parameter5>$(TgsMariaDBRedistVersion)</_Parameter5>
+        <_Parameter6>$(TgsSwarmProtocolVersion)</_Parameter6>
       </MasterVersionAssemblyAttributes>
     </ItemGroup>
     <WriteCodeFragment AssemblyAttributes="@(MasterVersionAssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="MasterVersionsAssemblyInfo.cs">

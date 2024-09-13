@@ -219,6 +219,11 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				// Fobid, NoContent, Conflict, StatusCode
 				if (result is ForbidResult forbidResult)
 					response.StatusCode = HttpStatusCode.Forbidden;
+				else if (result is JsonResult jsonResult)
+				{
+					response.StatusCode = HttpStatusCode.OK;
+					response.Content = new StringContent(JsonConvert.SerializeObject(jsonResult.Value));
+				}
 				else if (result is IStatusCodeActionResult statusCodeResult)
 					response.StatusCode = (HttpStatusCode)statusCodeResult.StatusCode;
 				else if (result is LimitedStreamResult streamResult)

@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Swarm
 	public sealed class SwarmRegistrationRequest : SwarmServer
 	{
 		/// <summary>
-		/// The TGS <see cref="Version"/> of the sending server.
+		/// The swarm protocol <see cref="Version"/> of the sending server. Named this way due to legacy reasons.
 		/// </summary>
 		[Required]
 		public Version ServerVersion { get; }
