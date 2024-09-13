@@ -24,5 +24,10 @@
 		/// A communication error occurred.
 		/// </summary>
 		CommunicationFailure,
+
+		/// <summary>
+		/// Response could not be deserialized.
+		/// </summary>
+		PayloadFailure,
 	}
 }

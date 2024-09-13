@@ -14,8 +14,8 @@ using Serilog.Context;
 
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Swarm;
-using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
 
@@ -45,11 +45,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IFileTransferStreamHandler transferService;
 
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="SwarmController"/>.
-		/// </summary>
-		readonly IAssemblyInformationProvider assemblyInformationProvider;
-
-		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SwarmController"/>.
 		/// </summary>
 		readonly ILogger<SwarmController> logger;
@@ -63,19 +58,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="SwarmController"/> class.
 		/// </summary>
 		/// <param name="swarmOperations">The value of <see cref="swarmOperations"/>.</param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="transferService">The value of <see cref="transferService"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public SwarmController(
 			ISwarmOperations swarmOperations,
-			IAssemblyInformationProvider assemblyInformationProvider,
 			IFileTransferStreamHandler transferService,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<SwarmController> logger)
 		{
 			this.swarmOperations = swarmOperations ?? throw new ArgumentNullException(nameof(swarmOperations));
-			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.transferService = transferService ?? throw new ArgumentNullException(nameof(transferService));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger;
@@ -92,13 +84,18 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			ArgumentNullException.ThrowIfNull(registrationRequest);
 
-			if (registrationRequest.ServerVersion != assemblyInformationProvider.Version)
+			var swarmProtocolVersion = Version.Parse(MasterVersionsAttribute.Instance.RawSwarmProtocolVersion);
+			if (registrationRequest.ServerVersion?.Major != swarmProtocolVersion.Major)
 				return StatusCode((int)HttpStatusCode.UpgradeRequired);
 
 			var registrationResult = await swarmOperations.RegisterNode(registrationRequest, RequestRegistrationId, cancellationToken);
-			if (!registrationResult)
+			if (registrationResult == null)
 				return Conflict();
-			return NoContent();
+
+			if (registrationRequest.ServerVersion != swarmProtocolVersion)
+				logger.LogWarning("Allowed node {identifier} to register despite having a slightly different swarm protocol version!", registrationRequest.Identifier);
+
+			return Json(registrationResult);
 		}
 
 		/// <summary>
