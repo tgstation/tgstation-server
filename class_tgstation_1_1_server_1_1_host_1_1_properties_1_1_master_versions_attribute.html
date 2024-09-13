@@ -107,9 +107,9 @@ Collaboration diagram for Tgstation.Server.Host.Properties.MasterVersionsAttribu
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1c7401602da9589d7915405deabdbaec" id="r_a1c7401602da9589d7915405deabdbaec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a1c7401602da9589d7915405deabdbaec">MasterVersionsAttribute</a> (string rawConfigurationVersion, string rawInteropVersion, string rawWebpanelVersion, string rawHostWatchdogVersion, string rawMariaDBRedistVersion)</td></tr>
-<tr class="memdesc:a1c7401602da9589d7915405deabdbaec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the MasterVersionsAttribute class.  <br /></td></tr>
-<tr class="separator:a1c7401602da9589d7915405deabdbaec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07bfed4413098ca59d5791aa3219de4f" id="r_a07bfed4413098ca59d5791aa3219de4f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a07bfed4413098ca59d5791aa3219de4f">MasterVersionsAttribute</a> (string rawConfigurationVersion, string rawInteropVersion, string rawWebpanelVersion, string rawHostWatchdogVersion, string rawMariaDBRedistVersion, string rawSwarmProtocolVersion)</td></tr>
+<tr class="memdesc:a07bfed4413098ca59d5791aa3219de4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the MasterVersionsAttribute class.  <br /></td></tr>
+<tr class="separator:a07bfed4413098ca59d5791aa3219de4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -131,14 +131,17 @@ Properties</h2></td></tr>
 <tr class="memitem:a391d66828b10498e259e6a3341396d17" id="r_a391d66828b10498e259e6a3341396d17"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a391d66828b10498e259e6a3341396d17">RawMariaDBRedistVersion</a><code> [get]</code></td></tr>
 <tr class="memdesc:a391d66828b10498e259e6a3341396d17"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Version string of the MariaDB server bundled with TGS installs.  <br /></td></tr>
 <tr class="separator:a391d66828b10498e259e6a3341396d17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac694dacc9370a965149387a84723ef6" id="r_aac694dacc9370a965149387a84723ef6"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#aac694dacc9370a965149387a84723ef6">RawSwarmProtocolVersion</a><code> [get]</code></td></tr>
+<tr class="memdesc:aac694dacc9370a965149387a84723ef6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Version string of the MariaDB server bundled with TGS installs.  <br /></td></tr>
+<tr class="separator:aac694dacc9370a965149387a84723ef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="class_attribute.html">Attribute</a> for bringing in the master versions list from MSBuild that aren't embedded into assemblies by default. </p>
 
 <p class="definition">Definition at line <a class="el" href="_master_versions_attribute_8cs_source.html#l00010">10</a> of file <a class="el" href="_master_versions_attribute_8cs_source.html">MasterVersionsAttribute.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a1c7401602da9589d7915405deabdbaec" name="a1c7401602da9589d7915405deabdbaec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c7401602da9589d7915405deabdbaec">&#9670;&#160;</a></span>MasterVersionsAttribute()</h2>
+<a id="a07bfed4413098ca59d5791aa3219de4f" name="a07bfed4413098ca59d5791aa3219de4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07bfed4413098ca59d5791aa3219de4f">&#9670;&#160;</a></span>MasterVersionsAttribute()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -171,7 +174,13 @@ Properties</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>rawMariaDBRedistVersion</em>&#160;</td>
+          <td class="paramname"><em>rawMariaDBRedistVersion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>rawSwarmProtocolVersion</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -189,25 +198,28 @@ Properties</h2></td></tr>
     <tr><td class="paramname">rawWebpanelVersion</td><td>The value of RawWebpanelVersion.</td></tr>
     <tr><td class="paramname">rawHostWatchdogVersion</td><td>The value of RawHostWatchdogVersion.</td></tr>
     <tr><td class="paramname">rawMariaDBRedistVersion</td><td>The value of RawMariaDBRedistVersion.</td></tr>
+    <tr><td class="paramname">rawSwarmProtocolVersion</td><td>The value of RawSwarmProtocolVersion.</td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_master_versions_attribute_8cs_source.html#l00052">52</a> of file <a class="el" href="_master_versions_attribute_8cs_source.html">MasterVersionsAttribute.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   58</span>        {</div>
-<div class="line"><span class="lineno">   59</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#adcd669372aa1fdb1444219525c96f585">RawConfigurationVersion</a> = rawConfigurationVersion ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(rawConfigurationVersion));</div>
-<div class="line"><span class="lineno">   60</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a8bcda31fd5f3c20c5375d1a8814d563a">RawInteropVersion</a> = rawInteropVersion ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(rawInteropVersion));</div>
-<div class="line"><span class="lineno">   61</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a6c7f632f14b13b6701842c69eb01c4e5">RawWebpanelVersion</a> = rawWebpanelVersion ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(rawWebpanelVersion));</div>
-<div class="line"><span class="lineno">   62</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a43e15e3591a0df302aa238267da0cd80">RawHostWatchdogVersion</a> = rawHostWatchdogVersion ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(rawHostWatchdogVersion));</div>
-<div class="line"><span class="lineno">   63</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a391d66828b10498e259e6a3341396d17">RawMariaDBRedistVersion</a> = rawMariaDBRedistVersion ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(rawMariaDBRedistVersion));</div>
-<div class="line"><span class="lineno">   64</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_master_versions_attribute_8cs_source.html#l00058">58</a> of file <a class="el" href="_master_versions_attribute_8cs_source.html">MasterVersionsAttribute.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   65</span>        {</div>
+<div class="line"><span class="lineno">   66</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#adcd669372aa1fdb1444219525c96f585">RawConfigurationVersion</a> = rawConfigurationVersion ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(rawConfigurationVersion));</div>
+<div class="line"><span class="lineno">   67</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a8bcda31fd5f3c20c5375d1a8814d563a">RawInteropVersion</a> = rawInteropVersion ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(rawInteropVersion));</div>
+<div class="line"><span class="lineno">   68</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a6c7f632f14b13b6701842c69eb01c4e5">RawWebpanelVersion</a> = rawWebpanelVersion ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(rawWebpanelVersion));</div>
+<div class="line"><span class="lineno">   69</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a43e15e3591a0df302aa238267da0cd80">RawHostWatchdogVersion</a> = rawHostWatchdogVersion ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(rawHostWatchdogVersion));</div>
+<div class="line"><span class="lineno">   70</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a391d66828b10498e259e6a3341396d17">RawMariaDBRedistVersion</a> = rawMariaDBRedistVersion ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(rawMariaDBRedistVersion));</div>
+<div class="line"><span class="lineno">   71</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#aac694dacc9370a965149387a84723ef6">RawSwarmProtocolVersion</a> = rawSwarmProtocolVersion ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(rawSwarmProtocolVersion));</div>
+<div class="line"><span class="lineno">   72</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute_html_a391d66828b10498e259e6a3341396d17"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a391d66828b10498e259e6a3341396d17">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawMariaDBRedistVersion</a></div><div class="ttdeci">string RawMariaDBRedistVersion</div><div class="ttdoc">The Version string of the MariaDB server bundled with TGS installs.</div><div class="ttdef"><b>Definition</b> <a href="_master_versions_attribute_8cs_source.html#l00042">MasterVersionsAttribute.cs:42</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute_html_a43e15e3591a0df302aa238267da0cd80"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a43e15e3591a0df302aa238267da0cd80">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawHostWatchdogVersion</a></div><div class="ttdeci">string RawHostWatchdogVersion</div><div class="ttdoc">The Version string of the control panel version built.</div><div class="ttdef"><b>Definition</b> <a href="_master_versions_attribute_8cs_source.html#l00037">MasterVersionsAttribute.cs:37</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute_html_a6c7f632f14b13b6701842c69eb01c4e5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a6c7f632f14b13b6701842c69eb01c4e5">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawWebpanelVersion</a></div><div class="ttdeci">string RawWebpanelVersion</div><div class="ttdoc">The Version string of the control panel version built.</div><div class="ttdef"><b>Definition</b> <a href="_master_versions_attribute_8cs_source.html#l00032">MasterVersionsAttribute.cs:32</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute_html_a8bcda31fd5f3c20c5375d1a8814d563a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a8bcda31fd5f3c20c5375d1a8814d563a">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawInteropVersion</a></div><div class="ttdeci">string RawInteropVersion</div><div class="ttdoc">The Version string of the DMAPI interop version used.</div><div class="ttdef"><b>Definition</b> <a href="_master_versions_attribute_8cs_source.html#l00027">MasterVersionsAttribute.cs:27</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute_html_aac694dacc9370a965149387a84723ef6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#aac694dacc9370a965149387a84723ef6">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawSwarmProtocolVersion</a></div><div class="ttdeci">string RawSwarmProtocolVersion</div><div class="ttdoc">The Version string of the MariaDB server bundled with TGS installs.</div><div class="ttdef"><b>Definition</b> <a href="_master_versions_attribute_8cs_source.html#l00047">MasterVersionsAttribute.cs:47</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute_html_adcd669372aa1fdb1444219525c96f585"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#adcd669372aa1fdb1444219525c96f585">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawConfigurationVersion</a></div><div class="ttdeci">string RawConfigurationVersion</div><div class="ttdoc">The Version string of the Configuration version built.</div><div class="ttdef"><b>Definition</b> <a href="_master_versions_attribute_8cs_source.html#l00022">MasterVersionsAttribute.cs:22</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_master_versions_attribute_8cs_source.html#l00022">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawConfigurationVersion</a>, <a class="el" href="_master_versions_attribute_8cs_source.html#l00037">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawHostWatchdogVersion</a>, <a class="el" href="_master_versions_attribute_8cs_source.html#l00027">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawInteropVersion</a>, <a class="el" href="_master_versions_attribute_8cs_source.html#l00042">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawMariaDBRedistVersion</a>, and <a class="el" href="_master_versions_attribute_8cs_source.html#l00032">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawWebpanelVersion</a>.</p>
+<p class="reference">References <a class="el" href="_master_versions_attribute_8cs_source.html#l00022">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawConfigurationVersion</a>, <a class="el" href="_master_versions_attribute_8cs_source.html#l00037">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawHostWatchdogVersion</a>, <a class="el" href="_master_versions_attribute_8cs_source.html#l00027">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawInteropVersion</a>, <a class="el" href="_master_versions_attribute_8cs_source.html#l00042">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawMariaDBRedistVersion</a>, <a class="el" href="_master_versions_attribute_8cs_source.html#l00047">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawSwarmProtocolVersion</a>, and <a class="el" href="_master_versions_attribute_8cs_source.html#l00032">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawWebpanelVersion</a>.</p>
 
 </div>
 </div>
@@ -236,7 +248,7 @@ Properties</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_master_versions_attribute_8cs_source.html#l00015">15</a> of file <a class="el" href="_master_versions_attribute_8cs_source.html">MasterVersionsAttribute.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01119">Tgstation.Server.Host.Setup.SetupWizard.CheckRunWizard()</a>, and <a class="el" href="_application_8cs_source.html#l00472">Tgstation.Server.Host.Core.Application.Configure()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01119">Tgstation.Server.Host.Setup.SetupWizard.CheckRunWizard()</a>, <a class="el" href="_application_8cs_source.html#l00472">Tgstation.Server.Host.Core.Application.Configure()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00083">Tgstation.Server.Host.Controllers.SwarmController.Register()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l01278">Tgstation.Server.Host.Swarm.SwarmService.RegisterWithController()</a>.</p>
 
 </div>
 </div>
@@ -265,7 +277,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_master_versions_attribute_8cs_source.html#l00022">22</a> of file <a class="el" href="_master_versions_attribute_8cs_source.html">MasterVersionsAttribute.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   22</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_master_versions_attribute_8cs_source.html#l00052">Tgstation.Server.Host.Properties.MasterVersionsAttribute.MasterVersionsAttribute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_master_versions_attribute_8cs_source.html#l00058">Tgstation.Server.Host.Properties.MasterVersionsAttribute.MasterVersionsAttribute()</a>.</p>
 
 </div>
 </div>
@@ -294,7 +306,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_master_versions_attribute_8cs_source.html#l00037">37</a> of file <a class="el" href="_master_versions_attribute_8cs_source.html">MasterVersionsAttribute.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   37</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_master_versions_attribute_8cs_source.html#l00052">Tgstation.Server.Host.Properties.MasterVersionsAttribute.MasterVersionsAttribute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_master_versions_attribute_8cs_source.html#l00058">Tgstation.Server.Host.Properties.MasterVersionsAttribute.MasterVersionsAttribute()</a>.</p>
 
 </div>
 </div>
@@ -323,7 +335,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_master_versions_attribute_8cs_source.html#l00027">27</a> of file <a class="el" href="_master_versions_attribute_8cs_source.html">MasterVersionsAttribute.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   27</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_master_versions_attribute_8cs_source.html#l00052">Tgstation.Server.Host.Properties.MasterVersionsAttribute.MasterVersionsAttribute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_master_versions_attribute_8cs_source.html#l00058">Tgstation.Server.Host.Properties.MasterVersionsAttribute.MasterVersionsAttribute()</a>.</p>
 
 </div>
 </div>
@@ -352,7 +364,36 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_master_versions_attribute_8cs_source.html#l00042">42</a> of file <a class="el" href="_master_versions_attribute_8cs_source.html">MasterVersionsAttribute.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   42</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01119">Tgstation.Server.Host.Setup.SetupWizard.CheckRunWizard()</a>, and <a class="el" href="_master_versions_attribute_8cs_source.html#l00052">Tgstation.Server.Host.Properties.MasterVersionsAttribute.MasterVersionsAttribute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01119">Tgstation.Server.Host.Setup.SetupWizard.CheckRunWizard()</a>, and <a class="el" href="_master_versions_attribute_8cs_source.html#l00058">Tgstation.Server.Host.Properties.MasterVersionsAttribute.MasterVersionsAttribute()</a>.</p>
+
+</div>
+</div>
+<a id="aac694dacc9370a965149387a84723ef6" name="aac694dacc9370a965149387a84723ef6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac694dacc9370a965149387a84723ef6">&#9670;&#160;</a></span>RawSwarmProtocolVersion</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawSwarmProtocolVersion</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The Version string of the MariaDB server bundled with TGS installs. </p>
+
+<p class="definition">Definition at line <a class="el" href="_master_versions_attribute_8cs_source.html#l00047">47</a> of file <a class="el" href="_master_versions_attribute_8cs_source.html">MasterVersionsAttribute.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   47</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_master_versions_attribute_8cs_source.html#l00058">Tgstation.Server.Host.Properties.MasterVersionsAttribute.MasterVersionsAttribute()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00083">Tgstation.Server.Host.Controllers.SwarmController.Register()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l01278">Tgstation.Server.Host.Swarm.SwarmService.RegisterWithController()</a>.</p>
 
 </div>
 </div>
@@ -381,7 +422,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_master_versions_attribute_8cs_source.html#l00032">32</a> of file <a class="el" href="_master_versions_attribute_8cs_source.html">MasterVersionsAttribute.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   32</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00472">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_master_versions_attribute_8cs_source.html#l00052">Tgstation.Server.Host.Properties.MasterVersionsAttribute.MasterVersionsAttribute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00472">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_master_versions_attribute_8cs_source.html#l00058">Tgstation.Server.Host.Properties.MasterVersionsAttribute.MasterVersionsAttribute()</a>.</p>
 
 </div>
 </div>

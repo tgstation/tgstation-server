@@ -101,6 +101,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_request.html">SwarmRegistrationRequest</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A request to register with a swarm controller.  <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_request.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_response.html">SwarmRegistrationResponse</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Response for a SwarmRegistrationRequest.  <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_response.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_servers_update_request.html">SwarmServersUpdateRequest</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A request to update a nodes list of SwarmServers.  <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_servers_update_request.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,10 +131,14 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:adb1c0a36372932f7245590d9892af263"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates the result of a swarm update prepare operation.  <a href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#adb1c0a36372932f7245590d9892af263">More...</a><br /></td></tr>
 <tr class="separator:adb1c0a36372932f7245590d9892af263"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfc07eda2ac8eff75a6eef3f90bdf3e0" id="r_acfc07eda2ac8eff75a6eef3f90bdf3e0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0">SwarmRegistrationResult</a> { <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0a505a83f220c02df2f85c3810cd9ceb38">Success</a>
+<tr class="memitem:acfc07eda2ac8eff75a6eef3f90bdf3e0" id="r_acfc07eda2ac8eff75a6eef3f90bdf3e0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0">SwarmRegistrationResult</a> { <br />
+&#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0a505a83f220c02df2f85c3810cd9ceb38">Success</a>
 , <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0ae06d1ba70f1331e9f9a113cc2f887d3f">Unauthorized</a>
 , <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0a2d50084f04994afa70d78b604a22dd31">VersionMismatch</a>
 , <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0a2150f7e87eda5a54c460581f4aacccd0">CommunicationFailure</a>
+, <br />
+&#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0a1e78fb1b3922623e7f6904b23a4173d3">PayloadFailure</a>
+<br />
  }</td></tr>
 <tr class="memdesc:acfc07eda2ac8eff75a6eef3f90bdf3e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of attempting to register with a swarm controller.  <a href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0">More...</a><br /></td></tr>
 <tr class="separator:acfc07eda2ac8eff75a6eef3f90bdf3e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -237,6 +244,8 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="acfc07eda2ac8eff75a6eef3f90bdf3e0a2150f7e87eda5a54c460581f4aacccd0" name="acfc07eda2ac8eff75a6eef3f90bdf3e0a2150f7e87eda5a54c460581f4aacccd0"></a>CommunicationFailure&#160;</td><td class="fielddoc"><p>A communication error occurred. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="acfc07eda2ac8eff75a6eef3f90bdf3e0a1e78fb1b3922623e7f6904b23a4173d3" name="acfc07eda2ac8eff75a6eef3f90bdf3e0a1e78fb1b3922623e7f6904b23a4173d3"></a>PayloadFailure&#160;</td><td class="fielddoc"><p>Response could not be deserialized. </p>
+</td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="_swarm_registration_result_8cs_source.html#l00006">6</a> of file <a class="el" href="_swarm_registration_result_8cs_source.html">SwarmRegistrationResult.cs</a>.</p>
@@ -248,7 +257,10 @@ Enumerations</h2></td></tr>
 <div class="line"><span class="lineno">   21</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0a2d50084f04994afa70d78b604a22dd31">VersionMismatch</a>,</div>
 <div class="line"><span class="lineno">   22</span> </div>
 <div class="line"><span class="lineno">   26</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0a2150f7e87eda5a54c460581f4aacccd0">CommunicationFailure</a>,</div>
-<div class="line"><span class="lineno">   27</span>    }</div>
+<div class="line"><span class="lineno">   27</span> </div>
+<div class="line"><span class="lineno">   31</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0a1e78fb1b3922623e7f6904b23a4173d3">PayloadFailure</a>,</div>
+<div class="line"><span class="lineno">   32</span>    }</div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_swarm_html_acfc07eda2ac8eff75a6eef3f90bdf3e0a1e78fb1b3922623e7f6904b23a4173d3"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0a1e78fb1b3922623e7f6904b23a4173d3">Tgstation.Server.Host.Swarm.SwarmRegistrationResult.PayloadFailure</a></div><div class="ttdeci">@ PayloadFailure</div><div class="ttdoc">Response could not be deserialized.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_swarm_html_acfc07eda2ac8eff75a6eef3f90bdf3e0a2150f7e87eda5a54c460581f4aacccd0"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0a2150f7e87eda5a54c460581f4aacccd0">Tgstation.Server.Host.Swarm.SwarmRegistrationResult.CommunicationFailure</a></div><div class="ttdeci">@ CommunicationFailure</div><div class="ttdoc">A communication error occurred.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_swarm_html_acfc07eda2ac8eff75a6eef3f90bdf3e0a2d50084f04994afa70d78b604a22dd31"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0a2d50084f04994afa70d78b604a22dd31">Tgstation.Server.Host.Swarm.SwarmRegistrationResult.VersionMismatch</a></div><div class="ttdeci">@ VersionMismatch</div><div class="ttdoc">The swarm controller is running a different server version.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_swarm_html_acfc07eda2ac8eff75a6eef3f90bdf3e0a505a83f220c02df2f85c3810cd9ceb38"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0a505a83f220c02df2f85c3810cd9ceb38">Tgstation.Server.Host.Swarm.SwarmRegistrationResult.Success</a></div><div class="ttdeci">@ Success</div><div class="ttdoc">The registration succeeded.</div></div>

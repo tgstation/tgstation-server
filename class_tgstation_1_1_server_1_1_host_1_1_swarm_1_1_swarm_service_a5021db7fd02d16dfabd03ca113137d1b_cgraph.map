@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.RegisterNode" name="Tgstation.Server.Host.Swarm.SwarmService.RegisterNode">
-<area shape="rect" id="Node000001" title="Attempt to register a given node &#160;with the controller.A ValueTask&lt;TResult&gt; resulting in true if the r..." alt="" coords="5,118,200,159"/>
+<area shape="rect" id="Node000001" title="Attempt to register a given node &#160;with the controller.A ValueTask&lt;TResult&gt; resulting in a SwarmRegist..." alt="" coords="5,118,200,159"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae8730853752e924741c38443a557c16f" title="Attempt to abort an uncommitted update.A ValueTask representing the running operation...." alt="" coords="255,85,450,126"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,123,239,118,240,123,200,128"/>
 <area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac4194e4d0fb3cad95550e55859228529" title="Set serversDirty and complete the current forceHealthCheckTcs." alt="" coords="248,150,457,191"/>

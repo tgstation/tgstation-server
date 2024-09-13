@@ -158,8 +158,22 @@ Components:
       PullRequest: 1070
   Core:
   - Version: 6.11.0
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.9.0
+      DreamMakerApi: 7.3.0
+      Configuration: 5.2.0
+      InteropApi: 5.10.0
+      HostWatchdog: 1.5.0
+      NugetCommon: 7.0.0
+      NugetApi: 15.0.0
+      NugetClient: 18.0.0
+      WebControlPanel: 6.2.0
+    Changes:
+    - Descriptions:
+      - Swarm server nodes now inherit the token signing key of the controller, meaning that an authentication token generated on one server will work for all servers in the swarm. This behavior occurs for all swarm nodes regardless of `Security` configuration settings.
+      - The swarm protocol is now versioned separately from the TGS core version. This allows for slightly differing servers to group together in a swarm. Updates will still synchronize all servers to the same version. **It is still recommended that all servers in the swarm run the same TGS version.**
+      Author: Cyberboss
+      PullRequest: 1929
     Unreleased: true
   - Version: 6.10.1
     ComponentVersions: {}
@@ -4631,27 +4645,6 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
-  - Version: 15.0.0
-    Changes:
-    - Descriptions:
-      - '**BREAKING:** Moved `RepositorySettings` out of `Internal` namespace and made abstract.'
-      - Added TGS encoded app private key prefix to `RepositorySettings`.
-      - Added `DreamDaemonApiBase.LaunchTime`.
-      - Added `DreamDaemonApiBase.ClientCount`.
-      Author: Cyberboss
-      PullRequest: 1920
-    - Descriptions:
-      - Added `Tgstation.Server.Api.Models.DMApiValidationMode`.
-      - Added `DreamMakerSettings.DMApiValidationMode`.
-      - '**Deprecation:** Make `DreamMakerSettings.RequireDMApiValidation` obsolete. Use `DreamMakerSettings.DMApiValidationMode` instead.'
-      Author: Cyberboss
-      PullRequest: 1923
-    - Descriptions:
-      - '**BREAKING**: Reorganized the internal structure of several classes. Sum of parts remains unchanged.'
-      - '**BREAKING**: `SwarmServerResponse` can no longer be constructed directly. Instantiate one of its child classes instead.'
-      Author: Cyberboss
-      PullRequest: 1924
-    Unreleased: true
   - Version: 13.5.0
     Changes:
     - Descriptions:
@@ -4735,20 +4728,4 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient:
-  - Version: 18.0.0
-    Changes:
-    - Descriptions:
-      - '**BREAKING:** Updated API definitions library to 14.0.0.'
-      Author: Cyberboss
-      PullRequest: 1920
-    - Descriptions:
-      - Updated `Tgstation.Server.Api` dependency to 14.1.0 for TGS API version 10.9.0.
-      Author: Cyberboss
-      PullRequest: 1923
-    - Descriptions:
-      - '**BREAKING**: Renamed types similar to "ServerClient" to "RestServerClient"'
-      - Added `ITransferClient` and `IRestServerClient.Transfer` to access the underlying raw file transfer API.
-      Author: Cyberboss
-      PullRequest: 1924
-    Unreleased: true
+  NugetClient: []

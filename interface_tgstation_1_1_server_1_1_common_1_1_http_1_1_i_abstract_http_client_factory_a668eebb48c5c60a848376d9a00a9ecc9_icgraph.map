@@ -30,7 +30,7 @@
 <area shape="poly" id="edge19_Node000011_Node000014" title=" " alt="" coords="917,190,636,208,589,212,588,207,636,203,916,185"/>
 <area shape="poly" id="edge14_Node000012_Node000002" title=" " alt="" coords="679,99,635,83,587,61,548,49,550,44,589,57,637,78,681,94"/>
 <area shape="poly" id="edge15_Node000012_Node000004" title=" " alt="" coords="712,154,638,208,615,233,605,244,589,256,556,271,554,266,587,251,601,240,611,229,634,204,709,150"/>
-<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a70bee694c088ecbaca183b8d343f4f27" title="Attempt to register a given node &#160;with the controller.A ValueTask&lt;TResult&gt; resulting in true if the r..." alt="" coords="364,71,559,111"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a5021db7fd02d16dfabd03ca113137d1b" title="Attempt to register a given node &#160;with the controller.A ValueTask&lt;TResult&gt; resulting in a SwarmRegist..." alt="" coords="364,71,559,111"/>
 <area shape="poly" id="edge16_Node000012_Node000013" title=" " alt="" coords="645,114,558,104,559,99,646,108"/>
 <area shape="poly" id="edge17_Node000012_Node000014" title=" " alt="" coords="670,151,637,164,613,178,589,191,553,203,551,198,587,186,611,173,635,159,668,146"/>
 <area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a19995c107d8efaee1fe2dfdda5c509cc" title="Attempt to unregister a node with a given registrationId &#160;with the controller.A ValueTask representin..." alt="" coords="361,136,562,177"/>
