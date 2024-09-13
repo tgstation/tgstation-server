@@ -298,6 +298,7 @@ namespace Tgstation.Server.Host.Core
 					.AddAuthorization()
 					.AddMutationConventions()
 					.AddGlobalObjectIdentification()
+					.AddQueryFieldToMutationPayloads()
 					.ModifyOptions(options =>
 					{
 						options.EnableDefer = true;
