@@ -12,9 +12,9 @@ namespace Tgstation.Server.Host.Security
 	public interface ITokenFactory
 	{
 		/// <summary>
-		/// Gets or sets the <see cref="ITokenFactory"/>'s signing key.
+		/// Gets or sets the <see cref="ITokenFactory"/>'s signing key <see cref="byte"/>s.
 		/// </summary>
-		ReadOnlySpan<byte> SigningKey { get; set; }
+		ReadOnlySpan<byte> SigningKeyBytes { get; set; }
 
 		/// <summary>
 		/// The <see cref="TokenValidationParameters"/> for the <see cref="ITokenFactory"/>.

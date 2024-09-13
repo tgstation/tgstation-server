@@ -574,7 +574,7 @@ namespace Tgstation.Server.Host.Swarm
 
 			SwarmRegistrationResponse CreateResponse() => new()
 			{
-				TokenSigningKeyBase64 = Convert.ToBase64String(tokenFactory.SigningKey),
+				TokenSigningKeyBase64 = Convert.ToBase64String(tokenFactory.SigningKeyBytes),
 			};
 
 			var registrationIdsAndTimes = this.registrationIdsAndTimes!;
@@ -1320,7 +1320,7 @@ namespace Tgstation.Server.Host.Swarm
 							return SwarmRegistrationResult.PayloadFailure;
 						}
 
-						tokenFactory.SigningKey = Convert.FromBase64String(registrationResponse.TokenSigningKeyBase64);
+						tokenFactory.SigningKeyBytes = Convert.FromBase64String(registrationResponse.TokenSigningKeyBase64);
 					}
 					catch (Exception ex)
 					{

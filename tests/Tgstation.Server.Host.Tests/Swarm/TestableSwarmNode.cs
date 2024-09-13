@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		private class MockTokenFactory : ITokenFactory
 		{
-			public ReadOnlySpan<byte> SigningKey
+			public ReadOnlySpan<byte> SigningKeyBytes
 			{
 				get => [0, 1, 2, 3, 4];
 				set

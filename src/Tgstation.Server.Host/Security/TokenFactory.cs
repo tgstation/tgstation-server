@@ -20,23 +20,23 @@ namespace Tgstation.Server.Host.Security
 	sealed class TokenFactory : ITokenFactory
 	{
 		/// <inheritdoc />
-		public TokenValidationParameters ValidationParameters { get; private set; }
+		public TokenValidationParameters ValidationParameters { get; }
 
 		/// <inheritdoc />
-		public ReadOnlySpan<byte> SigningKey
+		public ReadOnlySpan<byte> SigningKeyBytes
 		{
-			get => signingKey;
+			get => signingKey.Key;
+			[MemberNotNull(nameof(signingKey))]
+			[MemberNotNull(nameof(tokenHeader))]
 			set
 			{
-				signingKey = value.ToArray();
-				SetValidationParameters();
+				signingKey = new SymmetricSecurityKey(value.ToArray());
+				tokenHeader = new JwtHeader(
+				new SigningCredentials(
+					signingKey,
+					SecurityAlgorithms.HmacSha256));
 			}
 		}
-
-		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="TokenFactory"/>.
-		/// </summary>
-		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="SecurityConfiguration"/> for the <see cref="TokenFactory"/>.
@@ -44,25 +44,25 @@ namespace Tgstation.Server.Host.Security
 		readonly SecurityConfiguration securityConfiguration;
 
 		/// <summary>
-		/// The <see cref="JwtHeader"/> for generating tokens.
-		/// </summary>
-		readonly JwtHeader tokenHeader;
-
-		/// <summary>
 		/// The <see cref="JwtSecurityTokenHandler"/> used to generate <see cref="TokenResponse.Bearer"/> <see cref="string"/>s.
 		/// </summary>
 		readonly JwtSecurityTokenHandler tokenHandler;
 
 		/// <summary>
-		/// Backing field for <see cref="SigningKey"/>.
+		/// Backing field for <see cref="SigningKeyBytes"/>.
 		/// </summary>
-		byte[] signingKey;
+		SymmetricSecurityKey signingKey;
+
+		/// <summary>
+		/// The <see cref="JwtHeader"/> for generating tokens.
+		/// </summary>
+		JwtHeader tokenHeader;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TokenFactory"/> class.
 		/// </summary>
 		/// <param name="cryptographySuite">The <see cref="ICryptographySuite"/> used for generating the <see cref="ValidationParameters"/>.</param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> used to generate the issuer name.</param>
 		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="securityConfiguration"/>.</param>
 		public TokenFactory(
 			ICryptographySuite cryptographySuite,
@@ -70,20 +70,33 @@ namespace Tgstation.Server.Host.Security
 			IOptions<SecurityConfiguration> securityConfigurationOptions)
 		{
 			ArgumentNullException.ThrowIfNull(cryptographySuite);
+			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
-			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 
-			signingKey = String.IsNullOrWhiteSpace(securityConfiguration.CustomTokenSigningKeyBase64)
+			SigningKeyBytes = String.IsNullOrWhiteSpace(securityConfiguration.CustomTokenSigningKeyBase64)
 				? cryptographySuite.GetSecureBytes(securityConfiguration.TokenSigningKeyByteCount)
 				: Convert.FromBase64String(securityConfiguration.CustomTokenSigningKeyBase64);
 
-			SetValidationParameters();
+			ValidationParameters = new TokenValidationParameters
+			{
+				ValidateIssuerSigningKey = true,
+				IssuerSigningKeyResolver = (_, _, _, _) => Enumerable.Repeat(signingKey, 1),
 
-			tokenHeader = new JwtHeader(
-				new SigningCredentials(
-					ValidationParameters.IssuerSigningKey,
-					SecurityAlgorithms.HmacSha256));
+				ValidateIssuer = true,
+				ValidIssuer = assemblyInformationProvider.AssemblyName.Name,
+
+				ValidateLifetime = true,
+				ValidateAudience = true,
+				ValidAudience = typeof(TokenResponse).Assembly.GetName().Name,
+
+				ClockSkew = TimeSpan.FromMinutes(securityConfiguration.TokenClockSkewMinutes),
+
+				RequireSignedTokens = true,
+
+				RequireExpirationTime = true,
+			};
+
 			tokenHandler = new JwtSecurityTokenHandler();
 		}
 
@@ -133,29 +146,5 @@ namespace Tgstation.Server.Host.Security
 
 			return tokenResponse;
 		}
-
-		/// <summary>
-		/// Initializes <see cref="ValidationParameters"/> based on fields.
-		/// </summary>
-		[MemberNotNull(nameof(ValidationParameters))]
-		void SetValidationParameters()
-			=> ValidationParameters = new TokenValidationParameters
-			{
-				ValidateIssuerSigningKey = true,
-				IssuerSigningKey = new SymmetricSecurityKey(signingKey),
-
-				ValidateIssuer = true,
-				ValidIssuer = assemblyInformationProvider.AssemblyName.Name,
-
-				ValidateLifetime = true,
-				ValidateAudience = true,
-				ValidAudience = typeof(TokenResponse).Assembly.GetName().Name,
-
-				ClockSkew = TimeSpan.FromMinutes(securityConfiguration.TokenClockSkewMinutes),
-
-				RequireSignedTokens = true,
-
-				RequireExpirationTime = true,
-			};
 	}
 }
