@@ -186,7 +186,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="GraphQL\DataLoaders\" />
     <Folder Include="GraphQL\Mutations\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
