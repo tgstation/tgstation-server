@@ -1,6 +1,6 @@
 mutation Login {
   login {
-    string
+    bearer
     errors {
       ... on ErrorMessageError {
         message

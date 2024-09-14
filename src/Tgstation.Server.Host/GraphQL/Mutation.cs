@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Types;
 
-using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Authority;
+using Tgstation.Server.Host.GraphQL.Mutations;
 
 namespace Tgstation.Server.Host.GraphQL
 {
@@ -23,16 +23,14 @@ namespace Tgstation.Server.Host.GraphQL
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A Bearer token to be used with further communication with the server.</returns>
 		[Error(typeof(ErrorMessageException))]
-		public async ValueTask<string> Login(
+		public ValueTask<LoginPayload> Login(
 			[Service] IGraphQLAuthorityInvoker<ILoginAuthority> loginAuthority,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(loginAuthority);
 
-			var tokenResponse = await loginAuthority.Invoke<TokenResponse, TokenResponse>(
-				authority => authority.AttemptLogin(cancellationToken));
-
-			return tokenResponse!.Bearer!;
+			return loginAuthority.Invoke<LoginPayload, LoginPayload>(
+				authority => authority.AttemptLogin(cancellationToken))!;
 		}
 	}
 }

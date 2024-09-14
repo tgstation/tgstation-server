@@ -89,7 +89,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			public TokenValidationParameters ValidationParameters => throw new NotSupportedException();
 
-			public TokenResponse CreateToken(User user, bool oAuth)
+			public string CreateToken(User user, bool oAuth)
 			{
 				throw new NotSupportedException();
 			}

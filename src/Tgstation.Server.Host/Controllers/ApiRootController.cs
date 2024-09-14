@@ -19,6 +19,7 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.GraphQL.Mutations;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.OAuth;
@@ -185,7 +186,7 @@ namespace Tgstation.Server.Host.Controllers
 				return ValueTask.FromResult(HeadersIssue(ApiHeadersProvider.HeadersException!));
 			}
 
-			return loginAuthority.Invoke<TokenResponse, TokenResponse>(this, authority => authority.AttemptLogin(cancellationToken));
+			return loginAuthority.InvokeTransformable<LoginPayload, TokenResponse>(this, authority => authority.AttemptLogin(cancellationToken));
 		}
 	}
 }

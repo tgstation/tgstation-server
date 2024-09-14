@@ -470,7 +470,7 @@ namespace Tgstation.Server.Tests.Live
 			});
 
 			Assert.IsNotNull(result.Data);
-			Assert.IsNull(result.Data.Login.String);
+			Assert.IsNull(result.Data.Login.Bearer);
 			Assert.IsNotNull(result.Data.Login.Errors);
 			Assert.AreEqual(1, result.Data.Login.Errors.Count);
 			var castResult = result.Data.Login.Errors[0] is ILogin_Login_Errors_ErrorMessageError loginError;

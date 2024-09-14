@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="user">The <see cref="Models.User"/> to create the token for. Must have the <see cref="Api.Models.EntityId.Id"/> field available.</param>
 		/// <param name="oAuth">Whether or not this is an OAuth login.</param>
-		/// <returns>A new <see cref="TokenResponse"/>.</returns>
-		TokenResponse CreateToken(Models.User user, bool oAuth);
+		/// <returns>A new token <see cref="string"/>.</returns>
+		string CreateToken(Models.User user, bool oAuth);
 	}
 }
