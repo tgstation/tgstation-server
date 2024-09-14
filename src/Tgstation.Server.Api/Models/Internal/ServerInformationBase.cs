@@ -5,7 +5,7 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// <summary>
 	/// Base class for <see cref="Response.ServerInformationResponse"/>.
 	/// </summary>
-	public abstract class GatewayInformationBase
+	public abstract class ServerInformationBase
 	{
 		/// <summary>
 		/// Minimum length of database user passwords.
@@ -31,6 +31,6 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// Limits the locations instances may be created or attached from.
 		/// </summary>
 		[ResponseOptions]
-		public ICollection<string>? ValidInstancePaths { get; set; }
+		public List<string>? ValidInstancePaths { get; set; }
 	}
 }

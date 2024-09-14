@@ -1,32 +1,80 @@
 ﻿using System;
+using System.Linq;
 
 using HotChocolate;
+using HotChocolate.Types.Relay;
 
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.GraphQL.Interfaces;
+using Tgstation.Server.Host.Swarm;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
 	/// <summary>
 	/// Represents a node server in a swarm.
 	/// </summary>
-	public sealed class SwarmNode
+	[Node(IdField = nameof(Identifier))]
+	public sealed class SwarmNode : IServerNode
 	{
 		/// <summary>
-		/// Gets the <see cref="NodeInformation"/>.
+		/// The swarm server ID.
 		/// </summary>
-		public NodeInformation? Info { get; }
+		[ID]
+		public string Identifier { get; }
+
+		/// <summary>
+		/// The swarm server's internal <see cref="Uri"/>.
+		/// </summary>
+		public Uri Address { get; }
+
+		/// <summary>
+		/// The swarm server's optional public address.
+		/// </summary>
+		public Uri? PublicAddress { get; }
+
+		/// <summary>
+		/// Whether or not the server is the swarm's controller.
+		/// </summary>
+		public bool Controller { get; }
+
+		/// <summary>
+		/// Node resolver for <see cref="SwarmNode"/>s.
+		/// </summary>
+		/// <param name="identifier">The <see cref="Identifier"/>.</param>
+		/// <param name="swarmService">The <see cref="ISwarmService"/> to load from.</param>
+		/// <returns>A new <see cref="SwarmNode"/> with the matching <paramref name="identifier"/> if found, <see langword="null"/> otherwise.</returns>
+		public static SwarmNode? GetSwarmNode(
+			string identifier,
+			[Service] ISwarmService swarmService)
+		{
+			ArgumentNullException.ThrowIfNull(identifier);
+			ArgumentNullException.ThrowIfNull(swarmService);
+			var info = swarmService
+				.GetSwarmServers()
+				?.FirstOrDefault(x => x.Identifier == identifier);
+
+			if (info == null)
+				return null;
+
+			return new SwarmNode(info);
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SwarmNode"/> class.
 		/// </summary>
-		/// <param name="info">The value of <see cref="Info"/>.</param>
-		public SwarmNode(NodeInformation? info)
+		/// <param name="nodeInformation">The <see cref="SwarmServerInformation"/> to use for initialization.</param>
+		public SwarmNode(SwarmServerInformation? nodeInformation)
 		{
-			Info = info;
+			ArgumentNullException.ThrowIfNull(nodeInformation);
+
+			Identifier = nodeInformation.Identifier!;
+			Address = nodeInformation.Address!;
+			PublicAddress = nodeInformation.PublicAddress;
+			Controller = nodeInformation.Controller;
 		}
 
 		/// <summary>
@@ -35,11 +83,11 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the current <see cref="SwarmConfiguration"/>.</param>
 		/// <returns>A new <see cref="IGateway"/>.</returns>
 		/// <remarks>The <see cref="SwarmNode"/>'s <see cref="IGateway"/>.</remarks>
-		public IGateway? Gateway([Service] IOptionsSnapshot<SwarmConfiguration> swarmConfigurationOptions)
+		public IGateway Gateway([Service] IOptionsSnapshot<SwarmConfiguration> swarmConfigurationOptions)
 		{
 			ArgumentNullException.ThrowIfNull(swarmConfigurationOptions);
 
-			bool local = Info == null || Info.Identifier == swarmConfigurationOptions.Value.Identifier;
+			bool local = Identifier == swarmConfigurationOptions.Value.Identifier;
 			if (local)
 				return new LocalGateway();
 

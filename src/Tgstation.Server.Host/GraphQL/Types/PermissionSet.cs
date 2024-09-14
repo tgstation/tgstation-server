@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-using HotChocolate.Types.Relay;
-
 using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Host.GraphQL.Types
@@ -9,7 +7,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// <summary>
 	/// Represents a set of permissions for the server.
 	/// </summary>
-	[Node]
 	public sealed class PermissionSet : Entity
 	{
 		/// <summary>

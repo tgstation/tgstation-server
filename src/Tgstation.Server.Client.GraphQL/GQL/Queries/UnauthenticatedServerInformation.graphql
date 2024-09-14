@@ -1,0 +1,19 @@
+query UnauthenticatedServerInformation {
+  swarm {
+    currentNode {
+      gateway {
+        information {
+          majorApiVersion
+          oAuthProviderInfos {
+            key
+            value {
+              clientId
+              redirectUri
+              serverUrl
+            }
+          }
+        }
+      }
+    }
+  }
+}

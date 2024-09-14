@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Configuration
 	/// <summary>
 	/// General configuration options.
 	/// </summary>
-	public sealed class GeneralConfiguration : GatewayInformationBase
+	public sealed class GeneralConfiguration : ServerInformationBase
 	{
 		/// <summary>
 		/// The key for the <see cref="Microsoft.Extensions.Configuration.IConfigurationSection"/> the <see cref="GeneralConfiguration"/> resides in.
@@ -29,22 +29,22 @@ namespace Tgstation.Server.Host.Configuration
 		public const ushort DefaultApiPort = 5000;
 
 		/// <summary>
-		/// The default value for <see cref="GatewayInformationBase.MinimumPasswordLength"/>.
+		/// The default value for <see cref="ServerInformationBase.MinimumPasswordLength"/>.
 		/// </summary>
 		const uint DefaultMinimumPasswordLength = 15;
 
 		/// <summary>
-		/// The default value for <see cref="GatewayInformationBase.InstanceLimit"/>.
+		/// The default value for <see cref="ServerInformationBase.InstanceLimit"/>.
 		/// </summary>
 		const uint DefaultInstanceLimit = 10;
 
 		/// <summary>
-		/// The default value for <see cref="GatewayInformationBase.UserLimit"/>.
+		/// The default value for <see cref="ServerInformationBase.UserLimit"/>.
 		/// </summary>
 		const uint DefaultUserLimit = 100;
 
 		/// <summary>
-		/// The default value for <see cref="GatewayInformationBase.UserGroupLimit"/>.
+		/// The default value for <see cref="ServerInformationBase.UserGroupLimit"/>.
 		/// </summary>
 		const uint DefaultUserGroupLimit = 25;
 
