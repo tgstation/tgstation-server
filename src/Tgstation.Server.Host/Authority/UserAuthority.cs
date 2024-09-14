@@ -9,6 +9,7 @@ using GreenDonut;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
@@ -16,7 +17,7 @@ using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Authority
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="IUserAuthority" />
 	sealed class UserAuthority : AuthorityBase, IUserAuthority
 	{
 		/// <summary>
@@ -35,11 +36,6 @@ namespace Tgstation.Server.Host.Authority
 		readonly IOAuthConnectionsDataLoader oAuthConnectionsDataLoader;
 
 		/// <summary>
-		/// The <see cref="IAuthenticationContext"/> for the <see cref="UserAuthority"/>.
-		/// </summary>
-		readonly IAuthenticationContext authenticationContext;
-
-		/// <summary>
 		/// Implements the <see cref="usersDataLoader"/>.
 		/// </summary>
 		/// <param name="ids">The <see cref="IReadOnlyCollection{T}"/> of <see cref="User"/> <see cref="Api.Models.EntityId.Id"/>s to load.</param>
@@ -47,7 +43,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of the requested <see cref="User"/>s.</returns>
 		[DataLoader]
-		public static async ValueTask<Dictionary<long, User>> GetUsers(
+		public static Task<Dictionary<long, User>> GetUsers(
 			IReadOnlyList<long> ids,
 			IDatabaseContext databaseContext,
 			CancellationToken cancellationToken)
@@ -55,7 +51,7 @@ namespace Tgstation.Server.Host.Authority
 			ArgumentNullException.ThrowIfNull(ids);
 			ArgumentNullException.ThrowIfNull(databaseContext);
 
-			return await databaseContext
+			return databaseContext
 				.Users
 				.AsQueryable()
 				.Where(x => ids.Contains(x.Id!.Value))
@@ -96,28 +92,30 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/>.</param>
 		/// <param name="usersDataLoader">The value of <see cref="usersDataLoader"/>.</param>
 		/// <param name="oAuthConnectionsDataLoader">The value of <see cref="oAuthConnectionsDataLoader"/>.</param>
-		/// <param name="authenticationContext">The value of <see cref="authenticationContext"/>.</param>
+		/// <param name="authenticationContext">The value of <see cref="AuthenticationContext"/>.</param>
 		public UserAuthority(
+			IAuthenticationContext authenticationContext,
 			ILogger<UserAuthority> logger,
 			IDatabaseContext databaseContext,
 			IUsersDataLoader usersDataLoader,
-			IOAuthConnectionsDataLoader oAuthConnectionsDataLoader,
-			IAuthenticationContext authenticationContext)
-			: base(logger)
+			IOAuthConnectionsDataLoader oAuthConnectionsDataLoader)
+			: base(authenticationContext, logger)
 		{
 			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			this.usersDataLoader = usersDataLoader ?? throw new ArgumentNullException(nameof(usersDataLoader));
 			this.oAuthConnectionsDataLoader = oAuthConnectionsDataLoader ?? throw new ArgumentNullException(nameof(oAuthConnectionsDataLoader));
-			this.authenticationContext = authenticationContext ?? throw new ArgumentNullException(nameof(authenticationContext));
 		}
 
 		/// <inheritdoc />
 		public ValueTask<AuthorityResponse<User>> Read(CancellationToken cancellationToken)
-			=> ValueTask.FromResult(new AuthorityResponse<User>(authenticationContext.User));
+			=> ValueTask.FromResult(new AuthorityResponse<User>(AuthenticationContext.User));
 
 		/// <inheritdoc />
 		public async ValueTask<AuthorityResponse<User>> GetId(long id, bool includeJoins, bool allowSystemUser, CancellationToken cancellationToken)
 		{
+			if (id != AuthenticationContext.User.Id && !((AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration)).HasFlag(AdministrationRights.ReadUsers))
+				return Forbid<User>();
+
 			User? user;
 			if (includeJoins)
 			{

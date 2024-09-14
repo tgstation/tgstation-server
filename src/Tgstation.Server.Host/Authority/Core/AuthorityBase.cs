@@ -7,6 +7,7 @@ using Octokit;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Authority.Core
 {
@@ -15,6 +16,11 @@ namespace Tgstation.Server.Host.Authority.Core
 	/// </summary>
 	abstract class AuthorityBase : IAuthority
 	{
+		/// <summary>
+		/// Gets the <see cref="IAuthenticationContext"/> for the <see cref="AuthorityBase"/>.
+		/// </summary>
+		protected IAuthenticationContext AuthenticationContext { get; }
+
 		/// <summary>
 		/// Gets the <see cref="ILogger"/> for the <see cref="AuthorityBase"/>.
 		/// </summary>
@@ -64,9 +70,13 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthorityBase"/> class.
 		/// </summary>
+		/// <param name="authenticationContext">The value of <see cref="AuthenticationContext"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
-		protected AuthorityBase(ILogger<AuthorityBase> logger)
+		protected AuthorityBase(
+			IAuthenticationContext authenticationContext,
+			ILogger<AuthorityBase> logger)
 		{
+			AuthenticationContext = authenticationContext ?? throw new ArgumentNullException(nameof(authenticationContext));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 

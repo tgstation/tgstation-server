@@ -18,7 +18,7 @@ using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Authority
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="ILoginAuthority" />
 	sealed class LoginAuthority : AuthorityBase, ILoginAuthority
 	{
 		/// <summary>
@@ -101,6 +101,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <summary>
 		/// Initializes a new instance of the <see cref="LoginAuthority"/> class.
 		/// </summary>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> to use.</param>
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
 		/// <param name="apiHeadersProvider">The value of <see cref="apiHeadersProvider"/>.</param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
@@ -110,6 +111,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/>.</param>
 		public LoginAuthority(
+			IAuthenticationContext authenticationContext,
 			ILogger<LoginAuthority> logger,
 			IApiHeadersProvider apiHeadersProvider,
 			ISystemIdentityFactory systemIdentityFactory,
@@ -118,7 +120,7 @@ namespace Tgstation.Server.Host.Authority
 			ITokenFactory tokenFactory,
 			ICryptographySuite cryptographySuite,
 			IIdentityCache identityCache)
-			: base(logger)
+			: base(authenticationContext, logger)
 		{
 			this.apiHeadersProvider = apiHeadersProvider ?? throw new ArgumentNullException(nameof(apiHeadersProvider));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));

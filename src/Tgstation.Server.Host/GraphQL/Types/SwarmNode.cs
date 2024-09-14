@@ -10,6 +10,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.GraphQL.Interfaces;
+using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Swarm;
 
 namespace Tgstation.Server.Host.GraphQL.Types
@@ -52,6 +53,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="identifier">The <see cref="Identifier"/>.</param>
 		/// <param name="swarmService">The <see cref="ISwarmService"/> to load from.</param>
 		/// <returns>A new <see cref="SwarmNode"/> with the matching <paramref name="identifier"/> if found, <see langword="null"/> otherwise.</returns>
+		[TgsGraphQLAuthorize]
 		public static SwarmNode? GetSwarmNode(
 			string identifier,
 			[Service] ISwarmService swarmService)

@@ -8,6 +8,7 @@ using HotChocolate.Types.Relay;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.GraphQL.Interfaces;
 using Tgstation.Server.Host.Models.Transformers;
+using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
@@ -56,6 +57,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> resulting in the queried <see cref="User"/>, if present.</returns>
+		[TgsGraphQLAuthorize]
 		public static ValueTask<User?> GetUser(
 			long id,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
@@ -115,8 +117,19 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// The <see cref="UserGroup"/> asociated with the user, if any.
 		/// </summary>
+		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserGroupAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="UserGroup"/> associated with the <see cref="User"/>, if any.</returns>
-		public ValueTask<UserGroup?> Group()
-			=> throw new NotImplementedException();
+		public async ValueTask<UserGroup?> Group(
+			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(userGroupAuthority);
+			if (!GroupId.HasValue)
+				return null;
+
+			return await userGroupAuthority.InvokeTransformable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(
+				authority => authority.GetId(GroupId.Value, cancellationToken));
+		}
 	}
 }

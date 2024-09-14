@@ -465,6 +465,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddScoped(typeof(IGraphQLAuthorityInvoker<>), typeof(GraphQLAuthorityInvoker<>));
 			services.AddScoped<ILoginAuthority, LoginAuthority>();
 			services.AddScoped<IUserAuthority, UserAuthority>();
+			services.AddScoped<IUserGroupAuthority, UserGroupAuthority>();
 
 			// configure misc services
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();

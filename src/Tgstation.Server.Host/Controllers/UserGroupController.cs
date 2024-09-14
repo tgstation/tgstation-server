@@ -13,6 +13,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
@@ -30,6 +31,11 @@ namespace Tgstation.Server.Host.Controllers
 	public class UserGroupController : ApiController
 	{
 		/// <summary>
+		/// The <see cref="IUserGroupAuthority"/> for the <see cref="UserGroupController"/>.
+		/// </summary>
+		readonly IRestAuthorityInvoker<IUserGroupAuthority> userGroupAuthority;
+
+		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="UserGroupController"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -39,15 +45,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="userGroupAuthority">The value of <see cref="userGroupAuthority"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		public UserGroupController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContext authenticationContext,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IApiHeadersProvider apiHeaders,
 			ILogger<UserGroupController> logger,
-			IApiHeadersProvider apiHeaders)
+			IRestAuthorityInvoker<IUserGroupAuthority> userGroupAuthority,
+			IOptions<GeneralConfiguration> generalConfigurationOptions)
 			: base(
 				databaseContext,
 				authenticationContext,
@@ -55,6 +63,7 @@ namespace Tgstation.Server.Host.Controllers
 				logger,
 				true)
 		{
+			this.userGroupAuthority = userGroupAuthority ?? throw new ArgumentNullException(nameof(userGroupAuthority));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
@@ -155,7 +164,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Retrieve <see cref="UserGroup"/> successfully.</response>
 		/// <response code="410">The requested <see cref="UserGroup"/> does not currently exist.</response>
 		[HttpGet("{id}")]
-		[TgsAuthorize(AdministrationRights.ReadUsers)]
+		[TgsRestAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.GetId))]
 		[ProducesResponseType(typeof(UserGroupResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
