@@ -17,13 +17,18 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// <summary>
 	/// Represents a node server in a swarm.
 	/// </summary>
-	[Node(IdField = nameof(Identifier))]
+	[Node]
 	public sealed class SwarmNode : IServerNode
 	{
 		/// <summary>
-		/// The swarm server ID.
+		/// The node ID.
 		/// </summary>
 		[ID]
+		public string NodeId => Identifier;
+
+		/// <summary>
+		/// The swarm server ID.
+		/// </summary>
 		public string Identifier { get; }
 
 		/// <summary>
