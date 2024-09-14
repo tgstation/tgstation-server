@@ -295,7 +295,7 @@ namespace Tgstation.Server.Host.Core
 			// configure graphql
 			if (postSetupServices.InternalConfiguration.EnableGraphQL)
 				services
-					.AddGraphQLServer()
+					.AddGraphQLServer(disableCostAnalyzer: true)
 					.AddAuthorization()
 					.TryAddTypeInterceptor<PublicAuthorizeDirectiveTypeInterceptor>()
 					.AddMutationConventions()
