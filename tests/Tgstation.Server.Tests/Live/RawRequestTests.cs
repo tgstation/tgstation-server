@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -469,7 +469,9 @@ namespace Tgstation.Server.Tests.Live
 				result = await client.Login.ExecuteAsync(cancellationToken);
 			});
 
-			Assert.IsNull(result.Data.Login);
+			Assert.IsNotNull(result.Data);
+			Assert.IsNull(result.Data.Login.String);
+			Assert.IsNotNull(result.Data.Login.Errors);
 			Assert.AreEqual(1, result.Data.Login.Errors.Count);
 			var castResult = result.Data.Login.Errors.First() is ILogin_Login_Errors_ErrorMessageError loginError;
 			Assert.IsTrue(castResult);
