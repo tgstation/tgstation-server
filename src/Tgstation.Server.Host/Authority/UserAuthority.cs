@@ -21,11 +21,6 @@ namespace Tgstation.Server.Host.Authority
 	sealed class UserAuthority : AuthorityBase, IUserAuthority
 	{
 		/// <summary>
-		/// The <see cref="IDatabaseContext"/> for the <see cref="UserAuthority"/>.
-		/// </summary>
-		readonly IDatabaseContext databaseContext;
-
-		/// <summary>
 		/// The <see cref="IUsersDataLoader"/> for the <see cref="UserAuthority"/>.
 		/// </summary>
 		readonly IUsersDataLoader usersDataLoader;
@@ -88,20 +83,22 @@ namespace Tgstation.Server.Host.Authority
 		/// <summary>
 		/// Initializes a new instance of the <see cref="UserAuthority"/> class.
 		/// </summary>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> to use.</param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to use.</param>
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
-		/// <param name="databaseContext">The value of <see cref="databaseContext"/>.</param>
 		/// <param name="usersDataLoader">The value of <see cref="usersDataLoader"/>.</param>
 		/// <param name="oAuthConnectionsDataLoader">The value of <see cref="oAuthConnectionsDataLoader"/>.</param>
-		/// <param name="authenticationContext">The value of <see cref="AuthenticationContext"/>.</param>
 		public UserAuthority(
 			IAuthenticationContext authenticationContext,
-			ILogger<UserAuthority> logger,
 			IDatabaseContext databaseContext,
+			ILogger<UserAuthority> logger,
 			IUsersDataLoader usersDataLoader,
 			IOAuthConnectionsDataLoader oAuthConnectionsDataLoader)
-			: base(authenticationContext, logger)
+			: base(
+				  authenticationContext,
+				  databaseContext,
+				  logger)
 		{
-			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			this.usersDataLoader = usersDataLoader ?? throw new ArgumentNullException(nameof(usersDataLoader));
 			this.oAuthConnectionsDataLoader = oAuthConnectionsDataLoader ?? throw new ArgumentNullException(nameof(oAuthConnectionsDataLoader));
 		}
@@ -155,7 +152,7 @@ namespace Tgstation.Server.Host.Authority
 		IQueryable<User> Queryable(bool includeJoins, bool allowSystemUser)
 		{
 			var tgsUserCanonicalName = User.CanonicalizeName(User.TgsSystemUserName);
-			var queryable = databaseContext
+			var queryable = DatabaseContext
 				.Users
 				.AsQueryable();
 

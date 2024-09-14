@@ -7,6 +7,7 @@ using Octokit;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Authority.Core
@@ -20,6 +21,11 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// Gets the <see cref="IAuthenticationContext"/> for the <see cref="AuthorityBase"/>.
 		/// </summary>
 		protected IAuthenticationContext AuthenticationContext { get; }
+
+		/// <summary>
+		/// Gets the <see cref="IDatabaseContext"/> for the <see cref="AuthorityBase"/>.
+		/// </summary>
+		protected IDatabaseContext DatabaseContext { get; }
 
 		/// <summary>
 		/// Gets the <see cref="ILogger"/> for the <see cref="AuthorityBase"/>.
@@ -71,12 +77,15 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// Initializes a new instance of the <see cref="AuthorityBase"/> class.
 		/// </summary>
 		/// <param name="authenticationContext">The value of <see cref="AuthenticationContext"/>.</param>
+		/// <param name="databaseContext">The value of <see cref="DatabaseContext"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
 		protected AuthorityBase(
 			IAuthenticationContext authenticationContext,
+			IDatabaseContext databaseContext,
 			ILogger<AuthorityBase> logger)
 		{
 			AuthenticationContext = authenticationContext ?? throw new ArgumentNullException(nameof(authenticationContext));
+			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 

@@ -22,6 +22,12 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	public sealed class Users
 	{
 		/// <summary>
+		/// Gets the swarm's <see cref="UserGroups"/>.
+		/// </summary>
+		/// <returns>A new <see cref="UserGroups"/>.</returns>
+		public UserGroups Groups() => new();
+
+		/// <summary>
 		/// Gets the current <see cref="User"/>.
 		/// </summary>
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
@@ -37,7 +43,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		}
 
 		/// <summary>
-		/// Gets a user by <see cref="Entity.Id"/>.
+		/// Gets a <see cref="User"/> by <see cref="Entity.Id"/>.
 		/// </summary>
 		/// <param name="id">The <see cref="Entity.Id"/> of the <see cref="User"/>.</param>
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
@@ -45,17 +51,17 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <returns>The <see cref="User"/> represented by <paramref name="id"/>, if any.</returns>
 		[Error(typeof(ErrorMessageException))]
 		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.GetId))]
-		public async ValueTask<User?> ById(
+		public ValueTask<User?> ById(
 			[ID(nameof(User))] long id,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
-			=> await User.GetUser(id, userAuthority, cancellationToken);
+			=> User.GetUser(id, userAuthority, cancellationToken);
 
 		/// <summary>
-		/// Lists all registered <see cref="User"/>s.
+		/// Queries all registered <see cref="User"/>s.
 		/// </summary>
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
-		/// <returns>A list of all registered <see cref="User"/>s.</returns>
+		/// <returns>A <see cref="IQueryable{T}"/> of all registered <see cref="User"/>s.</returns>
 		[UsePaging]
 		[UseFiltering]
 		[UseSorting]

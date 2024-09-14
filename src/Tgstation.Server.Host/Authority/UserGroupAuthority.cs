@@ -51,13 +51,18 @@ namespace Tgstation.Server.Host.Authority
 		/// Initializes a new instance of the <see cref="UserGroupAuthority"/> class.
 		/// </summary>
 		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> to use.</param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to use.</param>
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
 		/// <param name="userGroupsDataLoader">The value of <see cref="userGroupsDataLoader"/>.</param>
 		public UserGroupAuthority(
 			IAuthenticationContext authenticationContext,
+			IDatabaseContext databaseContext,
 			ILogger<UserGroupAuthority> logger,
 			IUserGroupsDataLoader userGroupsDataLoader)
-			: base(authenticationContext, logger)
+			: base(
+				  authenticationContext,
+				  databaseContext,
+				  logger)
 		{
 			this.userGroupsDataLoader = userGroupsDataLoader ?? throw new ArgumentNullException(nameof(userGroupsDataLoader));
 		}
@@ -74,5 +79,21 @@ namespace Tgstation.Server.Host.Authority
 
 			return new AuthorityResponse<UserGroup>(userGroup);
 		}
+
+		/// <inheritdoc />
+		public ValueTask<AuthorityResponse<UserGroup>> Read()
+		{
+			var group = AuthenticationContext.User!.Group;
+			if (group == null)
+				return ValueTask.FromResult(NotFound<UserGroup>());
+
+			return ValueTask.FromResult(new AuthorityResponse<UserGroup>(group));
+		}
+
+		/// <inheritdoc />
+		public IQueryable<UserGroup> Queryable()
+			=> DatabaseContext
+				.Groups
+				.AsQueryable();
 	}
 }

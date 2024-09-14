@@ -32,11 +32,6 @@ namespace Tgstation.Server.Host.Authority
 		readonly ISystemIdentityFactory systemIdentityFactory;
 
 		/// <summary>
-		/// The <see cref="IDatabaseContext"/> for the <see cref="LoginAuthority"/>.
-		/// </summary>
-		readonly IDatabaseContext databaseContext;
-
-		/// <summary>
 		/// The <see cref="IOAuthProviders"/> for the <see cref="LoginAuthority"/>.
 		/// </summary>
 		readonly IOAuthProviders oAuthProviders;
@@ -102,29 +97,31 @@ namespace Tgstation.Server.Host.Authority
 		/// Initializes a new instance of the <see cref="LoginAuthority"/> class.
 		/// </summary>
 		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> to use.</param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to use.</param>
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
 		/// <param name="apiHeadersProvider">The value of <see cref="apiHeadersProvider"/>.</param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
-		/// <param name="databaseContext">The value of <see cref="databaseContext"/>.</param>
 		/// <param name="oAuthProviders">The value of <see cref="oAuthProviders"/>.</param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/>.</param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/>.</param>
 		public LoginAuthority(
 			IAuthenticationContext authenticationContext,
+			IDatabaseContext databaseContext,
 			ILogger<LoginAuthority> logger,
 			IApiHeadersProvider apiHeadersProvider,
 			ISystemIdentityFactory systemIdentityFactory,
-			IDatabaseContext databaseContext,
 			IOAuthProviders oAuthProviders,
 			ITokenFactory tokenFactory,
 			ICryptographySuite cryptographySuite,
 			IIdentityCache identityCache)
-			: base(authenticationContext, logger)
+			: base(
+				  authenticationContext,
+				  databaseContext,
+				  logger)
 		{
 			this.apiHeadersProvider = apiHeadersProvider ?? throw new ArgumentNullException(nameof(apiHeadersProvider));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
-			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			this.oAuthProviders = oAuthProviders ?? throw new ArgumentNullException(nameof(oAuthProviders));
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
@@ -158,7 +155,7 @@ namespace Tgstation.Server.Host.Authority
 			using (systemIdentity)
 			{
 				// Get the user from the database
-				IQueryable<User> query = databaseContext.Users.AsQueryable();
+				IQueryable<User> query = DatabaseContext.Users.AsQueryable();
 				if (oAuthLogin)
 				{
 					var oAuthProvider = headers.OAuthProvider!.Value;
@@ -228,9 +225,9 @@ namespace Tgstation.Server.Host.Authority
 							{
 								Id = user.Id,
 							};
-							databaseContext.Users.Attach(updatedUser);
+							DatabaseContext.Users.Attach(updatedUser);
 							updatedUser.PasswordHash = user.PasswordHash;
-							await databaseContext.Save(cancellationToken);
+							await DatabaseContext.Save(cancellationToken);
 						}
 					}
 					else
@@ -238,7 +235,7 @@ namespace Tgstation.Server.Host.Authority
 						var usernameMismatch = systemIdentity!.Username != user.Name;
 						if (isLikelyDbUser || usernameMismatch)
 						{
-							databaseContext.Users.Attach(user);
+							DatabaseContext.Users.Attach(user);
 							if (isLikelyDbUser)
 							{
 								// cleanup from https://github.com/tgstation/tgstation-server/issues/1528
@@ -255,7 +252,7 @@ namespace Tgstation.Server.Host.Authority
 								user.CanonicalName = User.CanonicalizeName(user.Name);
 							}
 
-							await databaseContext.Save(cancellationToken);
+							await DatabaseContext.Save(cancellationToken);
 						}
 					}
 
