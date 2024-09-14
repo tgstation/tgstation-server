@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -473,9 +473,9 @@ namespace Tgstation.Server.Tests.Live
 			Assert.IsNull(result.Data.Login.String);
 			Assert.IsNotNull(result.Data.Login.Errors);
 			Assert.AreEqual(1, result.Data.Login.Errors.Count);
-			var castResult = result.Data.Login.Errors.First() is ILogin_Login_Errors_ErrorMessageError loginError;
+			var castResult = result.Data.Login.Errors[0] is ILogin_Login_Errors_ErrorMessageError loginError;
 			Assert.IsTrue(castResult);
-			loginError = (ILogin_Login_Errors_ErrorMessageError)result.Data.Login.Errors.First();
+			loginError = (ILogin_Login_Errors_ErrorMessageError)result.Data.Login.Errors[0];
 			Assert.AreEqual(Client.GraphQL.ErrorCode.BadHeaders, loginError.ErrorCode.Value);
 			Assert.IsNotNull(loginError.Message);
 			Assert.IsNotNull(loginError.AdditionalData);

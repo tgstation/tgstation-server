@@ -80,7 +80,7 @@ namespace Tgstation.Server.Host
 			if (listArgs.Remove("--attach-debugger"))
 				Debugger.Launch();
 
-			args = listArgs.ToArray();
+			args = [.. listArgs];
 			return potentialUpdatePath;
 		}
 

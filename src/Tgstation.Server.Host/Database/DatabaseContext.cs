@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -263,7 +263,7 @@ namespace Tgstation.Server.Host.Database
 				ConfigureMethodName,
 				BindingFlags.Public | BindingFlags.Static)
 				?? throw new InvalidOperationException($"Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!");
-			return (optionsBuilder, config) => configureFunction.Invoke(null, new object[] { optionsBuilder, config });
+			return (optionsBuilder, config) => configureFunction.Invoke(null, [optionsBuilder, config]);
 		}
 
 		/// <summary>
