@@ -61,5 +61,27 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			var dtoQueryable = userGroupAuthority.InvokeTransformableQueryable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(authority => authority.Queryable());
 			return dtoQueryable;
 		}
+
+		/// <summary>
+		/// Queries all registered <see cref="User"/>s in a <see cref="UserGroup"/> indicated by <paramref name="groupId"/>.
+		/// </summary>
+		/// <param name="groupId">The <see cref="UserGroup"/> <see cref="Entity.Id"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <returns>A <see cref="IQueryable{T}"/> of all registered <see cref="User"/>s in the <see cref="UserGroup"/> indicated by <paramref name="groupId"/>.</returns>
+		[UsePaging]
+		[UseFiltering]
+		[UseSorting]
+		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserAuthority.Queryable))]
+		public IQueryable<User>? UsersQueryable(
+			[ID(nameof(UserGroup))]long groupId,
+			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
+		{
+			ArgumentNullException.ThrowIfNull(userAuthority);
+			var dtoQueryable = userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(
+				authority => authority
+					.Queryable(false)
+					.Where(user => user.GroupId == groupId));
+			return dtoQueryable;
+		}
 	}
 }
