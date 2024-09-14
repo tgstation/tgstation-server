@@ -27,7 +27,12 @@ namespace Tgstation.Server.Host.Authority
 		/// <summary>
 		/// The <see cref="IUsersDataLoader"/> for the <see cref="UserAuthority"/>.
 		/// </summary>
-		readonly IUsersDataLoader dataLoader;
+		readonly IUsersDataLoader usersDataLoader;
+
+		/// <summary>
+		/// The <see cref="IOAuthConnectionsDataLoader"/> for the <see cref="UserAuthority"/>.
+		/// </summary>
+		readonly IOAuthConnectionsDataLoader oAuthConnectionsDataLoader;
 
 		/// <summary>
 		/// The <see cref="IAuthenticationContext"/> for the <see cref="UserAuthority"/>.
@@ -35,7 +40,7 @@ namespace Tgstation.Server.Host.Authority
 		readonly IAuthenticationContext authenticationContext;
 
 		/// <summary>
-		/// Implements the <see cref="dataLoader"/>.
+		/// Implements the <see cref="usersDataLoader"/>.
 		/// </summary>
 		/// <param name="ids">The <see cref="IReadOnlyCollection{T}"/> of <see cref="User"/> <see cref="Api.Models.EntityId.Id"/>s to load.</param>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to load from.</param>
@@ -58,21 +63,51 @@ namespace Tgstation.Server.Host.Authority
 		}
 
 		/// <summary>
+		/// Implements the <see cref="usersDataLoader"/>.
+		/// </summary>
+		/// <param name="userIds">The <see cref="IReadOnlyCollection{T}"/> of <see cref="User"/> <see cref="Api.Models.EntityId.Id"/>s to load the OAuthConnections for.</param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to load from.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of the requested <see cref="User"/>s.</returns>
+		[DataLoader]
+		public static async ValueTask<ILookup<long, GraphQL.Types.OAuthConnection>> GetOAuthConnections(
+			IReadOnlyList<long> userIds,
+			IDatabaseContext databaseContext,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(userIds);
+			ArgumentNullException.ThrowIfNull(databaseContext);
+
+			var list = await databaseContext
+				.OAuthConnections
+				.AsQueryable()
+				.Where(x => userIds.Contains(x.User!.Id!.Value))
+				.ToListAsync(cancellationToken);
+
+			return list.ToLookup(
+				oauthConnection => oauthConnection.UserId,
+				x => new GraphQL.Types.OAuthConnection(x.ExternalUserId!, x.Provider));
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="UserAuthority"/> class.
 		/// </summary>
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/>.</param>
-		/// <param name="dataLoader">The value of <see cref="dataLoader"/>.</param>
+		/// <param name="usersDataLoader">The value of <see cref="usersDataLoader"/>.</param>
+		/// <param name="oAuthConnectionsDataLoader">The value of <see cref="oAuthConnectionsDataLoader"/>.</param>
 		/// <param name="authenticationContext">The value of <see cref="authenticationContext"/>.</param>
 		public UserAuthority(
 			ILogger<UserAuthority> logger,
 			IDatabaseContext databaseContext,
-			IUsersDataLoader dataLoader,
+			IUsersDataLoader usersDataLoader,
+			IOAuthConnectionsDataLoader oAuthConnectionsDataLoader,
 			IAuthenticationContext authenticationContext)
 			: base(logger)
 		{
 			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
-			this.dataLoader = dataLoader ?? throw new ArgumentNullException(nameof(dataLoader));
+			this.usersDataLoader = usersDataLoader ?? throw new ArgumentNullException(nameof(usersDataLoader));
+			this.oAuthConnectionsDataLoader = oAuthConnectionsDataLoader ?? throw new ArgumentNullException(nameof(oAuthConnectionsDataLoader));
 			this.authenticationContext = authenticationContext ?? throw new ArgumentNullException(nameof(authenticationContext));
 		}
 
@@ -93,7 +128,7 @@ namespace Tgstation.Server.Host.Authority
 					cancellationToken);
 			}
 			else
-				user = await dataLoader.LoadAsync(id, cancellationToken);
+				user = await usersDataLoader.LoadAsync(id, cancellationToken);
 
 			if (user == default)
 				return NotFound<User>();
@@ -107,6 +142,11 @@ namespace Tgstation.Server.Host.Authority
 		/// <inheritdoc />
 		public IQueryable<User> Queryable(bool includeJoins)
 			=> Queryable(includeJoins, false);
+
+		/// <inheritdoc />
+		public async ValueTask<AuthorityResponse<GraphQL.Types.OAuthConnection[]>> OAuthConnections(long userId, CancellationToken cancellationToken)
+			=> new AuthorityResponse<GraphQL.Types.OAuthConnection[]>(
+				await oAuthConnectionsDataLoader.LoadRequiredAsync(userId, cancellationToken));
 
 		/// <summary>
 		/// Gets all registered <see cref="User"/>s.

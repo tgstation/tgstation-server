@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -94,9 +93,17 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// List of <see cref="OAuthConnection"/>s associated with the user if OAuth is configured.
 		/// </summary>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="List{T}"/> of <see cref="OAuthConnection"/>s for the <see cref="User"/> if OAuth is configured.</returns>
-		public ValueTask<List<OAuthConnection>>? OAuthConnections()
-			=> throw new NotImplementedException();
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="Array"/> of <see cref="OAuthConnection"/>s for the <see cref="User"/> if OAuth is configured.</returns>
+		public async ValueTask<OAuthConnection[]> OAuthConnections(
+			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(userAuthority);
+			return (await userAuthority.Invoke<OAuthConnection[], OAuthConnection[]>(
+				authority => authority.OAuthConnections(Id, cancellationToken)))!;
+		}
 
 		/// <summary>
 		/// The <see cref="Types.PermissionSet"/> directly associated with the <see cref="User"/>, if any.

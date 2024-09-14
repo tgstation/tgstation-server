@@ -9,6 +9,11 @@
 		public long Id { get; set; }
 
 		/// <summary>
+		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="User"/>.
+		/// </summary>
+		public long UserId { get; set; }
+
+		/// <summary>
 		/// The owning <see cref="Models.User"/>.
 		/// </summary>
 		public User? User { get; set; }
