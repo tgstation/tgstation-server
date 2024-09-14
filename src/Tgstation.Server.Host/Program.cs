@@ -44,31 +44,44 @@ namespace Tgstation.Server.Host
 		public static async Task<int> Main(string[] args)
 		{
 			// first arg is 100% always the update path, starting it otherwise is solely for debugging purposes
-			string? updatePath = null;
-			if (args.Length > 0)
-			{
-				var listArgs = new List<string>(args);
-				updatePath = listArgs.First();
-				listArgs.RemoveAt(0);
-
-				// second arg should be host watchdog version
-				if (listArgs.Count > 0)
-				{
-					var expectedHostWatchdogVersion = HostWatchdogVersion;
-					if (Version.TryParse(listArgs.First(), out var actualHostWatchdogVersion)
-						&& actualHostWatchdogVersion.Major != expectedHostWatchdogVersion.Major)
-						throw new InvalidOperationException(
-							$"Incompatible host watchdog version ({actualHostWatchdogVersion}) for server ({expectedHostWatchdogVersion})! A major update was released and a full restart will be required. Please manually offline your servers!");
-				}
-
-				if (listArgs.Remove("--attach-debugger"))
-					Debugger.Launch();
-
-				args = listArgs.ToArray();
-			}
+			var updatePath = TopLevelArgsParse(ref args);
 
 			var program = new Program();
 			return (int)await program.Main(args, updatePath);
+		}
+
+		/// <summary>
+		/// Parse <see cref="Program"/> top level <paramref name="args"/>.
+		/// </summary>
+		/// <param name="args">The arguments <see cref="Array"/> which may be changed.</param>
+		/// <returns>The update path for the server, if present.</returns>
+		static string? TopLevelArgsParse(ref string[] args)
+		{
+			if (args.Length == 0)
+				return null;
+
+			var potentialUpdatePath = args[0];
+			if (potentialUpdatePath.Equals("cli", StringComparison.OrdinalIgnoreCase))
+				return null;
+
+			var listArgs = new List<string>(args);
+			listArgs.RemoveAt(0);
+
+			// second arg should be host watchdog version
+			if (listArgs.Count > 0)
+			{
+				var expectedHostWatchdogVersion = HostWatchdogVersion;
+				if (Version.TryParse(listArgs.First(), out var actualHostWatchdogVersion)
+					&& actualHostWatchdogVersion.Major != expectedHostWatchdogVersion.Major)
+					throw new InvalidOperationException(
+						$"Incompatible host watchdog version ({actualHostWatchdogVersion}) for server ({expectedHostWatchdogVersion})! A major update was released and a full restart will be required. Please manually offline your servers!");
+			}
+
+			if (listArgs.Remove("--attach-debugger"))
+				Debugger.Launch();
+
+			args = listArgs.ToArray();
+			return potentialUpdatePath;
 		}
 
 		/// <summary>
