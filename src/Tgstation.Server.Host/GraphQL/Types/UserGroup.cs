@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 using HotChocolate;
-using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 using Tgstation.Server.Host.Authority;
 
@@ -52,13 +50,5 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			return (await permissionSetAuthority.InvokeTransformable<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
 				authority => authority.GetId(Id, PermissionSetLookupType.GroupId, cancellationToken)))!;
 		}
-
-		/// <summary>
-		/// Gets the <see cref="User"/>s in the <see cref="UserGroup"/>.
-		/// </summary>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="List{T}"/> of <see cref="User"/>s in the <see cref="UserGroup"/>.</returns>
-		[UsePaging(IncludeTotalCount = true)]
-		public List<User> Users()
-			=> throw new NotImplementedException();
 	}
 }
