@@ -11,7 +11,6 @@
 		public PermissionSetGraphQLTransformer()
 			: base(model => new GraphQL.Types.PermissionSet
 			{
-				Id = model.Id!.Value,
 				AdministrationRights = model.AdministrationRights!.Value,
 				InstanceManagerRights = model.InstanceManagerRights!.Value,
 			})
