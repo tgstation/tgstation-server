@@ -108,11 +108,49 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		}
 
 		/// <summary>
-		/// The <see cref="Types.PermissionSet"/> directly associated with the <see cref="User"/>, if any.
+		/// The <see cref="PermissionSet"/> associated with the <see cref="User"/>.
 		/// </summary>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="Types.PermissionSet"/> directly associated with the <see cref="User"/>, if any.</returns>
-		public ValueTask<PermissionSet?> PermissionSet()
-			=> throw new NotImplementedException();
+		/// <param name="permissionSetAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IPermissionSetAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="PermissionSet"/> associated with the <see cref="User"/>.</returns>
+		public async ValueTask<PermissionSet> EffectivePermissionSet(
+			[Service] IGraphQLAuthorityInvoker<IPermissionSetAuthority> permissionSetAuthority,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(permissionSetAuthority);
+
+			long lookupId;
+			PermissionSetLookupType lookupType;
+			if (GroupId.HasValue)
+			{
+				lookupId = GroupId.Value;
+				lookupType = PermissionSetLookupType.GroupId;
+			}
+			else
+			{
+				lookupId = Id;
+				lookupType = PermissionSetLookupType.UserId;
+			}
+
+			return (await permissionSetAuthority.InvokeTransformable<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
+				authority => authority.GetId(lookupId, lookupType, cancellationToken)))!;
+		}
+
+		/// <summary>
+		/// The <see cref="PermissionSet"/> owned by the <see cref="User"/>, if any.
+		/// </summary>
+		/// <param name="permissionSetAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IPermissionSetAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="PermissionSet"/> owned by the <see cref="User"/>, if any.</returns>
+		public ValueTask<PermissionSet?> OwnedPermissionSet(
+			[Service] IGraphQLAuthorityInvoker<IPermissionSetAuthority> permissionSetAuthority,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(permissionSetAuthority);
+
+			return permissionSetAuthority.InvokeTransformable<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
+				authority => authority.GetId(Id, PermissionSetLookupType.UserId, cancellationToken));
+		}
 
 		/// <summary>
 		/// The <see cref="UserGroup"/> asociated with the user, if any.

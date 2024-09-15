@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
@@ -299,6 +299,8 @@ namespace Tgstation.Server.Host.Core
 					.ModifyOptions(options =>
 					{
 						options.EnsureAllNodesCanBeResolved = true;
+						options.EnableFlagEnums = true;
+					})
 					})
 					.AddMutationConventions()
 					.AddGlobalObjectIdentification()
@@ -466,6 +468,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddScoped<ILoginAuthority, LoginAuthority>();
 			services.AddScoped<IUserAuthority, UserAuthority>();
 			services.AddScoped<IUserGroupAuthority, UserGroupAuthority>();
+			services.AddScoped<IPermissionSetAuthority, PermissionSetAuthority>();
 
 			// configure misc services
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
