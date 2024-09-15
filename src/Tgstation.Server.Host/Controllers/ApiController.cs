@@ -337,7 +337,7 @@ namespace Tgstation.Server.Host.Controllers
 			else
 			{
 				totalResults = paginationResult.Results.Count();
-				pagedResults = queriedResults.ToList();
+				pagedResults = [.. queriedResults];
 			}
 
 			ICollection<TResultModel> finalResults;

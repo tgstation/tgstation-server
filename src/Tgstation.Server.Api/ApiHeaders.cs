@@ -76,7 +76,7 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// A <see cref="char"/> <see cref="Array"/> containing the ':' <see cref="char"/>.
 		/// </summary>
-		static readonly char[] ColonSeparator = new char[] { ':' };
+		static readonly char[] ColonSeparator = [':'];
 
 		/// <summary>
 		/// The instance <see cref="EntityId.Id"/> being accessed.
