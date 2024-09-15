@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
@@ -301,7 +301,12 @@ namespace Tgstation.Server.Host.Core
 						options.EnsureAllNodesCanBeResolved = true;
 						options.EnableFlagEnums = true;
 					})
+#if DEBUG
+					.ModifyCostOptions(options =>
+					{
+						options.EnforceCostLimits = false;
 					})
+#endif
 					.AddMutationConventions()
 					.AddGlobalObjectIdentification()
 					.AddQueryFieldToMutationPayloads()
