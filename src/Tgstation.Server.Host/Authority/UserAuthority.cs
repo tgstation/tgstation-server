@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <summary>
 		/// Implements the <see cref="usersDataLoader"/>.
 		/// </summary>
-		/// <param name="ids">The <see cref="IReadOnlyCollection{T}"/> of <see cref="User"/> <see cref="Api.Models.EntityId.Id"/>s to load.</param>
+		/// <param name="ids">The <see cref="IReadOnlyList{T}"/> of <see cref="User"/> <see cref="Api.Models.EntityId.Id"/>s to load.</param>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to load from.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of the requested <see cref="User"/>s.</returns>
