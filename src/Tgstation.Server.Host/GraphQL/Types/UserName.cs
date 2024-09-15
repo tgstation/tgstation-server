@@ -27,19 +27,14 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> resulting in the queried <see cref="UserName"/>, if present.</returns>
 		[TgsGraphQLAuthorize]
-		public static async ValueTask<UserName?> GetUserName(
+		public static ValueTask<UserName?> GetUserName(
 			long id,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			var user = await userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
+			return userAuthority.InvokeTransformableAllowMissing<Models.User, UserName, UserNameGraphQLTransformer>(
 				authority => authority.GetId(id, false, true, cancellationToken));
-
-			if (user == null)
-				return null;
-
-			return new UserName(user);
 		}
 
 		/// <summary>
@@ -49,6 +44,13 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[SetsRequiredMembers]
 		public UserName(NamedEntity copy)
 			: base(copy)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="UserName"/> class.
+		/// </summary>
+		public UserName()
 		{
 		}
 	}

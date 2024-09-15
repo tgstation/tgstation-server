@@ -12,7 +12,8 @@ namespace Tgstation.Server.Host.Models
 	/// <inheritdoc cref="Api.Models.Internal.UserModelBase" />
 	public sealed class User : Api.Models.Internal.UserModelBase,
 		ILegacyApiTransformable<UserResponse>,
-		IApiTransformable<User, GraphQL.Types.User, UserGraphQLTransformer>
+		IApiTransformable<User, GraphQL.Types.User, UserGraphQLTransformer>,
+		IApiTransformable<User, GraphQL.Types.UserName, UserNameGraphQLTransformer>
 	{
 		/// <summary>
 		/// Username used when creating jobs automatically.
