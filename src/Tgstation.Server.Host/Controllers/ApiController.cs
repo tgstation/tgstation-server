@@ -187,17 +187,6 @@ namespace Tgstation.Server.Host.Controllers
 		protected new NotFoundObjectResult NotFound() => NotFound(new ErrorMessageResponse(ErrorCode.ResourceNeverPresent));
 
 		/// <summary>
-		/// Generic 501 response.
-		/// </summary>
-		/// <param name="ex">The <see cref="NotImplementedException"/> that was thrown.</param>
-		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotImplemented"/>.</returns>
-		protected ObjectResult RequiresPosixSystemIdentity(NotImplementedException ex)
-		{
-			Logger.LogTrace(ex, "System identities not implemented!");
-			return this.StatusCode(HttpStatusCode.NotImplemented, new ErrorMessageResponse(ErrorCode.RequiresPosixSystemIdentity));
-		}
-
-		/// <summary>
 		/// Strongly type calls to <see cref="ControllerBase.StatusCode(int)"/>.
 		/// </summary>
 		/// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>

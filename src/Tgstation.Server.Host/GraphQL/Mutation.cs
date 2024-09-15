@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.GraphQL
 			ArgumentNullException.ThrowIfNull(loginAuthority);
 
 			return loginAuthority.Invoke<LoginPayload, LoginPayload>(
-				authority => authority.AttemptLogin(cancellationToken))!;
+				authority => authority.AttemptLogin(cancellationToken));
 		}
 	}
 }

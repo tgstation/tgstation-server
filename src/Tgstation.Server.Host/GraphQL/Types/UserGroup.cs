@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userGroupAuthority);
-			return userGroupAuthority.InvokeTransformable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(
+			return userGroupAuthority.InvokeTransformableAllowMissing<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(
 				authority => authority.GetId(id, false, cancellationToken));
 		}
 
@@ -50,8 +50,8 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		{
 			ArgumentNullException.ThrowIfNull(permissionSetAuthority);
 
-			return (await permissionSetAuthority.InvokeTransformable<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
-				authority => authority.GetId(Id, PermissionSetLookupType.GroupId, cancellationToken)))!;
+			return await permissionSetAuthority.InvokeTransformable<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
+				authority => authority.GetId(Id, PermissionSetLookupType.GroupId, cancellationToken));
 		}
 
 		/// <summary>

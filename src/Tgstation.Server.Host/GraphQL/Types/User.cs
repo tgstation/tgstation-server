@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
+			return userAuthority.InvokeTransformableAllowMissing<Models.User, User, UserGraphQLTransformer>(
 				authority => authority.GetId(id, false, false, cancellationToken));
 		}
 
@@ -83,9 +83,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 				return null;
 
 			var user = await userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(authority => authority.GetId(CreatedById.Value, false, true, cancellationToken));
-			if (user == null)
-				return null;
-
 			if (user.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 				return new UserName(user);
 
@@ -98,13 +95,13 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="Array"/> of <see cref="OAuthConnection"/>s for the <see cref="User"/> if OAuth is configured.</returns>
-		public async ValueTask<OAuthConnection[]> OAuthConnections(
+		public ValueTask<OAuthConnection[]> OAuthConnections(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			return (await userAuthority.Invoke<OAuthConnection[], OAuthConnection[]>(
-				authority => authority.OAuthConnections(Id, cancellationToken)))!;
+			return userAuthority.Invoke<OAuthConnection[], OAuthConnection[]>(
+				authority => authority.OAuthConnections(Id, cancellationToken));
 		}
 
 		/// <summary>
@@ -113,7 +110,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="permissionSetAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IPermissionSetAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="PermissionSet"/> associated with the <see cref="User"/>.</returns>
-		public async ValueTask<PermissionSet> EffectivePermissionSet(
+		public ValueTask<PermissionSet> EffectivePermissionSet(
 			[Service] IGraphQLAuthorityInvoker<IPermissionSetAuthority> permissionSetAuthority,
 			CancellationToken cancellationToken)
 		{
@@ -132,8 +129,8 @@ namespace Tgstation.Server.Host.GraphQL.Types
 				lookupType = PermissionSetLookupType.UserId;
 			}
 
-			return (await permissionSetAuthority.InvokeTransformable<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
-				authority => authority.GetId(lookupId, lookupType, cancellationToken)))!;
+			return permissionSetAuthority.InvokeTransformable<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
+				authority => authority.GetId(lookupId, lookupType, cancellationToken));
 		}
 
 		/// <summary>
@@ -148,7 +145,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		{
 			ArgumentNullException.ThrowIfNull(permissionSetAuthority);
 
-			return permissionSetAuthority.InvokeTransformable<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
+			return permissionSetAuthority.InvokeTransformableAllowMissing<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
 				authority => authority.GetId(Id, PermissionSetLookupType.UserId, cancellationToken));
 		}
 

@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userGroupAuthority);
-			return userGroupAuthority.InvokeTransformable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(authority => authority.Read());
+			return userGroupAuthority.InvokeTransformableAllowMissing<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(authority => authority.Read());
 		}
 
 		/// <summary>

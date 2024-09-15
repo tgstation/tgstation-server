@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="User"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
-		public ValueTask<AuthorityResponse<UserGroup>> GetId(long id, bool includeJoins, CancellationToken cancellationToken);
+		ValueTask<AuthorityResponse<UserGroup>> GetId(long id, bool includeJoins, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Gets all registered <see cref="UserGroup"/>s.
