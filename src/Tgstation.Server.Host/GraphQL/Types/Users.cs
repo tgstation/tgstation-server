@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UseFiltering]
 		[UseSorting]
 		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Queryable))]
-		public IQueryable<User>? Queryable(
+		public IQueryable<User> QueryableUsers(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);

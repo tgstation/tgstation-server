@@ -54,7 +54,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UseFiltering]
 		[UseSorting]
 		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.Queryable))]
-		public IQueryable<UserGroup>? Queryable(
+		public IQueryable<UserGroup> QueryableGroups(
 			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userGroupAuthority);
@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UseFiltering]
 		[UseSorting]
 		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserAuthority.Queryable))]
-		public IQueryable<User>? UsersQueryable(
+		public IQueryable<User> QueryableUsersByGroupId(
 			[ID(nameof(UserGroup))]long groupId,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
 		{
