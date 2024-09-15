@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// Queries all registered <see cref="User"/>s in the <see cref="UserGroup"/>.
 		/// </summary>
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
-		/// <returns>A <see cref="IQueryable{T}"/> of all registered <see cref="User"/>s in the <see cref="UserGroup"/> indicated by <paramref name="groupId"/>.</returns>
+		/// <returns>A <see cref="IQueryable{T}"/> of all registered <see cref="User"/>s in the <see cref="UserGroup"/>.</returns>
 		[UsePaging]
 		[UseFiltering]
 		[UseSorting]
