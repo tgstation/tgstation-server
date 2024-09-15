@@ -652,12 +652,16 @@ namespace Tgstation.Server.Host.Core
 				if (internalConfiguration.EnableGraphQL)
 				{
 					logger.LogWarning("Enabling GraphQL. This API is experimental and breaking changes may occur at any time!");
+					var gqlOptions = new GraphQLServerOptions
+					{
+						EnableBatching = true,
+					};
+
+					gqlOptions.Tool.Enable = generalConfiguration.HostApiDocumentation;
+
 					endpoints
 						.MapGraphQL(Routes.GraphQL)
-						.WithOptions(new GraphQLServerOptions
-						{
-							EnableBatching = true,
-						});
+						.WithOptions(gqlOptions);
 				}
 			});
 
