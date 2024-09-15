@@ -179,7 +179,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="UserGroup"/>s successfully.</response>
 		[HttpGet(Routes.List)]
-		[TgsAuthorize(AdministrationRights.ReadUsers)]
+		[TgsRestAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.Queryable))]
 		[ProducesResponseType(typeof(PaginatedResponse<UserGroupResponse>), 200)]
 		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<UserGroup, UserGroupResponse>(
