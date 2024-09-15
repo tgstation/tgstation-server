@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userGroupAuthority);
-			var dtoQueryable = userGroupAuthority.InvokeTransformableQueryable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(authority => authority.Queryable());
+			var dtoQueryable = userGroupAuthority.InvokeTransformableQueryable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(authority => authority.Queryable(false));
 			return dtoQueryable;
 		}
 

@@ -167,7 +167,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 				return null;
 
 			return await userGroupAuthority.InvokeTransformable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(
-				authority => authority.GetId(GroupId.Value, cancellationToken));
+				authority => authority.GetId(GroupId.Value, false, cancellationToken));
 		}
 	}
 }

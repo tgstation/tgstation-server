@@ -68,12 +68,19 @@ namespace Tgstation.Server.Host.Authority
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<AuthorityResponse<UserGroup>> GetId(long id, CancellationToken cancellationToken)
+		public async ValueTask<AuthorityResponse<UserGroup>> GetId(long id, bool includeJoins, CancellationToken cancellationToken)
 		{
 			if (id != AuthenticationContext.User.GroupId && !((AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration)).HasFlag(AdministrationRights.ReadUsers))
 				return Forbid<UserGroup>();
 
-			var userGroup = await userGroupsDataLoader.LoadAsync(id, cancellationToken);
+			UserGroup? userGroup;
+			if (includeJoins)
+				userGroup = await Queryable(true)
+					.Where(x => x.Id == id)
+					.FirstOrDefaultAsync(cancellationToken);
+			else
+				userGroup = await userGroupsDataLoader.LoadAsync(id, cancellationToken);
+
 			if (userGroup == null)
 				return NotFound<UserGroup>();
 
@@ -91,9 +98,18 @@ namespace Tgstation.Server.Host.Authority
 		}
 
 		/// <inheritdoc />
-		public IQueryable<UserGroup> Queryable()
-			=> DatabaseContext
+		public IQueryable<UserGroup> Queryable(bool includeJoins)
+		{
+			var queryable = DatabaseContext
 				.Groups
 				.AsQueryable();
+
+			if (includeJoins)
+				queryable = queryable
+					.Include(x => x.Users)
+					.Include(x => x.PermissionSet);
+
+			return queryable;
+		}
 	}
 }

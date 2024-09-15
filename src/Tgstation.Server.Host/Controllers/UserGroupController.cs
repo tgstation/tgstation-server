@@ -167,20 +167,8 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsRestAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.GetId))]
 		[ProducesResponseType(typeof(UserGroupResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public async ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
-		{
-			// this functions as userId
-			var group = await DatabaseContext
-				.Groups
-				.AsQueryable()
-				.Where(x => x.Id == id)
-				.Include(x => x.Users)
-				.Include(x => x.PermissionSet)
-				.FirstOrDefaultAsync(cancellationToken);
-			if (group == default)
-				return this.Gone();
-			return Json(group.ToApi(true));
-		}
+		public ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
+			=> userGroupAuthority.InvokeTransformable<UserGroup, UserGroupResponse>(this, authority => authority.GetId(id, true, cancellationToken));
 
 		/// <summary>
 		/// Lists all <see cref="UserGroup"/>s.
@@ -197,11 +185,8 @@ namespace Tgstation.Server.Host.Controllers
 			=> Paginated<UserGroup, UserGroupResponse>(
 				() => ValueTask.FromResult(
 					new PaginatableResult<UserGroup>(
-						DatabaseContext
-							.Groups
-							.AsQueryable()
-							.Include(x => x.Users)
-							.Include(x => x.PermissionSet)
+						userGroupAuthority
+							.InvokeQueryable(authority => authority.Queryable(true))
 							.OrderBy(x => x.Id))),
 				null,
 				page,

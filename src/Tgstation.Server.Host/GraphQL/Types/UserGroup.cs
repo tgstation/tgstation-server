@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		{
 			ArgumentNullException.ThrowIfNull(userGroupAuthority);
 			return userGroupAuthority.InvokeTransformable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(
-				authority => authority.GetId(id, cancellationToken));
+				authority => authority.GetId(id, false, cancellationToken));
 		}
 
 		/// <summary>

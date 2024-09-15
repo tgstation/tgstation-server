@@ -24,16 +24,18 @@ namespace Tgstation.Server.Host.Authority
 		/// Gets the <see cref="UserGroup"/> with a given <paramref name="id"/>.
 		/// </summary>
 		/// <param name="id">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="UserGroup"/>.</param>
+		/// <param name="includeJoins">If related entities should be loaded.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="User"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
-		public ValueTask<AuthorityResponse<UserGroup>> GetId(long id, CancellationToken cancellationToken);
+		public ValueTask<AuthorityResponse<UserGroup>> GetId(long id, bool includeJoins, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Gets all registered <see cref="UserGroup"/>s.
 		/// </summary>
+		/// <param name="includeJoins">If related entities should be loaded.</param>
 		/// <returns>A <see cref="IQueryable{T}"/> of <see cref="UserGroup"/>s.</returns>
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
-		IQueryable<UserGroup> Queryable();
+		IQueryable<UserGroup> Queryable(bool includeJoins);
 	}
 }
