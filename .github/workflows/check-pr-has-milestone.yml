@@ -13,6 +13,7 @@ concurrency:
 
 jobs:
   fail-on-bad-milestone:
+    if: github.event.pull_request.draft != true
     name: Fail if Pull Request has no Associated Version Milestone
     runs-on: ubuntu-latest
     steps:
