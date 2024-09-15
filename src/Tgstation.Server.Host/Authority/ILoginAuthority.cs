@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 using Tgstation.Server.Host.Authority.Core;
-using Tgstation.Server.Host.GraphQL.Mutations;
+using Tgstation.Server.Host.GraphQL.Mutations.Payloads;
 
 namespace Tgstation.Server.Host.Authority
 {

@@ -1,9 +1,8 @@
 ﻿using HotChocolate;
-
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.GraphQL.Mutations
+namespace Tgstation.Server.Host.GraphQL.Mutations.Payloads
 {
 	/// <summary>
 	/// Success response for a login attempt.

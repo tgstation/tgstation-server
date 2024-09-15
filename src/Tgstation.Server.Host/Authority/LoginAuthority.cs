@@ -11,7 +11,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.GraphQL.Mutations;
+using Tgstation.Server.Host.GraphQL.Mutations.Payloads;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Models.Transformers;
 using Tgstation.Server.Host.Security;

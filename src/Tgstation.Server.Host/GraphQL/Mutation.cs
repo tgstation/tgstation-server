@@ -6,7 +6,7 @@ using HotChocolate;
 using HotChocolate.Types;
 
 using Tgstation.Server.Host.Authority;
-using Tgstation.Server.Host.GraphQL.Mutations;
+using Tgstation.Server.Host.GraphQL.Mutations.Payloads;
 
 namespace Tgstation.Server.Host.GraphQL
 {
@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.GraphQL
 	public sealed class Mutation
 	{
 		/// <summary>
-		/// Generate JWT for authenticating with server.
+		/// Generate a JWT for authenticating with server. This is the only operation that accepts and required basic authentication.
 		/// </summary>
 		/// <param name="loginAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="ILoginAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
