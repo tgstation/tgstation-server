@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using HotChocolate;
+using HotChocolate.Data;
+using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 using Tgstation.Server.Host.Authority;
 
@@ -49,6 +52,26 @@ namespace Tgstation.Server.Host.GraphQL.Types
 
 			return (await permissionSetAuthority.InvokeTransformable<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
 				authority => authority.GetId(Id, PermissionSetLookupType.GroupId, cancellationToken)))!;
+		}
+
+		/// <summary>
+		/// Queries all registered <see cref="User"/>s in the <see cref="UserGroup"/>.
+		/// </summary>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <returns>A <see cref="IQueryable{T}"/> of all registered <see cref="User"/>s in the <see cref="UserGroup"/> indicated by <paramref name="groupId"/>.</returns>
+		[UsePaging]
+		[UseFiltering]
+		[UseSorting]
+		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserAuthority.Queryable))]
+		public IQueryable<User> QueryableUsersByGroup(
+			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
+		{
+			ArgumentNullException.ThrowIfNull(userAuthority);
+			var dtoQueryable = userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(
+				authority => authority
+					.Queryable(false)
+					.Where(user => user.GroupId == Id));
+			return dtoQueryable;
 		}
 	}
 }
