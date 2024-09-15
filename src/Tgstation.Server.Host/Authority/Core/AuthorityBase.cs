@@ -58,6 +58,16 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// </summary>
 		/// <typeparam name="TResult">The <see cref="Type"/> of the <see cref="AuthorityResponse{TResult}.Result"/>.</typeparam>
 		/// <returns>A new, errored <see cref="AuthorityResponse{TResult}"/>.</returns>
+		protected static AuthorityResponse<TResult> Gone<TResult>()
+			=> new(
+				new ErrorMessageResponse(),
+				HttpFailureResponse.Gone);
+
+		/// <summary>
+		/// Generates a <see cref="HttpFailureResponse.Forbidden"/> type <see cref="AuthorityResponse{TResult}"/>.
+		/// </summary>
+		/// <typeparam name="TResult">The <see cref="Type"/> of the <see cref="AuthorityResponse{TResult}.Result"/>.</typeparam>
+		/// <returns>A new, errored <see cref="AuthorityResponse{TResult}"/>.</returns>
 		protected static AuthorityResponse<TResult> Forbid<TResult>()
 			=> new(
 				new ErrorMessageResponse(),
@@ -72,6 +82,17 @@ namespace Tgstation.Server.Host.Authority.Core
 			=> new(
 				new ErrorMessageResponse(),
 				HttpFailureResponse.NotFound);
+
+		/// <summary>
+		/// Generates a <see cref="HttpFailureResponse.Conflict"/> type <see cref="AuthorityResponse{TResult}"/>.
+		/// </summary>
+		/// <typeparam name="TResult">The <see cref="Type"/> of the <see cref="AuthorityResponse{TResult}.Result"/>.</typeparam>
+		/// <param name="errorCode">The <see cref="ErrorCode"/>.</param>
+		/// <returns>A new, errored <see cref="AuthorityResponse{TResult}"/>.</returns>
+		protected static AuthorityResponse<TResult> Conflict<TResult>(ErrorCode errorCode)
+			=> new(
+				new ErrorMessageResponse(errorCode),
+				HttpFailureResponse.Conflict);
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthorityBase"/> class.

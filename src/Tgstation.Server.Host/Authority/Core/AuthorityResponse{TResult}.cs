@@ -13,9 +13,15 @@ namespace Tgstation.Server.Host.Authority.Core
 	public sealed class AuthorityResponse<TResult> : AuthorityResponse
 	{
 		/// <inheritdoc />
-		[MemberNotNullWhen(true, nameof(Result))]
-		[MemberNotNullWhen(true, nameof(SuccessResponse))]
+		[MemberNotNullWhen(true, nameof(IsNoContent))]
 		public override bool Success => base.Success;
+
+		/// <summary>
+		/// Checks if a the <see cref="AuthorityResponse{TResult}"/> is a no content result. Only set on <see cref="Success"/>.
+		/// </summary>
+		[MemberNotNullWhen(false, nameof(Result))]
+		[MemberNotNullWhen(false, nameof(Result))]
+		public bool? IsNoContent => Success ? Result == null : null;
 
 		/// <summary>
 		/// The success <typeparamref name="TResult"/>.
@@ -46,6 +52,14 @@ namespace Tgstation.Server.Host.Authority.Core
 		{
 			Result = result ?? throw new ArgumentNullException(nameof(result));
 			SuccessResponse = httpResponse;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AuthorityResponse{TResult}"/> class.
+		/// </summary>
+		/// <remarks>This generates an HTTP 204 response.</remarks>
+		public AuthorityResponse()
+		{
 		}
 	}
 }

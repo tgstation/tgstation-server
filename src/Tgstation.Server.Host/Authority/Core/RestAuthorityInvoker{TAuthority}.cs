@@ -14,18 +14,22 @@ namespace Tgstation.Server.Host.Authority.Core
 		where TAuthority : IAuthority
 	{
 		/// <summary>
-		/// Create an <see cref="IActionResult"/> for a given successfuly <paramref name="authorityResponse"/> API <paramref name="result"/>.
+		/// Create an <see cref="IActionResult"/> for a given successfuly<paramref name="authorityResponse"/>.
 		/// </summary>
 		/// <param name="controller">The <see cref="ApiController"/> to use.</param>
-		/// <param name="result">The resulting <typeparamref name="TApiModel"/> from the <paramref name="authorityResponse"/>.</param>
+		/// <param name="resultTransformer">A <see cref="Func{T, TResult}"/> transforming the <typeparamref name="TResult"/> from the <paramref name="authorityResponse"/> into the <typeparamref name="TApiModel"/>.</param>
 		/// <param name="authorityResponse">The <see cref="AuthorityResponse{TResult}"/>.</param>
 		/// <returns>An <see cref="IActionResult"/> for the <paramref name="authorityResponse"/>.</returns>
 		/// <typeparam name="TResult">The result <see cref="Type"/> returned in the <paramref name="authorityResponse"/>.</typeparam>
 		/// <typeparam name="TApiModel">The REST API result model built from <paramref name="authorityResponse"/>.</typeparam>
-		static IActionResult CreateSuccessfulActionResult<TResult, TApiModel>(ApiController controller, TApiModel result, AuthorityResponse<TResult> authorityResponse)
+		static IActionResult CreateSuccessfulActionResult<TResult, TApiModel>(ApiController controller, Func<TResult, TApiModel> resultTransformer, AuthorityResponse<TResult> authorityResponse)
 			where TApiModel : notnull
 		{
+			if (authorityResponse.IsNoContent!.Value)
+				return controller.NoContent();
+
 			var successResponse = authorityResponse.SuccessResponse;
+			var result = resultTransformer(authorityResponse.Result!);
 			return successResponse switch
 			{
 				HttpSuccessResponse.Ok => controller.Json(result),
@@ -95,8 +99,7 @@ namespace Tgstation.Server.Host.Authority.Core
 			if (erroredResult != null)
 				return erroredResult;
 
-			var result = authorityResponse.Result!;
-			return CreateSuccessfulActionResult(controller, result, authorityResponse);
+			return CreateSuccessfulActionResult(controller, result => result, authorityResponse);
 		}
 
 		/// <inheritdoc />
@@ -110,9 +113,7 @@ namespace Tgstation.Server.Host.Authority.Core
 			if (erroredResult != null)
 				return erroredResult;
 
-			var result = authorityResponse.Result!;
-			var apiModel = result.ToApi();
-			return CreateSuccessfulActionResult(controller, apiModel, authorityResponse);
+			return CreateSuccessfulActionResult(controller, result => result.ToApi(), authorityResponse);
 		}
 	}
 }

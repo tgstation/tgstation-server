@@ -13,11 +13,12 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// Throws a <see cref="ErrorMessageException"/> for errored <paramref name="authorityResponse"/>s.
 		/// </summary>
 		/// <param name="authorityResponse">The potentially errored <paramref name="authorityResponse"/>.</param>
-		static void ThrowGraphQLErrorIfNecessary(AuthorityResponse authorityResponse)
+		/// <param name="errorOnMissing">If an error should be raised for <see cref="HttpFailureResponse.NotFound"/> and <see cref="HttpFailureResponse.Gone"/> failures.</param>
+		static void ThrowGraphQLErrorIfNecessary(AuthorityResponse authorityResponse, bool errorOnMissing)
 		{
 			if (authorityResponse.Success
-				|| authorityResponse.FailureResponse.Value == HttpFailureResponse.NotFound
-				|| authorityResponse.FailureResponse.Value == HttpFailureResponse.Gone)
+				|| ((authorityResponse.FailureResponse.Value == HttpFailureResponse.NotFound
+				|| authorityResponse.FailureResponse.Value == HttpFailureResponse.Gone) && !errorOnMissing))
 				return;
 
 			var fallbackString = authorityResponse.FailureResponse.ToString()!;
@@ -39,33 +40,41 @@ namespace Tgstation.Server.Host.Authority.Core
 			ArgumentNullException.ThrowIfNull(authorityInvoker);
 
 			var authorityResponse = await authorityInvoker(Authority);
-			ThrowGraphQLErrorIfNecessary(authorityResponse);
+			ThrowGraphQLErrorIfNecessary(authorityResponse, true);
 		}
 
 		/// <inheritdoc />
-		async ValueTask<TApiModel?> IGraphQLAuthorityInvoker<TAuthority>.Invoke<TResult, TApiModel>(Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
+		async ValueTask<TApiModel?> IGraphQLAuthorityInvoker<TAuthority>.InvokeAllowMissing<TResult, TApiModel>(Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
 			where TApiModel : default
 		{
 			ArgumentNullException.ThrowIfNull(authorityInvoker);
 
 			var authorityResponse = await authorityInvoker(Authority);
-			ThrowGraphQLErrorIfNecessary(authorityResponse);
+			ThrowGraphQLErrorIfNecessary(authorityResponse, false);
 			return authorityResponse.Result;
 		}
 
 		/// <inheritdoc />
-		async ValueTask<TApiModel?> IGraphQLAuthorityInvoker<TAuthority>.InvokeTransformable<TResult, TApiModel, TTransformer>(Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
+		async ValueTask<TApiModel?> IGraphQLAuthorityInvoker<TAuthority>.InvokeTransformableAllowMissing<TResult, TApiModel, TTransformer>(Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
 			where TApiModel : default
 		{
 			ArgumentNullException.ThrowIfNull(authorityInvoker);
 
 			var authorityResponse = await authorityInvoker(Authority);
-			ThrowGraphQLErrorIfNecessary(authorityResponse);
+			ThrowGraphQLErrorIfNecessary(authorityResponse, false);
 			var result = authorityResponse.Result;
 			if (result == null)
 				return default;
 
 			return result.ToApi();
 		}
+
+		/// <inheritdoc />
+		ValueTask<TApiModel> IGraphQLAuthorityInvoker<TAuthority>.Invoke<TResult, TApiModel>(Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
+			=> ((IGraphQLAuthorityInvoker<TAuthority>)this).InvokeAllowMissing<TResult, TApiModel>(authorityInvoker)!;
+
+		/// <inheritdoc />
+		ValueTask<TApiModel> IGraphQLAuthorityInvoker<TAuthority>.InvokeTransformable<TResult, TApiModel, TTransformer>(Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
+			=> ((IGraphQLAuthorityInvoker<TAuthority>)this).InvokeTransformableAllowMissing<TResult, TApiModel, TTransformer>(authorityInvoker)!;
 	}
 }
