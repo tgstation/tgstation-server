@@ -3837,11 +3837,6 @@ Components:
   - Version: 10.8.0
     Changes:
     - Descriptions:
-      - Added `dmApiValidationMode` to `/api/DreamMaker` request and response model. This enum can either be `0` for validation optional, `1` for validation required, or `2` for validation skipped.
-      - '**Deprecation:** `requireDMApiValidation` in the `/api/DreamMaker` request and response models is now deprecated, use `dmApiValidationMode` instead.'
-      Author: Cyberboss
-      PullRequest: 1923
-    - Descriptions:
       - HTTP 424 will be returned during PUT or POST `/api/Repository` if provided credentials are determined to be invalid.
       - Added error code 108 for if a repository `accessToken` was determined to be for a user different to `accessUser`.
       - 'Repository access credentials can now use GitHub App private keys in a special encoded format: `"TGS_PK_" + (APP_ID OR CLIENT_ID) + ":" + BASE64(APP_PRIVATE_KEY)` (Clients should perform this formatting for users). If this is used, the app name should be set as the username. Required permissions are `contents: read` for cloning, `contents: write` for pushing test merge commits, `pull_requests: write` for posting test merge comments, and `contents: write` + `deployments: write` for enabling GitHub deployments.'
@@ -3849,6 +3844,11 @@ Components:
       - Added `clientCount` field to DreamDaemon response model. Requires game side interop version >= 5.10.0 and watchdog health checks to be enabled to function.
       Author: Cyberboss
       PullRequest: 1920
+    - Descriptions:
+      - Added `dmApiValidationMode` to `/api/DreamMaker` request and response model. This enum can either be `0` for validation optional, `1` for validation required, or `2` for validation skipped.
+      - '**Deprecation:** `requireDMApiValidation` in the `/api/DreamMaker` request and response models is now deprecated, use `dmApiValidationMode` instead.'
+      Author: Cyberboss
+      PullRequest: 1923
   - Version: 10.7.0
     Changes:
     - Descriptions:
