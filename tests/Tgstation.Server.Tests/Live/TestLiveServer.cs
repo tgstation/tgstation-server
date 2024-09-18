@@ -1056,7 +1056,7 @@ namespace Tgstation.Server.Tests.Live
 				if (!String.IsNullOrWhiteSpace(localRepoPath))
 				{
 					await ioManager.CopyDirectory(
-						Enumerable.Empty<string>(),
+						[],
 						(src, dest) =>
 						{
 							if (postWriteHandler.NeedsPostWrite(src))
@@ -1124,7 +1124,7 @@ namespace Tgstation.Server.Tests.Live
 					cancellationToken);
 
 				var scriptsCopyTask = ioManager.CopyDirectory(
-					Enumerable.Empty<string>(),
+					[],
 					(src, dest) =>
 					{
 						if (postWriteHandler.NeedsPostWrite(src))
