@@ -463,11 +463,7 @@ namespace Tgstation.Server.Tests.Live
 		static async Task TestGraphQLLogin(IRestServerClientFactory clientFactory, IRestServerClient restClient, CancellationToken cancellationToken)
 		{
 			await using var gqlClient = new GraphQLServerClientFactory(clientFactory).CreateUnauthenticated(restClient.Url);
-			IOperationResult<ILoginResult> result = null;
-			await gqlClient.RunQuery(async client =>
-			{
-				result = await client.Login.ExecuteAsync(cancellationToken);
-			});
+			var result = await gqlClient.RunOperation(client => client.Login.ExecuteAsync(cancellationToken), cancellationToken);
 
 			Assert.IsNotNull(result.Data);
 			Assert.IsNull(result.Data.Login.Bearer);

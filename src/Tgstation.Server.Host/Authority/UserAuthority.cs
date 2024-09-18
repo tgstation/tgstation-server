@@ -273,7 +273,11 @@ namespace Tgstation.Server.Host.Authority
 		}
 
 		/// <inheritdoc />
+#pragma warning disable CA1502
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public async ValueTask<AuthorityResponse<User>> Update(UserUpdateRequest model, CancellationToken cancellationToken)
+#pragma warning restore CA1502
+#pragma warning restore CA1506
 		{
 			ArgumentNullException.ThrowIfNull(model);
 

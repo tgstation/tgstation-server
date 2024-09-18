@@ -1,0 +1,18 @@
+query OAuthInformation {
+  swarm {
+    currentNode {
+      gateway {
+        information {
+          oAuthProviderInfos {
+            key
+            value {
+              clientId
+              redirectUri
+              serverUrl
+            }
+          }
+        }
+      }
+    }
+  }
+}

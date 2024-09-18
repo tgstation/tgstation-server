@@ -1,5 +1,6 @@
 ﻿using HotChocolate;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Host.GraphQL.Types.Scalars;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.GraphQL.Mutations.Payloads
@@ -12,6 +13,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations.Payloads
 		/// <summary>
 		/// The JSON Web Token (JWT) to use as a Bearer token for accessing the server. Contains an expiry time.
 		/// </summary>
+		[GraphQLType<JwtType>]
 		public required string Bearer { get; init; }
 
 		/// <summary>

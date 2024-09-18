@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.GraphQL.Types.Scalars
 
 		/// <inheritdoc />
 		protected override StringValueNode ParseValue(Version runtimeValue)
-			=> new StringValueNode(runtimeValue.Semver().ToString());
+			=> new(runtimeValue.Semver().ToString());
 
 		/// <inheritdoc />
 		protected override bool IsInstanceOfType(StringValueNode valueSyntax)
