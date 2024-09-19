@@ -1577,6 +1577,7 @@ jobs:
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
 
   ci-completion-gate:
+    if: always() && !cancelled()
     name: CI Completion Gate
     needs:
       [
@@ -1592,8 +1593,10 @@ jobs:
       ]
     runs-on: ubuntu-latest
     steps:
-      - name: Mandatory Empty Step
-        run: exit 0
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@223e4bb7a751b91f43eda76992bcfbf23b8b0302
+        with:
+          jobs: ${{ toJSON(needs) }}
 
   deployment-gate:
     name: Deployment Start Gate
