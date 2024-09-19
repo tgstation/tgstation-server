@@ -40,15 +40,14 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		public ValueTask<User> CreateUserByPasswordAndPermissionSet(
 			string name,
 			string password,
-			bool enabled,
+			bool? enabled,
 			IEnumerable<OAuthConnection>? oAuthConnections,
-			PermissionSetInput permissionSet,
+			PermissionSetInput? permissionSet,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
 			ArgumentException.ThrowIfNullOrWhiteSpace(name);
 			ArgumentException.ThrowIfNullOrEmpty(password);
-			ArgumentNullException.ThrowIfNull(permissionSet);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
 			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
@@ -58,11 +57,13 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 						Name = name,
 						Password = password,
 						Enabled = enabled,
-						PermissionSet = new Api.Models.PermissionSet
-						{
-							AdministrationRights = permissionSet.AdministrationRights,
-							InstanceManagerRights = permissionSet.InstanceManagerRights,
-						},
+						PermissionSet = permissionSet != null
+							? new Api.Models.PermissionSet
+							{
+								AdministrationRights = permissionSet.AdministrationRights,
+								InstanceManagerRights = permissionSet.InstanceManagerRights,
+							}
+							: null,
 						OAuthConnections = oAuthConnections
 							?.Select(oAuthConnection => new Api.Models.OAuthConnection
 							{
@@ -88,14 +89,13 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<User> CreateUserBySystemIDAndPermissionSet(
 			string systemIdentifier,
-			bool enabled,
+			bool? enabled,
 			IEnumerable<OAuthConnection>? oAuthConnections,
 			PermissionSetInput permissionSet,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
 			ArgumentException.ThrowIfNullOrWhiteSpace(systemIdentifier);
-			ArgumentNullException.ThrowIfNull(permissionSet);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
 			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
@@ -104,11 +104,13 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 					{
 						SystemIdentifier = systemIdentifier,
 						Enabled = enabled,
-						PermissionSet = new Api.Models.PermissionSet
-						{
-							AdministrationRights = permissionSet.AdministrationRights,
-							InstanceManagerRights = permissionSet.InstanceManagerRights,
-						},
+						PermissionSet = permissionSet != null
+							? new Api.Models.PermissionSet
+							{
+								AdministrationRights = permissionSet.AdministrationRights,
+								InstanceManagerRights = permissionSet.InstanceManagerRights,
+							}
+							: null,
 						OAuthConnections = oAuthConnections
 							?.Select(oAuthConnection => new Api.Models.OAuthConnection
 							{
@@ -136,7 +138,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		public ValueTask<User> CreateUserByPasswordAndGroup(
 			string name,
 			string password,
-			bool enabled,
+			bool? enabled,
 			IEnumerable<OAuthConnection>? oAuthConnections,
 			[ID(nameof(UserGroup))] long groupId,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
@@ -182,7 +184,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<User> CreateUserBySystemIDAndGroup(
 			string systemIdentifier,
-			bool enabled,
+			bool? enabled,
 			IEnumerable<OAuthConnection>? oAuthConnections,
 			[ID(nameof(UserGroup))] long groupId,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,

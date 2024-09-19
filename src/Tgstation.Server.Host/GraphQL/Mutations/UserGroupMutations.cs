@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 	{
 		public ValueTask<UserGroup> CreateUserGroup(
 			string name,
-			PermissionSetInput permissionSet,
+			PermissionSetInput? permissionSet,
 			[Service] IUserGroupAuthority userGroupAuthority,
 			CancellationToken cancellationToken)
 		{
@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		public ValueTask<UserGroup> UpdateUserGroup(
 			[ID(nameof(UserGroup))] long id,
 			string? newName,
-			PermissionSetInput newPermissionSet,
+			PermissionSetInput? newPermissionSet,
 			[Service] IUserGroupAuthority userGroupAuthority,
 			CancellationToken cancellationToken)
 		{
