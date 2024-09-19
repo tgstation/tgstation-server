@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Security
 			var authorizeAttribute = authorityMethod.GetCustomAttribute<TgsAuthorizeAttribute>()
 				?? throw new InvalidOperationException($"Could not find method {authorityType}.{methodName}() has no {nameof(TgsAuthorizeAttribute)}!");
 			MethodName = methodName;
-			Roles = authorizeAttribute.Roles?.Split(',');
+			Roles = $"{TgsGraphQLAuthorizeAttribute.CoreAccessRole},{authorizeAttribute.Roles}"?.Split(',', StringSplitOptions.RemoveEmptyEntries);
 		}
 	}
 }

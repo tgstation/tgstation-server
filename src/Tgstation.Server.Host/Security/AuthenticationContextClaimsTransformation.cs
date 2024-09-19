@@ -85,6 +85,15 @@ namespace Tgstation.Server.Host.Security
 
 			var enumerator = Enum.GetValues(typeof(RightsType));
 			var claims = new List<Claim>();
+
+			if (authenticationContext.Valid)
+			{
+				claims.Add(
+					new(
+						ClaimTypes.Role,
+						TgsGraphQLAuthorizeAttribute.CoreAccessRole));
+			}
+
 			foreach (RightsType rightType in enumerator)
 			{
 				// if there's a bad condition, do a weird thing and add all the roles

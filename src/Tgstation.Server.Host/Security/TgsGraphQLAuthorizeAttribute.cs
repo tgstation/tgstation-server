@@ -2,6 +2,8 @@
 
 using HotChocolate.Authorization;
 
+using Microsoft.AspNetCore.Mvc.Filters;
+
 using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Host.Security
@@ -13,6 +15,8 @@ namespace Tgstation.Server.Host.Security
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
 	sealed class TgsGraphQLAuthorizeAttribute : AuthorizeAttribute
 	{
+		public const string CoreAccessRole = "GRAPH_QL_CORE_ACCESS";
+
 		/// <summary>
 		/// Gets the <see cref="Api.Rights.RightsType"/> associated with the <see cref="TgsAuthorizeAttribute"/> if any.
 		/// </summary>
@@ -23,6 +27,7 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		public TgsGraphQLAuthorizeAttribute()
 		{
+			Roles = [CoreAccessRole];
 		}
 
 		/// <summary>
@@ -30,8 +35,8 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="requiredRights">The <see cref="AdministrationRights"/> required.</param>
 		public TgsGraphQLAuthorizeAttribute(AdministrationRights requiredRights)
+			: this(RightsHelper.RoleNames(requiredRights))
 		{
-			Roles = RightsHelper.RoleNames(requiredRights).Split(',');
 			RightsType = Api.Rights.RightsType.Administration;
 		}
 
@@ -40,8 +45,8 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="requiredRights">The <see cref="InstanceManagerRights"/> required.</param>
 		public TgsGraphQLAuthorizeAttribute(InstanceManagerRights requiredRights)
+			: this(RightsHelper.RoleNames(requiredRights))
 		{
-			Roles = RightsHelper.RoleNames(requiredRights).Split(',');
 			RightsType = Api.Rights.RightsType.InstanceManager;
 		}
 
@@ -50,8 +55,8 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="requiredRights">The <see cref="RepositoryRights"/> required.</param>
 		public TgsGraphQLAuthorizeAttribute(RepositoryRights requiredRights)
+			: this(RightsHelper.RoleNames(requiredRights))
 		{
-			Roles = RightsHelper.RoleNames(requiredRights).Split(',');
 			RightsType = Api.Rights.RightsType.Repository;
 		}
 
@@ -60,8 +65,8 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="requiredRights">The <see cref="EngineRights"/> required.</param>
 		public TgsGraphQLAuthorizeAttribute(EngineRights requiredRights)
+			: this(RightsHelper.RoleNames(requiredRights))
 		{
-			Roles = RightsHelper.RoleNames(requiredRights).Split(',');
 			RightsType = Api.Rights.RightsType.Engine;
 		}
 
@@ -70,8 +75,8 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="requiredRights">The <see cref="DreamMakerRights"/> required.</param>
 		public TgsGraphQLAuthorizeAttribute(DreamMakerRights requiredRights)
+			: this(RightsHelper.RoleNames(requiredRights))
 		{
-			Roles = RightsHelper.RoleNames(requiredRights).Split(',');
 			RightsType = Api.Rights.RightsType.DreamMaker;
 		}
 
@@ -80,8 +85,8 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="requiredRights">The <see cref="DreamDaemonRights"/> required.</param>
 		public TgsGraphQLAuthorizeAttribute(DreamDaemonRights requiredRights)
+			: this(RightsHelper.RoleNames(requiredRights))
 		{
-			Roles = RightsHelper.RoleNames(requiredRights).Split(',');
 			RightsType = Api.Rights.RightsType.DreamDaemon;
 		}
 
@@ -90,8 +95,8 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="requiredRights">The <see cref="ChatBotRights"/> required.</param>
 		public TgsGraphQLAuthorizeAttribute(ChatBotRights requiredRights)
+			: this(RightsHelper.RoleNames(requiredRights))
 		{
-			Roles = RightsHelper.RoleNames(requiredRights).Split(',');
 			RightsType = Api.Rights.RightsType.ChatBots;
 		}
 
@@ -100,8 +105,8 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="requiredRights">The <see cref="ConfigurationRights"/> required.</param>
 		public TgsGraphQLAuthorizeAttribute(ConfigurationRights requiredRights)
+			: this(RightsHelper.RoleNames(requiredRights))
 		{
-			Roles = RightsHelper.RoleNames(requiredRights).Split(',');
 			RightsType = Api.Rights.RightsType.Configuration;
 		}
 
@@ -110,9 +115,14 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="requiredRights">The <see cref="InstancePermissionSetRights"/> required.</param>
 		public TgsGraphQLAuthorizeAttribute(InstancePermissionSetRights requiredRights)
+			: this(RightsHelper.RoleNames(requiredRights))
 		{
-			Roles = RightsHelper.RoleNames(requiredRights).Split(',');
 			RightsType = Api.Rights.RightsType.InstancePermissionSet;
+		}
+
+		private TgsGraphQLAuthorizeAttribute(string roleNames)
+		{
+			Roles = $"{CoreAccessRole},{roleNames}".Split(',');
 		}
 	}
 }
