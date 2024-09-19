@@ -10,7 +10,8 @@ const CONSIDERED_STEP_PREFIXES = [
 const CONSIDERED_JOBS = [
 	"Windows Live Tests",
 	"Linux Live Tests",
-	"Build .deb Package"
+	"Build .deb Package",
+	"CI Completion Gate"
 ];
 
 async function getFailedJobsForRun(github, context, workflowRunId, runAttempt) {
@@ -38,7 +39,7 @@ export async function rerunFlakyTests({ github, context }) {
 		context.payload.workflow_run.run_attempt
 	);
 
-	if (failingJobs.length > 3) {
+	if (failingJobs.length > 4) {
 		console.log("Many jobs failing. PROBABLY not flaky, Will not re-run.");
 		return;
 	}
