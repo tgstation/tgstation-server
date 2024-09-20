@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -1345,6 +1345,14 @@ namespace Tgstation.Server.Tests.Live
 				await using var firstAdminMultiClient = await CreateAdminClient(server.ApiUrl, cancellationToken);
 
 				var firstAdminRestClient = firstAdminMultiClient.RestClient;
+
+				await using (var tokenOnlyGraphQLClient = graphQLClientFactory.CreateFromToken(server.RootUrl, firstAdminRestClient.Token.Bearer))
+				{
+					// just testing auth works the same here
+					var result = await tokenOnlyGraphQLClient.RunOperation(client => client.ServerVersion.ExecuteAsync(cancellationToken), cancellationToken);
+					Assert.IsTrue(result.IsSuccessResult());
+				}
+
 				await using (var tokenOnlyRestClient = restClientFactory.CreateFromToken(server.RootUrl, firstAdminRestClient.Token))
 				{
 					// regression test for password change issue
@@ -1356,13 +1364,6 @@ namespace Tgstation.Server.Tests.Live
 					}, cancellationToken);
 
 					await ApiAssert.ThrowsException<UnauthorizedException, UserResponse>(() => tokenOnlyRestClient.Users.Read(cancellationToken), null);
-				}
-
-				await using (var tokenOnlyGraphQLClient = graphQLClientFactory.CreateFromToken(server.RootUrl, firstAdminRestClient.Token.Bearer))
-				{
-					// just testing auth works the same here
-					var result = await tokenOnlyGraphQLClient.RunOperation(client => client.ServerVersion.ExecuteAsync(cancellationToken), cancellationToken);
-					Assert.IsTrue(result.IsSuccessResult());
 				}
 
 				// basic graphql test, to be used everywhere eventually

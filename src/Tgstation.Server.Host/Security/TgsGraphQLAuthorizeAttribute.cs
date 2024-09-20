@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using HotChocolate.Authorization;
-
-using Microsoft.AspNetCore.Mvc.Filters;
 
 using Tgstation.Server.Api.Rights;
 
@@ -15,8 +15,6 @@ namespace Tgstation.Server.Host.Security
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
 	sealed class TgsGraphQLAuthorizeAttribute : AuthorizeAttribute
 	{
-		public const string CoreAccessRole = "GRAPH_QL_CORE_ACCESS";
-
 		/// <summary>
 		/// Gets the <see cref="Api.Rights.RightsType"/> associated with the <see cref="TgsAuthorizeAttribute"/> if any.
 		/// </summary>
@@ -27,7 +25,6 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		public TgsGraphQLAuthorizeAttribute()
 		{
-			Roles = [CoreAccessRole];
 		}
 
 		/// <summary>
@@ -120,9 +117,15 @@ namespace Tgstation.Server.Host.Security
 			RightsType = Api.Rights.RightsType.InstancePermissionSet;
 		}
 
-		private TgsGraphQLAuthorizeAttribute(string roleNames)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TgsGraphQLAuthorizeAttribute"/> class.
+		/// </summary>
+		/// <param name="roleNames"><see cref="IEnumerable{T}"/> of role names.</param>
+		private TgsGraphQLAuthorizeAttribute(IEnumerable<string> roleNames)
 		{
-			Roles = $"{CoreAccessRole},{roleNames}".Split(',');
+			var listRoles = roleNames.ToList();
+			listRoles.Add(TgsAuthorizeAttribute.UserEnabledRole);
+			Roles = listRoles.ToArray();
 		}
 	}
 }

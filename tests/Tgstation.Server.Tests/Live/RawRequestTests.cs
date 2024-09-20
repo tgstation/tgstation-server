@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -447,12 +447,7 @@ namespace Tgstation.Server.Tests.Live
 
 				Assert.AreNotEqual(HubConnectionState.Connected, testUserConn1.State);
 
-				await using var testUserConn2 = (HubConnection)await testUserClient.SubscribeToJobUpdates(proxy, cancellationToken: cancellationToken);
-
-				for (var i = 0; i < 10 && testUserConn2.State == HubConnectionState.Connected; ++i)
-					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-
-				Assert.AreNotEqual(HubConnectionState.Connected, testUserConn2.State);
+				await ApiAssert.ThrowsException<InsufficientPermissionsException>(async () => await testUserClient.SubscribeToJobUpdates(proxy, cancellationToken: cancellationToken));
 			}
 			finally
 			{

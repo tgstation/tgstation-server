@@ -405,50 +405,73 @@ namespace Tgstation.Server.Client
 			if (loggingConfigureAction != null)
 				hubConnectionBuilder.ConfigureLogging(loggingConfigureAction);
 
-			hubConnection = hubConnectionBuilder.Build();
+			async ValueTask<IAsyncDisposable> AttemptConnect()
+			{
+				hubConnection = hubConnectionBuilder.Build();
+				try
+				{
+					hubConnection.Closed += async (error) =>
+					{
+						if (error is HttpRequestException httpRequestException)
+						{
+							// .StatusCode isn't in netstandard but fuck the police
+							var property = error.GetType().GetProperty("StatusCode");
+							if (property != null)
+							{
+								var statusCode = (HttpStatusCode?)property.GetValue(error);
+								if (statusCode == HttpStatusCode.Unauthorized
+									&& !await RefreshToken(CancellationToken.None))
+									_ = hubConnection!.StopAsync();
+							}
+						}
+					};
+
+					hubConnection.ProxyOn(hubImplementation);
+
+					Task startTask;
+					lock (hubConnections)
+					{
+						if (disposed)
+							throw new ObjectDisposedException(nameof(ApiClient));
+
+						hubConnections.Add(hubConnection);
+						startTask = hubConnection.StartAsync(cancellationToken);
+					}
+
+					await startTask;
+
+					return hubConnection;
+				}
+				catch
+				{
+					bool needsDispose;
+					lock (hubConnections)
+						needsDispose = hubConnections.Remove(hubConnection);
+
+					if (needsDispose)
+						await hubConnection.DisposeAsync();
+					throw;
+				}
+			}
+
 			try
 			{
-				hubConnection.Closed += async (error) =>
+				return await AttemptConnect();
+			}
+			catch (HttpRequestException ex)
+			{
+				// status code is not in netstandard
+				var propertyInfo = ex.GetType().GetProperty("StatusCode");
+				if (propertyInfo != null)
 				{
-					if (error is HttpRequestException httpRequestException)
-					{
-						// .StatusCode isn't in netstandard but fuck the police
-						var property = error.GetType().GetProperty("StatusCode");
-						if (property != null)
-						{
-							var statusCode = (HttpStatusCode?)property.GetValue(error);
-							if (statusCode == HttpStatusCode.Unauthorized
-								&& !await RefreshToken(CancellationToken.None))
-								_ = hubConnection!.StopAsync();
-						}
-					}
-				};
-
-				hubConnection.ProxyOn(hubImplementation);
-
-				Task startTask;
-				lock (hubConnections)
-				{
-					if (disposed)
-						throw new ObjectDisposedException(nameof(ApiClient));
-
-					hubConnections.Add(hubConnection);
-					startTask = hubConnection.StartAsync(cancellationToken);
+					var statusCode = (HttpStatusCode)propertyInfo.GetValue(ex);
+					if (statusCode != HttpStatusCode.Unauthorized)
+						throw;
 				}
 
-				await startTask;
+				await RefreshToken(cancellationToken);
 
-				return hubConnection;
-			}
-			catch
-			{
-				bool needsDispose;
-				lock (hubConnections)
-					needsDispose = hubConnections.Remove(hubConnection);
-
-				if (needsDispose)
-					await hubConnection.DisposeAsync();
-				throw;
+				return await AttemptConnect();
 			}
 		}
 

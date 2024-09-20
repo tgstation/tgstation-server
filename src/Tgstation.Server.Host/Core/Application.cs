@@ -697,6 +697,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddScoped<IApiHeadersProvider, ApiHeadersProvider>();
 			services.AddScoped<AuthenticationContextFactory>();
 			services.AddScoped<IAuthenticationContextFactory>(provider => provider.GetRequiredService<AuthenticationContextFactory>());
+			services.AddScoped<ITokenValidator, TokenValidator>();
 
 			// what if you
 			// wanted to just do this:
@@ -737,6 +738,15 @@ namespace Tgstation.Server.Host.Core
 
 							return Task.CompletedTask;
 						},
+						OnTokenValidated = context => context
+							.HttpContext
+							.RequestServices
+							.GetRequiredService<ITokenValidator>()
+							.ValidateToken(
+								context,
+								context
+									.HttpContext
+									.RequestAborted),
 					};
 				});
 		}
