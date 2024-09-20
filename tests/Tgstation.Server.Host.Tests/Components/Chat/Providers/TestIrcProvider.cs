@@ -88,6 +88,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			await InvokeConnect(provider);
 			Assert.IsTrue(provider.Connected);
 
+			await Task.Delay(2000); // IRC servers do not like it when you connect and disconnect in rapid succession
+
+			await provider.Disconnect(default);
+			Assert.IsFalse(provider.Connected);
+
+			await Task.Delay(2000); // same as above
+
+			await InvokeConnect(provider);
+			await Task.Delay(2000); // make sure it stays connected after a reconnect attempt
+			Assert.IsTrue(provider.Connected);
+
 			await provider.Disconnect(default);
 			Assert.IsFalse(provider.Connected);
 		}

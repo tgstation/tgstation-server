@@ -88,6 +88,7 @@ namespace Tgstation.Server.Api.Models
 					case IrcPasswordType.NickServ:
 					case IrcPasswordType.Sasl:
 					case IrcPasswordType.Server:
+					case IrcPasswordType.Oper:
 						PasswordType = passwordType;
 						break;
 					default:
