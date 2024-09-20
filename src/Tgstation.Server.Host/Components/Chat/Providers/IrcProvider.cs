@@ -83,9 +83,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly Dictionary<ulong, string> queryChannelIdMap;
 
 		/// <summary>
-		/// The version string obtained from <see cref="IAssemblyInformationProvider.VersionString"/>.
+		/// The <see cref="IAssemblyInformationProvider"/>  obtained from constructor, used for the CTCP version string.
 		/// </summary>
-		readonly string versionString;
+		readonly IAssemblyInformationProvider assemblyInfo;
 
 		/// <summary>
 		/// The <see cref="IrcFeatures"/> client.
@@ -132,7 +132,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			password = ircBuilder.Password!;
 			passwordType = ircBuilder.PasswordType;
 
-			versionString = assemblyInformationProvider.VersionString;
+			assemblyInfo = assemblyInformationProvider;
 
 			client = InstantiateClient();
 
@@ -386,17 +386,20 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						}
 
 						Logger.LogTrace("Exiting listening task...");
-					}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
+					},
+					cancellationToken,
+					DefaultIOManager.BlockingTaskCreationOptions,
+					TaskScheduler.Current);
 
 				Logger.LogTrace("Authenticating ({passwordType})...", passwordType);
 				switch (passwordType)
 				{
 					case IrcPasswordType.Server:
 						client.RfcPass(password);
-						await Login(client, nickname);
+						await Login(client, nickname, cancellationToken);
 						break;
 					case IrcPasswordType.NickServ:
-						await Login(client, nickname);
+						await Login(client, nickname, cancellationToken);
 						cancellationToken.ThrowIfCancellationRequested();
 						client.SendMessage(SendType.Message, "NickServ", String.Format(CultureInfo.InvariantCulture, "IDENTIFY {0}", password));
 						break;
@@ -404,12 +407,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						await SaslAuthenticate(cancellationToken);
 						break;
 					case IrcPasswordType.Oper:
-						await Login(client, nickname);
+						await Login(client, nickname, cancellationToken);
 						cancellationToken.ThrowIfCancellationRequested();
 						client.RfcOper(nickname, password, Priority.Critical);
 						break;
 					case null:
-						await Login(client, nickname);
+						await Login(client, nickname, cancellationToken);
 						break;
 					default:
 						throw new InvalidOperationException($"Invalid IrcPasswordType: {passwordType.Value}");
@@ -462,9 +465,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		/// <param name="client">IRC client.</param>
 		/// <param name="nickname">Nickname.</param>
+		/// <param name="cancellationToken">Cancellation token.</param>
 		/// <returns><see cref="Task"/> that resolves when registration has been completed. </returns>
 		/// <exception cref="TimeoutException">If the IRC server fails to respond.</exception>
-		private async Task Login(IrcFeatures client, string nickname)
+		async ValueTask Login(IrcFeatures client, string nickname, CancellationToken cancellationToken)
 		{
 			var promise = new TaskCompletionSource<object>();
 
@@ -478,14 +482,20 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			client.Login(nickname, nickname, 0, nickname);
 
-			var completed = await Task.WhenAny(promise.Task, Task.Delay(30 * 1000));
-			if (completed == promise.Task)
-			{
-				client.OnRegistered -= Callback;
-				return;
-			}
+			using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			cts.CancelAfter(TimeSpan.FromSeconds(30));
 
-			throw new TimeoutException("Timed out waiting for IRC registration.");
+			try
+			{
+				await promise.Task.WaitAsync(cts.Token);
+				client.OnRegistered -= Callback;
+			}
+			catch (OperationCanceledException)
+			{
+				if (client.IsConnected)
+					client.Disconnect();
+				throw new JobException("Timed out waiting for IRC Registration");
+			}
 		}
 
 		/// <summary>
@@ -698,9 +708,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Reusing the same client after a disconnection seems to cause issues.
 		/// </summary>
 		/// <returns>The <see cref="IrcFeatures"/> client to use.</returns>
-		private IrcFeatures InstantiateClient()
+		IrcFeatures InstantiateClient()
 		{
-			IrcFeatures newClient = new IrcFeatures
+			var newClient = new IrcFeatures
 			{
 				SupportNonRfc = true,
 				CtcpUserInfo = "You are going to play. And I am going to watch. And everything will be just fine...",
@@ -711,7 +721,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				AutoReconnect = false,
 				ActiveChannelSyncing = true,
 				AutoNickHandling = true,
-				CtcpVersion = versionString,
+				CtcpVersion = assemblyInfo.VersionString,
 				UseSsl = ssl,
 				EnableUTF8Recode = true,
 			};
@@ -721,8 +731,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			newClient.OnChannelMessage += Client_OnChannelMessage;
 			newClient.OnQueryMessage += Client_OnQueryMessage;
 
-			newClient.OnReadLine += (sender, e) => Logger.LogTrace("READ: {line}", e.Line);
-			newClient.OnWriteLine += (sender, e) => Logger.LogTrace("WRITE: {line}", e.Line);
+			/* newClient.OnReadLine += (sender, e) => Logger.LogTrace("READ: {line}", e.Line);
+			   newClient.OnWriteLine += (sender, e) => Logger.LogTrace("WRITE: {line}", e.Line); */
+
 			newClient.OnError += (sender, e) =>
 			{
 				Logger.LogError("IRC ERROR: {error}", e.ErrorMessage);
