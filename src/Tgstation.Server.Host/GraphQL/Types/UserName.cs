@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// Node resolver for <see cref="UserName"/>s.
 		/// </summary>
 		/// <param name="id">The <see cref="Entity.Id"/> to lookup.</param>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> resulting in the queried <see cref="UserName"/>, if present.</returns>
 		[TgsGraphQLAuthorize]

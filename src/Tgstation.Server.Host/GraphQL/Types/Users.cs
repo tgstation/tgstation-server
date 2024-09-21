@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// Gets the current <see cref="User"/>.
 		/// </summary>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the current <see cref="User"/>.</returns>
 		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Read))]
@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// Gets a <see cref="User"/> by <see cref="Entity.Id"/>.
 		/// </summary>
 		/// <param name="id">The <see cref="Entity.Id"/> of the <see cref="User"/>.</param>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="User"/> represented by <paramref name="id"/>, if any.</returns>
 		[Error(typeof(ErrorMessageException))]
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// Queries all registered <see cref="User"/>s.
 		/// </summary>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <returns>A <see cref="IQueryable{T}"/> of all registered <see cref="User"/>s.</returns>
 		[UsePaging]
 		[UseFiltering]

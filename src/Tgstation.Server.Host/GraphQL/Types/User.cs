@@ -54,7 +54,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// Node resolver for <see cref="User"/>s.
 		/// </summary>
 		/// <param name="id">The <see cref="Entity.Id"/> to lookup.</param>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> resulting in the queried <see cref="User"/>, if present.</returns>
 		[TgsGraphQLAuthorize]
@@ -71,7 +71,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// The <see cref="User"/> who created this <see cref="User"/>.
 		/// </summary>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="IUserName"/> that created this <see cref="User"/>, if any.</returns>
 		public async ValueTask<IUserName?> CreatedBy(
@@ -92,7 +92,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// List of <see cref="OAuthConnection"/>s associated with the user if OAuth is configured.
 		/// </summary>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="Array"/> of <see cref="OAuthConnection"/>s for the <see cref="User"/> if OAuth is configured.</returns>
 		public ValueTask<OAuthConnection[]> OAuthConnections(
@@ -107,7 +107,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// The <see cref="PermissionSet"/> associated with the <see cref="User"/>.
 		/// </summary>
-		/// <param name="permissionSetAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IPermissionSetAuthority"/>.</param>
+		/// <param name="permissionSetAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IPermissionSetAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="PermissionSet"/> associated with the <see cref="User"/>.</returns>
 		public ValueTask<PermissionSet> EffectivePermissionSet(
@@ -136,7 +136,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// The <see cref="PermissionSet"/> owned by the <see cref="User"/>, if any.
 		/// </summary>
-		/// <param name="permissionSetAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IPermissionSetAuthority"/>.</param>
+		/// <param name="permissionSetAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IPermissionSetAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="PermissionSet"/> owned by the <see cref="User"/>, if any.</returns>
 		public ValueTask<PermissionSet?> OwnedPermissionSet(
@@ -152,7 +152,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// The <see cref="UserGroup"/> asociated with the user, if any.
 		/// </summary>
-		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserGroupAuthority"/>.</param>
+		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="UserGroup"/> associated with the <see cref="User"/>, if any.</returns>
 		public async ValueTask<UserGroup?> Group(

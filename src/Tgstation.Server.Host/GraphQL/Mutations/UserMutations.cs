@@ -32,7 +32,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="enabled">If the <see cref="User"/> is <see cref="User.Enabled"/>.</param>
 		/// <param name="oAuthConnections">The <see cref="OAuthConnection"/>s for the user.</param>
 		/// <param name="permissionSet">The owned <see cref="PermissionSet"/> of the user.</param>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The created <see cref="User"/>.</returns>
 		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
@@ -82,7 +82,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="enabled">If the <see cref="User"/> is <see cref="User.Enabled"/>.</param>
 		/// <param name="oAuthConnections">The <see cref="OAuthConnection"/>s for the user.</param>
 		/// <param name="permissionSet">The owned <see cref="PermissionSet"/> of the user.</param>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The created <see cref="User"/>.</returns>
 		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
@@ -130,7 +130,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="enabled">If the <see cref="User"/> is <see cref="User.Enabled"/>.</param>
 		/// <param name="oAuthConnections">The <see cref="OAuthConnection"/>s for the user.</param>
 		/// <param name="groupId">The <see cref="Entity.Id"/> of the <see cref="UserGroup"/> the <see cref="User"/> will belong to.</param>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The created <see cref="User"/>.</returns>
 		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
@@ -177,7 +177,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="enabled">If the <see cref="User"/> is <see cref="User.Enabled"/>.</param>
 		/// <param name="oAuthConnections">The <see cref="OAuthConnection"/>s for the user.</param>
 		/// <param name="groupId">The <see cref="Entity.Id"/> of the <see cref="UserGroup"/> the <see cref="User"/> will belong to.</param>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The created <see cref="User"/>.</returns>
 		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
@@ -219,7 +219,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// </summary>
 		/// <param name="newPassword">The new password for the current user.</param>
 		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> to get the <see cref="Entity.Id"/> of the user.</param>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The updated current <see cref="User"/>.</returns>
 		[TgsGraphQLAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword)]
@@ -247,7 +247,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// </summary>
 		/// <param name="newOAuthConnections">The new <see cref="OAuthConnection"/>s for the current user.</param>
 		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> to get the <see cref="Entity.Id"/> of the user.</param>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The updated current <see cref="User"/>.</returns>
 		[TgsGraphQLAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnOAuthConnections)]
@@ -286,7 +286,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="newPermissionSet">Optional new owned <see cref="PermissionSet"/> for the user.</param>
 		/// <param name="newGroupId">Optional <see cref="Entity.Id"/> of the <see cref="UserGroup"/> to move the <see cref="User"/> to.</param>
 		/// <param name="newOAuthConnections">Optional new <see cref="OAuthConnection"/>s for the <see cref="User"/>.</param>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="IUserAuthority"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The updated <see cref="User"/>.</returns>
 		[TgsGraphQLAuthorize(AdministrationRights.WriteUsers)]

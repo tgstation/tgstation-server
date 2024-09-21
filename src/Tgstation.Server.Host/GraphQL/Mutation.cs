@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.GraphQL
 		/// <summary>
 		/// Generate a JWT for authenticating with server. This is the only operation that accepts and required basic authentication.
 		/// </summary>
-		/// <param name="loginAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> <see cref="ILoginAuthority"/>.</param>
+		/// <param name="loginAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="ILoginAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A Bearer token to be used with further communication with the server.</returns>
 		[Error(typeof(ErrorMessageException))]
