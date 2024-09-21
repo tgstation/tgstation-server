@@ -283,7 +283,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="casingOnlyNameChange">Optional casing only change to the <see cref="NamedEntity.Name"/> of the <see cref="User"/>. Only applicable to TGS users.</param>
 		/// <param name="newPassword">Optional new password for the <see cref="User"/>. Only applicable to TGS users.</param>
 		/// <param name="enabled">Optional new <see cref="User.Enabled"/> status for the <see cref="User"/>.</param>
-		/// <param name="newPermissionSet">Optional new owned <see cref="PermissionSet"/> for the user.</param>
+		/// <param name="newPermissionSet">Optional new owned <see cref="PermissionSet"/> for the user. Note that setting this on a <see cref="User"/> in a <see cref="UserGroup"/> will remove them from that group.</param>
 		/// <param name="newGroupId">Optional <see cref="Entity.Id"/> of the <see cref="UserGroup"/> to move the <see cref="User"/> to.</param>
 		/// <param name="newOAuthConnections">Optional new <see cref="OAuthConnection"/>s for the <see cref="User"/>.</param>
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
