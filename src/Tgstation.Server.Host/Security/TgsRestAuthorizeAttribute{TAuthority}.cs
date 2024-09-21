@@ -29,13 +29,11 @@ namespace Tgstation.Server.Host.Security
 			ArgumentNullException.ThrowIfNull(methodName);
 
 			var authorityType = typeof(TAuthority);
-			var authorityMethod = authorityType.GetMethod(methodName);
-			if (authorityMethod == null)
-				throw new InvalidOperationException($"Could not find method {methodName} on {authorityType}!");
+			var authorityMethod = authorityType.GetMethod(methodName)
+				?? throw new InvalidOperationException($"Could not find method {methodName} on {authorityType}!");
 
-			var authorizeAttribute = authorityMethod.GetCustomAttribute<TgsAuthorizeAttribute>();
-			if (authorizeAttribute == null)
-				throw new InvalidOperationException($"Could not find method {authorityType}.{methodName}() has no {nameof(TgsAuthorizeAttribute)}!");
+			var authorizeAttribute = authorityMethod.GetCustomAttribute<TgsAuthorizeAttribute>()
+				?? throw new InvalidOperationException($"Could not find method {authorityType}.{methodName}() has no {nameof(TgsAuthorizeAttribute)}!");
 
 			MethodName = methodName;
 			Roles = authorizeAttribute.Roles;

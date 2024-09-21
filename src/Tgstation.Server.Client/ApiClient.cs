@@ -194,7 +194,7 @@ namespace Tgstation.Server.Client
 
 				disposed = true;
 
-				localHubConnections = hubConnections.ToList();
+				localHubConnections = [.. hubConnections];
 				hubConnections.Clear();
 			}
 
