@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -82,7 +82,7 @@ namespace Tgstation.Server.Host.Authority
 				userGroup = await userGroupsDataLoader.LoadAsync(id, cancellationToken);
 
 			if (userGroup == null)
-				return NotFound<UserGroup>();
+				return Gone<UserGroup>();
 
 			return new AuthorityResponse<UserGroup>(userGroup);
 		}
