@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -341,11 +341,11 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			ICollection<TResultModel> finalResults;
-			if (typeof(TModel) == typeof(TResultModel))
-				finalResults = (List<TResultModel>)(object)pagedResults; // clearly a safe cast
+			if (typeof(TResultModel).IsAssignableFrom(typeof(TModel)))
+				finalResults = pagedResults.Cast<TResultModel>().ToList(); // clearly a safe cast
 			else
 				finalResults = pagedResults
-					.OfType<ILegacyApiTransformable<TResultModel>>()
+					.Cast<ILegacyApiTransformable<TResultModel>>()
 					.Select(x => x.ToApi())
 					.ToList();
 
