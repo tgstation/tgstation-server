@@ -4,9 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -14,10 +12,8 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority;
-using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
@@ -36,11 +32,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IRestAuthorityInvoker<IUserGroupAuthority> userGroupAuthority;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="UserGroupController"/>.
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="UserGroupController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
@@ -48,14 +39,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="userGroupAuthority">The value of <see cref="userGroupAuthority"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		public UserGroupController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContext authenticationContext,
 			IApiHeadersProvider apiHeaders,
 			ILogger<UserGroupController> logger,
-			IRestAuthorityInvoker<IUserGroupAuthority> userGroupAuthority,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IRestAuthorityInvoker<IUserGroupAuthority> userGroupAuthority)
 			: base(
 				databaseContext,
 				authenticationContext,
@@ -64,8 +53,21 @@ namespace Tgstation.Server.Host.Controllers
 				true)
 		{
 			this.userGroupAuthority = userGroupAuthority ?? throw new ArgumentNullException(nameof(userGroupAuthority));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
+
+		/// <summary>
+		/// Transform a <see cref="Api.Models.PermissionSet"/> into a <see cref="PermissionSet"/>.
+		/// </summary>
+		/// <param name="permissionSet">The <see cref="Api.Models.PermissionSet"/> to transform.</param>
+		/// <returns>The transformed <paramref name="permissionSet"/>.</returns>
+		static Models.PermissionSet? TransformApiPermissionSet(Api.Models.PermissionSet? permissionSet)
+			=> permissionSet != null
+				? new Models.PermissionSet
+				{
+					InstanceManagerRights = permissionSet?.InstanceManagerRights,
+					AdministrationRights = permissionSet?.AdministrationRights,
+				}
+				: null;
 
 		/// <summary>
 		/// Create a new <see cref="UserGroup"/>.
@@ -84,30 +86,12 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.Name == null)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
-			var totalGroups = await DatabaseContext
-				.Groups
-				.AsQueryable()
-				.CountAsync(cancellationToken);
-			if (totalGroups >= generalConfiguration.UserGroupLimit)
-				return Conflict(new ErrorMessageResponse(ErrorCode.UserGroupLimitReached));
-
-			var permissionSet = new Models.PermissionSet
-			{
-				AdministrationRights = model.PermissionSet?.AdministrationRights ?? AdministrationRights.None,
-				InstanceManagerRights = model.PermissionSet?.InstanceManagerRights ?? InstanceManagerRights.None,
-			};
-
-			var dbGroup = new UserGroup
-			{
-				Name = model.Name,
-				PermissionSet = permissionSet,
-			};
-
-			DatabaseContext.Groups.Add(dbGroup);
-			await DatabaseContext.Save(cancellationToken);
-			Logger.LogInformation("Created new user group {groupName} ({groupId})", dbGroup.Name, dbGroup.Id);
-
-			return this.Created(dbGroup.ToApi(true));
+			return await userGroupAuthority.InvokeTransformable<UserGroup, UserGroupResponse>(
+				this,
+				authority => authority.Create(
+					model.Name,
+					TransformApiPermissionSet(model.PermissionSet),
+					cancellationToken));
 		}
 
 		/// <summary>
@@ -121,38 +105,17 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(typeof(UserGroupResponse), 200)]
-		public async ValueTask<IActionResult> Update([FromBody] UserGroupUpdateRequest model, CancellationToken cancellationToken)
+		public ValueTask<IActionResult> Update([FromBody] UserGroupUpdateRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
-			var currentGroup = await DatabaseContext
-				.Groups
-				.AsQueryable()
-				.Where(x => x.Id == model.Id)
-				.Include(x => x.PermissionSet)
-				.Include(x => x.Users)
-				.FirstOrDefaultAsync(cancellationToken);
-
-			if (currentGroup == default)
-				return this.Gone();
-
-			if (model.PermissionSet != null)
-			{
-				currentGroup.PermissionSet!.AdministrationRights = model.PermissionSet.AdministrationRights ?? currentGroup.PermissionSet.AdministrationRights;
-				currentGroup.PermissionSet.InstanceManagerRights = model.PermissionSet.InstanceManagerRights ?? currentGroup.PermissionSet.InstanceManagerRights;
-			}
-
-			currentGroup.Name = model.Name ?? currentGroup.Name;
-
-			await DatabaseContext.Save(cancellationToken);
-
-			if (!AuthenticationContext.PermissionSet.AdministrationRights!.Value.HasFlag(AdministrationRights.ReadUsers))
-				return Json(new UserGroupResponse
-				{
-					Id = currentGroup.Id,
-				});
-
-			return Json(currentGroup.ToApi(true));
+			return userGroupAuthority.InvokeTransformable<UserGroup, UserGroupResponse>(
+				this,
+				authority => authority.Update(
+					model.Require(x => x.Id),
+					model.Name,
+					TransformApiPermissionSet(model.PermissionSet),
+					cancellationToken));
 		}
 
 		/// <summary>
@@ -207,27 +170,9 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public async ValueTask<IActionResult> Delete(long id, CancellationToken cancellationToken)
-		{
-			var numDeleted = await DatabaseContext
-				.Groups
-				.AsQueryable()
-				.Where(x => x.Id == id && x.Users!.Count == 0)
-				.ExecuteDeleteAsync(cancellationToken);
-
-			if (numDeleted > 0)
-				return NoContent();
-
-			// find out how we failed
-			var groupExists = await DatabaseContext
-				.Groups
-				.AsQueryable()
-				.Where(x => x.Id == id)
-				.AnyAsync(cancellationToken);
-
-			return groupExists
-				? Conflict(new ErrorMessageResponse(ErrorCode.UserGroupNotEmpty))
-				: this.Gone();
-		}
+		public ValueTask<IActionResult> Delete(long id, CancellationToken cancellationToken)
+#pragma warning disable API1001 // The response type is RIGHT THERE ^^^
+			=> userGroupAuthority.Invoke(this, authority => authority.DeleteEmpty(id, cancellationToken));
+#pragma warning restore API1001
 	}
 }

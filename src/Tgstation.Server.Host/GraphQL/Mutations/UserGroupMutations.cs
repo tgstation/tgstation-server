@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,6 +9,8 @@ using HotChocolate.Types.Relay;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.GraphQL.Mutations.Payloads;
 using Tgstation.Server.Host.GraphQL.Types;
+using Tgstation.Server.Host.Models.Transformers;
+using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.GraphQL.Mutations
 {
@@ -19,6 +21,20 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 	public sealed class UserGroupMutations
 	{
 		/// <summary>
+		/// Transform a <see cref="Api.Models.PermissionSet"/> into a <see cref="PermissionSet"/>.
+		/// </summary>
+		/// <param name="permissionSet">The <see cref="Api.Models.PermissionSet"/> to transform.</param>
+		/// <returns>The transformed <paramref name="permissionSet"/>.</returns>
+		static Models.PermissionSet? TransformApiPermissionSet(PermissionSetInput? permissionSet)
+			=> permissionSet != null
+				? new Models.PermissionSet
+				{
+					InstanceManagerRights = permissionSet?.InstanceManagerRights,
+					AdministrationRights = permissionSet?.AdministrationRights,
+				}
+				: null;
+
+		/// <summary>
 		/// Creates a <see cref="UserGroup"/>.
 		/// </summary>
 		/// <param name="name">The <see cref="NamedEntity.Name"/> of the <see cref="UserGroup"/>.</param>
@@ -26,13 +42,19 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The created <see cref="UserGroup"/>.</returns>
+		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.Create))]
+		[Error(typeof(ErrorMessageException))]
 		public ValueTask<UserGroup> CreateUserGroup(
 			string name,
 			PermissionSetInput? permissionSet,
-			[Service] IUserGroupAuthority userGroupAuthority,
+			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority,
 			CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			ArgumentNullException.ThrowIfNull(name);
+			ArgumentNullException.ThrowIfNull(userGroupAuthority);
+
+			return userGroupAuthority.InvokeTransformable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(
+				authority => authority.Create(name, TransformApiPermissionSet(permissionSet), cancellationToken));
 		}
 
 		/// <summary>
@@ -44,14 +66,18 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The updated <see cref="UserGroup"/>.</returns>
+		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.Update))]
+		[Error(typeof(ErrorMessageException))]
 		public ValueTask<UserGroup> UpdateUserGroup(
 			[ID(nameof(UserGroup))] long id,
 			string? newName,
 			PermissionSetInput? newPermissionSet,
-			[Service] IUserGroupAuthority userGroupAuthority,
+			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority,
 			CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			ArgumentNullException.ThrowIfNull(userGroupAuthority);
+			return userGroupAuthority.InvokeTransformable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(
+				authority => authority.Update(id, newName, TransformApiPermissionSet(newPermissionSet), cancellationToken));
 		}
 
 		/// <summary>
@@ -61,12 +87,18 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="Query"/> root.</returns>
-		public ValueTask<Query> DeleteEmptyUserGroup(
+		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.DeleteEmpty))]
+		[Error(typeof(ErrorMessageException))]
+		public async ValueTask<Query> DeleteEmptyUserGroup(
 			[ID(nameof(UserGroup))] long id,
-			[Service] IUserGroupAuthority userGroupAuthority,
+			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority,
 			CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			ArgumentNullException.ThrowIfNull(userGroupAuthority);
+			await userGroupAuthority.Invoke(
+				authority => authority.DeleteEmpty(id, cancellationToken));
+
+			return new Query();
 		}
 	}
 }
