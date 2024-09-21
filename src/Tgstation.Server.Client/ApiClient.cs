@@ -405,7 +405,7 @@ namespace Tgstation.Server.Client
 			if (loggingConfigureAction != null)
 				hubConnectionBuilder.ConfigureLogging(loggingConfigureAction);
 
-			async ValueTask<IAsyncDisposable> AttemptConnect()
+			async ValueTask<HubConnection> AttemptConnect()
 			{
 				hubConnection = hubConnectionBuilder.Build();
 				try
@@ -454,25 +454,7 @@ namespace Tgstation.Server.Client
 				}
 			}
 
-			try
-			{
-				return await AttemptConnect();
-			}
-			catch (HttpRequestException ex)
-			{
-				// status code is not in netstandard
-				var propertyInfo = ex.GetType().GetProperty("StatusCode");
-				if (propertyInfo != null)
-				{
-					var statusCode = (HttpStatusCode)propertyInfo.GetValue(ex);
-					if (statusCode != HttpStatusCode.Unauthorized)
-						throw;
-				}
-
-				await RefreshToken(cancellationToken);
-
-				return await AttemptConnect();
-			}
+			return await WrapHubInitialConnectAuthRefresh(AttemptConnect, cancellationToken);
 		}
 
 		/// <summary>
@@ -593,6 +575,35 @@ namespace Tgstation.Server.Client
 			}
 		}
 #pragma warning restore CA1506
+
+		/// <summary>
+		/// Wrap a hub connection attempt via a <paramref name="connectFunc"/> with proper token refreshing.
+		/// </summary>
+		/// <param name="connectFunc">The <see cref="HubConnection"/> <see cref="Func{TResult}"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the connected <see cref="HubConnection"/>.</returns>
+		async ValueTask<HubConnection> WrapHubInitialConnectAuthRefresh(Func<ValueTask<HubConnection>> connectFunc, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await connectFunc();
+			}
+			catch (HttpRequestException ex)
+			{
+				// status code is not in netstandard
+				var propertyInfo = ex.GetType().GetProperty("StatusCode");
+				if (propertyInfo != null)
+				{
+					var statusCode = (HttpStatusCode)propertyInfo.GetValue(ex);
+					if (statusCode != HttpStatusCode.Unauthorized)
+						throw;
+				}
+
+				await RefreshToken(cancellationToken);
+
+				return await connectFunc();
+			}
+		}
 
 		/// <summary>
 		/// Main request method.
