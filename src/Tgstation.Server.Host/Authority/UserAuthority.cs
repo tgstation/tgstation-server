@@ -202,6 +202,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <inheritdoc />
 		public async ValueTask<AuthorityResponse<User>> Create(
 			UserCreateRequest createRequest,
+			bool? needZeroLengthPasswordWithOAuthConnections,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(createRequest);
@@ -209,9 +210,27 @@ namespace Tgstation.Server.Host.Authority
 			if (createRequest.OAuthConnections?.Any(x => x == null) == true)
 				return BadRequest<User>(ErrorCode.ModelValidationFailure);
 
-			if ((createRequest.Password != null && createRequest.SystemIdentifier != null)
-				|| (createRequest.Password == null && createRequest.SystemIdentifier == null && (createRequest.OAuthConnections?.Count > 0) != true))
+			var hasNonNullPassword = createRequest.Password != null;
+			var hasNonNullSystemIdentifier = createRequest.SystemIdentifier != null;
+			var hasOAuthConnections = (createRequest.OAuthConnections?.Count > 0) == true;
+			if ((hasNonNullPassword && hasNonNullSystemIdentifier)
+				|| (!hasNonNullPassword && !hasNonNullSystemIdentifier && !hasOAuthConnections))
 				return BadRequest<User>(ErrorCode.UserMismatchPasswordSid);
+
+			var hasZeroLengthPassword = createRequest.Password?.Length == 0;
+			if (needZeroLengthPasswordWithOAuthConnections.HasValue)
+			{
+				if (needZeroLengthPasswordWithOAuthConnections.Value)
+				{
+					if (createRequest.OAuthConnections == null)
+						throw new InvalidOperationException($"Expected {nameof(UserCreateRequest.OAuthConnections)} to be set here!");
+
+					if (createRequest.OAuthConnections.Count == 0)
+						return BadRequest<User>(ErrorCode.ModelValidationFailure);
+				}
+				else if (hasZeroLengthPassword)
+					return BadRequest<User>(ErrorCode.ModelValidationFailure);
+			}
 
 			if (createRequest.Group != null && createRequest.PermissionSet != null)
 				return BadRequest<User>(ErrorCode.UserGroupAndPermissionSet);
@@ -254,11 +273,14 @@ namespace Tgstation.Server.Host.Authority
 						new ErrorMessageResponse(ErrorCode.RequiresPosixSystemIdentity),
 						HttpFailureResponse.NotImplemented);
 				}
-			else if (!(createRequest.Password?.Length == 0 && (createRequest.OAuthConnections?.Count > 0) == true))
+			else
 			{
-				var result = TrySetPassword(dbUser, createRequest.Password!, true);
-				if (result != null)
-					return result;
+				if (!(needZeroLengthPasswordWithOAuthConnections != false && hasZeroLengthPassword && hasOAuthConnections)) // special case allow PasswordHash to be null by setting Password to "" if OAuthConnections are set
+				{
+					var result = TrySetPassword(dbUser, createRequest.Password!, true);
+					if (result != null)
+						return result;
+				}
 			}
 
 			dbUser.CanonicalName = User.CanonicalizeName(dbUser.Name!);

@@ -72,53 +72,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 							})
 							.ToList(),
 					},
-					cancellationToken));
-		}
-
-		/// <summary>
-		/// Creates a system user specifying a personal <see cref="PermissionSet"/>.
-		/// </summary>
-		/// <param name="systemIdentifier">The <see cref="User.SystemIdentifier"/> of the <see cref="User"/>.</param>
-		/// <param name="enabled">If the <see cref="User"/> is <see cref="User.Enabled"/>.</param>
-		/// <param name="oAuthConnections">The <see cref="OAuthConnection"/>s for the user.</param>
-		/// <param name="permissionSet">The owned <see cref="PermissionSet"/> of the user.</param>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>The created <see cref="User"/>.</returns>
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
-		[Error(typeof(ErrorMessageException))]
-		public ValueTask<User> CreateUserBySystemIDAndPermissionSet(
-			string systemIdentifier,
-			bool? enabled,
-			IEnumerable<OAuthConnection>? oAuthConnections,
-			PermissionSetInput permissionSet,
-			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
-			CancellationToken cancellationToken)
-		{
-			ArgumentException.ThrowIfNullOrWhiteSpace(systemIdentifier);
-			ArgumentNullException.ThrowIfNull(userAuthority);
-
-			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
-				authority => authority.Create(
-					new UserCreateRequest
-					{
-						SystemIdentifier = systemIdentifier,
-						Enabled = enabled,
-						PermissionSet = permissionSet != null
-							? new Api.Models.PermissionSet
-							{
-								AdministrationRights = permissionSet.AdministrationRights,
-								InstanceManagerRights = permissionSet.InstanceManagerRights,
-							}
-							: null,
-						OAuthConnections = oAuthConnections
-							?.Select(oAuthConnection => new Api.Models.OAuthConnection
-							{
-								ExternalUserId = oAuthConnection.ExternalUserId,
-								Provider = oAuthConnection.Provider,
-							})
-							.ToList(),
-					},
+					false,
 					cancellationToken));
 		}
 
@@ -167,6 +121,152 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 							})
 							.ToList(),
 					},
+					false,
+					cancellationToken));
+		}
+
+		/// <summary>
+		/// Creates a TGS user authenticated with one or mor <see cref="OAuthConnection"/>s specifying a personal <see cref="PermissionSet"/>.
+		/// </summary>
+		/// <param name="name">The <see cref="NamedEntity.Name"/> of the <see cref="User"/>.</param>
+		/// <param name="oAuthConnections">The <see cref="OAuthConnection"/>s for the user.</param>
+		/// <param name="enabled">If the <see cref="User"/> is <see cref="User.Enabled"/>.</param>
+		/// <param name="permissionSet">The owned <see cref="PermissionSet"/> of the user.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>The created <see cref="User"/>.</returns>
+		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
+		[Error(typeof(ErrorMessageException))]
+		public ValueTask<User> CreateUserByOAuthAndPermissionSet(
+			string name,
+			IEnumerable<OAuthConnection> oAuthConnections,
+			bool? enabled,
+			PermissionSetInput? permissionSet,
+			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			CancellationToken cancellationToken)
+		{
+			ArgumentException.ThrowIfNullOrWhiteSpace(name);
+			ArgumentNullException.ThrowIfNull(oAuthConnections);
+			ArgumentNullException.ThrowIfNull(userAuthority);
+
+			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
+				authority => authority.Create(
+					new UserCreateRequest
+					{
+						Name = name,
+						Password = String.Empty,
+						Enabled = enabled,
+						PermissionSet = permissionSet != null
+							? new Api.Models.PermissionSet
+							{
+								AdministrationRights = permissionSet.AdministrationRights,
+								InstanceManagerRights = permissionSet.InstanceManagerRights,
+							}
+							: null,
+						OAuthConnections = oAuthConnections
+							.Select(oAuthConnection => new Api.Models.OAuthConnection
+							{
+								ExternalUserId = oAuthConnection.ExternalUserId,
+								Provider = oAuthConnection.Provider,
+							})
+							.ToList(),
+					},
+					true,
+					cancellationToken));
+		}
+
+		/// <summary>
+		/// Creates a TGS user specifying the <see cref="UserGroup"/> they will belong to.
+		/// </summary>
+		/// <param name="name">The <see cref="NamedEntity.Name"/> of the <see cref="User"/>.</param>
+		/// <param name="oAuthConnections">The <see cref="OAuthConnection"/>s for the user.</param>
+		/// <param name="groupId">The <see cref="Entity.Id"/> of the <see cref="UserGroup"/> the <see cref="User"/> will belong to.</param>
+		/// <param name="enabled">If the <see cref="User"/> is <see cref="User.Enabled"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>The created <see cref="User"/>.</returns>
+		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
+		[Error(typeof(ErrorMessageException))]
+		public ValueTask<User> CreateUserByOAuthAndGroup(
+			string name,
+			IEnumerable<OAuthConnection> oAuthConnections,
+			[ID(nameof(UserGroup))] long groupId,
+			bool? enabled,
+			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			CancellationToken cancellationToken)
+		{
+			ArgumentException.ThrowIfNullOrWhiteSpace(name);
+			ArgumentNullException.ThrowIfNull(oAuthConnections);
+			ArgumentNullException.ThrowIfNull(userAuthority);
+
+			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
+				authority => authority.Create(
+					new UserCreateRequest
+					{
+						Name = name,
+						Password = String.Empty,
+						Enabled = enabled,
+						Group = new Api.Models.Internal.UserGroup
+						{
+							Id = groupId,
+						},
+						OAuthConnections = oAuthConnections
+							.Select(oAuthConnection => new Api.Models.OAuthConnection
+							{
+								ExternalUserId = oAuthConnection.ExternalUserId,
+								Provider = oAuthConnection.Provider,
+							})
+							.ToList(),
+					},
+					true,
+					cancellationToken));
+		}
+
+		/// <summary>
+		/// Creates a system user specifying a personal <see cref="PermissionSet"/>.
+		/// </summary>
+		/// <param name="systemIdentifier">The <see cref="User.SystemIdentifier"/> of the <see cref="User"/>.</param>
+		/// <param name="enabled">If the <see cref="User"/> is <see cref="User.Enabled"/>.</param>
+		/// <param name="oAuthConnections">The <see cref="OAuthConnection"/>s for the user.</param>
+		/// <param name="permissionSet">The owned <see cref="PermissionSet"/> of the user.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>The created <see cref="User"/>.</returns>
+		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
+		[Error(typeof(ErrorMessageException))]
+		public ValueTask<User> CreateUserBySystemIDAndPermissionSet(
+			string systemIdentifier,
+			bool? enabled,
+			IEnumerable<OAuthConnection>? oAuthConnections,
+			PermissionSetInput permissionSet,
+			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			CancellationToken cancellationToken)
+		{
+			ArgumentException.ThrowIfNullOrWhiteSpace(systemIdentifier);
+			ArgumentNullException.ThrowIfNull(userAuthority);
+
+			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
+				authority => authority.Create(
+					new UserCreateRequest
+					{
+						SystemIdentifier = systemIdentifier,
+						Enabled = enabled,
+						PermissionSet = permissionSet != null
+							? new Api.Models.PermissionSet
+							{
+								AdministrationRights = permissionSet.AdministrationRights,
+								InstanceManagerRights = permissionSet.InstanceManagerRights,
+							}
+							: null,
+						OAuthConnections = oAuthConnections
+							?.Select(oAuthConnection => new Api.Models.OAuthConnection
+							{
+								ExternalUserId = oAuthConnection.ExternalUserId,
+								Provider = oAuthConnection.Provider,
+							})
+							.ToList(),
+					},
+					false,
 					cancellationToken));
 		}
 
@@ -175,8 +275,8 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// </summary>
 		/// <param name="systemIdentifier">The <see cref="User.SystemIdentifier"/> of the <see cref="User"/>.</param>
 		/// <param name="enabled">If the <see cref="User"/> is <see cref="User.Enabled"/>.</param>
-		/// <param name="oAuthConnections">The <see cref="OAuthConnection"/>s for the user.</param>
 		/// <param name="groupId">The <see cref="Entity.Id"/> of the <see cref="UserGroup"/> the <see cref="User"/> will belong to.</param>
+		/// <param name="oAuthConnections">The <see cref="OAuthConnection"/>s for the user.</param>
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The created <see cref="User"/>.</returns>
@@ -185,8 +285,8 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		public ValueTask<User> CreateUserBySystemIDAndGroup(
 			string systemIdentifier,
 			bool? enabled,
-			IEnumerable<OAuthConnection>? oAuthConnections,
 			[ID(nameof(UserGroup))] long groupId,
+			IEnumerable<OAuthConnection>? oAuthConnections,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
@@ -211,6 +311,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 							})
 							.ToList(),
 					},
+					false,
 					cancellationToken));
 		}
 

@@ -55,10 +55,14 @@ namespace Tgstation.Server.Host.Authority
 		/// Creates a <see cref="User"/>.
 		/// </summary>
 		/// <param name="createRequest">The <see cref="UserCreateRequest"/>.</param>
+		/// <param name="needZeroLengthPasswordWithOAuthConnections">If a zero-length <see cref="UserUpdateRequest.Password"/> indicates and OAuth only user.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in am <see cref="AuthorityResponse{TResult}"/> for the created <see cref="User"/>.</returns>
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
-		ValueTask<AuthorityResponse<User>> Create(UserCreateRequest createRequest, CancellationToken cancellationToken);
+		ValueTask<AuthorityResponse<User>> Create(
+			UserCreateRequest createRequest,
+			bool? needZeroLengthPasswordWithOAuthConnections,
+			CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Updates a <see cref="User"/>.

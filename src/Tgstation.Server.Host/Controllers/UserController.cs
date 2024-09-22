@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsRestAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
 		[ProducesResponseType(typeof(UserResponse), 201)]
 		public ValueTask<IActionResult> Create([FromBody] UserCreateRequest model, CancellationToken cancellationToken)
-			=> userAuthority.InvokeTransformable<User, UserResponse>(this, authority => authority.Create(model, cancellationToken));
+			=> userAuthority.InvokeTransformable<User, UserResponse>(this, authority => authority.Create(model, null, cancellationToken));
 
 		/// <summary>
 		/// Update a <see cref="User"/>.
