@@ -378,14 +378,12 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		}
 
 		/// <summary>
-		/// Updates a user.
+		/// Updates a <see cref="User"/>s properties.
 		/// </summary>
 		/// <param name="id">The <see cref="Entity.Id"/> of the <see cref="User"/> to update.</param>
 		/// <param name="casingOnlyNameChange">Optional casing only change to the <see cref="NamedEntity.Name"/> of the <see cref="User"/>. Only applicable to TGS users.</param>
 		/// <param name="newPassword">Optional new password for the <see cref="User"/>. Only applicable to TGS users.</param>
 		/// <param name="enabled">Optional new <see cref="User.Enabled"/> status for the <see cref="User"/>.</param>
-		/// <param name="newPermissionSet">Optional new owned <see cref="PermissionSet"/> for the user. Note that setting this on a <see cref="User"/> in a <see cref="UserGroup"/> will remove them from that group.</param>
-		/// <param name="newGroupId">Optional <see cref="Entity.Id"/> of the <see cref="UserGroup"/> to move the <see cref="User"/> to.</param>
 		/// <param name="newOAuthConnections">Optional new <see cref="OAuthConnection"/>s for the <see cref="User"/>.</param>
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -397,15 +395,121 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			string? casingOnlyNameChange,
 			string? newPassword,
 			bool? enabled,
-			PermissionSetInput? newPermissionSet,
-			[ID(nameof(UserGroup))] long? newGroupId,
 			IEnumerable<OAuthConnection>? newOAuthConnections,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
-			ArgumentNullException.ThrowIfNull(newOAuthConnections);
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
+			return UpdateUserCore(
+				id,
+				casingOnlyNameChange,
+				newPassword,
+				enabled,
+				null,
+				null,
+				newOAuthConnections,
+				userAuthority,
+				cancellationToken);
+		}
+
+		/// <summary>
+		/// Updates a <see cref="User"/>, setting new values for its owned <see cref="PermissionSet"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Entity.Id"/> of the <see cref="User"/> to update.</param>
+		/// <param name="casingOnlyNameChange">Optional casing only change to the <see cref="NamedEntity.Name"/> of the <see cref="User"/>. Only applicable to TGS users.</param>
+		/// <param name="newPassword">Optional new password for the <see cref="User"/>. Only applicable to TGS users.</param>
+		/// <param name="enabled">Optional new <see cref="User.Enabled"/> status for the <see cref="User"/>.</param>
+		/// <param name="newPermissionSet">Updated owned <see cref="PermissionSet"/> for the user. Note that setting this on a <see cref="User"/> in a <see cref="UserGroup"/> will remove them from that group.</param>
+		/// <param name="newOAuthConnections">The new <see cref="OAuthConnection"/>s for the <see cref="User"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>The updated <see cref="User"/>.</returns>
+		[TgsGraphQLAuthorize(AdministrationRights.WriteUsers)]
+		[Error(typeof(ErrorMessageException))]
+		public ValueTask<User> UpdateUserSetOwnedPermissionSet(
+			[ID(nameof(User))] long id,
+			string? casingOnlyNameChange,
+			string? newPassword,
+			bool? enabled,
+			PermissionSetInput newPermissionSet,
+			IEnumerable<OAuthConnection>? newOAuthConnections,
+			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(userAuthority);
+			return UpdateUserCore(
+				id,
+				casingOnlyNameChange,
+				newPassword,
+				enabled,
+				newPermissionSet,
+				null,
+				newOAuthConnections,
+				userAuthority,
+				cancellationToken);
+		}
+
+		/// <summary>
+		/// Updates a <see cref="User"/>, setting new values for its owned <see cref="PermissionSet"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Entity.Id"/> of the <see cref="User"/> to update.</param>
+		/// <param name="casingOnlyNameChange">Optional casing only change to the <see cref="NamedEntity.Name"/> of the <see cref="User"/>. Only applicable to TGS users.</param>
+		/// <param name="newPassword">Optional new password for the <see cref="User"/>. Only applicable to TGS users.</param>
+		/// <param name="enabled">Optional new <see cref="User.Enabled"/> status for the <see cref="User"/>.</param>
+		/// <param name="newGroupId"><see cref="Entity.Id"/> of the <see cref="UserGroup"/> to move the <see cref="User"/> to.</param>
+		/// <param name="newOAuthConnections">The new <see cref="OAuthConnection"/>s for the <see cref="User"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>The updated <see cref="User"/>.</returns>
+		[TgsGraphQLAuthorize(AdministrationRights.WriteUsers)]
+		[Error(typeof(ErrorMessageException))]
+		public ValueTask<User> UpdateUserSetGroup(
+			[ID(nameof(User))] long id,
+			string? casingOnlyNameChange,
+			string? newPassword,
+			bool? enabled,
+			[ID(nameof(UserGroup))] long newGroupId,
+			IEnumerable<OAuthConnection>? newOAuthConnections,
+			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(userAuthority);
+			return UpdateUserCore(
+				id,
+				casingOnlyNameChange,
+				newPassword,
+				enabled,
+				null,
+				newGroupId,
+				newOAuthConnections,
+				userAuthority,
+				cancellationToken);
+		}
+
+		/// <summary>
+		/// Updates a user.
+		/// </summary>
+		/// <param name="id">The <see cref="Entity.Id"/> of the <see cref="User"/> to update.</param>
+		/// <param name="casingOnlyNameChange">Optional casing only change to the <see cref="NamedEntity.Name"/> of the <see cref="User"/>. Only applicable to TGS users.</param>
+		/// <param name="newPassword">Optional new password for the <see cref="User"/>. Only applicable to TGS users.</param>
+		/// <param name="enabled">Optional new <see cref="User.Enabled"/> status for the <see cref="User"/>.</param>
+		/// <param name="newPermissionSet">Optional updated new owned <see cref="PermissionSet"/> for the user. Note that setting this on a <see cref="User"/> in a <see cref="UserGroup"/> will remove them from that group.</param>
+		/// <param name="newGroupId">Optional <see cref="Entity.Id"/> of the <see cref="UserGroup"/> to move the <see cref="User"/> to.</param>
+		/// <param name="newOAuthConnections">Optional new <see cref="OAuthConnection"/>s for the <see cref="User"/>.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>The updated <see cref="User"/>.</returns>
+		ValueTask<User> UpdateUserCore(
+			[ID(nameof(User))] long id,
+			string? casingOnlyNameChange,
+			string? newPassword,
+			bool? enabled,
+			PermissionSetInput? newPermissionSet,
+			long? newGroupId,
+			IEnumerable<OAuthConnection>? newOAuthConnections,
+			IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			CancellationToken cancellationToken)
+			=> userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
 				async authority => await authority.Update(
 					new UserUpdateRequest
 					{
@@ -427,7 +531,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 							}
 							: null,
 						OAuthConnections = newOAuthConnections
-							.Select(oAuthConnection => new Api.Models.OAuthConnection
+							?.Select(oAuthConnection => new Api.Models.OAuthConnection
 							{
 								ExternalUserId = oAuthConnection.ExternalUserId,
 								Provider = oAuthConnection.Provider,
@@ -435,6 +539,5 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 							.ToList(),
 					},
 					cancellationToken));
-		}
 	}
 }
