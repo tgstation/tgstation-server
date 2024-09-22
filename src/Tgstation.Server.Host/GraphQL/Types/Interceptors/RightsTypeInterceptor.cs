@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 using HotChocolate.Configuration;
+using HotChocolate.Types;
 using HotChocolate.Types.Descriptors.Definitions;
 
 using Tgstation.Server.Api.Rights;
@@ -13,6 +16,16 @@ namespace Tgstation.Server.Host.GraphQL.Types.Interceptors
 	/// </summary>
 	sealed class RightsTypeInterceptor : TypeInterceptor
 	{
+		/// <summary>
+		/// Prefix normally used by hot chocolate for flag enums.
+		/// </summary>
+		const string IsPrefix = "is";
+
+		/// <summary>
+		/// Name given to default None fields.
+		/// </summary>
+		const string NoneFieldName = $"{IsPrefix}None";
+
 		/// <summary>
 		/// Names of rights GraphQL object types.
 		/// </summary>
@@ -28,12 +41,14 @@ namespace Tgstation.Server.Host.GraphQL.Types.Interceptors
 		/// </summary>
 		public RightsTypeInterceptor()
 		{
-			objectNames = new HashSet<string>();
-			inputNames = new HashSet<string>();
+			var rightTypes = Enum.GetValues<RightsType>();
+			objectNames = new HashSet<string>(rightTypes.Length);
+			inputNames = new HashSet<string>(rightTypes.Length);
 
-			foreach (var rightType in Enum.GetValues<RightsType>())
+			foreach (var rightType in rightTypes)
 			{
-				var flagName = $"{rightType}RightsFlags";
+				var rightName = rightType.ToString();
+				var flagName = $"{rightName}RightsFlags";
 
 				objectNames.Add(flagName);
 				inputNames.Add($"{flagName}Input");
@@ -50,7 +65,6 @@ namespace Tgstation.Server.Host.GraphQL.Types.Interceptors
 		{
 			TField? noneField = null;
 
-			const string NoneFieldName = "isNone";
 			foreach (var field in fields)
 			{
 				var fieldName = field.Name;
@@ -60,7 +74,6 @@ namespace Tgstation.Server.Host.GraphQL.Types.Interceptors
 					continue;
 				}
 
-				const string IsPrefix = "is";
 				if (!fieldName.StartsWith(IsPrefix))
 					throw new InvalidOperationException("Expected flags enum type field to start with \"is\"!");
 
@@ -73,8 +86,36 @@ namespace Tgstation.Server.Host.GraphQL.Types.Interceptors
 			fields.Remove(noneField);
 		}
 
+		/// <summary>
+		/// Fix the <paramref name="inputValueFormatter"/> for a tweaked field.
+		/// </summary>
+		/// <param name="inputValueFormatter">The <see cref="IInputValueFormatter"/> to fix.</param>
+		static void FixFormatter(IInputValueFormatter inputValueFormatter)
+		{
+			// now we're hacking privates, but there's a dictionary with bad keys here that needs adjusting
+			var dictionary = (Dictionary<string, object>)(inputValueFormatter
+				.GetType()
+				.GetField("_flags", BindingFlags.Instance | BindingFlags.NonPublic)
+				?.GetValue(inputValueFormatter)
+				?? throw new InvalidOperationException("Could not locate private enum mapping dictionary field!"));
+
+			foreach (var key in dictionary.Keys.ToList())
+			{
+				if (key == NoneFieldName)
+				{
+					dictionary.Remove(key);
+					continue;
+				}
+
+				var value = dictionary[key];
+				var newKey = $"can{key.Substring(IsPrefix.Length)}";
+				dictionary.Remove(key);
+				dictionary.Add(newKey, value);
+			}
+		}
+
 		/// <inheritdoc />
-		public override void OnBeforeRegisterDependencies(ITypeDiscoveryContext discoveryContext, DefinitionBase definition)
+		public override void OnAfterRegisterDependencies(ITypeDiscoveryContext discoveryContext, DefinitionBase definition)
 		{
 			ArgumentNullException.ThrowIfNull(definition);
 
@@ -84,8 +125,17 @@ namespace Tgstation.Server.Host.GraphQL.Types.Interceptors
 					FixFields(objectTypeDef.Fields);
 			}
 			else if (definition is InputObjectTypeDefinition inputTypeDef)
-				if (inputNames.Contains(inputTypeDef.Name))
+			{
+				const string PermissionSetInputName = $"{nameof(PermissionSet)}Input";
+				const string InstancePermissionSetInputName = $"{nameof(InstancePermissionSet)}Input";
+
+				var name = inputTypeDef.Name;
+				if (inputNames.Contains(name))
 					FixFields(inputTypeDef.Fields);
+				else if (name == PermissionSetInputName || name == InstancePermissionSetInputName)
+					foreach (var field in inputTypeDef.Fields)
+						FixFormatter(field.Formatters.Single());
+			}
 		}
 	}
 }
