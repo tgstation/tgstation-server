@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -159,6 +160,75 @@ namespace Tgstation.Server.Host.Authority
 			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
+		/// <summary>
+		/// Checks if a <paramref name="createRequest"/> should return a bad request <see cref="AuthorityResponse{TResult}"/>.
+		/// </summary>
+		/// <param name="createRequest">The <see cref="UserCreateRequest"/> to check.</param>
+		/// <param name="needZeroLengthPasswordWithOAuthConnections">If a zero-length <see cref="UserUpdateRequest.Password"/> indicates and OAuth only user.</param>
+		/// <param name="failResponse">The output failing <see cref="AuthorityResponse{TResult}"/>, if any.</param>
+		/// <returns><see langword="true"/> if checks failed and <paramref name="failResponse"/> was populated, <see langword="false"/> otherwise.</returns>
+		static bool BadCreateRequestChecks(
+			UserCreateRequest createRequest,
+			bool? needZeroLengthPasswordWithOAuthConnections,
+			[NotNullWhen(true)] out AuthorityResponse<User>? failResponse)
+		{
+			if (createRequest.OAuthConnections?.Any(x => x == null) == true)
+			{
+				failResponse = BadRequest<User>(ErrorCode.ModelValidationFailure);
+				return true;
+			}
+
+			var hasNonNullPassword = createRequest.Password != null;
+			var hasNonNullSystemIdentifier = createRequest.SystemIdentifier != null;
+			var hasOAuthConnections = (createRequest.OAuthConnections?.Count > 0) == true;
+			if ((hasNonNullPassword && hasNonNullSystemIdentifier)
+				|| (!hasNonNullPassword && !hasNonNullSystemIdentifier && !hasOAuthConnections))
+			{
+				failResponse = BadRequest<User>(ErrorCode.UserMismatchPasswordSid);
+				return true;
+			}
+
+			var hasZeroLengthPassword = createRequest.Password?.Length == 0;
+			if (needZeroLengthPasswordWithOAuthConnections.HasValue)
+			{
+				if (needZeroLengthPasswordWithOAuthConnections.Value)
+				{
+					if (createRequest.OAuthConnections == null)
+						throw new InvalidOperationException($"Expected {nameof(UserCreateRequest.OAuthConnections)} to be set here!");
+
+					if (createRequest.OAuthConnections.Count == 0)
+					{
+						failResponse = BadRequest<User>(ErrorCode.ModelValidationFailure);
+						return true;
+					}
+				}
+				else if (hasZeroLengthPassword)
+				{
+					failResponse = BadRequest<User>(ErrorCode.ModelValidationFailure);
+					return true;
+				}
+			}
+
+			if (createRequest.Group != null && createRequest.PermissionSet != null)
+			{
+				failResponse = BadRequest<User>(ErrorCode.UserGroupAndPermissionSet);
+				return true;
+			}
+
+			createRequest.Name = createRequest.Name?.Trim();
+			if (createRequest.Name?.Length == 0)
+				createRequest.Name = null;
+
+			if (!(createRequest.Name == null ^ createRequest.SystemIdentifier == null))
+			{
+				failResponse = BadRequest<User>(ErrorCode.UserMismatchNameSid);
+				return true;
+			}
+
+			failResponse = CheckValidName(createRequest, true);
+			return failResponse != null;
+		}
+
 		/// <inheritdoc />
 		public ValueTask<AuthorityResponse<User>> Read(CancellationToken cancellationToken)
 			=> ValueTask.FromResult(new AuthorityResponse<User>(AuthenticationContext.User));
@@ -207,44 +277,8 @@ namespace Tgstation.Server.Host.Authority
 		{
 			ArgumentNullException.ThrowIfNull(createRequest);
 
-			if (createRequest.OAuthConnections?.Any(x => x == null) == true)
-				return BadRequest<User>(ErrorCode.ModelValidationFailure);
-
-			var hasNonNullPassword = createRequest.Password != null;
-			var hasNonNullSystemIdentifier = createRequest.SystemIdentifier != null;
-			var hasOAuthConnections = (createRequest.OAuthConnections?.Count > 0) == true;
-			if ((hasNonNullPassword && hasNonNullSystemIdentifier)
-				|| (!hasNonNullPassword && !hasNonNullSystemIdentifier && !hasOAuthConnections))
-				return BadRequest<User>(ErrorCode.UserMismatchPasswordSid);
-
-			var hasZeroLengthPassword = createRequest.Password?.Length == 0;
-			if (needZeroLengthPasswordWithOAuthConnections.HasValue)
-			{
-				if (needZeroLengthPasswordWithOAuthConnections.Value)
-				{
-					if (createRequest.OAuthConnections == null)
-						throw new InvalidOperationException($"Expected {nameof(UserCreateRequest.OAuthConnections)} to be set here!");
-
-					if (createRequest.OAuthConnections.Count == 0)
-						return BadRequest<User>(ErrorCode.ModelValidationFailure);
-				}
-				else if (hasZeroLengthPassword)
-					return BadRequest<User>(ErrorCode.ModelValidationFailure);
-			}
-
-			if (createRequest.Group != null && createRequest.PermissionSet != null)
-				return BadRequest<User>(ErrorCode.UserGroupAndPermissionSet);
-
-			createRequest.Name = createRequest.Name?.Trim();
-			if (createRequest.Name?.Length == 0)
-				createRequest.Name = null;
-
-			if (!(createRequest.Name == null ^ createRequest.SystemIdentifier == null))
-				return BadRequest<User>(ErrorCode.UserMismatchNameSid);
-
-			var fail = CheckValidName(createRequest, true);
-			if (fail != null)
-				return fail;
+			if (BadCreateRequestChecks(createRequest, needZeroLengthPasswordWithOAuthConnections, out var failResponse))
+				return failResponse;
 
 			var totalUsers = await DatabaseContext
 				.Users
@@ -275,6 +309,8 @@ namespace Tgstation.Server.Host.Authority
 				}
 			else
 			{
+				var hasZeroLengthPassword = createRequest.Password?.Length == 0;
+				var hasOAuthConnections = (createRequest.OAuthConnections?.Count > 0) == true;
 				if (!(needZeroLengthPasswordWithOAuthConnections != false && hasZeroLengthPassword && hasOAuthConnections)) // special case allow PasswordHash to be null by setting Password to "" if OAuthConnections are set
 				{
 					var result = TrySetPassword(dbUser, createRequest.Password!, true);
