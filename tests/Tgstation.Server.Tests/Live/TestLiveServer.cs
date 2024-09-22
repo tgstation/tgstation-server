@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -1379,20 +1379,25 @@ namespace Tgstation.Server.Tests.Live
 					await unAuthedMultiClient.ExecuteReadOnlyConfirmEquivalence(
 						restClient => restClient.ServerInformation(cancellationToken),
 						gqlClient => gqlClient.UnauthenticatedServerInformation.ExecuteAsync(cancellationToken),
-						(restServerInfo, gqlServerInfo) => restServerInfo.ApiVersion.Major == gqlServerInfo.Swarm.CurrentNode.Gateway.Information.MajorApiVersion
-							&& (restServerInfo.OAuthProviderInfos == gqlServerInfo.Swarm.CurrentNode.Gateway.Information.OAuthProviderInfos
-								|| restServerInfo.OAuthProviderInfos.All(kvp =>
-								{
-									var info = gqlServerInfo.Swarm.CurrentNode.Gateway.Information.OAuthProviderInfos.FirstOrDefault(x => (int)x.Key == (int)kvp.Key);
-									return info != null
-										&& info.Value.ServerUrl == kvp.Value.ServerUrl
-										&& info.Value.ClientId == kvp.Value.ClientId
-										&& info.Value.RedirectUri == kvp.Value.RedirectUri;
-								})),
+						(restServerInfo, gqlServerInfo) =>
+						{
+							var result = restServerInfo.ApiVersion.Major == gqlServerInfo.Swarm.CurrentNode.Gateway.Information.MajorApiVersion
+								&& (restServerInfo.OAuthProviderInfos == gqlServerInfo.Swarm.CurrentNode.Gateway.Information.OAuthProviderInfos
+									|| restServerInfo.OAuthProviderInfos.All(kvp =>
+									{
+										var info = gqlServerInfo.Swarm.CurrentNode.Gateway.Information.OAuthProviderInfos.FirstOrDefault(x => (int)x.Key == (int)kvp.Key);
+										return info != null
+											&& info.Value.ServerUrl == kvp.Value.ServerUrl
+											&& info.Value.ClientId == kvp.Value.ClientId
+											&& info.Value.RedirectUri == kvp.Value.RedirectUri;
+									}));
+
+							return result;
+						},
 						cancellationToken);
 				}
 
-				async ValueTask<IRestServerClient> CreateUserWithNoInstancePerms()
+				async ValueTask<MultiServerClient> CreateUserWithNoInstancePerms()
 				{
 					var createRequest = new UserCreateRequest()
 					{
@@ -1408,10 +1413,10 @@ namespace Tgstation.Server.Tests.Live
 					var user = await firstAdminRestClient.Users.Create(createRequest, cancellationToken);
 					Assert.IsTrue(user.Enabled);
 
-					return await restClientFactory.CreateFromLogin(server.RootUrl, createRequest.Name, createRequest.Password, cancellationToken: cancellationToken);
+					return await CreateClient(server.RootUrl, createRequest.Name, createRequest.Password, false, cancellationToken);
 				}
 
-				var jobsHubTest = new JobsHubTests(firstAdminRestClient, await CreateUserWithNoInstancePerms());
+				var jobsHubTest = new JobsHubTests(firstAdminMultiClient, await CreateUserWithNoInstancePerms());
 				Task jobsHubTestTask;
 				{
 					if (server.DumpOpenApiSpecpath)
@@ -1449,7 +1454,7 @@ namespace Tgstation.Server.Tests.Live
 						jobsHubTestTask = FailFast(await jobsHubTest.Run(cancellationToken)); // returns Task<Task>
 						var rootTest = FailFast(RawRequestTests.Run(restClientFactory, firstAdminRestClient, cancellationToken));
 						var adminTest = FailFast(new AdministrationTest(firstAdminRestClient.Administration).Run(cancellationToken));
-						var usersTest = FailFast(new UsersTest(firstAdminRestClient).Run(cancellationToken));
+						var usersTest = FailFast(new UsersTest(firstAdminMultiClient).Run(cancellationToken).AsTask());
 
 						var instanceManagerTest = new InstanceManagerTest(firstAdminRestClient, server.Directory);
 						var compatInstanceTask = instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);
@@ -1836,7 +1841,15 @@ namespace Tgstation.Server.Tests.Live
 			await serverTask;
 		}
 
-		async ValueTask<MultiServerClient> CreateAdminClient(Uri url, CancellationToken cancellationToken)
+		ValueTask<MultiServerClient> CreateAdminClient(Uri url, CancellationToken cancellationToken)
+			=> CreateClient(url, DefaultCredentials.AdminUserName, DefaultCredentials.DefaultAdminUserPassword, true, cancellationToken);
+
+		async ValueTask<MultiServerClient> CreateClient(
+			Uri url,
+			string username,
+			string password,
+			bool retry,
+			CancellationToken cancellationToken = default)
 		{
 			url = new Uri(url.ToString().Replace(Routes.ApiRoot, String.Empty));
 			var giveUpAt = DateTimeOffset.UtcNow.AddMinutes(2);
@@ -1850,14 +1863,14 @@ namespace Tgstation.Server.Tests.Live
 					
 					restClientTask = restClientFactory.CreateFromLogin(
 						url,
-						DefaultCredentials.AdminUserName,
-						DefaultCredentials.DefaultAdminUserPassword,
+						username,
+						password,
 						cancellationToken: cancellationToken);
 					using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 					graphQLClientTask = graphQLClientFactory.CreateFromLogin(
 						url,
-						DefaultCredentials.AdminUserName,
-						DefaultCredentials.DefaultAdminUserPassword,
+						username,
+						password,
 						cancellationToken: cts.Token);
 
 					IRestServerClient restClient;
@@ -1898,14 +1911,14 @@ namespace Tgstation.Server.Tests.Live
 				catch (HttpRequestException)
 				{
 					//migrating, to be expected
-					if (DateTimeOffset.UtcNow > giveUpAt)
+					if (DateTimeOffset.UtcNow > giveUpAt || !retry)
 						throw;
 					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 				}
 				catch (ServiceUnavailableException)
 				{
 					// migrating, to be expected
-					if (DateTimeOffset.UtcNow > giveUpAt)
+					if (DateTimeOffset.UtcNow > giveUpAt || !retry)
 						throw;
 					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 				}

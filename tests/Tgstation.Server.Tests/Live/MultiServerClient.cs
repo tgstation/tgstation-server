@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,7 +12,7 @@ using Tgstation.Server.Common.Extensions;
 
 namespace Tgstation.Server.Tests.Live
 {
-	sealed class MultiServerClient : IAsyncDisposable
+	sealed class MultiServerClient : IMultiServerClient, IAsyncDisposable
 	{
 		public IRestServerClient RestClient { get; }
 		public IGraphQLServerClient GraphQLClient { get; }
@@ -40,7 +40,7 @@ namespace Tgstation.Server.Tests.Live
 			return restAction(RestClient);
 		}
 
-		public async ValueTask ExecuteReadOnlyConfirmEquivalence<TRestResult, TGraphQLResult>(
+		public async ValueTask<(TRestResult, TGraphQLResult)> ExecuteReadOnlyConfirmEquivalence<TRestResult, TGraphQLResult>(
 			Func<IRestServerClient, ValueTask<TRestResult>> restAction,
 			Func<IGraphQLClient, Task<IOperationResult<TGraphQLResult>>> graphQLAction,
 			Func<TRestResult, TGraphQLResult, bool> comparison,
@@ -50,8 +50,13 @@ namespace Tgstation.Server.Tests.Live
 			var restTask = restAction(RestClient);
 			var graphQLResult = await GraphQLClient.RunOperation(graphQLAction, cancellationToken);
 
+			graphQLResult.EnsureNoErrors();
+
 			var restResult = await restTask;
-			Assert.IsTrue(comparison(restResult, graphQLResult.Data), "REST/GraphQL results differ!");
+			var comparisonResult = comparison(restResult, graphQLResult.Data);
+			Assert.IsTrue(comparisonResult, "REST/GraphQL results differ!");
+
+			return (restResult, graphQLResult.Data);
 		}
 	}
 }

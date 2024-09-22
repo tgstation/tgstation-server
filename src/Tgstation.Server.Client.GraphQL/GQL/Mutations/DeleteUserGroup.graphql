@@ -1,0 +1,11 @@
+mutation DeleteUserGroup($id: ID!) {
+  deleteEmptyUserGroup(input: { id: $id }) {
+    errors {
+      ... on ErrorMessageError {
+        additionalData
+        errorCode
+        message
+      }
+    }
+  }
+}
