@@ -12,10 +12,16 @@ using Tgstation.Server.Common.Extensions;
 
 namespace Tgstation.Server.Tests.Live
 {
-	sealed class MultiServerClient(IRestServerClient restServerClient, IGraphQLServerClient graphQLServerClient) : IAsyncDisposable
+	sealed class MultiServerClient : IAsyncDisposable
 	{
-		public IRestServerClient RestClient { get; } = restServerClient ?? throw new ArgumentNullException(nameof(restServerClient));
-		public IGraphQLServerClient GraphQLClient { get; } = graphQLServerClient ?? throw new ArgumentNullException(nameof(graphQLServerClient));
+		public IRestServerClient RestClient { get; }
+		public IGraphQLServerClient GraphQLClient { get; }
+
+		public MultiServerClient(IRestServerClient restServerClient, IGraphQLServerClient graphQLServerClient)
+		{
+			this.RestClient = restServerClient;
+			this.GraphQLClient = graphQLServerClient;
+		}
 
 		public static bool UseGraphQL => Boolean.TryParse(Environment.GetEnvironmentVariable("TGS_TEST_GRAPHQL"), out var result) && result;
 

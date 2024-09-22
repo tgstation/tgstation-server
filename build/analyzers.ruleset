@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="myrules" Description="My rule set" ToolsVersion="17.0">
   <Rules AnalyzerId="AsyncUsageAnalyzers" RuleNamespace="AsyncUsageAnalyzers">
     <Rule Id="UseConfigureAwait" Action="Warning" />
@@ -6,7 +6,6 @@
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1000" Action="Warning" />
     <Rule Id="CA1001" Action="Warning" />
-    <Rule Id="CA1002" Action="None" />
     <Rule Id="CA1003" Action="Warning" />
     <Rule Id="CA1004" Action="Warning" />
     <Rule Id="CA1005" Action="Warning" />
@@ -669,7 +668,6 @@
   </Rules>
   <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.CodeStyle" RuleNamespace="Microsoft.CodeAnalysis.CSharp.CodeStyle">
     <Rule Id="IDE0028" Action="None" />
-    <Rule Id="IDE0290" Action="None" />
     <Rule Id="IDE0301" Action="None" />
   </Rules>
   <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.EditorFeatures" RuleNamespace="Microsoft.CodeAnalysis.CSharp.EditorFeatures">
@@ -756,7 +754,6 @@
     <Rule Id="IDE0048WithoutSuggestion" Action="Warning" />
     <Rule Id="IDE0049" Action="None" />
     <Rule Id="IDE0049WithoutSuggestion" Action="None" />
-    <Rule Id="IDE0290" Action="None" />
     <Rule Id="IDE0301" Action="None" />
     <Rule Id="IDE1005" Action="Warning" />
     <Rule Id="IDE1005WithoutSuggestion" Action="Warning" />
