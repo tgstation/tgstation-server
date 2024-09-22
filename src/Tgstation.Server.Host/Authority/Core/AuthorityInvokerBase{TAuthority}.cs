@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using Tgstation.Server.Api.Models;
+
 namespace Tgstation.Server.Host.Authority.Core
 {
 	/// <inheritdoc />
@@ -32,8 +34,14 @@ namespace Tgstation.Server.Host.Authority.Core
 		IQueryable<TApiModel> IAuthorityInvoker<TAuthority>.InvokeTransformableQueryable<TResult, TApiModel, TTransformer>(Func<TAuthority, IQueryable<TResult>> authorityInvoker)
 		{
 			ArgumentNullException.ThrowIfNull(authorityInvoker);
+
+			var queryable = authorityInvoker(Authority);
+
+			if (typeof(EntityId).IsAssignableFrom(typeof(TResult)))
+				queryable = queryable.OrderBy(item => ((EntityId)(object)item).Id!.Value); // order by ID to fix an EFCore warning
+
 			var expression = new TTransformer().Expression;
-			return authorityInvoker(Authority)
+			return queryable
 				.Select(expression);
 		}
 	}
