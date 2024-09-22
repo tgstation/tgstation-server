@@ -319,6 +319,8 @@ namespace Tgstation.Server.Host.Core
 					{
 						pagingOptions.IncludeTotalCount = true;
 						pagingOptions.RequirePagingBoundaries = false;
+						pagingOptions.DefaultPageSize = ApiController.DefaultPageSize;
+						pagingOptions.MaxPageSize = ApiController.MaximumPageSize;
 					})
 					.AddFiltering()
 					.AddSorting()

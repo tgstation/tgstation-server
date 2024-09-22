@@ -38,12 +38,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Default size of <see cref="Paginated{TModel}"/> results.
 		/// </summary>
-		private const ushort DefaultPageSize = 10;
+		public const ushort DefaultPageSize = 10;
 
 		/// <summary>
 		/// Maximum size of <see cref="Paginated{TModel}"/> results.
 		/// </summary>
-		private const ushort MaximumPageSize = 100;
+		public const ushort MaximumPageSize = 100;
 
 		/// <summary>
 		/// The <see cref="Api.ApiHeaders"/> for the operation.
