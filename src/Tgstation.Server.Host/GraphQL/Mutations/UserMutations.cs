@@ -46,8 +46,8 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
-			ArgumentException.ThrowIfNullOrWhiteSpace(name);
-			ArgumentException.ThrowIfNullOrEmpty(password);
+			ArgumentNullException.ThrowIfNull(name);
+			ArgumentNullException.ThrowIfNull(password);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
 			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
@@ -98,8 +98,8 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
-			ArgumentException.ThrowIfNullOrWhiteSpace(name);
-			ArgumentException.ThrowIfNullOrEmpty(password);
+			ArgumentNullException.ThrowIfNull(name);
+			ArgumentNullException.ThrowIfNull(password);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
 			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
@@ -145,7 +145,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
-			ArgumentException.ThrowIfNullOrWhiteSpace(name);
+			ArgumentNullException.ThrowIfNull(name);
 			ArgumentNullException.ThrowIfNull(oAuthConnections);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
@@ -195,7 +195,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
-			ArgumentException.ThrowIfNullOrWhiteSpace(name);
+			ArgumentNullException.ThrowIfNull(name);
 			ArgumentNullException.ThrowIfNull(oAuthConnections);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
@@ -242,7 +242,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
-			ArgumentException.ThrowIfNullOrWhiteSpace(systemIdentifier);
+			ArgumentNullException.ThrowIfNull(systemIdentifier);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
 			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
@@ -290,7 +290,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
-			ArgumentException.ThrowIfNullOrWhiteSpace(systemIdentifier);
+			ArgumentNullException.ThrowIfNull(systemIdentifier);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
 			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
@@ -331,7 +331,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
-			ArgumentException.ThrowIfNullOrEmpty(newPassword);
+			ArgumentNullException.ThrowIfNull(newPassword);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
 				async authority => await authority.Update(
