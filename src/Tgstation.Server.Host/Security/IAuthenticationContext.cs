@@ -4,7 +4,7 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
-	/// Represents the currently authenticated <see cref="Models.User"/>.
+	/// For creating and accessing authentication contexts.
 	/// </summary>
 	public interface IAuthenticationContext
 	{

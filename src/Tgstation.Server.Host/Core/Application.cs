@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
@@ -700,8 +700,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddHttpContextAccessor();
 			services.AddScoped<IApiHeadersProvider, ApiHeadersProvider>();
 			services.AddScoped<AuthenticationContextFactory>();
-			services.AddScoped<IAuthenticationContextFactory>(provider => provider.GetRequiredService<AuthenticationContextFactory>());
-			services.AddScoped<ITokenValidator, TokenValidator>();
+			services.AddScoped<ITokenValidator>(provider => provider.GetRequiredService<AuthenticationContextFactory>());
 
 			// what if you
 			// wanted to just do this:
