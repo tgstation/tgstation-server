@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using HotChocolate;
@@ -34,16 +35,18 @@ namespace Tgstation.Server.Host.GraphQL
 		/// <param name="receiver">The <see cref="ITopicEventReceiver"/>.</param>
 		/// <param name="invalidationTracker">The <see cref="ISessionInvalidationTracker"/>.</param>
 		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the request.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="ISourceStream{TMessage}"/> of the <see cref="SessionInvalidationReason"/> for the <paramref name="authenticationContext"/>.</returns>
 		public ValueTask<ISourceStream<SessionInvalidationReason>> SessionInvalidatedStream(
 			[Service] ITopicEventReceiver receiver,
 			[Service] ISessionInvalidationTracker invalidationTracker,
-			[Service] IAuthenticationContext authenticationContext)
+			[Service] IAuthenticationContext authenticationContext,
+			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(receiver);
 			ArgumentNullException.ThrowIfNull(invalidationTracker);
 
-			var subscription = receiver.SubscribeAsync<SessionInvalidationReason>(SessionInvalidatedTopic(authenticationContext));
+			var subscription = receiver.SubscribeAsync<SessionInvalidationReason>(SessionInvalidatedTopic(authenticationContext), cancellationToken);
 			invalidationTracker.TrackSession(authenticationContext);
 			return subscription;
 		}
