@@ -575,7 +575,7 @@ namespace Tgstation.Server.Tests.Live
 
 		ValueTask TestPagination(CancellationToken cancellationToken)
 		{
-			const int ExpectedCount = 106;
+			var expectedCount = new PlatformIdentifier().IsWindows ? 106 : 105; // system user
 			return serverClient.Execute(
 				async restClient =>
 				{
@@ -587,7 +587,7 @@ namespace Tgstation.Server.Tests.Live
 						}, cancellationToken);
 
 					Assert.AreEqual(nullSettings.Count, emptySettings.Count);
-					Assert.AreEqual(ExpectedCount, nullSettings.Count);
+					Assert.AreEqual(expectedCount, nullSettings.Count);
 					Assert.IsTrue(nullSettings.All(x => emptySettings.SingleOrDefault(y => x.Id == y.Id) != null));
 
 					await ApiAssert.ThrowsException<ApiConflictException, List<UserResponse>>(() => restClient.Users.List(
@@ -638,8 +638,8 @@ namespace Tgstation.Server.Tests.Live
 
 						string cursor = null;
 
-						var exactMatch = (ExpectedCount % outputPageSize) == 0;
-						var expectedIterations = (ExpectedCount / outputPageSize) + (exactMatch ? 0 : 1);
+						var exactMatch = (expectedCount % outputPageSize) == 0;
+						var expectedIterations = (expectedCount / outputPageSize) + (exactMatch ? 0 : 1);
 						for (int i = 0; i < expectedIterations; ++i)
 						{
 							var isLastIteration = i == expectedIterations - 1;
@@ -653,7 +653,7 @@ namespace Tgstation.Server.Tests.Live
 							if (!isLastIteration || exactMatch)
 								Assert.AreEqual(outputPageSize, queryable.Nodes.Count);
 							else
-								Assert.AreEqual(ExpectedCount % outputPageSize, queryable.Nodes.Count);
+								Assert.AreEqual(expectedCount % outputPageSize, queryable.Nodes.Count);
 							Assert.AreEqual(!isLastIteration, queryable.PageInfo.HasNextPage);
 							Assert.IsNotNull(queryable.PageInfo.EndCursor);
 
