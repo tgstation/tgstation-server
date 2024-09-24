@@ -2,6 +2,9 @@
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
+	/// <summary>
+	/// Represents a set of permissions for an <see cref="Instance"/>.
+	/// </summary>
 	public sealed class InstancePermissionSet
 	{
 		/// <summary>

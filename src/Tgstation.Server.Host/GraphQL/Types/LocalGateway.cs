@@ -13,6 +13,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <inheritdoc />
 		public GatewayInformation Information() => new();
 
+		/// <inheritdoc />
 		public IQueryable<Instance> Instances()
 			=> throw new NotImplementedException();
 	}

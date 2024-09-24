@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using Tgstation.Server.Host.GraphQL.Interfaces;
 
@@ -12,5 +13,8 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	{
 		/// <inheritdoc />
 		public GatewayInformation Information() => throw new NotImplementedException();
+
+		/// <inheritdoc />
+		public IQueryable<Instance> Instances() => throw new NotImplementedException();
 	}
 }

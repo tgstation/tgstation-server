@@ -93,7 +93,9 @@ namespace Tgstation.Server.Host.Security
 		public void Dispose() => currentAuthenticationContext.Dispose();
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task ValidateToken(TokenValidatedContext tokenValidatedContext, CancellationToken cancellationToken)
+		#pragma warning restore CA1506
 		{
 			ArgumentNullException.ThrowIfNull(tokenValidatedContext);
 
@@ -190,8 +192,7 @@ namespace Tgstation.Server.Host.Security
 				currentAuthenticationContext.Initialize(
 					user,
 					expires,
-					// signature is enough to uniquely identify the session as it is composite of all the inputs
-					jwt.EncodedSignature,
+					jwt.EncodedSignature, // signature is enough to uniquely identify the session as it is composite of all the inputs
 					instancePermissionSet,
 					systemIdentity);
 			}
