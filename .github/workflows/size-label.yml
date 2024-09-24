@@ -2,8 +2,7 @@ name: Size Labelling
 on:
   pull_request_target:
     types:
-      - reopened
-      - labeled
+      - opened
       - synchronize
 
 concurrency:
