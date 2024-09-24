@@ -319,7 +319,9 @@ namespace Tgstation.Server.Host.Authority
 			{
 				var hasZeroLengthPassword = createRequest.Password?.Length == 0;
 				var hasOAuthConnections = (createRequest.OAuthConnections?.Count > 0) == true;
-				if (!(needZeroLengthPasswordWithOAuthConnections != false && hasZeroLengthPassword && hasOAuthConnections)) // special case allow PasswordHash to be null by setting Password to "" if OAuthConnections are set
+
+				// special case allow PasswordHash to be null by setting Password to "" if OAuthConnections are set
+				if (!(needZeroLengthPasswordWithOAuthConnections != false && hasZeroLengthPassword && hasOAuthConnections))
 				{
 					var result = TrySetPassword(dbUser, createRequest.Password!, true);
 					if (result != null)
