@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -72,20 +71,6 @@ namespace Tgstation.Server.Client.GraphQL
 		[DoesNotReturn]
 		static void ThrowOtherCallerFailedAuthException()
 			=> throw new AuthenticationException("Another caller failed to authenticate!");
-
-		/// <summary>
-		/// Checks if a given <paramref name="operationResult"/> errored out with authentication errors.
-		/// </summary>
-		/// <param name="operationResult">The <see cref="IOperationResult"/>.</param>
-		/// <returns><see langword="true"/> if <paramref name="operationResult"/> errored due to authentication issues, <see langword="false"/> otherwise.</returns>
-		static bool IsAuthenticationError(IOperationResult operationResult)
-			=> operationResult.Data == null
-				&& operationResult.Errors.Any(
-					error => error.Extensions?.TryGetValue(
-						   "code",
-						   out object? codeExtension) == true
-					&& codeExtension is string codeExtensionString
-					&& codeExtensionString == "AUTH_NOT_AUTHENTICATED");
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GraphQLServerClient"/> class.
@@ -243,7 +228,7 @@ namespace Tgstation.Server.Client.GraphQL
 
 			var operationResult = await operationExecutor(graphQLClient);
 
-			if (IsAuthenticationError(operationResult))
+			if (operationResult.IsAuthenticationError())
 			{
 				currentAuthHeader = await Reauthenticate(currentAuthHeader, cancellationToken).ConfigureAwait(false);
 				setAuthenticationHeader(currentAuthHeader);
