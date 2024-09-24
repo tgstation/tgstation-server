@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Host.GraphQL.Types
+﻿namespace Tgstation.Server.Host.GraphQL.Subscriptions
 {
 	/// <summary>
 	/// Reasons TGS may invalidate a user's login session.

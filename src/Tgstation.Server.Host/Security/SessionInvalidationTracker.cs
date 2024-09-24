@@ -10,7 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Host.GraphQL;
-using Tgstation.Server.Host.GraphQL.Types;
+using Tgstation.Server.Host.GraphQL.Subscriptions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Utils;
 

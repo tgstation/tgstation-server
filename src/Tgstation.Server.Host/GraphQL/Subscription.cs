@@ -6,7 +6,7 @@ using HotChocolate.Execution;
 using HotChocolate.Subscriptions;
 using HotChocolate.Types;
 
-using Tgstation.Server.Host.GraphQL.Types;
+using Tgstation.Server.Host.GraphQL.Subscriptions;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.GraphQL
