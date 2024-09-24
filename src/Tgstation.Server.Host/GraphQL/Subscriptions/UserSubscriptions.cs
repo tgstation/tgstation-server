@@ -10,7 +10,6 @@ using HotChocolate.Types;
 
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.GraphQL.Types;
-using Tgstation.Server.Host.Models.Transformers;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.GraphQL.Subscriptions
@@ -52,28 +51,27 @@ namespace Tgstation.Server.Host.GraphQL.Subscriptions
 		/// <returns>The updated <see cref="User"/>.</returns>
 		[Subscribe]
 		[TgsGraphQLAuthorize(AdministrationRights.ReadUsers)]
-		public User UserUpdated([EventMessage] Models.User user)
+		public User UserUpdated([EventMessage] User user)
 		{
 			ArgumentNullException.ThrowIfNull(user);
-
-			return ((Models.IApiTransformable<Models.User, User, UserGraphQLTransformer>)user).ToApi();
+			return user;
 		}
 
 		/// <summary>
-		/// <see cref="ISourceStream"/> for <see cref="CurrentUserUpdated(Models.User)"/>.
+		/// <see cref="ISourceStream"/> for <see cref="CurrentUserUpdated(User)"/>.
 		/// </summary>
 		/// <param name="receiver">The <see cref="ITopicEventReceiver"/>.</param>
 		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the request.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="ISourceStream{TMessage}"/> of the <see cref="SessionInvalidationReason"/> for the <paramref name="authenticationContext"/>.</returns>
-		public ValueTask<ISourceStream<Models.User>> CurrentUserUpdatedStream(
+		public ValueTask<ISourceStream<User>> CurrentUserUpdatedStream(
 			[Service] ITopicEventReceiver receiver,
 			[Service] IAuthenticationContext authenticationContext,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(receiver);
 			ArgumentNullException.ThrowIfNull(authenticationContext);
-			return receiver.SubscribeAsync<Models.User>(SpecificUserUpdatedTopic(Models.ModelExtensions.Require(authenticationContext.User, user => user.Id)), cancellationToken);
+			return receiver.SubscribeAsync<User>(SpecificUserUpdatedTopic(Models.ModelExtensions.Require(authenticationContext.User, user => user.Id)), cancellationToken);
 		}
 
 		/// <summary>
@@ -83,11 +81,11 @@ namespace Tgstation.Server.Host.GraphQL.Subscriptions
 		/// <returns>The updated <see cref="User"/>.</returns>
 		[Subscribe]
 		[TgsGraphQLAuthorize]
-		public User CurrentUserUpdated([EventMessage] Models.User user)
+		public User CurrentUserUpdated([EventMessage] User user)
 		{
 			ArgumentNullException.ThrowIfNull(user);
 
-			return ((Models.IApiTransformable<Models.User, User, UserGraphQLTransformer>)user).ToApi();
+			return user;
 		}
 	}
 }
