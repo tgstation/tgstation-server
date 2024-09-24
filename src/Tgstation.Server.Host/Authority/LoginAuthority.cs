@@ -54,6 +54,11 @@ namespace Tgstation.Server.Host.Authority
 		readonly IIdentityCache identityCache;
 
 		/// <summary>
+		/// The <see cref="ISessionInvalidationTracker"/> for the <see cref="LoginAuthority"/>.
+		/// </summary>
+		readonly ISessionInvalidationTracker sessionInvalidationTracker;
+
+		/// <summary>
 		/// Generate an <see cref="AuthorityResponse{TResult}"/> for a given <paramref name="headersException"/>.
 		/// </summary>
 		/// <param name="headersException">The <see cref="HeadersException"/> to generate a response for.</param>
@@ -99,6 +104,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/>.</param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/>.</param>
+		/// <param name="sessionInvalidationTracker">The value of <see cref="sessionInvalidationTracker"/>.</param>
 		public LoginAuthority(
 			IAuthenticationContext authenticationContext,
 			IDatabaseContext databaseContext,
@@ -108,7 +114,8 @@ namespace Tgstation.Server.Host.Authority
 			IOAuthProviders oAuthProviders,
 			ITokenFactory tokenFactory,
 			ICryptographySuite cryptographySuite,
-			IIdentityCache identityCache)
+			IIdentityCache identityCache,
+			ISessionInvalidationTracker sessionInvalidationTracker)
 			: base(
 				  authenticationContext,
 				  databaseContext,
@@ -120,6 +127,7 @@ namespace Tgstation.Server.Host.Authority
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
+			this.sessionInvalidationTracker = sessionInvalidationTracker ?? throw new ArgumentNullException(nameof(sessionInvalidationTracker));
 		}
 
 		/// <inheritdoc />
@@ -230,20 +238,20 @@ namespace Tgstation.Server.Host.Authority
 						if (isLikelyDbUser || usernameMismatch)
 						{
 							DatabaseContext.Users.Attach(user);
-							if (isLikelyDbUser)
-							{
-								// cleanup from https://github.com/tgstation/tgstation-server/issues/1528
-								Logger.LogDebug("System user ID {userId}'s PasswordHash is polluted, updating database.", user.Id);
-								user.PasswordHash = null;
-								user.LastPasswordUpdate = DateTimeOffset.UtcNow;
-							}
-
 							if (usernameMismatch)
 							{
 								// System identity username change update
 								Logger.LogDebug("User ID {userId}'s system identity needs a refresh, updating database.", user.Id);
 								user.Name = systemIdentity.Username;
 								user.CanonicalName = User.CanonicalizeName(user.Name);
+							}
+
+							if (isLikelyDbUser)
+							{
+								// cleanup from https://github.com/tgstation/tgstation-server/issues/1528
+								Logger.LogDebug("System user ID {userId}'s PasswordHash is polluted, updating database.", user.Id);
+								user.PasswordHash = null;
+								sessionInvalidationTracker.UserModifiedInvalidateSessions(user);
 							}
 
 							await DatabaseContext.Save(cancellationToken);

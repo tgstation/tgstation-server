@@ -1,4 +1,6 @@
-﻿using Tgstation.Server.Api.Rights;
+﻿using System;
+
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
@@ -11,7 +13,17 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// If the <see cref="IAuthenticationContext"/> is for a valid login.
 		/// </summary>
-		public bool Valid { get; }
+		bool Valid { get; }
+
+		/// <summary>
+		/// A <see cref="string"/> that uniquely identifies the login session.
+		/// </summary>
+		string SessionId { get; }
+
+		/// <summary>
+		/// When the login session expires.
+		/// </summary>
+		DateTimeOffset SessionExpiry { get; }
 
 		/// <summary>
 		/// The authenticated user.

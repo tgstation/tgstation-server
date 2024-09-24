@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
@@ -309,6 +309,7 @@ namespace Tgstation.Server.Host.Core
 					})
 #endif
 					.AddMutationConventions()
+					.AddInMemorySubscriptions()
 					.AddGlobalObjectIdentification()
 					.AddQueryFieldToMutationPayloads()
 					.ModifyOptions(options =>
@@ -334,7 +335,8 @@ namespace Tgstation.Server.Host.Core
 					.BindRuntimeType<Version, SemverType>()
 					.TryAddTypeInterceptor<RightsTypeInterceptor>()
 					.AddQueryType<Query>()
-					.AddMutationType<Mutation>();
+					.AddMutationType<Mutation>()
+					.AddSubscriptionType<Subscription>();
 
 			void AddTypedContext<TContext>()
 				where TContext : DatabaseContext
@@ -383,6 +385,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IIdentityCache, IdentityCache>();
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
+			services.AddSingleton<ISessionInvalidationTracker, SessionInvalidationTracker>();
 			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
 
 			// configure platform specific services

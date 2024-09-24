@@ -119,21 +119,26 @@ namespace Tgstation.Server.Host.Security
 				throw new InvalidOperationException("Failed to parse user ID!", e);
 			}
 
-			var nbfClaim = principal.FindFirst(JwtRegisteredClaimNames.Nbf);
-			if (nbfClaim == default)
-				throw new InvalidOperationException($"Missing '{JwtRegisteredClaimNames.Nbf}' claim!");
+			DateTimeOffset ParseTime(string key)
+			{
+				var claim = principal.FindFirst(key);
+				if (claim == default)
+					throw new InvalidOperationException($"Missing '{key}' claim!");
 
-			DateTimeOffset notBefore;
-			try
-			{
-				notBefore = new DateTimeOffset(
-					EpochTime.DateTime(
-						Int64.Parse(nbfClaim.Value, CultureInfo.InvariantCulture)));
+				try
+				{
+					return new DateTimeOffset(
+						EpochTime.DateTime(
+							Int64.Parse(claim.Value, CultureInfo.InvariantCulture)));
+				}
+				catch (Exception ex)
+				{
+					throw new InvalidOperationException($"Failed to parse '{key}'!", ex);
+				}
 			}
-			catch (Exception ex)
-			{
-				throw new InvalidOperationException("Failed to parse nbf!", ex);
-			}
+
+			var notBefore = ParseTime(JwtRegisteredClaimNames.Nbf);
+			var expires = ParseTime(JwtRegisteredClaimNames.Exp);
 
 			var user = await databaseContext
 				.Users
@@ -183,9 +188,12 @@ namespace Tgstation.Server.Host.Security
 				}
 
 				currentAuthenticationContext.Initialize(
-					systemIdentity,
 					user,
-					instancePermissionSet);
+					expires,
+					// signature is enough to uniquely identify the session as it is composite of all the inputs
+					jwt.EncodedSignature,
+					instancePermissionSet,
+					systemIdentity);
 			}
 			catch
 			{

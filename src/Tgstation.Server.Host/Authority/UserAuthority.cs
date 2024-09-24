@@ -53,6 +53,11 @@ namespace Tgstation.Server.Host.Authority
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
+		/// The <see cref="ISessionInvalidationTracker"/> for the <see cref="UserAuthority"/>.
+		/// </summary>
+		readonly ISessionInvalidationTracker sessionInvalidationTracker;
+
+		/// <summary>
 		/// The <see cref="IOptionsSnapshot{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="UserAuthority"/>.
 		/// </summary>
 		readonly IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions;
@@ -136,6 +141,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="permissionsUpdateNotifyee">The value of <see cref="permissionsUpdateNotifyee"/>.</param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
+		/// <param name="sessionInvalidationTracker">The value of <see cref="sessionInvalidationTracker"/>.</param>
 		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
 		public UserAuthority(
 			IAuthenticationContext authenticationContext,
@@ -146,6 +152,7 @@ namespace Tgstation.Server.Host.Authority
 			ISystemIdentityFactory systemIdentityFactory,
 			IPermissionsUpdateNotifyee permissionsUpdateNotifyee,
 			ICryptographySuite cryptographySuite,
+			ISessionInvalidationTracker sessionInvalidationTracker,
 			IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions)
 			: base(
 				  authenticationContext,
@@ -157,6 +164,7 @@ namespace Tgstation.Server.Host.Authority
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.permissionsUpdateNotifyee = permissionsUpdateNotifyee ?? throw new ArgumentNullException(nameof(permissionsUpdateNotifyee));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
+			this.sessionInvalidationTracker = sessionInvalidationTracker ?? throw new ArgumentNullException(nameof(sessionInvalidationTracker));
 			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
@@ -381,12 +389,14 @@ namespace Tgstation.Server.Host.Authority
 				return Forbid<User>();
 
 			var originalUserHasSid = originalUser.SystemIdentifier != null;
+			var invalidateSessions = false;
 			if (originalUserHasSid && originalUser.PasswordHash != null)
 			{
 				// cleanup from https://github.com/tgstation/tgstation-server/issues/1528
 				Logger.LogDebug("System user ID {userId}'s PasswordHash is polluted, updating database.", originalUser.Id);
 				originalUser.PasswordHash = null;
-				originalUser.LastPasswordUpdate = DateTimeOffset.UtcNow;
+
+				invalidateSessions = true;
 			}
 
 			if (model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
@@ -400,22 +410,12 @@ namespace Tgstation.Server.Host.Authority
 				var result = TrySetPassword(originalUser, model.Password, false);
 				if (result != null)
 					return result;
+
+				invalidateSessions = true;
 			}
 
 			if (model.Name != null && User.CanonicalizeName(model.Name) != originalUser.CanonicalName)
 				return BadRequest<User>(ErrorCode.UserNameChange);
-
-			bool userWasDisabled;
-			if (model.Enabled.HasValue)
-			{
-				userWasDisabled = originalUser.Require(x => x.Enabled) && !model.Enabled.Value;
-				if (userWasDisabled)
-					originalUser.LastPasswordUpdate = DateTimeOffset.UtcNow;
-
-				originalUser.Enabled = model.Enabled.Value;
-			}
-			else
-				userWasDisabled = false;
 
 			if (model.OAuthConnections != null
 				&& (model.OAuthConnections.Count != originalUser.OAuthConnections!.Count
@@ -477,11 +477,20 @@ namespace Tgstation.Server.Host.Authority
 
 			originalUser.Name = model.Name ?? originalUser.Name;
 
+			if (model.Enabled.HasValue)
+			{
+				invalidateSessions = originalUser.Require(x => x.Enabled) && !model.Enabled.Value;
+				originalUser.Enabled = model.Enabled.Value;
+			}
+
+			if (invalidateSessions)
+				sessionInvalidationTracker.UserModifiedInvalidateSessions(originalUser);
+
 			await DatabaseContext.Save(cancellationToken);
 
 			Logger.LogInformation("Updated user {userName} ({userId})", originalUser.Name, originalUser.Id);
 
-			if (userWasDisabled)
+			if (invalidateSessions)
 				await permissionsUpdateNotifyee.UserDisabled(originalUser, cancellationToken);
 
 			// return id only if not a self update and cannot read users
