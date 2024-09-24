@@ -578,7 +578,6 @@ jobs:
         configuration: ["Debug", "Release"]
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
-      TGS_TEST_GRAPHQL: true
     runs-on: windows-latest
     steps:
       - name: Setup dotnet
@@ -627,6 +626,7 @@ jobs:
         run: |
           echo "TGS_TEST_DATABASE_TYPE=PostgresSql" >> $GITHUB_ENV
           echo "TGS_TEST_CONNECTION_STRING=Application Name=tgstation-server;Host=127.0.0.1;Username=$USER;Database=TGS__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+          echo "TGS_TEST_GRAPHQL=true" >> $GITHUB_ENV
 
       - name: Setup MariaDB
         uses: ankane/setup-mariadb@v1
@@ -638,6 +638,7 @@ jobs:
         run: |
           echo "TGS_TEST_DATABASE_TYPE=MariaDB" >> $GITHUB_ENV
           echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+          echo "TGS_TEST_GRAPHQL=true" >> $GITHUB_ENV
 
       - name: Setup MySQL
         uses: ankane/setup-mysql@v1
@@ -657,6 +658,7 @@ jobs:
           TGS_CONNSTRING_VALUE="Server=(localdb)\MSSQLLocalDB;Encrypt=false;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
           echo "TGS_TEST_CONNECTION_STRING=$(echo $TGS_CONNSTRING_VALUE)" >> $GITHUB_ENV
           echo "TGS_TEST_DATABASE_TYPE=SqlServer" >> $GITHUB_ENV
+          echo "TGS_TEST_GRAPHQL=true" >> $GITHUB_ENV
 
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -855,6 +857,7 @@ jobs:
         run: |
           echo "TGS_TEST_DATABASE_TYPE=Sqlite" >> $GITHUB_ENV
           echo "TGS_TEST_CONNECTION_STRING=Data Source=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }}.sqlite3;Mode=ReadWriteCreate" >> $GITHUB_ENV
+          echo "TGS_TEST_GRAPHQL=true" >> $GITHUB_ENV
 
       - name: Set PostgresSql Connection Info
         if: ${{ matrix.database-type == 'PostgresSql' }}
@@ -874,6 +877,7 @@ jobs:
           echo "TGS_TEST_DATABASE_TYPE=MySql" >> $GITHUB_ENV
           echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;Port=3307;uid=root;pwd=mysql;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
           echo "Database__ServerVersion=5.7.31" >> $GITHUB_ENV
+          echo "TGS_TEST_GRAPHQL=true" >> $GITHUB_ENV
 
       - name: Set General__UseBasicWatchdog
         if: ${{ matrix.watchdog-type == 'Basic' }}
