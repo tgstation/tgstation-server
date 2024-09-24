@@ -24,6 +24,7 @@ namespace Tgstation.Server.Host.Security
 		/// Initializes a new instance of the <see cref="TgsGraphQLAuthorizeAttribute"/> class.
 		/// </summary>
 		public TgsGraphQLAuthorizeAttribute()
+			: this(Enumerable.Empty<string>())
 		{
 		}
 
