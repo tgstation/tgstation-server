@@ -124,19 +124,47 @@ namespace Tgstation.Server.Client.GraphQL
 		public virtual ValueTask DisposeAsync() => serviceProvider.DisposeAsync();
 
 		/// <inheritdoc />
-		public ValueTask<IOperationResult<TResultData>> RunOperationAsync<TResultData>(Func<IGraphQLClient, ValueTask<IOperationResult<TResultData>>> queryExector, CancellationToken cancellationToken)
+		public ValueTask<IOperationResult<TResultData>> RunOperationAsync<TResultData>(Func<IGraphQLClient, ValueTask<IOperationResult<TResultData>>> operationExecutor, CancellationToken cancellationToken)
 			where TResultData : class
 		{
-			ArgumentNullException.ThrowIfNull(queryExector);
-			return WrapAuthentication(queryExector, cancellationToken);
+			ArgumentNullException.ThrowIfNull(operationExecutor);
+			return WrapAuthentication(operationExecutor, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public ValueTask<IOperationResult<TResultData>> RunOperation<TResultData>(Func<IGraphQLClient, Task<IOperationResult<TResultData>>> queryExector, CancellationToken cancellationToken)
+		public ValueTask<IOperationResult<TResultData>> RunOperation<TResultData>(Func<IGraphQLClient, Task<IOperationResult<TResultData>>> operationExecutor, CancellationToken cancellationToken)
 			where TResultData : class
 		{
-			ArgumentNullException.ThrowIfNull(queryExector);
-			return WrapAuthentication(async localClient => await queryExector(localClient), cancellationToken);
+			ArgumentNullException.ThrowIfNull(operationExecutor);
+			return WrapAuthentication(async localClient => await operationExecutor(localClient), cancellationToken);
+		}
+
+		/// <inheritdoc />
+		public async ValueTask<IDisposable> Subscribe<TResultData>(Func<IGraphQLClient, IObservable<IOperationResult<TResultData>>> operationExecutor, IObserver<IOperationResult<TResultData>> observer, CancellationToken cancellationToken)
+			where TResultData : class
+		{
+			ArgumentNullException.ThrowIfNull(operationExecutor);
+			ArgumentNullException.ThrowIfNull(observer);
+
+			var observable = operationExecutor(graphQLClient);
+
+			if (Authenticated)
+			{
+				var tuple = await bearerCredentialsTask.ConfigureAwait(false);
+				if (!tuple.HasValue)
+					ThrowOtherCallerFailedAuthException();
+
+				var (currentAuthHeader, expires) = tuple.Value;
+				if (expires <= DateTimeOffset.UtcNow)
+					currentAuthHeader = await Reauthenticate(currentAuthHeader, cancellationToken).ConfigureAwait(false);
+
+				setAuthenticationHeader(currentAuthHeader);
+			}
+
+			// maybe make this handle reauthentication one day
+			// but would need to check if lost auth results in complete events being sent
+			// if so, it can't be done
+			return observable.Subscribe(observer);
 		}
 
 		/// <summary>
@@ -167,59 +195,6 @@ namespace Tgstation.Server.Client.GraphQL
 			if (!tuple.HasValue)
 				ThrowOtherCallerFailedAuthException();
 
-			async ValueTask<AuthenticationHeaderValue> Reauthenticate(AuthenticationHeaderValue currentToken, CancellationToken cancellationToken)
-			{
-				if (!CanReauthenticate)
-					throw new AuthenticationException("Authentication expired or invalid and cannot re-authenticate.");
-
-				TaskCompletionSource<(AuthenticationHeaderValue Header, DateTime Exp)?>? tcs = null;
-				do
-				{
-					var bearerCredentialsTaskLocal = bearerCredentialsTask;
-					if (!bearerCredentialsTaskLocal!.IsCompleted)
-					{
-						var currentTuple = await bearerCredentialsTaskLocal.ConfigureAwait(false);
-						if (!currentTuple.HasValue)
-							ThrowOtherCallerFailedAuthException();
-
-						return currentTuple.Value.Header;
-					}
-
-					lock (bearerCredentialsHeaderTaskLock!)
-					{
-						if (bearerCredentialsTask == bearerCredentialsTaskLocal)
-						{
-							var result = bearerCredentialsTaskLocal.Result;
-							if (result?.Header != currentToken)
-							{
-								if (!result.HasValue)
-									ThrowOtherCallerFailedAuthException();
-
-								return result.Value.Header;
-							}
-
-							tcs = new TaskCompletionSource<(AuthenticationHeaderValue, DateTime)?>();
-							bearerCredentialsTask = tcs.Task;
-						}
-					}
-				}
-				while (tcs == null);
-
-				setAuthenticationHeader!(basicCredentialsHeader!);
-				var loginResult = await graphQLClient.Login.ExecuteAsync(cancellationToken).ConfigureAwait(false);
-				try
-				{
-					var tuple = await CreateCredentialsTuple(loginResult).ConfigureAwait(false);
-					tcs.SetResult(tuple);
-					return tuple.Header;
-				}
-				catch (AuthenticationException)
-				{
-					tcs.SetResult(null);
-					throw;
-				}
-			}
-
 			var (currentAuthHeader, expires) = tuple.Value;
 			if (expires <= DateTimeOffset.UtcNow)
 				currentAuthHeader = await Reauthenticate(currentAuthHeader, cancellationToken).ConfigureAwait(false);
@@ -236,6 +211,65 @@ namespace Tgstation.Server.Client.GraphQL
 			}
 
 			return operationResult;
+		}
+
+		/// <summary>
+		/// Attempt to reauthenticate.
+		/// </summary>
+		/// <param name="currentToken">The current <see cref="AuthenticationHeaderValue"/> for the bearer token.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the updated <see cref="AuthenticationHeaderValue"/> to use.</returns>
+		async ValueTask<AuthenticationHeaderValue> Reauthenticate(AuthenticationHeaderValue currentToken, CancellationToken cancellationToken)
+		{
+			if (!CanReauthenticate)
+				throw new AuthenticationException("Authentication expired or invalid and cannot re-authenticate.");
+
+			TaskCompletionSource<(AuthenticationHeaderValue Header, DateTime Exp)?>? tcs = null;
+			do
+			{
+				var bearerCredentialsTaskLocal = bearerCredentialsTask;
+				if (!bearerCredentialsTaskLocal!.IsCompleted)
+				{
+					var currentTuple = await bearerCredentialsTaskLocal.ConfigureAwait(false);
+					if (!currentTuple.HasValue)
+						ThrowOtherCallerFailedAuthException();
+
+					return currentTuple.Value.Header;
+				}
+
+				lock (bearerCredentialsHeaderTaskLock!)
+				{
+					if (bearerCredentialsTask == bearerCredentialsTaskLocal)
+					{
+						var result = bearerCredentialsTaskLocal.Result;
+						if (result?.Header != currentToken)
+						{
+							if (!result.HasValue)
+								ThrowOtherCallerFailedAuthException();
+
+							return result.Value.Header;
+						}
+
+						tcs = new TaskCompletionSource<(AuthenticationHeaderValue, DateTime)?>();
+						bearerCredentialsTask = tcs.Task;
+					}
+				}
+			}
+			while (tcs == null);
+
+			setAuthenticationHeader!(basicCredentialsHeader!);
+			var loginResult = await graphQLClient.Login.ExecuteAsync(cancellationToken).ConfigureAwait(false);
+			try
+			{
+				var tuple = await CreateCredentialsTuple(loginResult).ConfigureAwait(false);
+				tcs.SetResult(tuple);
+				return tuple.Header;
+			}
+			catch (AuthenticationException)
+			{
+				tcs.SetResult(null);
+				throw;
+			}
 		}
 
 		/// <summary>

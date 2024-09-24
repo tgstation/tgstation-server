@@ -1395,6 +1395,19 @@ namespace Tgstation.Server.Tests.Live
 							return result;
 						},
 						cancellationToken);
+
+					var testObserver = new HoldLastObserver<IOperationResult<ISessionInvalidationResult>>();
+					using var subscription = await unauthenticatedGraphQLClient.Subscribe(
+						gql => gql.SessionInvalidation.Watch(),
+						testObserver,
+						cancellationToken);
+
+					await Task.Delay(1000, cancellationToken);
+
+					Assert.AreEqual(0U, testObserver.ErrorCount);
+					Assert.AreEqual(1U, testObserver.ResultCount);
+					Assert.IsTrue(testObserver.LastValue.IsAuthenticationError());
+					Assert.IsTrue(testObserver.Completed);
 				}
 
 				async ValueTask<MultiServerClient> CreateUserWithNoInstancePerms()
@@ -1416,6 +1429,8 @@ namespace Tgstation.Server.Tests.Live
 					return await CreateClient(server.RootUrl, createRequest.Name, createRequest.Password, false, cancellationToken);
 				}
 
+				var restartObserver = new HoldLastObserver<IOperationResult<ISessionInvalidationResult>>();
+				IDisposable restartSubscription;
 				var jobsHubTest = new JobsHubTests(firstAdminMultiClient, await CreateUserWithNoInstancePerms());
 				Task jobsHubTestTask;
 				{
@@ -1579,12 +1594,45 @@ namespace Tgstation.Server.Tests.Live
 					initialStaged = dd.StagedCompileJob.Id.Value;
 					initialSessionId = dd.SessionId.Value;
 
-					jobsHubTest.ExpectShutdown();
-					await firstAdminRestClient.Administration.Restart(cancellationToken);
+					// force a session refresh if necessary
+					await firstAdminMultiClient.GraphQLClient.RunQueryEnsureNoErrors(
+						gql => gql.ReadCurrentUser.ExecuteAsync(cancellationToken),
+						cancellationToken);
+
+					restartSubscription = await firstAdminMultiClient.GraphQLClient.Subscribe(
+						gql => gql.SessionInvalidation.Watch(),
+						restartObserver,
+						cancellationToken);
+
+					try
+					{
+						await Task.Delay(1000, cancellationToken);
+
+						jobsHubTest.ExpectShutdown();
+						await firstAdminRestClient.Administration.Restart(cancellationToken);
+					}
+					catch
+					{
+						restartSubscription.Dispose();
+						throw;
+					}
 				}
 
-				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
-				Assert.IsTrue(serverTask.IsCompleted);
+				try
+				{
+					await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
+					Assert.IsTrue(serverTask.IsCompleted);
+
+					Assert.AreEqual(0U, restartObserver.ErrorCount);
+					Assert.AreEqual(1U, restartObserver.ResultCount);
+					restartObserver.LastValue.EnsureNoErrors();
+					Assert.IsTrue(restartObserver.Completed);
+					Assert.AreEqual(SessionInvalidationReason.ServerShutdown, restartObserver.LastValue.Data.SessionInvalidated);
+				}
+				finally
+				{
+					restartSubscription.Dispose();
+				}
 
 				// test the reattach message queueing
 				// for the code coverage really...
