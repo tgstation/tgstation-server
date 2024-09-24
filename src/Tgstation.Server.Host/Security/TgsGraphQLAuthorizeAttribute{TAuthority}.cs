@@ -35,6 +35,7 @@ namespace Tgstation.Server.Host.Security
 				?? throw new InvalidOperationException($"Could not find method {authorityType}.{methodName}() has no {nameof(TgsAuthorizeAttribute)}!");
 			MethodName = methodName;
 			Roles = authorizeAttribute.Roles?.Split(',', StringSplitOptions.RemoveEmptyEntries);
+			Apply = ApplyPolicy.Validation;
 		}
 	}
 }

@@ -127,6 +127,7 @@ namespace Tgstation.Server.Host.Security
 			var listRoles = roleNames.ToList();
 			listRoles.Add(TgsAuthorizeAttribute.UserEnabledRole);
 			Roles = [.. listRoles];
+			Apply = ApplyPolicy.Validation;
 		}
 	}
 }
