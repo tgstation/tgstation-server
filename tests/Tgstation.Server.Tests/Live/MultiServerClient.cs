@@ -58,5 +58,8 @@ namespace Tgstation.Server.Tests.Live
 
 			return (restResult, graphQLResult.Data);
 		}
+
+		public ValueTask<IDisposable> Subscribe<TResultData>(Func<IGraphQLClient, IObservable<IOperationResult<TResultData>>> operationExecutor, IObserver<IOperationResult<TResultData>> observer, CancellationToken cancellationToken) where TResultData : class
+			=> GraphQLClient.Subscribe(operationExecutor, observer, cancellationToken);
 	}
 }

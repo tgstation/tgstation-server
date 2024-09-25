@@ -1466,6 +1466,11 @@ namespace Tgstation.Server.Tests.Live
 					InstanceResponse odInstance, compatInstance;
 					if (!openDreamOnly)
 					{
+						// force a session refresh if necessary
+						await firstAdminMultiClient.GraphQLClient.RunQueryEnsureNoErrors(
+							gql => gql.ReadCurrentUser.ExecuteAsync(cancellationToken),
+							cancellationToken);
+
 						jobsHubTestTask = FailFast(await jobsHubTest.Run(cancellationToken)); // returns Task<Task>
 						var rootTest = FailFast(RawRequestTests.Run(restClientFactory, firstAdminRestClient, cancellationToken));
 						var adminTest = FailFast(new AdministrationTest(firstAdminRestClient.Administration).Run(cancellationToken));

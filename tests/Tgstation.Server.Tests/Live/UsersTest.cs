@@ -34,12 +34,23 @@ namespace Tgstation.Server.Tests.Live
 
 		public async ValueTask Run(CancellationToken cancellationToken)
 		{
+			var observer = new HoldLastObserver<IOperationResult<ISubscribeUsersResult>>();
+			using var subscription = await serverClient.Subscribe(
+				gql => gql.SubscribeUsers.Watch(),
+				observer,
+				cancellationToken);
+
 			await ValueTaskExtensions.WhenAll(
 				BasicTests(cancellationToken),
 				TestCreateSysUser(cancellationToken),
 				TestSpamCreation(cancellationToken));
 
 			await TestPagination(cancellationToken);
+
+			Assert.IsFalse(observer.Completed);
+			Assert.AreEqual(0U, observer.ErrorCount);
+			Assert.AreEqual(new PlatformIdentifier().IsWindows ? 108U : 107U, observer.ResultCount); // sys user
+			observer.LastValue.EnsureNoErrors();
 		}
 
 		async ValueTask BasicTests(CancellationToken cancellationToken)

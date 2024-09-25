@@ -9,8 +9,6 @@ using HotChocolate.Subscriptions;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 
-using Microsoft.Extensions.Hosting;
-
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.GraphQL.Types;
 using Tgstation.Server.Host.Security;
@@ -57,13 +55,11 @@ namespace Tgstation.Server.Host.GraphQL.Subscriptions
 		public ValueTask<ISourceStream<User>> UserUpdatedStream(
 			[ID(nameof(User))] long? userId,
 			[Service] ITopicEventReceiver receiver,
-			[Service] IHostApplicationLifetime applicationLifetime,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(receiver);
 			var topic = userId.HasValue ? SpecificUserUpdatedTopic(userId.Value) : UserUpdatedTopic;
-			var cts = CancellationTokenSource.CreateLinkedTokenSource(applicationLifetime.ApplicationStopping, cancellationToken);
-			return receiver.SubscribeAsync<User>(topic, cts.Token);
+			return receiver.SubscribeAsync<User>(topic, cancellationToken);
 		}
 
 		/// <summary>
