@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 using GreenDonut;
 
+using HotChocolate.Subscriptions;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -16,10 +18,12 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.Models.Transformers;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Authority
@@ -56,6 +60,11 @@ namespace Tgstation.Server.Host.Authority
 		/// The <see cref="ISessionInvalidationTracker"/> for the <see cref="UserAuthority"/>.
 		/// </summary>
 		readonly ISessionInvalidationTracker sessionInvalidationTracker;
+
+		/// <summary>
+		/// The <see cref="ITopicEventSender"/> for the <see cref="UserAuthority"/>.
+		/// </summary>
+		readonly ITopicEventSender topicEventSender;
 
 		/// <summary>
 		/// The <see cref="IOptionsSnapshot{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="UserAuthority"/>.
@@ -142,6 +151,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="permissionsUpdateNotifyee">The value of <see cref="permissionsUpdateNotifyee"/>.</param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
 		/// <param name="sessionInvalidationTracker">The value of <see cref="sessionInvalidationTracker"/>.</param>
+		/// <param name="topicEventSender">The value of <see cref="topicEventSender"/>.</param>
 		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
 		public UserAuthority(
 			IAuthenticationContext authenticationContext,
@@ -153,6 +163,7 @@ namespace Tgstation.Server.Host.Authority
 			IPermissionsUpdateNotifyee permissionsUpdateNotifyee,
 			ICryptographySuite cryptographySuite,
 			ISessionInvalidationTracker sessionInvalidationTracker,
+			ITopicEventSender topicEventSender,
 			IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions)
 			: base(
 				  authenticationContext,
@@ -165,6 +176,7 @@ namespace Tgstation.Server.Host.Authority
 			this.permissionsUpdateNotifyee = permissionsUpdateNotifyee ?? throw new ArgumentNullException(nameof(permissionsUpdateNotifyee));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.sessionInvalidationTracker = sessionInvalidationTracker ?? throw new ArgumentNullException(nameof(sessionInvalidationTracker));
+			this.topicEventSender = topicEventSender ?? throw new ArgumentNullException(nameof(topicEventSender));
 			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
@@ -337,6 +349,8 @@ namespace Tgstation.Server.Host.Authority
 
 			Logger.LogInformation("Created new user {name} ({id})", dbUser.Name, dbUser.Id);
 
+			await SendUserUpdatedTopics(dbUser);
+
 			return new AuthorityResponse<User>(dbUser, HttpSuccessResponse.Created);
 		}
 
@@ -495,6 +509,8 @@ namespace Tgstation.Server.Host.Authority
 			if (invalidateSessions)
 				await permissionsUpdateNotifyee.UserDisabled(originalUser, cancellationToken);
 
+			await SendUserUpdatedTopics(originalUser);
+
 			// return id only if not a self update and cannot read users
 			var canReadBack = AuthenticationContext.User.Id == originalUser.Id
 				|| callerAdministrationRights.HasFlag(AdministrationRights.ReadUsers);
@@ -502,6 +518,20 @@ namespace Tgstation.Server.Host.Authority
 				? new AuthorityResponse<User>(originalUser)
 				: new AuthorityResponse<User>();
 		}
+
+		/// <summary>
+		/// Send topics through the <see cref="topicEventSender"/> indicating a given <paramref name="user"/> was created or updated.
+		/// </summary>
+		/// <param name="user">The <see cref="User"/> that was created or updated.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask SendUserUpdatedTopics(User user)
+			=> ValueTaskExtensions.WhenAll(
+				GraphQL.Subscriptions.UserSubscriptions.UserUpdatedTopics(
+					user.Require(x => x.Id))
+					.Select(topic => topicEventSender.SendAsync(
+						topic,
+						((IApiTransformable<User, GraphQL.Types.User, UserGraphQLTransformer>)user).ToApi(),
+						CancellationToken.None))); // DCT: Operation should always run
 
 		/// <summary>
 		/// Gets all registered <see cref="User"/>s.
