@@ -7,6 +7,9 @@ using HotChocolate;
 using HotChocolate.Execution;
 using HotChocolate.Subscriptions;
 using HotChocolate.Types;
+using HotChocolate.Types.Relay;
+
+using Microsoft.Extensions.Hosting;
 
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.GraphQL.Types;
@@ -45,11 +48,30 @@ namespace Tgstation.Server.Host.GraphQL.Subscriptions
 			=> $"{UserUpdatedTopic}.{userId}";
 
 		/// <summary>
+		/// <see cref="ISourceStream"/> for <see cref="UserUpdated(User)"/>.
+		/// </summary>
+		/// <param name="userId">The optional <see cref="Entity.Id"/> of the <see cref="User"/> to scope updates to.</param>
+		/// <param name="receiver">The <see cref="ITopicEventReceiver"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the requested <see cref="User"/> updates.</returns>
+		public ValueTask<ISourceStream<User>> UserUpdatedStream(
+			[ID(nameof(User))] long? userId,
+			[Service] ITopicEventReceiver receiver,
+			[Service] IHostApplicationLifetime applicationLifetime,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(receiver);
+			var topic = userId.HasValue ? SpecificUserUpdatedTopic(userId.Value) : UserUpdatedTopic;
+			var cts = CancellationTokenSource.CreateLinkedTokenSource(applicationLifetime.ApplicationStopping, cancellationToken);
+			return receiver.SubscribeAsync<User>(topic, cts.Token);
+		}
+
+		/// <summary>
 		/// Receive an update for all <see cref="User"/> changes.
 		/// </summary>
 		/// <param name="user">The <see cref="Models.User"/> received from the publisher.</param>
 		/// <returns>The updated <see cref="User"/>.</returns>
-		[Subscribe]
+		[Subscribe(With = nameof(UserUpdatedStream))]
 		[TgsGraphQLAuthorize(AdministrationRights.ReadUsers)]
 		public User UserUpdated([EventMessage] User user)
 		{
@@ -63,7 +85,7 @@ namespace Tgstation.Server.Host.GraphQL.Subscriptions
 		/// <param name="receiver">The <see cref="ITopicEventReceiver"/>.</param>
 		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the request.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="ISourceStream{TMessage}"/> of the <see cref="SessionInvalidationReason"/> for the <paramref name="authenticationContext"/>.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in updates for the current <see cref="User"/>.</returns>
 		public ValueTask<ISourceStream<User>> CurrentUserUpdatedStream(
 			[Service] ITopicEventReceiver receiver,
 			[Service] IAuthenticationContext authenticationContext,
@@ -79,7 +101,7 @@ namespace Tgstation.Server.Host.GraphQL.Subscriptions
 		/// </summary>
 		/// <param name="user">The <see cref="Models.User"/> received from the publisher.</param>
 		/// <returns>The updated <see cref="User"/>.</returns>
-		[Subscribe]
+		[Subscribe(With = nameof(CurrentUserUpdatedStream))]
 		[TgsGraphQLAuthorize]
 		public User CurrentUserUpdated([EventMessage] User user)
 		{
