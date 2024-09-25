@@ -40,8 +40,9 @@ namespace Tgstation.Server.Tests.Live
 				observer,
 				cancellationToken);
 
+			await BasicTests(cancellationToken);
+
 			await ValueTaskExtensions.WhenAll(
-				BasicTests(cancellationToken),
 				TestCreateSysUser(cancellationToken),
 				TestSpamCreation(cancellationToken));
 
