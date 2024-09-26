@@ -2,6 +2,7 @@
 
 using HotChocolate.Language;
 using HotChocolate.Types;
+
 using Tgstation.Server.Common.Extensions;
 
 namespace Tgstation.Server.Host.GraphQL.Types.Scalars
@@ -17,7 +18,8 @@ namespace Tgstation.Server.Host.GraphQL.Types.Scalars
 		public SemverType()
 			: base("Semver")
 		{
-			Description = "Represents a version in semver format as defined by https://semver.org/spec/v2.0.0.html";
+			Description = "Represents a version in semantic versioning format";
+			SpecifiedBy = new Uri("https://semver.org/spec/v2.0.0.html");
 		}
 
 		/// <inheritdoc />
@@ -60,7 +62,7 @@ namespace Tgstation.Server.Host.GraphQL.Types.Scalars
 
 		/// <inheritdoc />
 		protected override StringValueNode ParseValue(Version runtimeValue)
-			=> new StringValueNode(runtimeValue.Semver().ToString());
+			=> new(runtimeValue.Semver().ToString());
 
 		/// <inheritdoc />
 		protected override bool IsInstanceOfType(StringValueNode valueSyntax)

@@ -8,6 +8,7 @@ using Cyberboss.AspNetCore.AsyncInitializer;
 
 using Elastic.CommonSchema.Serilog;
 
+using HotChocolate.AspNetCore;
 using HotChocolate.Types;
 
 using Microsoft.AspNetCore.Authentication;
@@ -37,6 +38,8 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Http;
+using Tgstation.Server.Host.Authority;
+using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment.Remote;
@@ -53,6 +56,9 @@ using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.GraphQL;
+using Tgstation.Server.Host.GraphQL.Subscriptions;
+using Tgstation.Server.Host.GraphQL.Types;
+using Tgstation.Server.Host.GraphQL.Types.Interceptors;
 using Tgstation.Server.Host.GraphQL.Types.Scalars;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -290,11 +296,49 @@ namespace Tgstation.Server.Host.Core
 			// configure graphql
 			if (postSetupServices.InternalConfiguration.EnableGraphQL)
 				services
+					.AddScoped<ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
 					.AddGraphQLServer()
 					.AddAuthorization()
+					.ModifyOptions(options =>
+					{
+						options.EnsureAllNodesCanBeResolved = true;
+						options.EnableFlagEnums = true;
+					})
+#if DEBUG
+					.ModifyCostOptions(options =>
+					{
+						options.EnforceCostLimits = false;
+					})
+#endif
+					.AddMutationConventions()
+					.AddInMemorySubscriptions()
+					.AddGlobalObjectIdentification()
+					.AddQueryFieldToMutationPayloads()
+					.ModifyOptions(options =>
+					{
+						options.EnableDefer = true;
+					})
+					.ModifyPagingOptions(pagingOptions =>
+					{
+						pagingOptions.IncludeTotalCount = true;
+						pagingOptions.RequirePagingBoundaries = false;
+						pagingOptions.DefaultPageSize = ApiController.DefaultPageSize;
+						pagingOptions.MaxPageSize = ApiController.MaximumPageSize;
+					})
+					.AddFiltering()
+					.AddSorting()
+					.AddHostTypes()
+					.AddErrorFilter<ErrorMessageFilter>()
+					.AddType<StandaloneNode>()
+					.AddType<LocalGateway>()
+					.AddType<RemoteGateway>()
+					.AddType<GraphQL.Types.UserName>()
 					.AddType<UnsignedIntType>()
 					.BindRuntimeType<Version, SemverType>()
-					.AddQueryType<Query>();
+					.TryAddTypeInterceptor<RightsTypeInterceptor>()
+					.AddQueryType<Query>()
+					.AddMutationType<Mutation>()
+					.AddSubscriptionType<Subscription>();
 
 			void AddTypedContext<TContext>()
 				where TContext : DatabaseContext
@@ -343,6 +387,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IIdentityCache, IdentityCache>();
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
+			services.AddSingleton<ISessionInvalidationTracker, SessionInvalidationTracker>();
 			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
 
 			// configure platform specific services
@@ -430,6 +475,14 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IServerUpdater, ServerUpdater>();
 			services.AddSingleton<IServerUpdateInitiator, ServerUpdateInitiator>();
 			services.AddSingleton<IDotnetDumpService, DotnetDumpService>();
+
+			// configure authorities
+			services.AddScoped(typeof(IRestAuthorityInvoker<>), typeof(RestAuthorityInvoker<>));
+			services.AddScoped(typeof(IGraphQLAuthorityInvoker<>), typeof(GraphQLAuthorityInvoker<>));
+			services.AddScoped<ILoginAuthority, LoginAuthority>();
+			services.AddScoped<IUserAuthority, UserAuthority>();
+			services.AddScoped<IUserGroupAuthority, UserGroupAuthority>();
+			services.AddScoped<IPermissionSetAuthority, PermissionSetAuthority>();
 
 			// configure misc services
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
@@ -616,7 +669,16 @@ namespace Tgstation.Server.Host.Core
 				if (internalConfiguration.EnableGraphQL)
 				{
 					logger.LogWarning("Enabling GraphQL. This API is experimental and breaking changes may occur at any time!");
-					endpoints.MapGraphQL(Routes.GraphQL);
+					var gqlOptions = new GraphQLServerOptions
+					{
+						EnableBatching = true,
+					};
+
+					gqlOptions.Tool.Enable = generalConfiguration.HostApiDocumentation;
+
+					endpoints
+						.MapGraphQL(Routes.GraphQL)
+						.WithOptions(gqlOptions);
 				}
 			});
 
@@ -643,7 +705,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddHttpContextAccessor();
 			services.AddScoped<IApiHeadersProvider, ApiHeadersProvider>();
 			services.AddScoped<AuthenticationContextFactory>();
-			services.AddScoped<IAuthenticationContextFactory>(provider => provider.GetRequiredService<AuthenticationContextFactory>());
+			services.AddScoped<ITokenValidator>(provider => provider.GetRequiredService<AuthenticationContextFactory>());
 
 			// what if you
 			// wanted to just do this:
@@ -684,6 +746,15 @@ namespace Tgstation.Server.Host.Core
 
 							return Task.CompletedTask;
 						},
+						OnTokenValidated = context => context
+							.HttpContext
+							.RequestServices
+							.GetRequiredService<ITokenValidator>()
+							.ValidateToken(
+								context,
+								context
+									.HttpContext
+									.RequestAborted),
 					};
 				});
 		}

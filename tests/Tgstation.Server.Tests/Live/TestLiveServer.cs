@@ -27,6 +27,8 @@ using Newtonsoft.Json;
 
 using Npgsql;
 
+using StrawberryShake;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Extensions;
 using Tgstation.Server.Api.Models;
@@ -43,7 +45,6 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
-using Tgstation.Server.Host.Utils;
 using Tgstation.Server.Tests.Live.Instance;
 
 namespace Tgstation.Server.Tests.Live
@@ -53,17 +54,19 @@ namespace Tgstation.Server.Tests.Live
 	[TestCategory("RequiresDatabase")]
 	public sealed class TestLiveServer
 	{
+		const ushort InitialPort = 42069;
 		public static readonly Version TestUpdateVersion = new(5, 11, 0);
 
 		static readonly Lazy<ushort> odDMPort = new(() => FreeTcpPort());
-		static readonly Lazy<ushort> odDDPort = new(() => FreeTcpPort(odDMPort.Value));
-		static readonly Lazy<ushort> compatDMPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value));
-		static readonly Lazy<ushort> compatDDPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value));
-		static readonly Lazy<ushort> mainDDPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value));
-		static readonly Lazy<ushort> mainDMPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value, mainDDPort.Value));
+		static readonly Lazy<ushort> odDDPort = new(() => FreeTcpPort());
+		static readonly Lazy<ushort> compatDMPort = new(() => FreeTcpPort());
+		static readonly Lazy<ushort> compatDDPort = new(() => FreeTcpPort());
+		static readonly Lazy<ushort> mainDDPort = new(() => FreeTcpPort());
+		static readonly Lazy<ushort> mainDMPort = new(() => FreeTcpPort());
 
 		static void InitializePorts()
 		{
+			tcpPortCounter = InitialPort;
 			_ = odDMPort.Value;
 			_ = odDDPort.Value;
 			_ = compatDMPort.Value;
@@ -72,7 +75,14 @@ namespace Tgstation.Server.Tests.Live
 			_ = mainDMPort.Value;
 		}
 
-		readonly RestServerClientFactory clientFactory = new (new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+		readonly RestServerClientFactory restClientFactory;
+		readonly GraphQLServerClientFactory graphQLClientFactory;
+
+		public TestLiveServer()
+		{
+			restClientFactory = new(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+			graphQLClientFactory = new GraphQLServerClientFactory(restClientFactory);
+		}
 
 		public static List<System.Diagnostics.Process> GetEngineServerProcessesOnPort(EngineType engineType, ushort? port)
 		{
@@ -156,41 +166,14 @@ namespace Tgstation.Server.Tests.Live
 			return result;
 		}
 
-		static ushort FreeTcpPort(params ushort[] usedPorts)
+		static int tcpPortCounter = InitialPort;
+
+		static ushort FreeTcpPort()
 		{
-			ushort result;
-			var listeners = new List<TcpListener>();
-
-			try
-			{
-				do
-				{
-					var l = new TcpListener(IPAddress.Any, 0);
-					l.Start();
-					try
-					{
-						listeners.Add(l);
-					}
-					catch
-					{
-						using (l)
-							l.Stop();
-						throw;
-					}
-
-					result = (ushort)((IPEndPoint)l.LocalEndpoint).Port;
-				}
-				while (usedPorts.Contains(result) || result < 20000);
-			}
-			finally
-			{
-				foreach (var l in listeners)
-					using (l)
-						l.Stop();
-			}
+			var result = Interlocked.Increment(ref tcpPortCounter);
 
 			Console.WriteLine($"Allocated port: {result}");
-			return result;
+			return (ushort)result;
 		}
 
 		[ClassInitialize]
@@ -321,18 +304,18 @@ namespace Tgstation.Server.Tests.Live
 						request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
 						request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 						request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
-						request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.OAuthAuthenticationScheme, adminClient.Token.Bearer);
+						request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.OAuthAuthenticationScheme, adminClient.RestClient.Token.Bearer);
 						request.Headers.Add(ApiHeaders.OAuthProviderHeader, Api.Models.OAuthProvider.GitHub.ToString());
 						using var response = await httpClient.SendAsync(request, cancellationToken);
 						Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 						var content = await response.Content.ReadAsStringAsync();
 						var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
-						Assert.AreEqual(ErrorCode.OAuthProviderDisabled, message.ErrorCode);
+						Assert.AreEqual(Api.Models.ErrorCode.OAuthProviderDisabled, message.ErrorCode);
 					}
 
 					//attempt to update to stable
 					var responseModel = await TestWithoutAndWithPermission(
-						() => adminClient.Administration.Update(
+						() => adminClient.RestClient.Administration.Update(
 							new ServerUpdateRequest
 							{
 								NewVersion = TestUpdateVersion,
@@ -340,7 +323,7 @@ namespace Tgstation.Server.Tests.Live
 							},
 							null,
 							cancellationToken),
-						adminClient,
+						adminClient.RestClient,
 						AdministrationRights.ChangeVersion);
 
 					Assert.IsNotNull(responseModel);
@@ -349,7 +332,7 @@ namespace Tgstation.Server.Tests.Live
 
 					try
 					{
-						var serverInfoTask = adminClient.ServerInformation(cancellationToken).AsTask();
+						var serverInfoTask = adminClient.RestClient.ServerInformation(cancellationToken).AsTask();
 						var completedTask = await Task.WhenAny(serverTask, serverInfoTask);
 						if (completedTask == serverInfoTask)
 						{
@@ -402,7 +385,7 @@ namespace Tgstation.Server.Tests.Live
 
 					var downloadStream = await download.GetResult(cancellationToken);
 					var responseModel = await TestWithoutAndWithPermission(
-						() => adminClient.Administration.Update(
+						() => adminClient.RestClient.Administration.Update(
 							new ServerUpdateRequest
 							{
 								NewVersion = TestUpdateVersion,
@@ -410,7 +393,7 @@ namespace Tgstation.Server.Tests.Live
 							},
 							downloadStream,
 							cancellationToken),
-						adminClient,
+						adminClient.RestClient,
 						AdministrationRights.UploadVersion);
 
 					Assert.IsNotNull(responseModel);
@@ -450,14 +433,14 @@ namespace Tgstation.Server.Tests.Live
 				var testUpdateVersion = new Version(5, 11, 20);
 				await using var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken);
 				await ApiAssert.ThrowsException<ConflictException, ServerUpdateResponse>(
-					() => adminClient.Administration.Update(
+					() => adminClient.RestClient.Administration.Update(
 						new ServerUpdateRequest
 						{
 							NewVersion = testUpdateVersion
 						},
 						null,
 						cancellationToken),
-					ErrorCode.ResourceNotPresent);
+					Api.Models.ErrorCode.ResourceNotPresent);
 			}
 			finally
 			{
@@ -500,7 +483,7 @@ namespace Tgstation.Server.Tests.Live
 				{
 					await using var controllerClient = await CreateAdminClient(controller.ApiUrl, cancellationToken);
 
-					var controllerInfo = await controllerClient.ServerInformation(cancellationToken);
+					var controllerInfo = await controllerClient.RestClient.ServerInformation(cancellationToken);
 
 					static void CheckInfo(ServerInformationResponse serverInformation)
 					{
@@ -515,7 +498,7 @@ namespace Tgstation.Server.Tests.Live
 					CheckInfo(controllerInfo);
 
 					// test update
-					var responseModel = await controllerClient.Administration.Update(
+					var responseModel = await controllerClient.RestClient.Administration.Update(
 						new ServerUpdateRequest
 						{
 							NewVersion = TestUpdateVersion
@@ -603,7 +586,7 @@ namespace Tgstation.Server.Tests.Live
 					await using var node1Client = await CreateAdminClient(node1.ApiUrl, cancellationToken);
 					await using var node2Client = await CreateAdminClient(node2.ApiUrl, cancellationToken);
 
-					var controllerInfo = await controllerClient.ServerInformation(cancellationToken);
+					var controllerInfo = await controllerClient.RestClient.ServerInformation(cancellationToken);
 
 					async Task WaitForSwarmServerUpdate()
 					{
@@ -611,7 +594,7 @@ namespace Tgstation.Server.Tests.Live
 						do
 						{
 							await Task.Delay(TimeSpan.FromSeconds(10));
-							serverInformation = await node1Client.ServerInformation(cancellationToken);
+							serverInformation = await node1Client.RestClient.ServerInformation(cancellationToken);
 						}
 						while (serverInformation.SwarmServers.Count == 1);
 					}
@@ -644,13 +627,13 @@ namespace Tgstation.Server.Tests.Live
 						WaitForSwarmServerUpdate(),
 						Task.Delay(TimeSpan.FromMinutes(4), cancellationToken));
 
-					var node2Info = await node2Client.ServerInformation(cancellationToken);
-					var node1Info = await node1Client.ServerInformation(cancellationToken);
+					var node2Info = await node2Client.RestClient.ServerInformation(cancellationToken);
+					var node1Info = await node1Client.RestClient.ServerInformation(cancellationToken);
 					CheckInfo(node1Info);
 					CheckInfo(node2Info);
 
 					// check user info is shared
-					var newUser = await node2Client.Users.Create(new UserCreateRequest
+					var newUser = await node2Client.RestClient.Users.Create(new UserCreateRequest
 					{
 						Name = "asdf",
 						Password = "asdfasdfasdfasdf",
@@ -661,20 +644,20 @@ namespace Tgstation.Server.Tests.Live
 						}
 					}, cancellationToken);
 
-					var node1User = await node1Client.Users.GetId(newUser, cancellationToken);
+					var node1User = await node1Client.RestClient.Users.GetId(newUser, cancellationToken);
 					Assert.AreEqual(newUser.Name, node1User.Name);
 					Assert.AreEqual(newUser.Enabled, node1User.Enabled);
 
-					await using var controllerUserClient = await clientFactory.CreateFromLogin(
+					await using var controllerUserClient = await restClientFactory.CreateFromLogin(
 						controllerAddress,
 						newUser.Name,
 						"asdfasdfasdfasdf");
 
-					await using var node1TokenCopiedClient = clientFactory.CreateFromToken(node1.RootUrl, controllerUserClient.Token);
+					await using var node1TokenCopiedClient = restClientFactory.CreateFromToken(node1.RootUrl, controllerUserClient.Token);
 					await node1TokenCopiedClient.Administration.Read(false, cancellationToken);
 
 					// check instance info is not shared
-					var controllerInstance = await controllerClient.Instances.CreateOrAttach(
+					var controllerInstance = await controllerClient.RestClient.Instances.CreateOrAttach(
 						new InstanceCreateRequest
 						{
 							Name = "ControllerInstance",
@@ -682,27 +665,27 @@ namespace Tgstation.Server.Tests.Live
 						},
 						cancellationToken);
 
-					var node2Instance = await node2Client.Instances.CreateOrAttach(
+					var node2Instance = await node2Client.RestClient.Instances.CreateOrAttach(
 						new InstanceCreateRequest
 						{
 							Name = "Node2Instance",
 							Path = Path.Combine(node2.Directory, "Node2Instance")
 						},
 						cancellationToken);
-					var node2InstanceList = await node2Client.Instances.List(null, cancellationToken);
+					var node2InstanceList = await node2Client.RestClient.Instances.List(null, cancellationToken);
 					Assert.AreEqual(1, node2InstanceList.Count);
 					Assert.AreEqual(node2Instance.Id, node2InstanceList[0].Id);
-					Assert.IsNotNull(await node2Client.Instances.GetId(node2Instance, cancellationToken));
-					var controllerInstanceList = await controllerClient.Instances.List(null, cancellationToken);
+					Assert.IsNotNull(await node2Client.RestClient.Instances.GetId(node2Instance, cancellationToken));
+					var controllerInstanceList = await controllerClient.RestClient.Instances.List(null, cancellationToken);
 					Assert.AreEqual(1, controllerInstanceList.Count);
 					Assert.AreEqual(controllerInstance.Id, controllerInstanceList[0].Id);
-					Assert.IsNotNull(await controllerClient.Instances.GetId(controllerInstance, cancellationToken));
+					Assert.IsNotNull(await controllerClient.RestClient.Instances.GetId(controllerInstance, cancellationToken));
 
-					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => controllerClient.Instances.GetId(node2Instance, cancellationToken), ErrorCode.ResourceNotPresent);
-					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => node1Client.Instances.GetId(controllerInstance, cancellationToken), ErrorCode.ResourceNotPresent);
+					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => controllerClient.RestClient.Instances.GetId(node2Instance, cancellationToken), Api.Models.ErrorCode.ResourceNotPresent);
+					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => node1Client.RestClient.Instances.GetId(controllerInstance, cancellationToken), Api.Models.ErrorCode.ResourceNotPresent);
 
 					// test update
-					await node1Client.Administration.Update(
+					await node1Client.RestClient.Administration.Update(
 						new ServerUpdateRequest
 						{
 							NewVersion = TestUpdateVersion
@@ -743,13 +726,13 @@ namespace Tgstation.Server.Tests.Live
 					await using var controllerClient2 = await CreateAdminClient(controller.ApiUrl, cancellationToken);
 					await using var node1Client2 = await CreateAdminClient(node1.ApiUrl, cancellationToken);
 
-					await ApiAssert.ThrowsException<ApiConflictException, ServerUpdateResponse>(() => controllerClient2.Administration.Update(
+					await ApiAssert.ThrowsException<ApiConflictException, ServerUpdateResponse>(() => controllerClient2.RestClient.Administration.Update(
 						new ServerUpdateRequest
 						{
 							NewVersion = TestUpdateVersion
 						},
 						null,
-						cancellationToken), ErrorCode.SwarmIntegrityCheckFailed);
+						cancellationToken), Api.Models.ErrorCode.SwarmIntegrityCheckFailed);
 
 					// regression: test updating also works from the controller
 					serverTask = Task.WhenAll(
@@ -764,7 +747,7 @@ namespace Tgstation.Server.Tests.Live
 						do
 						{
 							await Task.Delay(TimeSpan.FromSeconds(10));
-							serverInformation = await node2Client2.ServerInformation(cancellationToken);
+							serverInformation = await node2Client2.RestClient.ServerInformation(cancellationToken);
 						}
 						while (serverInformation.SwarmServers.Count == 1);
 					}
@@ -773,8 +756,8 @@ namespace Tgstation.Server.Tests.Live
 						WaitForSwarmServerUpdate2(),
 						Task.Delay(TimeSpan.FromMinutes(4), cancellationToken));
 
-					var node2Info2 = await node2Client2.ServerInformation(cancellationToken);
-					var node1Info2 = await node1Client2.ServerInformation(cancellationToken);
+					var node2Info2 = await node2Client2.RestClient.ServerInformation(cancellationToken);
+					var node1Info2 = await node1Client2.RestClient.ServerInformation(cancellationToken);
 					CheckInfo(node1Info2);
 					CheckInfo(node2Info2);
 
@@ -791,7 +774,7 @@ namespace Tgstation.Server.Tests.Live
 						gitHubToken);
 
 					var downloadStream = await download.GetResult(cancellationToken);
-					var responseModel = await controllerClient2.Administration.Update(
+					var responseModel = await controllerClient2.RestClient.Administration.Update(
 						new ServerUpdateRequest
 						{
 							NewVersion = TestUpdateVersion,
@@ -874,7 +857,7 @@ namespace Tgstation.Server.Tests.Live
 					await using var node1Client = await CreateAdminClient(node1.ApiUrl, cancellationToken);
 					await using var node2Client = await CreateAdminClient(node2.ApiUrl, cancellationToken);
 
-					var controllerInfo = await controllerClient.ServerInformation(cancellationToken);
+					var controllerInfo = await controllerClient.RestClient.ServerInformation(cancellationToken);
 
 					async Task WaitForSwarmServerUpdate(IRestServerClient client, int currentServerCount)
 					{
@@ -915,11 +898,11 @@ namespace Tgstation.Server.Tests.Live
 
 					// wait a few minutes for the updated server list to dispatch
 					await Task.WhenAny(
-						WaitForSwarmServerUpdate(node1Client, 1),
+						WaitForSwarmServerUpdate(node1Client.RestClient, 1),
 						Task.Delay(TimeSpan.FromMinutes(4), cancellationToken));
 
-					var node2Info = await node2Client.ServerInformation(cancellationToken);
-					var node1Info = await node1Client.ServerInformation(cancellationToken);
+					var node2Info = await node2Client.RestClient.ServerInformation(cancellationToken);
+					var node1Info = await node1Client.RestClient.ServerInformation(cancellationToken);
 					CheckInfo(node1Info);
 					CheckInfo(node2Info);
 
@@ -931,21 +914,21 @@ namespace Tgstation.Server.Tests.Live
 					Assert.IsTrue(node1Task.IsCompleted);
 
 					// it should unregister
-					controllerInfo = await controllerClient.ServerInformation(cancellationToken);
+					controllerInfo = await controllerClient.RestClient.ServerInformation(cancellationToken);
 					Assert.AreEqual(2, controllerInfo.SwarmServers.Count);
 					Assert.IsFalse(controllerInfo.SwarmServers.Any(x => x.Identifier == "node1"));
 
 					// wait a few minutes for the updated server list to dispatch
 					await Task.WhenAny(
-						WaitForSwarmServerUpdate(node2Client, 3),
+						WaitForSwarmServerUpdate(node2Client.RestClient, 3),
 						Task.Delay(TimeSpan.FromMinutes(4), cancellationToken));
 
-					node2Info = await node2Client.ServerInformation(cancellationToken);
+					node2Info = await node2Client.RestClient.ServerInformation(cancellationToken);
 					Assert.AreEqual(2, node2Info.SwarmServers.Count);
 					Assert.IsFalse(node2Info.SwarmServers.Any(x => x.Identifier == "node1"));
 
 					// restart the controller
-					await controllerClient.Administration.Restart(cancellationToken);
+					await controllerClient.RestClient.Administration.Restart(cancellationToken);
 					await Task.WhenAny(
 						controllerTask,
 						Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
@@ -956,10 +939,10 @@ namespace Tgstation.Server.Tests.Live
 
 					// node 2 should reconnect once it's health check triggers
 					await Task.WhenAny(
-						WaitForSwarmServerUpdate(controllerClient2, 1),
+						WaitForSwarmServerUpdate(controllerClient2.RestClient, 1),
 						Task.Delay(TimeSpan.FromMinutes(5), cancellationToken));
 
-					controllerInfo = await controllerClient2.ServerInformation(cancellationToken);
+					controllerInfo = await controllerClient2.RestClient.ServerInformation(cancellationToken);
 					Assert.AreEqual(2, controllerInfo.SwarmServers.Count);
 					Assert.IsNotNull(controllerInfo.SwarmServers.SingleOrDefault(x => x.Identifier == "node2"));
 
@@ -967,36 +950,36 @@ namespace Tgstation.Server.Tests.Live
 					await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
 
 					// restart node2
-					await node2Client.Administration.Restart(cancellationToken);
+					await node2Client.RestClient.Administration.Restart(cancellationToken);
 					await Task.WhenAny(
 						node2Task,
 						Task.Delay(TimeSpan.FromMinutes(1)));
 					Assert.IsTrue(node1Task.IsCompleted);
 
 					// should have unregistered
-					controllerInfo = await controllerClient2.ServerInformation(cancellationToken);
+					controllerInfo = await controllerClient2.RestClient.ServerInformation(cancellationToken);
 					Assert.AreEqual(1, controllerInfo.SwarmServers.Count);
 					Assert.IsNull(controllerInfo.SwarmServers.SingleOrDefault(x => x.Identifier == "node2"));
 
 					// update should fail
 					await ApiAssert.ThrowsException<ApiConflictException, ServerUpdateResponse>(
-						() => controllerClient2.Administration.Update(new ServerUpdateRequest
+						() => controllerClient2.RestClient.Administration.Update(new ServerUpdateRequest
 						{
 							NewVersion = TestUpdateVersion
 						},
 						null,
 						cancellationToken),
-						ErrorCode.SwarmIntegrityCheckFailed);
+						Api.Models.ErrorCode.SwarmIntegrityCheckFailed);
 
 					node2Task = node2.Run(cancellationToken).AsTask();
 					await using var node2Client2 = await CreateAdminClient(node2.ApiUrl, cancellationToken);
 
 					// should re-register
 					await Task.WhenAny(
-						WaitForSwarmServerUpdate(node2Client2, 1),
+						WaitForSwarmServerUpdate(node2Client2.RestClient, 1),
 						Task.Delay(TimeSpan.FromMinutes(4), cancellationToken));
 
-					node2Info = await node2Client2.ServerInformation(cancellationToken);
+					node2Info = await node2Client2.RestClient.ServerInformation(cancellationToken);
 					Assert.AreEqual(2, node2Info.SwarmServers.Count);
 					Assert.IsNotNull(node2Info.SwarmServers.SingleOrDefault(x => x.Identifier == "controller"));
 				}
@@ -1047,10 +1030,10 @@ namespace Tgstation.Server.Tests.Live
 			try
 			{
 				await using var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken);
-
-				var instanceManagerTest = new InstanceManagerTest(adminClient, server.Directory);
+				var restAdminClient = adminClient.RestClient;
+				var instanceManagerTest = new InstanceManagerTest(restAdminClient, server.Directory);
 				var instance = await instanceManagerTest.CreateTestInstance("TgTestInstance", cancellationToken);
-				var instanceClient = adminClient.Instances.CreateClient(instance);
+				var instanceClient = restAdminClient.Instances.CreateClient(instance);
 
 
 				var ddUpdateTask = instanceClient.DreamDaemon.Update(new DreamDaemonRequest
@@ -1073,7 +1056,7 @@ namespace Tgstation.Server.Tests.Live
 				if (!String.IsNullOrWhiteSpace(localRepoPath))
 				{
 					await ioManager.CopyDirectory(
-						Enumerable.Empty<string>(),
+						[],
 						(src, dest) =>
 						{
 							if (postWriteHandler.NeedsPostWrite(src))
@@ -1141,7 +1124,7 @@ namespace Tgstation.Server.Tests.Live
 					cancellationToken);
 
 				var scriptsCopyTask = ioManager.CopyDirectory(
-					Enumerable.Empty<string>(),
+					[],
 					(src, dest) =>
 					{
 						if (postWriteHandler.NeedsPostWrite(src))
@@ -1353,62 +1336,81 @@ namespace Tgstation.Server.Tests.Live
 			var serverTask = server.Run(cancellationToken).AsTask();
 
 			var fileDownloader = ((Host.Server)server.RealServer).Host.Services.GetRequiredService<Host.IO.IFileDownloader>();
+			var graphQLClientFactory = new GraphQLServerClientFactory(restClientFactory);
 			try
 			{
 				Api.Models.Instance instance;
 				long initialStaged, initialActive, initialSessionId;
 
-				await using var firstAdminClient = await CreateAdminClient(server.ApiUrl, cancellationToken);
-				await using (var tokenOnlyClient = clientFactory.CreateFromToken(server.RootUrl, firstAdminClient.Token))
+				await using var firstAdminMultiClient = await CreateAdminClient(server.ApiUrl, cancellationToken);
+
+				var firstAdminRestClient = firstAdminMultiClient.RestClient;
+
+				await using (var tokenOnlyGraphQLClient = graphQLClientFactory.CreateFromToken(server.RootUrl, firstAdminRestClient.Token.Bearer))
+				{
+					// just testing auth works the same here
+					var result = await tokenOnlyGraphQLClient.RunOperation(client => client.ServerVersion.ExecuteAsync(cancellationToken), cancellationToken);
+					Assert.IsTrue(result.IsSuccessResult());
+				}
+
+				await using (var tokenOnlyRestClient = restClientFactory.CreateFromToken(server.RootUrl, firstAdminRestClient.Token))
 				{
 					// regression test for password change issue
-					var currentUser = await tokenOnlyClient.Users.Read(cancellationToken);
-					var updatedUser = await tokenOnlyClient.Users.Update(new UserUpdateRequest
+					var currentUser = await tokenOnlyRestClient.Users.Read(cancellationToken);
+					var updatedUser = await tokenOnlyRestClient.Users.Update(new UserUpdateRequest
 					{
 						Id = currentUser.Id,
 						Password = DefaultCredentials.DefaultAdminUserPassword,
 					}, cancellationToken);
 
-					await ApiAssert.ThrowsException<UnauthorizedException, UserResponse>(() => tokenOnlyClient.Users.Read(cancellationToken), null);
+					await ApiAssert.ThrowsException<UnauthorizedException, UserResponse>(() => tokenOnlyRestClient.Users.Read(cancellationToken), null);
 				}
 
 				// basic graphql test, to be used everywhere eventually
-				await using (var graphQLClient = new GraphQLServerClientFactory(clientFactory).CreateUnauthenticated(server.RootUrl))
+				await using (var unauthenticatedGraphQLClient = graphQLClientFactory.CreateUnauthenticated(server.RootUrl))
 				{
-					// test getting server info
-					var multiClient = new MultiServerClient(firstAdminClient, graphQLClient);
+					// check auth works as expected
+					var result = await unauthenticatedGraphQLClient.RunOperation(client => client.ServerVersion.ExecuteAsync(cancellationToken), cancellationToken);
+					Assert.IsTrue(result.IsErrorResult());
 
-					await multiClient.ExecuteReadOnlyConfirmEquivalence(
+					// test getting server info
+					var unAuthedMultiClient = new MultiServerClient(firstAdminRestClient, unauthenticatedGraphQLClient);
+
+					await unAuthedMultiClient.ExecuteReadOnlyConfirmEquivalence(
 						restClient => restClient.ServerInformation(cancellationToken),
-						async gqlClient => (await gqlClient.ServerInformationQuery.ExecuteAsync(cancellationToken)).Data,
-						(restServerInfo, gqlServerInfo) => restServerInfo.UpdateInProgress == gqlServerInfo.Swarm.Metadata.UpdateInProgress
-							&& restServerInfo.Version == gqlServerInfo.Swarm.Metadata.Version
-							&& restServerInfo.DMApiVersion == gqlServerInfo.Swarm.Metadata.DmApiVersion
-							&& restServerInfo.InstanceLimit == gqlServerInfo.Swarm.LocalServer.Information.InstanceLimit
-							&& restServerInfo.UserGroupLimit == gqlServerInfo.Swarm.LocalServer.Information.UserGroupLimit
-							&& restServerInfo.ValidInstancePaths.SequenceEqual(gqlServerInfo.Swarm.LocalServer.Information.ValidInstancePaths)
-							&& restServerInfo.UserLimit == gqlServerInfo.Swarm.LocalServer.Information.UserLimit
-							&& restServerInfo.MinimumPasswordLength == gqlServerInfo.Swarm.LocalServer.Information.MinimumPasswordLength
-							&& (restServerInfo.SwarmServers == gqlServerInfo.Swarm.Servers
-								|| restServerInfo.SwarmServers.SequenceEqual(gqlServerInfo.Swarm.Servers.Select(x => new SwarmServerResponse(new Api.Models.Internal.SwarmServerInformation
-								{
-									Address = x.Address,
-									PublicAddress = x.PublicAddress,
-									Controller = x.Controller,
-									Identifier = x.Identifier,
-								}))))
-							&& (restServerInfo.OAuthProviderInfos == gqlServerInfo.Swarm.LocalServer.Information.OAuthProviderInfos
-								|| restServerInfo.OAuthProviderInfos.All(kvp =>
-								{
-									var info = gqlServerInfo.Swarm.LocalServer.Information.OAuthProviderInfos.FirstOrDefault(x => (int)x.Key == (int)kvp.Key);
-									return info != null
-										&& info.Value.ServerUrl == kvp.Value.ServerUrl
-										&& info.Value.ClientId == kvp.Value.ClientId
-										&& info.Value.RedirectUri == kvp.Value.RedirectUri;
-								})));
+						gqlClient => gqlClient.UnauthenticatedServerInformation.ExecuteAsync(cancellationToken),
+						(restServerInfo, gqlServerInfo) =>
+						{
+							var result = restServerInfo.ApiVersion.Major == gqlServerInfo.Swarm.CurrentNode.Gateway.Information.MajorApiVersion
+								&& (restServerInfo.OAuthProviderInfos == gqlServerInfo.Swarm.CurrentNode.Gateway.Information.OAuthProviderInfos
+									|| restServerInfo.OAuthProviderInfos.All(kvp =>
+									{
+										var info = gqlServerInfo.Swarm.CurrentNode.Gateway.Information.OAuthProviderInfos.FirstOrDefault(x => (int)x.Key == (int)kvp.Key);
+										return info != null
+											&& info.Value.ServerUrl == kvp.Value.ServerUrl
+											&& info.Value.ClientId == kvp.Value.ClientId
+											&& info.Value.RedirectUri == kvp.Value.RedirectUri;
+									}));
+
+							return result;
+						},
+						cancellationToken);
+
+					var testObserver = new HoldLastObserver<IOperationResult<ISessionInvalidationResult>>();
+					using var subscription = await unauthenticatedGraphQLClient.Subscribe(
+						gql => gql.SessionInvalidation.Watch(),
+						testObserver,
+						cancellationToken);
+
+					await Task.Delay(1000, cancellationToken);
+
+					Assert.AreEqual(0U, testObserver.ErrorCount);
+					Assert.AreEqual(1U, testObserver.ResultCount);
+					Assert.IsTrue(testObserver.LastValue.IsAuthenticationError());
+					Assert.IsTrue(testObserver.Completed);
 				}
 
-				async ValueTask<IRestServerClient> CreateUserWithNoInstancePerms()
+				async ValueTask<MultiServerClient> CreateUserWithNoInstancePerms()
 				{
 					var createRequest = new UserCreateRequest()
 					{
@@ -1421,13 +1423,15 @@ namespace Tgstation.Server.Tests.Live
 						}
 					};
 
-					var user = await firstAdminClient.Users.Create(createRequest, cancellationToken);
+					var user = await firstAdminRestClient.Users.Create(createRequest, cancellationToken);
 					Assert.IsTrue(user.Enabled);
 
-					return await clientFactory.CreateFromLogin(server.RootUrl, createRequest.Name, createRequest.Password, cancellationToken: cancellationToken);
+					return await CreateClient(server.RootUrl, createRequest.Name, createRequest.Password, false, cancellationToken);
 				}
 
-				var jobsHubTest = new JobsHubTests(firstAdminClient, await CreateUserWithNoInstancePerms());
+				var restartObserver = new HoldLastObserver<IOperationResult<ISessionInvalidationResult>>();
+				IDisposable restartSubscription;
+				var jobsHubTest = new JobsHubTests(firstAdminMultiClient, await CreateUserWithNoInstancePerms());
 				Task jobsHubTestTask;
 				{
 					if (server.DumpOpenApiSpecpath)
@@ -1462,12 +1466,17 @@ namespace Tgstation.Server.Tests.Live
 					InstanceResponse odInstance, compatInstance;
 					if (!openDreamOnly)
 					{
-						jobsHubTestTask = FailFast(await jobsHubTest.Run(cancellationToken)); // returns Task<Task>
-						var rootTest = FailFast(RawRequestTests.Run(clientFactory, firstAdminClient, cancellationToken));
-						var adminTest = FailFast(new AdministrationTest(firstAdminClient.Administration).Run(cancellationToken));
-						var usersTest = FailFast(new UsersTest(firstAdminClient).Run(cancellationToken));
+						// force a session refresh if necessary
+						await firstAdminMultiClient.GraphQLClient.RunQueryEnsureNoErrors(
+							gql => gql.ReadCurrentUser.ExecuteAsync(cancellationToken),
+							cancellationToken);
 
-						var instanceManagerTest = new InstanceManagerTest(firstAdminClient, server.Directory);
+						jobsHubTestTask = FailFast(await jobsHubTest.Run(cancellationToken)); // returns Task<Task>
+						var rootTest = FailFast(RawRequestTests.Run(restClientFactory, firstAdminRestClient, cancellationToken));
+						var adminTest = FailFast(new AdministrationTest(firstAdminRestClient.Administration).Run(cancellationToken));
+						var usersTest = FailFast(new UsersTest(firstAdminMultiClient).Run(cancellationToken).AsTask());
+
+						var instanceManagerTest = new InstanceManagerTest(firstAdminRestClient, server.Directory);
 						var compatInstanceTask = instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);
 						var odInstanceTask = instanceManagerTest.CreateTestInstance("OdTestsInstance", cancellationToken);
 						var byondApiCompatInstanceTask = instanceManagerTest.CreateTestInstance("BCAPITestsInstance", cancellationToken);
@@ -1477,7 +1486,7 @@ namespace Tgstation.Server.Tests.Live
 						var byondApiCompatInstance = await byondApiCompatInstanceTask;
 						var instancesTest = FailFast(instanceManagerTest.RunPreTest(cancellationToken));
 						Assert.IsTrue(Directory.Exists(instance.Path));
-						instanceClient = firstAdminClient.Instances.CreateClient(instance);
+						instanceClient = firstAdminRestClient.Instances.CreateClient(instance);
 
 						Assert.IsTrue(Directory.Exists(instanceClient.Metadata.Path));
 						nonInstanceTests = Task.WhenAll(instancesTest, adminTest, rootTest, usersTest);
@@ -1488,13 +1497,13 @@ namespace Tgstation.Server.Tests.Live
 						nonInstanceTests = Task.CompletedTask;
 						jobsHubTestTask = null;
 						instance = null;
-						var instanceManagerTest = new InstanceManagerTest(firstAdminClient, server.Directory);
+						var instanceManagerTest = new InstanceManagerTest(firstAdminRestClient, server.Directory);
 						var odInstanceTask = instanceManagerTest.CreateTestInstance("OdTestsInstance", cancellationToken);
 						odInstance = await odInstanceTask;
 					}
 
 					var instanceTest = new InstanceTest(
-						firstAdminClient.Instances,
+						firstAdminRestClient.Instances,
 						fileDownloader,
 						GetInstanceManager(),
 						(ushort)server.ApiUrl.Port);
@@ -1517,13 +1526,13 @@ namespace Tgstation.Server.Tests.Live
 									server.OpenDreamUrl,
 									cancellationToken).AsTask());
 
-							Assert.AreEqual(ErrorCode.OpenDreamTooOld, ex.ErrorCode);
+							Assert.AreEqual(Api.Models.ErrorCode.OpenDreamTooOld, ex.ErrorCode);
 
 							await instanceTest
 								.RunCompatTests(
 									await edgeODVersionTask,
 									server.OpenDreamUrl,
-									firstAdminClient.Instances.CreateClient(odInstance),
+									firstAdminRestClient.Instances.CreateClient(odInstance),
 									odDMPort.Value,
 									odDDPort.Value,
 									server.HighPriorityDreamDaemon,
@@ -1550,7 +1559,7 @@ namespace Tgstation.Server.Tests.Live
 											: new Version(512, 1451) // http://www.byond.com/forum/?forum=5&command=search&scope=local&text=resolved%3a512.1451
 									},
 									server.OpenDreamUrl,
-									firstAdminClient.Instances.CreateClient(compatInstance),
+									firstAdminRestClient.Instances.CreateClient(compatInstance),
 									compatDMPort.Value,
 									compatDDPort.Value,
 									server.HighPriorityDreamDaemon,
@@ -1590,12 +1599,45 @@ namespace Tgstation.Server.Tests.Live
 					initialStaged = dd.StagedCompileJob.Id.Value;
 					initialSessionId = dd.SessionId.Value;
 
-					jobsHubTest.ExpectShutdown();
-					await firstAdminClient.Administration.Restart(cancellationToken);
+					// force a session refresh if necessary
+					await firstAdminMultiClient.GraphQLClient.RunQueryEnsureNoErrors(
+						gql => gql.ReadCurrentUser.ExecuteAsync(cancellationToken),
+						cancellationToken);
+
+					restartSubscription = await firstAdminMultiClient.GraphQLClient.Subscribe(
+						gql => gql.SessionInvalidation.Watch(),
+						restartObserver,
+						cancellationToken);
+
+					try
+					{
+						await Task.Delay(1000, cancellationToken);
+
+						jobsHubTest.ExpectShutdown();
+						await firstAdminRestClient.Administration.Restart(cancellationToken);
+					}
+					catch
+					{
+						restartSubscription.Dispose();
+						throw;
+					}
 				}
 
-				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
-				Assert.IsTrue(serverTask.IsCompleted);
+				try
+				{
+					await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
+					Assert.IsTrue(serverTask.IsCompleted);
+
+					Assert.AreEqual(0U, restartObserver.ErrorCount);
+					Assert.AreEqual(1U, restartObserver.ResultCount);
+					restartObserver.LastValue.EnsureNoErrors();
+					Assert.IsTrue(restartObserver.Completed);
+					Assert.AreEqual(SessionInvalidationReason.ServerShutdown, restartObserver.LastValue.Data.SessionInvalidated);
+				}
+				finally
+				{
+					restartSubscription.Dispose();
+				}
 
 				// test the reattach message queueing
 				// for the code coverage really...
@@ -1640,8 +1682,10 @@ namespace Tgstation.Server.Tests.Live
 
 				// chat bot start and DD reattach test
 				serverTask = server.Run(cancellationToken).AsTask();
-				await using (var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
+				await using (var multiClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
 				{
+					var adminClient = multiClient.RestClient;
+
 					await jobsHubTest.WaitForReconnect(cancellationToken);
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
@@ -1745,8 +1789,9 @@ namespace Tgstation.Server.Tests.Live
 				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
 				await using (var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
 				{
+					var restAdminClient = adminClient.RestClient;
 					await jobsHubTest.WaitForReconnect(cancellationToken);
-					var instanceClient = adminClient.Instances.CreateClient(instance);
+					var instanceClient = restAdminClient.Instances.CreateClient(instance);
 					await WaitForInitialJobs(instanceClient);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1778,7 +1823,7 @@ namespace Tgstation.Server.Tests.Live
 					expectedStaged = compileJob.Id.Value;
 
 					jobsHubTest.ExpectShutdown();
-					await adminClient.Administration.Restart(cancellationToken);
+					await restAdminClient.Administration.Restart(cancellationToken);
 				}
 
 				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
@@ -1788,8 +1833,9 @@ namespace Tgstation.Server.Tests.Live
 				serverTask = server.Run(cancellationToken).AsTask();
 				await using (var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
 				{
+					var restAdminClient = adminClient.RestClient;
 					await jobsHubTest.WaitForReconnect(cancellationToken);
-					var instanceClient = adminClient.Instances.CreateClient(instance);
+					var instanceClient = restAdminClient.Instances.CreateClient(instance);
 					await WaitForInitialJobs(instanceClient);
 
 					var currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1804,7 +1850,7 @@ namespace Tgstation.Server.Tests.Live
 
 					await using var repoTestObj = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
 					var repoTest = repoTestObj.RunPostTest(cancellationToken);
-					await using var chatTestObj = new ChatTest(instanceClient.ChatBots, adminClient.Instances, instanceClient.Jobs, instance);
+					await using var chatTestObj = new ChatTest(instanceClient.ChatBots, restAdminClient.Instances, instanceClient.Jobs, instance);
 					await chatTestObj.RunPostTest(cancellationToken);
 					await repoTest;
 
@@ -1813,7 +1859,7 @@ namespace Tgstation.Server.Tests.Live
 					jobsHubTest.CompleteNow();
 					await jobsHubTestTask;
 
-					await new InstanceManagerTest(adminClient, server.Directory).RunPostTest(instance, cancellationToken);
+					await new InstanceManagerTest(restAdminClient, server.Directory).RunPostTest(instance, cancellationToken);
 				}
 			}
 			catch (ApiException ex)
@@ -1848,32 +1894,84 @@ namespace Tgstation.Server.Tests.Live
 			await serverTask;
 		}
 
-		async Task<IRestServerClient> CreateAdminClient(Uri url, CancellationToken cancellationToken)
+		ValueTask<MultiServerClient> CreateAdminClient(Uri url, CancellationToken cancellationToken)
+			=> CreateClient(url, DefaultCredentials.AdminUserName, DefaultCredentials.DefaultAdminUserPassword, true, cancellationToken);
+
+		async ValueTask<MultiServerClient> CreateClient(
+			Uri url,
+			string username,
+			string password,
+			bool retry,
+			CancellationToken cancellationToken = default)
 		{
 			url = new Uri(url.ToString().Replace(Routes.ApiRoot, String.Empty));
 			var giveUpAt = DateTimeOffset.UtcNow.AddMinutes(2);
 			for (var I = 1; ; ++I)
 			{
+				ValueTask<IRestServerClient> restClientTask;
+				ValueTask<IAuthenticatedGraphQLServerClient> graphQLClientTask;
 				try
 				{
-					System.Console.WriteLine($"TEST: CreateAdminClient attempt {I}...");
-					return await clientFactory.CreateFromLogin(
+					Console.WriteLine($"TEST: CreateAdminClient attempt {I}...");
+					
+					restClientTask = restClientFactory.CreateFromLogin(
 						url,
-						DefaultCredentials.AdminUserName,
-						DefaultCredentials.DefaultAdminUserPassword,
+						username,
+						password,
 						cancellationToken: cancellationToken);
+					using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+					graphQLClientTask = graphQLClientFactory.CreateFromLogin(
+						url,
+						username,
+						password,
+						cancellationToken: cts.Token);
+
+					IRestServerClient restClient;
+					try
+					{
+						restClient = await restClientTask;
+					}
+					catch (Exception restException) when (restException is not HttpRequestException && restException is not ServiceUnavailableException)
+					{
+						cts.Cancel();
+						try
+						{
+							await (await graphQLClientTask).DisposeAsync();
+						}
+						catch (OperationCanceledException)
+						{
+						}
+						catch (Exception graphQLException)
+						{
+							throw new AggregateException(restException, graphQLException);
+						}
+
+						throw;
+					}
+
+					try
+					{
+						return new MultiServerClient(
+							restClient,
+							await graphQLClientTask);
+					}
+					catch
+					{
+						await restClient.DisposeAsync();
+						throw;
+					}
 				}
 				catch (HttpRequestException)
 				{
 					//migrating, to be expected
-					if (DateTimeOffset.UtcNow > giveUpAt)
+					if (DateTimeOffset.UtcNow > giveUpAt || !retry)
 						throw;
 					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 				}
 				catch (ServiceUnavailableException)
 				{
 					// migrating, to be expected
-					if (DateTimeOffset.UtcNow > giveUpAt)
+					if (DateTimeOffset.UtcNow > giveUpAt || !retry)
 						throw;
 					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 				}

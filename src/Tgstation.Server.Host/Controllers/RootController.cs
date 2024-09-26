@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using Tgstation.Server.Api;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.System;
@@ -63,6 +64,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly ControlPanelConfiguration controlPanelConfiguration;
 
 		/// <summary>
+		/// The <see cref="InternalConfiguration"/> for the <see cref="RootController"/>.
+		/// </summary>
+		readonly InternalConfiguration internalConfiguration;
+
+		/// <summary>
 		/// Gets a <see cref="Tuple{T1, T2}"/> giving the <see cref="ControlPanelController"/> and action names for a given <paramref name="actionExpression"/>.
 		/// </summary>
 		/// <param name="actionExpression">An expression invoking the action on <see cref="ControlPanelController"/>.</param>
@@ -92,13 +98,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/>.</param>
+		/// <param name="internalConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/>.</param>
 		public RootController(
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IPlatformIdentifier platformIdentifier,
 			IWebHostEnvironment hostEnvironment,
 			ILogger<RootController> logger,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions)
+			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
+			IOptionsSnapshot<InternalConfiguration> internalConfigurationOptions)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
@@ -106,6 +114,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
+			internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
 		}
 
 		/// <summary>
@@ -120,19 +129,26 @@ namespace Tgstation.Server.Host.Controllers
 			var apiDocsEnabled = generalConfiguration.HostApiDocumentation;
 
 			var controlPanelRoute = $"{ControlPanelController.ControlPanelRoute.TrimStart('/')}/";
-			if (panelEnabled ^ apiDocsEnabled)
-				if (panelEnabled)
-					return Redirect(controlPanelRoute);
-				else
-					return Redirect(SwaggerConfiguration.DocumentationSiteRouteExtension);
+			if (panelEnabled && !apiDocsEnabled)
+				return Redirect(controlPanelRoute);
 
-			Dictionary<string, string>? links;
-			if (panelEnabled)
-				links = new Dictionary<string, string>()
+			Dictionary<string, string>? links = null;
+
+			if (panelEnabled || apiDocsEnabled)
+			{
+				links = new Dictionary<string, string>();
+
+				if (panelEnabled)
+					links.Add("Web Control Panel", controlPanelRoute);
+
+				if (apiDocsEnabled)
 				{
-					{ "Web Control Panel", controlPanelRoute },
-					{ "API Documentation", SwaggerConfiguration.DocumentationSiteRouteExtension },
-				};
+					if (internalConfiguration.EnableGraphQL)
+						links.Add("GraphQL API Documentation", Routes.GraphQL);
+
+					links.Add("REST API Documentation", SwaggerConfiguration.DocumentationSiteRouteExtension);
+				}
+			}
 			else
 				links = null;
 

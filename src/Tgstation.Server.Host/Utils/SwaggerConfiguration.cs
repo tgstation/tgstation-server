@@ -270,7 +270,7 @@ namespace Tgstation.Server.Host.Utils
 					.OrderBy(x => x.PutOnly) // Process PUTs last
 					.ToList();
 
-				if (requestOptions.Any() && requestOptions.All(x => x.Presence == FieldPresence.Ignored && !x.PutOnly))
+				if (requestOptions.Count == 0 && requestOptions.All(x => x.Presence == FieldPresence.Ignored && !x.PutOnly))
 					subSchema.ReadOnly = true;
 
 				var subSchemaId = tuple.Item2;
@@ -370,7 +370,7 @@ namespace Tgstation.Server.Host.Utils
 
 				operation.Security = new List<OpenApiSecurityRequirement>
 				{
-					new OpenApiSecurityRequirement
+					new()
 					{
 						{
 							tokenScheme,
@@ -450,7 +450,7 @@ namespace Tgstation.Server.Host.Utils
 
 				operation.Security = new List<OpenApiSecurityRequirement>
 				{
-					new OpenApiSecurityRequirement
+					new()
 					{
 						{
 							passwordScheme,

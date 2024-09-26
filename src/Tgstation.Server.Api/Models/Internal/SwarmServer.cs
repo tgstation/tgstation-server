@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// <summary>
 	/// Information about a server in the swarm.
 	/// </summary>
-	public abstract class SwarmServer : IEquatable<SwarmServer>
+	public abstract class SwarmServer
 	{
 		/// <summary>
 		/// The public address of the server.
@@ -47,12 +47,5 @@ namespace Tgstation.Server.Api.Models.Internal
 			PublicAddress = copy.PublicAddress;
 			Identifier = copy.Identifier;
 		}
-
-		/// <inheritdoc />
-		public bool Equals(SwarmServer other)
-			=> other != null
-				&& other.Identifier == Identifier
-				&& other.PublicAddress == PublicAddress
-				&& other.Address == Address;
 	}
 }

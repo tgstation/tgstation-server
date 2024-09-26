@@ -4,12 +4,12 @@ using StrawberryShake.Serialization;
 
 using Tgstation.Server.Common.Extensions;
 
-#pragma warning disable CA1812 // not detecting service provider usage
+#pragma warning disable CA1812 // not detecting usage via annotation in schema.extensions.graphql
 
 namespace Tgstation.Server.Client.GraphQL.Serializers
 {
 	/// <summary>
-	/// <see cref="ScalarSerializer{TSerialized, TRuntime}"/> for <see cref="UInt32"/>s.
+	/// <see cref="ScalarSerializer{TSerialized, TRuntime}"/> for <see cref="Version"/>s.
 	/// </summary>
 	sealed class SemverSerializer : ScalarSerializer<string, Version>
 	{

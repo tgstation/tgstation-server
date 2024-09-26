@@ -101,7 +101,7 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public TokenResponse CreateToken(User user, bool oAuth)
+		public string CreateToken(User user, bool oAuth)
 		{
 			ArgumentNullException.ThrowIfNull(user);
 
@@ -139,10 +139,7 @@ namespace Tgstation.Server.Host.Security
 					expiry.UtcDateTime,
 					now.UtcDateTime));
 
-			var tokenResponse = new TokenResponse
-			{
-				Bearer = tokenHandler.WriteToken(securityToken),
-			};
+			var tokenResponse = tokenHandler.WriteToken(securityToken);
 
 			return tokenResponse;
 		}

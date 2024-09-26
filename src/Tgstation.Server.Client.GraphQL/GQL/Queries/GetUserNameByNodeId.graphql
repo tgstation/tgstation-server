@@ -1,0 +1,8 @@
+query GetUserNameByNodeId($id: ID!) {
+  node(id: $id) {
+    ... on UserName {
+      id
+      name
+    }
+  }
+}

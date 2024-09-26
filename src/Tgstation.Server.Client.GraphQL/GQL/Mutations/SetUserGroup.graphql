@@ -1,0 +1,41 @@
+mutation SetUserGroup($id: ID!, $newGroupId: ID!) {
+  updateUserSetGroup(input: { id: $id, newGroupId: $newGroupId }) {
+    errors {
+      ... on ErrorMessageError {
+        additionalData
+        errorCode
+        message
+      }
+    }
+    user {
+        ownedPermissionSet {
+            instanceManagerRights {
+            canCreate
+            canDelete
+            canGrantPermissions
+            canList
+            canRead
+            canRelocate
+            canRename
+            canSetAutoUpdate
+            canSetChatBotLimit
+            canSetConfiguration
+            canSetOnline
+            }
+            administrationRights {
+            canChangeVersion
+            canDownloadLogs
+            canEditOwnOAuthConnections
+            canEditOwnPassword
+            canReadUsers
+            canRestartHost
+            canUploadVersion
+            canWriteUsers
+            }
+        }
+        group {
+            id
+        }
+    }
+  }
+}

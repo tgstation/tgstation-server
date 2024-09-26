@@ -5,7 +5,7 @@ using Tgstation.Server.Api.Models.Response;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.DreamMakerSettings" />
-	public sealed class DreamMakerSettings : Api.Models.Internal.DreamMakerSettings, IApiTransformable<DreamMakerResponse>
+	public sealed class DreamMakerSettings : Api.Models.Internal.DreamMakerSettings, ILegacyApiTransformable<DreamMakerResponse>
 	{
 		/// <summary>
 		/// The row Id.

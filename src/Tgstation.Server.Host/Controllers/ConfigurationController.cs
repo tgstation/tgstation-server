@@ -14,6 +14,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -266,7 +267,7 @@ namespace Tgstation.Server.Host.Controllers
 
 						return result.Value
 							? Json(resultModel)
-							: Created(resultModel);
+							: this.Created(resultModel);
 					});
 			}
 			catch (IOException e)

@@ -194,7 +194,7 @@ namespace Tgstation.Server.Client
 
 				disposed = true;
 
-				localHubConnections = hubConnections.ToList();
+				localHubConnections = [.. hubConnections];
 				hubConnections.Clear();
 			}
 
@@ -405,51 +405,56 @@ namespace Tgstation.Server.Client
 			if (loggingConfigureAction != null)
 				hubConnectionBuilder.ConfigureLogging(loggingConfigureAction);
 
-			hubConnection = hubConnectionBuilder.Build();
-			try
+			async ValueTask<HubConnection> AttemptConnect()
 			{
-				hubConnection.Closed += async (error) =>
+				hubConnection = hubConnectionBuilder.Build();
+				try
 				{
-					if (error is HttpRequestException httpRequestException)
+					hubConnection.Closed += async (error) =>
 					{
-						// .StatusCode isn't in netstandard but fuck the police
-						var property = error.GetType().GetProperty("StatusCode");
-						if (property != null)
+						if (error is HttpRequestException httpRequestException)
 						{
-							var statusCode = (HttpStatusCode?)property.GetValue(error);
-							if (statusCode == HttpStatusCode.Unauthorized
-								&& !await RefreshToken(CancellationToken.None))
-								_ = hubConnection!.StopAsync();
+							// .StatusCode isn't in netstandard but fuck the police
+							var property = error.GetType().GetProperty("StatusCode");
+							if (property != null)
+							{
+								var statusCode = (HttpStatusCode?)property.GetValue(error);
+								if (statusCode == HttpStatusCode.Unauthorized
+									&& !await RefreshToken(CancellationToken.None))
+									_ = hubConnection!.StopAsync();
+							}
 						}
+					};
+
+					hubConnection.ProxyOn(hubImplementation);
+
+					Task startTask;
+					lock (hubConnections)
+					{
+						if (disposed)
+							throw new ObjectDisposedException(nameof(ApiClient));
+
+						hubConnections.Add(hubConnection);
+						startTask = hubConnection.StartAsync(cancellationToken);
 					}
-				};
 
-				hubConnection.ProxyOn(hubImplementation);
+					await startTask;
 
-				Task startTask;
-				lock (hubConnections)
-				{
-					if (disposed)
-						throw new ObjectDisposedException(nameof(ApiClient));
-
-					hubConnections.Add(hubConnection);
-					startTask = hubConnection.StartAsync(cancellationToken);
+					return hubConnection;
 				}
+				catch
+				{
+					bool needsDispose;
+					lock (hubConnections)
+						needsDispose = hubConnections.Remove(hubConnection);
 
-				await startTask;
-
-				return hubConnection;
+					if (needsDispose)
+						await hubConnection.DisposeAsync();
+					throw;
+				}
 			}
-			catch
-			{
-				bool needsDispose;
-				lock (hubConnections)
-					needsDispose = hubConnections.Remove(hubConnection);
 
-				if (needsDispose)
-					await hubConnection.DisposeAsync();
-				throw;
-			}
+			return await WrapHubInitialConnectAuthRefresh(AttemptConnect, cancellationToken);
 		}
 
 		/// <summary>
@@ -570,6 +575,35 @@ namespace Tgstation.Server.Client
 			}
 		}
 #pragma warning restore CA1506
+
+		/// <summary>
+		/// Wrap a hub connection attempt via a <paramref name="connectFunc"/> with proper token refreshing.
+		/// </summary>
+		/// <param name="connectFunc">The <see cref="HubConnection"/> <see cref="Func{TResult}"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the connected <see cref="HubConnection"/>.</returns>
+		async ValueTask<HubConnection> WrapHubInitialConnectAuthRefresh(Func<ValueTask<HubConnection>> connectFunc, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await connectFunc();
+			}
+			catch (HttpRequestException ex)
+			{
+				// status code is not in netstandard
+				var propertyInfo = ex.GetType().GetProperty("StatusCode");
+				if (propertyInfo != null)
+				{
+					var statusCode = (HttpStatusCode)propertyInfo.GetValue(ex);
+					if (statusCode != HttpStatusCode.Unauthorized)
+						throw;
+				}
+
+				await RefreshToken(cancellationToken);
+
+				return await connectFunc();
+			}
+		}
 
 		/// <summary>
 		/// Main request method.

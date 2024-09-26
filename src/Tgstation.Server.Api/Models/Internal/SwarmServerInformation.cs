@@ -1,13 +1,11 @@
-﻿using System;
-
-using Tgstation.Server.Api.Models.Response;
+﻿using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
 	/// Represents information about a running <see cref="SwarmServer"/>.
 	/// </summary>
-	public class SwarmServerInformation : SwarmServer, IEquatable<SwarmServerInformation>
+	public class SwarmServerInformation : SwarmServer
 	{
 		/// <summary>
 		/// If the <see cref="SwarmServerResponse"/> is the controller.
@@ -30,10 +28,5 @@ namespace Tgstation.Server.Api.Models.Internal
 		{
 			Controller = copy.Controller;
 		}
-
-		/// <inheritdoc />
-		public bool Equals(SwarmServerInformation other)
-			=> base.Equals(other)
-				&& other.Controller == Controller;
 	}
 }

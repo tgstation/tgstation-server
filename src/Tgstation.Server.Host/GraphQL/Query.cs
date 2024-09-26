@@ -1,6 +1,4 @@
-﻿#pragma warning disable CA1724
-
-using Tgstation.Server.Host.GraphQL.Types;
+﻿#pragma warning disable CA1724 // Dumb conflict with Microsoft.EntityFrameworkCore.Query
 
 namespace Tgstation.Server.Host.GraphQL
 {
@@ -10,9 +8,9 @@ namespace Tgstation.Server.Host.GraphQL
 	public sealed class Query
 	{
 		/// <summary>
-		/// Gets the <see cref="ServerSwarm"/>.
+		/// Gets the <see cref="Types.ServerSwarm"/>.
 		/// </summary>
-		/// <returns>A new <see cref="ServerSwarm"/>.</returns>
-		public ServerSwarm Swarm() => new();
+		/// <returns>A new <see cref="Types.ServerSwarm"/>.</returns>
+		public Types.ServerSwarm Swarm() => new();
 	}
 }
