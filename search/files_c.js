@@ -6,7 +6,9 @@ var searchData=
   ['limitedstreamresult_2ecs_3',['LimitedStreamResult.cs',['../_limited_stream_result_8cs.html',1,'']]],
   ['limitedstreamresultexecutor_2ecs_4',['LimitedStreamResultExecutor.cs',['../_limited_stream_result_executor_8cs.html',1,'']]],
   ['limits_2ecs_5',['Limits.cs',['../_limits_8cs.html',1,'']]],
-  ['localserver_2ecs_6',['LocalServer.cs',['../_local_server_8cs.html',1,'']]],
-  ['localserverinformation_2ecs_7',['LocalServerInformation.cs',['../_local_server_information_8cs.html',1,'']]],
-  ['logfileresponse_2ecs_8',['LogFileResponse.cs',['../_log_file_response_8cs.html',1,'']]]
+  ['localgateway_2ecs_6',['LocalGateway.cs',['../_local_gateway_8cs.html',1,'']]],
+  ['logfileresponse_2ecs_7',['LogFileResponse.cs',['../_log_file_response_8cs.html',1,'']]],
+  ['loginauthority_2ecs_8',['LoginAuthority.cs',['../_login_authority_8cs.html',1,'']]],
+  ['loginpayload_2ecs_9',['LoginPayload.cs',['../_login_payload_8cs.html',1,'']]],
+  ['loginresultextensions_2ecs_10',['LoginResultExtensions.cs',['../_login_result_extensions_8cs.html',1,'']]]
 ];

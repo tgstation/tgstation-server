@@ -1,34 +1,15 @@
 <map id="Tgstation.Server.Host.Utils.SwaggerConfiguration.Apply" name="Tgstation.Server.Host.Utils.SwaggerConfiguration.Apply">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,460,188,501"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a8c130b337cd8f08728c07a7f230707a6" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="236,345,451,386"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,457,283,391,285,395,143,462"/>
-<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a199627b7cb0d306297b5bdbf3db04f9f" title="Downloads a file with a given ticket ." alt="" coords="236,460,451,501"/>
-<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="188,478,220,478,220,483,188,483"/>
-<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a6ad5ecb6e2fd792b0b3e88675e86e8cb" title="Uploads a file with a given ticket ." alt="" coords="236,623,451,663"/>
-<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="131,499,300,612,297,616,128,503"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#ab65ca85c86ab06d4aa3d90f3db2c0f32" title="Keep a user &#39;s systemIdentity &#160;alive until an expiry &#160;time." alt="" coords="528,5,758,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="346,344,361,287,390,209,410,167,434,127,463,89,497,57,512,47,515,51,501,61,467,93,438,130,414,170,394,211,366,288,351,346"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac23fd656dc42cf07e64a62844f8bcfbc" title="Checks a given password &#160;matches a given user &#39;s User.PasswordHash. This may result in User...." alt="" coords="515,71,771,111"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="349,344,368,297,399,236,442,174,468,145,497,121,503,117,506,121,501,125,472,149,446,177,403,239,373,299,354,346"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a1484aa5361ad7005e1d53606b17f4e9e" title="Create a ISystemIdentity for a given user ." alt="" coords="523,135,762,191"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="357,343,413,273,452,234,498,201,507,195,510,200,500,205,456,238,417,277,361,346"/>
-<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a0769df1193643d473689a70b0a7ef657" title="Create a TokenResponse for a given user ." alt="" coords="543,215,743,255"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="370,343,427,304,498,266,527,256,528,261,500,271,430,308,373,347"/>
-<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a35df5b32c769e3c6f01ae709e3221694" title="Gets the IOAuthValidator for a given oAuthProvider ." alt="" coords="527,280,759,321"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="439,342,531,322,532,327,440,347"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a5333dd9534ea615440e2360016e75be4" title="Response for missing/Invalid headers." alt="" coords="535,345,750,386"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="451,363,520,363,520,368,451,368"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a8fc39cb31c7d4490f8fefe71c936aa12" title="Parses the Bearer as a JsonWebToken." alt="" coords="526,411,760,451"/>
-<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="440,384,532,404,531,409,439,389"/>
-<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="535,476,750,517"/>
-<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="373,384,430,423,500,461,521,468,519,473,498,465,427,428,370,389"/>
-<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="539,541,747,582"/>
-<area shape="poly" id="edge12_Node000002_Node000012" title=" " alt="" coords="379,384,416,412,453,447,468,469,475,490,483,508,501,526,525,540,522,545,497,530,479,511,470,492,463,472,449,450,413,416,376,389"/>
-<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a84d1c4f6e52c2f6b83d40930646bd9f5" title="Generic 401 response." alt="" coords="535,607,750,647"/>
-<area shape="poly" id="edge13_Node000002_Node000013" title=" " alt="" coords="383,385,420,411,453,447,465,468,471,488,474,524,478,559,486,575,501,592,522,607,519,611,497,596,482,578,473,560,468,525,465,489,460,470,449,450,416,415,380,389"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="834,411,1050,451"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="740,384,832,404,830,409,739,389"/>
-<area shape="poly" id="edge11_Node000011_Node000009" title=" " alt="" coords="739,473,830,453,832,458,740,478"/>
-<area shape="rect" id="Node000016" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a6d1e5ab9d088861f7a85f61a0a1f1754" title="Sets the Stream for a given ticketResponse &#160;associated with a pending upload." alt="" coords="499,672,786,713"/>
-<area shape="poly" id="edge16_Node000015_Node000016" title=" " alt="" coords="452,658,501,666,500,672,451,663"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,71,188,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a312331c3db52428a3d06f9967ec56cd8" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="236,5,451,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,67,248,48,250,53,177,73"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a199627b7cb0d306297b5bdbf3db04f9f" title="Downloads a file with a given ticket ." alt="" coords="236,71,451,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="188,88,220,88,220,94,188,94"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a6ad5ecb6e2fd792b0b3e88675e86e8cb" title="Uploads a file with a given ticket ." alt="" coords="236,136,451,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="177,109,250,129,248,134,175,115"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a5333dd9534ea615440e2360016e75be4" title="Response for missing/Invalid headers." alt="" coords="535,5,750,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="451,23,520,23,520,28,451,28"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="834,5,1050,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="751,23,819,23,819,28,751,28"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a6d1e5ab9d088861f7a85f61a0a1f1754" title="Sets the Stream for a given ticketResponse &#160;associated with a pending upload." alt="" coords="499,136,786,177"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="451,154,483,154,483,159,451,159"/>
 </map>

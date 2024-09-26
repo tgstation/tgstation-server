@@ -86,6 +86,12 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a0d8d8fd559687a1fb89415868e83ab5e" id="r_a0d8d8fd559687a1fb89415868e83ab5e"><td class="memItemLeft" align="right" valign="top">static ObjectResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_controller_base_extensions.html#a0d8d8fd559687a1fb89415868e83ab5e">Created</a> (this ControllerBase controller, object payload)</td></tr>
+<tr class="memdesc:a0d8d8fd559687a1fb89415868e83ab5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic 201 response with a given <em>payload</em> .  <br /></td></tr>
+<tr class="separator:a0d8d8fd559687a1fb89415868e83ab5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f247710918f72172015f8b96ad863b4" id="r_a3f247710918f72172015f8b96ad863b4"><td class="memItemLeft" align="right" valign="top">static ObjectResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_controller_base_extensions.html#a3f247710918f72172015f8b96ad863b4">Unauthorized</a> (this ControllerBase controller)</td></tr>
+<tr class="memdesc:a3f247710918f72172015f8b96ad863b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic 401 response.  <br /></td></tr>
+<tr class="separator:a3f247710918f72172015f8b96ad863b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a914f0cf95624da48a3b4b9c9a7e9b9a3" id="r_a914f0cf95624da48a3b4b9c9a7e9b9a3"><td class="memItemLeft" align="right" valign="top">static ObjectResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_controller_base_extensions.html#a914f0cf95624da48a3b4b9c9a7e9b9a3">Gone</a> (this ControllerBase controller)</td></tr>
 <tr class="memdesc:a914f0cf95624da48a3b4b9c9a7e9b9a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic 410 response.  <br /></td></tr>
 <tr class="separator:a914f0cf95624da48a3b4b9c9a7e9b9a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -101,6 +107,52 @@ Static Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_controller_base_extensions_8cs_source.html#l00020">20</a> of file <a class="el" href="_controller_base_extensions_8cs_source.html">ControllerBaseExtensions.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a0d8d8fd559687a1fb89415868e83ab5e" name="a0d8d8fd559687a1fb89415868e83ab5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d8d8fd559687a1fb89415868e83ab5e">&#9670;&#160;</a></span>Created()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static ObjectResult Tgstation.Server.Host.Extensions.ControllerBaseExtensions.Created </td>
+          <td>(</td>
+          <td class="paramtype">this ControllerBase&#160;</td>
+          <td class="paramname"><em>controller</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">object&#160;</td>
+          <td class="paramname"><em>payload</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Generic 201 response with a given <em>payload</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The ControllerBase the request is coming from.</td></tr>
+    <tr><td class="paramname">payload</td><td>The accompanying API payload.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A HttpStatusCode.Created ObjectResult with the given <em>payload</em> .</dd></dl>
+
+</div>
+</div>
 <a id="a914f0cf95624da48a3b4b9c9a7e9b9a3" name="a914f0cf95624da48a3b4b9c9a7e9b9a3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a914f0cf95624da48a3b4b9c9a7e9b9a3">&#9670;&#160;</a></span>Gone()</h2>
 
@@ -247,31 +299,66 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A VirtualFileResult if the file was found. <code>null</code> otherwise.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_controller_base_extensions_8cs_source.html#l00048">48</a> of file <a class="el" href="_controller_base_extensions_8cs_source.html">ControllerBaseExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   49</span>        {</div>
-<div class="line"><span class="lineno">   50</span>            ArgumentNullException.ThrowIfNull(controller);</div>
-<div class="line"><span class="lineno">   51</span>            ArgumentNullException.ThrowIfNull(hostEnvironment);</div>
-<div class="line"><span class="lineno">   52</span>            ArgumentNullException.ThrowIfNull(logger);</div>
-<div class="line"><span class="lineno">   53</span>            ArgumentNullException.ThrowIfNull(path);</div>
-<div class="line"><span class="lineno">   54</span> </div>
-<div class="line"><span class="lineno">   55</span>            var fileInfo = hostEnvironment.WebRootFileProvider.GetFileInfo(path);</div>
-<div class="line"><span class="lineno">   56</span>            <span class="keywordflow">if</span> (fileInfo.Exists)</div>
-<div class="line"><span class="lineno">   57</span>            {</div>
-<div class="line"><span class="lineno">   58</span>                logger.LogTrace(<span class="stringliteral">&quot;Serving static file \&quot;{filename}\&quot;...&quot;</span>, path);</div>
-<div class="line"><span class="lineno">   59</span>                var contentTypeProvider = <span class="keyword">new</span> FileExtensionContentTypeProvider();</div>
-<div class="line"><span class="lineno">   60</span>                <span class="keywordflow">if</span> (!contentTypeProvider.TryGetContentType(fileInfo.Name, out var contentType))</div>
-<div class="line"><span class="lineno">   61</span>                    contentType = MediaTypeNames.Application.Octet;</div>
-<div class="line"><span class="lineno">   62</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (contentType == MediaTypeNames.Application.Json)</div>
-<div class="line"><span class="lineno">   63</span>                    controller.Response.Headers.Add(</div>
-<div class="line"><span class="lineno">   64</span>                        HeaderNames.CacheControl,</div>
-<div class="line"><span class="lineno">   65</span>                        <span class="keyword">new</span> StringValues(<span class="keyword">new</span>[] { <span class="stringliteral">&quot;public&quot;</span>, <span class="stringliteral">&quot;max-age=31536000&quot;</span>, <span class="stringliteral">&quot;immutable&quot;</span> }));</div>
-<div class="line"><span class="lineno">   66</span> </div>
-<div class="line"><span class="lineno">   67</span>                <span class="keywordflow">return</span> controller.File(path, contentType);</div>
-<div class="line"><span class="lineno">   68</span>            }</div>
+<p class="definition">Definition at line <a class="el" href="_controller_base_extensions_8cs_source.html#l00063">63</a> of file <a class="el" href="_controller_base_extensions_8cs_source.html">ControllerBaseExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   64</span>        {</div>
+<div class="line"><span class="lineno">   65</span>            ArgumentNullException.ThrowIfNull(controller);</div>
+<div class="line"><span class="lineno">   66</span>            ArgumentNullException.ThrowIfNull(hostEnvironment);</div>
+<div class="line"><span class="lineno">   67</span>            ArgumentNullException.ThrowIfNull(logger);</div>
+<div class="line"><span class="lineno">   68</span>            ArgumentNullException.ThrowIfNull(path);</div>
 <div class="line"><span class="lineno">   69</span> </div>
-<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   71</span>        }</div>
+<div class="line"><span class="lineno">   70</span>            var fileInfo = hostEnvironment.WebRootFileProvider.GetFileInfo(path);</div>
+<div class="line"><span class="lineno">   71</span>            <span class="keywordflow">if</span> (fileInfo.Exists)</div>
+<div class="line"><span class="lineno">   72</span>            {</div>
+<div class="line"><span class="lineno">   73</span>                logger.LogTrace(<span class="stringliteral">&quot;Serving static file \&quot;{filename}\&quot;...&quot;</span>, path);</div>
+<div class="line"><span class="lineno">   74</span>                var contentTypeProvider = <span class="keyword">new</span> FileExtensionContentTypeProvider();</div>
+<div class="line"><span class="lineno">   75</span>                <span class="keywordflow">if</span> (!contentTypeProvider.TryGetContentType(fileInfo.Name, out var contentType))</div>
+<div class="line"><span class="lineno">   76</span>                    contentType = MediaTypeNames.Application.Octet;</div>
+<div class="line"><span class="lineno">   77</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (contentType == MediaTypeNames.Application.Json)</div>
+<div class="line"><span class="lineno">   78</span>                    controller.Response.Headers.Add(</div>
+<div class="line"><span class="lineno">   79</span>                        HeaderNames.CacheControl,</div>
+<div class="line"><span class="lineno">   80</span>                        <span class="keyword">new</span> StringValues(<span class="keyword">new</span>[] { <span class="stringliteral">&quot;public&quot;</span>, <span class="stringliteral">&quot;max-age=31536000&quot;</span>, <span class="stringliteral">&quot;immutable&quot;</span> }));</div>
+<div class="line"><span class="lineno">   81</span> </div>
+<div class="line"><span class="lineno">   82</span>                <span class="keywordflow">return</span> controller.File(path, contentType);</div>
+<div class="line"><span class="lineno">   83</span>            }</div>
+<div class="line"><span class="lineno">   84</span> </div>
+<div class="line"><span class="lineno">   85</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   86</span>        }</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="a3f247710918f72172015f8b96ad863b4" name="a3f247710918f72172015f8b96ad863b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f247710918f72172015f8b96ad863b4">&#9670;&#160;</a></span>Unauthorized()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static ObjectResult Tgstation.Server.Host.Extensions.ControllerBaseExtensions.Unauthorized </td>
+          <td>(</td>
+          <td class="paramtype">this ControllerBase&#160;</td>
+          <td class="paramname"><em>controller</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Generic 401 response. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The ControllerBase the request is coming from.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An ObjectResult with HttpStatusCode.NotFound.</dd></dl>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

@@ -1,0 +1,10 @@
+<map id="Tgstation.Server.Host.Authority.UserGroupAuthority" name="Tgstation.Server.Host.Authority.UserGroupAuthority">
+<area shape="rect" id="Node000001" title=" " alt="" coords="26,153,231,193"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html" title="Base implementation of IAuthority." alt="" coords="5,79,108,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,115,113,150,109,154,76,118"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority.html" title="Business logic for interating with the server." alt="" coords="90,5,167,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="108,44,71,80,67,77,104,40"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_user_group_authority.html" title="IAuthority for managing UserGroups." alt="" coords="132,79,272,105"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="153,40,191,77,188,80,150,44"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="182,118,149,154,145,150,179,114"/>
+</map>

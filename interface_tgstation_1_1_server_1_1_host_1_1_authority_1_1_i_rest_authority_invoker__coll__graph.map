@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Authority.IRestAuthorityInvoker&lt; TAuthority &gt;" name="Tgstation.Server.Host.Authority.IRestAuthorityInvoker&lt; TAuthority &gt;">
+<area shape="rect" id="Node000001" title="Invokes TAuthority &#160;methods and generates IActionResult responses." alt="" coords="5,94,233,135"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html" title="Invokes TAuthority s." alt="" coords="55,5,183,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,62,122,94,116,94,116,62"/>
+</map>

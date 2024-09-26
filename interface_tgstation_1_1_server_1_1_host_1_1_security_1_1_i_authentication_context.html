@@ -82,14 +82,14 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Represents the currently authenticated Models.User.  
+<p>For creating and accessing authentication contexts.  
  <a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for Tgstation.Server.Host.Security.IAuthenticationContext:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context__inherit__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_security_8_i_authentication_context_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_security_8_i_authentication_context_inherit__map" id="a_tgstation_8_server_8_host_8_security_8_i_authentication_context_inherit__map">
-<area shape="rect" title="Represents the currently authenticated Models.User." alt="" coords="5,5,206,46"/>
+<area shape="rect" title="For creating and accessing authentication contexts." alt="" coords="5,5,206,46"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html" title=" " alt="" coords="5,94,206,135"/>
 <area shape="poly" title=" " alt="" coords="108,62,108,94,103,94,103,62"/>
 </map>
@@ -106,6 +106,12 @@ Properties</h2></td></tr>
 <tr class="memitem:a52a7cb34a9ab51b5376c876ca6d040bd" id="r_a52a7cb34a9ab51b5376c876ca6d040bd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a52a7cb34a9ab51b5376c876ca6d040bd">Valid</a><code> [get]</code></td></tr>
 <tr class="memdesc:a52a7cb34a9ab51b5376c876ca6d040bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the IAuthenticationContext is for a valid login.  <br /></td></tr>
 <tr class="separator:a52a7cb34a9ab51b5376c876ca6d040bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e43b880cd38846351852b7bef8ed8cd" id="r_a7e43b880cd38846351852b7bef8ed8cd"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a7e43b880cd38846351852b7bef8ed8cd">SessionId</a><code> [get]</code></td></tr>
+<tr class="memdesc:a7e43b880cd38846351852b7bef8ed8cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">string</a> that uniquely identifies the login session.  <br /></td></tr>
+<tr class="separator:a7e43b880cd38846351852b7bef8ed8cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0753f3154a20229f630c8ed504e9caa" id="r_ad0753f3154a20229f630c8ed504e9caa"><td class="memItemLeft" align="right" valign="top">DateTimeOffset&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ad0753f3154a20229f630c8ed504e9caa">SessionExpiry</a><code> [get]</code></td></tr>
+<tr class="memdesc:ad0753f3154a20229f630c8ed504e9caa"><td class="mdescLeft">&#160;</td><td class="mdescRight">When the login session expires.  <br /></td></tr>
+<tr class="separator:ad0753f3154a20229f630c8ed504e9caa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2e7c0c04d2797b9a24a9776277ec77b" id="r_ae2e7c0c04d2797b9a24a9776277ec77b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b">User</a><code> [get]</code></td></tr>
 <tr class="memdesc:ae2e7c0c04d2797b9a24a9776277ec77b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The authenticated user.  <br /></td></tr>
 <tr class="separator:ae2e7c0c04d2797b9a24a9776277ec77b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -120,9 +126,9 @@ Properties</h2></td></tr>
 <tr class="separator:a0cbae8029b99299c61788b1ecb8a7b6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Represents the currently authenticated Models.User. </p>
+<div class="textblock"><p>For creating and accessing authentication contexts. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_authentication_context_8cs_source.html#l00009">9</a> of file <a class="el" href="_i_authentication_context_8cs_source.html">IAuthenticationContext.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_authentication_context_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_authentication_context_8cs_source.html">IAuthenticationContext.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="af5d37fc8159a215c75c3f3688f4415ea" name="af5d37fc8159a215c75c3f3688f4415ea"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af5d37fc8159a215c75c3f3688f4415ea">&#9670;&#160;</a></span>GetRight()</h2>
@@ -151,6 +157,18 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7">Tgstation.Server.Host.Security.AuthenticationContext</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="_authentication_context_claims_transformation_8cs_source.html#l00033">Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation.TransformAsync()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_af5d37fc8159a215c75c3f3688f4415ea_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_af5d37fc8159a215c75c3f3688f4415ea_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_af5d37fc8159a215c75c3f3688f4415ea_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_af5d37fc8159a215c75c3f3688f4415ea_icgraph">
+<area shape="rect" title="Get the value of a given rightsType ." alt="" coords="332,13,538,54"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html#adbb551c36d69e3afdf072f06fbedc31e" title=" " alt="" coords="5,5,284,61"/>
+<area shape="poly" title=" " alt="" coords="316,36,284,36,284,31,316,31"/>
+</map>
+</div>
+
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
@@ -178,8 +196,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a2414cfa202796c6e1b630baa48e2f800">Tgstation.Server.Host.Security.AuthenticationContext</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_authentication_context_8cs_source.html#l00029">29</a> of file <a class="el" href="_i_authentication_context_8cs_source.html">IAuthenticationContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   29</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_authentication_context_8cs_source.html#l00041">41</a> of file <a class="el" href="_i_authentication_context_8cs_source.html">IAuthenticationContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   41</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -207,10 +225,70 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#acfb9937bf37b839f1d60289129c5ea77">Tgstation.Server.Host.Security.AuthenticationContext</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_authentication_context_8cs_source.html#l00024">24</a> of file <a class="el" href="_i_authentication_context_8cs_source.html">IAuthenticationContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   24</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_authentication_context_8cs_source.html#l00036">36</a> of file <a class="el" href="_i_authentication_context_8cs_source.html">IAuthenticationContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   36</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_jobs_hub_group_mapper_8cs_source.html#l00113">Tgstation.Server.Host.Jobs.JobsHubGroupMapper.MapConnectionGroups()</a>.</p>
+
+</div>
+</div>
+<a id="ad0753f3154a20229f630c8ed504e9caa" name="ad0753f3154a20229f630c8ed504e9caa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0753f3154a20229f630c8ed504e9caa">&#9670;&#160;</a></span>SessionExpiry</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DateTimeOffset Tgstation.Server.Host.Security.IAuthenticationContext.SessionExpiry</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>When the login session expires. </p>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a30e5c62082bbfac02f8fbcbc63e33c9c">Tgstation.Server.Host.Security.AuthenticationContext</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_i_authentication_context_8cs_source.html#l00026">26</a> of file <a class="el" href="_i_authentication_context_8cs_source.html">IAuthenticationContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   26</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a7e43b880cd38846351852b7bef8ed8cd" name="a7e43b880cd38846351852b7bef8ed8cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e43b880cd38846351852b7bef8ed8cd">&#9670;&#160;</a></span>SessionId</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Tgstation.Server.Host.Security.IAuthenticationContext.SessionId</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">string</a> that uniquely identifies the login session. </p>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a014344c4caf6e1c84bc3eab6664e9e29">Tgstation.Server.Host.Security.AuthenticationContext</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_i_authentication_context_8cs_source.html#l00021">21</a> of file <a class="el" href="_i_authentication_context_8cs_source.html">IAuthenticationContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   21</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_session_invalidation_tracker_8cs_source.html#l00069">Tgstation.Server.Host.Security.SessionInvalidationTracker.TrackSession()</a>.</p>
 
 </div>
 </div>
@@ -238,8 +316,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a7ad6dca2748efd73705791db904d0163">Tgstation.Server.Host.Security.AuthenticationContext</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_authentication_context_8cs_source.html#l00041">41</a> of file <a class="el" href="_i_authentication_context_8cs_source.html">IAuthenticationContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   41</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_authentication_context_8cs_source.html#l00053">53</a> of file <a class="el" href="_i_authentication_context_8cs_source.html">IAuthenticationContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   53</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -267,10 +345,10 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">Tgstation.Server.Host.Security.AuthenticationContext</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_authentication_context_8cs_source.html#l00019">19</a> of file <a class="el" href="_i_authentication_context_8cs_source.html">IAuthenticationContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   19</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_authentication_context_8cs_source.html#l00031">31</a> of file <a class="el" href="_i_authentication_context_8cs_source.html">IAuthenticationContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   31</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_jobs_hub_group_mapper_8cs_source.html#l00113">Tgstation.Server.Host.Jobs.JobsHubGroupMapper.MapConnectionGroups()</a>, <a class="el" href="_comprehensive_hub_context_8cs_source.html#l00074">Tgstation.Server.Host.Utils.SignalR.ComprehensiveHubContext&lt; THub, THubMethods &gt;.UserConnected()</a>, and <a class="el" href="_authorization_context_hub_filter_8cs_source.html#l00063">Tgstation.Server.Host.Security.AuthorizationContextHubFilter.ValidateAuthenticationContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_jobs_hub_group_mapper_8cs_source.html#l00113">Tgstation.Server.Host.Jobs.JobsHubGroupMapper.MapConnectionGroups()</a>, <a class="el" href="_session_invalidation_tracker_8cs_source.html#l00069">Tgstation.Server.Host.Security.SessionInvalidationTracker.TrackSession()</a>, <a class="el" href="_authentication_context_claims_transformation_8cs_source.html#l00033">Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation.TransformAsync()</a>, <a class="el" href="_comprehensive_hub_context_8cs_source.html#l00074">Tgstation.Server.Host.Utils.SignalR.ComprehensiveHubContext&lt; THub, THubMethods &gt;.UserConnected()</a>, and <a class="el" href="_authorization_context_hub_filter_8cs_source.html#l00063">Tgstation.Server.Host.Security.AuthorizationContextHubFilter.ValidateAuthenticationContext()</a>.</p>
 
 </div>
 </div>
@@ -298,10 +376,10 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ab8ce3a086968c8f2d2cd10bd0a9136ca">Tgstation.Server.Host.Security.AuthenticationContext</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_authentication_context_8cs_source.html#l00014">14</a> of file <a class="el" href="_i_authentication_context_8cs_source.html">IAuthenticationContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   14</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_authentication_context_8cs_source.html#l00016">16</a> of file <a class="el" href="_i_authentication_context_8cs_source.html">IAuthenticationContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   16</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_authorization_context_hub_filter_8cs_source.html#l00063">Tgstation.Server.Host.Security.AuthorizationContextHubFilter.ValidateAuthenticationContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_authentication_context_claims_transformation_8cs_source.html#l00033">Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation.TransformAsync()</a>, and <a class="el" href="_authorization_context_hub_filter_8cs_source.html#l00063">Tgstation.Server.Host.Security.AuthorizationContextHubFilter.ValidateAuthenticationContext()</a>.</p>
 
 </div>
 </div>

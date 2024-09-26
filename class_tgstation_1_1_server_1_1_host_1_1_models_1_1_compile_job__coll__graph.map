@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Models.CompileJob" name="Tgstation.Server.Host.Models.CompileJob">
-<area shape="rect" id="Node000001" title=" " alt="" coords="63,168,258,208"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="64,168,260,208"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html" title="Represents a deployment run." alt="" coords="5,79,143,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,129,143,165,139,169,102,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,129,144,165,140,169,103,133"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="42,5,106,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="77,46,77,79,71,79,71,46"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="167,79,328,120"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="219,133,182,169,178,165,215,129"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_legacy_api_transformable.html" title=" " alt="" coords="167,79,336,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="222,133,184,169,180,165,218,129"/>
 </map>

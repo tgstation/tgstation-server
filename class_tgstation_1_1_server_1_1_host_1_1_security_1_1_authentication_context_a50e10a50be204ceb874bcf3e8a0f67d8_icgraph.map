@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Security.AuthenticationContext.Initialize" name="Tgstation.Server.Host.Security.AuthenticationContext.Initialize">
+<area shape="rect" id="Node000001" title="Initializes the AuthenticationContext." alt="" coords="331,5,531,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#abb41b8d489e868b70e44097689293240" title="Handles tokenValidatedContext .A Task representing the running operation." alt="" coords="5,5,283,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="315,28,283,28,283,23,315,23"/>
+</map>

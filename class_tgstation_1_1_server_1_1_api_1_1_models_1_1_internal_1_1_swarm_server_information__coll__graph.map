@@ -1,9 +1,5 @@
 <map id="Tgstation.Server.Api.Models.Internal.SwarmServerInformation" name="Tgstation.Server.Api.Models.Internal.SwarmServerInformation">
-<area shape="rect" id="Node000001" title="Represents information about a running SwarmServer." alt="" coords="90,153,301,193"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="47,79,147,105"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,113,173,150,170,154,122,117"/>
-<area shape="rect" id="Node000003" href="$class_i_equatable.html" title=" " alt="" coords="5,5,189,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="100,46,100,79,94,79,94,46"/>
-<area shape="rect" id="Node000004" href="$class_i_equatable.html" title=" " alt="" coords="172,79,420,105"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="270,116,222,154,219,150,267,112"/>
+<area shape="rect" id="Node000001" title="Represents information about a running SwarmServer." alt="" coords="5,79,217,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="61,5,161,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,46,114,79,108,79,108,46"/>
 </map>

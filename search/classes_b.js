@@ -6,7 +6,9 @@ var searchData=
   ['limitedstreamresult_3',['LimitedStreamResult',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result.html',1,'Tgstation::Server::Host::Controllers::Results']]],
   ['limitedstreamresultexecutor_4',['LimitedStreamResultExecutor',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result_executor.html',1,'Tgstation::Server::Host::Controllers::Results']]],
   ['limits_5',['Limits',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_limits.html',1,'Tgstation::Server::Api::Models']]],
-  ['localserver_6',['LocalServer',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_local_server.html',1,'Tgstation::Server::Host::GraphQL::Types']]],
-  ['localserverinformation_7',['LocalServerInformation',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_local_server_information.html',1,'Tgstation::Server::Api::Models::Internal']]],
-  ['logfileresponse_8',['LogFileResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html',1,'Tgstation::Server::Api::Models::Response']]]
+  ['localgateway_6',['LocalGateway',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_local_gateway.html',1,'Tgstation::Server::Host::GraphQL::Types']]],
+  ['logfileresponse_7',['LogFileResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html',1,'Tgstation::Server::Api::Models::Response']]],
+  ['loginauthority_8',['LoginAuthority',['../class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html',1,'Tgstation::Server::Host::Authority']]],
+  ['loginpayload_9',['LoginPayload',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_payload.html',1,'Tgstation::Server::Host::GraphQL::Mutations::Payloads']]],
+  ['loginresultextensions_10',['LoginResultExtensions',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_login_result_extensions.html',1,'Tgstation::Server::Client::GraphQL']]]
 ];

@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.GraphQL.Types.Interceptors.RightsTypeInterceptor" name="Tgstation.Server.Host.GraphQL.Types.Interceptors.RightsTypeInterceptor">
+<area shape="rect" id="Node000001" title="Fixes the names used for the default flags types in API rights." alt="" coords="76,109,294,165"/>
+<area shape="rect" id="Node000002" href="$class_type_interceptor.html" title=" " alt="" coords="5,5,117,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,40,158,107,154,110,83,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="141,5,229,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,47,188,109,182,109,182,47"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="254,5,431,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="327,45,309,67,287,87,249,111,246,106,283,83,305,63,323,42"/>
+</map>

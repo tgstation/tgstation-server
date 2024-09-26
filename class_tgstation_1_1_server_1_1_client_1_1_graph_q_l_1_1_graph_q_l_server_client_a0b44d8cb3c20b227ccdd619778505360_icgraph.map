@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Client.GraphQL.GraphQLServerClient.Reauthenticate" name="Tgstation.Server.Client.GraphQL.GraphQLServerClient.Reauthenticate">
+<area shape="rect" id="Node000001" title="Attempt to reauthenticate." alt="" coords="282,45,486,101"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html#aef906a8f210b5fe75a8f7f20cc7e5f66" title="Subcribes to the GraphQL subscription indicated by operationExecutor .A ValueTask&lt;TResult&gt; resulting ..." alt="" coords="17,5,222,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="266,58,222,51,223,46,267,53"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html#a5f8207d3c155f686642df5318c6c44e2" title="Executes a given operationExecutor , potentially accounting for authentication issues." alt="" coords="5,85,234,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="267,94,234,99,234,93,266,88"/>
+</map>

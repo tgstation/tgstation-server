@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Security.AuthenticationContextFactory" name="Tgstation.Server.Host.Security.AuthenticationContextFactory">
-<area shape="rect" id="Node000001" title=" " alt="" coords="86,79,286,120"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html" title="For creating and accessing authentication contexts." alt="" coords="5,5,201,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,40,167,77,163,81,124,44"/>
-<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="225,5,314,31"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="248,44,208,81,205,77,244,40"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="24,79,224,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html" title="Handles TokenValidatedContexts." alt="" coords="5,5,118,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,41,111,77,107,80,78,45"/>
+<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="142,5,232,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="170,45,142,80,138,77,166,41"/>
 </map>

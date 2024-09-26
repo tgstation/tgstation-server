@@ -129,7 +129,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                    logger.LogTrace(<span class="stringliteral">&quot;End topic request #{requestId}&quot;</span>, localRequestId);</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                    <span class="keywordflow">return</span> byondResponse;</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                }</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException &amp;&amp; ex is not ArgumentException)</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                {</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                    logger.LogWarning(ex, <span class="stringliteral">&quot;SendTopic exception!{retryDetails}&quot;</span>, priority ? $<span class="stringliteral">&quot; {i} attempts remaining.&quot;</span> : String.Empty);</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>

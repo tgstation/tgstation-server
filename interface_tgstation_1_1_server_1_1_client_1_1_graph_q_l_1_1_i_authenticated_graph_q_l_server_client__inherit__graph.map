@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Client.GraphQL.IAuthenticatedGraphQLServerClient" name="Tgstation.Server.Client.GraphQL.IAuthenticatedGraphQLServerClient">
 <area shape="rect" id="Node000001" title="A IGraphQLServerClient known to be authenticated." alt="" coords="5,153,258,208"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_authenticated_graph_q_l_server_client.html" title=" " alt="" coords="7,256,256,312"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="134,224,134,256,129,256,129,224"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_i_graph_q_l_server_client.html" title="Wrapper for using a TGS IGraphQLClient." alt="" coords="57,79,206,105"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,120,134,152,129,152,129,120"/>
 <area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="69,5,194,31"/>

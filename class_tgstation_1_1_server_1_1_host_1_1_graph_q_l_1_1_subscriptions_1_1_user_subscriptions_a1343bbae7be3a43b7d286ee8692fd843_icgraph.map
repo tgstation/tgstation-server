@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.GraphQL.Subscriptions.UserSubscriptions.SpecificUserUpdatedTopic" name="Tgstation.Server.Host.GraphQL.Subscriptions.UserSubscriptions.SpecificUserUpdatedTopic">
+<area shape="rect" id="Node000001" title="The name of the topic for when a specific Models.User is updated." alt="" coords="288,85,522,141"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_subscriptions_1_1_user_subscriptions.html#a49ae683e4a067407d139de9ffadc1c86" title="ISourceStream for CurrentUserUpdated(User)." alt="" coords="5,5,240,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="289,83,223,64,224,59,291,78"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_subscriptions_1_1_user_subscriptions.html#a542dc295ff21fe83aaf6530be73a6ff7" title="ISourceStream for UserUpdated(User)." alt="" coords="5,85,240,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="272,116,240,116,240,111,272,111"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_subscriptions_1_1_user_subscriptions.html#a3b5c4a1d79d86ced02280a4fb4744f0e" title="Get the names of the topics to send to when a Models.User is updated." alt="" coords="5,165,240,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="291,148,224,167,223,162,289,143"/>
+</map>

@@ -1,5 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html" title="For accessing the disk in a synchronous manner." alt="" coords="5,5,173,46"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html" title=" " alt="" coords="221,5,388,46"/>
-<area shape="poly" id="edge597_Node000000_Node000001" title=" " alt="" coords="188,23,220,23,220,28,188,28"/>
+<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_interfaces_1_1_i_gateway.html" title="Management interface for the parent SwarmNode." alt="" coords="5,39,191,79"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_local_gateway.html" title="IGateway for the SwarmNode this query is executing on." alt="" coords="239,5,424,46"/>
+<area shape="poly" id="edge620_Node000000_Node000001" title=" " alt="" coords="206,41,238,36,238,42,207,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_remote_gateway.html" title="IGateway for accessing remote SwarmNodes." alt="" coords="239,71,424,111"/>
+<area shape="poly" id="edge621_Node000000_Node000002" title=" " alt="" coords="207,71,238,76,238,81,206,76"/>
 </map>

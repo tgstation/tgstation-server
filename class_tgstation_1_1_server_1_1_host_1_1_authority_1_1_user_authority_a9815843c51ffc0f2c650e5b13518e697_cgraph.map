@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Authority.UserAuthority.Queryable" name="Tgstation.Server.Host.Authority.UserAuthority.Queryable">
+<area shape="rect" id="Node000001" title="Gets all registered Users." alt="" coords="5,5,210,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="258,5,453,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,23,242,23,242,28,210,28"/>
+</map>

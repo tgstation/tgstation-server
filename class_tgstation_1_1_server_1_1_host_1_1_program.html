@@ -77,6 +77,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_program-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Tgstation.Server.Host.Program Class Reference<span class="mlabels"><span class="mlabel">sealed</span></span></div></div>
 </div><!--header-->
@@ -96,6 +97,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a1365c8dcb9e4b4d51819f577874e2128" id="r_a1365c8dcb9e4b4d51819f577874e2128"><td class="memItemLeft" align="right" valign="top">static async Task&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_program.html#a1365c8dcb9e4b4d51819f577874e2128">Main</a> (string[] args)</td></tr>
 <tr class="memdesc:a1365c8dcb9e4b4d51819f577874e2128"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entrypoint for the Program.  <br /></td></tr>
 <tr class="separator:a1365c8dcb9e4b4d51819f577874e2128"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:a182073767b4d5bf1cb40405c1638c5f6" id="r_a182073767b4d5bf1cb40405c1638c5f6"><td class="memItemLeft" align="right" valign="top">static ? string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_program.html#a182073767b4d5bf1cb40405c1638c5f6">TopLevelArgsParse</a> (ref string[] args)</td></tr>
+<tr class="memdesc:a182073767b4d5bf1cb40405c1638c5f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse Program top level <em>args</em> .  <br /></td></tr>
+<tr class="separator:a182073767b4d5bf1cb40405c1638c5f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Entrypoint for the Process. </p>
@@ -123,10 +130,10 @@ Static Public Member Functions</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   35</span>        {</div>
 <div class="line"><span class="lineno">   36</span>            ServerFactory = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Application</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a6720ad4775ff4751c0d2e00b36f0c31f">CreateDefaultServerFactory</a>();</div>
 <div class="line"><span class="lineno">   37</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Tgstation.Server.Host.Core.Application</a></div><div class="ttdoc">Sets up dependency injection.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00075">Application.cs:76</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a6720ad4775ff4751c0d2e00b36f0c31f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a6720ad4775ff4751c0d2e00b36f0c31f">Tgstation.Server.Host.Core.Application.CreateDefaultServerFactory</a></div><div class="ttdeci">static IServerFactory CreateDefaultServerFactory()</div><div class="ttdoc">Create the default IServerFactory.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00091">Application.cs:91</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Tgstation.Server.Host.Core.Application</a></div><div class="ttdoc">Sets up dependency injection.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00081">Application.cs:82</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a6720ad4775ff4751c0d2e00b36f0c31f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a6720ad4775ff4751c0d2e00b36f0c31f">Tgstation.Server.Host.Core.Application.CreateDefaultServerFactory</a></div><div class="ttdeci">static IServerFactory CreateDefaultServerFactory()</div><div class="ttdoc">Create the default IServerFactory.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00097">Application.cs:97</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_application_8cs_source.html#l00091">Tgstation.Server.Host.Core.Application.CreateDefaultServerFactory()</a>.</p>
+<p class="reference">References <a class="el" href="_application_8cs_source.html#l00097">Tgstation.Server.Host.Core.Application.CreateDefaultServerFactory()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_tgstation_8_server_8_host_2_program_8cs_source.html#l00044">Tgstation.Server.Host.Program.Main()</a>.</p>
 <div class="dynheader">
@@ -189,45 +196,103 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_program_8cs_source.html#l00044">44</a> of file <a class="el" href="_tgstation_8_server_8_host_2_program_8cs_source.html">Program.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   45</span>        {</div>
 <div class="line"><span class="lineno">   46</span>            <span class="comment">// first arg is 100% always the update path, starting it otherwise is solely for debugging purposes</span></div>
-<div class="line"><span class="lineno">   47</span>            <span class="keywordtype">string</span>? updatePath = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   48</span>            <span class="keywordflow">if</span> (args.Length &gt; 0)</div>
-<div class="line"><span class="lineno">   49</span>            {</div>
-<div class="line"><span class="lineno">   50</span>                var listArgs = <span class="keyword">new</span> List&lt;string&gt;(args);</div>
-<div class="line"><span class="lineno">   51</span>                updatePath = listArgs.First();</div>
-<div class="line"><span class="lineno">   52</span>                listArgs.RemoveAt(0);</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>                <span class="comment">// second arg should be host watchdog version</span></div>
-<div class="line"><span class="lineno">   55</span>                <span class="keywordflow">if</span> (listArgs.Count &gt; 0)</div>
-<div class="line"><span class="lineno">   56</span>                {</div>
-<div class="line"><span class="lineno">   57</span>                    var expectedHostWatchdogVersion = HostWatchdogVersion;</div>
-<div class="line"><span class="lineno">   58</span>                    <span class="keywordflow">if</span> (Version.TryParse(listArgs.First(), out var actualHostWatchdogVersion)</div>
-<div class="line"><span class="lineno">   59</span>                        &amp;&amp; actualHostWatchdogVersion.Major != expectedHostWatchdogVersion.Major)</div>
-<div class="line"><span class="lineno">   60</span>                        <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(</div>
-<div class="line"><span class="lineno">   61</span>                            $<span class="stringliteral">&quot;Incompatible host watchdog version ({actualHostWatchdogVersion}) for server ({expectedHostWatchdogVersion})! A major update was released and a full restart will be required. Please manually offline your servers!&quot;</span>);</div>
-<div class="line"><span class="lineno">   62</span>                }</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>                <span class="keywordflow">if</span> (listArgs.Remove(<span class="stringliteral">&quot;--attach-debugger&quot;</span>))</div>
-<div class="line"><span class="lineno">   65</span>                    Debugger.Launch();</div>
-<div class="line"><span class="lineno">   66</span> </div>
-<div class="line"><span class="lineno">   67</span>                args = listArgs.ToArray();</div>
-<div class="line"><span class="lineno">   68</span>            }</div>
-<div class="line"><span class="lineno">   69</span> </div>
-<div class="line"><span class="lineno">   70</span>            var program = <span class="keyword">new</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_program.html#a0f021e24c9b45b38c58eaf1ca6ed716e">Program</a>();</div>
-<div class="line"><span class="lineno">   71</span>            <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)await program.Main(args, updatePath);</div>
-<div class="line"><span class="lineno">   72</span>        }</div>
+<div class="line"><span class="lineno">   47</span>            var updatePath = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_program.html#a182073767b4d5bf1cb40405c1638c5f6">TopLevelArgsParse</a>(ref args);</div>
+<div class="line"><span class="lineno">   48</span> </div>
+<div class="line"><span class="lineno">   49</span>            var program = <span class="keyword">new</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_program.html#a0f021e24c9b45b38c58eaf1ca6ed716e">Program</a>();</div>
+<div class="line"><span class="lineno">   50</span>            <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)await program.Main(args, updatePath);</div>
+<div class="line"><span class="lineno">   51</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_program_html_a0f021e24c9b45b38c58eaf1ca6ed716e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_program.html#a0f021e24c9b45b38c58eaf1ca6ed716e">Tgstation.Server.Host.Program.Program</a></div><div class="ttdeci">Program()</div><div class="ttdoc">Initializes a new instance of the Program class.</div><div class="ttdef"><b>Definition</b> <a href="_tgstation_8_server_8_host_2_program_8cs_source.html#l00034">Program.cs:34</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_program_html_a182073767b4d5bf1cb40405c1638c5f6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_program.html#a182073767b4d5bf1cb40405c1638c5f6">Tgstation.Server.Host.Program.TopLevelArgsParse</a></div><div class="ttdeci">static ? string TopLevelArgsParse(ref string[] args)</div><div class="ttdoc">Parse Program top level args .</div><div class="ttdef"><b>Definition</b> <a href="_tgstation_8_server_8_host_2_program_8cs_source.html#l00058">Program.cs:58</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_tgstation_8_server_8_host_2_program_8cs_source.html#l00034">Tgstation.Server.Host.Program.Program()</a>.</p>
+<p class="reference">References <a class="el" href="_tgstation_8_server_8_host_2_program_8cs_source.html#l00034">Tgstation.Server.Host.Program.Program()</a>, and <a class="el" href="_tgstation_8_server_8_host_2_program_8cs_source.html#l00058">Tgstation.Server.Host.Program.TopLevelArgsParse()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_program_a1365c8dcb9e4b4d51819f577874e2128_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_program_a1365c8dcb9e4b4d51819f577874e2128_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_program_a1365c8dcb9e4b4d51819f577874e2128_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_program_a1365c8dcb9e4b4d51819f577874e2128_cgraph">
-<area shape="rect" title="Entrypoint for the Program." alt="" coords="5,20,236,46"/>
+<area shape="rect" title="Entrypoint for the Program." alt="" coords="5,54,236,79"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_program.html#a0f021e24c9b45b38c58eaf1ca6ed716e" title="Initializes a new instance of the Program class." alt="" coords="284,13,486,54"/>
-<area shape="poly" title=" " alt="" coords="236,31,268,31,268,36,236,36"/>
+<area shape="poly" title=" " alt="" coords="227,50,268,45,269,50,228,56"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_program.html#a182073767b4d5bf1cb40405c1638c5f6" title="Parse Program top level args ." alt="" coords="284,78,486,119"/>
+<area shape="poly" title=" " alt="" coords="232,77,269,82,268,87,232,83"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a6720ad4775ff4751c0d2e00b36f0c31f" title="Create the default IServerFactory." alt="" coords="534,5,739,61"/>
 <area shape="poly" title=" " alt="" coords="486,31,519,31,519,36,486,36"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a182073767b4d5bf1cb40405c1638c5f6" name="a182073767b4d5bf1cb40405c1638c5f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a182073767b4d5bf1cb40405c1638c5f6">&#9670;&#160;</a></span>TopLevelArgsParse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static ? string Tgstation.Server.Host.Program.TopLevelArgsParse </td>
+          <td>(</td>
+          <td class="paramtype">ref string[]&#160;</td>
+          <td class="paramname"><em>args</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parse Program top level <em>args</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">args</td><td>The arguments Array which may be changed.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The update path for the server, if present.</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_2_program_8cs_source.html#l00058">58</a> of file <a class="el" href="_tgstation_8_server_8_host_2_program_8cs_source.html">Program.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   59</span>        {</div>
+<div class="line"><span class="lineno">   60</span>            <span class="keywordflow">if</span> (args.Length == 0)</div>
+<div class="line"><span class="lineno">   61</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   62</span> </div>
+<div class="line"><span class="lineno">   63</span>            var potentialUpdatePath = args[0];</div>
+<div class="line"><span class="lineno">   64</span>            <span class="keywordflow">if</span> (potentialUpdatePath.Equals(<span class="stringliteral">&quot;cli&quot;</span>, StringComparison.OrdinalIgnoreCase))</div>
+<div class="line"><span class="lineno">   65</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   66</span> </div>
+<div class="line"><span class="lineno">   67</span>            var listArgs = <span class="keyword">new</span> List&lt;string&gt;(args);</div>
+<div class="line"><span class="lineno">   68</span>            listArgs.RemoveAt(0);</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   70</span>            <span class="comment">// second arg should be host watchdog version</span></div>
+<div class="line"><span class="lineno">   71</span>            <span class="keywordflow">if</span> (listArgs.Count &gt; 0)</div>
+<div class="line"><span class="lineno">   72</span>            {</div>
+<div class="line"><span class="lineno">   73</span>                var expectedHostWatchdogVersion = HostWatchdogVersion;</div>
+<div class="line"><span class="lineno">   74</span>                <span class="keywordflow">if</span> (Version.TryParse(listArgs.First(), out var actualHostWatchdogVersion)</div>
+<div class="line"><span class="lineno">   75</span>                    &amp;&amp; actualHostWatchdogVersion.Major != expectedHostWatchdogVersion.Major)</div>
+<div class="line"><span class="lineno">   76</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(</div>
+<div class="line"><span class="lineno">   77</span>                        $<span class="stringliteral">&quot;Incompatible host watchdog version ({actualHostWatchdogVersion}) for server ({expectedHostWatchdogVersion})! A major update was released and a full restart will be required. Please manually offline your servers!&quot;</span>);</div>
+<div class="line"><span class="lineno">   78</span>            }</div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   80</span>            <span class="keywordflow">if</span> (listArgs.Remove(<span class="stringliteral">&quot;--attach-debugger&quot;</span>))</div>
+<div class="line"><span class="lineno">   81</span>                Debugger.Launch();</div>
+<div class="line"><span class="lineno">   82</span> </div>
+<div class="line"><span class="lineno">   83</span>            args = [.. listArgs];</div>
+<div class="line"><span class="lineno">   84</span>            <span class="keywordflow">return</span> potentialUpdatePath;</div>
+<div class="line"><span class="lineno">   85</span>        }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_tgstation_8_server_8_host_2_program_8cs_source.html#l00044">Tgstation.Server.Host.Program.Main()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_program_a182073767b4d5bf1cb40405c1638c5f6_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_program_a182073767b4d5bf1cb40405c1638c5f6_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_program_a182073767b4d5bf1cb40405c1638c5f6_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_program_a182073767b4d5bf1cb40405c1638c5f6_icgraph">
+<area shape="rect" title="Parse Program top level args ." alt="" coords="284,5,486,46"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_program.html#a1365c8dcb9e4b4d51819f577874e2128" title="Entrypoint for the Program." alt="" coords="5,13,236,39"/>
+<area shape="poly" title=" " alt="" coords="268,28,236,28,236,23,268,23"/>
 </map>
 </div>
 

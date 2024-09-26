@@ -1,39 +1,37 @@
 <map id="Tgstation.Server.Host.Controllers.InstanceController.Create" name="Tgstation.Server.Host.Controllers.InstanceController.Create">
-<area shape="rect" id="Node000001" title="Create or attach an Api.Models.Instance." alt="" coords="5,431,221,471"/>
+<area shape="rect" id="Node000001" title="Create or attach an Api.Models.Instance." alt="" coords="5,397,221,438"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="314,5,482,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,430,124,359,149,258,168,204,194,150,227,100,267,57,298,38,301,43,270,61,231,104,199,153,173,206,154,260,129,360,119,431"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4" title="Generic 201 response with a given payload ." alt="" coords="290,71,506,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="115,429,129,369,157,286,177,241,202,198,232,157,267,122,275,116,278,120,270,126,236,161,206,201,182,244,162,288,135,370,121,431"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a02be01c6c5cab421a7a0c9f01f213b30" title="Creates a default Models.Instance from initialSettings ." alt="" coords="269,136,527,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="118,429,136,380,166,314,210,246,237,215,267,188,275,182,278,187,270,192,240,218,214,249,171,317,141,382,123,431"/>
-<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="307,201,489,242"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="122,429,144,391,176,343,218,294,267,253,291,240,294,245,270,257,221,298,180,346,149,394,127,431"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a" title="Deletes a file at path ." alt="" coords="314,267,482,307"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="131,428,189,373,226,343,267,318,298,305,300,310,270,323,229,348,192,377,135,432"/>
-<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aeae08438da658a3c0afddbb7960e4faa" title="Check that the directory at path &#160;exists." alt="" coords="309,332,487,373"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="158,428,268,383,294,375,296,380,270,388,160,433"/>
-<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="314,397,482,438"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="221,436,299,427,299,432,221,441"/>
-<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2" title="Returns full directory names in a given path ." alt="" coords="310,463,486,503"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="221,460,295,469,294,474,221,466"/>
-<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3" title="Returns full file names in a given path ." alt="" coords="314,528,482,569"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="161,469,270,512,300,522,298,527,268,518,159,474"/>
-<area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html#af74918a720028e721b99f9947fe9fc76" title="Called when a given instancePermissionSet &#160;is successfully created." alt="" coords="278,593,518,648"/>
-<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="136,470,193,524,230,553,270,578,281,583,278,588,267,583,227,557,189,528,132,474"/>
-<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a600268a32d5da87b3c80f97d34319366" title="Normalize a given path &#160;for an instance." alt="" coords="290,672,506,713"/>
-<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="126,471,147,511,178,562,220,614,244,638,270,658,278,663,275,667,267,663,240,642,216,618,174,565,142,514,121,473"/>
-<area shape="rect" id="Node000017" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d9526a8d840f2c00cb203bdebdcb994" title="Check if a given parentPath &#160;is a parent of a given parentPath ." alt="" coords="311,737,485,778"/>
-<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="122,471,140,522,169,591,213,662,240,694,270,722,298,738,295,743,267,726,236,698,208,665,164,593,135,524,117,473"/>
-<area shape="rect" id="Node000018" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="294,803,502,843"/>
-<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="120,471,133,534,161,619,180,665,205,710,235,752,270,788,282,796,278,800,267,792,231,755,201,713,176,668,156,621,128,535,115,472"/>
-<area shape="rect" id="Node000019" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a5b38d5cba6df39071299a0d0c5e71a6d" title="Validates a given instance &#39;s Api.Models.Instance.AutoUpdateCron setting." alt="" coords="276,868,520,909"/>
-<area shape="poly" id="edge18_Node000001_Node000019" title=" " alt="" coords="118,472,128,544,152,648,172,703,198,758,230,809,271,853,276,857,272,861,267,857,226,812,193,761,167,705,147,649,123,545,113,472"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html#a5a1124502330220abb9c651d8154499f" title="Gets a port not currently in use by TGS." alt="" coords="625,104,826,145"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="527,141,609,133,610,138,527,146"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a7505e585db1c6dd7fffda95599994960" title="Generate an InstancePermissionSet with full rights." alt="" coords="575,169,876,210"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="527,167,560,170,560,175,527,172"/>
-<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#a885378549e2e71bda33b550c252e6098" title="Normalize a path for consistency." alt="" coords="620,640,831,681"/>
-<area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="506,679,604,669,605,675,506,684"/>
-<area shape="rect" id="Node000016" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="642,705,809,746"/>
-<area shape="poly" id="edge15_Node000014_Node000016" title=" " alt="" coords="506,701,627,713,626,718,506,706"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,396,126,331,153,239,173,190,198,141,229,96,267,57,298,38,301,43,270,61,233,99,203,144,178,192,158,241,132,332,120,397"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a02be01c6c5cab421a7a0c9f01f213b30" title="Creates a default Models.Instance from initialSettings ." alt="" coords="269,71,527,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="117,396,133,341,162,267,182,227,206,189,234,153,267,122,274,117,277,121,270,126,238,157,210,192,186,230,166,269,138,343,122,398"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="307,136,489,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="120,396,140,352,171,296,214,237,239,211,267,187,292,174,294,178,270,192,243,214,218,241,176,298,144,354,125,398"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a" title="Deletes a file at path ." alt="" coords="314,201,482,242"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="126,396,182,325,222,286,267,253,298,238,301,243,270,257,225,290,186,329,130,399"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aeae08438da658a3c0afddbb7960e4faa" title="Check that the directory at path &#160;exists." alt="" coords="309,267,487,307"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="140,395,197,356,268,318,293,308,295,313,270,323,200,360,143,399"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="314,332,482,373"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="204,394,298,372,300,378,205,399"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2" title="Returns full directory names in a given path ." alt="" coords="310,397,486,438"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="221,415,295,415,295,420,221,420"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3" title="Returns full file names in a given path ." alt="" coords="314,463,482,503"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="205,436,300,458,298,463,204,441"/>
+<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html#af74918a720028e721b99f9947fe9fc76" title="Called when a given instancePermissionSet &#160;is successfully created." alt="" coords="278,527,518,583"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="144,436,200,474,270,513,284,519,282,524,267,517,198,479,141,441"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a600268a32d5da87b3c80f97d34319366" title="Normalize a given path &#160;for an instance." alt="" coords="290,607,506,647"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="129,437,151,471,183,514,223,557,270,593,279,598,276,602,267,597,220,561,179,517,147,474,124,440"/>
+<area shape="rect" id="Node000016" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d9526a8d840f2c00cb203bdebdcb994" title="Check if a given parentPath &#160;is a parent of a given parentPath ." alt="" coords="311,672,485,713"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="124,437,143,483,174,543,216,605,242,633,270,657,298,672,295,677,267,661,238,637,212,608,169,546,138,486,119,440"/>
+<area shape="rect" id="Node000017" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="294,737,502,778"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="121,438,136,495,165,572,185,613,209,653,237,690,270,722,282,730,279,735,267,726,233,694,204,656,180,616,160,574,131,497,116,439"/>
+<area shape="rect" id="Node000018" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a5b38d5cba6df39071299a0d0c5e71a6d" title="Validates a given instance &#39;s Api.Models.Instance.AutoUpdateCron setting." alt="" coords="276,803,520,843"/>
+<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="119,438,131,505,156,600,176,651,201,701,232,748,270,788,276,792,272,796,267,792,228,751,197,704,171,653,151,602,125,507,114,439"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html#a5a1124502330220abb9c651d8154499f" title="Gets a port not currently in use by TGS." alt="" coords="625,39,826,79"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="527,76,609,68,610,73,527,81"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a7505e585db1c6dd7fffda95599994960" title="Generate an InstancePermissionSet with full rights." alt="" coords="575,104,876,145"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="527,101,560,105,560,110,527,107"/>
+<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#a885378549e2e71bda33b550c252e6098" title="Normalize a path for consistency." alt="" coords="620,575,831,615"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="506,614,604,604,605,609,506,619"/>
+<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="642,640,809,681"/>
+<area shape="poly" id="edge14_Node000013_Node000015" title=" " alt="" coords="506,635,627,648,626,653,506,641"/>
 </map>

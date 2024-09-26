@@ -1,15 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,137,206,178"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="254,104,454,145"/>
-<area shape="poly" id="edge621_Node000000_Node000001" title=" " alt="" coords="221,140,253,135,254,140,222,145"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html" title="IOAuthValidator for GitHub." alt="" coords="254,169,454,210"/>
-<area shape="poly" id="edge626_Node000000_Node000006" title=" " alt="" coords="221,170,254,174,253,179,221,175"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html" title="OAuth validator for Discord." alt="" coords="532,5,732,46"/>
-<area shape="poly" id="edge622_Node000001_Node000002" title=" " alt="" coords="409,95,501,56,541,44,543,49,503,62,411,100"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_invision_community_o_auth_validator.html" title="OAuth validator for Invision Community (selfhosted)." alt="" coords="502,71,761,111"/>
-<area shape="poly" id="edge623_Node000001_Node000003" title=" " alt="" coords="469,108,501,104,502,109,470,113"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_keycloak_o_auth_validator.html" title="OAuth validator for Keycloak." alt="" coords="531,136,733,177"/>
-<area shape="poly" id="edge624_Node000001_Node000004" title=" " alt="" coords="470,135,531,142,530,147,469,140"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html" title="IOAuthValidator for /tg/ forums." alt="" coords="526,201,737,242"/>
-<area shape="poly" id="edge625_Node000001_Node000005" title=" " alt="" coords="439,148,455,155,479,171,503,186,537,198,535,203,501,191,476,176,453,160,437,153"/>
+<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_groups.html" title="Wrapper for accessing UserGroups." alt="" coords="5,5,191,46"/>
 </map>

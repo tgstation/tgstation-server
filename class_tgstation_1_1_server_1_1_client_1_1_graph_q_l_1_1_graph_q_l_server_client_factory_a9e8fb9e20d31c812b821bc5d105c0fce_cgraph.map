@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory.CreateUnauthenticated" name="Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory.CreateUnauthenticated">
+<area shape="rect" id="Node000001" title="Create an unauthenticated IGraphQLServerClient.A new IGraphQLServerClient." alt="" coords="5,5,253,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#a1a765df15f0c9728e0cb5d0bc43f4c8b" title="Sets up a ServiceProvider for providing the IGraphQLClient." alt="" coords="301,5,548,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,31,285,31,285,36,253,36"/>
+</map>

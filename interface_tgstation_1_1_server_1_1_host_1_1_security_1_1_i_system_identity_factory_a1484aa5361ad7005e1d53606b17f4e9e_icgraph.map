@@ -1,9 +1,7 @@
 <map id="Tgstation.Server.Host.Security.ISystemIdentityFactory.CreateSystemIdentity" name="Tgstation.Server.Host.Security.ISystemIdentityFactory.CreateSystemIdentity">
-<area shape="rect" id="Node000001" title="Create a ISystemIdentity for a given user ." alt="" coords="499,31,738,87"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a8e5995b4418069992161fa60a9fef914" title="Create a new User." alt="" coords="236,5,451,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="483,45,451,41,452,36,484,40"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a8c130b337cd8f08728c07a7f230707a6" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="236,71,451,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="484,77,452,81,451,76,483,72"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,71,188,111"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="220,94,188,94,188,88,220,88"/>
+<area shape="rect" id="Node000001" title="Create a ISystemIdentity for a given user ." alt="" coords="258,31,497,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a9cd65f59354b327485d6043a1ead45ef" title="Attempt to login to the server with the current crentials.A ValueTask&lt;TResult&gt; resulting in a LoginPa..." alt="" coords="5,5,210,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,45,210,41,210,36,242,40"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ad2695069d164dde2b12e4fed8718726b" title="Creates a User.A ValueTask&lt;TResult&gt; resulting in am AuthorityResponse&lt;TResult&gt; for the created User." alt="" coords="5,71,210,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="242,78,210,82,210,76,242,72"/>
 </map>

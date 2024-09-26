@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Security.IAuthenticationContext.GetRight" name="Tgstation.Server.Host.Security.IAuthenticationContext.GetRight">
+<area shape="rect" id="Node000001" title="Get the value of a given rightsType ." alt="" coords="332,13,538,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html#adbb551c36d69e3afdf072f06fbedc31e" title=" " alt="" coords="5,5,284,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="316,36,284,36,284,31,316,31"/>
+</map>

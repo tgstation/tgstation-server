@@ -1,0 +1,13 @@
+<map id="Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory.SetupServiceProvider" name="Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory.SetupServiceProvider">
+<area shape="rect" id="Node000001" title="Sets up a ServiceProvider for providing the IGraphQLClient." alt="" coords="596,85,843,141"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#a42b560e71fedae6b589affa9f374af39" title="Create a IRestServerClient.A new IGraphQLServerClient." alt="" coords="301,5,548,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="599,83,529,64,531,59,601,78"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#a9e8fb9e20d31c812b821bc5d105c0fce" title="Create an unauthenticated IGraphQLServerClient.A new IGraphQLServerClient." alt="" coords="301,85,548,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="580,116,549,116,549,111,580,111"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#ad1000696780249b150553e3a71156d9f" title="Create an IAuthenticatedGraphQLServerClient from a remote login call." alt="" coords="301,165,548,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="601,148,531,167,529,162,599,143"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#ab9ed99ffe7543d4252325a514ff34095" title="Create a IGraphQLServerClient using a password login.A ValueTask&lt;TResult&gt; resulting in a new IAuthent..." alt="" coords="5,125,253,181"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="285,177,253,173,254,167,286,172"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#aa471a3d9a79493c51df3a59fb96fe204" title="Create a IGraphQLServerClient using an OAuth login.A ValueTask&lt;TResult&gt; resulting in a new IAuthentic..." alt="" coords="5,205,253,261"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="286,215,254,219,253,214,285,209"/>
+</map>

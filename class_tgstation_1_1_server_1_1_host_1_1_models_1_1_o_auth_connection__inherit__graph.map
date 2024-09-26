@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Models.OAuthConnection" name="Tgstation.Server.Host.Models.OAuthConnection">
-<area shape="rect" id="Node000001" title=" " alt="" coords="118,94,313,135"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html" title="Represents a valid OAuth connection." alt="" coords="5,13,202,39"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,46,192,91,189,96,129,50"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="225,5,430,46"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="292,58,242,96,239,91,289,53"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="266,27,461,68"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html" title="Represents a valid OAuth connection." alt="" coords="13,5,210,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,29,265,33,265,39,225,34"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_legacy_api_transformable.html" title=" " alt="" coords="5,55,218,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,59,265,56,266,61,234,65"/>
 </map>

@@ -1013,18 +1013,18 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;OAuthConnections&quot;</span>,</div>
 <div class="line"><span class="lineno">   20</span>                columns: table =&gt; new</div>
 <div class="line"><span class="lineno">   21</span>                {</div>
-<div class="line"><span class="lineno">   22</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   22</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Id</a> = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">   23</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
 <div class="line"><span class="lineno">   24</span>                    Provider = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">   25</span>                    ExternalUserId = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: false, maxLength: 100),</div>
-<div class="line"><span class="lineno">   26</span>                    UserId = table.Column&lt;long&gt;(nullable: true),</div>
+<div class="line"><span class="lineno">   26</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a4733e94f511132be01e92cc23c017d16">UserId</a> = table.Column&lt;long&gt;(nullable: true),</div>
 <div class="line"><span class="lineno">   27</span>                },</div>
 <div class="line"><span class="lineno">   28</span>                constraints: table =&gt;</div>
 <div class="line"><span class="lineno">   29</span>                {</div>
 <div class="line"><span class="lineno">   30</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_OAuthConnections&quot;</span>, x =&gt; x.Id);</div>
 <div class="line"><span class="lineno">   31</span>                    table.ForeignKey(</div>
 <div class="line"><span class="lineno">   32</span>                        name: <span class="stringliteral">&quot;FK_OAuthConnections_Users_UserId&quot;</span>,</div>
-<div class="line"><span class="lineno">   33</span>                        column: x =&gt; x.UserId,</div>
+<div class="line"><span class="lineno">   33</span>                        column: x =&gt; x.<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a4733e94f511132be01e92cc23c017d16">UserId</a>,</div>
 <div class="line"><span class="lineno">   34</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
 <div class="line"><span class="lineno">   35</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
 <div class="line"><span class="lineno">   36</span>                        onDelete: ReferentialAction.Cascade);</div>
@@ -1041,6 +1041,8 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   47</span>                columns: new[] { <span class="stringliteral">&quot;Provider&quot;</span>, <span class="stringliteral">&quot;ExternalUserId&quot;</span> },</div>
 <div class="line"><span class="lineno">   48</span>                unique: <span class="keyword">true</span>);</div>
 <div class="line"><span class="lineno">   49</span>        }</div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_authority_html_a6055c0b2bf09442f677be3ed1eb725d5a4733e94f511132be01e92cc23c017d16"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a4733e94f511132be01e92cc23c017d16">Tgstation.Server.Host.Authority.PermissionSetLookupType.UserId</a></div><div class="ttdeci">@ UserId</div><div class="ttdoc">Lookup the Api.Models.EntityId.Id of the Models.PermissionSet.User.</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_authority_html_a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Tgstation.Server.Host.Authority.PermissionSetLookupType.Id</a></div><div class="ttdeci">@ Id</div><div class="ttdoc">Lookup the Api.Models.EntityId.Id of the Models.PermissionSet.</div></div>
 </div><!-- fragment -->
 </div>
 </div>

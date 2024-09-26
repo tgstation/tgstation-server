@@ -21,9 +21,15 @@ var searchData=
   ['assemblyinformationprovider_18',['AssemblyInformationProvider',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html',1,'Tgstation::Server::Host::System']]],
   ['asyncdelayer_19',['AsyncDelayer',['../class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html',1,'Tgstation::Server::Host::Utils']]],
   ['attribute_20',['Attribute',['../class_attribute.html',1,'']]],
-  ['authenticationcontext_21',['AuthenticationContext',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html',1,'Tgstation::Server::Host::Security']]],
-  ['authenticationcontextclaimstransformation_22',['AuthenticationContextClaimsTransformation',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html',1,'Tgstation::Server::Host::Security']]],
-  ['authenticationcontextfactory_23',['AuthenticationContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html',1,'Tgstation::Server::Host::Security']]],
-  ['authorizationcontexthubfilter_24',['AuthorizationContextHubFilter',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter.html',1,'Tgstation::Server::Host::Security']]],
-  ['authorizeattribute_25',['AuthorizeAttribute',['../class_authorize_attribute.html',1,'']]]
+  ['authenticatedgraphqlserverclient_21',['AuthenticatedGraphQLServerClient',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_authenticated_graph_q_l_server_client.html',1,'Tgstation::Server::Client::GraphQL']]],
+  ['authenticationcontext_22',['AuthenticationContext',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html',1,'Tgstation::Server::Host::Security']]],
+  ['authenticationcontextclaimstransformation_23',['AuthenticationContextClaimsTransformation',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html',1,'Tgstation::Server::Host::Security']]],
+  ['authenticationcontextfactory_24',['AuthenticationContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html',1,'Tgstation::Server::Host::Security']]],
+  ['authenticationexception_25',['AuthenticationException',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_authentication_exception.html',1,'Tgstation::Server::Client::GraphQL']]],
+  ['authoritybase_26',['AuthorityBase',['../class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html',1,'Tgstation::Server::Host::Authority::Core']]],
+  ['authorityinvokerbase_27',['AuthorityInvokerBase',['../class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_invoker_base.html',1,'Tgstation::Server::Host::Authority::Core']]],
+  ['authorityresponse_28',['authorityresponse',['../class_authority_response.html',1,'AuthorityResponse'],['../class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html',1,'Tgstation.Server.Host.Authority.Core.AuthorityResponse&lt; TResult &gt;']]],
+  ['authorizationcontexthubfilter_29',['AuthorizationContextHubFilter',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter.html',1,'Tgstation::Server::Host::Security']]],
+  ['authorizationmessagehandler_30',['AuthorizationMessageHandler',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_authorization_message_handler.html',1,'Tgstation::Server::Client::GraphQL']]],
+  ['authorizeattribute_31',['AuthorizeAttribute',['../class_authorize_attribute.html',1,'']]]
 ];

@@ -1,11 +1,21 @@
 <map id="Tgstation.Server.Client.GraphQL.GraphQLServerClient" name="Tgstation.Server.Client.GraphQL.GraphQLServerClient">
-<area shape="rect" id="Node000001" title=" " alt="" coords="159,169,361,210"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_i_graph_q_l_server_client.html" title="Wrapper for using a TGS IGraphQLClient." alt="" coords="5,80,155,106"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,111,223,166,221,171,115,116"/>
-<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="17,5,143,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="83,46,83,80,77,80,77,46"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="179,80,341,106"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="263,121,263,168,257,168,257,121"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="365,80,542,106"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="417,116,353,147,303,171,301,166,351,143,415,111"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="677,198,879,239"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_i_graph_q_l_server_client.html" title="Wrapper for using a TGS IGraphQLClient." alt="" coords="228,5,377,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="393,5,454,3,521,8,590,22,623,34,655,49,696,81,729,122,754,163,771,196,766,199,749,165,725,125,692,85,652,54,621,39,589,28,521,13,453,9,393,10"/>
+<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,131,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="146,16,227,16,227,21,146,21"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="222,55,384,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="400,65,459,69,524,77,590,92,654,114,686,132,715,153,760,196,757,199,712,157,683,136,652,119,589,97,523,82,458,74,399,70"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="215,104,391,130"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="407,126,526,144,654,172,725,195,724,200,653,177,525,150,406,131"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="180,154,425,210"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="441,190,677,208,677,213,440,195"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="198,234,408,275"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="423,243,653,227,677,225,677,230,654,232,424,249"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="222,299,384,340"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="399,307,521,290,653,263,728,237,730,242,654,268,522,296,400,313"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="246,364,360,390"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="375,375,436,371,507,363,581,347,652,321,684,303,713,281,758,237,761,241,716,285,687,308,654,326,583,352,508,368,437,377,375,380"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="209,414,396,470"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="412,446,470,443,532,435,595,418,652,391,693,357,726,315,750,273,766,238,771,240,755,275,730,318,697,361,655,395,596,423,534,440,471,449,412,451"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Authority.UserAuthority.BadCreateRequestChecks" name="Tgstation.Server.Host.Authority.UserAuthority.BadCreateRequestChecks">
+<area shape="rect" id="Node000001" title="Checks if a createRequest &#160;should return a bad request AuthorityResponse&lt;TResult&gt;." alt="" coords="258,5,514,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ad2695069d164dde2b12e4fed8718726b" title="Creates a User.A ValueTask&lt;TResult&gt; resulting in am AuthorityResponse&lt;TResult&gt; for the created User." alt="" coords="5,5,210,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,28,210,28,210,23,242,23"/>
+</map>

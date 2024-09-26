@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.HeadersIssue" name="Tgstation.Server.Host.Controllers.ApiController.HeadersIssue">
 <area shape="rect" id="Node000001" title="Response for missing/Invalid headers." alt="" coords="499,71,714,111"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a8c130b337cd8f08728c07a7f230707a6" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="236,5,451,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a312331c3db52428a3d06f9967ec56cd8" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="236,5,451,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="506,69,428,49,429,44,508,64"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a7c7235c3ee61017e2ae5734a100c53bf" title="Hook for executing a request.A ValueTask&lt;TResult&gt; resulting in an IActionResult that,..." alt="" coords="236,71,451,111"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="483,94,451,94,451,88,483,88"/>

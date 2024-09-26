@@ -1,0 +1,31 @@
+<map id="Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin" name="Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin">
+<area shape="rect" id="Node000001" title="Attempt to login to the server with the current crentials.A ValueTask&lt;TResult&gt; resulting in a LoginPa..." alt="" coords="5,417,210,458"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ab06241b4e27acc95a87d776b49a6eb39" title="Add a given systemIdentity &#160;to the identityCache." alt="" coords="275,71,506,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,416,124,358,150,278,170,236,194,194,222,156,256,122,262,118,265,122,259,126,226,159,198,197,175,238,155,280,129,359,115,417"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="293,136,488,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="113,416,130,369,160,307,201,242,227,213,256,188,277,175,280,180,259,192,231,217,205,246,164,309,135,371,118,418"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac23fd656dc42cf07e64a62844f8bcfbc" title="Checks a given password &#160;matches a given user &#39;s User.PasswordHash. This may result in User...." alt="" coords="262,201,519,242"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="117,415,138,380,169,335,209,290,256,251,264,247,267,251,259,256,213,293,174,338,143,382,122,418"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a1484aa5361ad7005e1d53606b17f4e9e" title="Create a ISystemIdentity for a given user ." alt="" coords="271,266,510,322"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="132,415,187,373,256,331,269,325,272,330,259,336,190,378,135,419"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a985633f0c977dad0c2979764d1000598" title="Create a TokenResponse for a given user ." alt="" coords="290,345,491,386"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="185,414,257,395,286,388,288,393,258,400,186,419"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a727073ecd6e9370781422dbc6a77f7a5" title="Generate an AuthorityResponse&lt;TResult&gt; for a given headersException ." alt="" coords="258,410,523,466"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="210,435,242,435,242,440,210,440"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a35df5b32c769e3c6f01ae709e3221694" title="Gets the IOAuthValidator for a given oAuthProvider ." alt="" coords="274,489,507,530"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="186,456,258,475,288,483,286,488,257,480,185,461"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="286,555,495,595"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="134,456,189,498,223,520,259,539,277,547,275,552,257,544,220,525,186,503,131,460"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ab1ed76568a53f00a51e8f8180c8fd6ec" title="Select the details needed to generate a TokenResponse from a given query ." alt="" coords="261,620,520,661"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="123,457,145,490,176,530,215,571,259,605,270,611,268,616,256,609,211,575,172,533,141,493,119,460"/>
+<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ae966a7ee34ef9b33c28f1d8ac6c631ef" title=" " alt="" coords="293,685,488,726"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="118,458,137,502,166,560,207,620,232,647,259,670,280,682,277,687,256,675,228,651,203,623,162,563,132,505,114,460"/>
+<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_session_invalidation_tracker.html#a8d0fb292e7b1fc5f0659014ced9a2a14" title="Invalidate all sessions for a given user ." alt="" coords="260,750,521,806"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="116,458,131,513,158,588,177,628,200,667,228,704,259,736,263,739,260,743,256,740,224,707,196,670,173,631,153,590,125,515,111,459"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#ab65ca85c86ab06d4aa3d90f3db2c0f32" title="Keep a user &#39;s systemIdentity &#160;alive until an expiry &#160;time." alt="" coords="593,5,823,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="492,67,590,47,591,52,493,73"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a8fc39cb31c7d4490f8fefe71c936aa12" title="Parses the Bearer as a JsonWebToken." alt="" coords="591,71,825,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="506,88,575,88,575,94,506,94"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_payload.html#acca22ae5219a70e9285a4b7ffdb28d87" title=" " alt="" coords="571,136,844,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="493,109,591,130,590,135,492,115"/>
+</map>

@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Models.DreamMakerSettings" name="Tgstation.Server.Host.Models.DreamMakerSettings">
-<area shape="rect" id="Node000001" title=" " alt="" coords="73,94,268,135"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html" title="Represents the state of the DreamMaker compiler. Create action starts a new compile...." alt="" coords="5,5,155,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,55,152,92,148,95,109,59"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="179,5,346,46"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,59,193,96,190,92,229,55"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="229,39,424,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html" title="Represents the state of the DreamMaker compiler. Create action starts a new compile...." alt="" coords="18,5,168,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,36,228,42,228,48,183,41"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_legacy_api_transformable.html" title=" " alt="" coords="5,71,181,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="196,74,228,70,229,75,196,80"/>
 </map>

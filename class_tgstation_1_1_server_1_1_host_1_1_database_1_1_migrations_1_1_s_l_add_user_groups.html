@@ -1045,7 +1045,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  198</span>                name: <span class="stringliteral">&quot;InstanceUsers&quot;</span>,</div>
 <div class="line"><span class="lineno">  199</span>                columns: table =&gt; new</div>
 <div class="line"><span class="lineno">  200</span>                {</div>
-<div class="line"><span class="lineno">  201</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  201</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Id</a> = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">  202</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
 <div class="line"><span class="lineno">  203</span>                    ByondRights = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">  204</span>                    ChatBotRights = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: false),</div>
@@ -1055,7 +1055,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  208</span>                    InstanceId = table.Column&lt;long&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: false),</div>
 <div class="line"><span class="lineno">  209</span>                    InstanceUserRights = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: false),</div>
 <div class="line"><span class="lineno">  210</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a95336db3db40dbae9701ef6e51240f39">RepositoryRights</a> = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: false),</div>
-<div class="line"><span class="lineno">  211</span>                    UserId = table.Column&lt;long&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: false),</div>
+<div class="line"><span class="lineno">  211</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a4733e94f511132be01e92cc23c017d16">UserId</a> = table.Column&lt;long&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: false),</div>
 <div class="line"><span class="lineno">  212</span>                },</div>
 <div class="line"><span class="lineno">  213</span>                constraints: table =&gt;</div>
 <div class="line"><span class="lineno">  214</span>                {</div>
@@ -1068,7 +1068,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  221</span>                        onDelete: ReferentialAction.Cascade);</div>
 <div class="line"><span class="lineno">  222</span>                    table.ForeignKey(</div>
 <div class="line"><span class="lineno">  223</span>                        name: <span class="stringliteral">&quot;FK_InstanceUsers_Users_UserId&quot;</span>,</div>
-<div class="line"><span class="lineno">  224</span>                        column: x =&gt; x.UserId,</div>
+<div class="line"><span class="lineno">  224</span>                        column: x =&gt; x.<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a4733e94f511132be01e92cc23c017d16">UserId</a>,</div>
 <div class="line"><span class="lineno">  225</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
 <div class="line"><span class="lineno">  226</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
 <div class="line"><span class="lineno">  227</span>                        onDelete: ReferentialAction.Cascade);</div>
@@ -1093,7 +1093,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  246</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
 <div class="line"><span class="lineno">  247</span>                columns: table =&gt; new</div>
 <div class="line"><span class="lineno">  248</span>                {</div>
-<div class="line"><span class="lineno">  249</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  249</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Id</a> = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">  250</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
 <div class="line"><span class="lineno">  251</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">  252</span>                    CreatedAt = table.Column&lt;DateTimeOffset&gt;(nullable: false),</div>
@@ -1105,7 +1105,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  258</span>                    CreatedById = table.Column&lt;long&gt;(nullable: true),</div>
 <div class="line"><span class="lineno">  259</span>                    CanonicalName = table.Column&lt;string&gt;(maxLength: 100, nullable: false),</div>
 <div class="line"><span class="lineno">  260</span>                    LastPasswordUpdate = table.Column&lt;DateTimeOffset&gt;(nullable: true),</div>
-<div class="line"><span class="lineno">  261</span>                    GroupId = table.Column&lt;long&gt;(nullable: true),</div>
+<div class="line"><span class="lineno">  261</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a3c8708f5c9d6b5e01f7b224a34aacf55">GroupId</a> = table.Column&lt;long&gt;(nullable: true),</div>
 <div class="line"><span class="lineno">  262</span>                },</div>
 <div class="line"><span class="lineno">  263</span>                constraints: table =&gt;</div>
 <div class="line"><span class="lineno">  264</span>                {</div>
@@ -1156,6 +1156,9 @@ Protected Member Functions</h2></td></tr>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_acf2642afce6567c03b79876139a10a49"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49">Tgstation.Server.Api.Rights.DreamDaemonRights</a></div><div class="ttdeci">DreamDaemonRights</div><div class="ttdoc">Rights for managing DreamDaemon.</div><div class="ttdef"><b>Definition</b> <a href="_dream_daemon_rights_8cs_source.html#l00009">DreamDaemonRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">Tgstation.Server.Api.Rights.InstanceManagerRights</a></div><div class="ttdeci">InstanceManagerRights</div><div class="ttdoc">Rights for managing Models.Instances.</div><div class="ttdef"><b>Definition</b> <a href="_instance_manager_rights_8cs_source.html#l00009">InstanceManagerRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_affda1440f9c5e2dfcca65138d2f89a21"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">Tgstation.Server.Api.Rights.AdministrationRights</a></div><div class="ttdeci">AdministrationRights</div><div class="ttdoc">Administration rights for the server.</div><div class="ttdef"><b>Definition</b> <a href="_administration_rights_8cs_source.html#l00009">AdministrationRights.cs:10</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_authority_html_a6055c0b2bf09442f677be3ed1eb725d5a3c8708f5c9d6b5e01f7b224a34aacf55"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a3c8708f5c9d6b5e01f7b224a34aacf55">Tgstation.Server.Host.Authority.PermissionSetLookupType.GroupId</a></div><div class="ttdeci">@ GroupId</div><div class="ttdoc">Lookup the Api.Models.EntityId.Id of the Models.PermissionSet.Group.</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_authority_html_a6055c0b2bf09442f677be3ed1eb725d5a4733e94f511132be01e92cc23c017d16"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a4733e94f511132be01e92cc23c017d16">Tgstation.Server.Host.Authority.PermissionSetLookupType.UserId</a></div><div class="ttdeci">@ UserId</div><div class="ttdoc">Lookup the Api.Models.EntityId.Id of the Models.PermissionSet.User.</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_authority_html_a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Tgstation.Server.Host.Authority.PermissionSetLookupType.Id</a></div><div class="ttdeci">@ Id</div><div class="ttdoc">Lookup the Api.Models.EntityId.Id of the Models.PermissionSet.</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1198,7 +1201,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   23</span>                name: <span class="stringliteral">&quot;Groups&quot;</span>,</div>
 <div class="line"><span class="lineno">   24</span>                columns: table =&gt; new</div>
 <div class="line"><span class="lineno">   25</span>                {</div>
-<div class="line"><span class="lineno">   26</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   26</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Id</a> = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">   27</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
 <div class="line"><span class="lineno">   28</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 100, nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">   29</span>                },</div>
@@ -1211,25 +1214,25 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   36</span>                name: <span class="stringliteral">&quot;PermissionSets&quot;</span>,</div>
 <div class="line"><span class="lineno">   37</span>                columns: table =&gt; new</div>
 <div class="line"><span class="lineno">   38</span>                {</div>
-<div class="line"><span class="lineno">   39</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   39</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Id</a> = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">   40</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
 <div class="line"><span class="lineno">   41</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">   42</span>                    InstanceManagerRights = table.Column&lt;ulong&gt;(nullable: false),</div>
-<div class="line"><span class="lineno">   43</span>                    UserId = table.Column&lt;long&gt;(nullable: true),</div>
-<div class="line"><span class="lineno">   44</span>                    GroupId = table.Column&lt;long&gt;(nullable: true),</div>
+<div class="line"><span class="lineno">   43</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a4733e94f511132be01e92cc23c017d16">UserId</a> = table.Column&lt;long&gt;(nullable: true),</div>
+<div class="line"><span class="lineno">   44</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a3c8708f5c9d6b5e01f7b224a34aacf55">GroupId</a> = table.Column&lt;long&gt;(nullable: true),</div>
 <div class="line"><span class="lineno">   45</span>                },</div>
 <div class="line"><span class="lineno">   46</span>                constraints: table =&gt;</div>
 <div class="line"><span class="lineno">   47</span>                {</div>
 <div class="line"><span class="lineno">   48</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_PermissionSets&quot;</span>, x =&gt; x.Id);</div>
 <div class="line"><span class="lineno">   49</span>                    table.ForeignKey(</div>
 <div class="line"><span class="lineno">   50</span>                        name: <span class="stringliteral">&quot;FK_PermissionSets_Groups_GroupId&quot;</span>,</div>
-<div class="line"><span class="lineno">   51</span>                        column: x =&gt; x.GroupId,</div>
+<div class="line"><span class="lineno">   51</span>                        column: x =&gt; x.<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a3c8708f5c9d6b5e01f7b224a34aacf55">GroupId</a>,</div>
 <div class="line"><span class="lineno">   52</span>                        principalTable: <span class="stringliteral">&quot;Groups&quot;</span>,</div>
 <div class="line"><span class="lineno">   53</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
 <div class="line"><span class="lineno">   54</span>                        onDelete: ReferentialAction.Cascade);</div>
 <div class="line"><span class="lineno">   55</span>                    table.ForeignKey(</div>
 <div class="line"><span class="lineno">   56</span>                        name: <span class="stringliteral">&quot;FK_PermissionSets_Users_UserId&quot;</span>,</div>
-<div class="line"><span class="lineno">   57</span>                        column: x =&gt; x.UserId,</div>
+<div class="line"><span class="lineno">   57</span>                        column: x =&gt; x.<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a4733e94f511132be01e92cc23c017d16">UserId</a>,</div>
 <div class="line"><span class="lineno">   58</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
 <div class="line"><span class="lineno">   59</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
 <div class="line"><span class="lineno">   60</span>                        onDelete: ReferentialAction.Cascade);</div>
@@ -1239,7 +1242,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   64</span>                name: <span class="stringliteral">&quot;InstancePermissionSets&quot;</span>,</div>
 <div class="line"><span class="lineno">   65</span>                columns: table =&gt; new</div>
 <div class="line"><span class="lineno">   66</span>                {</div>
-<div class="line"><span class="lineno">   67</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   67</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Id</a> = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">   68</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
 <div class="line"><span class="lineno">   69</span>                    PermissionSetId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">   70</span>                    InstancePermissionSetRights = table.Column&lt;ulong&gt;(nullable: false),</div>
@@ -1276,7 +1279,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  101</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
 <div class="line"><span class="lineno">  102</span>                columns: table =&gt; new</div>
 <div class="line"><span class="lineno">  103</span>                {</div>
-<div class="line"><span class="lineno">  104</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  104</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Id</a> = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">  105</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
 <div class="line"><span class="lineno">  106</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">  107</span>                    CreatedAt = table.Column&lt;DateTimeOffset&gt;(nullable: false),</div>
@@ -1284,7 +1287,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  109</span>                    Name = table.Column&lt;string&gt;(maxLength: 10000, nullable: false),</div>
 <div class="line"><span class="lineno">  110</span>                    PasswordHash = table.Column&lt;string&gt;(nullable: true),</div>
 <div class="line"><span class="lineno">  111</span>                    CreatedById = table.Column&lt;long&gt;(nullable: true),</div>
-<div class="line"><span class="lineno">  112</span>                    GroupId = table.Column&lt;long&gt;(nullable: true),</div>
+<div class="line"><span class="lineno">  112</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a3c8708f5c9d6b5e01f7b224a34aacf55">GroupId</a> = table.Column&lt;long&gt;(nullable: true),</div>
 <div class="line"><span class="lineno">  113</span>                    CanonicalName = table.Column&lt;string&gt;(nullable: false),</div>
 <div class="line"><span class="lineno">  114</span>                    LastPasswordUpdate = table.Column&lt;DateTimeOffset&gt;(nullable: true),</div>
 <div class="line"><span class="lineno">  115</span>                },</div>
@@ -1299,7 +1302,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  124</span>                        onDelete: ReferentialAction.Restrict);</div>
 <div class="line"><span class="lineno">  125</span>                    table.ForeignKey(</div>
 <div class="line"><span class="lineno">  126</span>                        name: <span class="stringliteral">&quot;FK_Users_Groups_GroupId&quot;</span>,</div>
-<div class="line"><span class="lineno">  127</span>                        column: x =&gt; x.GroupId,</div>
+<div class="line"><span class="lineno">  127</span>                        column: x =&gt; x.<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a3c8708f5c9d6b5e01f7b224a34aacf55">GroupId</a>,</div>
 <div class="line"><span class="lineno">  128</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
 <div class="line"><span class="lineno">  129</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
 <div class="line"><span class="lineno">  130</span>                        onDelete: ReferentialAction.Restrict);</div>

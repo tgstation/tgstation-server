@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Authority.UserAuthority.Queryable" name="Tgstation.Server.Host.Authority.UserAuthority.Queryable">
+<area shape="rect" id="Node000001" title="Gets all registered Users.A IQueryable&lt;T&gt; of Users." alt="" coords="258,5,462,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a35ad3c9eb6b23b7d832ed209e604454c" title="Gets the User with a given id .A ValueTask&lt;TResult&gt; resulting in a User AuthorityResponse&lt;TResult&gt;." alt="" coords="5,5,210,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,28,210,28,210,23,242,23"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Authority.UserAuthority.SendUserUpdatedTopics" name="Tgstation.Server.Host.Authority.UserAuthority.SendUserUpdatedTopics">
+<area shape="rect" id="Node000001" title="Send topics through the topicEventSender indicating a given user &#160;was created or updated." alt="" coords="258,39,507,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ad2695069d164dde2b12e4fed8718726b" title="Creates a User.A ValueTask&lt;TResult&gt; resulting in am AuthorityResponse&lt;TResult&gt; for the created User." alt="" coords="5,5,210,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,45,210,41,211,35,242,39"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#aef9a577a9544d2da75672eb17a24b94d" title="Updates a User.A ValueTask&lt;TResult&gt; resulting in am AuthorityResponse&lt;TResult&gt; for the created User." alt="" coords="5,71,210,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="242,78,211,82,210,76,242,73"/>
+</map>

@@ -1,7 +1,5 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmRegistrationRequest" name="Tgstation.Server.Host.Swarm.SwarmRegistrationRequest">
-<area shape="rect" id="Node000001" title="A request to register with a swarm controller." alt="" coords="5,153,200,193"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="52,79,153,105"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,120,105,152,100,152,100,120"/>
-<area shape="rect" id="Node000003" href="$class_i_equatable.html" title=" " alt="" coords="11,5,194,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="105,46,105,79,100,79,100,46"/>
+<area shape="rect" id="Node000001" title="A request to register with a swarm controller." alt="" coords="5,79,200,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="52,5,153,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,46,105,79,100,79,100,46"/>
 </map>

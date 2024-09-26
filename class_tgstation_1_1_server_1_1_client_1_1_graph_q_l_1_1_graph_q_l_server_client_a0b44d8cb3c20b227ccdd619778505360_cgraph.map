@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Client.GraphQL.GraphQLServerClient.Reauthenticate" name="Tgstation.Server.Client.GraphQL.GraphQLServerClient.Reauthenticate">
+<area shape="rect" id="Node000001" title="Attempt to reauthenticate." alt="" coords="5,45,210,101"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html#a8485d267941c40a1e5ef44f4a98f1e7d" title="Attempt to create the ValueTuple&lt;T1, T2&gt; for bearerCredentialsTask." alt="" coords="276,5,480,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,55,260,48,260,53,210,61"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html#aa22031600b5463b58580c26ca43d8a69" title="Throws an AuthenticationException for a login error that previously occured outside of the current ca..." alt="" coords="258,85,498,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="210,86,242,90,242,96,210,91"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html#ab9776cdb32099b26f1df66c958045f90" title="Create a AuthenticationHeaderValue from a given bearer &#160;token." alt="" coords="546,5,779,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="481,31,530,31,530,36,481,36"/>
+</map>

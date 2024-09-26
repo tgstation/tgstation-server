@@ -4,6 +4,6 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,31,387,63,386,68,198,36"/>
 <area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r_1_1_i_hub_connection_mapper.html" title=" " alt="" coords="5,56,211,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="226,81,386,81,386,86,226,86"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Models.User." alt="" coords="8,135,208,176"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="For creating and accessing authentication contexts." alt="" coords="8,135,208,176"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="223,131,386,100,387,106,224,136"/>
 </map>

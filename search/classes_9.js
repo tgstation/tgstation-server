@@ -11,5 +11,7 @@ var searchData=
   ['jobservice_8',['JobService',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html',1,'Tgstation::Server::Host::Jobs']]],
   ['jobshub_9',['JobsHub',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html',1,'Tgstation::Server::Host::Jobs']]],
   ['jobshubgroupmapper_10',['JobsHubGroupMapper',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html',1,'Tgstation::Server::Host::Jobs']]],
-  ['jsonconverter_11',['JsonConverter',['../class_json_converter.html',1,'']]]
+  ['jsonconverter_11',['JsonConverter',['../class_json_converter.html',1,'']]],
+  ['jwtserializer_12',['JwtSerializer',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_serializers_1_1_jwt_serializer.html',1,'Tgstation::Server::Client::GraphQL::Serializers']]],
+  ['jwttype_13',['JwtType',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_scalars_1_1_jwt_type.html',1,'Tgstation::Server::Host::GraphQL::Types::Scalars']]]
 ];

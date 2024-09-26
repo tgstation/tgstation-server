@@ -1,0 +1,13 @@
+<map id="Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory.CreateFromLogin" name="Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory.CreateFromLogin">
+<area shape="rect" id="Node000001" title="Create a IGraphQLServerClient using a password login.A ValueTask&lt;TResult&gt; resulting in a new IAuthent..." alt="" coords="5,85,253,141"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#ad1000696780249b150553e3a71156d9f" title="Create an IAuthenticatedGraphQLServerClient from a remote login call." alt="" coords="301,85,548,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,111,285,111,285,116,253,116"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#aa20112dc5daa467b13625e87a709ef48" title="Create a ITransferClient for a given host &#160;and bearer &#160;token." alt="" coords="597,5,844,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="529,82,599,63,601,68,531,87"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_authenticated_graph_q_l_server_client.html#afa8d074aea8862ddd8ecf7cb88c066d3" title=" " alt="" coords="596,85,844,141"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="548,111,581,111,581,116,548,116"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#a1a765df15f0c9728e0cb5d0bc43f4c8b" title="Sets up a ServiceProvider for providing the IGraphQLClient." alt="" coords="597,165,844,221"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="531,139,601,158,599,163,529,144"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_rest_server_client_factory.html#ab11454a2ac44dd669bb7d6a7c3855201" title="Create a IRestServerClient." alt="" coords="892,5,1100,61"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="844,31,877,31,877,36,844,36"/>
+</map>

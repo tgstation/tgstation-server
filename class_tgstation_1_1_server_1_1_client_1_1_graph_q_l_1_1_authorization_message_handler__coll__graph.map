@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Client.GraphQL.AuthorizationMessageHandler" name="Tgstation.Server.Client.GraphQL.AuthorizationMessageHandler">
+<area shape="rect" id="Node000001" title="DelegatingHandler that applies the AuthenticationHeaderValue." alt="" coords="50,109,256,165"/>
+<area shape="rect" id="Node000002" href="$class_delegating_handler.html" title=" " alt="" coords="5,13,133,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,49,134,107,130,110,85,52"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="157,5,320,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="216,60,176,110,172,107,212,57"/>
+</map>

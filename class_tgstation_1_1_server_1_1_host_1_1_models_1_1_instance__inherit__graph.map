@@ -1,11 +1,11 @@
 <map id="Tgstation.Server.Host.Models.Instance" name="Tgstation.Server.Host.Models.Instance">
-<area shape="rect" id="Node000001" title="Represents an Api.Models.Instance in the database." alt="" coords="64,241,259,282"/>
+<area shape="rect" id="Node000001" title="Represents an Api.Models.Instance in the database." alt="" coords="71,241,266,282"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance." alt="" coords="5,160,150,186"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,195,145,239,141,243,98,199"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,195,149,239,146,243,99,199"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="30,79,125,105"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="80,120,80,160,75,160,75,120"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="45,5,110,31"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="80,46,80,79,75,79,75,46"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="174,153,317,193"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="218,207,182,243,179,239,214,203"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_legacy_api_transformable.html" title=" " alt="" coords="174,153,344,193"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="229,206,190,243,187,239,226,202"/>
 </map>

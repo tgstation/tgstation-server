@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.GraphQL.Types.UserName.GetUserName" name="Tgstation.Server.Host.GraphQL.Types.UserName.GetUserName">
+<area shape="rect" id="Node000001" title="Node resolver for UserNames." alt="" coords="5,5,236,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_name.html#a48b78fd5fdd9d556859addd6aa866e70" title="Initializes a new instance of the UserName class." alt="" coords="284,5,493,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="236,23,268,23,268,28,236,28"/>
+</map>

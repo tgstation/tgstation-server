@@ -1,43 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html" title="For managing server administration." alt="" coords="36,5,191,46"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_client_1_1_administration_client.html" title=" " alt="" coords="298,7,454,47"/>
-<area shape="poly" id="edge510_Node000000_Node000001" title=" " alt="" coords="207,23,298,24,298,29,207,29"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_chat_bots_client.html" title="For managing the chat bots." alt="" coords="19,71,208,111"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_chat_bots_client.html" title=" " alt="" coords="284,72,468,113"/>
-<area shape="poly" id="edge511_Node000004_Node000003" title=" " alt="" coords="223,89,283,89,283,95,223,94"/>
-<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html" title="For managing IConfigurationFiles." alt="" coords="9,136,218,177"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html" title=" " alt="" coords="273,137,479,178"/>
-<area shape="poly" id="edge512_Node000006_Node000005" title=" " alt="" coords="234,154,273,154,273,160,234,160"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_maker_client.html" title="For managing the compiler." alt="" coords="9,201,218,242"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html" title=" " alt="" coords="274,203,478,243"/>
-<area shape="poly" id="edge513_Node000008_Node000007" title=" " alt="" coords="233,220,273,220,273,225,233,225"/>
-<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_engine_client.html" title="For managing the engine installations." alt="" coords="27,267,200,307"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_engine_client.html" title=" " alt="" coords="291,268,461,309"/>
-<area shape="poly" id="edge514_Node000010_Node000009" title=" " alt="" coords="216,285,291,285,291,291,216,290"/>
-<area shape="rect" id="Node000016" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html" title="For managing Instances." alt="" coords="34,397,193,438"/>
-<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html" title=" " alt="" coords="298,335,454,375"/>
-<area shape="poly" id="edge515_Node000016_Node000015" title=" " alt="" coords="207,393,297,371,298,376,208,398"/>
-<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_permission_set_client.html" title="For managing instance permission sets." alt="" coords="5,462,222,518"/>
-<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_permission_set_client.html" title=" " alt="" coords="270,402,482,458"/>
-<area shape="poly" id="edge516_Node000012_Node000011" title=" " alt="" coords="236,459,269,451,270,457,238,464"/>
-<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html" title="Access to running jobs." alt="" coords="32,541,195,582"/>
-<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html" title=" " alt="" coords="297,485,455,526"/>
-<area shape="poly" id="edge517_Node000014_Node000013" title=" " alt="" coords="210,538,296,520,297,525,211,544"/>
-<area shape="rect" id="Node000018" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_user_groups_client.html" title="For managing UserGroupResponses." alt="" coords="36,607,191,647"/>
-<area shape="rect" id="Node000017" href="$class_tgstation_1_1_server_1_1_client_1_1_user_groups_client.html" title=" " alt="" coords="298,559,454,599"/>
-<area shape="poly" id="edge518_Node000018_Node000017" title=" " alt="" coords="206,607,297,591,298,596,207,613"/>
-<area shape="rect" id="Node000020" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html" title="For managing UserResponses." alt="" coords="36,672,191,713"/>
-<area shape="rect" id="Node000019" href="$class_tgstation_1_1_server_1_1_client_1_1_users_client.html" title=" " alt="" coords="298,640,454,681"/>
-<area shape="poly" id="edge519_Node000020_Node000019" title=" " alt="" coords="206,678,298,667,298,672,207,684"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results." alt="" coords="36,332,191,373"/>
-<area shape="poly" id="edge520_Node000002_Node000001" title=" " alt="" coords="203,331,220,317,240,285,248,254,248,222,243,190,238,158,238,125,246,92,268,58,296,38,299,43,272,62,251,94,243,126,244,157,248,189,253,222,254,254,245,287,224,321,207,335"/>
-<area shape="poly" id="edge521_Node000002_Node000003" title=" " alt="" coords="203,330,220,317,236,294,244,270,245,247,243,223,241,198,243,174,250,149,268,124,284,111,287,115,272,127,255,151,248,175,247,198,248,222,250,247,249,271,241,296,224,321,207,334"/>
-<area shape="poly" id="edge522_Node000002_Node000005" title=" " alt="" coords="203,329,220,317,232,302,239,287,243,255,247,222,254,205,268,189,285,176,288,181,272,193,259,208,252,223,248,255,244,288,237,305,224,321,207,333"/>
-<area shape="poly" id="edge523_Node000002_Node000007" title=" " alt="" coords="204,326,220,317,235,302,243,286,252,270,268,254,291,241,293,246,271,258,256,273,248,289,239,305,223,321,207,331"/>
-<area shape="poly" id="edge524_Node000002_Node000009" title=" " alt="" coords="206,327,290,306,291,312,207,332"/>
-<area shape="poly" id="edge527_Node000002_Node000015" title=" " alt="" coords="207,351,298,352,298,357,207,356"/>
-<area shape="poly" id="edge525_Node000002_Node000011" title=" " alt="" coords="200,375,280,399,278,404,199,380"/>
-<area shape="poly" id="edge526_Node000002_Node000013" title=" " alt="" coords="206,372,223,384,241,405,248,427,255,447,271,468,298,484,295,488,268,472,251,450,243,428,236,408,220,388,203,377"/>
-<area shape="poly" id="edge528_Node000002_Node000017" title=" " alt="" coords="207,371,224,384,238,403,246,423,249,461,251,499,258,517,272,536,299,556,296,560,268,540,253,520,246,500,244,461,241,424,234,406,220,388,204,375"/>
-<area shape="poly" id="edge529_Node000002_Node000019" title=" " alt="" coords="206,370,224,384,243,413,252,441,253,469,250,497,247,525,248,552,255,580,272,609,288,625,308,637,305,642,285,629,268,613,250,582,242,553,242,524,245,496,248,469,247,442,239,415,220,387,203,374"/>
+<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_client.html" title="For managing a single Instance." alt="" coords="5,5,190,46"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_client.html" title=" " alt="" coords="238,5,418,46"/>
+<area shape="poly" id="edge521_Node000000_Node000001" title=" " alt="" coords="205,23,237,23,237,28,205,28"/>
 </map>

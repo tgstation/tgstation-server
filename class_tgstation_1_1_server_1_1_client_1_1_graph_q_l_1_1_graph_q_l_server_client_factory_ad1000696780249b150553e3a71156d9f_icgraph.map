@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory.CreateWithAuthCall" name="Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory.CreateWithAuthCall">
+<area shape="rect" id="Node000001" title="Create an IAuthenticatedGraphQLServerClient from a remote login call." alt="" coords="301,45,548,101"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#ab9ed99ffe7543d4252325a514ff34095" title="Create a IGraphQLServerClient using a password login.A ValueTask&lt;TResult&gt; resulting in a new IAuthent..." alt="" coords="5,5,253,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="285,57,253,53,254,47,286,52"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#aa471a3d9a79493c51df3a59fb96fe204" title="Create a IGraphQLServerClient using an OAuth login.A ValueTask&lt;TResult&gt; resulting in a new IAuthentic..." alt="" coords="5,85,253,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="286,95,254,99,253,94,285,89"/>
+</map>

@@ -12,5 +12,7 @@ var searchData=
   ['jobsclient_2ecs_9',['JobsClient.cs',['../_jobs_client_8cs.html',1,'']]],
   ['jobservice_2ecs_10',['JobService.cs',['../_job_service_8cs.html',1,'']]],
   ['jobshub_2ecs_11',['JobsHub.cs',['../_jobs_hub_8cs.html',1,'']]],
-  ['jobshubgroupmapper_2ecs_12',['JobsHubGroupMapper.cs',['../_jobs_hub_group_mapper_8cs.html',1,'']]]
+  ['jobshubgroupmapper_2ecs_12',['JobsHubGroupMapper.cs',['../_jobs_hub_group_mapper_8cs.html',1,'']]],
+  ['jwtserializer_2ecs_13',['JwtSerializer.cs',['../_jwt_serializer_8cs.html',1,'']]],
+  ['jwttype_2ecs_14',['JwtType.cs',['../_jwt_type_8cs.html',1,'']]]
 ];

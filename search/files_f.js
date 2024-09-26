@@ -9,5 +9,6 @@ var searchData=
   ['oauthtokenrequest_2ecs_6',['OAuthTokenRequest.cs',['../_o_auth_token_request_8cs.html',1,'']]],
   ['openapienumvarnamesextension_2ecs_7',['OpenApiEnumVarNamesExtension.cs',['../_open_api_enum_var_names_extension_8cs.html',1,'']]],
   ['opendreaminstallation_2ecs_8',['OpenDreamInstallation.cs',['../_open_dream_installation_8cs.html',1,'']]],
-  ['opendreaminstaller_2ecs_9',['OpenDreamInstaller.cs',['../_open_dream_installer_8cs.html',1,'']]]
+  ['opendreaminstaller_2ecs_9',['OpenDreamInstaller.cs',['../_open_dream_installer_8cs.html',1,'']]],
+  ['operationresultextensions_2ecs_10',['OperationResultExtensions.cs',['../_operation_result_extensions_8cs.html',1,'']]]
 ];

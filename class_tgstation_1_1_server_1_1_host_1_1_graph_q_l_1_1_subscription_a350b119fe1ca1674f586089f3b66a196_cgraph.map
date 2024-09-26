@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.GraphQL.Subscription.SessionInvalidatedStream" name="Tgstation.Server.Host.GraphQL.Subscription.SessionInvalidatedStream">
+<area shape="rect" id="Node000001" title="ISourceStream for SessionInvalidated(SessionInvalidationReason)." alt="" coords="5,5,233,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_subscription.html#ab401f4c9f95799e278391d569bd1c5dd" title="Gets the topic name for the login session represented by a given authenticationContext ." alt="" coords="281,13,540,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,31,265,31,265,36,233,36"/>
+</map>

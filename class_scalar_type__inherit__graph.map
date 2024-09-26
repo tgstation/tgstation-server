@@ -1,5 +1,7 @@
 <map id="ScalarType" name="ScalarType">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,20,92,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_scalars_1_1_semver_type.html" title="A ScalarType&lt;TRuntimeType, TLiteral&gt; for semantic Versions." alt="" coords="140,5,340,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,31,139,31,139,36,107,36"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,60,92,86"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_scalars_1_1_jwt_type.html" title="A ScalarType&lt;TRuntimeType, TLiteral&gt; for encoded JSON Web Tokens." alt="" coords="147,5,333,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,58,146,50,147,55,107,64"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_scalars_1_1_semver_type.html" title="A ScalarType&lt;TRuntimeType, TLiteral&gt; for semantic Versions." alt="" coords="140,85,340,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="108,83,140,90,139,95,107,88"/>
 </map>

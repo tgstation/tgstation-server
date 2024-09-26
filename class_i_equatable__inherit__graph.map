@@ -1,18 +1,5 @@
 <map id="IEquatable" name="IEquatable">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,92,88,117"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html" title="Information about an engine installation." alt="" coords="155,19,364,59"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,83,135,70,177,57,178,62,136,75,98,88"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="136,84,383,125"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="103,102,135,102,135,107,103,107"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server_information.html" title="Represents information about a running SwarmServer." alt="" coords="154,161,365,216"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="97,121,188,157,186,162,95,126"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server_information.html" title="Represents information about a running SwarmServer." alt="" coords="440,5,651,46"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="352,77,382,68,469,44,471,49,384,74,353,82"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="431,71,659,111"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="398,95,430,94,430,99,399,101"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_request.html" title="A request to register with a swarm controller." alt="" coords="448,136,642,177"/>
-<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="390,125,448,136,447,141,389,131"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html" title=" " alt="" coords="707,100,927,141"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="636,49,660,56,767,97,765,102,658,62,635,54"/>
-<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="381,198,515,201,588,196,659,186,723,165,778,139,780,144,725,170,660,191,588,202,515,207,381,204"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="69,5,151,31"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html" title="Information about an engine installation." alt="" coords="5,79,215,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,46,113,79,107,79,107,46"/>
 </map>

@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.GraphQL.Mutations.UserGroupMutations.TransformApiPermissionSet" name="Tgstation.Server.Host.GraphQL.Mutations.UserGroupMutations.TransformApiPermissionSet">
+<area shape="rect" id="Node000001" title="Transform a Api.Models.PermissionSet into a PermissionSet." alt="" coords="279,45,504,101"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_user_group_mutations.html#af301e20dc9941095f735fab411ca49b0" title="Creates a UserGroup." alt="" coords="5,5,231,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="263,57,231,52,232,47,264,52"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_user_group_mutations.html#a1243f79576f36350468d09f2360dc8b9" title="Updates a UserGroup." alt="" coords="5,85,231,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="264,95,232,99,231,94,263,89"/>
+</map>

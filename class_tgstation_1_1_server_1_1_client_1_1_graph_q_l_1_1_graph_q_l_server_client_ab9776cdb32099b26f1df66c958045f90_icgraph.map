@@ -1,0 +1,13 @@
+<map id="Tgstation.Server.Client.GraphQL.GraphQLServerClient.CreateUpdatedAuthenticationHeader" name="Tgstation.Server.Client.GraphQL.GraphQLServerClient.CreateUpdatedAuthenticationHeader">
+<area shape="rect" id="Node000001" title="Create a AuthenticationHeaderValue from a given bearer &#160;token." alt="" coords="786,45,1020,101"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html#a8485d267941c40a1e5ef44f4a98f1e7d" title="Attempt to create the ValueTuple&lt;T1, T2&gt; for bearerCredentialsTask." alt="" coords="534,45,738,101"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="771,76,739,76,739,71,771,71"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html#a2f7620b81ff4573307b21c0a8fbd7fca" title="Initializes a new instance of the GraphQLServerClient class." alt="" coords="282,5,486,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="518,57,486,52,487,47,519,52"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html#a0b44d8cb3c20b227ccdd619778505360" title="Attempt to reauthenticate." alt="" coords="282,85,486,141"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="519,94,487,100,486,94,518,89"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html#aef906a8f210b5fe75a8f7f20cc7e5f66" title="Subcribes to the GraphQL subscription indicated by operationExecutor .A ValueTask&lt;TResult&gt; resulting ..." alt="" coords="17,45,222,101"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="266,98,222,91,223,86,267,93"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html#a5f8207d3c155f686642df5318c6c44e2" title="Executes a given operationExecutor , potentially accounting for authentication issues." alt="" coords="5,125,234,181"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="267,134,234,139,234,133,266,128"/>
+</map>

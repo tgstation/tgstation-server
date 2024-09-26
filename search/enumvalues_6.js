@@ -7,5 +7,7 @@ var searchData=
   ['github_4',['github',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c',1,'Tgstation.Server.Api.Models.GitHub'],['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17ad3b7c913cd04ebfec0e9ec32cb6fd58c',1,'Tgstation.Server.Api.Models.GitHub']]],
   ['githubapiratelimit_5',['GitHubApiRateLimit',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aae998a2af079dd29d0ccdc981b56bdf4',1,'Tgstation::Server::Api::Models']]],
   ['gitlab_6',['GitLab',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17acf0a6993a4b526850302726c7cca0e7f',1,'Tgstation::Server::Api::Models']]],
-  ['grantpermissions_7',['GrantPermissions',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a7c3e6b3f8a8a8a4bf639c2ab5a57bda3',1,'Tgstation::Server::Api::Rights']]]
+  ['gone_7',['Gone',['../namespace_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core.html#a0014d9d38ddef55b17fc52f0e4bd071ca0b497b33b1a05057bc1634e607170bf6',1,'Tgstation::Server::Host::Authority::Core']]],
+  ['grantpermissions_8',['GrantPermissions',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a7c3e6b3f8a8a8a4bf639c2ab5a57bda3',1,'Tgstation::Server::Api::Rights']]],
+  ['groupid_9',['GroupId',['../namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a3c8708f5c9d6b5e01f7b224a34aacf55',1,'Tgstation::Server::Host::Authority']]]
 ];

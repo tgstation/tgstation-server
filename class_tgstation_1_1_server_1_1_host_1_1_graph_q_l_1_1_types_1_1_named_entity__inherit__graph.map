@@ -1,9 +1,11 @@
 <map id="Tgstation.Server.Host.GraphQL.Types.NamedEntity" name="Tgstation.Server.Host.GraphQL.Types.NamedEntity">
-<area shape="rect" id="Node000001" title="An Entity with a Name." alt="" coords="107,39,292,79"/>
+<area shape="rect" id="Node000001" title="An Entity with a Name." alt="" coords="107,71,292,111"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user.html" title="A user registered in the server." alt="" coords="340,5,525,46"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="307,41,339,36,340,42,308,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="288,63,357,44,358,49,290,69"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_group.html" title="Represents a group of Users." alt="" coords="340,71,525,111"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="308,71,340,76,339,81,307,76"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_entity.html" title="Represents a database entity." alt="" coords="5,46,59,72"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="74,56,106,56,106,62,74,62"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="307,88,339,88,339,94,307,94"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_name.html" title="A User with limited fields." alt="" coords="340,136,525,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="290,113,358,133,357,138,288,119"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_entity.html" title="Represents a database entity." alt="" coords="5,78,59,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="74,88,106,88,106,94,74,94"/>
 </map>

@@ -112,7 +112,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Factory for creating IGraphQLServerClients. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_graph_q_l_server_client_factory_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_graph_q_l_server_client_factory_8cs_source.html">IGraphQLServerClientFactory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_graph_q_l_server_client_factory_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_graph_q_l_server_client_factory_8cs_source.html">IGraphQLServerClientFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a98112d88eca899bb1ea04896c187e318" name="a98112d88eca899bb1ea04896c187e318"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a98112d88eca899bb1ea04896c187e318">&#9670;&#160;</a></span>CreateFromLogin()</h2>
@@ -164,12 +164,18 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">host</td><td>The URL to access TGS.</td></tr>
     <tr><td class="paramname">username</td><td>The username to for the IGraphQLServerClient.</td></tr>
     <tr><td class="paramname">password</td><td>The password for the IGraphQLServerClient.</td></tr>
-    <tr><td class="paramname">attemptLoginRefresh</td><td>Attempt to refresh the received TokenResponse when it expires or becomes invalid. <em>username</em>  and <em>password</em>  will be stored in memory if this is <code>true</code>.</td></tr>
+    <tr><td class="paramname">attemptLoginRefresh</td><td>Attempt to refresh the received bearer token when it expires or becomes invalid. <em>username</em>  and <em>password</em>  will be stored in memory if this is <code>true</code>.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>Optional CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new IAuthenticatedGraphQLServerClient.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AuthenticationException</td><td>Thrown when authentication fails.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#ab9ed99ffe7543d4252325a514ff34095">Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory</a>.</p>
 
@@ -224,6 +230,12 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new IAuthenticatedGraphQLServerClient.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AuthenticationException</td><td>Thrown when authentication fails.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#aa471a3d9a79493c51df3a59fb96fe204">Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory</a>.</p>
 
@@ -259,7 +271,7 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">host</td><td>The URL to access TGS.</td></tr>
-    <tr><td class="paramname">token</td><td>The TokenResponse to access the API with.</td></tr>
+    <tr><td class="paramname">token</td><td>The bearer token to access the API with.</td></tr>
   </table>
   </dd>
 </dl>

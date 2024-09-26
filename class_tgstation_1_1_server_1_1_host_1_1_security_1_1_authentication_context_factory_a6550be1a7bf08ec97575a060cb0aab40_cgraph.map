@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Security.AuthenticationContextFactory.CreateAuthenticationContext" name="Tgstation.Server.Host.Security.AuthenticationContextFactory.CreateAuthenticationContext">
-<area shape="rect" id="Node000001" title="Create an IAuthenticationContext in the request pipeline for a given userId &#160;and instanceId ...." alt="" coords="5,31,238,87"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0488fdc4fb4b31e657990a0152466d89" title="Initializes the AuthenticationContext." alt="" coords="297,5,497,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,42,281,37,281,42,238,48"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#afc655c9c2d6af6086bcda5b6c54e1c41" title="Attempt to load a cached ISystemIdentity." alt="" coords="286,71,508,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="238,70,270,74,270,79,238,75"/>
-</map>

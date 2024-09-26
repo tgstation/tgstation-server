@@ -1,7 +1,9 @@
 <map id="ScalarSerializer" name="ScalarSerializer">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,60,117,86"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_serializers_1_1_semver_serializer.html" title="ScalarSerializer&lt;TSerialized, TRuntime&gt; for UInt32s." alt="" coords="165,5,403,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,58,164,52,165,57,133,63"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_serializers_1_1_unsigned_int_serializer.html" title="ScalarSerializer&lt;TSerialized, TRuntime&gt; for UInt32s." alt="" coords="186,85,382,141"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="132,83,186,93,185,98,131,88"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,100,117,126"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_serializers_1_1_jwt_serializer.html" title="ScalarSerializer&lt;TSerialized, TRuntime&gt; for JsonWebTokens." alt="" coords="177,5,391,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,92,164,71,196,59,198,64,166,76,110,97"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_serializers_1_1_semver_serializer.html" title="ScalarSerializer&lt;TSerialized, TRuntime&gt; for Versions." alt="" coords="165,85,403,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="132,111,164,111,164,116,132,116"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_serializers_1_1_unsigned_int_serializer.html" title="ScalarSerializer&lt;TSerialized, TRuntime&gt; for UInt32s." alt="" coords="186,165,382,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="110,130,166,151,198,162,196,167,164,156,108,135"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.GraphQL.Subscriptions.ITopicEventReceiver" name="Tgstation.Server.Host.GraphQL.Subscriptions.ITopicEventReceiver">
+<area shape="rect" id="Node000001" title="Implementation of HotChocolate.Subscriptions.ITopicEventReceiver that works around the global::System..." alt="" coords="5,94,250,135"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="35,5,220,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,62,130,94,125,94,125,62"/>
+</map>

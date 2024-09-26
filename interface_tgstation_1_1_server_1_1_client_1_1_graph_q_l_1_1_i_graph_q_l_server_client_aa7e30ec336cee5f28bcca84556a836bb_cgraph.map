@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Client.GraphQL.IGraphQLServerClient.RunOperation&lt; TResultData &gt;" name="Tgstation.Server.Client.GraphQL.IGraphQLServerClient.RunOperation&lt; TResultData &gt;">
+<area shape="rect" id="Node000001" title="Runs a given operationExecutor . It may be invoked multiple times depending on the behavior of the IG..." alt="" coords="5,45,214,101"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="57,45,58,35,68,26,85,21,110,19,138,21,155,29,153,33,137,27,109,24,86,26,70,31,63,37,63,45"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_i_graph_q_l_server_client.html#a720dad9ea22aa9c765d41b587237da1d" title="Runs a given operationExecutor . It may be invoked multiple times depending on the behavior of the IG..." alt="" coords="262,5,492,61"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="214,55,246,50,247,55,215,60"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_i_graph_q_l_server_client.html#a9c0f5b2cdabcd8b2f4c782d913f89eb5" title="Subcribes to the GraphQL subscription indicated by operationExecutor ." alt="" coords="273,85,481,141"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="215,86,258,93,257,98,214,91"/>
+</map>

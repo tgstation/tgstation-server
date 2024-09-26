@@ -1,0 +1,5 @@
+<map id="IErrorFilter" name="IErrorFilter">
+<area shape="rect" id="Node000001" title=" " alt="" coords="57,5,139,31"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_error_message_filter.html" title="IErrorFilter for transforming ErrorMessageResponse&#45;like Exception." alt="" coords="5,79,191,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,46,101,79,95,79,95,46"/>
+</map>

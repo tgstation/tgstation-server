@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Client.GraphQL.Serializers.SemverSerializer" name="Tgstation.Server.Client.GraphQL.Serializers.SemverSerializer">
-<area shape="rect" id="Node000001" title="ScalarSerializer&lt;TSerialized, TRuntime&gt; for UInt32s." alt="" coords="5,94,244,135"/>
+<area shape="rect" id="Node000001" title="ScalarSerializer&lt;TSerialized, TRuntime&gt; for Versions." alt="" coords="5,94,244,135"/>
 <area shape="rect" id="Node000002" href="$class_scalar_serializer.html" title=" " alt="" coords="45,5,204,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,62,127,94,122,94,122,62"/>
 </map>

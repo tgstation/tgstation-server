@@ -1,13 +1,9 @@
 <map id="Tgstation.Server.Host.Controllers.UserController.GetId" name="Tgstation.Server.Host.Controllers.UserController.GetId">
-<area shape="rect" id="Node000001" title="Get a specific User." alt="" coords="5,103,221,143"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="275,37,478,78"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,99,276,80,277,85,199,105"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f" title="Generic 404 response." alt="" coords="269,103,484,143"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="221,120,253,120,253,126,221,126"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ad82f699ed9786892700f4c9526eb06ad" title="Get information about the current User." alt="" coords="269,168,484,209"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="199,141,277,161,276,166,197,147"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="532,5,722,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="478,42,516,37,517,42,478,47"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="537,71,718,111"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="478,68,522,74,521,80,478,74"/>
+<area shape="rect" id="Node000001" title="Get a specific User." alt="" coords="5,39,221,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="269,39,471,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,56,253,56,253,62,221,62"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="519,5,709,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="471,43,503,38,504,43,472,48"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="524,71,705,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="472,70,508,74,508,80,471,75"/>
 </map>

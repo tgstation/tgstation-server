@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Authority.Core.RestAuthorityInvoker.CreateErroredActionResult" name="Tgstation.Server.Host.Authority.Core.RestAuthorityInvoker.CreateErroredActionResult">
+<area shape="rect" id="Node000001" title="Create an IActionResult for a given authorityResponse &#160;if it is erroring." alt="" coords="5,31,260,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f" title="Generic 404 response." alt="" coords="308,5,523,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="260,41,292,37,293,43,260,47"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="308,71,523,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="260,71,293,74,292,80,260,76"/>
+</map>

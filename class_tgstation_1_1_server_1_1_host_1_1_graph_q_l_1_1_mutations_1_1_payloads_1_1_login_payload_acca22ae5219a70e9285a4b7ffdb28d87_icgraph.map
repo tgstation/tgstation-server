@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.GraphQL.Mutations.Payloads.LoginPayload.ToApi" name="Tgstation.Server.Host.GraphQL.Mutations.Payloads.LoginPayload.ToApi">
+<area shape="rect" id="Node000001" title=" " alt="" coords="536,5,809,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ab06241b4e27acc95a87d776b49a6eb39" title="Add a given systemIdentity &#160;to the identityCache." alt="" coords="258,5,488,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="520,28,488,28,488,23,520,23"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a9cd65f59354b327485d6043a1ead45ef" title="Attempt to login to the server with the current crentials.A ValueTask&lt;TResult&gt; resulting in a LoginPa..." alt="" coords="5,5,210,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="242,28,210,28,210,23,242,23"/>
+</map>

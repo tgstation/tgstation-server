@@ -25,8 +25,15 @@ var searchData=
   ['assemblyinfo_2ecs_22',['assemblyinfo.cs',['../_tgstation_8_server_8_host_2_properties_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_watchdog_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_service_2_properties_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_console_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_client_2_properties_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_client_2_assembly_info_8cs.html',1,'(Global Namespace)']]],
   ['assemblyinformationprovider_2ecs_23',['AssemblyInformationProvider.cs',['../_assembly_information_provider_8cs.html',1,'']]],
   ['asyncdelayer_2ecs_24',['AsyncDelayer.cs',['../_async_delayer_8cs.html',1,'']]],
-  ['authenticationcontext_2ecs_25',['AuthenticationContext.cs',['../_authentication_context_8cs.html',1,'']]],
-  ['authenticationcontextclaimstransformation_2ecs_26',['AuthenticationContextClaimsTransformation.cs',['../_authentication_context_claims_transformation_8cs.html',1,'']]],
-  ['authenticationcontextfactory_2ecs_27',['AuthenticationContextFactory.cs',['../_authentication_context_factory_8cs.html',1,'']]],
-  ['authorizationcontexthubfilter_2ecs_28',['AuthorizationContextHubFilter.cs',['../_authorization_context_hub_filter_8cs.html',1,'']]]
+  ['authenticatedgraphqlserverclient_2ecs_25',['AuthenticatedGraphQLServerClient.cs',['../_authenticated_graph_q_l_server_client_8cs.html',1,'']]],
+  ['authenticationcontext_2ecs_26',['AuthenticationContext.cs',['../_authentication_context_8cs.html',1,'']]],
+  ['authenticationcontextclaimstransformation_2ecs_27',['AuthenticationContextClaimsTransformation.cs',['../_authentication_context_claims_transformation_8cs.html',1,'']]],
+  ['authenticationcontextfactory_2ecs_28',['AuthenticationContextFactory.cs',['../_authentication_context_factory_8cs.html',1,'']]],
+  ['authenticationexception_2ecs_29',['AuthenticationException.cs',['../_authentication_exception_8cs.html',1,'']]],
+  ['authoritybase_2ecs_30',['AuthorityBase.cs',['../_authority_base_8cs.html',1,'']]],
+  ['authorityinvokerbase_7btauthority_7d_2ecs_31',['AuthorityInvokerBase{TAuthority}.cs',['../_authority_invoker_base_02_t_authority_03_8cs.html',1,'']]],
+  ['authorityresponse_2ecs_32',['AuthorityResponse.cs',['../_authority_response_8cs.html',1,'']]],
+  ['authorityresponse_7btresult_7d_2ecs_33',['AuthorityResponse{TResult}.cs',['../_authority_response_02_t_result_03_8cs.html',1,'']]],
+  ['authorizationcontexthubfilter_2ecs_34',['AuthorizationContextHubFilter.cs',['../_authorization_context_hub_filter_8cs.html',1,'']]],
+  ['authorizationmessagehandler_2ecs_35',['AuthorizationMessageHandler.cs',['../_authorization_message_handler_8cs.html',1,'']]]
 ];

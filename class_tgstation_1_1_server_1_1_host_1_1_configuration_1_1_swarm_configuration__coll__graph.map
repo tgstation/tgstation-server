@@ -1,9 +1,7 @@
 <map id="Tgstation.Server.Host.Configuration.SwarmConfiguration" name="Tgstation.Server.Host.Configuration.SwarmConfiguration">
-<area shape="rect" id="Node000001" title="Configuration for the server swarm system." alt="" coords="42,169,270,210"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="47,80,147,106"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,118,146,167,141,170,110,120"/>
-<area shape="rect" id="Node000003" href="$class_i_equatable.html" title=" " alt="" coords="5,5,189,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="100,46,100,80,94,80,94,46"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="172,80,260,106"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="202,120,170,170,166,167,198,118"/>
+<area shape="rect" id="Node000001" title="Configuration for the server swarm system." alt="" coords="5,94,234,135"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="11,5,111,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="78,43,109,92,105,95,74,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="135,5,224,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,45,134,95,130,92,162,43"/>
 </map>

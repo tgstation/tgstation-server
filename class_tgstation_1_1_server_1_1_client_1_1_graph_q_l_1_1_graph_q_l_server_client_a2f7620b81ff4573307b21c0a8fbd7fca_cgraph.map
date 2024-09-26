@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Client.GraphQL.GraphQLServerClient.GraphQLServerClient" name="Tgstation.Server.Client.GraphQL.GraphQLServerClient.GraphQLServerClient">
+<area shape="rect" id="Node000001" title="Initializes a new instance of the GraphQLServerClient class." alt="" coords="5,5,210,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html#a8485d267941c40a1e5ef44f4a98f1e7d" title="Attempt to create the ValueTuple&lt;T1, T2&gt; for bearerCredentialsTask." alt="" coords="258,5,462,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,31,242,31,242,36,210,36"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html#ab9776cdb32099b26f1df66c958045f90" title="Create a AuthenticationHeaderValue from a given bearer &#160;token." alt="" coords="510,5,743,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="463,31,495,31,495,36,463,36"/>
+</map>

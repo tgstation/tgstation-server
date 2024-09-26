@@ -1,30 +1,15 @@
 <map id="Tgstation.Server.Host.Controllers.UserController" name="Tgstation.Server.Host.Controllers.UserController">
-<area shape="rect" id="Node000001" title="ApiController for managing Users." alt="" coords="965,365,1180,405"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="592,77,687,103"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="675,110,1042,362,1039,366,672,114"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="146,55,271,80"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="286,69,592,85,591,90,286,74"/>
-<area shape="rect" id="Node000004" href="$class_controller.html" title=" " alt="" coords="5,55,82,80"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="97,65,145,65,145,70,97,70"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="162,127,254,152"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="270,135,378,129,501,116,591,99,592,104,502,121,378,134,270,140"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="525,299,754,340"/>
-<area shape="poly" id="edge12_Node000010_Node000005" title=" " alt="" coords="270,148,310,155,365,160,409,162,451,168,503,188,541,212,575,241,625,297,621,300,571,245,538,216,500,193,450,173,408,167,364,166,309,160,269,153"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="186,5,231,31"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="247,20,361,35,502,57,592,76,591,81,501,62,360,40,246,25"/>
-<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys." alt="" coords="539,365,740,405"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="755,382,964,382,964,388,755,388"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions." alt="" coords="539,430,740,471"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="755,431,940,403,964,399,965,404,941,408,756,436"/>
-<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html" title="Receives notifications about permissions updates." alt="" coords="539,495,740,536"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="754,494,846,474,940,447,989,426,1034,403,1036,408,992,431,942,452,847,479,756,500"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="770,336,941,362,965,366,964,371,940,367,769,341"/>
-<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="131,379,285,404"/>
-<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="300,379,501,349,554,338,555,343,502,354,301,384"/>
-<area shape="rect" id="Node000012" title=" " alt="" coords="164,441,252,467"/>
-<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="268,465,322,471,384,470,445,458,474,446,500,429,507,421,511,412,512,393,512,372,523,351,540,338,544,342,527,355,517,373,517,393,516,414,512,424,503,433,476,451,447,463,384,476,322,476,267,470"/>
-<area shape="rect" id="Node000013" title=" " alt="" coords="187,280,229,306"/>
-<area shape="poly" id="edge13_Node000010_Node000013" title=" " alt="" coords="245,292,525,310,525,315,245,298"/>
-<area shape="rect" id="Node000014" title=" " alt="" coords="133,329,284,355"/>
-<area shape="poly" id="edge14_Node000010_Node000014" title=" " alt="" coords="299,343,396,343,501,339,525,336,525,341,502,344,397,348,299,348"/>
+<area shape="rect" id="Node000001" title="ApiController for managing Users." alt="" coords="794,89,1009,129"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="493,56,589,82"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="604,73,793,94,793,100,604,78"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="131,5,256,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="272,21,392,34,494,55,493,60,391,39,271,26"/>
+<area shape="rect" id="Node000004" href="$class_controller.html" title=" " alt="" coords="5,5,82,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="97,16,130,16,130,21,97,21"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="148,56,240,82"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="255,66,493,66,493,72,255,72"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="171,105,216,131"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="231,110,492,73,493,78,232,116"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_rest_authority_invoker.html" title=" " alt="" coords="415,106,667,147"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="682,117,793,111,793,117,682,122"/>
 </map>

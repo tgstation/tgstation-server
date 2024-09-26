@@ -16,9 +16,11 @@ var searchData=
   ['entity_13',['Entity',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_entity.html',1,'Tgstation::Server::Host::GraphQL::Types']]],
   ['entityid_14',['EntityId',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html',1,'Tgstation::Server::Api::Models']]],
   ['errorcodeextensions_15',['ErrorCodeExtensions',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_code_extensions.html',1,'Tgstation::Server::Api::Models']]],
-  ['errormessageresponse_16',['ErrorMessageResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html',1,'Tgstation::Server::Api::Models::Response']]],
-  ['eventconsumer_17',['EventConsumer',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html',1,'Tgstation::Server::Host::Components::Events']]],
-  ['eventnotification_18',['EventNotification',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_event_notification.html',1,'Tgstation::Server::Host::Components::Interop::Topic']]],
-  ['eventscriptattribute_19',['EventScriptAttribute',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_script_attribute.html',1,'Tgstation::Server::Host::Components::Events']]],
-  ['exception_20',['Exception',['../class_exception.html',1,'']]]
+  ['errormessageexception_16',['ErrorMessageException',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_error_message_exception.html',1,'Tgstation::Server::Host::GraphQL']]],
+  ['errormessagefilter_17',['ErrorMessageFilter',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_error_message_filter.html',1,'Tgstation::Server::Host::GraphQL']]],
+  ['errormessageresponse_18',['ErrorMessageResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html',1,'Tgstation::Server::Api::Models::Response']]],
+  ['eventconsumer_19',['EventConsumer',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html',1,'Tgstation::Server::Host::Components::Events']]],
+  ['eventnotification_20',['EventNotification',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_event_notification.html',1,'Tgstation::Server::Host::Components::Interop::Topic']]],
+  ['eventscriptattribute_21',['EventScriptAttribute',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_script_attribute.html',1,'Tgstation::Server::Host::Components::Events']]],
+  ['exception_22',['Exception',['../class_exception.html',1,'']]]
 ];

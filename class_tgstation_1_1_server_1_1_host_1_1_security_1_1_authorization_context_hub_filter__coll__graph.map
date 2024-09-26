@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title="An IHubFilter that denies method calls and connections if the IAuthenticationContext is not valid for..." alt="" coords="400,55,600,96"/>
 <area shape="rect" id="Node000002" href="$class_i_hub_filter.html" title=" " alt="" coords="75,5,154,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,23,376,53,400,57,399,62,375,58,169,28"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Models.User." alt="" coords="14,55,215,96"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="For creating and accessing authentication contexts." alt="" coords="14,55,215,96"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="230,73,399,73,399,78,230,78"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="5,120,224,175"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="238,122,399,92,400,97,239,127"/>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Security.SessionInvalidationTracker" name="Tgstation.Server.Host.Security.SessionInvalidationTracker">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,79,206,120"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_session_invalidation_tracker.html" title="Handles invalidating user sessions." alt="" coords="14,5,197,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,46,108,79,103,79,103,46"/>
+</map>

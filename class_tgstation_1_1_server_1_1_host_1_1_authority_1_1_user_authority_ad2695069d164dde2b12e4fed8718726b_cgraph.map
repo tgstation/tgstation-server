@@ -1,0 +1,23 @@
+<map id="Tgstation.Server.Host.Authority.UserAuthority.Create" name="Tgstation.Server.Host.Authority.UserAuthority.Create">
+<area shape="rect" id="Node000001" title="Creates a User.A ValueTask&lt;TResult&gt; resulting in am AuthorityResponse&lt;TResult&gt; for the created User." alt="" coords="5,208,210,249"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ab20a4242dfa680a08602a06dfeb54313" title="Checks if a createRequest &#160;should return a bad request AuthorityResponse&lt;TResult&gt;." alt="" coords="260,5,517,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,206,141,173,172,133,211,92,256,57,268,50,270,55,259,61,215,95,176,136,145,176,123,209"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="291,71,486,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="131,205,186,163,256,122,275,114,277,119,259,127,189,168,135,209"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#aa1c559b133fca84003ff2a8c78da629d" title="Creates a new User from a given model ." alt="" coords="258,136,519,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="185,205,257,186,286,178,287,184,258,191,186,210"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a1484aa5361ad7005e1d53606b17f4e9e" title="Create a ISystemIdentity for a given user ." alt="" coords="269,201,508,256"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="210,226,253,226,253,231,210,231"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="284,280,493,321"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="186,247,258,266,287,273,286,278,257,271,185,252"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ae05b2c5d239ed788911e42c5c8e44663" title="Send topics through the topicEventSender indicating a given user &#160;was created or updated." alt="" coords="264,345,513,386"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="135,247,189,289,259,330,277,337,275,342,256,335,186,294,131,251"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a21c329441fa97014eb568f13ce0475aa" title="Attempt to change the password of a given dbUser ." alt="" coords="286,411,491,451"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="123,248,145,281,176,321,215,361,259,395,273,403,270,408,256,400,211,365,172,324,141,284,119,251"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a74520f9973cb772dd5eac7804f86d94a" title="Check if a given model &#160;has a valid UserName.Name specified." alt="" coords="585,5,789,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="517,23,569,23,569,28,517,28"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a91c336eee8dcd4f3d02b7f241a426482" title="Gets the OAuthConnections for the User with a given userId .A ValueTask&lt;TResult&gt; resulting in an glob..." alt="" coords="581,136,793,177"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="519,154,565,154,565,159,519,159"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#aeab60aa0a0ee2cb5e2ad5dbde1983430" title="Sets a User.PasswordHash for a given user ." alt="" coords="567,411,806,451"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="491,428,552,428,552,434,491,434"/>
+</map>

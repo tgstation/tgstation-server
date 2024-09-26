@@ -350,7 +350,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  148</span>                            <span class="keywordflow">continue</span>; <span class="comment">// not our bitch</span></div>
 <div class="line"><span class="lineno">  149</span>                    }</div>
 <div class="line"><span class="lineno">  150</span> </div>
-<div class="line"><span class="lineno">  151</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogTrace(<span class="stringliteral">&quot;Identified \&quot;Network Accessibility\&quot; window in owned process {0}&quot;</span>, processId);</div>
+<div class="line"><span class="lineno">  151</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogTrace(<span class="stringliteral">&quot;Identified \&quot;Network Accessibility\&quot; window in owned process {pid}&quot;</span>, processId);</div>
 <div class="line"><span class="lineno">  152</span> </div>
 <div class="line"><span class="lineno">  153</span>                    var found = <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">  154</span>                    <span class="keywordflow">foreach</span> (var childHandle <span class="keywordflow">in</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#adcd1b50a331c6d1876e3f91c1794d66e">GetAllChildHandles</a>(window))</div>
@@ -381,7 +381,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  179</span>                    }</div>
 <div class="line"><span class="lineno">  180</span> </div>
 <div class="line"><span class="lineno">  181</span>                    <span class="keywordflow">if</span> (!found)</div>
-<div class="line"><span class="lineno">  182</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogDebug(<span class="stringliteral">&quot;Unable to find \&quot;Yes\&quot; button for \&quot;Network Accessibility\&quot; window in owned process {0}!&quot;</span>, processId);</div>
+<div class="line"><span class="lineno">  182</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogDebug(<span class="stringliteral">&quot;Unable to find \&quot;Yes\&quot; button for \&quot;Network Accessibility\&quot; window in owned process {pid}!&quot;</span>, processId);</div>
 <div class="line"><span class="lineno">  183</span>                }</div>
 <div class="line"><span class="lineno">  184</span>            }</div>
 <div class="line"><span class="lineno">  185</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
@@ -541,7 +541,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  107</span>            {</div>
 <div class="line"><span class="lineno">  108</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>.Contains(process))</div>
 <div class="line"><span class="lineno">  109</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;This process has already been registered for network prompt reaping!&quot;</span>);</div>
-<div class="line"><span class="lineno">  110</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogTrace(<span class="stringliteral">&quot;Registering process {0}...&quot;</span>, process.Id);</div>
+<div class="line"><span class="lineno">  110</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogTrace(<span class="stringliteral">&quot;Registering process {pid}...&quot;</span>, process.Id);</div>
 <div class="line"><span class="lineno">  111</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>.Add(process);</div>
 <div class="line"><span class="lineno">  112</span>            }</div>
 <div class="line"><span class="lineno">  113</span> </div>

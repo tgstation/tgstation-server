@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html" title="Represents the header that must be present for every server request." alt="" coords="5,5,166,46"/>
+<area shape="rect" id="Node000000" href="$class_scalar_type.html" title=" " alt="" coords="5,46,92,72"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_scalars_1_1_jwt_type.html" title="A ScalarType&lt;TRuntimeType, TLiteral&gt; for encoded JSON Web Tokens." alt="" coords="147,5,333,46"/>
+<area shape="poly" id="edge448_Node000000_Node000001" title=" " alt="" coords="106,46,146,39,147,45,107,52"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_scalars_1_1_semver_type.html" title="A ScalarType&lt;TRuntimeType, TLiteral&gt; for semantic Versions." alt="" coords="140,71,340,111"/>
+<area shape="poly" id="edge449_Node000000_Node000002" title=" " alt="" coords="108,66,140,72,139,77,107,71"/>
 </map>

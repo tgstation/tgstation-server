@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Security.IAuthenticationContextFactory.CreateAuthenticationContext" name="Tgstation.Server.Host.Security.IAuthenticationContextFactory.CreateAuthenticationContext">
-<area shape="rect" id="Node000001" title="Create an IAuthenticationContext in the request pipeline for a given userId &#160;and instanceId ." alt="" coords="332,5,568,61"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html#af29fea3cb5950edb79795ed093ed2483" title=" " alt="" coords="5,5,284,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="316,36,284,36,284,31,316,31"/>
-</map>

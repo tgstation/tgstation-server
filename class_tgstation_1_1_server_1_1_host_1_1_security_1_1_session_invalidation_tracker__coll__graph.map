@@ -1,0 +1,15 @@
+<map id="Tgstation.Server.Host.Security.SessionInvalidationTracker" name="Tgstation.Server.Host.Security.SessionInvalidationTracker">
+<area shape="rect" id="Node000001" title=" " alt="" coords="422,138,622,179"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_session_invalidation_tracker.html" title="Handles invalidating user sessions." alt="" coords="42,5,225,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="241,29,320,46,399,73,453,103,497,135,494,139,450,108,397,78,318,51,240,34"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="42,55,225,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="230,81,398,117,460,135,458,140,397,122,229,86"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="43,105,224,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="240,131,421,147,421,152,239,137"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="49,170,218,211"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="233,180,397,167,421,164,422,170,398,172,233,185"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="5,234,262,290"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="275,228,397,196,459,176,461,182,398,201,276,233"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="28,314,239,384"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="253,309,325,280,396,246,450,211,494,177,497,181,453,215,399,250,327,285,255,314"/>
+</map>

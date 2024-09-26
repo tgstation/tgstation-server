@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory.CreateFromToken" name="Tgstation.Server.Client.GraphQL.GraphQLServerClientFactory.CreateFromToken">
+<area shape="rect" id="Node000001" title="Create a IRestServerClient.A new IGraphQLServerClient." alt="" coords="5,45,253,101"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#aa20112dc5daa467b13625e87a709ef48" title="Create a ITransferClient for a given host &#160;and bearer &#160;token." alt="" coords="301,5,548,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,54,285,49,285,55,254,59"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html#a1a765df15f0c9728e0cb5d0bc43f4c8b" title="Sets up a ServiceProvider for providing the IGraphQLClient." alt="" coords="301,85,548,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="254,87,285,92,285,97,253,93"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_rest_server_client_factory.html#ab11454a2ac44dd669bb7d6a7c3855201" title="Create a IRestServerClient." alt="" coords="596,5,803,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="548,31,580,31,580,36,548,36"/>
+</map>

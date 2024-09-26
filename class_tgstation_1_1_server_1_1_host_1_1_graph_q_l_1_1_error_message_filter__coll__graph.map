@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.GraphQL.ErrorMessageFilter" name="Tgstation.Server.Host.GraphQL.ErrorMessageFilter">
+<area shape="rect" id="Node000001" title="IErrorFilter for transforming ErrorMessageResponse&#45;like Exception." alt="" coords="43,124,228,165"/>
+<area shape="rect" id="Node000002" href="$class_i_error_filter.html" title=" " alt="" coords="5,20,87,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="67,56,121,122,117,125,63,60"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="111,5,341,61"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="196,74,154,125,149,122,192,71"/>
+</map>

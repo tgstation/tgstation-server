@@ -1,0 +1,12 @@
+<map id="Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation.TransformAsync" name="Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation.TransformAsync">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,93,284,148"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#af5d37fc8159a215c75c3f3688f4415ea" title="Get the value of a given rightsType ." alt="" coords="332,5,538,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,89,331,56,354,49,356,54,332,62,233,94"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="340,71,530,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="284,104,324,100,324,105,284,109"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="586,157,767,198"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="285,133,571,164,570,169,284,138"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#acbf514eba48e29a2dc177eb5ae34edd7" title="Gets the role claim name used for a given rightsType &#160;and right ." alt="" coords="344,185,526,226"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="242,146,349,178,348,183,241,151"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="526,193,570,187,571,193,526,198"/>
+</map>

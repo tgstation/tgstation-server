@@ -1,5 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="5,5,203,46"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html" title=" " alt="" coords="251,5,448,46"/>
-<area shape="poly" id="edge631_Node000000_Node000001" title=" " alt="" coords="218,23,250,23,250,28,218,28"/>
+<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_legacy_api_transformable.html" title=" " alt="" coords="5,5,234,61"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html" title=" " alt="" coords="322,14,517,55"/>
+<area shape="poly" id="edge653_Node000000_Node000001" title=" " alt="" coords="249,31,321,31,321,37,249,36"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_instance_permission_set.html" title="Represents a PermissionSets permissions in an Instance." alt="" coords="18,85,221,126"/>
+<area shape="poly" id="edge656_Node000002_Node000001" title=" " alt="" coords="223,78,329,53,330,58,224,83"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_permission_set_request.html" title="A request to update an instance permission set." alt="" coords="292,82,547,123"/>
+<area shape="poly" id="edge654_Node000002_Node000003" title=" " alt="" coords="236,101,291,101,291,106,236,107"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_permission_set_response.html" title="A response containing an instance permission set." alt="" coords="282,148,557,188"/>
+<area shape="poly" id="edge655_Node000002_Node000004" title=" " alt="" coords="235,127,319,144,318,150,234,132"/>
 </map>
