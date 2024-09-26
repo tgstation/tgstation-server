@@ -56,6 +56,7 @@ using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.GraphQL;
+using Tgstation.Server.Host.GraphQL.Subscriptions;
 using Tgstation.Server.Host.GraphQL.Types;
 using Tgstation.Server.Host.GraphQL.Types.Interceptors;
 using Tgstation.Server.Host.GraphQL.Types.Scalars;
@@ -295,6 +296,7 @@ namespace Tgstation.Server.Host.Core
 			// configure graphql
 			if (postSetupServices.InternalConfiguration.EnableGraphQL)
 				services
+					.AddScoped<ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
 					.AddGraphQLServer()
 					.AddAuthorization()
 					.ModifyOptions(options =>

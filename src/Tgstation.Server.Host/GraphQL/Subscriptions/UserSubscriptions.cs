@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using HotChocolate;
 using HotChocolate.Execution;
-using HotChocolate.Subscriptions;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 

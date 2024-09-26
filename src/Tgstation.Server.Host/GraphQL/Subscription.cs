@@ -38,7 +38,7 @@ namespace Tgstation.Server.Host.GraphQL
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="ISourceStream{TMessage}"/> of the <see cref="SessionInvalidationReason"/> for the <paramref name="authenticationContext"/>.</returns>
 		public ValueTask<ISourceStream<SessionInvalidationReason>> SessionInvalidatedStream(
-			[Service] ITopicEventReceiver receiver,
+			[Service] HotChocolate.Subscriptions.ITopicEventReceiver receiver, // Intentionally not using our override here, topic callers are built to explicitly handle cases of server shutdown
 			[Service] ISessionInvalidationTracker invalidationTracker,
 			[Service] IAuthenticationContext authenticationContext,
 			CancellationToken cancellationToken)
