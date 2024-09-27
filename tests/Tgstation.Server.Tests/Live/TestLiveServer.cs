@@ -54,7 +54,7 @@ namespace Tgstation.Server.Tests.Live
 	[TestCategory("RequiresDatabase")]
 	public sealed class TestLiveServer
 	{
-		const ushort InitialPort = 42069;
+		const ushort InitialPort = 15010;
 		public static readonly Version TestUpdateVersion = new(5, 11, 0);
 
 		static readonly Lazy<ushort> odDMPort = new(() => FreeTcpPort());
@@ -172,7 +172,7 @@ namespace Tgstation.Server.Tests.Live
 		{
 			var result = Interlocked.Increment(ref tcpPortCounter);
 
-			Console.WriteLine($"Allocated port: {result}");
+			Console.WriteLine($"Test allocated port: {result}");
 			return (ushort)result;
 		}
 
