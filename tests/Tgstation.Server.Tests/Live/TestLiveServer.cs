@@ -58,11 +58,11 @@ namespace Tgstation.Server.Tests.Live
 		public static readonly Version TestUpdateVersion = new(5, 11, 0);
 
 		static readonly Lazy<ushort> odDMPort = new(() => FreeTcpPort());
-		static readonly Lazy<ushort> odDDPort = new(() => FreeTcpPort());
-		static readonly Lazy<ushort> compatDMPort = new(() => FreeTcpPort());
-		static readonly Lazy<ushort> compatDDPort = new(() => FreeTcpPort());
-		static readonly Lazy<ushort> mainDDPort = new(() => FreeTcpPort());
-		static readonly Lazy<ushort> mainDMPort = new(() => FreeTcpPort());
+		static readonly Lazy<ushort> odDDPort = new(() => FreeTcpPort(odDMPort.Value));
+		static readonly Lazy<ushort> compatDMPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value));
+		static readonly Lazy<ushort> compatDDPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value));
+		static readonly Lazy<ushort> mainDDPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value));
+		static readonly Lazy<ushort> mainDMPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value, mainDDPort.Value));
 
 		static void InitializePorts()
 		{
@@ -166,14 +166,14 @@ namespace Tgstation.Server.Tests.Live
 			return result;
 		}
 
-		static int tcpPortCounter = InitialPort;
+		static ushort tcpPortCounter = InitialPort;
 
-		static ushort FreeTcpPort()
+		static ushort FreeTcpPort(params ushort[] usedPorts)
 		{
-			var result = Interlocked.Increment(ref tcpPortCounter);
+			ushort result = tcpPortCounter++;
 
 			Console.WriteLine($"Allocated port: {result}");
-			return (ushort)result;
+			return result;
 		}
 
 		[ClassInitialize]
