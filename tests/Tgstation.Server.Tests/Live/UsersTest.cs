@@ -56,7 +56,7 @@ namespace Tgstation.Server.Tests.Live
 			for (var i = 0; i < 10 && observer.ResultCount < expected; ++i)
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 
-			Assert.AreEqual(, observer.ResultCount); // sys user
+			Assert.AreEqual(expected, observer.ResultCount); // sys user
 			observer.LastValue.EnsureNoErrors();
 		}
 
