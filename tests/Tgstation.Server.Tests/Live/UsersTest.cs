@@ -50,7 +50,13 @@ namespace Tgstation.Server.Tests.Live
 
 			Assert.IsFalse(observer.Completed);
 			Assert.AreEqual(0U, observer.ErrorCount);
-			Assert.AreEqual(new PlatformIdentifier().IsWindows ? 108U : 107U, observer.ResultCount); // sys user
+
+			var expected = new PlatformIdentifier().IsWindows ? 108U : 107U;
+			// wait up to 10s
+			for (var i = 0; i < 10 && observer.ResultCount < expected; ++i)
+				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+
+			Assert.AreEqual(, observer.ResultCount); // sys user
 			observer.LastValue.EnsureNoErrors();
 		}
 
