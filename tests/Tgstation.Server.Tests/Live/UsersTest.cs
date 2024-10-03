@@ -53,8 +53,16 @@ namespace Tgstation.Server.Tests.Live
 
 			var expected = new PlatformIdentifier().IsWindows ? 108U : 107U;
 			// wait up to 10s
+			var lastSeen = observer.ResultCount;
 			for (var i = 0; i < 10 && observer.ResultCount < expected; ++i)
+			{
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+				if (observer.ResultCount > lastSeen)
+				{
+					lastSeen = observer.ResultCount;
+					i = -1;
+				}
+			}
 
 			Assert.AreEqual(expected, observer.ResultCount); // sys user
 			observer.LastValue.EnsureNoErrors();

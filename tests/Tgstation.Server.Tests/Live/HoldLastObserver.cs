@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Tgstation.Server.Tests.Live
 {
@@ -10,9 +11,12 @@ namespace Tgstation.Server.Tests.Live
 
 		public T LastValue { get; private set; }
 
-		public ulong ErrorCount { get; private set; }
+		public ulong ErrorCount => errorCount;
 
-		public ulong ResultCount { get; private set; }
+		public ulong ResultCount => resultCount;
+
+		ulong errorCount;
+		ulong resultCount;
 
 		public void OnCompleted()
 		{
@@ -21,13 +25,13 @@ namespace Tgstation.Server.Tests.Live
 
 		public void OnError(Exception error)
 		{
-			++ErrorCount;
+			Interlocked.Increment(ref errorCount);
 			LastError = error;
 		}
 
 		public void OnNext(T value)
 		{
-			++ResultCount;
+			Interlocked.Increment(ref resultCount);
 			LastValue = value;
 		}
 	}
