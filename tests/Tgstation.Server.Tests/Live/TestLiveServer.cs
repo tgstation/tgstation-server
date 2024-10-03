@@ -45,6 +45,7 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 using Tgstation.Server.Tests.Live.Instance;
 
 namespace Tgstation.Server.Tests.Live
@@ -54,19 +55,17 @@ namespace Tgstation.Server.Tests.Live
 	[TestCategory("RequiresDatabase")]
 	public sealed class TestLiveServer
 	{
-		const ushort InitialPort = 42069;
 		public static readonly Version TestUpdateVersion = new(5, 11, 0);
 
 		static readonly Lazy<ushort> odDMPort = new(() => FreeTcpPort());
-		static readonly Lazy<ushort> odDDPort = new(() => FreeTcpPort());
-		static readonly Lazy<ushort> compatDMPort = new(() => FreeTcpPort());
-		static readonly Lazy<ushort> compatDDPort = new(() => FreeTcpPort());
-		static readonly Lazy<ushort> mainDDPort = new(() => FreeTcpPort());
-		static readonly Lazy<ushort> mainDMPort = new(() => FreeTcpPort());
+		static readonly Lazy<ushort> odDDPort = new(() => FreeTcpPort(odDMPort.Value));
+		static readonly Lazy<ushort> compatDMPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value));
+		static readonly Lazy<ushort> compatDDPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value));
+		static readonly Lazy<ushort> mainDDPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value));
+		static readonly Lazy<ushort> mainDMPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value, mainDDPort.Value));
 
 		static void InitializePorts()
 		{
-			tcpPortCounter = InitialPort;
 			_ = odDMPort.Value;
 			_ = odDDPort.Value;
 			_ = compatDMPort.Value;
@@ -166,14 +165,41 @@ namespace Tgstation.Server.Tests.Live
 			return result;
 		}
 
-		static int tcpPortCounter = InitialPort;
-
-		static ushort FreeTcpPort()
+		static ushort FreeTcpPort(params ushort[] usedPorts)
 		{
-			var result = Interlocked.Increment(ref tcpPortCounter);
+			ushort result;
+			var listeners = new List<TcpListener>();
+
+			try
+			{
+				do
+				{
+					var l = new TcpListener(IPAddress.Any, 0);
+					l.Start();
+					try
+					{
+						listeners.Add(l);
+					}
+					catch
+					{
+						using (l)
+							l.Stop();
+						throw;
+					}
+
+					result = (ushort)((IPEndPoint)l.LocalEndpoint).Port;
+				}
+				while (usedPorts.Contains(result) || result < 20000);
+			}
+			finally
+			{
+				foreach (var l in listeners)
+					using (l)
+						l.Stop();
+			}
 
 			Console.WriteLine($"Allocated port: {result}");
-			return (ushort)result;
+			return result;
 		}
 
 		[ClassInitialize]

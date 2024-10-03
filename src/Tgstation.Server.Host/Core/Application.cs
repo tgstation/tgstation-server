@@ -9,6 +9,7 @@ using Cyberboss.AspNetCore.AsyncInitializer;
 using Elastic.CommonSchema.Serilog;
 
 using HotChocolate.AspNetCore;
+using HotChocolate.Subscriptions;
 using HotChocolate.Types;
 
 using Microsoft.AspNetCore.Authentication;
@@ -296,7 +297,7 @@ namespace Tgstation.Server.Host.Core
 			// configure graphql
 			if (postSetupServices.InternalConfiguration.EnableGraphQL)
 				services
-					.AddScoped<ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
+					.AddScoped<GraphQL.Subscriptions.ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
 					.AddGraphQLServer()
 					.AddAuthorization()
 					.ModifyOptions(options =>
@@ -311,7 +312,11 @@ namespace Tgstation.Server.Host.Core
 					})
 #endif
 					.AddMutationConventions()
-					.AddInMemorySubscriptions()
+					.AddInMemorySubscriptions(
+						new SubscriptionOptions
+						{
+							TopicBufferCapacity = 1024, // mainly so high for tests, not possible to DoS the server without authentication and some other access to generate messages
+						})
 					.AddGlobalObjectIdentification()
 					.AddQueryFieldToMutationPayloads()
 					.ModifyOptions(options =>
