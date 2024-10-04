@@ -747,10 +747,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 
 			newClient.OnError += (sender, e) =>
-					{
-						Logger.LogError("IRC ERROR: {error}", e.ErrorMessage);
-						newClient.Disconnect();
-					};
+			{
+				Logger.LogError("IRC ERROR: {error}", e.ErrorMessage);
+				newClient.Disconnect();
+			};
 
 			return newClient;
 		}
