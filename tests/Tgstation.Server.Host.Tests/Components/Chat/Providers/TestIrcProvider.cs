@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
@@ -22,15 +23,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		[TestMethod]
 		public async Task TestConstructionAndDisposal()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(null, null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(null, null, null, null, null, null));
 			var mockJobManager = new Mock<IJobManager>();
-			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, null, null, null, null, null));
 			var mockAsyncDelayer = new Mock<IAsyncDelayer>();
-			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, null, null, null, null));
 			var mockLogger = new Mock<ILogger<IrcProvider>>();
-			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, null, null, null));
 			var mockAss = new Mock<IAssemblyInformationProvider>();
-			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, null, null));
 
 			var mockBot = new ChatBot
 			{
@@ -38,8 +39,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				Instance = new Models.Instance(),
 				Provider = ChatProvider.Irc
 			};
+			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, mockBot, null));
 
-			Assert.ThrowsException<InvalidOperationException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, mockBot));
+			var mockLogConf = new FileLoggingConfiguration();
+			Assert.ThrowsException<InvalidOperationException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, mockBot, mockLogConf));
 
 			mockBot.ConnectionString = new IrcConnectionStringBuilder
 			{
@@ -49,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				Port = 6667
 			}.ToString();
 
-			await new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, mockBot).DisposeAsync();
+			await new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, mockBot, mockLogConf).DisposeAsync();
 		}
 
 		static ValueTask InvokeConnect(IProvider provider, CancellationToken cancellationToken = default) => (ValueTask)provider.GetType().GetMethod("Connect", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(provider, new object[] { cancellationToken });
@@ -78,12 +81,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				.Setup(x => x.WaitForJobCompletion(It.IsNotNull<Job>(), It.IsAny<User>(), It.IsAny<CancellationToken>(), It.IsAny<CancellationToken>()))
 				.Returns(ValueTask.FromResult<bool?>(true));
 			var mockJobManager = mockSetup.Object;
-			await using var provider = new IrcProvider(mockJobManager, new AsyncDelayer(), loggerFactory.CreateLogger<IrcProvider>(), Mock.Of<IAssemblyInformationProvider>(), new ChatBot
+
+			var chatBot = new ChatBot
 			{
 				ConnectionString = actualToken,
 				Provider = ChatProvider.Irc,
 				Instance = new Models.Instance(),
-			});
+			};
+
+			await using var provider = new IrcProvider(mockJobManager, new AsyncDelayer(), loggerFactory.CreateLogger<IrcProvider>(), Mock.Of<IAssemblyInformationProvider>(), chatBot, new FileLoggingConfiguration());
 			Assert.IsFalse(provider.Connected);
 			await InvokeConnect(provider);
 			Assert.IsTrue(provider.Connected);

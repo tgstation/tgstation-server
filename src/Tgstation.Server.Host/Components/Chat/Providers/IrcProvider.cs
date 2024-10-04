@@ -127,6 +127,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			: base(jobManager, asyncDelayer, logger, chatBot)
 		{
 			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
+			ArgumentNullException.ThrowIfNull(loggingConfiguration);
 
 			var builder = chatBot.CreateConnectionStringBuilder();
 			if (builder == null || !builder.Valid || builder is not IrcConnectionStringBuilder ircBuilder)
