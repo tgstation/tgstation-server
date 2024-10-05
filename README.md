@@ -251,6 +251,8 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `FileLogging:LogLevel`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.
 
+- `FileLogging:ProviderNetworkDebug`: Boolean controlling whether or not Chat bot providers should log their raw network traffic. Currently only applies to IrcProvider.
+
 - `Kestrel:Endpoints:Http:Url`: The URL (i.e. interface and ports) your application should listen on. General use case should be `http://localhost:<port>` for restricted local connections. See the Remote Access section for configuring public access to the World Wide Web. This doesn't need to be changed using the docker setup and should be mapped with the `-p` option instead
 
 - `Database:DatabaseType`: Can be one of `SqlServer`, `MariaDB`, `MySql`, `PostgresSql`, or `Sqlite`.

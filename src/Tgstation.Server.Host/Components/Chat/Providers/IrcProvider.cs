@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -43,11 +44,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public override string BotMention => client.Nickname;
 
 		/// <summary>
-		/// The <see cref="IrcFeatures"/> client.
-		/// </summary>
-		readonly IrcFeatures client;
-
-		/// <summary>
 		/// Address of the server to connect to.
 		/// </summary>
 		readonly string address;
@@ -56,6 +52,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Port of the server to connect to.
 		/// </summary>
 		readonly ushort port;
+
+		/// <summary>
+		/// Wether or not this IRC client is to use ssl.
+		/// </summary>
+		readonly bool ssl;
 
 		/// <summary>
 		/// IRC nickname.
@@ -83,6 +84,21 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly Dictionary<ulong, string> queryChannelIdMap;
 
 		/// <summary>
+		/// The <see cref="IAssemblyInformationProvider"/>  obtained from constructor, used for the CTCP version string.
+		/// </summary>
+		readonly IAssemblyInformationProvider assemblyInfo;
+
+		/// <summary>
+		/// The <see cref="FileLoggingConfiguration"/> for the <see cref="IrcProvider"/>.
+		/// </summary>
+		readonly FileLoggingConfiguration loggingConfiguration;
+
+		/// <summary>
+		/// The <see cref="IrcFeatures"/> client.
+		/// </summary>
+		IrcFeatures client;
+
+		/// <summary>
 		/// The <see cref="ValueTask"/> used for <see cref="IrcConnection.Listen(bool)"/>.
 		/// </summary>
 		Task? listenTask;
@@ -93,11 +109,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		ulong channelIdCounter;
 
 		/// <summary>
-		/// If we are disconnecting.
-		/// </summary>
-		bool disconnecting;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="IrcProvider"/> class.
 		/// </summary>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="Provider"/>.</param>
@@ -105,15 +116,18 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to get the <see cref="IAssemblyInformationProvider.VersionString"/> from.</param>
 		/// <param name="chatBot">The <see cref="Models.ChatBot"/> for the <see cref="Provider"/>.</param>
+		/// <param name="loggingConfiguration">The <see cref="FileLoggingConfiguration"/> for the <see cref="Provider"/>.</param>
 		public IrcProvider(
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
 			ILogger<IrcProvider> logger,
 			IAssemblyInformationProvider assemblyInformationProvider,
-			Models.ChatBot chatBot)
+			Models.ChatBot chatBot,
+			FileLoggingConfiguration loggingConfiguration)
 			: base(jobManager, asyncDelayer, logger, chatBot)
 		{
 			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
+			ArgumentNullException.ThrowIfNull(loggingConfiguration);
 
 			var builder = chatBot.CreateConnectionStringBuilder();
 			if (builder == null || !builder.Valid || builder is not IrcConnectionStringBuilder ircBuilder)
@@ -121,33 +135,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			address = ircBuilder.Address!;
 			port = ircBuilder.Port!.Value;
+			ssl = ircBuilder.UseSsl!.Value;
 			nickname = ircBuilder.Nickname!;
 
 			password = ircBuilder.Password!;
 			passwordType = ircBuilder.PasswordType;
 
-			client = new IrcFeatures
-			{
-				SupportNonRfc = true,
-				CtcpUserInfo = "You are going to play. And I am going to watch. And everything will be just fine...",
-				AutoRejoin = true,
-				AutoRejoinOnKick = true,
-				AutoRelogin = true,
-				AutoRetry = false,
-				AutoReconnect = false,
-				ActiveChannelSyncing = true,
-				AutoNickHandling = true,
-				CtcpVersion = assemblyInformationProvider.VersionString,
-				UseSsl = ircBuilder.UseSsl!.Value,
-			};
-			if (ircBuilder.UseSsl.Value)
-				client.ValidateServerCertificate = true; // dunno if it defaults to that or what
+			assemblyInfo = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			this.loggingConfiguration = loggingConfiguration ?? throw new ArgumentNullException(nameof(loggingConfiguration));
 
-			client.OnChannelMessage += Client_OnChannelMessage;
-			client.OnQueryMessage += Client_OnQueryMessage;
-
-			/*client.OnReadLine += (sender, e) => Logger.LogTrace("READ: {line}", e.Line);
-			client.OnWriteLine += (sender, e) => Logger.LogTrace("WRITE: {line}", e.Line);*/
+			client = InstantiateClient();
 
 			channelIdMap = new Dictionary<ulong, string?>();
 			queryChannelIdMap = new Dictionary<ulong, string>();
@@ -369,12 +366,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		protected override async ValueTask Connect(CancellationToken cancellationToken)
 		{
-			disconnecting = false;
 			cancellationToken.ThrowIfCancellationRequested();
 			try
 			{
 				await Task.Factory.StartNew(
-					() => client.Connect(address, port),
+					() =>
+					{
+						client = InstantiateClient();
+						client.Connect(address, port);
+					},
 					cancellationToken,
 					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current)
@@ -382,70 +382,53 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				cancellationToken.ThrowIfCancellationRequested();
 
+				listenTask = Task.Factory.StartNew(
+					() =>
+					{
+						Logger.LogTrace("Starting blocking listen...");
+						try
+						{
+							client.Listen();
+						}
+						catch (Exception ex)
+						{
+							Logger.LogWarning(ex, "IRC Main Listen Exception!");
+						}
+
+						Logger.LogTrace("Exiting listening task...");
+					},
+					cancellationToken,
+					DefaultIOManager.BlockingTaskCreationOptions,
+					TaskScheduler.Current);
+
 				Logger.LogTrace("Authenticating ({passwordType})...", passwordType);
 				switch (passwordType)
 				{
 					case IrcPasswordType.Server:
-						client.Login(nickname, nickname, 0, nickname, password);
+						client.RfcPass(password);
+						await Login(client, nickname, cancellationToken);
 						break;
 					case IrcPasswordType.NickServ:
-						client.Login(nickname, nickname, 0, nickname);
+						await Login(client, nickname, cancellationToken);
 						cancellationToken.ThrowIfCancellationRequested();
 						client.SendMessage(SendType.Message, "NickServ", String.Format(CultureInfo.InvariantCulture, "IDENTIFY {0}", password));
 						break;
 					case IrcPasswordType.Sasl:
 						await SaslAuthenticate(cancellationToken);
 						break;
+					case IrcPasswordType.Oper:
+						await Login(client, nickname, cancellationToken);
+						cancellationToken.ThrowIfCancellationRequested();
+						client.RfcOper(nickname, password, Priority.Critical);
+						break;
 					case null:
-						client.Login(nickname, nickname, 0, nickname);
+						await Login(client, nickname, cancellationToken);
 						break;
 					default:
 						throw new InvalidOperationException($"Invalid IrcPasswordType: {passwordType.Value}");
 				}
 
 				cancellationToken.ThrowIfCancellationRequested();
-				Logger.LogTrace("Processing initial messages...");
-				await NonBlockingListen(cancellationToken);
-
-				var nickCheckCompleteTcs = new TaskCompletionSource();
-				using (cancellationToken.Register(() => nickCheckCompleteTcs.TrySetCanceled(cancellationToken)))
-				{
-					listenTask = Task.Factory.StartNew(
-						async () =>
-						{
-							Logger.LogTrace("Entering nick check loop");
-							while (!disconnecting && client.IsConnected && client.Nickname != nickname)
-							{
-								client.ListenOnce(true);
-								if (disconnecting || !client.IsConnected)
-									break;
-								await NonBlockingListen(cancellationToken);
-
-								// ensure we have the correct nick
-								if (client.GetIrcUser(nickname) == null)
-									client.RfcNick(nickname);
-							}
-
-							nickCheckCompleteTcs.TrySetResult();
-
-							Logger.LogTrace("Starting blocking listen...");
-							try
-							{
-								client.Listen();
-							}
-							catch (Exception ex)
-							{
-								Logger.LogWarning(ex, "IRC Main Listen Exception!");
-							}
-
-							Logger.LogTrace("Exiting listening task...");
-						},
-						cancellationToken,
-						DefaultIOManager.BlockingTaskCreationOptions,
-						TaskScheduler.Current);
-
-					await nickCheckCompleteTcs.Task;
-				}
 
 				Logger.LogTrace("Connection established!");
 			}
@@ -484,6 +467,44 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			catch (Exception e)
 			{
 				Logger.LogWarning(e, "Error disconnecting from IRC!");
+			}
+		}
+
+		/// <summary>
+		/// Register the client on the network.
+		/// </summary>
+		/// <param name="client">IRC client.</param>
+		/// <param name="nickname">Nickname.</param>
+		/// <param name="cancellationToken">Cancellation token.</param>
+		/// <returns><see cref="Task"/> that resolves when registration has been completed. </returns>
+		/// <exception cref="TimeoutException">If the IRC server fails to respond.</exception>
+		async ValueTask Login(IrcFeatures client, string nickname, CancellationToken cancellationToken)
+		{
+			var promise = new TaskCompletionSource<object>();
+
+			void Callback(object? sender, EventArgs e)
+			{
+				Logger.LogTrace("IRC Registered.");
+				promise.TrySetResult(e);
+			}
+
+			client.OnRegistered += Callback;
+
+			client.Login(nickname, nickname, 0, nickname);
+
+			using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			cts.CancelAfter(TimeSpan.FromSeconds(30));
+
+			try
+			{
+				await promise.Task.WaitAsync(cts.Token);
+				client.OnRegistered -= Callback;
+			}
+			catch (OperationCanceledException)
+			{
+				if (client.IsConnected)
+					client.Disconnect();
+				throw new JobException("Timed out waiting for IRC Registration");
 			}
 		}
 
@@ -667,8 +688,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			Logger.LogTrace("Hard disconnect");
 
-			disconnecting = true;
-
 			// This call blocks permanently randomly sometimes
 			// Frankly I don't give a shit
 			var disconnectTask = Task.Factory.StartNew(
@@ -692,6 +711,49 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					disconnectTask,
 					listenTask ?? Task.CompletedTask),
 				AsyncDelayer.Delay(TimeSpan.FromSeconds(5), cancellationToken));
+		}
+
+		/// <summary>
+		/// Creates a new instance of the IRC client.
+		/// Reusing the same client after a disconnection seems to cause issues.
+		/// </summary>
+		/// <returns>The <see cref="IrcFeatures"/> client to use.</returns>
+		IrcFeatures InstantiateClient()
+		{
+			var newClient = new IrcFeatures
+			{
+				SupportNonRfc = true,
+				CtcpUserInfo = "You are going to play. And I am going to watch. And everything will be just fine...",
+				AutoRejoin = true,
+				AutoRejoinOnKick = true,
+				AutoRelogin = false,
+				AutoRetry = false,
+				AutoReconnect = false,
+				ActiveChannelSyncing = true,
+				AutoNickHandling = true,
+				CtcpVersion = assemblyInfo.VersionString,
+				UseSsl = ssl,
+				EnableUTF8Recode = true,
+			};
+			if (ssl)
+				newClient.ValidateServerCertificate = true; // dunno if it defaults to that or what
+
+			newClient.OnChannelMessage += Client_OnChannelMessage;
+			newClient.OnQueryMessage += Client_OnQueryMessage;
+
+			if (loggingConfiguration.ProviderNetworkDebug)
+			{
+				newClient.OnReadLine += (sender, e) => Logger.LogTrace("READ: {line}", e.Line);
+				newClient.OnWriteLine += (sender, e) => Logger.LogTrace("WRITE: {line}", e.Line);
+			}
+
+			newClient.OnError += (sender, e) =>
+			{
+				Logger.LogError("IRC ERROR: {error}", e.ErrorMessage);
+				newClient.Disconnect();
+			};
+
+			return newClient;
 		}
 	}
 }
