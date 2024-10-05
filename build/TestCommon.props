@@ -20,7 +20,7 @@
     <!-- Usage: MSTest execution -->
     <PackageReference Include="MSTest.TestAdapter" Version="3.6.1" />
     <!-- Usage: MSTest asserts etc... -->
-    <PackageReference Include="MSTest.TestFramework" Version="3.6.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.6.1" />
   </ItemGroup>
 
 </Project>
