@@ -1,5 +1,12 @@
 Components:
   Configuration:
+  - Version: 5.3.0
+    Changes:
+    - Descriptions:
+      - Adds a new `ProviderNetworkDebug` flag in `FileLogging` to debug IRC traffic.
+      Author: craftxbox
+      PullRequest: 1935
+    Unreleased: true
   - Version: 5.2.0
     Changes:
     - Descriptions:
@@ -174,6 +181,12 @@ Components:
       - The swarm protocol is now versioned separately from the TGS core version. This allows for slightly differing servers to group together in a swarm. Updates will still synchronize all servers to the same version. **It is still recommended that all servers in the swarm run the same TGS version.**
       Author: Cyberboss
       PullRequest: 1929
+    - Descriptions:
+      - Refactors the IrcProvider to be a bit more resilient.
+      - Fixes the IrcProvider getting permanently stuck if the connection between TGS and IRC is ever severed.
+      - Adds the OPER Irc authentication mode, helpful for anyone running their own IRC servers.
+      Author: craftxbox
+      PullRequest: 1935
     - Descriptions:
       - Fixed some oddities in the authentication/authorization pipeline.
       Author: Cyberboss
@@ -3851,6 +3864,10 @@ Components:
   - Version: 10.10.0
     Changes:
     - Descriptions:
+      - Adds new IRC authentication type with index 3 for /OPER authentication
+      Author: craftxbox
+      PullRequest: 1935
+    - Descriptions:
       - Reserved error code 109 for a future change.
       Author: Cyberboss
       PullRequest: 1936
@@ -4670,6 +4687,10 @@ Components:
   NugetApi:
   - Version: 16.0.0
     Changes:
+    - Descriptions:
+      - Adds IrcPasswordType.Oper for /OPER authentication
+      Author: craftxbox
+      PullRequest: 1935
     - Descriptions:
       - '**BREAKING:** Removed `IEquatable` implementations for `SwarmServer`s.'
       - '**BREAKING:** `RightsHelper.RoleNames` now returns an `IEnumerable<string>` instead of a comma separated `string`.'

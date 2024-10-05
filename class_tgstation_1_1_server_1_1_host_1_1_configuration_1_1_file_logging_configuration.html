@@ -116,6 +116,9 @@ Properties</h2></td></tr>
 <tr class="memitem:af1c69ac7d59ed1817d59b0022d86db15" id="r_af1c69ac7d59ed1817d59b0022d86db15"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#af1c69ac7d59ed1817d59b0022d86db15">Disable</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:af1c69ac7d59ed1817d59b0022d86db15"><td class="mdescLeft">&#160;</td><td class="mdescRight">If file logging is disabled.  <br /></td></tr>
 <tr class="separator:af1c69ac7d59ed1817d59b0022d86db15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabcd6c8ce60b5ff568bcdf1c15d3b0a0" id="r_aabcd6c8ce60b5ff568bcdf1c15d3b0a0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#aabcd6c8ce60b5ff568bcdf1c15d3b0a0">ProviderNetworkDebug</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:aabcd6c8ce60b5ff568bcdf1c15d3b0a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">If Chat Providers should log their network traffic. Normally disabled because it is too noisy.  <br /></td></tr>
+<tr class="separator:aabcd6c8ce60b5ff568bcdf1c15d3b0a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77b327379b355d7569c118e85e25a3e7" id="r_a77b327379b355d7569c118e85e25a3e7"><td class="memItemLeft" align="right" valign="top">LogLevel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a77b327379b355d7569c118e85e25a3e7">LogLevel</a> = LogLevel.Debug<code> [get, set]</code></td></tr>
 <tr class="memdesc:a77b327379b355d7569c118e85e25a3e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The minimum Microsoft.Extensions.Logging.LogLevel to display in logs.  <br /></td></tr>
 <tr class="separator:a77b327379b355d7569c118e85e25a3e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,26 +174,26 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The evaluated log Directory.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_file_logging_configuration_8cs_source.html#l00051">51</a> of file <a class="el" href="_file_logging_configuration_8cs_source.html">FileLoggingConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>        {</div>
-<div class="line"><span class="lineno">   56</span>            ArgumentNullException.ThrowIfNull(ioManager);</div>
-<div class="line"><span class="lineno">   57</span>            ArgumentNullException.ThrowIfNull(assemblyInformationProvider);</div>
-<div class="line"><span class="lineno">   58</span>            ArgumentNullException.ThrowIfNull(platformIdentifier);</div>
-<div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   60</span>            <span class="keywordflow">if</span> (!String.IsNullOrEmpty(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a1b66231f72c0d7b2d022b55bf7aec191">Directory</a>))</div>
-<div class="line"><span class="lineno">   61</span>                <span class="keywordflow">return</span> <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a1b66231f72c0d7b2d022b55bf7aec191">Directory</a>;</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span>            <span class="keywordflow">return</span> platformIdentifier.IsWindows</div>
-<div class="line"><span class="lineno">   64</span>                ? ioManager.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">   65</span>                    Environment.GetFolderPath(</div>
-<div class="line"><span class="lineno">   66</span>                        Environment.SpecialFolder.CommonApplicationData,</div>
-<div class="line"><span class="lineno">   67</span>                        Environment.SpecialFolderOption.DoNotVerify),</div>
-<div class="line"><span class="lineno">   68</span>                    assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">VersionPrefix</a>,</div>
-<div class="line"><span class="lineno">   69</span>                    <span class="stringliteral">&quot;logs&quot;</span>)</div>
-<div class="line"><span class="lineno">   70</span>                : ioManager.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">   71</span>                    <span class="stringliteral">&quot;/var/log&quot;</span>,</div>
-<div class="line"><span class="lineno">   72</span>                    assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">VersionPrefix</a>);</div>
-<div class="line"><span class="lineno">   73</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_file_logging_configuration_8cs_source.html#l00056">56</a> of file <a class="el" href="_file_logging_configuration_8cs_source.html">FileLoggingConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   60</span>        {</div>
+<div class="line"><span class="lineno">   61</span>            ArgumentNullException.ThrowIfNull(ioManager);</div>
+<div class="line"><span class="lineno">   62</span>            ArgumentNullException.ThrowIfNull(assemblyInformationProvider);</div>
+<div class="line"><span class="lineno">   63</span>            ArgumentNullException.ThrowIfNull(platformIdentifier);</div>
+<div class="line"><span class="lineno">   64</span> </div>
+<div class="line"><span class="lineno">   65</span>            <span class="keywordflow">if</span> (!String.IsNullOrEmpty(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a1b66231f72c0d7b2d022b55bf7aec191">Directory</a>))</div>
+<div class="line"><span class="lineno">   66</span>                <span class="keywordflow">return</span> <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a1b66231f72c0d7b2d022b55bf7aec191">Directory</a>;</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   68</span>            <span class="keywordflow">return</span> platformIdentifier.IsWindows</div>
+<div class="line"><span class="lineno">   69</span>                ? ioManager.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">   70</span>                    Environment.GetFolderPath(</div>
+<div class="line"><span class="lineno">   71</span>                        Environment.SpecialFolder.CommonApplicationData,</div>
+<div class="line"><span class="lineno">   72</span>                        Environment.SpecialFolderOption.DoNotVerify),</div>
+<div class="line"><span class="lineno">   73</span>                    assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">VersionPrefix</a>,</div>
+<div class="line"><span class="lineno">   74</span>                    <span class="stringliteral">&quot;logs&quot;</span>)</div>
+<div class="line"><span class="lineno">   75</span>                : ioManager.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">   76</span>                    <span class="stringliteral">&quot;/var/log&quot;</span>,</div>
+<div class="line"><span class="lineno">   77</span>                    assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">VersionPrefix</a>);</div>
+<div class="line"><span class="lineno">   78</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration_html_a1b66231f72c0d7b2d022b55bf7aec191"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a1b66231f72c0d7b2d022b55bf7aec191">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.Directory</a></div><div class="ttdeci">string? Directory</div><div class="ttdoc">Where log files are stored.</div><div class="ttdef"><b>Definition</b> <a href="_file_logging_configuration_8cs_source.html#l00025">FileLoggingConfiguration.cs:25</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a286f4eb5c679683b7e519847a6c3574e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath</a></div><div class="ttdeci">string ConcatPath(params string[] paths)</div><div class="ttdoc">Combines an array of strings into a path.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_ab2a2be82555afbf6ffb5b7ae3d90b7f0"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionPrefix</a></div><div class="ttdeci">string VersionPrefix</div><div class="ttdoc">Prefix to VersionString.</div><div class="ttdef"><b>Definition</b> <a href="_i_assembly_information_provider_8cs_source.html#l00025">IAssemblyInformationProvider.cs:25</a></div></div>
@@ -281,7 +284,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_file_logging_configuration_8cs_source.html#l00025">25</a> of file <a class="el" href="_file_logging_configuration_8cs_source.html">FileLoggingConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   25</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_file_logging_configuration_8cs_source.html#l00051">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_file_logging_configuration_8cs_source.html#l00056">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory()</a>.</p>
 
 </div>
 </div>
@@ -336,9 +339,9 @@ Here is the caller graph for this function:</div>
 
 <p>The minimum Microsoft.Extensions.Logging.LogLevel to display in logs. </p>
 
-<p class="definition">Definition at line <a class="el" href="_file_logging_configuration_8cs_source.html#l00036">36</a> of file <a class="el" href="_file_logging_configuration_8cs_source.html">FileLoggingConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   36</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a77b327379b355d7569c118e85e25a3e7">LogLevel</a>.Debug; <span class="comment">// Not a `const` b/c of https://github.com/coverlet-coverage/coverlet/issues/1507</span></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration_html_a77b327379b355d7569c118e85e25a3e7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a77b327379b355d7569c118e85e25a3e7">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.LogLevel</a></div><div class="ttdeci">LogLevel LogLevel</div><div class="ttdoc">The minimum Microsoft.Extensions.Logging.LogLevel to display in logs.</div><div class="ttdef"><b>Definition</b> <a href="_file_logging_configuration_8cs_source.html#l00036">FileLoggingConfiguration.cs:36</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_file_logging_configuration_8cs_source.html#l00041">41</a> of file <a class="el" href="_file_logging_configuration_8cs_source.html">FileLoggingConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   41</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a77b327379b355d7569c118e85e25a3e7">LogLevel</a>.Debug; <span class="comment">// Not a `const` b/c of https://github.com/coverlet-coverage/coverlet/issues/1507</span></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration_html_a77b327379b355d7569c118e85e25a3e7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a77b327379b355d7569c118e85e25a3e7">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.LogLevel</a></div><div class="ttdeci">LogLevel LogLevel</div><div class="ttdoc">The minimum Microsoft.Extensions.Logging.LogLevel to display in logs.</div><div class="ttdef"><b>Definition</b> <a href="_file_logging_configuration_8cs_source.html#l00041">FileLoggingConfiguration.cs:41</a></div></div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00142">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>.</p>
 
@@ -366,11 +369,38 @@ Here is the caller graph for this function:</div>
 
 <p>The minimum Microsoft.Extensions.Logging.LogLevel to display in logs for Microsoft library sources. </p>
 
-<p class="definition">Definition at line <a class="el" href="_file_logging_configuration_8cs_source.html#l00042">42</a> of file <a class="el" href="_file_logging_configuration_8cs_source.html">FileLoggingConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   42</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a77b327379b355d7569c118e85e25a3e7">LogLevel</a>.Warning; <span class="comment">// Not a `const` b/c of https://github.com/coverlet-coverage/coverlet/issues/1507</span></div>
+<p class="definition">Definition at line <a class="el" href="_file_logging_configuration_8cs_source.html#l00047">47</a> of file <a class="el" href="_file_logging_configuration_8cs_source.html">FileLoggingConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   47</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a77b327379b355d7569c118e85e25a3e7">LogLevel</a>.Warning; <span class="comment">// Not a `const` b/c of https://github.com/coverlet-coverage/coverlet/issues/1507</span></div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00142">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>.</p>
 
+</div>
+</div>
+<a id="aabcd6c8ce60b5ff568bcdf1c15d3b0a0" name="aabcd6c8ce60b5ff568bcdf1c15d3b0a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabcd6c8ce60b5ff568bcdf1c15d3b0a0">&#9670;&#160;</a></span>ProviderNetworkDebug</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Configuration.FileLoggingConfiguration.ProviderNetworkDebug</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If Chat Providers should log their network traffic. Normally disabled because it is too noisy. </p>
+
+<p class="definition">Definition at line <a class="el" href="_file_logging_configuration_8cs_source.html#l00035">35</a> of file <a class="el" href="_file_logging_configuration_8cs_source.html">FileLoggingConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.Client_OnChannelMessage" name="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.Client_OnChannelMessage">
-<area shape="rect" id="Node000001" title="When a channel message is received in IRC." alt="" coords="292,5,518,61"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#afb8ee20f302c136f9a254c34315950a4" title="Initializes a new instance of the IrcProvider class." alt="" coords="5,13,244,54"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="276,36,244,36,244,31,276,31"/>
-</map>

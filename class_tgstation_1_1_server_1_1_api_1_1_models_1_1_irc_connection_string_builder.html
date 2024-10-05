@@ -232,19 +232,20 @@ Properties</h2></td></tr>
 <div class="line"><span class="lineno">   88</span>                    <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545b">IrcPasswordType</a>.NickServ:</div>
 <div class="line"><span class="lineno">   89</span>                    <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545b">IrcPasswordType</a>.Sasl:</div>
 <div class="line"><span class="lineno">   90</span>                    <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545b">IrcPasswordType</a>.Server:</div>
-<div class="line"><span class="lineno">   91</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a7291f32770eaa19de8067a41a1f15509">PasswordType</a> = passwordType;</div>
-<div class="line"><span class="lineno">   92</span>                        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   93</span>                    <span class="keywordflow">default</span>:</div>
-<div class="line"><span class="lineno">   94</span>                        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   95</span>                }</div>
-<div class="line"><span class="lineno">   96</span> </div>
-<div class="line"><span class="lineno">   97</span>            <span class="keywordflow">if</span> (splits.Length &lt; 6)</div>
-<div class="line"><span class="lineno">   98</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>            var rest = <span class="keyword">new</span> List&lt;string&gt;(splits);</div>
-<div class="line"><span class="lineno">  101</span>            rest.RemoveRange(0, 5);</div>
-<div class="line"><span class="lineno">  102</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a638c83a7d2e9db3598992e40b018e22b">Password</a> = String.Join(<span class="stringliteral">&quot;;&quot;</span>, rest);</div>
-<div class="line"><span class="lineno">  103</span>        }</div>
+<div class="line"><span class="lineno">   91</span>                    <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545b">IrcPasswordType</a>.Oper:</div>
+<div class="line"><span class="lineno">   92</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a7291f32770eaa19de8067a41a1f15509">PasswordType</a> = passwordType;</div>
+<div class="line"><span class="lineno">   93</span>                        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   94</span>                    <span class="keywordflow">default</span>:</div>
+<div class="line"><span class="lineno">   95</span>                        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   96</span>                }</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>            <span class="keywordflow">if</span> (splits.Length &lt; 6)</div>
+<div class="line"><span class="lineno">   99</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span>            var rest = <span class="keyword">new</span> List&lt;string&gt;(splits);</div>
+<div class="line"><span class="lineno">  102</span>            rest.RemoveRange(0, 5);</div>
+<div class="line"><span class="lineno">  103</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a638c83a7d2e9db3598992e40b018e22b">Password</a> = String.Join(<span class="stringliteral">&quot;;&quot;</span>, rest);</div>
+<div class="line"><span class="lineno">  104</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder_html_a099e5c3fd62567ff0be2526a94943822"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a099e5c3fd62567ff0be2526a94943822">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.Port</a></div><div class="ttdeci">ushort? Port</div><div class="ttdoc">The port the server runs on.</div><div class="ttdef"><b>Definition</b> <a href="_irc_connection_string_builder_8cs_source.html#l00025">IrcConnectionStringBuilder.cs:25</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder_html_a638c83a7d2e9db3598992e40b018e22b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a638c83a7d2e9db3598992e40b018e22b">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.Password</a></div><div class="ttdeci">string? Password</div><div class="ttdoc">The optional password to use.</div><div class="ttdef"><b>Definition</b> <a href="_irc_connection_string_builder_8cs_source.html#l00045">IrcConnectionStringBuilder.cs:45</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder_html_a7291f32770eaa19de8067a41a1f15509"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a7291f32770eaa19de8067a41a1f15509">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.PasswordType</a></div><div class="ttdeci">IrcPasswordType? PasswordType</div><div class="ttdoc">The optional IrcPasswordType to use.</div><div class="ttdef"><b>Definition</b> <a href="_irc_connection_string_builder_8cs_source.html#l00040">IrcConnectionStringBuilder.cs:40</a></div></div>
@@ -275,29 +276,29 @@ Properties</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00106">106</a> of file <a class="el" href="_irc_connection_string_builder_8cs_source.html">IrcConnectionStringBuilder.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  107</span>        {</div>
-<div class="line"><span class="lineno">  108</span>            var sb = <span class="keyword">new</span> StringBuilder();</div>
-<div class="line"><span class="lineno">  109</span>            sb.Append(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a802f4bc116fb4c464dd60cf8b054b974">Address</a>);</div>
-<div class="line"><span class="lineno">  110</span>            sb.Append(<span class="charliteral">&#39;;&#39;</span>);</div>
-<div class="line"><span class="lineno">  111</span>            sb.Append(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a099e5c3fd62567ff0be2526a94943822">Port</a>);</div>
-<div class="line"><span class="lineno">  112</span>            sb.Append(<span class="charliteral">&#39;;&#39;</span>);</div>
-<div class="line"><span class="lineno">  113</span>            sb.Append(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#af638755232f5c716bacfb8db5a68950c">Nickname</a>);</div>
-<div class="line"><span class="lineno">  114</span>            sb.Append(<span class="charliteral">&#39;;&#39;</span>);</div>
-<div class="line"><span class="lineno">  115</span> </div>
-<div class="line"><span class="lineno">  116</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a8965e74ecabbb3c26693d2a1885dabc3">UseSsl</a>.HasValue)</div>
-<div class="line"><span class="lineno">  117</span>                sb.Append(Convert.ToInt32(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a8965e74ecabbb3c26693d2a1885dabc3">UseSsl</a>.Value));</div>
-<div class="line"><span class="lineno">  118</span> </div>
-<div class="line"><span class="lineno">  119</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a7291f32770eaa19de8067a41a1f15509">PasswordType</a>.HasValue)</div>
-<div class="line"><span class="lineno">  120</span>            {</div>
-<div class="line"><span class="lineno">  121</span>                sb.Append(<span class="charliteral">&#39;;&#39;</span>);</div>
-<div class="line"><span class="lineno">  122</span>                sb.Append((<span class="keywordtype">int</span>)<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a7291f32770eaa19de8067a41a1f15509">PasswordType</a>);</div>
-<div class="line"><span class="lineno">  123</span>                sb.Append(<span class="charliteral">&#39;;&#39;</span>);</div>
-<div class="line"><span class="lineno">  124</span>                sb.Append(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a638c83a7d2e9db3598992e40b018e22b">Password</a>);</div>
-<div class="line"><span class="lineno">  125</span>            }</div>
-<div class="line"><span class="lineno">  126</span> </div>
-<div class="line"><span class="lineno">  127</span>            <span class="keywordflow">return</span> sb.ToString();</div>
-<div class="line"><span class="lineno">  128</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00107">107</a> of file <a class="el" href="_irc_connection_string_builder_8cs_source.html">IrcConnectionStringBuilder.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  108</span>        {</div>
+<div class="line"><span class="lineno">  109</span>            var sb = <span class="keyword">new</span> StringBuilder();</div>
+<div class="line"><span class="lineno">  110</span>            sb.Append(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a802f4bc116fb4c464dd60cf8b054b974">Address</a>);</div>
+<div class="line"><span class="lineno">  111</span>            sb.Append(<span class="charliteral">&#39;;&#39;</span>);</div>
+<div class="line"><span class="lineno">  112</span>            sb.Append(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a099e5c3fd62567ff0be2526a94943822">Port</a>);</div>
+<div class="line"><span class="lineno">  113</span>            sb.Append(<span class="charliteral">&#39;;&#39;</span>);</div>
+<div class="line"><span class="lineno">  114</span>            sb.Append(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#af638755232f5c716bacfb8db5a68950c">Nickname</a>);</div>
+<div class="line"><span class="lineno">  115</span>            sb.Append(<span class="charliteral">&#39;;&#39;</span>);</div>
+<div class="line"><span class="lineno">  116</span> </div>
+<div class="line"><span class="lineno">  117</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a8965e74ecabbb3c26693d2a1885dabc3">UseSsl</a>.HasValue)</div>
+<div class="line"><span class="lineno">  118</span>                sb.Append(Convert.ToInt32(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a8965e74ecabbb3c26693d2a1885dabc3">UseSsl</a>.Value));</div>
+<div class="line"><span class="lineno">  119</span> </div>
+<div class="line"><span class="lineno">  120</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a7291f32770eaa19de8067a41a1f15509">PasswordType</a>.HasValue)</div>
+<div class="line"><span class="lineno">  121</span>            {</div>
+<div class="line"><span class="lineno">  122</span>                sb.Append(<span class="charliteral">&#39;;&#39;</span>);</div>
+<div class="line"><span class="lineno">  123</span>                sb.Append((<span class="keywordtype">int</span>)<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a7291f32770eaa19de8067a41a1f15509">PasswordType</a>);</div>
+<div class="line"><span class="lineno">  124</span>                sb.Append(<span class="charliteral">&#39;;&#39;</span>);</div>
+<div class="line"><span class="lineno">  125</span>                sb.Append(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a638c83a7d2e9db3598992e40b018e22b">Password</a>);</div>
+<div class="line"><span class="lineno">  126</span>            }</div>
+<div class="line"><span class="lineno">  127</span> </div>
+<div class="line"><span class="lineno">  128</span>            <span class="keywordflow">return</span> sb.ToString();</div>
+<div class="line"><span class="lineno">  129</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00020">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.Address</a>, <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00030">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.Nickname</a>, <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00045">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.Password</a>, <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00040">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.PasswordType</a>, <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00025">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.Port</a>, and <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00035">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.UseSsl</a>.</p>
 
@@ -329,7 +330,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00020">20</a> of file <a class="el" href="_irc_connection_string_builder_8cs_source.html">IrcConnectionStringBuilder.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   20</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00058">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.IrcConnectionStringBuilder()</a>, and <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00106">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.ToString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00058">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.IrcConnectionStringBuilder()</a>, and <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00107">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.ToString()</a>.</p>
 
 </div>
 </div>
@@ -358,7 +359,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00030">30</a> of file <a class="el" href="_irc_connection_string_builder_8cs_source.html">IrcConnectionStringBuilder.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   30</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00058">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.IrcConnectionStringBuilder()</a>, and <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00106">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.ToString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00058">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.IrcConnectionStringBuilder()</a>, and <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00107">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.ToString()</a>.</p>
 
 </div>
 </div>
@@ -387,7 +388,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00045">45</a> of file <a class="el" href="_irc_connection_string_builder_8cs_source.html">IrcConnectionStringBuilder.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   45</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00058">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.IrcConnectionStringBuilder()</a>, and <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00106">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.ToString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00058">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.IrcConnectionStringBuilder()</a>, and <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00107">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.ToString()</a>.</p>
 
 </div>
 </div>
@@ -416,7 +417,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00040">40</a> of file <a class="el" href="_irc_connection_string_builder_8cs_source.html">IrcConnectionStringBuilder.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   40</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00058">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.IrcConnectionStringBuilder()</a>, and <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00106">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.ToString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00058">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.IrcConnectionStringBuilder()</a>, and <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00107">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.ToString()</a>.</p>
 
 </div>
 </div>
@@ -445,7 +446,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00025">25</a> of file <a class="el" href="_irc_connection_string_builder_8cs_source.html">IrcConnectionStringBuilder.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   25</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00058">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.IrcConnectionStringBuilder()</a>, and <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00106">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.ToString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00058">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.IrcConnectionStringBuilder()</a>, and <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00107">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.ToString()</a>.</p>
 
 </div>
 </div>
@@ -474,7 +475,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00035">35</a> of file <a class="el" href="_irc_connection_string_builder_8cs_source.html">IrcConnectionStringBuilder.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00058">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.IrcConnectionStringBuilder()</a>, and <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00106">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.ToString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00058">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.IrcConnectionStringBuilder()</a>, and <a class="el" href="_irc_connection_string_builder_8cs_source.html#l00107">Tgstation.Server.Api.Models.IrcConnectionStringBuilder.ToString()</a>.</p>
 
 </div>
 </div>

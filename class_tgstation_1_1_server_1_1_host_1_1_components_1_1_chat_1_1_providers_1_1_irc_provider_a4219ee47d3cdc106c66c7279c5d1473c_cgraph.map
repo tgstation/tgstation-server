@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.IrcProvider" name="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.IrcProvider">
+<area shape="rect" id="Node000001" title="Initializes a new instance of the IrcProvider class." alt="" coords="5,5,244,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a036341a13aed727a56c3dfe047f8b22d" title="Creates a new instance of the IRC client. Reusing the same client after a disconnection seems to caus..." alt="" coords="292,5,561,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="244,23,276,23,276,28,244,28"/>
+</map>
