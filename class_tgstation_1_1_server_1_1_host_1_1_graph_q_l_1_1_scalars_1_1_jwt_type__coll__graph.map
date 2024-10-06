@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.GraphQL.Scalars.JwtType" name="Tgstation.Server.Host.GraphQL.Scalars.JwtType">
+<area shape="rect" id="Node000001" title="A ScalarType&lt;TRuntimeType, TLiteral&gt; for encoded JSON Web Tokens." alt="" coords="5,94,191,135"/>
+<area shape="rect" id="Node000002" href="$class_scalar_type.html" title=" " alt="" coords="31,5,165,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,62,101,94,95,94,95,62"/>
+</map>

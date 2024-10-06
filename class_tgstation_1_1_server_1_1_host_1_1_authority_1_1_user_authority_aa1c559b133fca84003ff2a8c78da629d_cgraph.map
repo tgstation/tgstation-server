@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Authority.UserAuthority.CreateNewUserFromModel" name="Tgstation.Server.Host.Authority.UserAuthority.CreateNewUserFromModel">
 <area shape="rect" id="Node000001" title="Creates a new User from a given model ." alt="" coords="5,5,267,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a91c336eee8dcd4f3d02b7f241a426482" title="Gets the OAuthConnections for the User with a given userId .A ValueTask&lt;TResult&gt; resulting in an glob..." alt="" coords="315,5,527,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a56e8c3826bd0907cf7aeb18aa468610b" title="Gets the GraphQL.Types.OAuth.OAuthConnections for the User with a given userId .A ValueTask&lt;TResult&gt; ..." alt="" coords="315,5,527,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="267,23,299,23,299,28,267,28"/>
 </map>

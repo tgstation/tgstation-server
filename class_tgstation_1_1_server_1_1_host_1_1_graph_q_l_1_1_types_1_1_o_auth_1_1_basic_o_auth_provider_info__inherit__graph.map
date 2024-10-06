@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.GraphQL.Types.OAuth.BasicOAuthProviderInfo" name="Tgstation.Server.Host.GraphQL.Types.OAuth.BasicOAuthProviderInfo">
+<area shape="rect" id="Node000001" title="Basic OAuth provider info." alt="" coords="5,39,266,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_redirect_o_auth_provider_info.html" title="OAuth provider info with a RedirectUri." alt="" coords="317,5,593,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="281,41,317,37,317,43,281,46"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_server_url_o_auth_provider_info.html" title="OAuth provider info with a ServerUrl." alt="" coords="314,71,596,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="281,71,314,74,313,79,281,76"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_full_o_auth_provider_info.html" title="OAuth provider info with a RedirectOAuthProviderInfo.RedirectUri and ServerUrl." alt="" coords="644,5,892,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="608,23,644,23,644,28,608,28"/>
+</map>

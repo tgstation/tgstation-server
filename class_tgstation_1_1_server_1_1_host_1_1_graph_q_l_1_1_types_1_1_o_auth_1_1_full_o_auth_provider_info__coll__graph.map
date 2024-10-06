@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.GraphQL.Types.OAuth.FullOAuthProviderInfo" name="Tgstation.Server.Host.GraphQL.Types.OAuth.FullOAuthProviderInfo">
+<area shape="rect" id="Node000001" title="OAuth provider info with a RedirectOAuthProviderInfo.RedirectUri and ServerUrl." alt="" coords="5,153,254,193"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_redirect_o_auth_provider_info.html" title="OAuth provider info with a RedirectUri." alt="" coords="41,79,218,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,120,132,152,127,152,127,120"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_basic_o_auth_provider_info.html" title="Basic OAuth provider info." alt="" coords="49,5,210,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="132,46,132,79,127,79,127,46"/>
+</map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Security.OAuth.IOAuthProviders.ProviderInfos" name="Tgstation.Server.Host.Security.OAuth.IOAuthProviders.ProviderInfos">
-<area shape="rect" id="Node000001" title="Gets a Dictionary&lt;TKey, TValue&gt; of the provider client IDs." alt="" coords="269,5,506,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#ac68114c705ed3325880697d796fe8f0b" title="Main page of the Application." alt="" coords="5,5,221,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,28,221,28,221,23,253,23"/>
+<area shape="rect" id="Node000001" title="Gets a Dictionary&lt;TKey, TValue&gt; of the provider client IDs." alt="" coords="291,49,528,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_o_auth_provider_infos.html#a04bd1de47a13a4ccd7c5d4a712f15c18" title="Initializes a new instance of the OAuthProviderInfos class." alt="" coords="5,5,243,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="275,55,243,51,243,46,275,50"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#ac68114c705ed3325880697d796fe8f0b" title="Main page of the Application." alt="" coords="16,85,232,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="276,89,232,94,232,89,275,83"/>
 </map>

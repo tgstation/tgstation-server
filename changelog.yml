@@ -166,7 +166,8 @@ Components:
   Core:
   - Version: 6.11.0
     ComponentVersions:
-      HttpApi: 10.10.0
+      HttpApi: 
+      GraphQLApi: 
       DreamMakerApi: 7.3.0
       Configuration: 5.2.0
       InteropApi: 5.10.0
@@ -195,7 +196,8 @@ Components:
   - Version: 6.10.1
     ComponentVersions:
       Core: 6.10.0
-      HttpApi: 10.9.0
+      HttpApi: 
+      GraphQLApi: 
       DreamMakerApi: 7.3.0
       Configuration: 5.2.0
       InteropApi: 5.10.0
@@ -4402,6 +4404,14 @@ Components:
       - Added an error codes for the Windows BYOND pager headless DreamDaemon issue and port bind failures
       Author: Cyberboss
       PullRequest: 991
+  GraphQLApi:
+  - Version: 0.1.0
+    Changes:
+    - Descriptions:
+      - Initial in-dev release.
+      Author: Cyberboss
+      PullRequest: 1954
+    Unreleased: true
   DreamMakerApi:
   - Version: 7.3.0
     Changes:

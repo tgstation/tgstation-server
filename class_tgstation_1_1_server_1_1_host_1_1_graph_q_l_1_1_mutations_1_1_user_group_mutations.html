@@ -106,7 +106,7 @@ Static Private Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IUserGroupAuthority related Mutations. </p>
 
-<p class="definition">Definition at line <a class="el" href="_user_group_mutations_8cs_source.html#l00021">21</a> of file <a class="el" href="_user_group_mutations_8cs_source.html">UserGroupMutations.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_user_group_mutations_8cs_source.html#l00022">22</a> of file <a class="el" href="_user_group_mutations_8cs_source.html">UserGroupMutations.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="af301e20dc9941095f735fab411ca49b0" name="af301e20dc9941095f735fab411ca49b0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af301e20dc9941095f735fab411ca49b0">&#9670;&#160;</a></span>CreateUserGroup()</h2>
@@ -158,14 +158,14 @@ Static Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The created UserGroup.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_user_group_mutations_8cs_source.html#l00047">47</a> of file <a class="el" href="_user_group_mutations_8cs_source.html">UserGroupMutations.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   52</span>        {</div>
-<div class="line"><span class="lineno">   53</span>            ArgumentNullException.ThrowIfNull(name);</div>
-<div class="line"><span class="lineno">   54</span>            ArgumentNullException.ThrowIfNull(userGroupAuthority);</div>
-<div class="line"><span class="lineno">   55</span> </div>
-<div class="line"><span class="lineno">   56</span>            <span class="keywordflow">return</span> userGroupAuthority.InvokeTransformable&lt;Models.UserGroup, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_group.html">UserGroup</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_user_group_graph_q_l_transformer.html">UserGroupGraphQLTransformer</a>&gt;(</div>
-<div class="line"><span class="lineno">   57</span>                authority =&gt; authority.Create(name, <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_user_group_mutations.html#a11595644bd30e09084414dca8a091257">TransformApiPermissionSet</a>(permissionSet), cancellationToken));</div>
-<div class="line"><span class="lineno">   58</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_user_group_mutations_8cs_source.html#l00048">48</a> of file <a class="el" href="_user_group_mutations_8cs_source.html">UserGroupMutations.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   53</span>        {</div>
+<div class="line"><span class="lineno">   54</span>            ArgumentNullException.ThrowIfNull(name);</div>
+<div class="line"><span class="lineno">   55</span>            ArgumentNullException.ThrowIfNull(userGroupAuthority);</div>
+<div class="line"><span class="lineno">   56</span> </div>
+<div class="line"><span class="lineno">   57</span>            <span class="keywordflow">return</span> userGroupAuthority.InvokeTransformable&lt;Models.UserGroup, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_group.html">UserGroup</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_user_group_graph_q_l_transformer.html">UserGroupGraphQLTransformer</a>&gt;(</div>
+<div class="line"><span class="lineno">   58</span>                authority =&gt; authority.Create(name, <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_user_group_mutations.html#a11595644bd30e09084414dca8a091257">TransformApiPermissionSet</a>(permissionSet), cancellationToken));</div>
+<div class="line"><span class="lineno">   59</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_user_group_mutations_html_a11595644bd30e09084414dca8a091257"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_user_group_mutations.html#a11595644bd30e09084414dca8a091257">Tgstation.Server.Host.GraphQL.Mutations.UserGroupMutations.TransformApiPermissionSet</a></div><div class="ttdeci">static Models.? PermissionSet TransformApiPermissionSet(PermissionSetInput? permissionSet)</div><div class="ttdoc">Transform a Api.Models.PermissionSet into a PermissionSet.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_group_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_group.html">Tgstation.Server.Host.GraphQL.Types.UserGroup</a></div><div class="ttdoc">Represents a group of Users.</div><div class="ttdef"><b>Definition</b> <a href="_tgstation_8_server_8_host_2_graph_q_l_2_types_2_user_group_8cs_source.html#l00021">UserGroup.cs:22</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_user_group_graph_q_l_transformer_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_user_group_graph_q_l_transformer.html">Tgstation.Server.Host.Models.Transformers.UserGroupGraphQLTransformer</a></div><div class="ttdoc">ITransformer&lt;TInput, TOutput&gt; for GraphQL.Types.UserGroups.</div><div class="ttdef"><b>Definition</b> <a href="_user_group_graph_q_l_transformer_8cs_source.html#l00006">UserGroupGraphQLTransformer.cs:7</a></div></div>
@@ -227,14 +227,14 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The Query root.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_user_group_mutations_8cs_source.html#l00092">92</a> of file <a class="el" href="_user_group_mutations_8cs_source.html">UserGroupMutations.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   96</span>        {</div>
-<div class="line"><span class="lineno">   97</span>            ArgumentNullException.ThrowIfNull(userGroupAuthority);</div>
-<div class="line"><span class="lineno">   98</span>            await userGroupAuthority.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a75bd84e49a618d48a6fc992647030675">Invoke</a>(</div>
-<div class="line"><span class="lineno">   99</span>                authority =&gt; authority.DeleteEmpty(<span class="keywordtype">id</span>, cancellationToken));</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> Query();</div>
-<div class="line"><span class="lineno">  102</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_user_group_mutations_8cs_source.html#l00093">93</a> of file <a class="el" href="_user_group_mutations_8cs_source.html">UserGroupMutations.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   97</span>        {</div>
+<div class="line"><span class="lineno">   98</span>            ArgumentNullException.ThrowIfNull(userGroupAuthority);</div>
+<div class="line"><span class="lineno">   99</span>            await userGroupAuthority.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a75bd84e49a618d48a6fc992647030675">Invoke</a>(</div>
+<div class="line"><span class="lineno">  100</span>                authority =&gt; authority.DeleteEmpty(<span class="keywordtype">id</span>, cancellationToken));</div>
+<div class="line"><span class="lineno">  101</span> </div>
+<div class="line"><span class="lineno">  102</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> Query();</div>
+<div class="line"><span class="lineno">  103</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker_html_a75bd84e49a618d48a6fc992647030675"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a75bd84e49a618d48a6fc992647030675">Tgstation.Server.Host.Authority.IGraphQLAuthorityInvoker.Invoke</a></div><div class="ttdeci">ValueTask Invoke(Func&lt; TAuthority, ValueTask&lt; AuthorityResponse &gt; &gt; authorityInvoker)</div><div class="ttdoc">Invoke a TAuthority  method with no success result.</div></div>
 </div><!-- fragment -->
 </div>
@@ -272,7 +272,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The transformed <em>permissionSet</em> .</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_user_group_mutations_8cs_source.html#l00047">Tgstation.Server.Host.GraphQL.Mutations.UserGroupMutations.CreateUserGroup()</a>, and <a class="el" href="_user_group_mutations_8cs_source.html#l00071">Tgstation.Server.Host.GraphQL.Mutations.UserGroupMutations.UpdateUserGroup()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_user_group_mutations_8cs_source.html#l00048">Tgstation.Server.Host.GraphQL.Mutations.UserGroupMutations.CreateUserGroup()</a>, and <a class="el" href="_user_group_mutations_8cs_source.html#l00072">Tgstation.Server.Host.GraphQL.Mutations.UserGroupMutations.UpdateUserGroup()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -345,12 +345,12 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The updated UserGroup.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_user_group_mutations_8cs_source.html#l00071">71</a> of file <a class="el" href="_user_group_mutations_8cs_source.html">UserGroupMutations.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   77</span>        {</div>
-<div class="line"><span class="lineno">   78</span>            ArgumentNullException.ThrowIfNull(userGroupAuthority);</div>
-<div class="line"><span class="lineno">   79</span>            <span class="keywordflow">return</span> userGroupAuthority.InvokeTransformable&lt;Models.UserGroup, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_group.html">UserGroup</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_user_group_graph_q_l_transformer.html">UserGroupGraphQLTransformer</a>&gt;(</div>
-<div class="line"><span class="lineno">   80</span>                authority =&gt; authority.Update(<span class="keywordtype">id</span>, newName, <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_user_group_mutations.html#a11595644bd30e09084414dca8a091257">TransformApiPermissionSet</a>(newPermissionSet), cancellationToken));</div>
-<div class="line"><span class="lineno">   81</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_user_group_mutations_8cs_source.html#l00072">72</a> of file <a class="el" href="_user_group_mutations_8cs_source.html">UserGroupMutations.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   78</span>        {</div>
+<div class="line"><span class="lineno">   79</span>            ArgumentNullException.ThrowIfNull(userGroupAuthority);</div>
+<div class="line"><span class="lineno">   80</span>            <span class="keywordflow">return</span> userGroupAuthority.InvokeTransformable&lt;Models.UserGroup, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_group.html">UserGroup</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_user_group_graph_q_l_transformer.html">UserGroupGraphQLTransformer</a>&gt;(</div>
+<div class="line"><span class="lineno">   81</span>                authority =&gt; authority.Update(<span class="keywordtype">id</span>, newName, <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_user_group_mutations.html#a11595644bd30e09084414dca8a091257">TransformApiPermissionSet</a>(newPermissionSet), cancellationToken));</div>
+<div class="line"><span class="lineno">   82</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_user_group_mutations.html#a11595644bd30e09084414dca8a091257">Tgstation.Server.Host.GraphQL.Mutations.UserGroupMutations.TransformApiPermissionSet()</a>.</p>
 <div class="dynheader">

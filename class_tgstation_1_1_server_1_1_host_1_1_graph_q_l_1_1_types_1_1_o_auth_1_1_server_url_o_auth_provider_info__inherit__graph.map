@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.GraphQL.Types.OAuth.ServerUrlOAuthProviderInfo" name="Tgstation.Server.Host.GraphQL.Types.OAuth.ServerUrlOAuthProviderInfo">
+<area shape="rect" id="Node000001" title="OAuth provider info with a ServerUrl." alt="" coords="5,79,288,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_basic_o_auth_provider_info.html" title="Basic OAuth provider info." alt="" coords="66,5,227,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,46,149,79,144,79,144,46"/>
+</map>

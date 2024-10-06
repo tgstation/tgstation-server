@@ -16,7 +16,7 @@
 <area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="123,248,145,281,176,321,215,361,259,395,273,403,270,408,256,400,211,365,172,324,141,284,119,251"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a74520f9973cb772dd5eac7804f86d94a" title="Check if a given model &#160;has a valid UserName.Name specified." alt="" coords="585,5,789,46"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="517,23,569,23,569,28,517,28"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a91c336eee8dcd4f3d02b7f241a426482" title="Gets the OAuthConnections for the User with a given userId .A ValueTask&lt;TResult&gt; resulting in an glob..." alt="" coords="581,136,793,177"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a56e8c3826bd0907cf7aeb18aa468610b" title="Gets the GraphQL.Types.OAuth.OAuthConnections for the User with a given userId .A ValueTask&lt;TResult&gt; ..." alt="" coords="581,136,793,177"/>
 <area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="519,154,565,154,565,159,519,159"/>
 <area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#aeab60aa0a0ee2cb5e2ad5dbde1983430" title="Sets a User.PasswordHash for a given user ." alt="" coords="567,411,806,451"/>
 <area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="491,428,552,428,552,434,491,434"/>

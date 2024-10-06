@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['majorapiversion_0',['MajorApiVersion',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a549da33fab0d620bf19d4372a11d581f',1,'Tgstation::Server::Host::GraphQL::Types::GatewayInformation']]],
+  ['majorgraphqlapiversion_0',['MajorGraphQLApiVersion',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#ac7ed6e5f6396c1ab949f0db95b35c004',1,'Tgstation::Server::Host::GraphQL::Types::GatewayInformation']]],
   ['mapthreads_1',['MapThreads',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#afae7f5bc42d485224a3fed04f1994834',1,'Tgstation::Server::Api::Models::Internal::DreamDaemonLaunchParameters']]],
   ['mariadbdefaultrootpassword_2',['MariaDBDefaultRootPassword',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#a13fdaf7fa69a89f806d2f5abce0d67c4',1,'Tgstation::Server::Host::Configuration::InternalConfiguration']]],
   ['mariadbsetup_3',['MariaDBSetup',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#a6e5cf99a281100c024bdadc52baa5081',1,'Tgstation::Server::Host::Configuration::InternalConfiguration']]],

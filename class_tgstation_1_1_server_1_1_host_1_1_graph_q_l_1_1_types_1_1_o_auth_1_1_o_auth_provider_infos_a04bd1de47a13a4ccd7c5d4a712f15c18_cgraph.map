@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.GraphQL.Types.OAuth.OAuthProviderInfos.OAuthProviderInfos" name="Tgstation.Server.Host.GraphQL.Types.OAuth.OAuthProviderInfos.OAuthProviderInfos">
+<area shape="rect" id="Node000001" title="Initializes a new instance of the OAuthProviderInfos class." alt="" coords="5,5,243,61"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a733dbba10de53f9c5dfa8daf99b7cdab" title="Gets a Dictionary&lt;TKey, TValue&gt; of the provider client IDs." alt="" coords="291,13,528,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,31,275,31,275,36,243,36"/>
+</map>

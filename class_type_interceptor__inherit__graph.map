@@ -1,5 +1,5 @@
 <map id="TypeInterceptor" name="TypeInterceptor">
-<area shape="rect" id="Node000001" title=" " alt="" coords="58,5,170,31"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_interceptors_1_1_rights_type_interceptor.html" title="Fixes the names used for the default flags types in API rights." alt="" coords="5,79,223,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,47,117,78,111,78,111,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="70,5,182,31"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_interceptors_1_1_rights_type_interceptor.html" title="Fixes the names used for the default flags types in API rights." alt="" coords="5,79,247,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,46,129,79,123,79,123,46"/>
 </map>
