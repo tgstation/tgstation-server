@@ -13,7 +13,7 @@ General:
   UserGroupLimit: 25 # Maximum number of allowed groups
   InstanceLimit: 10 # Maximum number of allowed instances
   ValidInstancePaths: # An array of directories instances may be created in (either directly or as a subdirectory). null removes the restriction
-  HostApiDocumentation: false # Make HTTP API documentation available at /api/doc/tgs_api.json
+  HostApiDocumentation: false # Make HTTP API documentation available at /api/doc/tgs_api.json and /api/graphql
   SkipAddingByondFirewallException: false # Windows Only: Prevent running netsh.exe to add a firewall exception for installed engine binaries
   DeploymentDirectoryCopyTasksPerCore: 100 # Maximum number of concurrent file copy operations PER available CPU core
   OpenDreamGitUrl: https://github.com/OpenDreamProject/OpenDream # The repository to retrieve OpenDream from
@@ -40,7 +40,7 @@ Logging:
       Microsoft: Warning # Level of stdout verbosity from Microsoft dependecies (i.e. webserver, database object relational mapper, etc...). Can be one of Trace, Debug, Information, Warning, Error, or Critical
 ControlPanel:
   Enable: false # If the web control panel is hosted alongside the server
-  Channel: https://tgstation.github.io/tgstation-server-webpanel/api/${Major}.${Minor}.${Patch} # Channel for live web control panel updates. The tokens ${Major}, ${Minor}, and ${Patch} are substituted for the version of the HTTP API TGS was built with
+  Channel: https://tgstation.github.io/tgstation-server-webpanel/api/${Major}.${Minor}.${Patch} # Channel for live web control panel updates. The tokens ${Major}, ${Minor}, and ${Patch} are substituted for the version of the REST API TGS was built with
   AllowAnyOrigin: false # Enable the `Access-Control-Allow-Origin: *` header for HTTP responses
   AllowedOrigins: [] # Explict list of origins for `Access-Control-Allow-Origin:` HTTP header. Ignored if AllowAnyOrigin is true
   PublicPath: # Used if TGS is not hosted at the website root. If TGS is hosted under `https://domain.com/tgs`, this should be `/tgs`

@@ -32,7 +32,7 @@ namespace Tgstation.Server.Host.Properties
 		public string RawWebpanelVersion { get; }
 
 		/// <summary>
-		/// The <see cref="Version"/> <see cref="string"/> of the control panel version built.
+		/// The <see cref="Version"/> <see cref="string"/> of the host watchdog that was built alongside this TGS version.
 		/// </summary>
 		public string RawHostWatchdogVersion { get; }
 
@@ -42,9 +42,14 @@ namespace Tgstation.Server.Host.Properties
 		public string RawMariaDBRedistVersion { get; }
 
 		/// <summary>
-		/// The <see cref="Version"/> <see cref="string"/> of the MariaDB server bundled with TGS installs.
+		/// The <see cref="Version"/> <see cref="string"/> of the TGS swarm protocol.
 		/// </summary>
 		public string RawSwarmProtocolVersion { get; }
+
+		/// <summary>
+		/// The <see cref="Version"/> <see cref="string"/> of the TGS GraphQL API.
+		/// </summary>
+		public string RawGraphQLVersion { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MasterVersionsAttribute"/> class.
@@ -55,13 +60,15 @@ namespace Tgstation.Server.Host.Properties
 		/// <param name="rawHostWatchdogVersion">The value of <see cref="RawHostWatchdogVersion"/>.</param>
 		/// <param name="rawMariaDBRedistVersion">The value of <see cref="RawMariaDBRedistVersion"/>.</param>
 		/// <param name="rawSwarmProtocolVersion">The value of <see cref="RawSwarmProtocolVersion"/>.</param>
+		/// <param name="rawGraphQLVersion">The value of <see cref="RawGraphQLVersion"/>.</param>
 		public MasterVersionsAttribute(
 			string rawConfigurationVersion,
 			string rawInteropVersion,
 			string rawWebpanelVersion,
 			string rawHostWatchdogVersion,
 			string rawMariaDBRedistVersion,
-			string rawSwarmProtocolVersion)
+			string rawSwarmProtocolVersion,
+			string rawGraphQLVersion)
 		{
 			RawConfigurationVersion = rawConfigurationVersion ?? throw new ArgumentNullException(nameof(rawConfigurationVersion));
 			RawInteropVersion = rawInteropVersion ?? throw new ArgumentNullException(nameof(rawInteropVersion));
@@ -69,6 +76,7 @@ namespace Tgstation.Server.Host.Properties
 			RawHostWatchdogVersion = rawHostWatchdogVersion ?? throw new ArgumentNullException(nameof(rawHostWatchdogVersion));
 			RawMariaDBRedistVersion = rawMariaDBRedistVersion ?? throw new ArgumentNullException(nameof(rawMariaDBRedistVersion));
 			RawSwarmProtocolVersion = rawSwarmProtocolVersion ?? throw new ArgumentNullException(nameof(rawSwarmProtocolVersion));
+			RawGraphQLVersion = rawGraphQLVersion ?? throw new ArgumentNullException(nameof(rawGraphQLVersion));
 		}
 	}
 }

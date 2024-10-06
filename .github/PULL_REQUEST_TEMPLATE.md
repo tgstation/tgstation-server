@@ -16,7 +16,7 @@ They will be amalgamated together in the end.
 Categories are used by [the release notes tool](../tools/Tgstation.Server.ReleaseNotes) to generate formatted changelists used in releases.
 The default category is Core.
 Only one category may be specified for a 🆑 block.
-Valid categories are Core, DreamMaker API, HTTP API, Host Watchdog, Web Control Panel, Configuration, Nuget: Api, Nuget: Client, and Nuget: Common.
+Valid categories are Core, DreamMaker API, REST API, GraphQL API, Host Watchdog, Web Control Panel, Configuration, Nuget: Api, Nuget: Client, and Nuget: Common.
 /🆑
 
 [Why]: # (If this does not close or work on an existing GitHub issue, please add a short description [two lines down] of why you think these changes would benefit the server. If you can't justify it in words, it might not be worth adding.)

@@ -3,7 +3,7 @@ query UnauthenticatedServerInformation {
     currentNode {
       gateway {
         information {
-          majorApiVersion
+          majorGraphQLApiVersion
           oAuthProviderInfos {
             key
             value {

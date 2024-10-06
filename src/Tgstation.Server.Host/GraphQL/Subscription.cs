@@ -16,8 +16,14 @@ namespace Tgstation.Server.Host.GraphQL
 	/// Root type for GraphQL subscriptions.
 	/// </summary>
 	/// <remarks>Intentionally left mostly empty, use type extensions to properly scope operations to domains.</remarks>
+	[GraphQLDescription(GraphQLDescription)]
 	public sealed class Subscription
 	{
+		/// <summary>
+		/// Description to show on the <see cref="Subscription"/> type.
+		/// </summary>
+		public const string GraphQLDescription = "Root Subscription type. Note that subscriptions are performed over Server Sent events.";
+
 		/// <summary>
 		/// Gets the topic name for the login session represented by a given <paramref name="authenticationContext"/>.
 		/// </summary>

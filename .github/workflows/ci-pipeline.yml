@@ -10,7 +10,8 @@
 # - Checks commit tags for deployment intents
 # - Deploys DreamMaker API zip [DMDeploy] (dev/master)
 # - Deploys Nuget Packages [NugetDeploy] (dev/master)
-# - Deploys HTTP API swagger.json [APIDeploy] (dev/master)
+# - Deploys HTTP API swagger.json [RESTDeploy] (dev/master)
+# - Deploys GraphQL API schema.graphql [GQLDeploy] (dev/master)
 # - Deploys tgstation-server [TGSDeploy] (master)
 #   - GitHub Releases: https://github.com/tgstation/tgstation-server/releases
 #   - Docker: https://hub.docker.com/r/tgstation/server
@@ -740,6 +741,13 @@ jobs:
         with:
           name: openapi-spec
           path: C:/tgs_api.json
+
+      - name: Store GraphQL Schema
+        if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: graphql-schema
+          path: ./artifacts/tgs-api.graphql
 
       - name: Package Server Service
         if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' && matrix.database-type == 'PostgresSql' }}
@@ -1611,11 +1619,11 @@ jobs:
       - name: GitHub Requires at Least One Step for a Job
         run: exit 0
 
-  deploy-http:
-    name: Deploy HTTP API
+  deploy-rest:
+    name: Deploy REST API
     needs: deployment-gate
     runs-on: windows-latest
-    if: contains(github.event.head_commit.message, '[APIDeploy]')
+    if: contains(github.event.head_commit.message, '[RESTDeploy]')
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -1630,7 +1638,7 @@ jobs:
         shell: powershell
         run: |
           [XML]$versionXML = Get-Content build/Version.props
-          $apiVersion = $versionXML.Project.PropertyGroup.TgsApiVersion
+          $apiVersion = $versionXML.Project.PropertyGroup.TgsRestVersion
           echo "TGS_API_VERSION=$apiVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Retrieve OpenAPI Spec
@@ -1661,7 +1669,7 @@ jobs:
       - name: Generate Release Notes
         env:
           TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_API_VERSION }} --httpapi
+        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_API_VERSION }} --restapi
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
@@ -1670,7 +1678,7 @@ jobs:
           GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
         with:
           tag_name: api-v${{ env.TGS_API_VERSION }}
-          release_name: tgstation-server API v${{ env.TGS_API_VERSION }}
+          release_name: tgstation-server REST API v${{ env.TGS_API_VERSION }}
           body_path: release_notes.md
           commitish: ${{ github.event.head_commit.id }}
 
@@ -1683,6 +1691,86 @@ jobs:
           asset_path: ./swagger/tgs_api.json
           asset_name: swagger.json
           asset_content_type: application/json
+
+  deploy-gql:
+    name: Deploy GraphQL API
+    needs: deployment-gate
+    runs-on: windows-latest
+    if: contains(github.event.head_commit.message, '[GQLDeploy]')
+    steps:
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Parse API version
+        shell: powershell
+        run: |
+          [XML]$versionXML = Get-Content build/Version.props
+          $apiVersion = $versionXML.Project.PropertyGroup.TgsGraphQLVersion
+          echo "TGS_API_VERSION=$apiVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+          [Version]$parsedVersion = $apiVersion
+          if ($parsedVersion.Major -eq 0) {
+            echo "TGS_GRAPHQL_PRERELEASE=true" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+          } else {
+            echo "TGS_GRAPHQL_PRERELEASE=false" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+          }
+
+      - name: Retrieve GraphQL Schema
+        uses: actions/download-artifact@v4
+        with:
+          name: graphql-schema
+          path: schema
+
+      - name: Grab Most Recent Changelog
+        shell: powershell
+        run: |
+          $ProgressPreference = 'SilentlyContinue'
+          Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
+
+      - name: Retrieve ReleaseNotes Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: release_notes_bins
+          path: release_notes_bins
+
+      - name: Generate App Token
+        id: app-token-generation
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Generate Release Notes
+        env:
+          TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_API_VERSION }} --graphqlapi
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          tag_name: graphql-v${{ env.TGS_API_VERSION }}
+          release_name: tgstation-server GraphQL API v${{ env.TGS_API_VERSION }}
+          body_path: release_notes.md
+          commitish: ${{ github.event.head_commit.id }}
+          prerelease: ${{ env.TGS_GRAPHQL_PRERELEASE }}
+
+      - name: Upload OpenApi Spec
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./schema/tgs-api.graphql
+          asset_name: tgs-api.graphql
+          asset_content_type: text/plain
 
   deploy-dm:
     name: Deploy DreamMaker API
@@ -1818,7 +1906,7 @@ jobs:
 
   ensure-release:
     name: Ensure TGS Release is Latest GitHub Release
-    needs: [deploy-dm, deploy-http]
+    needs: [deploy-dm, deploy-rest, deploy-gql]
     runs-on: ubuntu-latest
     if: (!(cancelled() || failure())) && (!contains(github.event.head_commit.message, '[TGSDeploy]')) && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success')
     steps:
@@ -1848,7 +1936,7 @@ jobs:
 
   deploy-tgs:
     name: Deploy TGS
-    needs: [deploy-dm, deploy-http, deployment-gate]
+    needs: [deploy-dm, deploy-rest, deploy-gql, deployment-gate]
     runs-on: windows-latest
     if: (!(cancelled() || failure())) && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]') && needs.deployment-gate.result == 'success'
     env:
@@ -1939,6 +2027,12 @@ jobs:
         with:
           name: openapi-spec
           path: swagger
+
+      - name: Retrieve GraphQL Schema
+        uses: actions/download-artifact@v4
+        with:
+          name: graphql-schema
+          path: schema
 
       - name: Retrieve Debian Packaging Archive
         uses: actions/download-artifact@v4
@@ -2035,7 +2129,7 @@ jobs:
           asset_name: DMAPI.zip
           asset_content_type: application/zip
 
-      - name: Upload OpenApi Spec Artifact
+      - name: Upload REST API Artifact
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
@@ -2044,6 +2138,16 @@ jobs:
           asset_path: ./swagger/tgs_api.json
           asset_name: swagger.json
           asset_content_type: application/json
+
+      - name: Upload GraphQL API Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./schema/tgs-api.graphql
+          asset_name: tgs-api.graphql
+          asset_content_type: text/plain
 
       - name: Upload Server Update Package Artifact
         uses: actions/upload-release-asset@v1

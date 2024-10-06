@@ -91,8 +91,11 @@ namespace Tgstation.Server.ReleaseNotes
 					case "--NO-CLOSE":
 						doNotCloseMilestone = true;
 						break;
-					case "--HTTPAPI":
-						componentRelease = Component.HttpApi;
+					case "--RESTAPI":
+						componentRelease = Component.RestApi;
+						break;
+					case "--GRAPHQLAPI":
+						componentRelease = Component.GraphQLApi;
 						break;
 					case "--INTEROPAPI":
 						componentRelease = Component.InteropApi;
@@ -245,7 +248,8 @@ namespace Tgstation.Server.ReleaseNotes
 					return 10;
 				}
 
-				var apiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsApiVersion").Value);
+				var restVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsRestVersion").Value);
+				var graphQLVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsGraphQLVersion").Value);
 				var configVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsConfigVersion").Value);
 				var dmApiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsDmapiVersion").Value);
 				var interopVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsInteropVersion").Value);
@@ -255,7 +259,7 @@ namespace Tgstation.Server.ReleaseNotes
 				if (webControlVersion.Major == 0)
 					postControlPanelMessage = true;
 
-				prefix = $"Please refer to the [README](https://github.com/tgstation/tgstation-server#setup) for setup instructions. Full changelog can be found [here](https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml).{Environment.NewLine}{Environment.NewLine}#### Component Versions\nCore: {coreVersion}\nConfiguration: {configVersion}\nHTTP API: {apiVersion}\nDreamMaker API: {dmApiVersion} (Interop: {interopVersion})\n[Web Control Panel](https://github.com/tgstation/tgstation-server-webpanel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
+				prefix = $"Please refer to the [README](https://github.com/tgstation/tgstation-server#setup) for setup instructions. Full changelog can be found [here](https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml).{Environment.NewLine}{Environment.NewLine}#### Component Versions\nCore: {coreVersion}\nConfiguration: {configVersion}\nREST API: {restVersion}\nGraphQL API{(graphQLVersion.Major < 1 ? " (Pre-release)" : String.Empty)}: {graphQLVersion}\nDreamMaker API: {dmApiVersion} (Interop: {interopVersion})\n[Web Control Panel](https://github.com/tgstation/tgstation-server-webpanel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
 
 				var newNotes = new StringBuilder(prefix);
 				if (postControlPanelMessage)
@@ -409,7 +413,7 @@ namespace Tgstation.Server.ReleaseNotes
 				var componentVersionDict = new Dictionary<Component, Version>
 				{
 					{ Component.Configuration, configVersion },
-					{ Component.HttpApi, apiVersion },
+					{ Component.RestApi, restVersion },
 					{ Component.DreamMakerApi, dmApiVersion },
 					{ Component.InteropApi, interopVersion },
 					{ Component.WebControlPanel, webControlVersion },
@@ -508,7 +512,7 @@ namespace Tgstation.Server.ReleaseNotes
 
 		static string GetComponentDisplayName(Component component, bool debian) => component switch
 		{
-			Component.HttpApi => debian ? "the HTTP API" : "HTTP API",
+			Component.RestApi => debian ? "the REST API" : "REST API",
 			Component.InteropApi => debian ? "the Interop API" : "Interop API",
 			Component.Configuration => debian ? "the TGS configuration" : "**Configuration**",
 			Component.DreamMakerApi => debian ? "the DreamMaker API" : "DreamMaker API",
@@ -607,7 +611,8 @@ namespace Tgstation.Server.ReleaseNotes
 				var dict = new Dictionary<Component, Version>
 				{
 					{ Component.Core, Parse("TgsCoreVersion") },
-					{ Component.HttpApi, Parse("TgsApiVersion") },
+					{ Component.RestApi, Parse("TgsRestVersion") },
+					{ Component.GraphQLApi, Parse("TgsGraphQLVersion") },
 					{ Component.DreamMakerApi, Parse("TgsDmapiVersion") },
 				};
 
@@ -720,7 +725,8 @@ namespace Tgstation.Server.ReleaseNotes
 							component = targetComponent.ToUpperInvariant() switch
 							{
 								"**CONFIGURATION**" or "CONFIGURATION" or "CONFIG" => Component.Configuration,
-								"HTTP API" => Component.HttpApi,
+								"HTTP API" or "REST API" => Component.RestApi,
+								"GQL API" or "GRAPHQL API" or "GQL" or "GRAPHQL" => Component.GraphQLApi,
 								"WEB CONTROL PANEL" => Component.WebControlPanel,
 								"DMAPI" or "DREAMMAKER API" => Component.DreamMakerApi,
 								"INTEROP API" => Component.InteropApi,
@@ -1161,7 +1167,7 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 			var nugetClientVersions = EnumerateNugetVersions("Tgstation.Server.Client");
 
 			var newDic = new Dictionary<Component, IReadOnlySet<Version>> {
-				{ Component.HttpApi, releases
+				{ Component.RestApi, releases
 					.Where(x => x.TagName.StartsWith("api-v"))
 					.Select(x => Version.Parse(x.TagName[5..]))
 					.OrderBy(x => x)

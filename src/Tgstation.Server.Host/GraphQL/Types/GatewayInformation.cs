@@ -1,6 +1,5 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 using HotChocolate;
 
@@ -123,12 +122,18 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		}
 
 		/// <summary>
-		/// Gets the major HTTP API <see cref="global::System.Version"/> number of the <see cref="SwarmNode"/>.
+		/// Gets the major GraphQL API <see cref="global::System.Version"/> number of the <see cref="SwarmNode"/>.
 		/// </summary>
-		public int MajorApiVersion => ApiHeaders.Version.Major;
+		public int MajorGraphQLApiVersion => GraphQLApiVersion.Major;
 
 		/// <summary>
-		/// Gets the HTTP API <see cref="global::System.Version"/> of the <see cref="SwarmNode"/>.
+		/// Gets the GraphQL API <see cref="global::System.Version"/> of the <see cref="SwarmNode"/>.
+		/// </summary>
+		[TgsGraphQLAuthorize]
+		public Version GraphQLApiVersion => global::System.Version.Parse(MasterVersionsAttribute.Instance.RawGraphQLVersion);
+
+		/// <summary>
+		/// Gets the REST API <see cref="global::System.Version"/> of the <see cref="SwarmNode"/>.
 		/// </summary>
 		[TgsGraphQLAuthorize]
 		public Version ApiVersion => ApiHeaders.Version;
