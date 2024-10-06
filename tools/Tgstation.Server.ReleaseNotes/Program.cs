@@ -414,6 +414,7 @@ namespace Tgstation.Server.ReleaseNotes
 				{
 					{ Component.Configuration, configVersion },
 					{ Component.RestApi, restVersion },
+					{ Component.GraphQLApi, graphQLVersion },
 					{ Component.DreamMakerApi, dmApiVersion },
 					{ Component.InteropApi, interopVersion },
 					{ Component.WebControlPanel, webControlVersion },
@@ -513,6 +514,7 @@ namespace Tgstation.Server.ReleaseNotes
 		static string GetComponentDisplayName(Component component, bool debian) => component switch
 		{
 			Component.RestApi => debian ? "the REST API" : "REST API",
+			Component.GraphQLApi => debian ? "the GraphQL API" : "GraphQL API",
 			Component.InteropApi => debian ? "the Interop API" : "Interop API",
 			Component.Configuration => debian ? "the TGS configuration" : "**Configuration**",
 			Component.DreamMakerApi => debian ? "the DreamMaker API" : "DreamMaker API",
@@ -1166,15 +1168,23 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 			var nugetApiVersions = EnumerateNugetVersions("Tgstation.Server.Api");
 			var nugetClientVersions = EnumerateNugetVersions("Tgstation.Server.Client");
 
+			const string ApiTagPrefix = "api-v";
+			const string GraphQLTagPrefix = "graphql-v";
+			const string DMApiTagPrefix = "dmapi-v";
 			var newDic = new Dictionary<Component, IReadOnlySet<Version>> {
 				{ Component.RestApi, releases
-					.Where(x => x.TagName.StartsWith("api-v"))
-					.Select(x => Version.Parse(x.TagName[5..]))
+					.Where(x => x.TagName.StartsWith(ApiTagPrefix))
+					.Select(x => Version.Parse(x.TagName[ApiTagPrefix.Length..]))
+					.OrderBy(x => x)
+					.ToHashSet() },
+				{ Component.GraphQLApi, releases
+					.Where(x => x.TagName.StartsWith(GraphQLTagPrefix))
+					.Select(x => Version.Parse(x.TagName[GraphQLTagPrefix.Length..]))
 					.OrderBy(x => x)
 					.ToHashSet() },
 				{ Component.DreamMakerApi, releases
-					.Where(x => x.TagName.StartsWith("dmapi-v"))
-					.Select(x => Version.Parse(x.TagName[7..]))
+					.Where(x => x.TagName.StartsWith(DMApiTagPrefix))
+					.Select(x => Version.Parse(x.TagName[DMApiTagPrefix.Length..]))
 					.OrderBy(x => x)
 					.ToHashSet() },
 				{ Component.NugetCommon, await nugetCommonVersions },
