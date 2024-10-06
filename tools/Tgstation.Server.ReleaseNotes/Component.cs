@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.ReleaseNotes
+﻿using YamlDotNet.Serialization;
+
+namespace Tgstation.Server.ReleaseNotes
 {
 	enum Component
 	{
@@ -6,7 +8,7 @@
 		Core,
 		HostWatchdog,
 		WebControlPanel,
-		RestApi,
+		HttpApi, // can't be properly renamed due to changelog
 		GraphQLApi,
 		DreamMakerApi,
 		InteropApi,

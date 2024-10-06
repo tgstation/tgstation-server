@@ -92,7 +92,7 @@ namespace Tgstation.Server.ReleaseNotes
 						doNotCloseMilestone = true;
 						break;
 					case "--RESTAPI":
-						componentRelease = Component.RestApi;
+						componentRelease = Component.HttpApi;
 						break;
 					case "--GRAPHQLAPI":
 						componentRelease = Component.GraphQLApi;
@@ -413,7 +413,7 @@ namespace Tgstation.Server.ReleaseNotes
 				var componentVersionDict = new Dictionary<Component, Version>
 				{
 					{ Component.Configuration, configVersion },
-					{ Component.RestApi, restVersion },
+					{ Component.HttpApi, restVersion },
 					{ Component.GraphQLApi, graphQLVersion },
 					{ Component.DreamMakerApi, dmApiVersion },
 					{ Component.InteropApi, interopVersion },
@@ -513,7 +513,7 @@ namespace Tgstation.Server.ReleaseNotes
 
 		static string GetComponentDisplayName(Component component, bool debian) => component switch
 		{
-			Component.RestApi => debian ? "the REST API" : "REST API",
+			Component.HttpApi => debian ? "the REST API" : "REST API",
 			Component.GraphQLApi => debian ? "the GraphQL API" : "GraphQL API",
 			Component.InteropApi => debian ? "the Interop API" : "Interop API",
 			Component.Configuration => debian ? "the TGS configuration" : "**Configuration**",
@@ -613,7 +613,7 @@ namespace Tgstation.Server.ReleaseNotes
 				var dict = new Dictionary<Component, Version>
 				{
 					{ Component.Core, Parse("TgsCoreVersion") },
-					{ Component.RestApi, Parse("TgsRestVersion") },
+					{ Component.HttpApi, Parse("TgsRestVersion") },
 					{ Component.GraphQLApi, Parse("TgsGraphQLVersion") },
 					{ Component.DreamMakerApi, Parse("TgsDmapiVersion") },
 				};
@@ -727,7 +727,7 @@ namespace Tgstation.Server.ReleaseNotes
 							component = targetComponent.ToUpperInvariant() switch
 							{
 								"**CONFIGURATION**" or "CONFIGURATION" or "CONFIG" => Component.Configuration,
-								"HTTP API" or "REST API" => Component.RestApi,
+								"HTTP API" or "REST API" => Component.HttpApi,
 								"GQL API" or "GRAPHQL API" or "GQL" or "GRAPHQL" => Component.GraphQLApi,
 								"WEB CONTROL PANEL" => Component.WebControlPanel,
 								"DMAPI" or "DREAMMAKER API" => Component.DreamMakerApi,
@@ -1172,7 +1172,7 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 			const string GraphQLTagPrefix = "graphql-v";
 			const string DMApiTagPrefix = "dmapi-v";
 			var newDic = new Dictionary<Component, IReadOnlySet<Version>> {
-				{ Component.RestApi, releases
+				{ Component.HttpApi, releases
 					.Where(x => x.TagName.StartsWith(ApiTagPrefix))
 					.Select(x => Version.Parse(x.TagName[ApiTagPrefix.Length..]))
 					.OrderBy(x => x)
