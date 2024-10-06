@@ -6,10 +6,10 @@ using System.Reflection;
 using HotChocolate.Configuration;
 using HotChocolate.Types;
 using HotChocolate.Types.Descriptors.Definitions;
-
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Host.GraphQL.Types;
 
-namespace Tgstation.Server.Host.GraphQL.Types.Interceptors
+namespace Tgstation.Server.Host.GraphQL.Interceptors
 {
 	/// <summary>
 	/// Fixes the names used for the default flags types in API rights.

@@ -3,15 +3,7 @@ query UnauthenticatedServerInformation {
     currentNode {
       gateway {
         information {
-          majorApiVersion
-          oAuthProviderInfos {
-            key
-            value {
-              clientId
-              redirectUri
-              serverUrl
-            }
-          }
+          majorGraphQLApiVersion
         }
       }
     }

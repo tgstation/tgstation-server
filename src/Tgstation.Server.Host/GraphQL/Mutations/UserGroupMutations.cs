@@ -18,6 +18,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 	/// <see cref="IUserGroupAuthority"/> related <see cref="Mutation"/>s.
 	/// </summary>
 	[ExtendObjectType(typeof(Mutation))]
+	[GraphQLDescription(Mutation.GraphQLDescription)]
 	public sealed class UserGroupMutations
 	{
 		/// <summary>

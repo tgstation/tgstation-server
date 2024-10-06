@@ -1402,24 +1402,8 @@ namespace Tgstation.Server.Tests.Live
 					// test getting server info
 					var unAuthedMultiClient = new MultiServerClient(firstAdminRestClient, unauthenticatedGraphQLClient);
 
-					await unAuthedMultiClient.ExecuteReadOnlyConfirmEquivalence(
-						restClient => restClient.ServerInformation(cancellationToken),
+					await unauthenticatedGraphQLClient.RunQueryEnsureNoErrors(
 						gqlClient => gqlClient.UnauthenticatedServerInformation.ExecuteAsync(cancellationToken),
-						(restServerInfo, gqlServerInfo) =>
-						{
-							var result = restServerInfo.ApiVersion.Major == gqlServerInfo.Swarm.CurrentNode.Gateway.Information.MajorApiVersion
-								&& (restServerInfo.OAuthProviderInfos == gqlServerInfo.Swarm.CurrentNode.Gateway.Information.OAuthProviderInfos
-									|| restServerInfo.OAuthProviderInfos.All(kvp =>
-									{
-										var info = gqlServerInfo.Swarm.CurrentNode.Gateway.Information.OAuthProviderInfos.FirstOrDefault(x => (int)x.Key == (int)kvp.Key);
-										return info != null
-											&& info.Value.ServerUrl == kvp.Value.ServerUrl
-											&& info.Value.ClientId == kvp.Value.ClientId
-											&& info.Value.RedirectUri == kvp.Value.RedirectUri;
-									}));
-
-							return result;
-						},
 						cancellationToken);
 
 					var testObserver = new HoldLastObserver<IOperationResult<ISessionInvalidationResult>>();

@@ -191,7 +191,7 @@ This prevents nesting levels from getting deeper then they need to be.
 
 - Some terminology to help understand the architecture:
   - An instance can be thought of as a separate server. It has a separate directory, repository, set of byond installations, etc... The only thing shared amongst instances is API surface, users, global configuration, the active tgstation-server version, and the host machine.
-  - API refers to the HTTP API unless otherwise specified.
+  - API refers to the REST API unless otherwise specified.
   - The entirety of server functionality resides in the host (Tgstation.Server.Host) project.
   - A Component is a service running in tgstation-server to help with instance functionality. These can only be communicated with via the HTTP or DM APIs.
   - There is a difference between Watchdog and Host Watchdog. The former monitors DreamDaemon uptime, the latter handles updating tgstation-server.
@@ -247,7 +247,7 @@ Warning: You may need to temporarily set valid MySql credentials in [MySqlDesign
 
 OAuth providers are hardcoded but it is fairly easy to add new ones. The flow doesn't need to be strict OAuth either (r.e. /tg/ forums). Follow the following steps:
 
-1. Add the name to the [Tgstation.Server.Api.Models.OAuthProviders](../src/Tgstation.Server.Api/Models/OAuthProviders.cs) enum (Also necessitates a minor HTTP API version bump).
+1. Add the name to the [Tgstation.Server.Api.Models.OAuthProviders](../src/Tgstation.Server.Api/Models/OAuthProviders.cs) enum (Also necessitates a minor API version bump to the HTTP APIs (REST/GraphQL)).
 1. Create an implementation of [IOAuthValidator](../src/Tgstation.Server.Host/Security/OAuth/IOAuthValidator.cs).
    - Most providers can simply override the [GenericOAuthValidator](../src/Tgstation.Server.Host/Security/OAuth/GenericOAuthValidator.cs).
 1. Construct the implementation in the [OAuthProviders](../src/Tgstation.Server.Host/Security/OAuth/OAuthProviders.cs) class.
@@ -275,7 +275,8 @@ Major changes should be committed to the `VX` branch created when the time for a
 
 We have several subcomponent APIs we ship with the core server that have their own versions.
 
-- HTTP API
+- REST API
+- GraphQL API
 - DreamMaker API
 - Interop API
 - Configuration File
@@ -308,7 +309,7 @@ Word commit names descriptively. Only submit work through pull requests (With th
 
 At the time of this writing, the repository is configured to automate much of the deployment/release process.
 
-When the new API, client, or DMAPI is ready to be released, update the `Version.props` file appropriately and merge the pull request with the text `[APIDeploy]`, `[NuGetDeploy]`, or `[DMDeploy]` respectively in the commit message (or all three!). The release will be published automatically.
+When the new API, client, or DMAPI is ready to be released, update the `Version.props` file appropriately and merge the pull request with the text `[RESTDeploy]`, `[GQLDeploy]`, `[NugetDeploy]`, or `[DMDeploy]` respectively in the commit message (or all three!). The release will be published automatically.
 
 That step should be taken for the latest API and client before releasing the core version that uses them if applicable.
 

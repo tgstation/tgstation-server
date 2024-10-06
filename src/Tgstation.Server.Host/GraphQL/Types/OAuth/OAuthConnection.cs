@@ -2,7 +2,7 @@
 
 using Tgstation.Server.Api.Models;
 
-namespace Tgstation.Server.Host.GraphQL.Types
+namespace Tgstation.Server.Host.GraphQL.Types.OAuth
 {
 	/// <summary>
 	/// Represents a valid OAuth connection.

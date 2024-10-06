@@ -5,7 +5,7 @@ This is a series of README.md files aimed at directing people around the codebas
 - To explore the server code navigate to [Tgstation.Server.Host](./Tgstation.Server.Host).
 - To explore the DreamMaker public API navigate to [DMAPI/tgs.dm](./DMAPI/tgs.dm).
 - To explore the DMAPI internals, navigate to [DMAPI/tgs](./DMAPI/tgs).
-- To explore the HTTP API definitions navigate to [Tgstation.Server.Api](./Tgstation.Server.Api).
+- To explore the REST API definitions navigate to [Tgstation.Server.Api](./Tgstation.Server.Api).
 - To explore the C# client code navigate to [Tgstation.Server.Client](./Tgstation.Server.Client).
 
 [Tgstation.Server.Host.Watchdog](./Tgstation.Server.Host.Watchdog), [Tgstation.Server.Host.Service](./Tgstation.Server.Host.Service), and [Tgstation.Server.Host.Console](./Tgstation.Server.Host.Console) are related to the Service/Console runners which have the simple task of executing Tgstation.Server.Host and updating it when requested.

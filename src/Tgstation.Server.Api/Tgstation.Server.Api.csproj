@@ -14,7 +14,7 @@
   <Target Name="ApplyApiVersionAttribute" BeforeTargets="CoreCompile">
     <ItemGroup>
       <AssemblyAttributes Include="Tgstation.Server.Api.Properties.ApiVersionAttribute">
-        <_Parameter1>$(TgsApiVersion)</_Parameter1>
+        <_Parameter1>$(TgsRestVersion)</_Parameter1>
       </AssemblyAttributes>
     </ItemGroup>
 

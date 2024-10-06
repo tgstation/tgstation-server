@@ -1,6 +1,6 @@
 ﻿using HotChocolate;
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Host.GraphQL.Types.Scalars;
+using Tgstation.Server.Host.GraphQL.Scalars;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.GraphQL.Mutations.Payloads

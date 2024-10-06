@@ -18,6 +18,7 @@ namespace Tgstation.Server.Host.GraphQL.Subscriptions
 	/// Subscriptions for <see cref="User"/>.
 	/// </summary>
 	[ExtendObjectType(typeof(Subscription))]
+	[GraphQLDescription(Subscription.GraphQLDescription)]
 	public sealed class UserSubscriptions
 	{
 		/// <summary>

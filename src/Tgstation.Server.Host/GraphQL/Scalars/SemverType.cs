@@ -2,10 +2,9 @@
 
 using HotChocolate.Language;
 using HotChocolate.Types;
-
 using Tgstation.Server.Common.Extensions;
 
-namespace Tgstation.Server.Host.GraphQL.Types.Scalars
+namespace Tgstation.Server.Host.GraphQL.Scalars
 {
 	/// <summary>
 	/// A <see cref="ScalarType{TRuntimeType, TLiteral}"/> for semantic <see cref="Version"/>s.

@@ -14,8 +14,14 @@ namespace Tgstation.Server.Host.GraphQL
 	/// Root type for GraphQL mutations.
 	/// </summary>
 	/// <remarks>Intentionally left mostly empty, use type extensions to properly scope operations to domains.</remarks>
+	[GraphQLDescription(GraphQLDescription)]
 	public sealed class Mutation
 	{
+		/// <summary>
+		/// Description to show on the <see cref="Mutation"/> type.
+		/// </summary>
+		public const string GraphQLDescription = "Root Mutation type";
+
 		/// <summary>
 		/// Generate a JWT for authenticating with server. This is the only operation that accepts and required basic authentication.
 		/// </summary>

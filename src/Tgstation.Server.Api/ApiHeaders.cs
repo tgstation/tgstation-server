@@ -269,7 +269,7 @@ namespace Tgstation.Server.Api
 								if (requestHeaders.Headers.TryGetValue(OAuthProviderHeader, out StringValues oauthProviderValues))
 								{
 									var oauthProviderString = oauthProviderValues.First();
-									if (Enum.TryParse<OAuthProvider>(oauthProviderString, out var oauthProvider))
+									if (Enum.TryParse<OAuthProvider>(oauthProviderString, true, out var oauthProvider))
 										OAuthProvider = oauthProvider;
 									else
 										AddError(HeaderErrorTypes.OAuthProvider, "Invalid OAuth provider!");

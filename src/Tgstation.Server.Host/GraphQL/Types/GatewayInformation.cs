@@ -10,6 +10,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.GraphQL.Types.OAuth;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.OAuth;
@@ -28,7 +29,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="generalConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the <see cref="GeneralConfiguration"/>.</param>
 		/// <returns>A <see cref="uint"/> specifying the minimumn valid password length for TGS users.</returns>
 		[TgsGraphQLAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword)]
-		public uint? MinimumPasswordLength(
+		public uint MinimumPasswordLength(
 			[Service] IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions)
 		{
 			ArgumentNullException.ThrowIfNull(generalConfigurationOptions);
@@ -41,7 +42,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="generalConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the <see cref="GeneralConfiguration"/>.</param>
 		/// <returns>A <see cref="uint"/> specifying the maximum allowed attached instances for the <see cref="SwarmNode"/>.</returns>
 		[TgsGraphQLAuthorize(InstanceManagerRights.Create)]
-		public uint? InstanceLimit(
+		public uint InstanceLimit(
 			[Service] IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions)
 		{
 			ArgumentNullException.ThrowIfNull(generalConfigurationOptions);
@@ -55,7 +56,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <returns>A <see cref="uint"/> specifying the maximum allowed registered users for the <see cref="ServerSwarm"/>.</returns>
 		/// <remarks>This limit only applies to user creation attempts made via the current <see cref="SwarmNode"/>.</remarks>
 		[TgsGraphQLAuthorize(AdministrationRights.WriteUsers)]
-		public uint? UserLimit(
+		public uint UserLimit(
 			[Service] IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions)
 		{
 			ArgumentNullException.ThrowIfNull(generalConfigurationOptions);
@@ -69,7 +70,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <returns>A <see cref="uint"/> specifying the maximum allowed registered <see cref="UserGroup"/>s for the <see cref="ServerSwarm"/>.</returns>
 		/// <remarks>This limit only applies to <see cref="UserGroup"/> creation attempts made via the current <see cref="SwarmNode"/>.</remarks>
 		[TgsGraphQLAuthorize(AdministrationRights.WriteUsers)]
-		public uint? UserGroupLimit(
+		public uint UserGroupLimit(
 			[Service] IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions)
 		{
 			ArgumentNullException.ThrowIfNull(generalConfigurationOptions);
@@ -95,7 +96,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="platformIdentifier">The <see cref="IPlatformIdentifier"/> to use.</param>
 		/// <returns><see langword="true"/> if the <see cref="SwarmNode"/> runs on a Windows operating system, <see langword="false"/> otherwise.</returns>
 		[TgsGraphQLAuthorize]
-		public bool? WindowsHost(
+		public bool WindowsHost(
 			[Service] IPlatformIdentifier platformIdentifier)
 		{
 			ArgumentNullException.ThrowIfNull(platformIdentifier);
@@ -106,7 +107,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// Gets the swarm protocol <see cref="Version"/>.
 		/// </summary>
 		[TgsGraphQLAuthorize]
-		public Version? SwarmProtocolVersion => global::System.Version.Parse(MasterVersionsAttribute.Instance.RawSwarmProtocolVersion);
+		public Version SwarmProtocolVersion => global::System.Version.Parse(MasterVersionsAttribute.Instance.RawSwarmProtocolVersion);
 
 		/// <summary>
 		/// Gets the <see cref="global::System.Version"/> of tgstation-server the <see cref="SwarmNode"/> is running.
@@ -114,7 +115,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to use.</param>
 		/// <returns>The <see cref="global::System.Version"/> of tgstation-server the <see cref="SwarmNode"/> is running.</returns>
 		[TgsGraphQLAuthorize]
-		public Version? Version(
+		public Version Version(
 			[Service] IAssemblyInformationProvider assemblyInformationProvider)
 		{
 			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
@@ -122,32 +123,38 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		}
 
 		/// <summary>
-		/// Gets the major HTTP API <see cref="global::System.Version"/> number of the <see cref="SwarmNode"/>.
+		/// Gets the major GraphQL API <see cref="global::System.Version"/> number of the <see cref="SwarmNode"/>.
 		/// </summary>
-		public int MajorApiVersion => ApiHeaders.Version.Major;
+		public int MajorGraphQLApiVersion => GraphQLApiVersion.Major;
 
 		/// <summary>
-		/// Gets the HTTP API <see cref="global::System.Version"/> of the <see cref="SwarmNode"/>.
+		/// Gets the GraphQL API <see cref="global::System.Version"/> of the <see cref="SwarmNode"/>.
 		/// </summary>
 		[TgsGraphQLAuthorize]
-		public Version? ApiVersion => ApiHeaders.Version;
+		public Version GraphQLApiVersion => global::System.Version.Parse(MasterVersionsAttribute.Instance.RawGraphQLVersion);
+
+		/// <summary>
+		/// Gets the REST API <see cref="global::System.Version"/> of the <see cref="SwarmNode"/>.
+		/// </summary>
+		[TgsGraphQLAuthorize]
+		public Version ApiVersion => ApiHeaders.Version;
 
 		/// <summary>
 		/// Gets the DMAPI interop <see cref="global::System.Version"/> the <see cref="SwarmNode"/> uses.
 		/// </summary>
 		[TgsGraphQLAuthorize]
-		public Version? DMApiVersion => DMApiConstants.InteropVersion;
+		public Version DMApiVersion => DMApiConstants.InteropVersion;
 
 		/// <summary>
 		/// Gets the information needed to perform open authentication with the <see cref="SwarmNode"/>.
 		/// </summary>
 		/// <param name="oAuthProviders">The <see cref="IOAuthProviders"/> to use.</param>
-		/// <returns>A map of enabled <see cref="OAuthProvider"/>s to their <see cref="OAuthProviderInfo"/>.</returns>
-		public IReadOnlyDictionary<OAuthProvider, OAuthProviderInfo> OAuthProviderInfos(
+		/// <returns>A map of enabled <see cref="OAuthProvider"/>s to their <see cref="FullOAuthProviderInfo"/>.</returns>
+		public OAuthProviderInfos OAuthProviderInfos(
 			[Service] IOAuthProviders oAuthProviders)
 		{
 			ArgumentNullException.ThrowIfNull(oAuthProviders);
-			return oAuthProviders.ProviderInfos();
+			return new OAuthProviderInfos(oAuthProviders);
 		}
 	}
 }
