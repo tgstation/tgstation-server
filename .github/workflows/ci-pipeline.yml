@@ -1762,7 +1762,7 @@ jobs:
           commitish: ${{ github.event.head_commit.id }}
           prerelease: ${{ env.TGS_GRAPHQL_PRERELEASE }}
 
-      - name: Upload OpenApi Spec
+      - name: Upload GraphQL Schema
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
