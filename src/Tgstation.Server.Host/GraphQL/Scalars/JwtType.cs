@@ -3,7 +3,7 @@
 using HotChocolate.Language;
 using HotChocolate.Types;
 
-namespace Tgstation.Server.Host.GraphQL.Types.Scalars
+namespace Tgstation.Server.Host.GraphQL.Scalars
 {
 	/// <summary>
 	/// A <see cref="ScalarType{TRuntimeType, TLiteral}"/> for encoded JSON Web Tokens.

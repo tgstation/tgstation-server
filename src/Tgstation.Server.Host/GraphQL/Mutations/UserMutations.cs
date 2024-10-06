@@ -13,6 +13,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.GraphQL.Mutations.Payloads;
 using Tgstation.Server.Host.GraphQL.Types;
+using Tgstation.Server.Host.GraphQL.Types.OAuth;
 using Tgstation.Server.Host.Models.Transformers;
 using Tgstation.Server.Host.Security;
 

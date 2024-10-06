@@ -102,7 +102,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of the requested <see cref="User"/>s.</returns>
 		[DataLoader]
-		public static async ValueTask<ILookup<long, GraphQL.Types.OAuthConnection>> GetOAuthConnections(
+		public static async ValueTask<ILookup<long, GraphQL.Types.OAuth.OAuthConnection>> GetOAuthConnections(
 			IReadOnlyList<long> userIds,
 			IDatabaseContext databaseContext,
 			CancellationToken cancellationToken)
@@ -118,7 +118,7 @@ namespace Tgstation.Server.Host.Authority
 
 			return list.ToLookup(
 				oauthConnection => oauthConnection.UserId,
-				x => new GraphQL.Types.OAuthConnection(x.ExternalUserId!, x.Provider));
+				x => new GraphQL.Types.OAuth.OAuthConnection(x.ExternalUserId!, x.Provider));
 		}
 
 		/// <summary>
@@ -285,8 +285,8 @@ namespace Tgstation.Server.Host.Authority
 			=> Queryable(includeJoins, false);
 
 		/// <inheritdoc />
-		public async ValueTask<AuthorityResponse<GraphQL.Types.OAuthConnection[]>> OAuthConnections(long userId, CancellationToken cancellationToken)
-			=> new AuthorityResponse<GraphQL.Types.OAuthConnection[]>(
+		public async ValueTask<AuthorityResponse<GraphQL.Types.OAuth.OAuthConnection[]>> OAuthConnections(long userId, CancellationToken cancellationToken)
+			=> new AuthorityResponse<GraphQL.Types.OAuth.OAuthConnection[]>(
 				await oAuthConnectionsDataLoader.LoadRequiredAsync(userId, cancellationToken));
 
 		/// <inheritdoc />

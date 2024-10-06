@@ -6,6 +6,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority.Core;
+using Tgstation.Server.Host.GraphQL.Types.OAuth;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -40,8 +41,8 @@ namespace Tgstation.Server.Host.Authority
 		/// </summary>
 		/// <param name="userId">The <see cref="EntityId.Id"/> of the <see cref="User"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in an <see cref="global::System.Array"/> of <see cref="GraphQL.Types.OAuthConnection"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
-		ValueTask<AuthorityResponse<GraphQL.Types.OAuthConnection[]>> OAuthConnections(long userId, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in an <see cref="global::System.Array"/> of <see cref="Tgstation.Server.Host.GraphQL.Types.OAuth.OAuthConnection"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
+		ValueTask<AuthorityResponse<GraphQL.Types.OAuth.OAuthConnection[]>> OAuthConnections(long userId, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Gets all registered <see cref="User"/>s.

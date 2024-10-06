@@ -10,6 +10,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.GraphQL.Types.OAuth;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.OAuth;
@@ -148,12 +149,12 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// Gets the information needed to perform open authentication with the <see cref="SwarmNode"/>.
 		/// </summary>
 		/// <param name="oAuthProviders">The <see cref="IOAuthProviders"/> to use.</param>
-		/// <returns>A map of enabled <see cref="OAuthProvider"/>s to their <see cref="OAuthProviderInfo"/>.</returns>
-		public IReadOnlyDictionary<OAuthProvider, OAuthProviderInfo> OAuthProviderInfos(
+		/// <returns>A map of enabled <see cref="OAuthProvider"/>s to their <see cref="FullOAuthProviderInfo"/>.</returns>
+		public OAuthProviderInfos OAuthProviderInfos(
 			[Service] IOAuthProviders oAuthProviders)
 		{
 			ArgumentNullException.ThrowIfNull(oAuthProviders);
-			return oAuthProviders.ProviderInfos();
+			return new OAuthProviderInfos(oAuthProviders);
 		}
 	}
 }
