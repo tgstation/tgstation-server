@@ -30,6 +30,11 @@ namespace Tgstation.Server.Host.Configuration
 		public bool Disable { get; set; }
 
 		/// <summary>
+		/// If Chat Providers should log their network traffic. Normally disabled because it is too noisy.
+		/// </summary>
+		public bool ProviderNetworkDebug { get; set; }
+
+		/// <summary>
 		/// The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to display in logs.
 		/// </summary>
 		[JsonConverter(typeof(StringEnumConverter))]
