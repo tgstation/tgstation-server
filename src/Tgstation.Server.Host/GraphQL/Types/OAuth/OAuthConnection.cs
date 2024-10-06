@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.GraphQL.Types.OAuth
