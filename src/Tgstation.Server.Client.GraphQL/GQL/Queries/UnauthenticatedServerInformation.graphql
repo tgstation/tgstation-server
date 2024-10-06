@@ -4,14 +4,6 @@ query UnauthenticatedServerInformation {
       gateway {
         information {
           majorGraphQLApiVersion
-          oAuthProviderInfos {
-            key
-            value {
-              clientId
-              redirectUri
-              serverUrl
-            }
-          }
         }
       }
     }
