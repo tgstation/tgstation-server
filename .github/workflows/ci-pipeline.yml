@@ -1908,7 +1908,7 @@ jobs:
     name: Ensure TGS Release is Latest GitHub Release
     needs: [deploy-dm, deploy-rest, deploy-gql]
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure())) && (!contains(github.event.head_commit.message, '[TGSDeploy]')) && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success')
+    if: (!(cancelled() || failure())) && (!contains(github.event.head_commit.message, '[TGSDeploy]')) && (needs.deploy-dm.result == 'success' || needs.deploy-rest.result == 'success' || needs.deploy-gql.result == 'success')
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
