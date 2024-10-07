@@ -2,8 +2,8 @@
 <area shape="rect" id="Node000001" title="Parses the Bearer as a JsonWebToken." alt="" coords="536,39,770,79"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a9734649a58c309192c6b42e658a9d90d" title="Initializes a new instance of the ApiHeaders class." alt="" coords="293,5,453,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="520,46,453,38,454,33,521,41"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ab06241b4e27acc95a87d776b49a6eb39" title="Add a given systemIdentity &#160;to the identityCache." alt="" coords="258,71,488,111"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a66306f94bac8b1db1ab289f57478172b" title="Add a given systemIdentity &#160;to the identityCache." alt="" coords="258,71,488,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="521,77,489,80,488,75,520,71"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a9cd65f59354b327485d6043a1ead45ef" title="Attempt to login to the server with the current crentials.A ValueTask&lt;TResult&gt; resulting in a LoginPa..." alt="" coords="5,71,210,111"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a56db9647140a1a43ebab0642e99a35b6" title="Attempt to login to the server with the current crentials.A ValueTask&lt;TResult&gt; resulting in a LoginRe..." alt="" coords="5,71,210,111"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="242,94,210,94,210,88,242,88"/>
 </map>

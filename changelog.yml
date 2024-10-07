@@ -4405,6 +4405,13 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   GraphQLApi:
+  - Version: 0.2.0
+    Changes:
+    - Descriptions:
+      - Fixed issue of login fields being nullable.
+      Author: Cyberboss
+      PullRequest: 1955
+    Unreleased: true
   - Version: 0.1.0
     Changes:
     - Descriptions:
@@ -4695,6 +4702,13 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 16.1.0
+    Changes:
+    - Descriptions:
+      - Adjusted how API compatibility checks are performed
+      Author: Cyberboss
+      PullRequest: 1955
+    Unreleased: true
   - Version: 16.0.0
     Changes:
     - Descriptions:
@@ -4792,6 +4806,13 @@ Components:
       Author: Cyberboss
       PullRequest: 1629
   NugetClient:
+  - Version: 19.1.0
+    Changes:
+    - Descriptions:
+      - Bump API library to v16.1.0.
+      Author: Cyberboss
+      PullRequest: 1955
+    Unreleased: true
   - Version: 19.0.0
     Changes:
     - Descriptions:

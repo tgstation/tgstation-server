@@ -9,6 +9,6 @@ var searchData=
   ['localgateway_2ecs_6',['LocalGateway.cs',['../_local_gateway_8cs.html',1,'']]],
   ['logfileresponse_2ecs_7',['LogFileResponse.cs',['../_log_file_response_8cs.html',1,'']]],
   ['loginauthority_2ecs_8',['LoginAuthority.cs',['../_login_authority_8cs.html',1,'']]],
-  ['loginpayload_2ecs_9',['LoginPayload.cs',['../_login_payload_8cs.html',1,'']]],
+  ['loginresult_2ecs_9',['LoginResult.cs',['../_login_result_8cs.html',1,'']]],
   ['loginresultextensions_2ecs_10',['LoginResultExtensions.cs',['../_login_result_extensions_8cs.html',1,'']]]
 ];

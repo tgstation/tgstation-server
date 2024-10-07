@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.GraphQL.Mutations.Payloads.LoginResult" name="Tgstation.Server.Host.GraphQL.Mutations.Payloads.LoginResult">
+<area shape="rect" id="Node000001" title="Success response for a login attempt." alt="" coords="5,94,233,135"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_legacy_api_transformable.html" title=" " alt="" coords="34,5,204,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,62,122,94,116,94,116,62"/>
+</map>

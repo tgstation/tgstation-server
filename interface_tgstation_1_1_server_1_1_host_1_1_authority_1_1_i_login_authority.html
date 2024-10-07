@@ -108,23 +108,23 @@ Collaboration diagram for Tgstation.Server.Host.Authority.ILoginAuthority:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:afc6c30ab18ea4acaebb4abda0f97b686" id="r_afc6c30ab18ea4acaebb4abda0f97b686"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_payload.html">LoginPayload</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_login_authority.html#afc6c30ab18ea4acaebb4abda0f97b686">AttemptLogin</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:afc6c30ab18ea4acaebb4abda0f97b686"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to login to the server with the current crentials.  <br /></td></tr>
-<tr class="separator:afc6c30ab18ea4acaebb4abda0f97b686"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a843767364ad65935951632679b74f7b3" id="r_a843767364ad65935951632679b74f7b3"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html">LoginResult</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_login_authority.html#a843767364ad65935951632679b74f7b3">AttemptLogin</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a843767364ad65935951632679b74f7b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to login to the server with the current crentials.  <br /></td></tr>
+<tr class="separator:a843767364ad65935951632679b74f7b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IAuthority for authenticating with the server. </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_login_authority_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_login_authority_8cs_source.html">ILoginAuthority.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="afc6c30ab18ea4acaebb4abda0f97b686" name="afc6c30ab18ea4acaebb4abda0f97b686"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc6c30ab18ea4acaebb4abda0f97b686">&#9670;&#160;</a></span>AttemptLogin()</h2>
+<a id="a843767364ad65935951632679b74f7b3" name="a843767364ad65935951632679b74f7b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a843767364ad65935951632679b74f7b3">&#9670;&#160;</a></span>AttemptLogin()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_payload.html">LoginPayload</a> &gt; &gt; Tgstation.Server.Host.Authority.ILoginAuthority.AttemptLogin </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html">LoginResult</a> &gt; &gt; Tgstation.Server.Host.Authority.ILoginAuthority.AttemptLogin </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -140,9 +140,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a LoginPayload and Models.User AuthorityResponse&lt;TResult&gt;.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a LoginResult and Models.User AuthorityResponse&lt;TResult&gt;.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a9cd65f59354b327485d6043a1ead45ef">Tgstation.Server.Host.Authority.LoginAuthority</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a56db9647140a1a43ebab0642e99a35b6">Tgstation.Server.Host.Authority.LoginAuthority</a>.</p>
 
 </div>
 </div>

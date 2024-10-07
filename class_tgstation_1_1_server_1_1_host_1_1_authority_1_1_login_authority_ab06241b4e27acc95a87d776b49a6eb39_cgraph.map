@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Authority.LoginAuthority.CacheSystemIdentity" name="Tgstation.Server.Host.Authority.LoginAuthority.CacheSystemIdentity">
-<area shape="rect" id="Node000001" title="Add a given systemIdentity &#160;to the identityCache." alt="" coords="5,71,236,111"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#ab65ca85c86ab06d4aa3d90f3db2c0f32" title="Keep a user &#39;s systemIdentity &#160;alive until an expiry &#160;time." alt="" coords="305,5,536,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,67,309,47,310,52,218,73"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a8fc39cb31c7d4490f8fefe71c936aa12" title="Parses the Bearer as a JsonWebToken." alt="" coords="303,71,538,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="236,88,288,88,288,94,236,94"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_payload.html#acca22ae5219a70e9285a4b7ffdb28d87" title=" " alt="" coords="284,136,557,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="218,109,310,130,309,135,217,115"/>
-</map>
