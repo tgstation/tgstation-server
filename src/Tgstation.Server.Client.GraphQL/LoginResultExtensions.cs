@@ -53,8 +53,7 @@ namespace Tgstation.Server.Client.GraphQL
 				}
 			}
 
-			var bearer = data.Bearer;
-			if (bearer == null)
+			if (data.LoginResult == null)
 			{
 				if (errors != null)
 				{
@@ -68,7 +67,7 @@ namespace Tgstation.Server.Client.GraphQL
 				throw new AuthenticationException($"Null bearer and error fields!");
 			}
 
-			return bearer;
+			return data.LoginResult.Bearer;
 		}
 	}
 }

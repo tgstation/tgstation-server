@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -461,7 +461,7 @@ namespace Tgstation.Server.Tests.Live
 			var result = await gqlClient.RunOperation(client => client.Login.ExecuteAsync(cancellationToken), cancellationToken);
 
 			Assert.IsNotNull(result.Data);
-			Assert.IsNull(result.Data.Login.Bearer);
+			Assert.IsNull(result.Data.Login.LoginResult);
 			Assert.IsNotNull(result.Data.Login.Errors);
 			Assert.AreEqual(1, result.Data.Login.Errors.Count);
 			var castResult = result.Data.Login.Errors[0] is ILogin_Login_Errors_ErrorMessageError loginError;

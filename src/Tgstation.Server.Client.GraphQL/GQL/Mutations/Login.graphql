@@ -1,6 +1,8 @@
 mutation Login {
   login {
-    bearer
+    loginResult {
+      bearer
+    }
     errors {
       ... on ErrorMessageError {
         message

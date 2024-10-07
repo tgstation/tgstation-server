@@ -29,13 +29,13 @@ namespace Tgstation.Server.Host.GraphQL
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A Bearer token to be used with further communication with the server.</returns>
 		[Error(typeof(ErrorMessageException))]
-		public ValueTask<LoginPayload> Login(
+		public ValueTask<LoginResult> Login(
 			[Service] IGraphQLAuthorityInvoker<ILoginAuthority> loginAuthority,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(loginAuthority);
 
-			return loginAuthority.Invoke<LoginPayload, LoginPayload>(
+			return loginAuthority.Invoke<LoginResult, LoginResult>(
 				authority => authority.AttemptLogin(cancellationToken));
 		}
 	}
