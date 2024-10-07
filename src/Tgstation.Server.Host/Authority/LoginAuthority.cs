@@ -62,8 +62,8 @@ namespace Tgstation.Server.Host.Authority
 		/// Generate an <see cref="AuthorityResponse{TResult}"/> for a given <paramref name="headersException"/>.
 		/// </summary>
 		/// <param name="headersException">The <see cref="HeadersException"/> to generate a response for.</param>
-		/// <returns>A new, errored <see cref="LoginPayload"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
-		static AuthorityResponse<LoginPayload> GenerateHeadersExceptionResponse(HeadersException headersException)
+		/// <returns>A new, errored <see cref="LoginResult"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
+		static AuthorityResponse<LoginResult> GenerateHeadersExceptionResponse(HeadersException headersException)
 			=> new(
 				new ErrorMessageResponse(ErrorCode.BadHeaders)
 				{
@@ -131,14 +131,14 @@ namespace Tgstation.Server.Host.Authority
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<AuthorityResponse<LoginPayload>> AttemptLogin(CancellationToken cancellationToken)
+		public async ValueTask<AuthorityResponse<LoginResult>> AttemptLogin(CancellationToken cancellationToken)
 		{
 			var headers = apiHeadersProvider.ApiHeaders;
 			if (headers == null)
 				return GenerateHeadersExceptionResponse(apiHeadersProvider.HeadersException!);
 
 			if (headers.IsTokenAuthentication)
-				return BadRequest<LoginPayload>(ErrorCode.TokenWithToken);
+				return BadRequest<LoginResult>(ErrorCode.TokenWithToken);
 
 			var oAuthLogin = headers.OAuthProvider.HasValue;
 
@@ -168,7 +168,7 @@ namespace Tgstation.Server.Host.Authority
 							.GetValidator(oAuthProvider);
 
 						if (validator == null)
-							return BadRequest<LoginPayload>(ErrorCode.OAuthProviderDisabled);
+							return BadRequest<LoginResult>(ErrorCode.OAuthProviderDisabled);
 
 						externalUserId = await validator
 							.ValidateResponseCode(headers.OAuthCode!, cancellationToken);
@@ -177,11 +177,11 @@ namespace Tgstation.Server.Host.Authority
 					}
 					catch (Octokit.RateLimitExceededException ex)
 					{
-						return RateLimit<LoginPayload>(ex);
+						return RateLimit<LoginResult>(ex);
 					}
 
 					if (externalUserId == null)
-						return Unauthorized<LoginPayload>();
+						return Unauthorized<LoginResult>();
 
 					query = query.Where(
 						x => x.OAuthConnections!.Any(
@@ -192,7 +192,7 @@ namespace Tgstation.Server.Host.Authority
 				{
 					var canonicalUserName = User.CanonicalizeName(headers.Username!);
 					if (canonicalUserName == User.CanonicalizeName(User.TgsSystemUserName))
-						return Unauthorized<LoginPayload>();
+						return Unauthorized<LoginResult>();
 
 					if (systemIdentity == null)
 						query = query.Where(x => x.CanonicalName == canonicalUserName);
@@ -204,7 +204,7 @@ namespace Tgstation.Server.Host.Authority
 
 				// No user? You're not allowed
 				if (user == null)
-					return Unauthorized<LoginPayload>();
+					return Unauthorized<LoginResult>();
 
 				// A system user may have had their name AND password changed to one in our DB...
 				// Or a DB user was created that had the same user/pass as a system user
@@ -219,7 +219,7 @@ namespace Tgstation.Server.Host.Authority
 					{
 						// DB User password check and update
 						if (!isLikelyDbUser || !cryptographySuite.CheckUserPassword(user, headers.Password!))
-							return Unauthorized<LoginPayload>();
+							return Unauthorized<LoginResult>();
 						if (user.PasswordHash != originalHash)
 						{
 							Logger.LogDebug("User ID {userId}'s password hash needs a refresh, updating database.", user.Id);
@@ -262,11 +262,11 @@ namespace Tgstation.Server.Host.Authority
 				if (!user.Enabled!.Value)
 				{
 					Logger.LogTrace("Not logging in disabled user {userId}.", user.Id);
-					return Forbid<LoginPayload>();
+					return Forbid<LoginResult>();
 				}
 
 				var token = tokenFactory.CreateToken(user, oAuthLogin);
-				var payload = new LoginPayload
+				var payload = new LoginResult
 				{
 					Bearer = token,
 					User = ((IApiTransformable<User, GraphQL.Types.User, UserGraphQLTransformer>)user).ToApi(),
@@ -277,7 +277,7 @@ namespace Tgstation.Server.Host.Authority
 
 				Logger.LogDebug("Successfully logged in user {userId}!", user.Id);
 
-				return new AuthorityResponse<LoginPayload>(payload);
+				return new AuthorityResponse<LoginResult>(payload);
 			}
 		}
 
@@ -286,9 +286,9 @@ namespace Tgstation.Server.Host.Authority
 		/// </summary>
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> to cache.</param>
 		/// <param name="user">The <see cref="User"/> the <paramref name="systemIdentity"/> was generated for.</param>
-		/// <param name="loginPayload">The <see cref="LoginPayload"/> for the successful login.</param>
+		/// <param name="loginPayload">The <see cref="LoginResult"/> for the successful login.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		private async ValueTask CacheSystemIdentity(ISystemIdentity systemIdentity, User user, LoginPayload loginPayload)
+		private async ValueTask CacheSystemIdentity(ISystemIdentity systemIdentity, User user, LoginResult loginPayload)
 		{
 			// expire the identity slightly after the auth token in case of lag
 			var identExpiry = loginPayload.ToApi().ParseJwt().ValidTo;

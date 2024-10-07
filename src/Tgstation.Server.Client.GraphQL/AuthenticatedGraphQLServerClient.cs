@@ -70,7 +70,7 @@ namespace Tgstation.Server.Client.GraphQL
 				  loginResult)
 		{
 			this.getRestClientForToken = getRestClientForToken ?? throw new ArgumentNullException(nameof(getRestClientForToken));
-			restClient = getRestClientForToken(loginResult.Data!.Login.Bearer!.EncodedToken);
+			restClient = getRestClientForToken(loginResult.Data!.Login.LoginResult!.Bearer.EncodedToken);
 		}
 
 		/// <inheritdoc />

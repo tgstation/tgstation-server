@@ -15,7 +15,7 @@ namespace Tgstation.Server.Host.Authority
 		/// Attempt to login to the server with the current crentials.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="LoginPayload"/> and <see cref="Models.User"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
-		ValueTask<AuthorityResponse<LoginPayload>> AttemptLogin(CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="LoginResult"/> and <see cref="Models.User"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
+		ValueTask<AuthorityResponse<LoginResult>> AttemptLogin(CancellationToken cancellationToken);
 	}
 }
