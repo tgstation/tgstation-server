@@ -102,33 +102,33 @@
     <!-- Usage: GitLab interop -->
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <!-- Usage: GraphQL API Engine -->
-    <PackageReference Include="HotChocolate.AspNetCore" Version="14.0.0-rc.2" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="14.0.0-rc.3" />
     <!-- Usage: GraphQL Authorization Plugin -->
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.0.0-rc.2" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.0.0-rc.3" />
     <!-- Usage: GraphQL IDatabaseContext support -->
-    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="14.0.0-rc.2" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="14.0.0-rc.3" />
     <!-- Usage: DataLoader source generation -->
-    <PackageReference Include="HotChocolate.Types.Analyzers" Version="14.0.0-rc.2" />
+    <PackageReference Include="HotChocolate.Types.Analyzers" Version="14.0.0-rc.3" />
     <!-- Usage: GraphQL additional scalar type definitions -->
-    <PackageReference Include="HotChocolate.Types.Scalars" Version="14.0.0-rc.2" />
+    <PackageReference Include="HotChocolate.Types.Scalars" Version="14.0.0-rc.3" />
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.10" />
     <!-- Usage: Using target JSON serializer for API -->
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.10" />
     <!-- Usage: Generating dumps of dotnet engine processes -->
     <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.547301" />
     <!-- Usage: Database ORM -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
     <!-- Usage: Automatic migration generation using command line -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <!-- Usage: Sqlite ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
     <!-- Usage: MSSQL ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
     <!-- Usage: POSIX support for syscalls, signals, and symlinks -->
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <!-- Usage: Cron string parsing -->
@@ -156,7 +156,7 @@
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.8.1" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.1" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
     <PackageReference Include="System.Management" Version="8.0.0" />
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
