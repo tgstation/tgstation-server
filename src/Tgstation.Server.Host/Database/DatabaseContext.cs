@@ -263,7 +263,7 @@ namespace Tgstation.Server.Host.Database
 				ConfigureMethodName,
 				BindingFlags.Public | BindingFlags.Static)
 				?? throw new InvalidOperationException($"Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!");
-			return (optionsBuilder, config) => configureFunction.Invoke(null, new object[] { optionsBuilder, config });
+			return (optionsBuilder, config) => configureFunction.Invoke(null, [optionsBuilder, config]);
 		}
 
 		/// <summary>
@@ -445,6 +445,7 @@ namespace Tgstation.Server.Host.Database
 		// HEY YOU
 		// IF YOU HAVE A TEST THAT'S CREATING ERRORS BECAUSE THESE VALUES AREN'T SET CORRECTLY THERE'S MORE TO FIXING IT THAN JUST UPDATING THEM
 		// IN THE FUNCTION BELOW YOU ALSO NEED TO CORRECTLY SET THE RIGHT MIGRATION TO DOWNGRADE TO FOR THE LAST TGS VERSION
+		// YOU ALSO NEED TO UPDATE THE SWARM PROTOCOL MAJOR VERSION
 		// IF THIS BREAKS AGAIN I WILL PERSONALLY HAUNT YOUR ASS WHEN I DIE
 
 		/// <summary>
@@ -480,6 +481,7 @@ namespace Tgstation.Server.Host.Database
 
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 
+			// !!! DON'T FORGET TO UPDATE THE SWARM PROTOCOL MAJOR VERSION !!!
 			if (targetVersion < new Version(6, 7, 0))
 				targetMigration = currentDatabaseType switch
 				{

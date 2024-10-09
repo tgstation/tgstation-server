@@ -2,7 +2,7 @@
 
 using StrawberryShake.Serialization;
 
-#pragma warning disable CA1812 // not detecting service provider usage
+#pragma warning disable CA1812 // not detecting usage via annotation in schema.extensions.graphql
 
 namespace Tgstation.Server.Client.GraphQL.Serializers
 {

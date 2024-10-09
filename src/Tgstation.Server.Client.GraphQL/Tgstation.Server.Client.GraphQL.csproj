@@ -3,12 +3,14 @@
 
   <PropertyGroup>
     <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
-    <Version>$(TgsApiVersion)</Version>
+    <!-- Opting to not version this because as far as I can tell, it'll only be used locally -->
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <!-- GraphQL connector and code generator -->
-    <PackageReference Include="StrawberryShake.Server" Version="13.9.12" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+    <PackageReference Include="StrawberryShake.Server" Version="13.9.14" />
   </ItemGroup>
 
   <ItemGroup>

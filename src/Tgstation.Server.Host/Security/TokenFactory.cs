@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -21,20 +22,41 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public TokenValidationParameters ValidationParameters { get; }
 
+		/// <inheritdoc />
+		public ReadOnlySpan<byte> SigningKeyBytes
+		{
+			get => signingKey.Key;
+			[MemberNotNull(nameof(signingKey))]
+			[MemberNotNull(nameof(tokenHeader))]
+			set
+			{
+				signingKey = new SymmetricSecurityKey(value.ToArray());
+				tokenHeader = new JwtHeader(
+				new SigningCredentials(
+					signingKey,
+					SecurityAlgorithms.HmacSha256));
+			}
+		}
+
 		/// <summary>
 		/// The <see cref="SecurityConfiguration"/> for the <see cref="TokenFactory"/>.
 		/// </summary>
 		readonly SecurityConfiguration securityConfiguration;
 
 		/// <summary>
-		/// The <see cref="JwtHeader"/> for generating tokens.
-		/// </summary>
-		readonly JwtHeader tokenHeader;
-
-		/// <summary>
 		/// The <see cref="JwtSecurityTokenHandler"/> used to generate <see cref="TokenResponse.Bearer"/> <see cref="string"/>s.
 		/// </summary>
 		readonly JwtSecurityTokenHandler tokenHandler;
+
+		/// <summary>
+		/// Backing field for <see cref="SigningKeyBytes"/>.
+		/// </summary>
+		SymmetricSecurityKey signingKey;
+
+		/// <summary>
+		/// The <see cref="JwtHeader"/> for generating tokens.
+		/// </summary>
+		JwtHeader tokenHeader;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TokenFactory"/> class.
@@ -52,14 +74,14 @@ namespace Tgstation.Server.Host.Security
 
 			securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 
-			var signingKeyBytes = String.IsNullOrWhiteSpace(securityConfiguration.CustomTokenSigningKeyBase64)
+			SigningKeyBytes = String.IsNullOrWhiteSpace(securityConfiguration.CustomTokenSigningKeyBase64)
 				? cryptographySuite.GetSecureBytes(securityConfiguration.TokenSigningKeyByteCount)
 				: Convert.FromBase64String(securityConfiguration.CustomTokenSigningKeyBase64);
 
 			ValidationParameters = new TokenValidationParameters
 			{
 				ValidateIssuerSigningKey = true,
-				IssuerSigningKey = new SymmetricSecurityKey(signingKeyBytes),
+				IssuerSigningKeyResolver = (_, _, _, _) => Enumerable.Repeat(signingKey, 1),
 
 				ValidateIssuer = true,
 				ValidIssuer = assemblyInformationProvider.AssemblyName.Name,
@@ -75,15 +97,11 @@ namespace Tgstation.Server.Host.Security
 				RequireExpirationTime = true,
 			};
 
-			tokenHeader = new JwtHeader(
-				new SigningCredentials(
-					ValidationParameters.IssuerSigningKey,
-					SecurityAlgorithms.HmacSha256));
 			tokenHandler = new JwtSecurityTokenHandler();
 		}
 
 		/// <inheritdoc />
-		public TokenResponse CreateToken(User user, bool oAuth)
+		public string CreateToken(User user, bool oAuth)
 		{
 			ArgumentNullException.ThrowIfNull(user);
 
@@ -121,10 +139,7 @@ namespace Tgstation.Server.Host.Security
 					expiry.UtcDateTime,
 					now.UtcDateTime));
 
-			var tokenResponse = new TokenResponse
-			{
-				Bearer = tokenHandler.WriteToken(securityToken),
-			};
+			var tokenResponse = tokenHandler.WriteToken(securityToken);
 
 			return tokenResponse;
 		}

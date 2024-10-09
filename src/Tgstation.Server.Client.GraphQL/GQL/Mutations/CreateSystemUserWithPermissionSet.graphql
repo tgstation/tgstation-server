@@ -1,0 +1,16 @@
+mutation CreateSystemUserWithPermissionSet($systemIdentifier: String!) {
+  createUserBySystemIDAndPermissionSet(
+    input: { permissionSet: {}, systemIdentifier: $systemIdentifier }
+  ) {
+    errors {
+      ... on ErrorMessageError {
+        additionalData
+        errorCode
+        message
+      }
+    }
+    user {
+      id
+    }
+  }
+}

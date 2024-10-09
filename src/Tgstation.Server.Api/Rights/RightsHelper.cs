@@ -47,19 +47,13 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		/// <typeparam name="TRight">The <see cref="RightsType"/>.</typeparam>
 		/// <param name="right">The <typeparamref name="TRight"/>.</param>
-		/// <returns>A <see cref="string"/> representing the claim role name.</returns>
-		public static string RoleNames<TRight>(TRight right)
+		/// <returns>Am <see cref="IEnumerable{T}"/> of <see cref="string"/>s representing the claim role names.</returns>
+		public static IEnumerable<string> RoleNames<TRight>(TRight right)
 			where TRight : Enum
 		{
-			IEnumerable<string> GetRoleNames()
-			{
-				foreach (Enum rightValue in Enum.GetValues(right.GetType()))
-					if (Convert.ToInt32(rightValue, CultureInfo.InvariantCulture) != 0 && right.HasFlag(rightValue))
-						yield return String.Concat(typeof(TRight).Name, '.', rightValue.ToString());
-			}
-
-			var names = GetRoleNames();
-			return String.Join(",", names);
+			foreach (Enum rightValue in Enum.GetValues(right.GetType()))
+				if (Convert.ToInt32(rightValue, CultureInfo.InvariantCulture) != 0 && right.HasFlag(rightValue))
+					yield return String.Concat(typeof(TRight).Name, '.', rightValue.ToString());
 		}
 
 		/// <summary>

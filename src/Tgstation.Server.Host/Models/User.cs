@@ -5,11 +5,15 @@ using System.Linq;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Host.Models.Transformers;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.UserModelBase" />
-	public sealed class User : Api.Models.Internal.UserModelBase, IApiTransformable<UserResponse>
+	public sealed class User : Api.Models.Internal.UserModelBase,
+		ILegacyApiTransformable<UserResponse>,
+		IApiTransformable<User, GraphQL.Types.User, UserGraphQLTransformer>,
+		IApiTransformable<User, GraphQL.Types.UserName, UserNameGraphQLTransformer>
 	{
 		/// <summary>
 		/// Username used when creating jobs automatically.
@@ -27,12 +31,17 @@ namespace Tgstation.Server.Host.Models
 		public User? CreatedBy { get; set; }
 
 		/// <summary>
+		/// The <see cref="EntityId.Id"/> of the <see cref="User"/>'s <see cref="CreatedBy"/> <see cref="User"/>.
+		/// </summary>
+		public long? CreatedById { get; set; }
+
+		/// <summary>
 		/// The <see cref="UserGroup"/> the <see cref="User"/> belongs to, if any.
 		/// </summary>
 		public UserGroup? Group { get; set; }
 
 		/// <summary>
-		/// The ID of the <see cref="User"/>'s <see cref="UserGroup"/>.
+		/// The <see cref="EntityId.Id"/> of the <see cref="User"/>'s <see cref="Group"/>.
 		/// </summary>
 		public long? GroupId { get; set; }
 

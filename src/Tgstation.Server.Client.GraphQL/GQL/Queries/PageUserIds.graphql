@@ -1,0 +1,16 @@
+query PageUserIds($first: Int, $after: String) {
+  swarm {
+    users {
+      queryableUsers(first: $first, after: $after) {
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
+        totalCount
+        nodes {
+          id
+        }
+      }
+    }
+  }
+}

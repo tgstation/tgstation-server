@@ -1,9 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
-using Tgstation.Server.Api.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using StrawberryShake;
+
 using Tgstation.Server.Client;
+using Tgstation.Server.Client.GraphQL;
 
 namespace Tgstation.Server.Tests.Live
 {
@@ -19,7 +25,7 @@ namespace Tgstation.Server.Tests.Live
 		/// <param name="action">A <see cref="Func{TResult}"/> resulting in a <see cref="Task"/>.</param>
 		/// <param name="expectedErrorCode">The expected <see cref="ApiException.ErrorCode"/>.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation,</returns>
-		public static async ValueTask ThrowsException<TApiException>(Func<ValueTask> action, ErrorCode? expectedErrorCode = null)
+		public static async ValueTask ThrowsException<TApiException>(Func<ValueTask> action, Api.Models.ErrorCode? expectedErrorCode = null)
 			where TApiException : ApiException
 		{
 			try
@@ -43,7 +49,7 @@ namespace Tgstation.Server.Tests.Live
 		/// <param name="action">A <see cref="Func{TResult}"/> resulting in a <see cref="Task"/>.</param>
 		/// <param name="expectedErrorCode">The expected <see cref="ApiException.ErrorCode"/>.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation,</returns>
-		public static async ValueTask ThrowsException<TApiException, TResult>(Func<ValueTask<TResult>> action, ErrorCode? expectedErrorCode = null)
+		public static async ValueTask ThrowsException<TApiException, TResult>(Func<ValueTask<TResult>> action, Api.Models.ErrorCode? expectedErrorCode = null)
 			where TApiException : ApiException
 		{
 			try
@@ -57,6 +63,26 @@ namespace Tgstation.Server.Tests.Live
 			}
 
 			Assert.Fail($"Expected exception {typeof(TApiException)}!");
+		}
+
+		public static async ValueTask OperationFails<TResultData, TPayload>(
+			IGraphQLServerClient client,
+			Func<IGraphQLClient, Task<IOperationResult<TResultData>>> operationInvoker,
+			Func<TResultData, TPayload> payloadSelector,
+			Client.GraphQL.ErrorCode expectedErrorCode,
+			CancellationToken cancellationToken)
+			where TResultData : class
+		{
+			var operationResult = await client.RunOperation(operationInvoker, cancellationToken);
+			operationResult.EnsureNoErrors();
+
+			var payload = payloadSelector(operationResult.Data);
+
+			var payloadErrors = (IEnumerable<object>)payload.GetType().GetProperty("Errors").GetValue(payload);
+			var error = payloadErrors.Single();
+
+			var errorCode = (ErrorCode)error.GetType().GetProperty("ErrorCode").GetValue(error);
+			Assert.AreEqual(expectedErrorCode, errorCode);
 		}
 	}
 }

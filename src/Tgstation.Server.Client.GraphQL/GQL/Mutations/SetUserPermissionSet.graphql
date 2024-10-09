@@ -1,0 +1,66 @@
+mutation SetUserPermissionSet($id: ID!, $permissionSet: PermissionSetInput!) {
+  updateUserSetOwnedPermissionSet(input: { newPermissionSet: $permissionSet, id: $id }) {
+    errors {
+      ... on ErrorMessageError {
+        additionalData
+        errorCode
+        message
+      }
+    }
+    user {
+      effectivePermissionSet {
+        administrationRights {
+          canChangeVersion
+          canDownloadLogs
+          canEditOwnOAuthConnections
+          canEditOwnPassword
+          canReadUsers
+          canRestartHost
+          canUploadVersion
+          canWriteUsers
+        }
+        instanceManagerRights {
+          canCreate
+          canDelete
+          canGrantPermissions
+          canList
+          canRead
+          canRelocate
+          canRename
+          canSetAutoUpdate
+          canSetChatBotLimit
+          canSetConfiguration
+          canSetOnline
+        }
+      }
+      ownedPermissionSet {
+        administrationRights {
+          canChangeVersion
+          canDownloadLogs
+          canEditOwnOAuthConnections
+          canEditOwnPassword
+          canReadUsers
+          canRestartHost
+          canUploadVersion
+          canWriteUsers
+        }
+        instanceManagerRights {
+          canCreate
+          canDelete
+          canGrantPermissions
+          canList
+          canRead
+          canRelocate
+          canRename
+          canSetAutoUpdate
+          canSetChatBotLimit
+          canSetConfiguration
+          canSetOnline
+        }
+      }
+      group {
+        id
+      }
+    }
+  }
+}

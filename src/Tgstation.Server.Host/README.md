@@ -23,13 +23,15 @@ Server startup can be a bit complicated so here's a walkthrough
 Here's a breakdown of things in this directory
 
 - [.config](./.config) contains the dotnet-tools.json. At the time of writing, this is only used to set the version of the [dotnet ef tools](https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/) used to create database migrations.
+- [Authority](./Authority) is code that contains the buisiness logic that bridges the HTTP APIs with component code and the database.
 - [ClientApp](./ClientApp) contains scripts to build and deploy the web control panel with TGS.
 - [Components](./Components) is where the bulk of the TGS implementation lives.
 - [Configuration](./Configuration) contains classes that partly make up the configuration yaml files (i.e. [appsettings.yml](./appsettings.yml)).
-- [Controllers](./Controllers) is where HTTP API code lives and bridges it with component code.
+- [Controllers](./Controllers) is where REST API code lives.
 - [Core](./Core) contains [Application.cs](./Core/Application.cs) and other classes related to the overrarching server process.
 - [Database](./Database) contains all database related code.
 - [Extensions](./Extensions) contains helper functions implemented as C# extension methods.
+- [GraphQL](./GraqhQL) is where GraphQL API code lives.
 - [IO](./IO) contains classes related to interacting with the filesystem.
 - [Jobs](./Jobs) contains the job manager code.
 - [Models](./Models) contains ORM models used to interact with the database.

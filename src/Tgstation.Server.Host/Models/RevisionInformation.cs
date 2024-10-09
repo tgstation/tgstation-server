@@ -6,7 +6,7 @@ using System.Linq;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.RevisionInformation" />
-	public sealed class RevisionInformation : Api.Models.Internal.RevisionInformation, IApiTransformable<Api.Models.RevisionInformation>
+	public sealed class RevisionInformation : Api.Models.Internal.RevisionInformation, ILegacyApiTransformable<Api.Models.RevisionInformation>
 	{
 		/// <summary>
 		/// The row Id.

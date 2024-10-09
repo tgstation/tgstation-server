@@ -1,0 +1,12 @@
+query ListUsers {
+  swarm {
+    users {
+      queryableUsers {
+        nodes {
+          id
+        }
+        totalCount
+      }
+    }
+  }
+}

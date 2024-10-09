@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Models
 	/// <summary>
 	/// Represents an <see cref="Api.Models.Instance"/> in the database.
 	/// </summary>
-	public sealed class Instance : Api.Models.Instance, IApiTransformable<InstanceResponse>
+	public sealed class Instance : Api.Models.Instance, ILegacyApiTransformable<InstanceResponse>
 	{
 		/// <summary>
 		/// Default for <see cref="Api.Models.Instance.ChatBotLimit"/>.

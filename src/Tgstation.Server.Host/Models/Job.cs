@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.Job" />
 #pragma warning disable CA1724 // naming conflict with gitlab package
-	public sealed class Job : Api.Models.Internal.Job, IApiTransformable<JobResponse>
+	public sealed class Job : Api.Models.Internal.Job, ILegacyApiTransformable<JobResponse>
 #pragma warning restore CA1724
 	{
 		/// <summary>
