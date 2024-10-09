@@ -3639,6 +3639,13 @@ Components:
       Author: AffectedArc07
       PullRequest: 1408
   WebControlPanel:
+  - Version: 6.4.0
+    Changes:
+    - Descriptions:
+      - Added automatic merge conflict detection to test merge viewer. Credit to @MarkSuckerberg.
+      Author: Cyberboss
+      PullRequest: 1959
+    Unreleased: true
   - Version: 6.2.0
     Changes:
     - Descriptions:
