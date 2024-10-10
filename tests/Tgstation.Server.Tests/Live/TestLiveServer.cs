@@ -1930,11 +1930,13 @@ namespace Tgstation.Server.Tests.Live
 						password,
 						cancellationToken: cancellationToken);
 					using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-					graphQLClientTask = graphQLClientFactory.CreateFromLogin(
-						url,
-						username,
-						password,
-						cancellationToken: cts.Token);
+					graphQLClientTask = MultiServerClient.UseGraphQL
+						? graphQLClientFactory.CreateFromLogin(
+							url,
+							username,
+							password,
+							cancellationToken: cts.Token)
+						: ValueTask.FromResult<IAuthenticatedGraphQLServerClient>(null);
 
 					IRestServerClient restClient;
 					try

@@ -28,7 +28,7 @@ namespace Tgstation.Server.Tests.Live
 		public ValueTask DisposeAsync()
 			=> ValueTaskExtensions.WhenAll(
 				RestClient.DisposeAsync(),
-				GraphQLClient.DisposeAsync());
+				GraphQLClient?.DisposeAsync() ?? ValueTask.CompletedTask);
 
 		public ValueTask Execute(
 			Func<IRestServerClient, ValueTask> restAction,
@@ -48,6 +48,11 @@ namespace Tgstation.Server.Tests.Live
 			where TGraphQLResult : class
 		{
 			var restTask = restAction(RestClient);
+			if (!UseGraphQL)
+			{
+				return (await restTask, null);
+			}
+
 			var graphQLResult = await GraphQLClient.RunOperation(graphQLAction, cancellationToken);
 
 			graphQLResult.EnsureNoErrors();
@@ -60,6 +65,6 @@ namespace Tgstation.Server.Tests.Live
 		}
 
 		public ValueTask<IDisposable> Subscribe<TResultData>(Func<IGraphQLClient, IObservable<IOperationResult<TResultData>>> operationExecutor, IObserver<IOperationResult<TResultData>> observer, CancellationToken cancellationToken) where TResultData : class
-			=> GraphQLClient.Subscribe(operationExecutor, observer, cancellationToken);
+			=> GraphQLClient?.Subscribe(operationExecutor, observer, cancellationToken) ?? ValueTask.FromResult<IDisposable>(new CancellationTokenSource());
 	}
 }
