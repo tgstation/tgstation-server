@@ -164,7 +164,18 @@ Components:
       PullRequest: 1070
   Core:
   - Version: 6.12.0
-    ComponentVersions: {}
+    ComponentVersions:
+      Core: 6.11.0
+      HttpApi: 10.10.0
+      GraphQLApi: 0.2.0
+      DreamMakerApi: 7.3.0
+      Configuration: 5.3.0
+      InteropApi: 5.10.0
+      HostWatchdog: 1.5.0
+      NugetCommon: 7.0.0
+      NugetApi: 16.1.0
+      NugetClient: 19.1.0
+      WebControlPanel: 6.4.0
     Changes: []
     Unreleased: true
   - Version: 6.11.1
@@ -4697,23 +4708,6 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
-  - Version: 16.1.0
-    Changes:
-    - Descriptions:
-      - Adds IrcPasswordType.Oper for /OPER authentication
-      Author: craftxbox
-      PullRequest: 1935
-    - Descriptions:
-      - '**BREAKING:** Removed `IEquatable` implementations for `SwarmServer`s.'
-      - '**BREAKING:** `RightsHelper.RoleNames` now returns an `IEnumerable<string>` instead of a comma separated `string`.'
-      - '**BREAKING:** Non-functionally rearranged some class structures again.'
-      Author: Cyberboss
-      PullRequest: 1936
-    - Descriptions:
-      - Adjusted how API compatibility checks are performed
-      Author: Cyberboss
-      PullRequest: 1955
-    Unreleased: true
   - Version: 13.5.0
     Changes:
     - Descriptions:
@@ -4797,15 +4791,4 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient:
-  - Version: 19.1.0
-    Changes:
-    - Descriptions:
-      - '**BREAKING**: Updated `Tgstation.Server.Api` to v16.0.0.'
-      Author: Cyberboss
-      PullRequest: 1936
-    - Descriptions:
-      - Bump API library to v16.1.0.
-      Author: Cyberboss
-      PullRequest: 1955
-    Unreleased: true
+  NugetClient: []
