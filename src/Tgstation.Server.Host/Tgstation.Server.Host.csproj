@@ -106,7 +106,7 @@
     <!-- Usage: GraphQL Authorization Plugin -->
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.0.0-rc.3.2" />
     <!-- Usage: GraphQL IDatabaseContext support -->
-    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="14.0.0-rc.3" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="14.0.0-rc.3.2" />
     <!-- Usage: DataLoader source generation -->
     <PackageReference Include="HotChocolate.Types.Analyzers" Version="14.0.0-rc.3.2" />
     <!-- Usage: GraphQL additional scalar type definitions -->
