@@ -110,7 +110,7 @@
     <!-- Usage: DataLoader source generation -->
     <PackageReference Include="HotChocolate.Types.Analyzers" Version="14.0.0-rc.3.2" />
     <!-- Usage: GraphQL additional scalar type definitions -->
-    <PackageReference Include="HotChocolate.Types.Scalars" Version="14.0.0-rc.3" />
+    <PackageReference Include="HotChocolate.Types.Scalars" Version="14.0.0-rc.3.2" />
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
