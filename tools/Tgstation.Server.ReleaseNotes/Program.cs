@@ -1496,10 +1496,10 @@ package (version) distribution(s); urgency=urgency
 							|| component == Component.NugetCommon)
 							continue;
 
-						var takeNotesFrom = previousRelease.ComponentVersions[componentKvp.Key];
+						var hasPreviousRelease = previousRelease.ComponentVersions.TryGetValue(componentKvp.Key, out var takeNotesFrom);
 						var changesEnumerator = releaseNotes
 							.Components[component]
-							.Where(changelist => changelist.Version > takeNotesFrom && changelist.Version <= componentKvp.Value)
+							.Where(changelist => !hasPreviousRelease || (changelist.Version > takeNotesFrom && changelist.Version <= componentKvp.Value))
 							.SelectMany(x => x.Changes)
 							.OrderBy(x => x.PullRequest);
 						var changelist = new Changelist
