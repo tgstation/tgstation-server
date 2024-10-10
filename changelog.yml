@@ -6,7 +6,6 @@ Components:
       - Adds a new `ProviderNetworkDebug` flag in `FileLogging` to debug IRC traffic.
       Author: craftxbox
       PullRequest: 1935
-    Unreleased: true
   - Version: 5.2.0
     Changes:
     - Descriptions:
@@ -164,18 +163,27 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.12.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.11.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.11.0
     ComponentVersions:
-      HttpApi: 
-      GraphQLApi: 
+      Core: 6.10.0
+      HttpApi: 10.10.0
+      GraphQLApi: 0.2.0
       DreamMakerApi: 7.3.0
-      Configuration: 5.2.0
+      Configuration: 5.3.0
       InteropApi: 5.10.0
       HostWatchdog: 1.5.0
       NugetCommon: 7.0.0
-      NugetApi: 16.0.0
-      NugetClient: 19.0.0
-      WebControlPanel: 6.2.0
+      NugetApi: 16.1.0
+      NugetClient: 19.1.0
+      WebControlPanel: 6.4.0
     Changes:
     - Descriptions:
       - Swarm server nodes now inherit the token signing key of the controller, meaning that an authentication token generated on one server will work for all servers in the swarm. This behavior occurs for all swarm nodes regardless of `Security` configuration settings.
@@ -192,22 +200,6 @@ Components:
       - Fixed some oddities in the authentication/authorization pipeline.
       Author: Cyberboss
       PullRequest: 1936
-    Unreleased: true
-  - Version: 6.10.1
-    ComponentVersions:
-      Core: 6.10.0
-      HttpApi: 
-      GraphQLApi: 
-      DreamMakerApi: 7.3.0
-      Configuration: 5.2.0
-      InteropApi: 5.10.0
-      HostWatchdog: 1.5.0
-      NugetCommon: 7.0.0
-      NugetApi: 15.0.0
-      NugetClient: 18.0.0
-      WebControlPanel: 6.2.0
-    Changes: []
-    Unreleased: true
   - Version: 6.10.0
     ComponentVersions:
       Core: 6.10.0
@@ -3645,7 +3637,6 @@ Components:
       - Added automatic merge conflict detection to test merge viewer. Credit to @MarkSuckerberg.
       Author: Cyberboss
       PullRequest: 1959
-    Unreleased: true
   - Version: 6.2.0
     Changes:
     - Descriptions:
@@ -3880,7 +3871,6 @@ Components:
       - Reserved error code 109 for a future change.
       Author: Cyberboss
       PullRequest: 1936
-    Unreleased: true
   - Version: 10.8.0
     Changes:
     - Descriptions:
@@ -4418,14 +4408,12 @@ Components:
       - Fixed issue of login fields being nullable.
       Author: Cyberboss
       PullRequest: 1955
-    Unreleased: true
   - Version: 0.1.0
     Changes:
     - Descriptions:
       - Initial in-dev release.
       Author: Cyberboss
       PullRequest: 1954
-    Unreleased: true
   DreamMakerApi:
   - Version: 7.3.0
     Changes:
@@ -4712,13 +4700,6 @@ Components:
   - Version: 16.1.0
     Changes:
     - Descriptions:
-      - Adjusted how API compatibility checks are performed
-      Author: Cyberboss
-      PullRequest: 1955
-    Unreleased: true
-  - Version: 16.0.0
-    Changes:
-    - Descriptions:
       - Adds IrcPasswordType.Oper for /OPER authentication
       Author: craftxbox
       PullRequest: 1935
@@ -4728,6 +4709,10 @@ Components:
       - '**BREAKING:** Non-functionally rearranged some class structures again.'
       Author: Cyberboss
       PullRequest: 1936
+    - Descriptions:
+      - Adjusted how API compatibility checks are performed
+      Author: Cyberboss
+      PullRequest: 1955
     Unreleased: true
   - Version: 13.5.0
     Changes:
@@ -4816,14 +4801,11 @@ Components:
   - Version: 19.1.0
     Changes:
     - Descriptions:
-      - Bump API library to v16.1.0.
-      Author: Cyberboss
-      PullRequest: 1955
-    Unreleased: true
-  - Version: 19.0.0
-    Changes:
-    - Descriptions:
       - '**BREAKING**: Updated `Tgstation.Server.Api` to v16.0.0.'
       Author: Cyberboss
       PullRequest: 1936
+    - Descriptions:
+      - Bump API library to v16.1.0.
+      Author: Cyberboss
+      PullRequest: 1955
     Unreleased: true
