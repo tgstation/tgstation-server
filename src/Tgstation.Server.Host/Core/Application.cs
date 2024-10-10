@@ -295,55 +295,54 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IAbstractHttpClientFactory, AbstractHttpClientFactory>();
 
 			// configure graphql
-			if (postSetupServices.InternalConfiguration.EnableGraphQL)
-				services
-					.AddScoped<GraphQL.Subscriptions.ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
-					.AddGraphQLServer()
-					.AddAuthorization()
-					.ModifyOptions(options =>
-					{
-						options.EnsureAllNodesCanBeResolved = true;
-						options.EnableFlagEnums = true;
-					})
+			services
+				.AddScoped<GraphQL.Subscriptions.ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
+				.AddGraphQLServer()
+				.AddAuthorization()
+				.ModifyOptions(options =>
+				{
+					options.EnsureAllNodesCanBeResolved = true;
+					options.EnableFlagEnums = true;
+				})
 #if DEBUG
-					.ModifyCostOptions(options =>
-					{
-						options.EnforceCostLimits = false;
-					})
+				.ModifyCostOptions(options =>
+				{
+					options.EnforceCostLimits = false;
+				})
 #endif
-					.AddMutationConventions()
-					.AddInMemorySubscriptions(
-						new SubscriptionOptions
-						{
-							TopicBufferCapacity = 1024, // mainly so high for tests, not possible to DoS the server without authentication and some other access to generate messages
-						})
-					.AddGlobalObjectIdentification()
-					.AddQueryFieldToMutationPayloads()
-					.ModifyOptions(options =>
+				.AddMutationConventions()
+				.AddInMemorySubscriptions(
+					new SubscriptionOptions
 					{
-						options.EnableDefer = true;
+						TopicBufferCapacity = 1024, // mainly so high for tests, not possible to DoS the server without authentication and some other access to generate messages
 					})
-					.ModifyPagingOptions(pagingOptions =>
-					{
-						pagingOptions.IncludeTotalCount = true;
-						pagingOptions.RequirePagingBoundaries = false;
-						pagingOptions.DefaultPageSize = ApiController.DefaultPageSize;
-						pagingOptions.MaxPageSize = ApiController.MaximumPageSize;
-					})
-					.AddFiltering()
-					.AddSorting()
-					.AddHostTypes()
-					.AddErrorFilter<ErrorMessageFilter>()
-					.AddType<StandaloneNode>()
-					.AddType<LocalGateway>()
-					.AddType<RemoteGateway>()
-					.AddType<GraphQL.Types.UserName>()
-					.AddType<UnsignedIntType>()
-					.BindRuntimeType<Version, SemverType>()
-					.TryAddTypeInterceptor<RightsTypeInterceptor>()
-					.AddQueryType<Query>()
-					.AddMutationType<Mutation>()
-					.AddSubscriptionType<Subscription>();
+				.AddGlobalObjectIdentification()
+				.AddQueryFieldToMutationPayloads()
+				.ModifyOptions(options =>
+				{
+					options.EnableDefer = true;
+				})
+				.ModifyPagingOptions(pagingOptions =>
+				{
+					pagingOptions.IncludeTotalCount = true;
+					pagingOptions.RequirePagingBoundaries = false;
+					pagingOptions.DefaultPageSize = ApiController.DefaultPageSize;
+					pagingOptions.MaxPageSize = ApiController.MaximumPageSize;
+				})
+				.AddFiltering()
+				.AddSorting()
+				.AddHostTypes()
+				.AddErrorFilter<ErrorMessageFilter>()
+				.AddType<StandaloneNode>()
+				.AddType<LocalGateway>()
+				.AddType<RemoteGateway>()
+				.AddType<GraphQL.Types.UserName>()
+				.AddType<UnsignedIntType>()
+				.BindRuntimeType<Version, SemverType>()
+				.TryAddTypeInterceptor<RightsTypeInterceptor>()
+				.AddQueryType<Query>()
+				.AddMutationType<Mutation>()
+				.AddSubscriptionType<Subscription>();
 
 			void AddTypedContext<TContext>()
 				where TContext : DatabaseContext
