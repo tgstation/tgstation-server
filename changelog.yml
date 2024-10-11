@@ -178,6 +178,10 @@ Components:
       WebControlPanel: 6.4.0
     Changes: []
     Unreleased: true
+  - Version: 6.11.2
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.11.1
     ComponentVersions:
       HttpApi: 10.10.0
@@ -195,7 +199,6 @@ Components:
       - Fix bad dependency injection configuration if an experimental feature was disabled.
       Author: Cyberboss
       PullRequest: 1968
-    Unreleased: true
   - Version: 6.11.0
     ComponentVersions:
       Core: 6.10.0
