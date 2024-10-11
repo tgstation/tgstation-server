@@ -457,6 +457,9 @@ namespace Tgstation.Server.Tests.Live
 
 		static async Task TestGraphQLLogin(IRestServerClientFactory clientFactory, IRestServerClient restClient, CancellationToken cancellationToken)
 		{
+			if (!MultiServerClient.UseGraphQL)
+				return;
+
 			await using var gqlClient = new GraphQLServerClientFactory(clientFactory).CreateUnauthenticated(restClient.Url);
 			var result = await gqlClient.RunOperation(client => client.Login.ExecuteAsync(cancellationToken), cancellationToken);
 
