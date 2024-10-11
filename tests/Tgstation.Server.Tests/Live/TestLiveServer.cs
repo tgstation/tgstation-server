@@ -1372,12 +1372,13 @@ namespace Tgstation.Server.Tests.Live
 
 				var firstAdminRestClient = firstAdminMultiClient.RestClient;
 
-				await using (var tokenOnlyGraphQLClient = graphQLClientFactory.CreateFromToken(server.RootUrl, firstAdminRestClient.Token.Bearer))
-				{
-					// just testing auth works the same here
-					var result = await tokenOnlyGraphQLClient.RunOperation(client => client.ServerVersion.ExecuteAsync(cancellationToken), cancellationToken);
-					Assert.IsTrue(result.IsSuccessResult());
-				}
+				if (MultiServerClient.UseGraphQL)
+					await using (var tokenOnlyGraphQLClient = graphQLClientFactory.CreateFromToken(server.RootUrl, firstAdminRestClient.Token.Bearer))
+					{
+						// just testing auth works the same here
+						var result = await tokenOnlyGraphQLClient.RunOperation(client => client.ServerVersion.ExecuteAsync(cancellationToken), cancellationToken);
+						Assert.IsTrue(result.IsSuccessResult());
+					}
 
 				await using (var tokenOnlyRestClient = restClientFactory.CreateFromToken(server.RootUrl, firstAdminRestClient.Token))
 				{
@@ -1393,32 +1394,33 @@ namespace Tgstation.Server.Tests.Live
 				}
 
 				// basic graphql test, to be used everywhere eventually
-				await using (var unauthenticatedGraphQLClient = graphQLClientFactory.CreateUnauthenticated(server.RootUrl))
-				{
-					// check auth works as expected
-					var result = await unauthenticatedGraphQLClient.RunOperation(client => client.ServerVersion.ExecuteAsync(cancellationToken), cancellationToken);
-					Assert.IsTrue(result.IsErrorResult());
+				if (MultiServerClient.UseGraphQL)
+					await using (var unauthenticatedGraphQLClient = graphQLClientFactory.CreateUnauthenticated(server.RootUrl))
+					{
+						// check auth works as expected
+						var result = await unauthenticatedGraphQLClient.RunOperation(client => client.ServerVersion.ExecuteAsync(cancellationToken), cancellationToken);
+						Assert.IsTrue(result.IsErrorResult());
 
-					// test getting server info
-					var unAuthedMultiClient = new MultiServerClient(firstAdminRestClient, unauthenticatedGraphQLClient);
+						// test getting server info
+						var unAuthedMultiClient = new MultiServerClient(firstAdminRestClient, unauthenticatedGraphQLClient);
 
-					await unauthenticatedGraphQLClient.RunQueryEnsureNoErrors(
-						gqlClient => gqlClient.UnauthenticatedServerInformation.ExecuteAsync(cancellationToken),
-						cancellationToken);
+						await unauthenticatedGraphQLClient.RunQueryEnsureNoErrors(
+							gqlClient => gqlClient.UnauthenticatedServerInformation.ExecuteAsync(cancellationToken),
+							cancellationToken);
 
-					var testObserver = new HoldLastObserver<IOperationResult<ISessionInvalidationResult>>();
-					using var subscription = await unauthenticatedGraphQLClient.Subscribe(
-						gql => gql.SessionInvalidation.Watch(),
-						testObserver,
-						cancellationToken);
+						var testObserver = new HoldLastObserver<IOperationResult<ISessionInvalidationResult>>();
+						using var subscription = await unauthenticatedGraphQLClient.Subscribe(
+							gql => gql.SessionInvalidation.Watch(),
+							testObserver,
+							cancellationToken);
 
-					await Task.Delay(1000, cancellationToken);
+						await Task.Delay(1000, cancellationToken);
 
-					Assert.AreEqual(0U, testObserver.ErrorCount);
-					Assert.AreEqual(1U, testObserver.ResultCount);
-					Assert.IsTrue(testObserver.LastValue.IsAuthenticationError());
-					Assert.IsTrue(testObserver.Completed);
-				}
+						Assert.AreEqual(0U, testObserver.ErrorCount);
+						Assert.AreEqual(1U, testObserver.ResultCount);
+						Assert.IsTrue(testObserver.LastValue.IsAuthenticationError());
+						Assert.IsTrue(testObserver.Completed);
+					}
 
 				async ValueTask<MultiServerClient> CreateUserWithNoInstancePerms()
 				{
@@ -1477,9 +1479,10 @@ namespace Tgstation.Server.Tests.Live
 					if (!openDreamOnly)
 					{
 						// force a session refresh if necessary
-						await firstAdminMultiClient.GraphQLClient.RunQueryEnsureNoErrors(
-							gql => gql.ReadCurrentUser.ExecuteAsync(cancellationToken),
-							cancellationToken);
+						if (MultiServerClient.UseGraphQL)
+							await firstAdminMultiClient.GraphQLClient.RunQueryEnsureNoErrors(
+								gql => gql.ReadCurrentUser.ExecuteAsync(cancellationToken),
+								cancellationToken);
 
 						jobsHubTestTask = FailFast(await jobsHubTest.Run(cancellationToken)); // returns Task<Task>
 						var rootTest = FailFast(RawRequestTests.Run(restClientFactory, firstAdminRestClient, cancellationToken));
@@ -1610,14 +1613,19 @@ namespace Tgstation.Server.Tests.Live
 					initialSessionId = dd.SessionId.Value;
 
 					// force a session refresh if necessary
-					await firstAdminMultiClient.GraphQLClient.RunQueryEnsureNoErrors(
-						gql => gql.ReadCurrentUser.ExecuteAsync(cancellationToken),
-						cancellationToken);
+					if (MultiServerClient.UseGraphQL)
+					{
+						await firstAdminMultiClient.GraphQLClient.RunQueryEnsureNoErrors(
+							gql => gql.ReadCurrentUser.ExecuteAsync(cancellationToken),
+							cancellationToken);
 
-					restartSubscription = await firstAdminMultiClient.GraphQLClient.Subscribe(
-						gql => gql.SessionInvalidation.Watch(),
-						restartObserver,
-						cancellationToken);
+						restartSubscription = await firstAdminMultiClient.GraphQLClient.Subscribe(
+							gql => gql.SessionInvalidation.Watch(),
+							restartObserver,
+							cancellationToken);
+					}
+					else
+						restartSubscription = null;
 
 					try
 					{
@@ -1628,7 +1636,7 @@ namespace Tgstation.Server.Tests.Live
 					}
 					catch
 					{
-						restartSubscription.Dispose();
+						restartSubscription?.Dispose();
 						throw;
 					}
 				}
@@ -1638,15 +1646,18 @@ namespace Tgstation.Server.Tests.Live
 					await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
 					Assert.IsTrue(serverTask.IsCompleted);
 
-					Assert.AreEqual(0U, restartObserver.ErrorCount);
-					Assert.AreEqual(1U, restartObserver.ResultCount);
-					restartObserver.LastValue.EnsureNoErrors();
-					Assert.IsTrue(restartObserver.Completed);
-					Assert.AreEqual(SessionInvalidationReason.ServerShutdown, restartObserver.LastValue.Data.SessionInvalidated);
+					if (MultiServerClient.UseGraphQL)
+					{
+						Assert.AreEqual(0U, restartObserver.ErrorCount);
+						Assert.AreEqual(1U, restartObserver.ResultCount);
+						restartObserver.LastValue.EnsureNoErrors();
+						Assert.IsTrue(restartObserver.Completed);
+						Assert.AreEqual(SessionInvalidationReason.ServerShutdown, restartObserver.LastValue.Data.SessionInvalidated);
+					}
 				}
 				finally
 				{
-					restartSubscription.Dispose();
+					restartSubscription?.Dispose();
 				}
 
 				// test the reattach message queueing
