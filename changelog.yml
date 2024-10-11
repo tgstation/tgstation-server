@@ -179,8 +179,22 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 6.11.1
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.10.0
+      GraphQLApi: 0.2.0
+      DreamMakerApi: 7.3.0
+      Configuration: 5.3.0
+      InteropApi: 5.10.0
+      HostWatchdog: 1.5.0
+      NugetCommon: 7.0.0
+      NugetApi: 16.1.0
+      NugetClient: 19.1.0
+      WebControlPanel: 6.4.0
+    Changes:
+    - Descriptions:
+      - Fix bad dependency injection configuration if an experimental feature was disabled.
+      Author: Cyberboss
+      PullRequest: 1968
     Unreleased: true
   - Version: 6.11.0
     ComponentVersions:
