@@ -158,6 +158,9 @@ namespace Tgstation.Server.Tests.Live
 				"Telemetry:DisableVersionReporting=true",
 			};
 
+			if (MultiServerClient.UseGraphQL)
+				args.Add("Internal:EnableGraphQL=true");
+
 			swarmArgs = new List<string>();
 			if (swarmConfiguration != null)
 			{

@@ -48,6 +48,9 @@ namespace Tgstation.Server.Tests.Live
 
 			await TestPagination(cancellationToken);
 
+			if (!MultiServerClient.UseGraphQL)
+				return;
+
 			Assert.IsFalse(observer.Completed);
 			Assert.AreEqual(0U, observer.ErrorCount);
 
