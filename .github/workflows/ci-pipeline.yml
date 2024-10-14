@@ -1379,8 +1379,32 @@ jobs:
           cat /usr/bin/tgs-configure
 
       - name: Test Service
+        id: test-service
         run: |
+          set +e
           systemctl status tgstation-server
+          retval=$?
+          set -e
+          if [[ $retval -ne 0 ]]; then
+            echo "succeeded=NO" >> $GITHUB_OUTPUT
+          else
+            echo "succeeded=YES" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Chown Errored Service Logs
+        if: ${{ steps.test-service.outputs.succeeded == 'NO' }}
+        run: sudo chown -R runner /var/log/tgstation-server
+
+      - name: Store Errored Service Logs
+        if: ${{ steps.test-service.outputs.succeeded == 'NO' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: systemd-service-logs
+          path: /var/log/tgstation-server/**/*
+
+      - name: Fail if Service Errored
+        if: ${{ steps.test-service.outputs.succeeded == 'NO' }}
+        run: exit 1
 
       - name: Test Uninstall # Wait 10s for service to initialize
         shell: bash
