@@ -1369,7 +1369,7 @@ jobs:
       - name: Test Install
         run: |
           sudo mkdir /etc/tgstation-server
-          sudo cp build/package/appsettings.GitHub.yml /etc/tgstation-server/appsettings.Production.yml
+          sudo cp build/package/deb/appsettings.GitHub.yml /etc/tgstation-server/appsettings.Production.yml
           sudo apt-get install -y ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
           sudo ls -al /etc/tgstation-server
           sudo cat /etc/tgstation-server/appsettings.Production.yml
@@ -1514,7 +1514,7 @@ jobs:
         shell: powershell # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
         run: |
           mkdir C:/ProgramData/tgstation-server
-          cp build/package/appsettings.GitHub.yml C:/ProgramData/tgstation-server/appsettings.Production.yml
+          cp build/package/winget/appsettings.GitHub.yml C:/ProgramData/tgstation-server/appsettings.Production.yml
           $file = [System.IO.Path]::GetFullPath("build/package/winget/test-installer.exe")
           $log = [System.IO.Path]::GetFullPath("install.log")
           $procMain = Start-Process -FilePath $file "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
