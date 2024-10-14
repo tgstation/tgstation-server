@@ -2251,7 +2251,7 @@ jobs:
         run: echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
       - name: Docker Build and Push
-        uses: elgohr/Publish-Docker-Github-Action@ec61b713af46c32efaa27ac2626c2acb82ce6435 # v5
+        uses: elgohr/Publish-Docker-Github-Action@56d83a64624e457e0dde052abc8baa3fec37b396 # v5
         with:
           name: tgstation/server
           username: ${{ secrets.DOCKER_USERNAME }}
