@@ -1,0 +1,26 @@
+# Barebones config file used for testing service installs in GitHub actions
+Database:
+  DatabaseType: Sqlite
+  ConnectionString: Data Source=/home/tgstation-server/tgs.sqlite3;Mode=ReadWriteCreate
+General:
+  ConfigVersion: 4.6.0
+  ApiPort: 5000
+  GitHubAccessToken:
+  SetupWizardMode: Never
+  ByondTopicTimeout: 5000
+  RestartTimeoutMinutes: 1
+  ShutdownTimeoutMinutes: 300
+  UseBasicWatchdog: false
+  HostApiDocumentation: true
+  SkipAddingByondFirewallException: false
+  DeploymentDirectoryCopyTasksPerCore:
+  MinimumPasswordLength: 15
+  InstanceLimit: 10
+  UserLimit: 100
+  UserGroupLimit: 25
+  ValidInstancePaths:
+FileLogging:
+  Directory:
+  Disable: false
+  LogLevel: Trace
+  MicrosoftLogLevel: Warning
