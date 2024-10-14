@@ -219,6 +219,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "package", "package", "{2648
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deb", "deb", "{457A1F89-6201-4430-BCC6-2F4438A54B9E}"
 	ProjectSection(SolutionItems) = preProject
+		build\package\deb\appsettings.GitHub.yml = build\package\deb\appsettings.GitHub.yml
 		build\package\deb\build_package.sh = build\package\deb\build_package.sh
 		build\package\deb\install_artifacts.sh = build\package\deb\install_artifacts.sh
 		build\package\deb\MakeInstall = build\package\deb\MakeInstall
@@ -244,6 +245,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "upstream", "upstream", "{B4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "winget", "winget", "{506B9092-AF88-4DA2-84FD-C11646B695B0}"
 	ProjectSection(SolutionItems) = preProject
+		build\package\winget\appsettings.GitHub.yml = build\package\winget\appsettings.GitHub.yml
 		build\package\winget\install_banner.jpg = build\package\winget\install_banner.jpg
 		build\package\winget\prepare_installer_input_artifacts.ps1 = build\package\winget\prepare_installer_input_artifacts.ps1
 		build\package\winget\push_manifest.ps1 = build\package\winget\push_manifest.ps1
