@@ -927,7 +927,7 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
-		public string MergePullRequest(int PRNumber, string atSHA, bool silent)
+		public string MergePullRequest(ulong PRNumber, string atSHA, bool silent)
 		{
 			lock (RepoLock)
 			{

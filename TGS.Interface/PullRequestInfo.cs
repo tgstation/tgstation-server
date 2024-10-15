@@ -12,7 +12,7 @@ namespace TGS.Interface
 		/// The PR number
 		/// </summary>
 		[DataMember]
-		public int Number { get; private set; }
+		public ulong Number { get; private set; }
 		/// <summary>
 		/// The PR's author
 		/// </summary>
@@ -36,7 +36,7 @@ namespace TGS.Interface
 		/// <param name="author">The PR's author</param>
 		/// <param name="title">The PR's title</param>
 		/// <param name="sha">The commit the PR was merged locally at</param>
-		public PullRequestInfo(int number, string author, string title, string sha)
+		public PullRequestInfo(ulong number, string author, string title, string sha)
 		{
 			Number = number;
 			Author = author;
@@ -49,7 +49,7 @@ namespace TGS.Interface
 		/// </summary>
 		/// <param name="number">The PR number</param>
 		/// <param name="sha">The optional commit to merge the PR at</param>
-		public PullRequestInfo(int number, string sha = null)
+		public PullRequestInfo(ulong number, string sha = null)
 		{
 			Number = number;
 			Sha = sha;
