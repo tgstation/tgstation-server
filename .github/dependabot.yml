@@ -12,6 +12,10 @@ updates:
         applies-to: version-updates
         patterns:
           - "HotChocolate.*"
+      Swashbuckle:
+        applies-to: version-updates
+        patterns:
+          - "Swashbuckle.*"
     open-pull-requests-limit: 100
   - package-ecosystem: github-actions
     directory: /
