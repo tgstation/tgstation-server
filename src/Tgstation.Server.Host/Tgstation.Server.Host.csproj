@@ -108,7 +108,7 @@
     <!-- Usage: GraphQL IDatabaseContext support -->
     <PackageReference Include="HotChocolate.Data.EntityFramework" Version="14.0.0-rc.3.4" />
     <!-- Usage: DataLoader source generation -->
-    <PackageReference Include="HotChocolate.Types.Analyzers" Version="14.0.0-rc.3.2" />
+    <PackageReference Include="HotChocolate.Types.Analyzers" Version="14.0.0-rc.3.4" />
     <!-- Usage: GraphQL additional scalar type definitions -->
     <PackageReference Include="HotChocolate.Types.Scalars" Version="14.0.0-rc.3.4" />
     <!-- Usage: git interop -->
