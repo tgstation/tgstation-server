@@ -152,9 +152,9 @@
     <!-- Usage: File logging plugin -->
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
     <!-- Usage: OpenAPI spec generator -->
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.8.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.9.0" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.1" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
