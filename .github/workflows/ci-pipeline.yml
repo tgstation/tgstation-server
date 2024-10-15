@@ -51,6 +51,11 @@ jobs:
     name: Build ReleaseNotes for Other Jobs
     runs-on: ubuntu-latest
     steps:
+      - name: Install Native Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgdiplus
+
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
@@ -84,6 +89,11 @@ jobs:
     env:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     steps:
+      - name: Install Native Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgdiplus
+
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
@@ -1359,7 +1369,7 @@ jobs:
       - name: Test Install
         run: |
           sudo mkdir /etc/tgstation-server
-          sudo cp build/package/appsettings.GitHub.yml /etc/tgstation-server/appsettings.Production.yml
+          sudo cp build/package/deb/appsettings.GitHub.yml /etc/tgstation-server/appsettings.Production.yml
           sudo apt-get install -y ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
           sudo ls -al /etc/tgstation-server
           sudo cat /etc/tgstation-server/appsettings.Production.yml
@@ -1369,8 +1379,32 @@ jobs:
           cat /usr/bin/tgs-configure
 
       - name: Test Service
+        id: test-service
         run: |
+          set +e
           systemctl status tgstation-server
+          retval=$?
+          set -e
+          if [[ $retval -ne 0 ]]; then
+            echo "succeeded=NO" >> $GITHUB_OUTPUT
+          else
+            echo "succeeded=YES" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Chown Errored Service Logs
+        if: ${{ steps.test-service.outputs.succeeded == 'NO' }}
+        run: sudo chown -R runner /var/log/tgstation-server
+
+      - name: Store Errored Service Logs
+        if: ${{ steps.test-service.outputs.succeeded == 'NO' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: systemd-service-logs
+          path: /var/log/tgstation-server/**/*
+
+      - name: Fail if Service Errored
+        if: ${{ steps.test-service.outputs.succeeded == 'NO' }}
+        run: exit 1
 
       - name: Test Uninstall # Wait 10s for service to initialize
         shell: bash
@@ -1480,7 +1514,7 @@ jobs:
         shell: powershell # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
         run: |
           mkdir C:/ProgramData/tgstation-server
-          cp build/package/appsettings.GitHub.yml C:/ProgramData/tgstation-server/appsettings.Production.yml
+          cp build/package/winget/appsettings.GitHub.yml C:/ProgramData/tgstation-server/appsettings.Production.yml
           $file = [System.IO.Path]::GetFullPath("build/package/winget/test-installer.exe")
           $log = [System.IO.Path]::GetFullPath("install.log")
           $procMain = Start-Process -FilePath $file "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
