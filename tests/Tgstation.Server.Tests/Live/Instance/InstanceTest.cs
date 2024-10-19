@@ -103,6 +103,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			{
 				OpenDreamGitUrl = openDreamUrl,
 			};
+
 			mockOptions.SetupGet(x => x.CurrentValue).Returns(genConfig);
 			IEngineInstaller byondInstaller =
 				compatVersion.Engine == EngineType.OpenDream
@@ -131,8 +132,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 						Mock.Of<IProcessExecutor>(),
 						Mock.Of<IIOManager>(),
 						fileDownloader,
-						Options.Create(genConfig),
-						Options.Create(new SessionConfiguration()),
+						Mock.Of<IOptionsMonitor<GeneralConfiguration>>(),
+						Mock.Of<IOptionsMonitor<SessionConfiguration>>(),
 						Mock.Of<ILogger<WindowsByondInstaller>>())
 					: new PosixByondInstaller(
 						Mock.Of<IPostWriteHandler>(),

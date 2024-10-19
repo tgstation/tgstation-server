@@ -105,10 +105,10 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public async Task TestDDExeByondVersion()
 		{
-			var mockGeneralConfigurationOptions = new Mock<IOptions<GeneralConfiguration>>();
-			mockGeneralConfigurationOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
-			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
-			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
+			var mockGeneralConfigurationOptions = new Mock<IOptionsMonitor<GeneralConfiguration>>();
+			mockGeneralConfigurationOptions.SetupGet(x => x.CurrentValue).Returns(new GeneralConfiguration());
+			var mockSessionConfigurationOptions = new Mock<IOptionsMonitor<SessionConfiguration>>();
+			mockSessionConfigurationOptions.SetupGet(x => x.CurrentValue).Returns(new SessionConfiguration());
 
 			using var loggerFactory = LoggerFactory.Create(builder =>
 			{
@@ -167,13 +167,13 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public async Task TestMapThreadsByondVersion()
 		{
-			var mockGeneralConfigurationOptions = new Mock<IOptions<GeneralConfiguration>>();
-			mockGeneralConfigurationOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration
+			var mockGeneralConfigurationOptions = new Mock<IOptionsMonitor<GeneralConfiguration>>();
+			mockGeneralConfigurationOptions.SetupGet(x => x.CurrentValue).Returns(new GeneralConfiguration
 			{
 				SkipAddingByondFirewallException = true,
 			});
-			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
-			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
+			var mockSessionConfigurationOptions = new Mock<IOptionsMonitor<SessionConfiguration>>();
+			mockSessionConfigurationOptions.SetupGet(x => x.CurrentValue).Returns(new SessionConfiguration());
 
 			using var loggerFactory = LoggerFactory.Create(builder =>
 			{

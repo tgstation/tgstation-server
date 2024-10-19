@@ -77,14 +77,14 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="WindowsByondInstaller"/>.
+		/// The <see cref="GeneralConfiguration"/> <see cref="IOptionsMonitor{TOptions}"/> for the <see cref="WindowsByondInstaller"/>.
 		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
+		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
 
 		/// <summary>
-		/// The <see cref="SessionConfiguration"/> for the <see cref="WindowsByondInstaller"/>.
+		/// The <see cref="SessionConfiguration"/> <see cref="IOptionsMonitor{TOptions}"/> for the <see cref="WindowsByondInstaller"/>.
 		/// </summary>
-		readonly SessionConfiguration sessionConfiguration;
+		readonly IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions;
 
 		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for the <see cref="WindowsByondInstaller"/>.
@@ -100,8 +100,8 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// Initializes a new instance of the <see cref="WindowsByondInstaller"/> class.
 		/// </summary>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfigurationOptions"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="fileDownloader">The <see cref="IFileDownloader"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ByondInstallerBase"/>.</param>
@@ -109,14 +109,14 @@ namespace Tgstation.Server.Host.Components.Engine
 			IProcessExecutor processExecutor,
 			IIOManager ioManager,
 			IFileDownloader fileDownloader,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<SessionConfiguration> sessionConfigurationOptions,
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions,
 			ILogger<WindowsByondInstaller> logger)
 			: base(ioManager, logger, fileDownloader)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.sessionConfigurationOptions = sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 
 			var useServiceSpecialTactics = Environment.Is64BitProcess && Environment.UserName == $"{Environment.MachineName}$";
 
@@ -150,7 +150,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				installDirectXTask,
 			};
 
-			if (!generalConfiguration.SkipAddingByondFirewallException)
+			if (!generalConfigurationOptions.CurrentValue.SkipAddingByondFirewallException)
 			{
 				var firewallTask = AddDreamDaemonToFirewall(version, path, deploymentPipelineProcesses, cancellationToken);
 				tasks.Add(firewallTask);
@@ -165,7 +165,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(path);
 
-			if (generalConfiguration.SkipAddingByondFirewallException)
+			if (generalConfigurationOptions.CurrentValue.SkipAddingByondFirewallException)
 				return;
 
 			if (version.Version < DDExeVersion)
@@ -224,7 +224,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <inheritdoc />
 		protected override string GetDreamDaemonName(Version byondVersion, out bool supportsCli)
 		{
-			supportsCli = byondVersion >= DDExeVersion && !sessionConfiguration.ForceUseDreamDaemonExe;
+			supportsCli = byondVersion >= DDExeVersion && !sessionConfigurationOptions.CurrentValue.ForceUseDreamDaemonExe;
 			return supportsCli ? "dd.exe" : "dreamdaemon.exe";
 		}
 
@@ -336,7 +336,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Logger,
 					ruleName,
 					dreamDaemonPath,
-					deploymentPipelineProcesses && sessionConfiguration.LowPriorityDeploymentProcesses,
+					deploymentPipelineProcesses && sessionConfigurationOptions.CurrentValue.LowPriorityDeploymentProcesses,
 					cancellationToken);
 			}
 			catch (Exception ex)
