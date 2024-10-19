@@ -48,8 +48,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			IRepositoryManager repositoryManager,
 			IAsyncDelayer asyncDelayer,
 			IAbstractHttpClientFactory httpClientFactory,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<SessionConfiguration> sessionConfigurationOptions,
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions,
 			IFilesystemLinkFactory linkFactory)
 			: base(
 				ioManager,
@@ -108,7 +108,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask AddServerFirewallException(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 		{
-			if (GeneralConfiguration.SkipAddingByondFirewallException)
+			if (GeneralConfiguration.CurrentValue.SkipAddingByondFirewallException)
 				return;
 
 			GetExecutablePaths(path, out var serverExePath, out _);
@@ -126,7 +126,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Logger,
 					ruleName,
 					serverExePath,
-					deploymentPipelineProcesses && SessionConfiguration.LowPriorityDeploymentProcesses,
+					deploymentPipelineProcesses && SessionConfiguration.CurrentValue.LowPriorityDeploymentProcesses,
 					cancellationToken);
 			}
 			catch (Exception ex)
