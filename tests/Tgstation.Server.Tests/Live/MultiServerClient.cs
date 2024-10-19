@@ -1,48 +1,70 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using StrawberryShake;
+
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.GraphQL;
+using Tgstation.Server.Common.Extensions;
 
 namespace Tgstation.Server.Tests.Live
 {
-	sealed class MultiServerClient
+	sealed class MultiServerClient : IMultiServerClient, IAsyncDisposable
 	{
-		readonly IRestServerClient restServerClient;
-		readonly IGraphQLServerClient graphQLServerClient;
-
-		readonly bool useGraphQL;
+		public IRestServerClient RestClient { get; }
+		public IGraphQLServerClient GraphQLClient { get; }
 
 		public MultiServerClient(IRestServerClient restServerClient, IGraphQLServerClient graphQLServerClient)
 		{
-			this.restServerClient = restServerClient ?? throw new ArgumentNullException(nameof(restServerClient));
-			this.graphQLServerClient = graphQLServerClient ?? throw new ArgumentNullException(nameof(graphQLServerClient));
-			this.useGraphQL = Boolean.TryParse(Environment.GetEnvironmentVariable("TGS_TEST_GRAPHQL"), out var result) && result;
+			this.RestClient = restServerClient;
+			this.GraphQLClient = graphQLServerClient;
 		}
+
+		public static bool UseGraphQL => Boolean.TryParse(Environment.GetEnvironmentVariable("TGS_TEST_GRAPHQL"), out var result) && result;
+
+		public ValueTask DisposeAsync()
+			=> ValueTaskExtensions.WhenAll(
+				RestClient.DisposeAsync(),
+				GraphQLClient?.DisposeAsync() ?? ValueTask.CompletedTask);
 
 		public ValueTask Execute(
 			Func<IRestServerClient, ValueTask> restAction,
-			Func<IGraphQLClient, ValueTask> graphQLAction)
+			Func<IGraphQLServerClient, ValueTask> graphQLAction)
 		{
-			if (useGraphQL)
-				return graphQLServerClient.RunQuery(graphQLAction);
+			if (UseGraphQL)
+				return graphQLAction(GraphQLClient);
 
-			return restAction(restServerClient);
+			return restAction(RestClient);
 		}
 
-		public async ValueTask ExecuteReadOnlyConfirmEquivalence<TRestResult, TGraphQLResult>(
+		public async ValueTask<(TRestResult, TGraphQLResult)> ExecuteReadOnlyConfirmEquivalence<TRestResult, TGraphQLResult>(
 			Func<IRestServerClient, ValueTask<TRestResult>> restAction,
-			Func<IGraphQLClient, ValueTask<TGraphQLResult>> graphQLAction,
-			Func<TRestResult, TGraphQLResult, bool> comparison)
+			Func<IGraphQLClient, Task<IOperationResult<TGraphQLResult>>> graphQLAction,
+			Func<TRestResult, TGraphQLResult, bool> comparison,
+			CancellationToken cancellationToken)
+			where TGraphQLResult : class
 		{
-			var restTask = restAction(this.restServerClient);
-			TGraphQLResult graphQLResult = default;
-			await this.graphQLServerClient.RunQuery(async gqlClient => graphQLResult = await graphQLAction(gqlClient));
+			var restTask = restAction(RestClient);
+			if (!UseGraphQL)
+			{
+				return (await restTask, null);
+			}
+
+			var graphQLResult = await GraphQLClient.RunOperation(graphQLAction, cancellationToken);
+
+			graphQLResult.EnsureNoErrors();
 
 			var restResult = await restTask;
-			Assert.IsTrue(comparison(restResult, graphQLResult), "REST/GraphQL results differ!");
+			var comparisonResult = comparison(restResult, graphQLResult.Data);
+			Assert.IsTrue(comparisonResult, "REST/GraphQL results differ!");
+
+			return (restResult, graphQLResult.Data);
 		}
+
+		public ValueTask<IDisposable> Subscribe<TResultData>(Func<IGraphQLClient, IObservable<IOperationResult<TResultData>>> operationExecutor, IObserver<IOperationResult<TResultData>> observer, CancellationToken cancellationToken) where TResultData : class
+			=> GraphQLClient?.Subscribe(operationExecutor, observer, cancellationToken) ?? ValueTask.FromResult<IDisposable>(new CancellationTokenSource());
 	}
 }

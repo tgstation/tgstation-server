@@ -1,0 +1,14 @@
+query GetUserById($id: ID!) {
+  swarm {
+    users {
+      byId(id: $id) {
+        canonicalName
+        createdAt
+        enabled
+        id
+        name
+        systemIdentifier
+      }
+    }
+  }
+}

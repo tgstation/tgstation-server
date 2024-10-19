@@ -123,7 +123,7 @@ namespace Tgstation.Server.Host.Controllers
 			// needs to be set for next call
 			dbUser.PermissionSet = existingPermissionSet;
 			await permissionsUpdateNotifyee.InstancePermissionSetCreated(dbUser, cancellationToken);
-			return Created(dbUser.ToApi());
+			return this.Created(dbUser.ToApi());
 		}
 #pragma warning restore CA1506
 

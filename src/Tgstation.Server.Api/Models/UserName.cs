@@ -25,7 +25,7 @@
 		/// <typeparam name="TResultType">The child of <see cref="UserName"/> to create.</typeparam>
 		/// <returns>A new <typeparamref name="TResultType"/> copied from <see langword="this"/>.</returns>
 		protected virtual TResultType CreateUserName<TResultType>()
-			where TResultType : UserName, new() => new TResultType
+			where TResultType : UserName, new() => new()
 		{
 			Id = Id,
 			Name = Name,

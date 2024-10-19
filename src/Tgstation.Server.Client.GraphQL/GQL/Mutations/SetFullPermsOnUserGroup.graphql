@@ -1,0 +1,69 @@
+mutation SetFullPermsOnUserGroup($id: ID!) {
+  updateUserGroup(
+    input: {
+      id: $id
+      newPermissionSet: {
+        administrationRights: {
+          canChangeVersion: true
+          canDownloadLogs: true
+          canEditOwnOAuthConnections: true
+          canEditOwnPassword: true
+          canReadUsers: true
+          canWriteUsers: true
+          canUploadVersion: true
+          canRestartHost: true
+        }
+        instanceManagerRights: {
+          canCreate: true
+          canDelete: true
+          canGrantPermissions: true
+          canSetOnline: true
+          canSetConfiguration: true
+          canSetChatBotLimit: true
+          canSetAutoUpdate: true
+          canRename: true
+          canRead: true
+          canList: true
+          canRelocate: true
+        }
+      }
+    }
+  ) {
+    userGroup {
+      id
+      name
+      permissionSet {
+        administrationRights {
+          canChangeVersion
+          canDownloadLogs
+          canEditOwnOAuthConnections
+          canEditOwnPassword
+          canReadUsers
+          canRestartHost
+          canUploadVersion
+          canWriteUsers
+        }
+        instanceManagerRights {
+          canCreate
+          canDelete
+          canGrantPermissions
+          canList
+          canRead
+          canRelocate
+          canRename
+          canSetAutoUpdate
+          canSetChatBotLimit
+          canSetConfiguration
+          canSetOnline
+        }
+      }
+    }
+    errors {
+      ... on ErrorMessageError {
+        additionalData
+        errorCode
+        message
+      }
+    }
+  }
+}

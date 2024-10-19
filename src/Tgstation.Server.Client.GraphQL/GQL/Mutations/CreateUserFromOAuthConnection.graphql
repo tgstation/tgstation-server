@@ -1,0 +1,14 @@
+mutation CreateUserFromOAuthConnection($name: String!, $oAuthConnections: [OAuthConnectionInput!]!) {
+  createUserByOAuthAndPermissionSet(input: { name: $name, oAuthConnections: $oAuthConnections }) {
+    errors {
+      ... on ErrorMessageError {
+        additionalData
+        errorCode
+        message
+      }
+    }
+    user {
+      id
+    }
+  }
+}

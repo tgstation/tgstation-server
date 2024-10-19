@@ -14,32 +14,6 @@ namespace Tgstation.Server.Host.Security.Tests
 	public sealed class TestAuthenticationContext
 	{
 		[TestMethod]
-		public void TestConstruction()
-		{
-			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext().Initialize(null, null, null));
-			var mockSystemIdentity = new Mock<ISystemIdentity>();
-
-			var user = new User()
-			{
-				PermissionSet = new PermissionSet()
-			};
-
-			var authContext = new AuthenticationContext();
-			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext().Initialize(mockSystemIdentity.Object, null, null));
-
-			var instanceUser = new InstancePermissionSet();
-
-			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext().Initialize(null, null, instanceUser));
-			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext().Initialize(mockSystemIdentity.Object, null, instanceUser));
-			new AuthenticationContext().Initialize(mockSystemIdentity.Object, user, null);
-			new AuthenticationContext().Initialize(null, user, instanceUser);
-			new AuthenticationContext().Initialize(mockSystemIdentity.Object, user, instanceUser);
-			user.SystemIdentifier = "root";
-			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext().Initialize(null, user, null));
-		}
-
-
-		[TestMethod]
 		public void TestGetRightsGeneric()
 		{
 			var user = new User()
@@ -48,7 +22,7 @@ namespace Tgstation.Server.Host.Security.Tests
 			};
 			var instanceUser = new InstancePermissionSet();
 			var authContext = new AuthenticationContext();
-			authContext.Initialize(null, user, instanceUser);
+			authContext.Initialize(user, DateTimeOffset.UtcNow, "asdf", instanceUser, null);
 
 			user.PermissionSet.AdministrationRights = AdministrationRights.WriteUsers;
 			instanceUser.EngineRights = EngineRights.InstallOfficialOrChangeActiveByondVersion | EngineRights.ReadActive;

@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Extensions
 					logger.LogTrace("End topic request #{requestId}", localRequestId);
 					return byondResponse;
 				}
-				catch (Exception ex) when (ex is not OperationCanceledException)
+				catch (Exception ex) when (ex is not OperationCanceledException && ex is not ArgumentException)
 				{
 					logger.LogWarning(ex, "SendTopic exception!{retryDetails}", priority ? $" {i} attempts remaining." : String.Empty);
 

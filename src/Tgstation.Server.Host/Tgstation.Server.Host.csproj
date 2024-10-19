@@ -57,6 +57,7 @@
         <_Parameter4>$(TgsHostWatchdogVersion)</_Parameter4>
         <_Parameter5>$(TgsMariaDBRedistVersion)</_Parameter5>
         <_Parameter6>$(TgsSwarmProtocolVersion)</_Parameter6>
+        <_Parameter7>$(TgsGraphQLVersion)</_Parameter7>
       </MasterVersionAssemblyAttributes>
     </ItemGroup>
     <WriteCodeFragment AssemblyAttributes="@(MasterVersionAssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="MasterVersionsAssemblyInfo.cs">
@@ -97,44 +98,49 @@
     <!-- Usage: .env file parsing -->
     <PackageReference Include="DotEnv.Core" Version="3.1.0" />
     <!-- Usage: Text formatter for Elasticsearch logging plugin -->
-    <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.11.1" />
+    <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.12.1" />
     <!-- Usage: GitLab interop -->
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <!-- Usage: GraphQL API Engine -->
-    <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.12" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="14.0.0-rc.3.4" />
     <!-- Usage: GraphQL Authorization Plugin -->
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.9.12" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.0.0-rc.3.4" />
+    <!-- Usage: GraphQL IDatabaseContext support -->
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="14.0.0-rc.3.4" />
+    <!-- Usage: DataLoader source generation -->
+    <PackageReference Include="HotChocolate.Types.Analyzers" Version="14.0.0-rc.3.4" />
     <!-- Usage: GraphQL additional scalar type definitions -->
-    <PackageReference Include="HotChocolate.Types.Scalars" Version="13.9.12" />
+    <PackageReference Include="HotChocolate.Types.Scalars" Version="14.0.0-rc.3.4" />
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.10" />
     <!-- Usage: Using target JSON serializer for API -->
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.10" />
     <!-- Usage: Generating dumps of dotnet engine processes -->
-    <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.532401" />
+    <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.547301" />
     <!-- Usage: Database ORM -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
     <!-- Usage: Automatic migration generation using command line -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <!-- Usage: Sqlite ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
     <!-- Usage: MSSQL ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
     <!-- Usage: POSIX support for syscalls, signals, and symlinks -->
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
+    <!-- Usage: Cron string parsing -->
     <PackageReference Include="NCrontab.Signed" Version="3.3.3" />
     <!-- Usage: YAML config plugin -->
     <PackageReference Include="NetEscapades.Configuration.Yaml" Version="3.1.0" />
     <!-- Usage: PostgresSQL ORM plugin -->
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.8" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
     <!-- Usage: Discord interop -->
-    <PackageReference Include="Remora.Discord" Version="2024.2.0" />
+    <PackageReference Include="Remora.Discord" Version="2024.3.0" />
     <!-- Usage: Rich logger builder -->
     <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
     <!-- Usage: Async logging plugin -->
@@ -146,11 +152,11 @@
     <!-- Usage: File logging plugin -->
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
     <!-- Usage: OpenAPI spec generator -->
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.7.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.9.0" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.1" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
     <PackageReference Include="System.Management" Version="8.0.0" />
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
@@ -181,8 +187,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Authority\" />
-    <Folder Include="GraphQL\DataLoaders\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 </Project>

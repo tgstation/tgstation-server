@@ -32,20 +32,6 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Comment on new Fork PR
-        if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id != 49699333
-        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6
-        with:
-          message: Thank you for contributing to ${{ github.event.pull_request.base.repo.name }}! The workflow '${{ github.workflow }}' requires repository secrets and will not run without approval. Maintainers can add the `CI Cleared` label to allow it to run. Note that any changes to ci-security.yml and ci-pipeline.yml will not be reflected.
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-
-      - name: Comment on dependabot PR
-        if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id == 49699333
-        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6
-        with:
-          message: Set the milestone to the next ${{ (github.head_ref == 'master' && 'patch') || 'minor' }} version, check for supply chain attacks, and then add the `CI Cleared` label to allow CI to run.
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-
       - name: "Remove Stale 'CI Cleared' Label"
         if: github.event.action == 'synchronize' || github.event.action == 'reopened'
         uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0

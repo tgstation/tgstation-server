@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using HotChocolate;
-using Tgstation.Server.Api.Models.Internal;
+
+using Microsoft.Extensions.Options;
+
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.GraphQL.Interfaces;
+using Tgstation.Server.Host.Properties;
+using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Swarm;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
@@ -15,36 +21,62 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	public sealed class ServerSwarm
 	{
 		/// <summary>
-		/// Gets the <see cref="SwarmMetadata"/> for the swarm.
+		/// If there is a swarm update in progress.
 		/// </summary>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to use.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> to use.</param>
-		/// <returns>A new <see cref="SwarmMetadata"/>.</returns>
-		public SwarmMetadata Metadata(
-			[Service] IAssemblyInformationProvider assemblyInformationProvider,
+		/// <returns><see langword="true"/> if there is an update in progress, <see langword="false"/> otherwise.</returns>
+		[TgsGraphQLAuthorize]
+		public bool UpdateInProgress(
 			[Service] IServerControl serverControl)
 		{
-			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 			ArgumentNullException.ThrowIfNull(serverControl);
-			return new SwarmMetadata(assemblyInformationProvider, serverControl.UpdateInProgress);
+			return serverControl.UpdateInProgress;
 		}
 
 		/// <summary>
-		/// Gets the local <see cref="Types.LocalServer"/>.
+		/// Gets the swarm protocol major version in use.
 		/// </summary>
-		/// <returns>A new <see cref="Types.LocalServer"/>.</returns>
-		public LocalServer LocalServer() => new();
+		[TgsGraphQLAuthorize]
+		public int ProtocolMajorVersion => Version.Parse(MasterVersionsAttribute.Instance.RawSwarmProtocolVersion).Major;
 
 		/// <summary>
-		/// Gets the <see cref="SwarmServerInformation"/> for all servers in a swarm.
+		/// Gets the swarm's <see cref="Types.Users"/>.
+		/// </summary>
+		/// <returns>A new <see cref="Types.Users"/>.</returns>
+		[TgsGraphQLAuthorize]
+		public Users Users() => new();
+
+		/// <summary>
+		/// Gets the connected <see cref="SwarmNode"/> server.
+		/// </summary>
+		/// <param name="swarmConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the current <see cref="SwarmConfiguration"/>.</param>
+		/// <param name="swarmService">The <see cref="ISwarmService"/> to use.</param>
+		/// <returns>A new <see cref="SwarmNode"/> for the local node if it is part of a swarm, <see langword="null"/> otherwise.</returns>
+		public IServerNode CurrentNode(
+			[Service] IOptionsSnapshot<SwarmConfiguration> swarmConfigurationOptions,
+			[Service] ISwarmService swarmService)
+		{
+			ArgumentNullException.ThrowIfNull(swarmConfigurationOptions);
+			ArgumentNullException.ThrowIfNull(swarmService);
+
+			var ourIdentifier = swarmConfigurationOptions.Value.Identifier;
+			if (ourIdentifier == null)
+				return new StandaloneNode();
+
+			return (IServerNode?)SwarmNode.GetSwarmNode(ourIdentifier, swarmService) ?? new StandaloneNode();
+		}
+
+		/// <summary>
+		/// Gets all <see cref="SwarmNode"/> servers in the swarm.
 		/// </summary>
 		/// <param name="swarmService">The <see cref="ISwarmService"/> to use.</param>
-		/// <returns>A <see cref="List{T}"/> of <see cref="SwarmServerInformation"/>s if the local server is part of a swarm, <see langword="null"/> otherwise.</returns>
-		public List<SwarmServerInformation>? Servers(
+		/// <returns>A <see cref="List{T}"/> of <see cref="SwarmNode"/>s if the local node is part of a swarm, <see langword="null"/> otherwise.</returns>
+		[TgsGraphQLAuthorize]
+		public List<SwarmNode>? Nodes(
 			[Service] ISwarmService swarmService)
 		{
 			ArgumentNullException.ThrowIfNull(swarmService);
-			return swarmService.GetSwarmServers();
+			return swarmService.GetSwarmServers()?.Select(x => new SwarmNode(x)).ToList();
 		}
 	}
 }

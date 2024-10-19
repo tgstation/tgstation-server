@@ -76,7 +76,7 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// A <see cref="char"/> <see cref="Array"/> containing the ':' <see cref="char"/>.
 		/// </summary>
-		static readonly char[] ColonSeparator = new char[] { ':' };
+		static readonly char[] ColonSeparator = [':'];
 
 		/// <summary>
 		/// The instance <see cref="EntityId.Id"/> being accessed.
@@ -214,7 +214,7 @@ namespace Tgstation.Server.Api
 
 			var jsonAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(ApplicationJsonMime);
 			var eventStreamAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(TextEventStreamMime);
-			if (!requestHeaders.Accept.Any(jsonAccept.IsSubsetOf))
+			if (!requestHeaders.Accept.Any(accept => accept.IsSubsetOf(jsonAccept)))
 				if (!allowEventStreamAccept)
 					AddError(HeaderErrorTypes.Accept, $"Client does not accept {ApplicationJsonMime}!");
 				else if (!requestHeaders.Accept.Any(eventStreamAccept.IsSubsetOf))
@@ -269,7 +269,7 @@ namespace Tgstation.Server.Api
 								if (requestHeaders.Headers.TryGetValue(OAuthProviderHeader, out StringValues oauthProviderValues))
 								{
 									var oauthProviderString = oauthProviderValues.First();
-									if (Enum.TryParse<OAuthProvider>(oauthProviderString, out var oauthProvider))
+									if (Enum.TryParse<OAuthProvider>(oauthProviderString, true, out var oauthProvider))
 										OAuthProvider = oauthProvider;
 									else
 										AddError(HeaderErrorTypes.OAuthProvider, "Invalid OAuth provider!");
@@ -358,8 +358,9 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// Checks if the <see cref="ApiVersion"/> is compatible with <see cref="Version"/>.
 		/// </summary>
+		/// <param name="alternateApiVersion">The <see cref="System.Version"/> that can alternatively be used as the <see cref="ApiVersion"/>.</param>
 		/// <returns><see langword="true"/> if the API is compatible, <see langword="false"/> otherwise.</returns>
-		public bool Compatible() => CheckCompatibility(ApiVersion);
+		public bool Compatible(Version? alternateApiVersion = null) => CheckCompatibility(ApiVersion) || (alternateApiVersion != null && alternateApiVersion.Major == ApiVersion.Major);
 
 		/// <summary>
 		/// Set <see cref="HttpRequestHeaders"/> using the <see cref="ApiHeaders"/>. This initially clears <paramref name="headers"/>.

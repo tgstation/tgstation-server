@@ -34,10 +34,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		long? permlessPsId;
 
-		public JobsHubTests(IRestServerClient permedUser, IRestServerClient permlessUser)
+		public JobsHubTests(MultiServerClient permedUser, MultiServerClient permlessUser)
 		{
-			this.permedUser = permedUser;
-			this.permlessUser = permlessUser;
+			this.permedUser = permedUser.RestClient;
+			this.permlessUser = permlessUser.RestClient;
 
 			Assert.AreNotSame(permedUser, permlessUser);
 

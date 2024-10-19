@@ -1,0 +1,11 @@
+query UnauthenticatedServerInformation {
+  swarm {
+    currentNode {
+      gateway {
+        information {
+          majorGraphQLApiVersion
+        }
+      }
+    }
+  }
+}

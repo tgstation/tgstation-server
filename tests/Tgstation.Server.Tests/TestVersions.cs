@@ -32,7 +32,7 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Tests.Live;
-using Tgstation.Server.Host.Utils;
+using Tgstation.Server.Host.Properties;
 
 namespace Tgstation.Server.Tests
 {
@@ -75,12 +75,21 @@ namespace Tgstation.Server.Tests
 		}
 
 		[TestMethod]
-		public void TestApiVersion()
+		public void TestRestVersion()
 		{
-			var versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsApiVersion").Value;
+			var versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsRestVersion").Value;
 			Assert.IsNotNull(versionString);
 			Assert.IsTrue(Version.TryParse(versionString, out var expected));
 			Assert.AreEqual(expected, ApiHeaders.Version);
+		}
+
+		[TestMethod]
+		public void TestGraphQLVersion()
+		{
+			var versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsGraphQLVersion").Value;
+			Assert.IsNotNull(versionString);
+			Assert.IsTrue(Version.TryParse(versionString, out var expected));
+			Assert.AreEqual(expected, Version.Parse(MasterVersionsAttribute.Instance.RawGraphQLVersion));
 		}
 
 		[TestMethod]

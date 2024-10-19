@@ -258,7 +258,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var api = newInstance.ToApi();
 			api.Accessible = true; // instances are always accessible by their creator
-			return attached ? Json(api) : Created(api);
+			return attached ? Json(api) : this.Created(api);
 		}
 
 		/// <summary>

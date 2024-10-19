@@ -663,5 +663,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Provided repository username doesn't match the user of the corresponding access token!")]
 		RepoTokenUsernameMismatch,
+
+		/// <summary>
+		/// Attempted to make a cross swarm server request using the GraphQL API.
+		/// </summary>
+		[Description("GraphQL swarm remote gateways not implemented!")]
+		RemoteGatewaysNotImplemented,
 	}
 }

@@ -1,0 +1,51 @@
+query ReadCurrentUser {
+  swarm {
+    users {
+      current {
+        canonicalName
+        createdAt
+        enabled
+        id
+        name
+        systemIdentifier
+        group {
+          id
+          name
+        }
+        oAuthConnections {
+          externalUserId
+          provider
+        }
+        effectivePermissionSet {
+          administrationRights {
+            canChangeVersion
+            canDownloadLogs
+            canEditOwnOAuthConnections
+            canEditOwnPassword
+            canReadUsers
+            canRestartHost
+            canUploadVersion
+            canWriteUsers
+          }
+          instanceManagerRights {
+            canCreate
+            canDelete
+            canGrantPermissions
+            canList
+            canRead
+            canRelocate
+            canRename
+            canSetAutoUpdate
+            canSetChatBotLimit
+            canSetConfiguration
+            canSetOnline
+          }
+        }
+        createdBy {
+          id
+          name
+        }
+      }
+    }
+  }
+}

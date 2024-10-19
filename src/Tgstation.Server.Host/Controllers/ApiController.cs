@@ -38,12 +38,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Default size of <see cref="Paginated{TModel}"/> results.
 		/// </summary>
-		private const ushort DefaultPageSize = 10;
+		public const ushort DefaultPageSize = 10;
 
 		/// <summary>
 		/// Maximum size of <see cref="Paginated{TModel}"/> results.
 		/// </summary>
-		private const ushort MaximumPageSize = 100;
+		public const ushort MaximumPageSize = 100;
 
 		/// <summary>
 		/// The <see cref="Api.ApiHeaders"/> for the operation.
@@ -187,35 +187,11 @@ namespace Tgstation.Server.Host.Controllers
 		protected new NotFoundObjectResult NotFound() => NotFound(new ErrorMessageResponse(ErrorCode.ResourceNeverPresent));
 
 		/// <summary>
-		/// Generic 401 response.
-		/// </summary>
-		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
-		protected new ObjectResult Unauthorized() => this.StatusCode(HttpStatusCode.Unauthorized, null);
-
-		/// <summary>
-		/// Generic 501 response.
-		/// </summary>
-		/// <param name="ex">The <see cref="NotImplementedException"/> that was thrown.</param>
-		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotImplemented"/>.</returns>
-		protected ObjectResult RequiresPosixSystemIdentity(NotImplementedException ex)
-		{
-			Logger.LogTrace(ex, "System identities not implemented!");
-			return this.StatusCode(HttpStatusCode.NotImplemented, new ErrorMessageResponse(ErrorCode.RequiresPosixSystemIdentity));
-		}
-
-		/// <summary>
 		/// Strongly type calls to <see cref="ControllerBase.StatusCode(int)"/>.
 		/// </summary>
 		/// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>
 		/// <returns>A <see cref="StatusCodeResult"/> with the given <paramref name="statusCode"/>.</returns>
 		protected StatusCodeResult StatusCode(HttpStatusCode statusCode) => StatusCode((int)statusCode);
-
-		/// <summary>
-		/// Generic 201 response with a given <paramref name="payload"/>.
-		/// </summary>
-		/// <param name="payload">The accompanying API payload.</param>
-		/// <returns>A <see cref="HttpStatusCode.Created"/> <see cref="ObjectResult"/> with the given <paramref name="payload"/>.</returns>
-		protected ObjectResult Created(object payload) => StatusCode((int)HttpStatusCode.Created, payload);
 
 		/// <summary>
 		/// 429 response for a given <paramref name="rateLimitException"/>.
@@ -301,7 +277,7 @@ namespace Tgstation.Server.Host.Controllers
 			int? pageQuery,
 			int? pageSizeQuery,
 			CancellationToken cancellationToken)
-			where TModel : IApiTransformable<TApiModel>
+			where TModel : ILegacyApiTransformable<TApiModel>
 			=> PaginatedImpl(
 				queryGenerator,
 				resultTransformer,
@@ -312,7 +288,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Generates a paginated response.
 		/// </summary>
-		/// <typeparam name="TModel">The <see cref="Type"/> of model being generated. If different from <typeparamref name="TResultModel"/>, must implement <see cref="IApiTransformable{TApiModel}"/> for <typeparamref name="TResultModel"/>.</typeparam>
+		/// <typeparam name="TModel">The <see cref="Type"/> of model being generated. If different from <typeparamref name="TResultModel"/>, must implement <see cref="ILegacyApiTransformable{TApiModel}"/> for <typeparamref name="TResultModel"/>.</typeparam>
 		/// <typeparam name="TResultModel">The <see cref="Type"/> of model being returned.</typeparam>
 		/// <param name="queryGenerator">A <see cref="Func{TResult}"/> resulting in a <see cref="ValueTask{TResult}"/> resulting in the generated <see cref="PaginatableResult{TModel}"/>.</param>
 		/// <param name="resultTransformer">A <see cref="Func{T, TResult}"/> to transform the <typeparamref name="TResultModel"/>s after being queried.</param>
@@ -361,15 +337,15 @@ namespace Tgstation.Server.Host.Controllers
 			else
 			{
 				totalResults = paginationResult.Results.Count();
-				pagedResults = queriedResults.ToList();
+				pagedResults = [.. queriedResults];
 			}
 
 			ICollection<TResultModel> finalResults;
-			if (typeof(TModel) == typeof(TResultModel))
-				finalResults = (List<TResultModel>)(object)pagedResults; // clearly a safe cast
+			if (typeof(TResultModel).IsAssignableFrom(typeof(TModel)))
+				finalResults = pagedResults.Cast<TResultModel>().ToList(); // clearly a safe cast
 			else
 				finalResults = pagedResults
-					.OfType<IApiTransformable<TResultModel>>()
+					.Cast<ILegacyApiTransformable<TResultModel>>()
 					.Select(x => x.ToApi())
 					.ToList();
 

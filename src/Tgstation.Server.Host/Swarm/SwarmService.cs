@@ -211,7 +211,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				swarmServers = new List<SwarmServerInformation>
 				{
-					new SwarmServerInformation
+					new()
 					{
 						Address = swarmConfiguration.Address,
 						PublicAddress = swarmConfiguration.PublicAddress,

@@ -41,6 +41,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
 
 		/// <summary>
+		/// The <see cref="FileLoggingConfiguration"/> <see cref="IOptionsMonitor{TOptions}"/> for the <see cref="ProviderFactory"/>.
+		/// </summary>
+		readonly IOptionsMonitor<FileLoggingConfiguration> loggingConfigurationOptions;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ProviderFactory"/> class.
 		/// </summary>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
@@ -48,18 +53,21 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="loggingConfigurationOptions">The value of <see cref="loggingConfigurationOptions"/>.</param>
 		public ProviderFactory(
 			IJobManager jobManager,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IAsyncDelayer asyncDelayer,
 			ILoggerFactory loggerFactory,
-			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions)
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsMonitor<FileLoggingConfiguration> loggingConfigurationOptions)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.loggingConfigurationOptions = loggingConfigurationOptions ?? throw new ArgumentNullException(nameof(loggingConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -72,8 +80,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					jobManager,
 					asyncDelayer,
 					loggerFactory.CreateLogger<IrcProvider>(),
+					settings,
 					assemblyInformationProvider,
-					settings),
+					loggingConfigurationOptions),
 				ChatProvider.Discord => new DiscordProvider(
 					jobManager,
 					asyncDelayer,

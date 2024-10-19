@@ -14,6 +14,7 @@ using Serilog.Context;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
@@ -130,7 +131,9 @@ namespace Tgstation.Server.Host.Extensions
 			applicationBuilder.Use(async (context, next) =>
 			{
 				var apiHeadersProvider = context.RequestServices.GetRequiredService<IApiHeadersProvider>();
-				if (apiHeadersProvider.ApiHeaders?.Compatible() == false)
+				if (apiHeadersProvider.ApiHeaders?.Compatible(
+					Version.Parse(
+						MasterVersionsAttribute.Instance.RawGraphQLVersion)) == false)
 				{
 					await new BadRequestObjectResult(
 						new ErrorMessageResponse(ErrorCode.ApiMismatch))

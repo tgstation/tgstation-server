@@ -19,5 +19,10 @@
 		/// Use NickServ authentication.
 		/// </summary>
 		NickServ,
+
+		/// <summary>
+		/// Use OPER authentication.
+		/// </summary>
+		Oper,
 	}
 }

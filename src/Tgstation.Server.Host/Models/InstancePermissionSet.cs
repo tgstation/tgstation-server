@@ -5,7 +5,7 @@ using Tgstation.Server.Api.Models.Response;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.InstancePermissionSet" />
-	public sealed class InstancePermissionSet : Api.Models.Internal.InstancePermissionSet, IApiTransformable<InstancePermissionSetResponse>
+	public sealed class InstancePermissionSet : Api.Models.Internal.InstancePermissionSet, ILegacyApiTransformable<InstancePermissionSetResponse>
 	{
 		/// <summary>
 		/// The row Id.

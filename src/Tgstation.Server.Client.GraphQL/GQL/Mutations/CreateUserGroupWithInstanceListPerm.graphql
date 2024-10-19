@@ -1,0 +1,40 @@
+mutation CreateUserGroupWithInstanceListPerm($name: String!) {
+  createUserGroup(input: { name: $name, permissionSet: { instanceManagerRights: { canList: true } } }) {
+    userGroup {
+      id
+      name
+      permissionSet {
+        administrationRights {
+          canChangeVersion
+          canDownloadLogs
+          canEditOwnOAuthConnections
+          canEditOwnPassword
+          canReadUsers
+          canRestartHost
+          canUploadVersion
+          canWriteUsers
+        }
+        instanceManagerRights {
+          canCreate
+          canDelete
+          canGrantPermissions
+          canList
+          canRead
+          canRelocate
+          canRename
+          canSetAutoUpdate
+          canSetChatBotLimit
+          canSetConfiguration
+          canSetOnline
+        }
+      }
+    }
+    errors {
+      ... on ErrorMessageError {
+        additionalData
+        errorCode
+        message
+      }
+    }
+  }
+}

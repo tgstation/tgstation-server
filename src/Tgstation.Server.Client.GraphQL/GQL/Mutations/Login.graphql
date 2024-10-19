@@ -1,0 +1,14 @@
+mutation Login {
+  login {
+    loginResult {
+      bearer
+    }
+    errors {
+      ... on ErrorMessageError {
+        message
+        errorCode
+        additionalData
+      }
+    }
+  }
+}

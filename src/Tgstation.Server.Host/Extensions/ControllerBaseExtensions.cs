@@ -20,6 +20,21 @@ namespace Tgstation.Server.Host.Extensions
 	static class ControllerBaseExtensions
 	{
 		/// <summary>
+		/// Generic 201 response with a given <paramref name="payload"/>.
+		/// </summary>
+		/// <param name="controller">The <see cref="ControllerBase"/> the request is coming from.</param>
+		/// <param name="payload">The accompanying API payload.</param>
+		/// <returns>A <see cref="HttpStatusCode.Created"/> <see cref="ObjectResult"/> with the given <paramref name="payload"/>.</returns>
+		public static ObjectResult Created(this ControllerBase controller, object payload) => controller.StatusCode(HttpStatusCode.Created, payload);
+
+		/// <summary>
+		/// Generic 401 response.
+		/// </summary>
+		/// <param name="controller">The <see cref="ControllerBase"/> the request is coming from.</param>
+		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
+		public static ObjectResult Unauthorized(this ControllerBase controller) => controller.StatusCode(HttpStatusCode.Unauthorized, null);
+
+		/// <summary>
 		/// Generic 410 response.
 		/// </summary>
 		/// <param name="controller">The <see cref="ControllerBase"/> the request is coming from.</param>
