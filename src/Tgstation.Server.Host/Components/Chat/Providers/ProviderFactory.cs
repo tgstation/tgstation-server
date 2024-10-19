@@ -36,14 +36,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="ProviderFactory"/>.
+		/// The <see cref="GeneralConfiguration"/> <see cref="IOptionsMonitor{TOptions}"/> for the <see cref="ProviderFactory"/>.
 		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
+		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
 
 		/// <summary>
-		/// The <see cref="FileLoggingConfiguration"/> for the <see cref="ProviderFactory"/>.
+		/// The <see cref="FileLoggingConfiguration"/> <see cref="IOptionsMonitor{TOptions}"/> for the <see cref="ProviderFactory"/>.
 		/// </summary>
-		readonly FileLoggingConfiguration loggingConfiguration;
+		readonly IOptionsMonitor<FileLoggingConfiguration> loggingConfigurationOptions;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ProviderFactory"/> class.
@@ -52,22 +52,22 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="loggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="loggingConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="loggingConfigurationOptions">The value of <see cref="loggingConfigurationOptions"/>.</param>
 		public ProviderFactory(
 			IJobManager jobManager,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IAsyncDelayer asyncDelayer,
 			ILoggerFactory loggerFactory,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<FileLoggingConfiguration> loggingConfigurationOptions)
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsMonitor<FileLoggingConfiguration> loggingConfigurationOptions)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			loggingConfiguration = loggingConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(loggingConfigurationOptions));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.loggingConfigurationOptions = loggingConfigurationOptions ?? throw new ArgumentNullException(nameof(loggingConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -80,16 +80,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					jobManager,
 					asyncDelayer,
 					loggerFactory.CreateLogger<IrcProvider>(),
-					assemblyInformationProvider,
 					settings,
-					loggingConfiguration),
+					assemblyInformationProvider,
+					loggingConfigurationOptions),
 				ChatProvider.Discord => new DiscordProvider(
 					jobManager,
 					asyncDelayer,
 					loggerFactory.CreateLogger<DiscordProvider>(),
 					assemblyInformationProvider,
-					settings,
-					generalConfiguration),
+					generalConfigurationOptions,
+					settings),
 				_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid ChatProvider: {0}", settings.Provider)),
 			};
 		}

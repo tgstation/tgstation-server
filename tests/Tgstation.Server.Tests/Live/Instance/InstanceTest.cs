@@ -98,12 +98,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 				"OpenDreamRepository");
 			var odRepoIoManager = new ResolvingIOManager(ioManager, odRepoDir);
 
-			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
+			var mockOptions = new Mock<IOptionsMonitor<GeneralConfiguration>>();
 			var genConfig = new GeneralConfiguration
 			{
 				OpenDreamGitUrl = openDreamUrl,
 			};
-			mockOptions.SetupGet(x => x.Value).Returns(genConfig);
+
+			mockOptions.SetupGet(x => x.CurrentValue).Returns(genConfig);
 			IEngineInstaller byondInstaller =
 				compatVersion.Engine == EngineType.OpenDream
 				? new OpenDreamInstaller(
@@ -125,14 +126,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 					Mock.Of<IAsyncDelayer>(),
 					Mock.Of<IAbstractHttpClientFactory>(),
 					mockOptions.Object,
-					Options.Create(new SessionConfiguration()))
+					Mock.Of<IOptionsMonitor<SessionConfiguration>>())
 				: new PlatformIdentifier().IsWindows
 					? new WindowsByondInstaller(
 						Mock.Of<IProcessExecutor>(),
 						Mock.Of<IIOManager>(),
 						fileDownloader,
-						Options.Create(genConfig),
-						Options.Create(new SessionConfiguration()),
+						Mock.Of<IOptionsMonitor<GeneralConfiguration>>(),
+						Mock.Of<IOptionsMonitor<SessionConfiguration>>(),
 						Mock.Of<ILogger<WindowsByondInstaller>>())
 					: new PosixByondInstaller(
 						Mock.Of<IPostWriteHandler>(),

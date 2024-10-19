@@ -284,10 +284,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task TestCustomInstalls(CancellationToken cancellationToken)
 		{
-			var generalConfigOptionsMock = new Mock<IOptions<GeneralConfiguration>>();
-			generalConfigOptionsMock.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
-			var sessionConfigOptionsMock = new Mock<IOptions<SessionConfiguration>>();
-			sessionConfigOptionsMock.SetupGet(x => x.Value).Returns(new SessionConfiguration());
+			var generalConfigOptionsMock = new Mock<IOptionsMonitor<GeneralConfiguration>>();
+			generalConfigOptionsMock.SetupGet(x => x.CurrentValue).Returns(new GeneralConfiguration());
+			var sessionConfigOptionsMock = new Mock<IOptionsMonitor<SessionConfiguration>>();
+			sessionConfigOptionsMock.SetupGet(x => x.CurrentValue).Returns(new SessionConfiguration());
 
 			var assemblyInformationProvider = new AssemblyInformationProvider();
 

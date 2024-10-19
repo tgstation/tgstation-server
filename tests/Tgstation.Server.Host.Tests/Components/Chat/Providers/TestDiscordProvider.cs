@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
@@ -64,9 +65,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, null, null, null));
 			var mockAss = Mock.Of<IAssemblyInformationProvider>();
 			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, bot, null));
-			var mockGen = new GeneralConfiguration();
-			await new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, bot, mockGen).DisposeAsync();
+			var mockGen = Mock.Of<IOptionsMonitor<GeneralConfiguration>>();
+			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, mockGen, null));
+			await new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, mockGen, bot).DisposeAsync();
 		}
 
 		static ValueTask InvokeConnect(IProvider provider, CancellationToken cancellationToken = default) => (ValueTask)provider.GetType().GetMethod("Connect", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(provider, new object[] { cancellationToken });
@@ -75,12 +76,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		public async Task TestConnectWithFakeTokenFails()
 		{
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
-			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAsyncDelayer>(), mockLogger.Object, Mock.Of<IAssemblyInformationProvider>(), new ChatBot
+			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAsyncDelayer>(), mockLogger.Object, Mock.Of<IAssemblyInformationProvider>(), Mock.Of<IOptionsMonitor<GeneralConfiguration>>(), new ChatBot
 			{
 				ReconnectionInterval = 1,
 				ConnectionString = "asdf",
 				Instance = new Models.Instance(),
-			}, new GeneralConfiguration());
+			});
 			await Assert.ThrowsExceptionAsync<JobException>(async () => await InvokeConnect(provider));
 			Assert.IsFalse(provider.Connected);
 		}
@@ -95,7 +96,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				Assert.Fail("TGS_TEST_DISCORD_TOKEN is not a valid Discord connection string!");
 
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
-			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAsyncDelayer>(), mockLogger.Object, Mock.Of<IAssemblyInformationProvider>(), testToken1, new GeneralConfiguration());
+			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAsyncDelayer>(), mockLogger.Object, Mock.Of<IAssemblyInformationProvider>(), Mock.Of<IOptionsMonitor<GeneralConfiguration>>(), testToken1);
 			Assert.IsFalse(provider.Connected);
 			await InvokeConnect(provider);
 			Assert.IsTrue(provider.Connected);
