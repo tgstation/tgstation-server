@@ -11,6 +11,8 @@ using StrawberryShake;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.GraphQL;
 
+using static HotChocolate.ErrorCodes;
+
 namespace Tgstation.Server.Tests.Live
 {
 	/// <summary>
@@ -78,6 +80,7 @@ namespace Tgstation.Server.Tests.Live
 
 			var payload = payloadSelector(operationResult.Data);
 
+			Assert.AreNotSame<object>(operationResult.Data, payload, "Select the mutation payload from the operation result!");
 			var payloadErrors = (IEnumerable<object>)payload.GetType().GetProperty("Errors").GetValue(payload);
 			var error = payloadErrors.Single();
 

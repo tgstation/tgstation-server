@@ -361,7 +361,7 @@ namespace Tgstation.Server.Tests.Live
 						},
 						async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
 							gql => gql.RepositoryBasedServerUpdate.ExecuteAsync(TestUpdateVersion, cancellationToken),
-							result => result,
+							result => result.ChangeServerNodeVersionViaTrackedRepository,
 							cancellationToken));
 
 					try
@@ -549,7 +549,7 @@ namespace Tgstation.Server.Tests.Live
 						},
 						async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
 							gql => gql.RepositoryBasedServerUpdate.ExecuteAsync(TestUpdateVersion, cancellationToken),
-							result => result,
+							result => result.ChangeServerNodeVersionViaTrackedRepository,
 							cancellationToken));
 
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
@@ -737,7 +737,7 @@ namespace Tgstation.Server.Tests.Live
 							cancellationToken),
 						async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
 							gql => gql.RepositoryBasedServerUpdate.ExecuteAsync(TestUpdateVersion, cancellationToken),
-							result => result,
+							result => result.ChangeServerNodeVersionViaTrackedRepository,
 							cancellationToken));
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
 					Assert.IsTrue(serverTask.IsCompleted);
@@ -786,7 +786,7 @@ namespace Tgstation.Server.Tests.Live
 						async gqlClient => await ApiAssert.OperationFails(
 							gqlClient,
 							gql => gql.RepositoryBasedServerUpdate.ExecuteAsync(TestUpdateVersion, cancellationToken),
-							result => result,
+							result => result.ChangeServerNodeVersionViaTrackedRepository,
 							Client.GraphQL.ErrorCode.SwarmIntegrityCheckFailed,
 							cancellationToken));
 
@@ -988,7 +988,7 @@ namespace Tgstation.Server.Tests.Live
 						restClient => restClient.Administration.Restart(cancellationToken),
 						async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
 							gql => gql.RestartServer.ExecuteAsync(cancellationToken),
-							result => result,
+							result => result.RestartServerNode,
 							cancellationToken));
 
 					await Task.WhenAny(
@@ -1016,7 +1016,7 @@ namespace Tgstation.Server.Tests.Live
 						restClient => restClient.Administration.Restart(cancellationToken),
 						async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
 							gql => gql.RestartServer.ExecuteAsync(cancellationToken),
-							result => result,
+							result => result.RestartServerNode,
 							cancellationToken));
 					await Task.WhenAny(
 						node2Task,
@@ -1042,7 +1042,7 @@ namespace Tgstation.Server.Tests.Live
 						async gqlClient => await ApiAssert.OperationFails(
 							gqlClient,
 							gql => gql.RepositoryBasedServerUpdate.ExecuteAsync(TestUpdateVersion, cancellationToken),
-							result => result,
+							result => result.ChangeServerNodeVersionViaTrackedRepository,
 							Client.GraphQL.ErrorCode.SwarmIntegrityCheckFailed,
 							cancellationToken));
 
@@ -1685,7 +1685,7 @@ namespace Tgstation.Server.Tests.Live
 							restClient => restClient.Administration.Restart(cancellationToken),
 							async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
 								gql => gql.RestartServer.ExecuteAsync(cancellationToken),
-								result => result,
+								result => result.RestartServerNode,
 								cancellationToken));
 					}
 					catch
@@ -1835,7 +1835,7 @@ namespace Tgstation.Server.Tests.Live
 						restClient => restClient.Administration.Restart(cancellationToken),
 						async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
 							gql => gql.RestartServer.ExecuteAsync(cancellationToken),
-							result => result,
+							result => result.RestartServerNode,
 							cancellationToken));
 				}
 
@@ -1907,7 +1907,7 @@ namespace Tgstation.Server.Tests.Live
 						restClient => restClient.Administration.Restart(cancellationToken),
 						async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
 							gql => gql.RestartServer.ExecuteAsync(cancellationToken),
-							result => result,
+							result => result.RestartServerNode,
 							cancellationToken));
 				}
 
