@@ -65,6 +65,7 @@ namespace Tgstation.Server.Host.Authority.Core
 				HttpFailureResponse.FailedDependency => controller.StatusCode(HttpStatusCode.FailedDependency, errorMessage),
 				HttpFailureResponse.RateLimited => controller.StatusCode(HttpStatusCode.TooManyRequests, errorMessage),
 				HttpFailureResponse.NotImplemented => controller.StatusCode(HttpStatusCode.NotImplemented, errorMessage),
+				HttpFailureResponse.ServiceUnavailable => controller.StatusCode(HttpStatusCode.ServiceUnavailable, errorMessage),
 				_ => throw new InvalidOperationException($"Invalid {nameof(HttpFailureResponse)}: {failureResponse}"),
 			};
 		}
