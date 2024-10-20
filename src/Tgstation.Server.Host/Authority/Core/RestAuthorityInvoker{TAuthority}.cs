@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Authority.Core
 			return failureResponse switch
 			{
 				HttpFailureResponse.BadRequest => controller.BadRequest(errorMessage),
-				HttpFailureResponse.Unauthorized => controller.Unauthorized(errorMessage),
+				HttpFailureResponse.Unauthorized => controller.Unauthorized(),
 				HttpFailureResponse.Forbidden => controller.Forbid(),
 				HttpFailureResponse.NotFound => controller.NotFound(errorMessage),
 				HttpFailureResponse.NotAcceptable => controller.StatusCode(HttpStatusCode.NotAcceptable, errorMessage),
