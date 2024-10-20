@@ -67,7 +67,8 @@ namespace Tgstation.Server.Host.GraphQL.Scalars
 		protected override bool IsInstanceOfType(StringValueNode valueSyntax)
 		{
 			ArgumentNullException.ThrowIfNull(valueSyntax);
-			return IsInstanceOfType(valueSyntax.Value);
+			return Version.TryParse(valueSyntax.Value, out var parsedVersion)
+				&& IsInstanceOfType(parsedVersion);
 		}
 
 		/// <inheritdoc />
