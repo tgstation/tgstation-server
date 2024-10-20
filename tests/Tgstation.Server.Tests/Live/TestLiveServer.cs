@@ -340,21 +340,29 @@ namespace Tgstation.Server.Tests.Live
 					}
 
 					//attempt to update to stable
-					var responseModel = await TestWithoutAndWithPermission(
-						() => adminClient.RestClient.Administration.Update(
-							new ServerUpdateRequest
-							{
-								NewVersion = TestUpdateVersion,
-								UploadZip = false,
-							},
-							null,
-							cancellationToken),
-						adminClient.RestClient,
-						AdministrationRights.ChangeVersion);
+					await adminClient.Execute(
+						async restClient =>
+						{
+							var responseModel = await TestWithoutAndWithPermission(
+								() => restClient.Administration.Update(
+									new ServerUpdateRequest
+									{
+										NewVersion = TestUpdateVersion,
+										UploadZip = false,
+									},
+									null,
+									cancellationToken),
+								adminClient.RestClient,
+								AdministrationRights.ChangeVersion);
 
-					Assert.IsNotNull(responseModel);
-					Assert.IsNull(responseModel.FileTicket);
-					Assert.AreEqual(TestUpdateVersion, responseModel.NewVersion);
+							Assert.IsNotNull(responseModel);
+							Assert.IsNull(responseModel.FileTicket);
+							Assert.AreEqual(TestUpdateVersion, responseModel.NewVersion);
+						},
+						async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
+							gql => gql.RepositoryBasedServerUpdate.ExecuteAsync(TestUpdateVersion, cancellationToken),
+							result => result,
+							cancellationToken));
 
 					try
 					{
@@ -524,17 +532,25 @@ namespace Tgstation.Server.Tests.Live
 					CheckInfo(controllerInfo);
 
 					// test update
-					var responseModel = await controllerClient.RestClient.Administration.Update(
-						new ServerUpdateRequest
+					await controllerClient.Execute(
+						async restClient =>
 						{
-							NewVersion = TestUpdateVersion
-						},
-						null,
-						cancellationToken);
+							var responseModel = await restClient.Administration.Update(
+								new ServerUpdateRequest
+								{
+									NewVersion = TestUpdateVersion
+								},
+								null,
+								cancellationToken);
 
-					Assert.IsNotNull(responseModel);
-					Assert.IsNull(responseModel.FileTicket);
-					Assert.AreEqual(TestUpdateVersion, responseModel.NewVersion);
+							Assert.IsNotNull(responseModel);
+							Assert.IsNull(responseModel.FileTicket);
+							Assert.AreEqual(TestUpdateVersion, responseModel.NewVersion);
+						},
+						async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
+							gql => gql.RepositoryBasedServerUpdate.ExecuteAsync(TestUpdateVersion, cancellationToken),
+							result => result,
+							cancellationToken));
 
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
 					Assert.IsTrue(serverTask.IsCompleted);
@@ -711,13 +727,18 @@ namespace Tgstation.Server.Tests.Live
 					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => node1Client.RestClient.Instances.GetId(controllerInstance, cancellationToken), Api.Models.ErrorCode.ResourceNotPresent);
 
 					// test update
-					await node1Client.RestClient.Administration.Update(
-						new ServerUpdateRequest
-						{
-							NewVersion = TestUpdateVersion
-						},
-						null,
-						cancellationToken);
+					await node1Client.Execute(
+						async restClient => await restClient.Administration.Update(
+							new ServerUpdateRequest
+							{
+								NewVersion = TestUpdateVersion
+							},
+							null,
+							cancellationToken),
+						async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
+							gql => gql.RepositoryBasedServerUpdate.ExecuteAsync(TestUpdateVersion, cancellationToken),
+							result => result,
+							cancellationToken));
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
 					Assert.IsTrue(serverTask.IsCompleted);
 
@@ -752,13 +773,22 @@ namespace Tgstation.Server.Tests.Live
 					await using var controllerClient2 = await CreateAdminClient(controller.ApiUrl, cancellationToken);
 					await using var node1Client2 = await CreateAdminClient(node1.ApiUrl, cancellationToken);
 
-					await ApiAssert.ThrowsException<ApiConflictException, ServerUpdateResponse>(() => controllerClient2.RestClient.Administration.Update(
-						new ServerUpdateRequest
-						{
-							NewVersion = TestUpdateVersion
-						},
-						null,
-						cancellationToken), Api.Models.ErrorCode.SwarmIntegrityCheckFailed);
+					await controllerClient2.Execute(
+						async restClient => await ApiAssert.ThrowsException<ApiConflictException, ServerUpdateResponse>(
+							() => restClient.Administration.Update(
+								new ServerUpdateRequest
+								{
+									NewVersion = TestUpdateVersion
+								},
+								null,
+								cancellationToken),
+							Api.Models.ErrorCode.SwarmIntegrityCheckFailed),
+						async gqlClient => await ApiAssert.OperationFails(
+							gqlClient,
+							gql => gql.RepositoryBasedServerUpdate.ExecuteAsync(TestUpdateVersion, cancellationToken),
+							result => result,
+							Client.GraphQL.ErrorCode.SwarmIntegrityCheckFailed,
+							cancellationToken));
 
 					// regression: test updating also works from the controller
 					serverTask = Task.WhenAll(
@@ -954,7 +984,13 @@ namespace Tgstation.Server.Tests.Live
 					Assert.IsFalse(node2Info.SwarmServers.Any(x => x.Identifier == "node1"));
 
 					// restart the controller
-					await controllerClient.RestClient.Administration.Restart(cancellationToken);
+					await controllerClient.Execute(
+						restClient => restClient.Administration.Restart(cancellationToken),
+						async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
+							gql => gql.RestartServer.ExecuteAsync(cancellationToken),
+							result => result,
+							cancellationToken));
+
 					await Task.WhenAny(
 						controllerTask,
 						Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
@@ -976,7 +1012,12 @@ namespace Tgstation.Server.Tests.Live
 					await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
 
 					// restart node2
-					await node2Client.RestClient.Administration.Restart(cancellationToken);
+					await node2Client.Execute(
+						restClient => restClient.Administration.Restart(cancellationToken),
+						async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
+							gql => gql.RestartServer.ExecuteAsync(cancellationToken),
+							result => result,
+							cancellationToken));
 					await Task.WhenAny(
 						node2Task,
 						Task.Delay(TimeSpan.FromMinutes(1)));
@@ -988,14 +1029,22 @@ namespace Tgstation.Server.Tests.Live
 					Assert.IsNull(controllerInfo.SwarmServers.SingleOrDefault(x => x.Identifier == "node2"));
 
 					// update should fail
-					await ApiAssert.ThrowsException<ApiConflictException, ServerUpdateResponse>(
-						() => controllerClient2.RestClient.Administration.Update(new ServerUpdateRequest
-						{
-							NewVersion = TestUpdateVersion
-						},
-						null,
-						cancellationToken),
-						Api.Models.ErrorCode.SwarmIntegrityCheckFailed);
+					await controllerClient2.Execute(
+						async restClient => await ApiAssert.ThrowsException<ApiConflictException, ServerUpdateResponse>(
+							() => restClient.Administration.Update(
+								new ServerUpdateRequest
+								{
+									NewVersion = TestUpdateVersion
+								},
+								null,
+								cancellationToken),
+							Api.Models.ErrorCode.SwarmIntegrityCheckFailed),
+						async gqlClient => await ApiAssert.OperationFails(
+							gqlClient,
+							gql => gql.RepositoryBasedServerUpdate.ExecuteAsync(TestUpdateVersion, cancellationToken),
+							result => result,
+							Client.GraphQL.ErrorCode.SwarmIntegrityCheckFailed,
+							cancellationToken));
 
 					node2Task = node2.Run(cancellationToken).AsTask();
 					await using var node2Client2 = await CreateAdminClient(node2.ApiUrl, cancellationToken);
@@ -1486,7 +1535,7 @@ namespace Tgstation.Server.Tests.Live
 
 						jobsHubTestTask = FailFast(await jobsHubTest.Run(cancellationToken)); // returns Task<Task>
 						var rootTest = FailFast(RawRequestTests.Run(restClientFactory, firstAdminRestClient, cancellationToken));
-						var adminTest = FailFast(new AdministrationTest(firstAdminRestClient.Administration).Run(cancellationToken));
+						var adminTest = FailFast(new AdministrationTest(firstAdminMultiClient).Run(cancellationToken));
 						var usersTest = FailFast(new UsersTest(firstAdminMultiClient).Run(cancellationToken).AsTask());
 
 						var instanceManagerTest = new InstanceManagerTest(firstAdminRestClient, server.Directory);
@@ -1632,7 +1681,12 @@ namespace Tgstation.Server.Tests.Live
 						await Task.Delay(1000, cancellationToken);
 
 						jobsHubTest.ExpectShutdown();
-						await firstAdminRestClient.Administration.Restart(cancellationToken);
+						await firstAdminMultiClient.Execute(
+							restClient => restClient.Administration.Restart(cancellationToken),
+							async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
+								gql => gql.RestartServer.ExecuteAsync(cancellationToken),
+								result => result,
+								cancellationToken));
 					}
 					catch
 					{
@@ -1777,7 +1831,12 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Offline, dd.Status);
 
 					jobsHubTest.ExpectShutdown();
-					await adminClient.Administration.Restart(cancellationToken);
+					await multiClient.Execute(
+						restClient => restClient.Administration.Restart(cancellationToken),
+						async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
+							gql => gql.RestartServer.ExecuteAsync(cancellationToken),
+							result => result,
+							cancellationToken));
 				}
 
 				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
@@ -1844,7 +1903,12 @@ namespace Tgstation.Server.Tests.Live
 					expectedStaged = compileJob.Id.Value;
 
 					jobsHubTest.ExpectShutdown();
-					await restAdminClient.Administration.Restart(cancellationToken);
+					await adminClient.Execute(
+						restClient => restClient.Administration.Restart(cancellationToken),
+						async gqlClient => await gqlClient.RunMutationEnsureNoErrors(
+							gql => gql.RestartServer.ExecuteAsync(cancellationToken),
+							result => result,
+							cancellationToken));
 				}
 
 				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));

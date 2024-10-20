@@ -1,0 +1,11 @@
+mutation RestartServer() {
+  restartServer() {
+    errors {
+      ... on ErrorMessageError {
+        additionalData
+        errorCode
+        message
+      }
+    }
+  }
+}

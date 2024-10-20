@@ -7,7 +7,6 @@ using HotChocolate;
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.GraphQL.Interfaces;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Security;
@@ -20,19 +19,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// </summary>
 	public sealed class ServerSwarm
 	{
-		/// <summary>
-		/// If there is a swarm update in progress.
-		/// </summary>
-		/// <param name="serverControl">The <see cref="IServerControl"/> to use.</param>
-		/// <returns><see langword="true"/> if there is an update in progress, <see langword="false"/> otherwise.</returns>
-		[TgsGraphQLAuthorize]
-		public bool UpdateInProgress(
-			[Service] IServerControl serverControl)
-		{
-			ArgumentNullException.ThrowIfNull(serverControl);
-			return serverControl.UpdateInProgress;
-		}
-
 		/// <summary>
 		/// Gets the swarm protocol major version in use.
 		/// </summary>
@@ -78,5 +64,12 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			ArgumentNullException.ThrowIfNull(swarmService);
 			return swarmService.GetSwarmServers()?.Select(x => new SwarmNode(x)).ToList();
 		}
+
+		/// <summary>
+		/// Gets the <see cref="Types.UpdateInformation"/> for the swarm.
+		/// </summary>
+		/// <returns>A new <see cref="Types.UpdateInformation"/>.</returns>
+		[TgsGraphQLAuthorize]
+		public UpdateInformation UpdateInformation() => new();
 	}
 }

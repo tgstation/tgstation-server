@@ -1,0 +1,10 @@
+query GetUpdateInformation($forceFresh: Boolean!) {
+  swarm {
+    updateInformation {
+      generatedAt
+      latestVersion(forceFresh: $forceFresh)
+      updateInProgress
+      trackedRepositoryUrl(forceFresh: $forceFresh)
+    }
+  }
+}
