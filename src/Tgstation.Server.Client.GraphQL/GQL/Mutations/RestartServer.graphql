@@ -1,5 +1,5 @@
 mutation RestartServer() {
-  restartServer() {
+  restartServerNode() {
     errors {
       ... on ErrorMessageError {
         additionalData

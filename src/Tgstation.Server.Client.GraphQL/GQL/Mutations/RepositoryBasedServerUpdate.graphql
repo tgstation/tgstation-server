@@ -1,5 +1,5 @@
 mutation RepositoryBasedServerUpdate($targetVersion: Semver!) {
-  changeServerVersionViaTrackedRepository(input: { targetVersion: $targetVersion }) {
+  changeServerNodeVersionViaTrackedRepository(input: { targetVersion: $targetVersion }) {
     errors {
       ... on ErrorMessageError {
         additionalData

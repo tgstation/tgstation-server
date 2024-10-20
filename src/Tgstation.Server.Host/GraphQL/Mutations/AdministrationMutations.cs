@@ -21,13 +21,13 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 	public sealed class AdministrationMutations
 	{
 		/// <summary>
-		/// Restarts the server node without terminating running game instances.
+		/// Restarts the mutated <see cref="Interfaces.IServerNode"/> without terminating running game instances.
 		/// </summary>
 		/// <param name="administrationAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IAdministrationAuthority"/>.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		[TgsGraphQLAuthorize<IAdministrationAuthority>(nameof(IAdministrationAuthority.TriggerServerRestart))]
 		[Error(typeof(ErrorMessageException))]
-		public async ValueTask<Query> RestartServer(
+		public async ValueTask<Query> RestartServerNode(
 			[Service] IGraphQLAuthorityInvoker<IAdministrationAuthority> administrationAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(administrationAuthority);
@@ -38,7 +38,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		}
 
 		/// <summary>
-		/// Restarts the server node without terminating running game instances and changes its <paramref name="targetVersion"/>.
+		/// Restarts the mutated <see cref="Interfaces.IServerNode"/> without terminating running game instances and changes its <paramref name="targetVersion"/>.
 		/// </summary>
 		/// <param name="targetVersion">The semver of the server <see cref="Version"/> available in the tracked repository to switch to.</param>
 		/// <param name="administrationAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IAdministrationAuthority"/>.</param>
@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		[TgsGraphQLAuthorize(AdministrationRights.ChangeVersion)]
 		[Error(typeof(ErrorMessageException))]
-		public async ValueTask<Query> ChangeServerVersionViaTrackedRepository(
+		public async ValueTask<Query> ChangeServerNodeVersionViaTrackedRepository(
 			Version targetVersion,
 			[Service] IGraphQLAuthorityInvoker<IAdministrationAuthority> administrationAuthority,
 			CancellationToken cancellationToken)
@@ -59,7 +59,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		}
 
 		/// <summary>
-		/// Restarts the server node without terminating running game instances and changes its <paramref name="targetVersion"/>.
+		/// Restarts the mutated <see cref="Interfaces.IServerNode"/> without terminating running game instances and changes its <paramref name="targetVersion"/>.
 		/// </summary>
 		/// <param name="targetVersion">The semver of the server <see cref="Version"/> available in the tracked repository to switch to.</param>
 		/// <param name="administrationAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IAdministrationAuthority"/>.</param>
@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		[TgsGraphQLAuthorize(AdministrationRights.UploadVersion)]
 		[Error(typeof(ErrorMessageException))]
 		[GraphQLType<FileUploadTicketType>]
-		public async ValueTask<string> ChangeServerVersionViaUpload(
+		public async ValueTask<string> ChangeServerNodeVersionViaUpload(
 			Version targetVersion,
 			[Service] IGraphQLAuthorityInvoker<IAdministrationAuthority> administrationAuthority,
 			CancellationToken cancellationToken)
