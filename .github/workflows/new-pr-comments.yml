@@ -32,5 +32,5 @@ jobs:
         if: github.event.pull_request.user.id == 49699333
         uses: thollander/actions-comment-pull-request@e2c37e53a7d2227b61585343765f73a9ca57eda9
         with:
-          message: Set the milestone to the next ${{ (github.head_ref == 'master' && 'patch') || 'minor' }} version, check for supply chain attacks, and then add the `CI Cleared` label to allow CI to run.
+          message: Set the milestone to the next ${{ (github.event.pull_request.base.ref == 'master' && 'patch') || 'minor' }} version, check for supply chain attacks, and then add the `CI Cleared` label to allow CI to run.
           github-token: ${{ steps.app-token-generation.outputs.token }}
