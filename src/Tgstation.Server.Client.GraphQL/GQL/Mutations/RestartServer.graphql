@@ -1,0 +1,11 @@
+mutation RestartServer() {
+  restartServerNode() {
+    errors {
+      ... on ErrorMessageError {
+        additionalData
+        errorCode
+        message
+      }
+    }
+  }
+}

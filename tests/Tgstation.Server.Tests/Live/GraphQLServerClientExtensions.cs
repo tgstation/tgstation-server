@@ -33,6 +33,7 @@ namespace Tgstation.Server.Tests.Live
 			var result = await serverClient.RunOperation(operationExecutor, cancellationToken);
 			result.EnsureNoErrors();
 			var data = payloadSelector(result.Data);
+			Assert.AreNotSame<object>(result.Data, data, "Select the mutation payload from the operation result!");
 			var errorsObject = data.GetType().GetProperty("Errors").GetValue(data);
 			if (errorsObject != null)
 			{

@@ -487,6 +487,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddScoped<IUserAuthority, UserAuthority>();
 			services.AddScoped<IUserGroupAuthority, UserGroupAuthority>();
 			services.AddScoped<IPermissionSetAuthority, PermissionSetAuthority>();
+			services.AddScoped<IAdministrationAuthority, AdministrationAuthority>();
 
 			// configure misc services
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();

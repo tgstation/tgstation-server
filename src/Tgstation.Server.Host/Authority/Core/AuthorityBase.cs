@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// <returns>A new, errored <see cref="AuthorityResponse{TResult}"/>.</returns>
 		protected static AuthorityResponse<TResult> Gone<TResult>()
 			=> new(
-				new ErrorMessageResponse(),
+				new ErrorMessageResponse(ErrorCode.ResourceNotPresent),
 				HttpFailureResponse.Gone);
 
 		/// <summary>
@@ -80,7 +80,7 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// <returns>A new, errored <see cref="AuthorityResponse{TResult}"/>.</returns>
 		protected static AuthorityResponse<TResult> NotFound<TResult>()
 			=> new(
-				new ErrorMessageResponse(),
+				new ErrorMessageResponse(ErrorCode.ResourceNeverPresent),
 				HttpFailureResponse.NotFound);
 
 		/// <summary>
