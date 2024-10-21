@@ -1,7 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="Node000000" href="$class_i_responder.html" title=" " alt="" coords="5,13,93,39"/>
 <area shape="rect" id="Node000001" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="141,5,367,46"/>
-<area shape="poly" id="edge278_Node000000_Node000001" title=" " alt="" coords="108,23,140,23,140,28,108,28"/>
+<area shape="poly" id="edge279_Node000000_Node000001" title=" " alt="" coords="108,23,140,23,140,28,108,28"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_forwarding_responder.html" title="An IResponder&lt;TGatewayEvent&gt; that forwards to another targetResponder." alt="" coords="415,5,694,46"/>
-<area shape="poly" id="edge279_Node000001_Node000002" title=" " alt="" coords="383,23,414,23,414,28,383,28"/>
+<area shape="poly" id="edge280_Node000001_Node000002" title=" " alt="" coords="383,23,414,23,414,28,383,28"/>
 </map>

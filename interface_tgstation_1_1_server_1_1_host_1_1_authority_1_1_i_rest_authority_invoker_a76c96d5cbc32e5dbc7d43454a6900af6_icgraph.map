@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Authority.IRestAuthorityInvoker.Invoke" name="Tgstation.Server.Host.Authority.IRestAuthorityInvoker.Invoke">
+<area shape="rect" id="Node000001" title="Invoke a TAuthority &#160;method with no success result." alt="" coords="269,5,473,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a8ebab47feb25dc4b96387761e546740a" title="Attempt to perform a server upgrade." alt="" coords="5,5,221,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,28,221,28,221,23,253,23"/>
+</map>

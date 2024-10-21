@@ -12,5 +12,6 @@ var searchData=
   ['filetransferstreamhandlerextensions_2ecs_9',['FileTransferStreamHandlerExtensions.cs',['../_file_transfer_stream_handler_extensions_8cs.html',1,'']]],
   ['fileuploadprovider_2ecs_10',['FileUploadProvider.cs',['../_file_upload_provider_8cs.html',1,'']]],
   ['fileuploadstreamkind_2ecs_11',['FileUploadStreamKind.cs',['../_file_upload_stream_kind_8cs.html',1,'']]],
-  ['fulloauthproviderinfo_2ecs_12',['FullOAuthProviderInfo.cs',['../_full_o_auth_provider_info_8cs.html',1,'']]]
+  ['fileuploadtickettype_2ecs_12',['FileUploadTicketType.cs',['../_file_upload_ticket_type_8cs.html',1,'']]],
+  ['fulloauthproviderinfo_2ecs_13',['FullOAuthProviderInfo.cs',['../_full_o_auth_provider_info_8cs.html',1,'']]]
 ];

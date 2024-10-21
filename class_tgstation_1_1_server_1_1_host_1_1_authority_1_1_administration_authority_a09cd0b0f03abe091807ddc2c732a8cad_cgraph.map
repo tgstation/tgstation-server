@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Authority.AdministrationAuthority.TriggerServerVersionChange" name="Tgstation.Server.Host.Authority.AdministrationAuthority.TriggerServerVersionChange">
+<area shape="rect" id="Node000001" title="Triggers a restart of tgstation&#45;server without terminating running game instances,..." alt="" coords="5,34,242,90"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#aa99c11372e2e7aa5fc84e2cc6f12eb8e" title="Create a IFileUploadTicket." alt="" coords="290,5,550,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,45,274,41,274,46,242,50"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#af7f87439f1db84206b881d38619ef755" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="325,70,515,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="242,73,310,82,309,87,242,79"/>
+</map>

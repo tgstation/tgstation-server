@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.ApiController.RateLimit" name="Tgstation.Server.Host.Controllers.ApiController.RateLimit">
-<area shape="rect" id="Node000001" title="429 response for a given rateLimitException ." alt="" coords="606,39,821,79"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#adec6b42180102b20b513582ff608abc8" title="Attempt to initiate an update." alt="" coords="269,5,558,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="590,48,558,44,559,39,591,43"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a78ba36d622724a4e4740d4d792025c89" title="Get AdministrationResponse server information." alt="" coords="306,71,521,111"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="591,75,522,82,521,77,590,69"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a8ebab47feb25dc4b96387761e546740a" title="Attempt to perform a server upgrade." alt="" coords="5,5,221,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="253,28,221,28,221,23,253,23"/>
-</map>

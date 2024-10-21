@@ -1,36 +1,27 @@
 <map id="Tgstation.Server.Host.Controllers.AdministrationController" name="Tgstation.Server.Host.Controllers.AdministrationController">
-<area shape="rect" id="Node000001" title="ApiController for TGS administration purposes." alt="" coords="863,421,1078,461"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="482,71,577,96"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="593,76,650,77,715,86,781,105,812,120,840,139,872,170,899,206,920,246,937,286,959,363,969,420,964,421,954,364,932,288,915,248,894,209,868,173,837,143,809,124,779,110,714,91,649,83,592,82"/>
+<area shape="rect" id="Node000001" title="ApiController for TGS administration purposes." alt="" coords="879,251,1094,292"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="490,56,585,82"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="601,70,658,78,723,91,791,111,856,140,892,165,924,194,972,249,968,252,921,198,889,169,853,144,789,116,722,96,657,83,601,76"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="131,5,256,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="272,19,331,24,392,34,448,50,497,68,495,73,446,55,391,39,330,30,271,24"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="272,21,392,34,490,54,489,60,391,39,271,26"/>
 <area shape="rect" id="Node000004" href="$class_controller.html" title=" " alt="" coords="5,5,82,31"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="97,16,130,16,130,21,97,21"/>
 <area shape="rect" id="Node000005" title=" " alt="" coords="148,56,240,82"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="256,69,481,79,481,84,255,74"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="256,66,490,66,490,72,256,72"/>
 <area shape="rect" id="Node000006" title=" " alt="" coords="171,105,216,131"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="231,112,391,96,481,86,482,91,392,101,232,117"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="150,167,238,192"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="253,162,369,141,442,134,522,131,604,135,687,148,766,172,804,189,840,209,868,231,891,257,928,316,953,374,967,419,962,421,948,376,924,318,887,260,864,235,837,214,802,194,764,177,685,153,603,140,522,136,443,139,370,147,254,167"/>
-<area shape="rect" id="Node000017" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html" title="File logging configuration options." alt="" coords="415,207,644,248"/>
-<area shape="poly" id="edge17_Node000017_Node000007" title=" " alt="" coords="254,186,281,191,416,210,415,215,280,196,253,192"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="458,272,601,298"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="617,289,725,306,784,322,840,342,871,359,901,379,949,418,946,422,898,383,869,364,838,347,782,327,724,312,616,294"/>
-<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html" title="Factory for IGitHubServices." alt="" coords="431,322,628,363"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="644,357,740,375,839,397,909,417,908,422,838,402,739,380,643,362"/>
-<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="439,387,620,428"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="635,413,862,430,862,435,635,418"/>
-<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html" title="Initiates server self updates." alt="" coords="439,453,620,493"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="635,463,838,449,862,447,863,453,839,454,635,469"/>
-<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="431,518,628,559"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="643,520,739,504,838,483,913,459,915,464,839,488,740,509,644,526"/>
-<area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="446,583,613,624"/>
-<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="628,592,731,573,786,557,838,537,869,520,899,500,946,460,950,464,902,504,872,525,840,542,787,562,733,578,629,597"/>
-<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="431,649,628,689"/>
-<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="643,663,691,656,742,645,791,629,837,606,878,573,912,533,939,493,957,460,961,463,943,496,916,536,882,577,840,610,793,634,743,650,692,661,644,668"/>
-<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html" title="Service for temporarily storing files to be downloaded or uploaded." alt="" coords="429,714,630,755"/>
-<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="645,736,694,731,744,722,793,705,837,680,864,657,887,630,924,568,948,508,962,461,967,463,953,509,929,570,892,633,868,661,840,685,795,710,745,727,695,737,646,741"/>
-<area shape="rect" id="Node000016" title=" " alt="" coords="450,779,609,804"/>
-<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="625,802,677,803,733,797,788,782,814,770,837,755,870,724,897,686,919,645,936,602,956,521,965,461,970,462,961,522,941,604,924,647,902,689,874,727,840,759,816,775,790,787,734,802,678,808,625,807"/>
-<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="659,227,705,233,751,243,797,258,840,279,881,310,915,348,942,387,961,419,956,422,938,390,911,352,877,314,837,283,795,263,750,248,704,238,659,232"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="232,110,489,73,490,78,232,115"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_rest_authority_invoker.html" title=" " alt="" coords="415,106,660,162"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="676,157,765,179,856,206,905,227,948,248,946,253,902,231,854,211,764,184,674,162"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="439,186,636,227"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="652,219,855,249,879,252,878,258,854,254,651,225"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="454,251,621,292"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="637,269,878,269,878,274,637,274"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="439,317,636,357"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="651,318,854,289,878,286,879,291,855,294,652,324"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html" title="Service for temporarily storing files to be downloaded or uploaded." alt="" coords="437,382,638,423"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="653,383,752,364,854,335,904,313,949,290,951,295,907,318,856,340,753,369,654,389"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html" title="File logging configuration options." alt="" coords="423,447,652,488"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="666,455,761,435,809,419,853,399,889,375,921,346,968,291,972,294,925,349,893,379,856,403,811,424,762,440,668,460"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="150,455,238,480"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="253,465,423,465,423,470,253,470"/>
 </map>

@@ -189,8 +189,9 @@ Protected Member Functions</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_semver_type_8cs_source.html#l00067">67</a> of file <a class="el" href="_semver_type_8cs_source.html">SemverType.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   68</span>        {</div>
 <div class="line"><span class="lineno">   69</span>            ArgumentNullException.ThrowIfNull(valueSyntax);</div>
-<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_semver_type.html#a64ca3405bb59f4fd25c2607a16847eb8">IsInstanceOfType</a>(valueSyntax.Value);</div>
-<div class="line"><span class="lineno">   71</span>        }</div>
+<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">return</span> Version.TryParse(valueSyntax.Value, out var parsedVersion)</div>
+<div class="line"><span class="lineno">   71</span>                &amp;&amp; <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_semver_type.html#a64ca3405bb59f4fd25c2607a16847eb8">IsInstanceOfType</a>(parsedVersion);</div>
+<div class="line"><span class="lineno">   72</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_semver_type_html_a64ca3405bb59f4fd25c2607a16847eb8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_semver_type.html#a64ca3405bb59f4fd25c2607a16847eb8">Tgstation.Server.Host.GraphQL.Scalars.SemverType.IsInstanceOfType</a></div><div class="ttdeci">override bool IsInstanceOfType(StringValueNode valueSyntax)</div><div class="ttdef"><b>Definition</b> <a href="_semver_type_8cs_source.html#l00067">SemverType.cs:67</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_semver_type_8cs_source.html#l00067">Tgstation.Server.Host.GraphQL.Scalars.SemverType.IsInstanceOfType()</a>.</p>
@@ -243,11 +244,11 @@ Here is the caller graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_semver_type_8cs_source.html#l00074">74</a> of file <a class="el" href="_semver_type_8cs_source.html">SemverType.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   75</span>        {</div>
-<div class="line"><span class="lineno">   76</span>            ArgumentNullException.ThrowIfNull(runtimeValue);</div>
-<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">return</span> runtimeValue.Build != -1 &amp;&amp; runtimeValue.Revision == -1;</div>
-<div class="line"><span class="lineno">   78</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_semver_type_8cs_source.html#l00075">75</a> of file <a class="el" href="_semver_type_8cs_source.html">SemverType.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   76</span>        {</div>
+<div class="line"><span class="lineno">   77</span>            ArgumentNullException.ThrowIfNull(runtimeValue);</div>
+<div class="line"><span class="lineno">   78</span>            <span class="keywordflow">return</span> runtimeValue.Build != -1 &amp;&amp; runtimeValue.Revision == -1;</div>
+<div class="line"><span class="lineno">   79</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

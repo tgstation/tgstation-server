@@ -1,7 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,39,206,79"/>
 <area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response.html" title="Represents basic server information." alt="" coords="254,5,497,46"/>
-<area shape="poly" id="edge507_Node000000_Node000001" title=" " alt="" coords="221,42,253,38,254,43,222,47"/>
+<area shape="poly" id="edge510_Node000000_Node000001" title=" " alt="" coords="221,42,253,38,254,43,222,47"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="261,71,490,111"/>
-<area shape="poly" id="edge508_Node000000_Node000002" title=" " alt="" coords="222,70,261,75,261,80,221,75"/>
+<area shape="poly" id="edge511_Node000000_Node000002" title=" " alt="" coords="222,70,261,75,261,80,221,75"/>
 </map>

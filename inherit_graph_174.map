@@ -1,9 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_basic_o_auth_provider_info.html" title="Basic OAuth provider info." alt="" coords="5,39,266,79"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_redirect_o_auth_provider_info.html" title="OAuth provider info with a RedirectUri." alt="" coords="317,5,593,46"/>
-<area shape="poly" id="edge631_Node000000_Node000001" title=" " alt="" coords="281,41,317,37,317,43,281,46"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_server_url_o_auth_provider_info.html" title="OAuth provider info with a ServerUrl." alt="" coords="314,71,596,111"/>
-<area shape="poly" id="edge633_Node000000_Node000003" title=" " alt="" coords="281,71,314,74,313,79,281,76"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_full_o_auth_provider_info.html" title="OAuth provider info with a RedirectOAuthProviderInfo.RedirectUri and ServerUrl." alt="" coords="644,5,892,46"/>
-<area shape="poly" id="edge632_Node000001_Node000002" title=" " alt="" coords="608,23,644,23,644,28,608,28"/>
+<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html" title="Represents information about a SwarmNode retrieved via a Interfaces.IGateway." alt="" coords="5,5,202,46"/>
 </map>

@@ -12,5 +12,6 @@ var searchData=
   ['filetransferservice_9',['FileTransferService',['../class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html',1,'Tgstation::Server::Host::Transfer']]],
   ['filetransferstreamhandlerextensions_10',['FileTransferStreamHandlerExtensions',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions.html',1,'Tgstation::Server::Host::Extensions']]],
   ['fileuploadprovider_11',['FileUploadProvider',['../class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html',1,'Tgstation::Server::Host::Transfer']]],
-  ['fulloauthproviderinfo_12',['FullOAuthProviderInfo',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_full_o_auth_provider_info.html',1,'Tgstation::Server::Host::GraphQL::Types::OAuth']]]
+  ['fileuploadtickettype_12',['FileUploadTicketType',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_file_upload_ticket_type.html',1,'Tgstation::Server::Host::GraphQL::Scalars']]],
+  ['fulloauthproviderinfo_13',['FullOAuthProviderInfo',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_full_o_auth_provider_info.html',1,'Tgstation::Server::Host::GraphQL::Types::OAuth']]]
 ];

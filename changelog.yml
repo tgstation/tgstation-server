@@ -165,9 +165,8 @@ Components:
   Core:
   - Version: 6.12.0
     ComponentVersions:
-      Core: 6.11.1
       HttpApi: 10.10.0
-      GraphQLApi: 0.2.0
+      GraphQLApi: 0.3.0
       DreamMakerApi: 7.3.0
       Configuration: 5.3.0
       InteropApi: 5.10.0
@@ -176,7 +175,11 @@ Components:
       NugetApi: 16.1.0
       NugetClient: 19.1.0
       WebControlPanel: 6.4.0
-    Changes: []
+    Changes:
+    - Descriptions:
+      - Fixed being able to attempt a server update to major version 3.
+      Author: Cyberboss
+      PullRequest: 1986
     Unreleased: true
   - Version: 6.11.2
     ComponentVersions:
@@ -4441,6 +4444,13 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   GraphQLApi:
+  - Version: 0.3.0
+    Changes:
+    - Descriptions:
+      - Added some queries/mutations related to server updating.
+      Author: Cyberboss
+      PullRequest: 1986
+    Unreleased: true
   - Version: 0.2.0
     Changes:
     - Descriptions:

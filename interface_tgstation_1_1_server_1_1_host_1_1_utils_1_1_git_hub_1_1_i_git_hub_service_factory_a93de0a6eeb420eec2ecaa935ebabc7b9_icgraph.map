@@ -6,8 +6,8 @@
 <area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="661,272,603,216,567,188,530,164,505,153,507,148,532,159,570,184,606,212,664,268"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#ae3d2886c42ac22e3a6e2d91d49143934" title=" " alt="" coords="261,174,507,230"/>
 <area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="618,278,530,244,494,233,496,228,532,239,620,273"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a78ba36d622724a4e4740d4d792025c89" title="Get AdministrationResponse server information." alt="" coords="276,253,492,294"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="563,297,492,289,492,283,564,292"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#abb626064672de9027fefdc27ba9b3264" title="Gets the AdministrationResponse containing server update information.A ValueTask&lt;TResult&gt; resulting i..." alt="" coords="241,253,527,294"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="563,297,527,293,528,287,564,292"/>
 <area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a2873ee4483a0a0912e4dbdecff19a853" title="Get the updated list of TestMerges for an origin merge.A ValueTask&lt;TResult&gt; resulting in the IReadOnl..." alt="" coords="237,318,531,374"/>
 <area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="564,328,531,331,531,326,563,322"/>
 <area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a6daaca0929dd102bb1f69de7b4bcc5df" title="Start a deployment for a given compileJob .A ValueTask representing the running operation." alt="" coords="237,398,531,454"/>

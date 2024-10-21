@@ -1,7 +1,11 @@
 <map id="ScalarType" name="ScalarType">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,60,92,86"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_jwt_type.html" title="A ScalarType&lt;TRuntimeType, TLiteral&gt; for encoded JSON Web Tokens." alt="" coords="158,5,343,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,59,157,49,158,54,108,64"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_semver_type.html" title="A ScalarType&lt;TRuntimeType, TLiteral&gt; for semantic Versions." alt="" coords="140,85,361,141"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="107,82,140,89,139,94,106,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_semver_type.html" title="A ScalarType&lt;TRuntimeType, TLiteral&gt; for semantic Versions." alt="" coords="140,5,361,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,59,139,53,140,58,107,64"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_string_scalar_type.html" title="A ScalarType&lt;TRuntimeType, TLiteral&gt; for specialized string types." alt="" coords="156,85,345,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="107,82,156,92,155,97,106,87"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_file_upload_ticket_type.html" title="A StringScalarType for upload Api.Models.Response.FileTicketResponses." alt="" coords="409,60,624,100"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="360,97,408,91,409,96,361,102"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_jwt_type.html" title="A StringScalarType for encoded JSON Web Tokens." alt="" coords="424,125,609,166"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="360,124,424,131,423,137,360,129"/>
 </map>

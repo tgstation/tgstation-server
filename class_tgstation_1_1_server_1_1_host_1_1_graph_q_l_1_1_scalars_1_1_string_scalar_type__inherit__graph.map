@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.GraphQL.Scalars.StringScalarType" name="Tgstation.Server.Host.GraphQL.Scalars.StringScalarType">
+<area shape="rect" id="Node000001" title="A ScalarType&lt;TRuntimeType, TLiteral&gt; for specialized string types." alt="" coords="187,39,375,79"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_file_upload_ticket_type.html" title="A StringScalarType for upload Api.Models.Response.FileTicketResponses." alt="" coords="423,5,638,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="390,42,422,37,423,43,391,47"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_jwt_type.html" title="A StringScalarType for encoded JSON Web Tokens." alt="" coords="438,71,623,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="391,70,438,76,437,82,390,76"/>
+<area shape="rect" id="Node000002" href="$class_scalar_type.html" title=" " alt="" coords="5,39,139,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,56,186,56,186,62,154,62"/>
+</map>

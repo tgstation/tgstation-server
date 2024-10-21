@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.GraphQL.Scalars.FileUploadTicketType" name="Tgstation.Server.Host.GraphQL.Scalars.FileUploadTicketType">
+<area shape="rect" id="Node000001" title="A StringScalarType for upload Api.Models.Response.FileTicketResponses." alt="" coords="5,168,221,208"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_string_scalar_type.html" title="A ScalarType&lt;TRuntimeType, TLiteral&gt; for specialized string types." alt="" coords="53,94,173,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,135,116,167,110,167,110,135"/>
+<area shape="rect" id="Node000003" href="$class_scalar_type.html" title=" " alt="" coords="46,5,180,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="116,62,116,93,110,93,110,62"/>
+</map>

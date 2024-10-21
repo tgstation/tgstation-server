@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.GraphQL.Types.UpdateInformation" name="Tgstation.Server.Host.GraphQL.Types.UpdateInformation">
+<area shape="rect" id="Node000001" title="Gets information about updates for the ServerSwarm." alt="" coords="107,94,294,135"/>
+<area shape="rect" id="Node000002" href="$class_i_disposable.html" title=" " alt="" coords="5,5,95,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,37,171,91,168,96,80,42"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="119,5,283,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="203,46,203,93,198,93,198,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="343,5,389,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="358,47,338,72,296,96,293,91,335,68,353,44"/>
+</map>

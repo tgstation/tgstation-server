@@ -1,9 +1,7 @@
 <map id="Tgstation.Server.Host.Transfer.IFileTransferTicketProvider.CreateUpload" name="Tgstation.Server.Host.Transfer.IFileTransferTicketProvider.CreateUpload">
-<area shape="rect" id="Node000001" title="Create a IFileUploadTicket." alt="" coords="606,39,866,79"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#adec6b42180102b20b513582ff608abc8" title="Attempt to initiate an update." alt="" coords="269,5,558,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="590,47,558,43,559,38,591,41"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html#ab7f273fdf713f726bdc0ebdbf75d9e4a" title="Changes the active engine version to the one specified in a given model ." alt="" coords="306,71,521,111"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="591,76,522,83,521,78,590,71"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a8ebab47feb25dc4b96387761e546740a" title="Attempt to perform a server upgrade." alt="" coords="5,5,221,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="253,28,221,28,221,23,253,23"/>
+<area shape="rect" id="Node000001" title="Create a IFileUploadTicket." alt="" coords="290,49,550,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#a09cd0b0f03abe091807ddc2c732a8cad" title="Triggers a restart of tgstation&#45;server without terminating running game instances,..." alt="" coords="5,5,242,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="274,54,242,50,242,45,274,49"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html#ab7f273fdf713f726bdc0ebdbf75d9e4a" title="Changes the active engine version to the one specified in a given model ." alt="" coords="16,85,231,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="275,89,232,95,231,89,274,84"/>
 </map>

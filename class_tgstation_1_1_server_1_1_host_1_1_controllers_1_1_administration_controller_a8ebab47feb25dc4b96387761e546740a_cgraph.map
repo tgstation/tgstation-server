@@ -1,14 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.AdministrationController.Update" name="Tgstation.Server.Host.Controllers.AdministrationController.Update">
-<area shape="rect" id="Node000001" title="Attempt to perform a server upgrade." alt="" coords="5,113,221,154"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#adec6b42180102b20b513582ff608abc8" title="Attempt to initiate an update." alt="" coords="269,113,558,154"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,131,253,131,253,136,221,136"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#aa99c11372e2e7aa5fc84e2cc6f12eb8e" title="Create a IFileUploadTicket." alt="" coords="606,5,866,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="461,110,529,83,605,55,629,48,630,53,607,60,531,88,463,115"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#af7f87439f1db84206b881d38619ef755" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="641,70,831,126"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="558,115,626,107,626,113,559,120"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="629,149,844,190"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="559,147,613,153,613,159,558,152"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="914,179,1130,219"/>
-<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="460,152,528,178,607,199,681,208,758,212,898,208,899,214,758,217,681,214,605,204,527,183,459,157"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="844,178,899,184,899,189,844,183"/>
+<area shape="rect" id="Node000001" title="Attempt to perform a server upgrade." alt="" coords="5,5,221,46"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_rest_authority_invoker.html#a76c96d5cbc32e5dbc7d43454a6900af6" title="Invoke a TAuthority &#160;method with no success result." alt="" coords="269,5,473,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,23,253,23,253,28,221,28"/>
 </map>

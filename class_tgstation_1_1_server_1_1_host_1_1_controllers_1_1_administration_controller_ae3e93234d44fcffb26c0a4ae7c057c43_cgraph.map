@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.AdministrationController.Delete" name="Tgstation.Server.Host.Controllers.AdministrationController.Delete">
-<area shape="rect" id="Node000001" title="Attempts to restart the server." alt="" coords="5,39,221,79"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a8633e4eca43236776cb7f1c9d8ad6377" title="Restarts the Host." alt="" coords="286,5,467,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,43,271,36,271,42,221,48"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="269,71,484,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,69,254,73,253,79,221,75"/>
-</map>

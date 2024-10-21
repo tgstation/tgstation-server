@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.GraphQL.Types.UpdateInformation.GetAdministrationResponseSafe" name="Tgstation.Server.Host.GraphQL.Types.UpdateInformation.GetAdministrationResponseSafe">
+<area shape="rect" id="Node000001" title="Safely retrieve the AdministrationResponse from a given administrationAuthority &#160;without generating t..." alt="" coords="5,31,300,87"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a75bd84e49a618d48a6fc992647030675" title="Invoke a TAuthority &#160;method with no success result." alt="" coords="348,5,562,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="300,40,332,37,332,42,300,45"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="360,71,550,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="300,72,345,77,344,82,300,77"/>
+</map>
