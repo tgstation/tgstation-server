@@ -4444,6 +4444,13 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   GraphQLApi:
+  - Version: 0.4.0
+    Changes:
+    - Descriptions:
+      - The `forceFresh` argument in `UpdateInformation` fields is now optional.
+      Author: Cyberboss
+      PullRequest: 1990
+    Unreleased: true
   - Version: 0.3.0
     Changes:
     - Descriptions:
