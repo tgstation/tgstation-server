@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="Uri"/> of the GitHub repository updates are sourced from on success. <see langword="null"/> if a GitHub API error occurred.</returns>
 		public async ValueTask<Uri?> TrackedRepositoryUrl(
-			bool forceFresh,
+			bool? forceFresh,
 			[Service] IGraphQLAuthorityInvoker<IAdministrationAuthority> administrationAuthority,
 			CancellationToken cancellationToken)
 			=> (await GetAdministrationResponseSafe(forceFresh, administrationAuthority, cancellationToken)).TrackedRepositoryUrl;
@@ -82,7 +82,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="Version"/> of the latest TGS version on success. <see langword="null"/> if a GitHub API error occurred.</returns>
 		public async ValueTask<Version?> LatestVersion(
-			bool forceFresh,
+			bool? forceFresh,
 			[Service] IGraphQLAuthorityInvoker<IAdministrationAuthority> administrationAuthority,
 			CancellationToken cancellationToken)
 			=> (await GetAdministrationResponseSafe(forceFresh, administrationAuthority, cancellationToken)).LatestVersion;
@@ -95,20 +95,21 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="AdministrationResponse"/> from the <paramref name="administrationAuthority"/>.</returns>
 		async ValueTask<AdministrationResponse> GetAdministrationResponseSafe(
-			bool forceFresh,
+			bool? forceFresh,
 			IGraphQLAuthorityInvoker<IAdministrationAuthority> administrationAuthority,
 			CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(cacheReadSemaphore, cancellationToken))
 			{
+				forceFresh ??= false;
 				if (cacheForceGenerated)
 					forceFresh = false;
 				else
-					cacheForceGenerated |= forceFresh;
+					cacheForceGenerated |= forceFresh.Value;
 
 				ArgumentNullException.ThrowIfNull(administrationAuthority);
 				var response = await administrationAuthority.Invoke<AdministrationResponse, AdministrationResponse>(
-					authority => authority.GetUpdateInformation(forceFresh, cancellationToken));
+					authority => authority.GetUpdateInformation(forceFresh.Value, cancellationToken));
 
 				return response;
 			}
