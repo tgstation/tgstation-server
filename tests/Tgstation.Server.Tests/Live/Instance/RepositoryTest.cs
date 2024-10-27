@@ -116,8 +116,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await ApiAssert.ThrowsException<ApiConflictException, RepositoryResponse>(() => Checkout(new RepositoryUpdateRequest { Reference = "master", CheckoutSha = "286bb75" }, false, false, cancellationToken), ErrorCode.RepoMismatchShaAndReference);
 			var updated = await Checkout(new RepositoryUpdateRequest { CheckoutSha = "286bb75" }, false, false, cancellationToken);
 
-			await RecloneTest(cancellationToken);
-
 			// Fake SHA
 			updated = await Checkout(new RepositoryUpdateRequest { CheckoutSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }, true, false, cancellationToken);
 
@@ -126,6 +124,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			// Back
 			updated = await Checkout(new RepositoryUpdateRequest { Reference = "master" }, false, true, cancellationToken);
+
+			await RecloneTest(cancellationToken);
 
 			// enable the good shit if possible
 			if (!String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"))
