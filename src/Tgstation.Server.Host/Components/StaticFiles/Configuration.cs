@@ -463,6 +463,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
+			logger.LogTrace("Starting write to {path}", path);
+
 			ConfigurationFileResponse? result = null;
 
 			void WriteImpl()
@@ -476,14 +478,21 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						await using (fileTicket)
 						{
 							var fileHash = previousHash;
+							logger.LogTrace("Write to {path} waiting for upload stream", path);
 							var uploadStream = await fileTicket.GetResult(uploadCancellationToken);
 							if (uploadStream == null)
+							{
+								logger.LogTrace("Write to {path} expired", path);
 								return; // expired
+							}
 
+							logger.LogTrace("Write to {path} received stream of length {length}...", path, uploadStream.Length);
 							bool success = false;
 							void WriteCallback()
 							{
+								logger.LogTrace("Running synchronous write...");
 								success = synchronousIOManager.WriteFileChecked(path, uploadStream, ref fileHash, cancellationToken);
+								logger.LogTrace("Finished write {un}successfully!", success ? String.Empty : "un");
 							}
 
 							if (fileTicket == null)
