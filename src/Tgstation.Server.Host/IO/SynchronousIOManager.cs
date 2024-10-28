@@ -6,11 +6,27 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
 
+using Microsoft.Extensions.Logging;
+
 namespace Tgstation.Server.Host.IO
 {
 	/// <inheritdoc />
 	sealed class SynchronousIOManager : ISynchronousIOManager
 	{
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="SynchronousIOManager"/>.
+		/// </summary>
+		readonly ILogger<SynchronousIOManager> logger;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SynchronousIOManager"/> class.
+		/// </summary>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		public SynchronousIOManager(ILogger<SynchronousIOManager> logger)
+		{
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		}
+
 		/// <inheritdoc />
 		public bool CreateDirectory(string path, CancellationToken cancellationToken)
 		{
@@ -85,13 +101,18 @@ namespace Tgstation.Server.Host.IO
 
 			cancellationToken.ThrowIfCancellationRequested();
 
+			logger.LogTrace("Starting checked write to {path} ({fileType} file)", path, newFile ? "New" : "Pre-existing");
+
 			using (var file = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
 			{
 				cancellationToken.ThrowIfCancellationRequested();
 
 				// no sha1? no write
 				if (file.Length != 0 && sha1InOut == null)
+				{
+					logger.LogDebug("Aborting checked write due to missing SHA!");
 					return false;
+				}
 
 				// suppressed due to only using for consistency checks
 				using (var sha1 = SHA1.Create())
@@ -109,6 +130,10 @@ namespace Tgstation.Server.Host.IO
 					}
 
 					var originalSha1 = GetSha1(file);
+
+					if (!newFile)
+						logger.LogTrace("Existing SHA calculated to be {sha}", originalSha1);
+
 					if (originalSha1 != sha1InOut && !(newFile && sha1InOut == null))
 					{
 						sha1InOut = originalSha1;
@@ -122,6 +147,7 @@ namespace Tgstation.Server.Host.IO
 
 				if (data.Length != 0)
 				{
+					logger.LogDebug("Writing file of length {size}", data.Length);
 					file.Seek(0, SeekOrigin.Begin);
 					data.Seek(0, SeekOrigin.Begin);
 
@@ -132,7 +158,11 @@ namespace Tgstation.Server.Host.IO
 			}
 
 			if (data.Length == 0)
+			{
+				logger.LogDebug("Stream is empty, deleting file");
 				File.Delete(path);
+			}
+
 			return true;
 		}
 	}

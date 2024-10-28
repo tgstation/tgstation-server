@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles.Tests
 
 				var configuration = new Configuration(
 					ioManager,
-					new SynchronousIOManager(),
+					new SynchronousIOManager(loggerFactory.CreateLogger<SynchronousIOManager>()),
 					Mock.Of<IFilesystemLinkFactory>(),
 					Mock.Of<IProcessExecutor>(),
 					Mock.Of<IPostWriteHandler>(),
