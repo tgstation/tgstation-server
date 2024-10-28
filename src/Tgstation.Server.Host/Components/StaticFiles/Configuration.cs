@@ -185,7 +185,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
 			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
 
-			semaphore = new SemaphoreSlim(1);
+			semaphore = new SemaphoreSlim(1, 1);
 			disposeCts = new CancellationTokenSource();
 			uploadTasks = Task.CompletedTask;
 		}
@@ -201,7 +201,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <inheritdoc />
 		public async ValueTask<ServerSideModifications?> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken)
 		{
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken, logger))
 			{
 				var ensureDirectoriesTask = EnsureDirectories(cancellationToken);
 
@@ -270,7 +270,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				}));
 			}
 
-			using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
+			using (SemaphoreSlimContext.TryLock(semaphore, logger, out var locked))
 			{
 				if (!locked)
 				{
@@ -376,7 +376,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				}
 			}
 
-			using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
+			using (SemaphoreSlimContext.TryLock(semaphore, logger, out var locked))
 			{
 				if (!locked)
 				{
@@ -434,7 +434,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				}));
 			}
 
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken, logger))
 			{
 				await EnsureDirectories(cancellationToken);
 				var ignoreFileBytes = await ioManager.ReadAllBytes(StaticIgnorePath(), cancellationToken);
@@ -501,7 +501,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 								return;
 							}
 
-							using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
+							using (SemaphoreSlimContext.TryLock(semaphore, logger, out var locked))
 							{
 								if (!locked)
 								{
@@ -509,6 +509,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 									return;
 								}
 
+								logger.LogTrace("Kicking off write callback");
 								if (systemIdentity == null)
 									await Task.Factory.StartNew(WriteCallback, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 								else
@@ -519,6 +520,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 								fileTicket.SetError(ErrorCode.ConfigurationFileUpdated, fileHash);
 							else if (uploadStream.Length > 0)
 								postWriteHandler.HandleWrite(path);
+							else
+								logger.LogTrace("Write complete");
 						}
 					}
 
@@ -559,7 +562,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				}
 			}
 
-			using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
+			using (SemaphoreSlimContext.TryLock(semaphore, logger, out var locked))
 			{
 				if (!locked)
 				{
@@ -585,7 +588,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			bool? result = null;
 			void DoCreate() => result = synchronousIOManager.CreateDirectory(path, cancellationToken);
 
-			using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
+			using (SemaphoreSlimContext.TryLock(semaphore, logger, out var locked))
 			{
 				if (!locked)
 				{
@@ -651,7 +654,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
 			var result = false;
-			using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
+			using (SemaphoreSlimContext.TryLock(semaphore, logger, out var locked))
 			{
 				if (!locked)
 				{
@@ -750,7 +753,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			await EnsureDirectories(cancellationToken);
 
 			// always execute in serial
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken, logger))
 			{
 				var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, platformIdentifier.ScriptFileExtension, false, cancellationToken);
 				var resolvedScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
