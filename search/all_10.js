@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['oauth_0',['oauth',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#afbf3e2a4055381424aa6757cc722a785',1,'Tgstation.Server.Host.Configuration.SecurityConfiguration.OAuth'],['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#ad2ca571f109ff0ae0a08425c1776176f',1,'Tgstation.Server.Host.Configuration.SecurityConfiguration.oAuth']]],
+  ['oauth_0',['oauth',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#ad2ca571f109ff0ae0a08425c1776176f',1,'Tgstation.Server.Host.Configuration.SecurityConfiguration.oAuth'],['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#afbf3e2a4055381424aa6757cc722a785',1,'Tgstation.Server.Host.Configuration.SecurityConfiguration.OAuth']]],
   ['oauth_202_200_1',['OAuth 2.0',['../api.html#api_auth_o',1,'']]],
   ['oauthauthenticationscheme_2',['OAuthAuthenticationScheme',['../class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a16bcacbed6e65c329a4c7ec22f9d7479',1,'Tgstation::Server::Api::ApiHeaders']]],
   ['oauthcode_3',['OAuthCode',['../class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a83843b09b15f9db25c73db6e2bd72db8',1,'Tgstation::Server::Api::ApiHeaders']]],

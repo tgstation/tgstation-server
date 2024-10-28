@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.IO.SynchronousIOManager" name="Tgstation.Server.Host.IO.SynchronousIOManager">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,79,173,120"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html" title="For accessing the disk in a synchronous manner." alt="" coords="7,5,171,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,46,92,79,86,79,86,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="352,27,519,68"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html" title="For accessing the disk in a synchronous manner." alt="" coords="53,5,218,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,25,352,37,351,42,233,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,55,266,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="281,59,351,53,351,58,282,65"/>
 </map>
