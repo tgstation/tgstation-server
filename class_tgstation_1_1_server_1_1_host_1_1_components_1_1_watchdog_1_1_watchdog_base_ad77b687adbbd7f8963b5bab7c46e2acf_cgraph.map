@@ -2,6 +2,6 @@
 <area shape="rect" id="Node000001" title="Cancels pending graceful actions.A ValueTask representing the running operation." alt="" coords="5,39,285,79"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0dfb6c0c3c1c717e3d56b939ce0df4ec" title="Get the active ISessionController." alt="" coords="333,5,619,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="285,42,317,39,317,44,285,48"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="381,71,571,111"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="381,71,571,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="285,70,366,78,366,83,285,75"/>
 </map>

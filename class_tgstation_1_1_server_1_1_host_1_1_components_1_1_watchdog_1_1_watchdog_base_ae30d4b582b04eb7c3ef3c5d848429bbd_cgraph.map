@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,775,243,815"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#abbff1b419510f84375b7ca3dcf315b03" title="Launches the watchdog." alt="" coords="299,479,561,519"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,772,395,528,398,532,149,776"/>
-<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="1668,543,1857,583"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="1668,543,1857,583"/>
 <area shape="poly" id="edge40_Node000001_Node000013" title=" " alt="" coords="213,771,321,749,455,727,603,709,752,702,1091,702,1230,702,1339,699,1446,684,1580,650,1651,622,1713,589,1716,594,1654,627,1582,655,1447,689,1339,704,1230,707,1091,707,752,707,603,714,456,732,322,755,214,777"/>
 <area shape="rect" id="Node000027" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a89dd7970dd66a8630f036c9ecc67e834" title="Load a saved ReattachInformation.A ValueTask&lt;TResult&gt; resulting in the stored ReattachInformation if ..." alt="" coords="317,775,543,815"/>
 <area shape="poly" id="edge35_Node000001_Node000027" title=" " alt="" coords="243,792,301,792,301,798,243,798"/>

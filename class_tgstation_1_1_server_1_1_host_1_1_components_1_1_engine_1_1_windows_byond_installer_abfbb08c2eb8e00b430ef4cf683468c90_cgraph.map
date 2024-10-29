@@ -4,6 +4,6 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,60,299,47,300,52,243,65"/>
 <area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a17aa8c090377d70ebf0a93f3eb0a0243" title="Launch a IProcess." alt="" coords="290,71,507,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="242,88,274,88,274,94,242,94"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="304,136,493,177"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="304,136,493,177"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="243,117,295,129,294,134,242,122"/>
 </map>

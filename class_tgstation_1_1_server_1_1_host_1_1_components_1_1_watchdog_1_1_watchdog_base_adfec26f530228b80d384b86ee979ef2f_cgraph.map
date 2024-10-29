@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title="The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them." alt="" coords="5,335,276,375"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ac84983fa4b27fcdf9044aaf68ae82a50" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="689,135,955,191"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,332,241,294,323,258,460,227,673,187,674,192,461,232,324,263,243,299,176,337"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="1063,259,1252,299"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="1063,259,1252,299"/>
 <area shape="poly" id="edge20_Node000001_Node000007" title=" " alt="" coords="249,331,323,320,523,301,722,288,1047,277,1047,283,723,293,523,306,324,326,250,337"/>
 <area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0dfb6c0c3c1c717e3d56b939ce0df4ec" title="Get the active ISessionController." alt="" coords="679,5,965,46"/>
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="150,333,175,289,213,233,263,176,291,151,322,129,362,107,405,88,493,59,581,41,663,29,664,35,582,46,494,65,406,93,365,112,325,133,295,155,266,180,217,237,180,292,155,335"/>

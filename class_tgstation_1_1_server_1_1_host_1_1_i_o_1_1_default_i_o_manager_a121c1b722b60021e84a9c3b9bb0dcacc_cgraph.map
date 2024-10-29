@@ -7,7 +7,7 @@
 <area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="240,107,291,101,292,106,241,113"/>
 <area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a35975e796c564e8b5dd5d4a601d0c2e3" title="Create a directory at path .A Task representing the running operation." alt="" coords="288,136,506,177"/>
 <area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="241,135,272,139,272,144,240,141"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="302,201,492,242"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="302,201,492,242"/>
 <area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="176,143,289,186,312,194,310,199,287,191,174,148"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a38ca4ff226c098355ef1b316aa32421d" title="Creates an asynchronous FileStream for sequential writing.The open FileStream." alt="" coords="554,31,818,87"/>
 <area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="487,78,538,73,539,78,487,84"/>

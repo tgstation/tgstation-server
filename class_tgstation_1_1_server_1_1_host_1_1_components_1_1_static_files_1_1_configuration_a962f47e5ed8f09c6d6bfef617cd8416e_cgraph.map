@@ -2,6 +2,6 @@
 <area shape="rect" id="Node000001" title="Writes to a given configurationRelativePath .A ValueTask&lt;TResult&gt; resulting in the updated Configurat..." alt="" coords="5,39,232,79"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a9b525a56c704424ce14e78edcb7d003e" title="Runs a given action &#160;in the context of the ISystemIdentity." alt="" coords="280,5,496,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,42,264,38,265,44,232,48"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a845b509221a192d7adfeefa1043f0dfa" title="Asyncronously attempts to lock a semaphore ." alt="" coords="284,71,492,111"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#adae1484c7e6d2b8d522481fbfc83ccf3" title="Asyncronously attempts to lock a semaphore ." alt="" coords="284,71,492,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,70,269,74,268,79,232,75"/>
 </map>

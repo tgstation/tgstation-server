@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Utils.FifoSemaphore.Lock" name="Tgstation.Server.Host.Utils.FifoSemaphore.Lock">
 <area shape="rect" id="Node000001" title="Locks the FifoSemaphore." alt="" coords="5,5,186,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="234,5,423,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="234,5,423,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,23,218,23,218,28,186,28"/>
 </map>

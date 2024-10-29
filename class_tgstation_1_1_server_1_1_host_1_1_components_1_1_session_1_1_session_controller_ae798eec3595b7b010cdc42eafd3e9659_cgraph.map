@@ -2,6 +2,6 @@
 <area shape="rect" id="Node000001" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="5,5,270,46"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#a226f5619ff7d884e2c8df1505548c04d" title="Locks the FifoSemaphore." alt="" coords="318,5,498,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="270,23,302,23,302,28,270,28"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="546,5,735,46"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="546,5,735,46"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="498,23,530,23,530,28,498,28"/>
 </map>

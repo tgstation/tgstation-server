@@ -12,7 +12,7 @@
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="232,279,289,285,288,290,232,284"/>
 <area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a9b525a56c704424ce14e78edcb7d003e" title="Runs a given action &#160;in the context of the ISystemIdentity." alt="" coords="305,346,521,387"/>
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="168,288,281,331,308,339,306,344,279,336,166,293"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a845b509221a192d7adfeefa1043f0dfa" title="Asyncronously attempts to lock a semaphore ." alt="" coords="309,412,517,452"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#adae1484c7e6d2b8d522481fbfc83ccf3" title="Asyncronously attempts to lock a semaphore ." alt="" coords="309,412,517,452"/>
 <area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="141,288,201,342,239,371,281,396,297,403,295,408,278,401,236,376,197,346,138,292"/>
 <area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a15e04b6716165e1fea4850b44040711e" title="Resolve a given configurationRelativePath &#160;to it&#39;s full path or throw an InvalidOperationException if..." alt="" coords="289,476,537,532"/>
 <area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="133,288,156,325,189,372,232,420,281,462,289,466,286,471,278,466,228,424,185,376,152,328,129,291"/>

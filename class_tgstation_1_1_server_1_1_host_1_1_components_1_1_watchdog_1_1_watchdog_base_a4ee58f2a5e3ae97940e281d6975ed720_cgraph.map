@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Terminate" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Terminate">
 <area shape="rect" id="Node000001" title="Stops the watchdog.A ValueTask representing the running operation." alt="" coords="5,72,237,113"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="329,39,518,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="329,39,518,79"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="237,77,313,68,313,74,237,82"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ad3ee74413d53a906a104c8376a828e73" title="Implementation of Terminate(bool, CancellationToken). Does not lock synchronizationSemaphore." alt="" coords="285,104,562,145"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="237,102,270,105,269,111,237,107"/>

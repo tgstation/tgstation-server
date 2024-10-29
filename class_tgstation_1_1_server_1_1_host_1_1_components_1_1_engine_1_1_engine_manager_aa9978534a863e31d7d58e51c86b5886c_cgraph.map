@@ -10,7 +10,7 @@
 <area shape="poly" id="edge27_Node000001_Node000020" title=" " alt="" coords="182,348,296,307,467,254,640,208,832,165,1001,131,1002,136,833,170,642,214,468,259,298,312,183,353"/>
 <area shape="rect" id="Node000021" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a06d4c2604e3020f77b073021bf3016b4" title="Validates a given version &#160;parameter." alt="" coords="297,436,593,477"/>
 <area shape="poly" id="edge23_Node000001_Node000021" title=" " alt="" coords="204,389,297,415,349,429,348,434,296,420,203,395"/>
-<area shape="rect" id="Node000022" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="350,501,540,542"/>
+<area shape="rect" id="Node000022" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="350,501,540,542"/>
 <area shape="poly" id="edge25_Node000001_Node000022" title=" " alt="" coords="153,390,216,438,256,464,298,486,336,500,334,505,296,491,253,469,213,443,150,394"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#acd40140865facd71ee580f625a8c95bc" title="Create and add a new IEngineInstallation to installedVersions." alt="" coords="656,469,897,524"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="561,360,595,378,611,396,620,413,627,431,643,448,659,459,657,463,639,452,623,434,615,416,607,399,591,382,558,365"/>

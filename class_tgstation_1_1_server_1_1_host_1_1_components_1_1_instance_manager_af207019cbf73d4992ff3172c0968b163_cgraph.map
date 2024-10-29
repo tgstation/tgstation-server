@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title="Offline an IInstance.A ValueTask representing the running operation." alt="" coords="5,104,232,145"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a5760fe527065407b364e674d2a9eaf1d" title="Cancels a give job ." alt="" coords="308,5,490,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,101,279,56,304,48,306,53,281,62,168,106"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="304,71,494,111"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="304,71,494,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,108,289,101,289,107,232,114"/>
 <area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="280,136,518,177"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="232,135,264,138,264,144,232,140"/>

@@ -28,6 +28,6 @@
 <area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="533,292,612,292,612,297,533,297"/>
 <area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#aeae385f33c15060d54ff78260f30024a" title="Create an IInstance." alt="" coords="622,340,848,380"/>
 <area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="533,357,606,357,606,363,533,363"/>
-<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="640,405,829,446"/>
+<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="640,405,829,446"/>
 <area shape="poly" id="edge13_Node000012_Node000014" title=" " alt="" coords="521,378,625,400,624,405,520,383"/>
 </map>

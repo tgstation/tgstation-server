@@ -2,6 +2,6 @@
 <area shape="rect" id="Node000001" title="Online an IInstance.A ValueTask representing the running operation." alt="" coords="5,39,232,79"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#aeae385f33c15060d54ff78260f30024a" title="Create an IInstance." alt="" coords="280,5,506,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,43,264,39,264,44,233,48"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="298,71,488,111"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="298,71,488,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,70,283,76,282,81,232,75"/>
 </map>

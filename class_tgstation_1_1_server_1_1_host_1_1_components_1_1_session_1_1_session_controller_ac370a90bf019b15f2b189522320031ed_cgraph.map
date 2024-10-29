@@ -14,6 +14,6 @@
 <area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="547,88,616,88,616,94,547,94"/>
 <area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#abdc1ed1c2c3e883ae672ef7b75e67b03" title="Kills a given engine server process ." alt="" coords="603,135,840,191"/>
 <area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="509,109,556,120,589,128,588,134,554,126,508,115"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="888,71,1078,111"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="888,71,1078,111"/>
 <area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="812,88,873,88,873,94,812,94"/>
 </map>

@@ -10,7 +10,7 @@
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="242,219,339,219,339,224,242,224"/>
 <area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#ab3e70b3c51454b8d6b62fc8d9fd98125" title=" " alt="" coords="345,267,531,307"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="225,240,330,262,329,267,224,245"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="343,332,533,373"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="343,332,533,373"/>
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="155,240,216,279,291,317,329,329,327,334,289,321,213,284,152,245"/>
 <area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a5576a2503f8e4371139e9abe80df44d2" title=" " alt="" coords="345,421,531,462"/>
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="143,241,204,309,246,348,291,382,353,413,351,418,288,387,242,352,200,313,139,244"/>

@@ -4,7 +4,7 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,164,224,114,266,86,311,62,341,49,343,54,313,67,269,91,227,118,162,169"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ac84983fa4b27fcdf9044aaf68ae82a50" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="1307,222,1574,278"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="264,190,1292,240,1292,245,264,196"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="1673,157,1862,198"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="1673,157,1862,198"/>
 <area shape="poly" id="edge32_Node000001_Node000008" title=" " alt="" coords="211,163,317,138,452,111,604,89,681,83,757,80,1096,80,1251,87,1405,105,1546,128,1662,151,1661,156,1545,133,1405,110,1251,93,1096,86,757,86,681,88,604,94,453,116,318,143,212,169"/>
 <area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#abbff1b419510f84375b7ca3dcf315b03" title="Launches the watchdog." alt="" coords="312,576,574,617"/>
 <area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="154,206,419,562,415,565,149,209"/>

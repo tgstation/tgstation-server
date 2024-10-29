@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title="Start the IWatchdog.A ValueTask representing the running operation." alt="" coords="5,90,232,131"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#abbff1b419510f84375b7ca3dcf315b03" title="Launches the watchdog." alt="" coords="280,158,542,199"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,129,306,152,305,157,208,134"/>
-<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="1641,196,1830,236"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="1641,196,1830,236"/>
 <area shape="poly" id="edge35_Node000001_Node000013" title=" " alt="" coords="192,87,295,61,427,33,575,12,650,5,725,3,1064,3,1155,8,1247,23,1337,45,1423,73,1574,133,1683,185,1681,190,1572,138,1421,78,1336,51,1246,28,1155,13,1064,8,725,8,651,10,576,17,428,39,296,66,193,92"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af1a7765d8a839d318fee44e8d63b6369" title="Handle a given eventType &#160;without re&#45;throwing errors." alt="" coords="590,126,862,167"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="542,163,574,159,575,165,543,168"/>

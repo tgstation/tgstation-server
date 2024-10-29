@@ -10,7 +10,7 @@
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="587,67,673,47,675,52,588,72"/>
 <area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#acf9ebd637065f97ce5dd20c10bff1521" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="650,70,916,126"/>
 <area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="593,95,634,95,634,100,593,100"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="689,149,878,190"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="689,149,878,190"/>
 <area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="588,124,675,143,673,148,587,129"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#af7789658917d10b7f4fd9a6284d244f4" title="Clear any stored ReattachInformation." alt="" coords="964,5,1193,46"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="897,23,949,23,949,28,897,28"/>

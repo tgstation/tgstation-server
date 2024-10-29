@@ -14,7 +14,7 @@
 <area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="589,82,665,87,665,93,588,88"/>
 <area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ac84983fa4b27fcdf9044aaf68ae82a50" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="1001,294,1267,350"/>
 <area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="566,385,636,374,817,351,985,333,986,338,818,356,636,379,567,390"/>
-<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="1366,373,1556,414"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="1366,373,1556,414"/>
 <area shape="poly" id="edge25_Node000006_Node000012" title=" " alt="" coords="512,427,572,445,637,460,817,497,891,511,960,520,1028,524,1101,521,1183,510,1279,488,1317,476,1354,459,1418,421,1420,426,1357,463,1319,481,1280,494,1184,515,1102,526,1028,530,959,526,890,516,816,502,635,466,571,450,511,432"/>
 <area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0dfb6c0c3c1c717e3d56b939ce0df4ec" title="Get the active ISessionController." alt="" coords="991,439,1277,479"/>
 <area shape="poly" id="edge12_Node000006_Node000013" title=" " alt="" coords="559,427,636,438,812,451,976,456,976,461,811,456,636,443,558,432"/>

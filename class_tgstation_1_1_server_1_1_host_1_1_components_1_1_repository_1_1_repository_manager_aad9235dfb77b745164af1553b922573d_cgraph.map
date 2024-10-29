@@ -14,7 +14,7 @@
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="252,312,378,339,377,344,251,317"/>
 <area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="720,403,887,443"/>
 <area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="184,312,256,357,301,378,347,395,440,415,535,425,625,428,704,427,704,432,625,434,535,430,439,420,346,400,299,383,253,361,181,317"/>
-<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="397,460,586,501"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="397,460,586,501"/>
 <area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="176,313,249,375,297,410,348,439,383,454,381,459,345,444,294,414,246,379,173,317"/>
 <area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="373,525,610,566"/>
 <area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="168,313,195,355,236,409,288,464,317,489,348,510,360,517,358,521,345,515,314,493,284,468,232,412,191,358,163,316"/>

@@ -4,7 +4,7 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="262,48,900,28,900,33,262,54"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a4ee58f2a5e3ae97940e281d6975ed720" title="Stops the watchdog.A ValueTask representing the running operation." alt="" coords="310,63,541,103"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="262,65,295,68,294,73,262,70"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="633,63,822,103"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="633,63,822,103"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="541,80,618,80,618,86,541,86"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ad3ee74413d53a906a104c8376a828e73" title="Implementation of Terminate(bool, CancellationToken). Does not lock synchronizationSemaphore." alt="" coords="589,128,866,169"/>
 <area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="523,101,616,122,615,127,522,107"/>
