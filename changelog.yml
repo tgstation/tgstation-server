@@ -181,6 +181,10 @@ Components:
       Author: Cyberboss
       PullRequest: 1986
     Unreleased: true
+  - Version: 6.11.4
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.11.3
     ComponentVersions:
       HttpApi: 10.10.0
@@ -198,7 +202,6 @@ Components:
       - Added more logging to static file handling.
       Author: Cyberboss
       PullRequest: 1994
-    Unreleased: true
   - Version: 6.11.2
     ComponentVersions:
       HttpApi: 10.10.0
