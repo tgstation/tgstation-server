@@ -140,9 +140,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly SemaphoreSlim semaphore;
 
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> that is triggered when <see cref="IDisposable.Dispose"/> is called.
+		/// The <see cref="CancellationTokenSource"/> that is triggered when <see cref="StopAsync(CancellationToken)"/> is called.
 		/// </summary>
-		readonly CancellationTokenSource disposeCts;
+		readonly CancellationTokenSource stoppingCts;
 
 		/// <summary>
 		/// The culmination of all upload file transfer callbacks.
@@ -186,7 +186,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
 
 			semaphore = new SemaphoreSlim(1, 1);
-			disposeCts = new CancellationTokenSource();
+			stoppingCts = new CancellationTokenSource();
 			uploadTasks = Task.CompletedTask;
 		}
 
@@ -194,8 +194,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		public void Dispose()
 		{
 			semaphore.Dispose();
-			disposeCts.Cancel();
-			disposeCts.Dispose();
+			stoppingCts.Dispose();
 		}
 
 		/// <inheritdoc />
@@ -310,7 +309,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 					var originalSha = GetFileSha();
 
-					var disposeToken = disposeCts.Token;
+					var disposeToken = stoppingCts.Token;
 					var fileTicket = fileTransferService.CreateDownload(
 						new FileDownloadProvider(
 							() =>
@@ -472,7 +471,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				try
 				{
 					var fileTicket = fileTransferService.CreateUpload(FileUploadStreamKind.ForSynchronousIO);
-					var uploadCancellationToken = disposeCts.Token;
+					var uploadCancellationToken = stoppingCts.Token;
 					async Task UploadHandler()
 					{
 						await using (fileTicket)
@@ -491,7 +490,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							void WriteCallback()
 							{
 								logger.LogTrace("Running synchronous write...");
-								success = synchronousIOManager.WriteFileChecked(path, uploadStream, ref fileHash, cancellationToken);
+								success = synchronousIOManager.WriteFileChecked(path, uploadStream, ref fileHash, uploadCancellationToken);
 								logger.LogTrace("Finished write {un}successfully!", success ? String.Empty : "un");
 							}
 
@@ -511,9 +510,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 								logger.LogTrace("Kicking off write callback");
 								if (systemIdentity == null)
-									await Task.Factory.StartNew(WriteCallback, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
+									await Task.Factory.StartNew(WriteCallback, uploadCancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 								else
-									await systemIdentity.RunImpersonated(WriteCallback, cancellationToken);
+									await systemIdentity.RunImpersonated(WriteCallback, uploadCancellationToken);
 							}
 
 							if (!success)
@@ -534,8 +533,24 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						Path = configurationRelativePath,
 					};
 
-					lock (disposeCts)
-						uploadTasks = Task.WhenAll(uploadTasks, UploadHandler());
+					lock (stoppingCts)
+					{
+						async Task ChainUploadTasks()
+						{
+							var oldUploadTask = uploadTasks;
+							var newUploadTask = UploadHandler();
+							try
+							{
+								await oldUploadTask;
+							}
+							finally
+							{
+								await newUploadTask;
+							}
+						}
+
+						uploadTasks = ChainUploadTasks();
+					}
 				}
 				catch (UnauthorizedAccessException)
 				{
@@ -609,7 +624,24 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		public Task StartAsync(CancellationToken cancellationToken) => EnsureDirectories(cancellationToken);
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => EnsureDirectories(cancellationToken);
+		public async Task StopAsync(CancellationToken cancellationToken)
+		{
+			await EnsureDirectories(cancellationToken);
+
+			stoppingCts.Cancel();
+			try
+			{
+				await uploadTasks;
+			}
+			catch (OperationCanceledException ex)
+			{
+				logger.LogDebug(ex, "One or more uploads/downloads were aborted!");
+			}
+			catch (Exception ex)
+			{
+				logger.LogError(ex, "Error awaiting upload tasks!");
+			}
+		}
 
 		/// <inheritdoc />
 		public ValueTask HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
