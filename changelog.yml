@@ -181,6 +181,10 @@ Components:
       Author: Cyberboss
       PullRequest: 1986
     Unreleased: true
+  - Version: 6.11.5
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.11.4
     ComponentVersions:
       HttpApi: 10.10.0
@@ -199,7 +203,6 @@ Components:
       - Fixed memory leak in static files component.
       Author: Cyberboss
       PullRequest: 1995
-    Unreleased: true
   - Version: 6.11.3
     ComponentVersions:
       HttpApi: 10.10.0
