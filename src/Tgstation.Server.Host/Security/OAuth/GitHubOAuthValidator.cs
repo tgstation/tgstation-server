@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		public OAuthProvider Provider => OAuthProvider.GitHub;
 
 		/// <inheritdoc />
-		public OAuthGatewayStatus GatewayStatus => oAuthConfiguration.Gateway ?? OAuthGatewayStatus.Disabled;
+		public OAuthGatewayStatus GatewayStatus => oAuthConfiguration.Gateway ?? default;
 
 		/// <summary>
 		/// The <see cref="IGitHubServiceFactory"/> for the <see cref="GitHubOAuthValidator"/>.
