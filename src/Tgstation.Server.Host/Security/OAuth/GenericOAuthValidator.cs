@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		public abstract OAuthProvider Provider { get; }
 
 		/// <inheritdoc />
-		public OAuthGatewayStatus GatewayStatus => OAuthConfiguration.Gateway!.Value;
+		public OAuthGatewayStatus GatewayStatus => OAuthConfiguration.Gateway ?? OAuthGatewayStatus.Disabled;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="GenericOAuthValidator"/>.
