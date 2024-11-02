@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.11.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -269,13 +269,14 @@ Manual Configuration</h4>
 <li><code>Swarm:PublicAddress</code>: Should be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.</li>
 <li><code>Swarm:Identifier</code>: Must be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.</li>
 <li><code>Swarm:UpdateRequiredNodeCount</code>: Should be set to the total number of servers in your swarm minus 1. Prevents updates from occurring unless the non-controller server count in the swarm is greater than or equal to this value.</li>
-<li><code>Security:OAuth:&lt;Provider Name&gt;</code>: Sets the OAuth client ID and secret for a given <code>&lt;Provider Name&gt;</code>. The currently supported providers are <code>Keycloak</code>, <code>GitHub</code>, <code>Discord</code>, <code>InvisionCommunity</code> and <code>TGForums</code>. Setting these fields to <code>null</code> disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry: <div class="fragment"><div class="line">Security:</div>
+<li><code>Security:OAuth:&lt;Provider Name&gt;</code>: Sets the OAuth client ID and secret for a given <code>&lt;Provider Name&gt;</code>. The currently supported providers are <code>Keycloak</code>, <code>GitHub</code>, <code>Discord</code>, <code>InvisionCommunity</code> and <code>TGForums</code>. Setting these fields to <code>null</code> disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry: <div class="fragment"><div class="line">Security:</div>
 <div class="line">  OAuth:</div>
 <div class="line">    Keycloak:</div>
 <div class="line">      ClientId: &quot;...&quot;</div>
 <div class="line">      ClientSecret: &quot;...&quot;</div>
 <div class="line">      RedirectUrl: &quot;...&quot;</div>
 <div class="line">      ServerUrl: &quot;...&quot;</div>
+<div class="line">      Gateway: Disabled # Can be one of `Disabled` disallowing gateway auth (default), `Enabled` allowing gateway auth, or `Only` allowing gateway auth and disabling OAuth logins with this provider</div>
 <div class="line">      UserInformationUrlOverride: &quot;...&quot; # For power users, leave out of configuration for most cases. Not supported by GitHub provider.</div>
 </div><!-- fragment --> The following providers use the <code>RedirectUrl</code> setting:</li>
 <li>GitHub</li>
@@ -287,6 +288,9 @@ Manual Configuration</h4>
 <ul>
 <li>Keycloak</li>
 <li>InvisionCommunity</li>
+</ul>
+<p>Gateway auth simply allows the users to authenticate with the service using the configuration you provide and have their impersonation token passed back to the client. An example of this is using GitHub gateway auth to allow clients to enumerate pull requests without getting rate limited.</p>
+<ul>
 <li><code>Telemetry:DisableVersionReporting</code>: Prevents you installation and the version you're using from being reported on the source repository's deployments list</li>
 <li><code>Telemetry:ServerFriendlyName</code>: Prevents anonymous TGS version usage statistics from being sent to be displayed on the repository.</li>
 <li><code>Telemetry:VersionReportingRepositoryId</code>: The repository telemetry is sent to. For security reasons, this is not the main TGS repo. See the <a href="https://github.com/tgstation/tgstation-server-deployments">tgstation-server-deployments</a> repository for more information.</li>
@@ -558,7 +562,7 @@ Clients</h3>
 <p>Here are tools for interacting with the TGS web API</p>
 <ul>
 <li><a href="https://github.com/tgstation/tgstation-server-webpanel">tgstation-server-webpanel</a>: Official client and included with the server. A react web app for using tgstation-server.</li>
-<li><a href="https://github.com/tgstation/Tgstation.Server.ControlPanel">Tgstation.Server.ControlPanel</a>: Official client. A cross platform GUI for using tgstation-server. Feature complete but lacks OAuth login options.</li>
+<li><a href="https://github.com/tgstation/Tgstation.Server.ControlPanel">Tgstation.Server.ControlPanel</a>: Deprecated client. A cross platform GUI for using tgstation-server.</li>
 <li><a href="https://www.nuget.org/packages/Tgstation.Server.Client">Tgstation.Server.Client</a>: A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server. Feature complete.</li>
 <li><a href="https://www.nuget.org/packages/Tgstation.Server.Api">Tgstation.Server.Api</a>: A nuget .NET Standard 2.0 library containing API definitions for tgstation-server. Feature complete.</li>
 </ul>

@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.11.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -98,8 +98,11 @@ Collaboration diagram for Tgstation.Server.Host.GraphQL.Mutation:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ad3623e4f91886fbb2a7097e52501f0f7" id="r_ad3623e4f91886fbb2a7097e52501f0f7"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html">LoginResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutation.html#ad3623e4f91886fbb2a7097e52501f0f7">Login</a> ([Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html">IGraphQLAuthorityInvoker</a>&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_login_authority.html">ILoginAuthority</a> &gt; loginAuthority, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ad3623e4f91886fbb2a7097e52501f0f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a JWT for authenticating with server. This is the only operation that accepts and required basic authentication.  <br /></td></tr>
+<tr class="memdesc:ad3623e4f91886fbb2a7097e52501f0f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a JWT for authenticating with server. This requires either the Basic authentication or OAuth authentication schemes.  <br /></td></tr>
 <tr class="separator:ad3623e4f91886fbb2a7097e52501f0f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac59a3515dbee0e77de827f2fafd7b688" id="r_ac59a3515dbee0e77de827f2fafd7b688"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_o_auth_gateway_login_result.html">OAuthGatewayLoginResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutation.html#ac59a3515dbee0e77de827f2fafd7b688">OAuthGateway</a> ([Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html">IGraphQLAuthorityInvoker</a>&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_login_authority.html">ILoginAuthority</a> &gt; loginAuthority, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ac59a3515dbee0e77de827f2fafd7b688"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate an OAuth user token for the requested service. This requires the OAuth authentication scheme.  <br /></td></tr>
+<tr class="separator:ac59a3515dbee0e77de827f2fafd7b688"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -139,7 +142,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Generate a JWT for authenticating with server. This is the only operation that accepts and required basic authentication. </p>
+<p>Generate a JWT for authenticating with server. This requires either the Basic authentication or OAuth authentication schemes. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">loginAuthority</td><td>The IGraphQLAuthorityInvoker&lt;TAuthority&gt; for the ILoginAuthority.</td></tr>
@@ -147,7 +150,7 @@ Static Public Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Bearer token to be used with further communication with the server.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A LoginResult.</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_mutation_8cs_source.html#l00032">32</a> of file <a class="el" href="_mutation_8cs_source.html">Mutation.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   35</span>        {</div>
@@ -158,6 +161,53 @@ Static Public Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   40</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html">Tgstation.Server.Host.GraphQL.Mutations.Payloads.LoginResult</a></div><div class="ttdoc">Success response for a login attempt.</div><div class="ttdef"><b>Definition</b> <a href="_login_result_8cs_source.html#l00011">LoginResult.cs:12</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker_html_a75bd84e49a618d48a6fc992647030675"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a75bd84e49a618d48a6fc992647030675">Tgstation.Server.Host.Authority.IGraphQLAuthorityInvoker.Invoke</a></div><div class="ttdeci">ValueTask Invoke(Func&lt; TAuthority, ValueTask&lt; AuthorityResponse &gt; &gt; authorityInvoker)</div><div class="ttdoc">Invoke a TAuthority  method with no success result.</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ac59a3515dbee0e77de827f2fafd7b688" name="ac59a3515dbee0e77de827f2fafd7b688"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac59a3515dbee0e77de827f2fafd7b688">&#9670;&#160;</a></span>OAuthGateway()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_o_auth_gateway_login_result.html">OAuthGatewayLoginResult</a> &gt; Tgstation.Server.Host.GraphQL.Mutation.OAuthGateway </td>
+          <td>(</td>
+          <td class="paramtype">[Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html">IGraphQLAuthorityInvoker</a>&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_login_authority.html">ILoginAuthority</a> &gt;&#160;</td>
+          <td class="paramname"><em>loginAuthority</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Generate an OAuth user token for the requested service. This requires the OAuth authentication scheme. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">loginAuthority</td><td>The IGraphQLAuthorityInvoker&lt;TAuthority&gt; for the ILoginAuthority.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An OAuthGatewayLoginResult.</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_mutation_8cs_source.html#l00049">49</a> of file <a class="el" href="_mutation_8cs_source.html">Mutation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   52</span>        {</div>
+<div class="line"><span class="lineno">   53</span>            ArgumentNullException.ThrowIfNull(loginAuthority);</div>
+<div class="line"><span class="lineno">   54</span> </div>
+<div class="line"><span class="lineno">   55</span>            <span class="keywordflow">return</span> loginAuthority.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a75bd84e49a618d48a6fc992647030675">Invoke</a>&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_o_auth_gateway_login_result.html">OAuthGatewayLoginResult</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_o_auth_gateway_login_result.html">OAuthGatewayLoginResult</a>&gt;(</div>
+<div class="line"><span class="lineno">   56</span>                authority =&gt; authority.AttemptOAuthGatewayLogin(cancellationToken));</div>
+<div class="line"><span class="lineno">   57</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_o_auth_gateway_login_result_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_o_auth_gateway_login_result.html">Tgstation.Server.Host.GraphQL.Mutations.Payloads.OAuthGatewayLoginResult</a></div><div class="ttdoc">Success result for an OAuth gateway login attempt.</div><div class="ttdef"><b>Definition</b> <a href="_o_auth_gateway_login_result_8cs_source.html#l00011">OAuthGatewayLoginResult.cs:12</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>

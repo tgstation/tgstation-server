@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.SerializerSettings" name="Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.SerializerSettings">
 <area shape="rect" id="Node000001" title="Gets JsonSerializerSettings that should be used." alt="" coords="298,5,548,61"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a943785d93215e437f552142951f53ba4" title="Validate a given OAuth response code .A ValueTask&lt;TResult&gt; resulting in null if authentication failed..." alt="" coords="5,5,250,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a7a7d27dd1f064d23a181e033567b41bd" title="Validate a given OAuth response code .A ValueTask&lt;TResult&gt; resulting in null if authentication failed..." alt="" coords="5,5,250,61"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="282,36,250,36,250,31,282,31"/>
 </map>

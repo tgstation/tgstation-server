@@ -1,0 +1,13 @@
+<map id="Tgstation.Server.Host.Authority.LoginAuthority.TryOAuthenticate&lt; TResult &gt;" name="Tgstation.Server.Host.Authority.LoginAuthority.TryOAuthenticate&lt; TResult &gt;">
+<area shape="rect" id="Node000001" title="Attempt OAuth authentication." alt="" coords="5,149,214,205"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ae13097278410832e7ed9f57fb7b7e808" title="Generates a HttpFailureResponse.BadRequest type AuthorityResponse&lt;TResult&gt;." alt="" coords="304,5,511,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,147,197,108,260,71,288,59,290,64,263,76,199,112,146,151"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#afeb0800595d048b7cbd35a87bcced8ee" title="Gets the IOAuthValidator for a given oAuthProvider ." alt="" coords="291,85,524,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="213,147,261,135,293,127,295,132,262,140,215,152"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ab9c6b0d8eab4fc5c07bc5d2a64cb6db3" title="Generates a HttpFailureResponse.RateLimited type AuthorityResponse." alt="" coords="305,149,510,205"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="214,175,289,175,289,180,214,180"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#aad46c8d84636ee4f88bd8808ed095f75" title="Generates a HttpFailureResponse.Unauthorized type AuthorityResponse&lt;TResult&gt;." alt="" coords="302,229,513,285"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="215,203,287,222,286,227,213,208"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#acc11a8eb251cb42da89da8c6aa05e7e4" title="Validate a given OAuth response code ." alt="" coords="262,309,553,350"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="140,203,194,251,227,275,263,295,276,301,274,306,260,300,225,279,191,255,136,207"/>
+</map>

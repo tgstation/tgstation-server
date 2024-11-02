@@ -2,6 +2,6 @@
 <area shape="rect" id="Node000001" title=" " alt="" coords="536,5,800,46"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a66306f94bac8b1db1ab289f57478172b" title="Add a given systemIdentity &#160;to the identityCache." alt="" coords="258,5,488,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="520,28,489,28,489,23,520,23"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a56db9647140a1a43ebab0642e99a35b6" title="Attempt to login to the server with the current crentials.A ValueTask&lt;TResult&gt; resulting in a LoginRe..." alt="" coords="5,5,210,46"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a56db9647140a1a43ebab0642e99a35b6" title="Attempt to login to the server with the current Basic or OAuth credentials.A ValueTask&lt;TResult&gt; resul..." alt="" coords="5,5,210,46"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="242,28,210,28,210,23,242,23"/>
 </map>

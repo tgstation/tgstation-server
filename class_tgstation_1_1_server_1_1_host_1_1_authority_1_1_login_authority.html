@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.11.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -137,27 +137,40 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a9adee6ba77ba492dedf822736fe5b069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the LoginAuthority class.  <br /></td></tr>
 <tr class="separator:a9adee6ba77ba492dedf822736fe5b069"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56db9647140a1a43ebab0642e99a35b6" id="r_a56db9647140a1a43ebab0642e99a35b6"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html">LoginResult</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a56db9647140a1a43ebab0642e99a35b6">AttemptLogin</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a56db9647140a1a43ebab0642e99a35b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to login to the server with the current crentials.<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memdesc:a56db9647140a1a43ebab0642e99a35b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to login to the server with the current Basic or OAuth credentials.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a LoginResult and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> AuthorityResponse&lt;TResult&gt;.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a LoginResult AuthorityResponse&lt;TResult&gt;.</dd></dl>
   <br /></td></tr>
 <tr class="separator:a56db9647140a1a43ebab0642e99a35b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7110be411244769c94a0cf3d31770da" id="r_ad7110be411244769c94a0cf3d31770da"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_o_auth_gateway_login_result.html">OAuthGatewayLoginResult</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ad7110be411244769c94a0cf3d31770da">AttemptOAuthGatewayLogin</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ad7110be411244769c94a0cf3d31770da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to login to an OAuth service with the current OAuth credentials.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in an OAuthGatewayLoginResult AuthorityResponse&lt;TResult&gt;.</dd></dl>
+  <br /></td></tr>
+<tr class="separator:ad7110be411244769c94a0cf3d31770da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a66306f94bac8b1db1ab289f57478172b" id="r_a66306f94bac8b1db1ab289f57478172b"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a66306f94bac8b1db1ab289f57478172b">CacheSystemIdentity</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a> systemIdentity, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> user, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html">LoginResult</a> loginPayload)</td></tr>
 <tr class="memdesc:a66306f94bac8b1db1ab289f57478172b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a given <em>systemIdentity</em>  to the identityCache.  <br /></td></tr>
 <tr class="separator:a66306f94bac8b1db1ab289f57478172b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9692b47773844160e291c9fe12608e17" id="r_a9692b47773844160e291c9fe12608e17"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt;(<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; TResult &gt;? ErrorResponse,(string? UserID, string AccessCode)? OAuthResult)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a9692b47773844160e291c9fe12608e17">TryOAuthenticate&lt; TResult &gt;</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a> headers, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a> oAuthProvider, bool forLogin, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a9692b47773844160e291c9fe12608e17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt OAuth authentication.  <br /></td></tr>
+<tr class="separator:a9692b47773844160e291c9fe12608e17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
-<tr class="memitem:a51518b11bebba6f78a360d8b45ce1fab" id="r_a51518b11bebba6f78a360d8b45ce1fab"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html">LoginResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a51518b11bebba6f78a360d8b45ce1fab">GenerateHeadersExceptionResponse</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html">HeadersException</a> headersException)</td></tr>
-<tr class="memdesc:a51518b11bebba6f78a360d8b45ce1fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate an AuthorityResponse&lt;TResult&gt; for a given <em>headersException</em> .  <br /></td></tr>
-<tr class="separator:a51518b11bebba6f78a360d8b45ce1fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8b4de51f54c236e18dc9ed5b90abced" id="r_ac8b4de51f54c236e18dc9ed5b90abced"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; TResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ac8b4de51f54c236e18dc9ed5b90abced">GenerateHeadersExceptionResponse&lt; TResult &gt;</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html">HeadersException</a> headersException)</td></tr>
+<tr class="memdesc:ac8b4de51f54c236e18dc9ed5b90abced"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate an AuthorityResponse&lt;TResult&gt; for a given <em>headersException</em> .  <br /></td></tr>
+<tr class="separator:ac8b4de51f54c236e18dc9ed5b90abced"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1ed76568a53f00a51e8f8180c8fd6ec" id="r_ab1ed76568a53f00a51e8f8180c8fd6ec"><td class="memItemLeft" align="right" valign="top">static async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ab1ed76568a53f00a51e8f8180c8fd6ec">SelectUserInfoFromQuery</a> (<a class="el" href="class_i_queryable.html">IQueryable</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> &gt; query, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ab1ed76568a53f00a51e8f8180c8fd6ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select the details needed to generate a TokenResponse from a given <em>query</em> .  <br /></td></tr>
 <tr class="separator:ab1ed76568a53f00a51e8f8180c8fd6ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -320,20 +333,20 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00108">108</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  119</span>            : base(</div>
-<div class="line"><span class="lineno">  120</span>                  authenticationContext,</div>
-<div class="line"><span class="lineno">  121</span>                  databaseContext,</div>
-<div class="line"><span class="lineno">  122</span>                  logger)</div>
-<div class="line"><span class="lineno">  123</span>        {</div>
-<div class="line"><span class="lineno">  124</span>            this.apiHeadersProvider = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a2b86ce48d340a702b3c7b901e023974c">apiHeadersProvider</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a2b86ce48d340a702b3c7b901e023974c">apiHeadersProvider</a>));</div>
-<div class="line"><span class="lineno">  125</span>            this.systemIdentityFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#aa984b0b34abc0ba2639a4bc70b19817f">systemIdentityFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#aa984b0b34abc0ba2639a4bc70b19817f">systemIdentityFactory</a>));</div>
-<div class="line"><span class="lineno">  126</span>            this.oAuthProviders = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a5d8fc0a81511213423afb699e3c29064">oAuthProviders</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a5d8fc0a81511213423afb699e3c29064">oAuthProviders</a>));</div>
-<div class="line"><span class="lineno">  127</span>            this.tokenFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#aecd1a7c948ab3d4860a620635a040e59">tokenFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#aecd1a7c948ab3d4860a620635a040e59">tokenFactory</a>));</div>
-<div class="line"><span class="lineno">  128</span>            this.cryptographySuite = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ae0b2d6854f69f4f2f196ebee58689f1f">cryptographySuite</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ae0b2d6854f69f4f2f196ebee58689f1f">cryptographySuite</a>));</div>
-<div class="line"><span class="lineno">  129</span>            this.identityCache = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a74aaa451f13da9508da4b5bce4b5b913">identityCache</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a74aaa451f13da9508da4b5bce4b5b913">identityCache</a>));</div>
-<div class="line"><span class="lineno">  130</span>            this.sessionInvalidationTracker = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ae768c5c44e5dc97240dfaaf09719af8f">sessionInvalidationTracker</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ae768c5c44e5dc97240dfaaf09719af8f">sessionInvalidationTracker</a>));</div>
-<div class="line"><span class="lineno">  131</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00109">109</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  120</span>            : base(</div>
+<div class="line"><span class="lineno">  121</span>                  authenticationContext,</div>
+<div class="line"><span class="lineno">  122</span>                  databaseContext,</div>
+<div class="line"><span class="lineno">  123</span>                  logger)</div>
+<div class="line"><span class="lineno">  124</span>        {</div>
+<div class="line"><span class="lineno">  125</span>            this.apiHeadersProvider = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a2b86ce48d340a702b3c7b901e023974c">apiHeadersProvider</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a2b86ce48d340a702b3c7b901e023974c">apiHeadersProvider</a>));</div>
+<div class="line"><span class="lineno">  126</span>            this.systemIdentityFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#aa984b0b34abc0ba2639a4bc70b19817f">systemIdentityFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#aa984b0b34abc0ba2639a4bc70b19817f">systemIdentityFactory</a>));</div>
+<div class="line"><span class="lineno">  127</span>            this.oAuthProviders = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a5d8fc0a81511213423afb699e3c29064">oAuthProviders</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a5d8fc0a81511213423afb699e3c29064">oAuthProviders</a>));</div>
+<div class="line"><span class="lineno">  128</span>            this.tokenFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#aecd1a7c948ab3d4860a620635a040e59">tokenFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#aecd1a7c948ab3d4860a620635a040e59">tokenFactory</a>));</div>
+<div class="line"><span class="lineno">  129</span>            this.cryptographySuite = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ae0b2d6854f69f4f2f196ebee58689f1f">cryptographySuite</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ae0b2d6854f69f4f2f196ebee58689f1f">cryptographySuite</a>));</div>
+<div class="line"><span class="lineno">  130</span>            this.identityCache = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a74aaa451f13da9508da4b5bce4b5b913">identityCache</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a74aaa451f13da9508da4b5bce4b5b913">identityCache</a>));</div>
+<div class="line"><span class="lineno">  131</span>            this.sessionInvalidationTracker = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ae768c5c44e5dc97240dfaaf09719af8f">sessionInvalidationTracker</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ae768c5c44e5dc97240dfaaf09719af8f">sessionInvalidationTracker</a>));</div>
+<div class="line"><span class="lineno">  132</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_html_a2b86ce48d340a702b3c7b901e023974c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a2b86ce48d340a702b3c7b901e023974c">Tgstation.Server.Host.Authority.LoginAuthority.apiHeadersProvider</a></div><div class="ttdeci">readonly IApiHeadersProvider apiHeadersProvider</div><div class="ttdoc">The IApiHeadersProvider for the LoginAuthority.</div><div class="ttdef"><b>Definition</b> <a href="_login_authority_8cs_source.html#l00029">LoginAuthority.cs:29</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_html_a5d8fc0a81511213423afb699e3c29064"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a5d8fc0a81511213423afb699e3c29064">Tgstation.Server.Host.Authority.LoginAuthority.oAuthProviders</a></div><div class="ttdeci">readonly IOAuthProviders oAuthProviders</div><div class="ttdoc">The IOAuthProviders for the LoginAuthority.</div><div class="ttdef"><b>Definition</b> <a href="_login_authority_8cs_source.html#l00039">LoginAuthority.cs:39</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_html_a74aaa451f13da9508da4b5bce4b5b913"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a74aaa451f13da9508da4b5bce4b5b913">Tgstation.Server.Host.Authority.LoginAuthority.identityCache</a></div><div class="ttdeci">readonly IIdentityCache identityCache</div><div class="ttdoc">The IIdentityCache for the LoginAuthority.</div><div class="ttdef"><b>Definition</b> <a href="_login_authority_8cs_source.html#l00054">LoginAuthority.cs:54</a></div></div>
@@ -363,173 +376,154 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Attempt to login to the server with the current crentials.<dl class="params"><dt>Parameters</dt><dd>
+<p>Attempt to login to the server with the current Basic or OAuth credentials.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a LoginResult and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> AuthorityResponse&lt;TResult&gt;.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a LoginResult AuthorityResponse&lt;TResult&gt;.</dd></dl>
  </p>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_login_authority.html#a843767364ad65935951632679b74f7b3">Tgstation.Server.Host.Authority.ILoginAuthority</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00134">134</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  135</span>        {</div>
-<div class="line"><span class="lineno">  136</span>            var headers = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a2b86ce48d340a702b3c7b901e023974c">apiHeadersProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html#a479fc84909e81d756d193308ff2c0c78">ApiHeaders</a>;</div>
-<div class="line"><span class="lineno">  137</span>            <span class="keywordflow">if</span> (headers == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  138</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a51518b11bebba6f78a360d8b45ce1fab">GenerateHeadersExceptionResponse</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a2b86ce48d340a702b3c7b901e023974c">apiHeadersProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html#a73e72159437d019196084b645ec73257">HeadersException</a>!);</div>
-<div class="line"><span class="lineno">  139</span> </div>
-<div class="line"><span class="lineno">  140</span>            <span class="keywordflow">if</span> (headers.IsTokenAuthentication)</div>
-<div class="line"><span class="lineno">  141</span>                <span class="keywordflow">return</span> BadRequest&lt;LoginResult&gt;(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.TokenWithToken);</div>
-<div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>            var oAuthLogin = headers.OAuthProvider.HasValue;</div>
-<div class="line"><span class="lineno">  144</span> </div>
-<div class="line"><span class="lineno">  145</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a>? systemIdentity = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  146</span>            <span class="keywordflow">if</span> (!oAuthLogin)</div>
-<div class="line"><span class="lineno">  147</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  148</span>                {</div>
-<div class="line"><span class="lineno">  149</span>                    <span class="comment">// trust the system over the database because a user&#39;s name can change while still having the same SID</span></div>
-<div class="line"><span class="lineno">  150</span>                    systemIdentity = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#aa984b0b34abc0ba2639a4bc70b19817f">systemIdentityFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a1484aa5361ad7005e1d53606b17f4e9e">CreateSystemIdentity</a>(headers.Username!, headers.Password!, cancellationToken);</div>
-<div class="line"><span class="lineno">  151</span>                }</div>
-<div class="line"><span class="lineno">  152</span>                <span class="keywordflow">catch</span> (NotImplementedException)</div>
-<div class="line"><span class="lineno">  153</span>                {</div>
-<div class="line"><span class="lineno">  154</span>                    <span class="comment">// Intentionally suppressed</span></div>
-<div class="line"><span class="lineno">  155</span>                }</div>
-<div class="line"><span class="lineno">  156</span> </div>
-<div class="line"><span class="lineno">  157</span>            <span class="keyword">using</span> (systemIdentity)</div>
-<div class="line"><span class="lineno">  158</span>            {</div>
-<div class="line"><span class="lineno">  159</span>                <span class="comment">// Get the user from the database</span></div>
-<div class="line"><span class="lineno">  160</span>                <a class="code hl_class" href="class_i_queryable.html">IQueryable&lt;User&gt;</a> query = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.AsQueryable();</div>
-<div class="line"><span class="lineno">  161</span>                <span class="keywordflow">if</span> (oAuthLogin)</div>
-<div class="line"><span class="lineno">  162</span>                {</div>
-<div class="line"><span class="lineno">  163</span>                    var oAuthProvider = headers.OAuthProvider!.Value;</div>
-<div class="line"><span class="lineno">  164</span>                    <span class="keywordtype">string</span>? externalUserId;</div>
-<div class="line"><span class="lineno">  165</span>                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  166</span>                    {</div>
-<div class="line"><span class="lineno">  167</span>                        var validator = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a5d8fc0a81511213423afb699e3c29064">oAuthProviders</a></div>
-<div class="line"><span class="lineno">  168</span>                            .<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a35df5b32c769e3c6f01ae709e3221694">GetValidator</a>(oAuthProvider);</div>
-<div class="line"><span class="lineno">  169</span> </div>
-<div class="line"><span class="lineno">  170</span>                        <span class="keywordflow">if</span> (validator == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  171</span>                            <span class="keywordflow">return</span> BadRequest&lt;LoginResult&gt;(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.OAuthProviderDisabled);</div>
-<div class="line"><span class="lineno">  172</span> </div>
-<div class="line"><span class="lineno">  173</span>                        externalUserId = await validator</div>
-<div class="line"><span class="lineno">  174</span>                            .ValidateResponseCode(headers.OAuthCode!, cancellationToken);</div>
-<div class="line"><span class="lineno">  175</span> </div>
-<div class="line"><span class="lineno">  176</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ac08240a96d7175f7af6966c3922593a3">Logger</a>.LogTrace(<span class="stringliteral">&quot;External {oAuthProvider} UID: {externalUserId}&quot;</span>, oAuthProvider, externalUserId);</div>
-<div class="line"><span class="lineno">  177</span>                    }</div>
-<div class="line"><span class="lineno">  178</span>                    <span class="keywordflow">catch</span> (Octokit.RateLimitExceededException ex)</div>
-<div class="line"><span class="lineno">  179</span>                    {</div>
-<div class="line"><span class="lineno">  180</span>                        <span class="keywordflow">return</span> RateLimit&lt;LoginResult&gt;(ex);</div>
-<div class="line"><span class="lineno">  181</span>                    }</div>
-<div class="line"><span class="lineno">  182</span> </div>
-<div class="line"><span class="lineno">  183</span>                    <span class="keywordflow">if</span> (externalUserId == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  184</span>                        <span class="keywordflow">return</span> Unauthorized&lt;LoginResult&gt;();</div>
+<p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00135">135</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  136</span>        {</div>
+<div class="line"><span class="lineno">  137</span>            var headers = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a2b86ce48d340a702b3c7b901e023974c">apiHeadersProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html#a479fc84909e81d756d193308ff2c0c78">ApiHeaders</a>;</div>
+<div class="line"><span class="lineno">  138</span>            <span class="keywordflow">if</span> (headers == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  139</span>                <span class="keywordflow">return</span> GenerateHeadersExceptionResponse&lt;LoginResult&gt;(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a2b86ce48d340a702b3c7b901e023974c">apiHeadersProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html#a73e72159437d019196084b645ec73257">HeadersException</a>!);</div>
+<div class="line"><span class="lineno">  140</span> </div>
+<div class="line"><span class="lineno">  141</span>            <span class="keywordflow">if</span> (headers.IsTokenAuthentication)</div>
+<div class="line"><span class="lineno">  142</span>                <span class="keywordflow">return</span> BadRequest&lt;LoginResult&gt;(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.TokenWithToken);</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>            var oAuthLogin = headers.OAuthProvider.HasValue;</div>
+<div class="line"><span class="lineno">  145</span> </div>
+<div class="line"><span class="lineno">  146</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a>? systemIdentity = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  147</span>            <span class="keywordflow">if</span> (!oAuthLogin)</div>
+<div class="line"><span class="lineno">  148</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  149</span>                {</div>
+<div class="line"><span class="lineno">  150</span>                    <span class="comment">// trust the system over the database because a user&#39;s name can change while still having the same SID</span></div>
+<div class="line"><span class="lineno">  151</span>                    systemIdentity = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#aa984b0b34abc0ba2639a4bc70b19817f">systemIdentityFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a1484aa5361ad7005e1d53606b17f4e9e">CreateSystemIdentity</a>(headers.Username!, headers.Password!, cancellationToken);</div>
+<div class="line"><span class="lineno">  152</span>                }</div>
+<div class="line"><span class="lineno">  153</span>                <span class="keywordflow">catch</span> (NotImplementedException)</div>
+<div class="line"><span class="lineno">  154</span>                {</div>
+<div class="line"><span class="lineno">  155</span>                    <span class="comment">// Intentionally suppressed</span></div>
+<div class="line"><span class="lineno">  156</span>                }</div>
+<div class="line"><span class="lineno">  157</span> </div>
+<div class="line"><span class="lineno">  158</span>            <span class="keyword">using</span> (systemIdentity)</div>
+<div class="line"><span class="lineno">  159</span>            {</div>
+<div class="line"><span class="lineno">  160</span>                <span class="comment">// Get the user from the database</span></div>
+<div class="line"><span class="lineno">  161</span>                <a class="code hl_class" href="class_i_queryable.html">IQueryable&lt;User&gt;</a> query = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.AsQueryable();</div>
+<div class="line"><span class="lineno">  162</span>                <span class="keywordflow">if</span> (oAuthLogin)</div>
+<div class="line"><span class="lineno">  163</span>                {</div>
+<div class="line"><span class="lineno">  164</span>                    var oAuthProvider = headers.OAuthProvider!.Value;</div>
+<div class="line"><span class="lineno">  165</span>                    var (errorResponse, oauthResult) = await TryOAuthenticate&lt;LoginResult&gt;(headers, oAuthProvider, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  166</span>                    <span class="keywordflow">if</span> (errorResponse != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  167</span>                        <span class="keywordflow">return</span> errorResponse;</div>
+<div class="line"><span class="lineno">  168</span> </div>
+<div class="line"><span class="lineno">  169</span>                    query = query.Where(</div>
+<div class="line"><span class="lineno">  170</span>                        x =&gt; x.OAuthConnections!.Any(</div>
+<div class="line"><span class="lineno">  171</span>                            y =&gt; y.Provider == oAuthProvider</div>
+<div class="line"><span class="lineno">  172</span>                            &amp;&amp; y.ExternalUserId == oauthResult!.Value.UserID));</div>
+<div class="line"><span class="lineno">  173</span>                }</div>
+<div class="line"><span class="lineno">  174</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  175</span>                {</div>
+<div class="line"><span class="lineno">  176</span>                    var canonicalUserName = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16">CanonicalizeName</a>(headers.Username!);</div>
+<div class="line"><span class="lineno">  177</span>                    <span class="keywordflow">if</span> (canonicalUserName == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16">CanonicalizeName</a>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e68345f5d52c8ba64dca5ec061d029d">TgsSystemUserName</a>))</div>
+<div class="line"><span class="lineno">  178</span>                        <span class="keywordflow">return</span> Unauthorized&lt;LoginResult&gt;();</div>
+<div class="line"><span class="lineno">  179</span> </div>
+<div class="line"><span class="lineno">  180</span>                    <span class="keywordflow">if</span> (systemIdentity == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  181</span>                        query = query.Where(x =&gt; x.CanonicalName == canonicalUserName);</div>
+<div class="line"><span class="lineno">  182</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  183</span>                        query = query.Where(x =&gt; x.CanonicalName == canonicalUserName || x.SystemIdentifier == systemIdentity.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a21339e0b4c3d045ba30c6ac6ea15aa4f">Uid</a>);</div>
+<div class="line"><span class="lineno">  184</span>                }</div>
 <div class="line"><span class="lineno">  185</span> </div>
-<div class="line"><span class="lineno">  186</span>                    query = query.Where(</div>
-<div class="line"><span class="lineno">  187</span>                        x =&gt; x.OAuthConnections!.Any(</div>
-<div class="line"><span class="lineno">  188</span>                            y =&gt; y.Provider == oAuthProvider</div>
-<div class="line"><span class="lineno">  189</span>                            &amp;&amp; y.ExternalUserId == externalUserId));</div>
-<div class="line"><span class="lineno">  190</span>                }</div>
-<div class="line"><span class="lineno">  191</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  192</span>                {</div>
-<div class="line"><span class="lineno">  193</span>                    var canonicalUserName = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16">CanonicalizeName</a>(headers.Username!);</div>
-<div class="line"><span class="lineno">  194</span>                    <span class="keywordflow">if</span> (canonicalUserName == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16">CanonicalizeName</a>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e68345f5d52c8ba64dca5ec061d029d">TgsSystemUserName</a>))</div>
-<div class="line"><span class="lineno">  195</span>                        <span class="keywordflow">return</span> Unauthorized&lt;LoginResult&gt;();</div>
-<div class="line"><span class="lineno">  196</span> </div>
-<div class="line"><span class="lineno">  197</span>                    <span class="keywordflow">if</span> (systemIdentity == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  198</span>                        query = query.Where(x =&gt; x.CanonicalName == canonicalUserName);</div>
-<div class="line"><span class="lineno">  199</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  200</span>                        query = query.Where(x =&gt; x.CanonicalName == canonicalUserName || x.SystemIdentifier == systemIdentity.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a21339e0b4c3d045ba30c6ac6ea15aa4f">Uid</a>);</div>
-<div class="line"><span class="lineno">  201</span>                }</div>
-<div class="line"><span class="lineno">  202</span> </div>
-<div class="line"><span class="lineno">  203</span>                var user = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ab1ed76568a53f00a51e8f8180c8fd6ec">SelectUserInfoFromQuery</a>(query, cancellationToken);</div>
-<div class="line"><span class="lineno">  204</span> </div>
-<div class="line"><span class="lineno">  205</span>                <span class="comment">// No user? You&#39;re not allowed</span></div>
-<div class="line"><span class="lineno">  206</span>                <span class="keywordflow">if</span> (user == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  207</span>                    <span class="keywordflow">return</span> Unauthorized&lt;LoginResult&gt;();</div>
-<div class="line"><span class="lineno">  208</span> </div>
-<div class="line"><span class="lineno">  209</span>                <span class="comment">// A system user may have had their name AND password changed to one in our DB...</span></div>
-<div class="line"><span class="lineno">  210</span>                <span class="comment">// Or a DB user was created that had the same user/pass as a system user</span></div>
-<div class="line"><span class="lineno">  211</span>                <span class="comment">// Dumb admins...</span></div>
-<div class="line"><span class="lineno">  212</span>                <span class="comment">// FALLBACK TO THE DB USER HERE, DO NOT REVEAL A SYSTEM LOGIN!!!</span></div>
-<div class="line"><span class="lineno">  213</span>                <span class="comment">// This of course, allows system users to discover TGS users in this (HIGHLY IMPROBABLE) case but that is not our fault</span></div>
-<div class="line"><span class="lineno">  214</span>                var originalHash = user.PasswordHash;</div>
-<div class="line"><span class="lineno">  215</span>                var isLikelyDbUser = originalHash != <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  216</span>                var usingSystemIdentity = systemIdentity != <span class="keyword">null</span> &amp;&amp; !isLikelyDbUser;</div>
-<div class="line"><span class="lineno">  217</span>                <span class="keywordflow">if</span> (!oAuthLogin)</div>
-<div class="line"><span class="lineno">  218</span>                    <span class="keywordflow">if</span> (!usingSystemIdentity)</div>
+<div class="line"><span class="lineno">  186</span>                var user = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ab1ed76568a53f00a51e8f8180c8fd6ec">SelectUserInfoFromQuery</a>(query, cancellationToken);</div>
+<div class="line"><span class="lineno">  187</span> </div>
+<div class="line"><span class="lineno">  188</span>                <span class="comment">// No user? You&#39;re not allowed</span></div>
+<div class="line"><span class="lineno">  189</span>                <span class="keywordflow">if</span> (user == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  190</span>                    <span class="keywordflow">return</span> Unauthorized&lt;LoginResult&gt;();</div>
+<div class="line"><span class="lineno">  191</span> </div>
+<div class="line"><span class="lineno">  192</span>                <span class="comment">// A system user may have had their name AND password changed to one in our DB...</span></div>
+<div class="line"><span class="lineno">  193</span>                <span class="comment">// Or a DB user was created that had the same user/pass as a system user</span></div>
+<div class="line"><span class="lineno">  194</span>                <span class="comment">// Dumb admins...</span></div>
+<div class="line"><span class="lineno">  195</span>                <span class="comment">// FALLBACK TO THE DB USER HERE, DO NOT REVEAL A SYSTEM LOGIN!!!</span></div>
+<div class="line"><span class="lineno">  196</span>                <span class="comment">// This of course, allows system users to discover TGS users in this (HIGHLY IMPROBABLE) case but that is not our fault</span></div>
+<div class="line"><span class="lineno">  197</span>                var originalHash = user.PasswordHash;</div>
+<div class="line"><span class="lineno">  198</span>                var isLikelyDbUser = originalHash != <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  199</span>                var usingSystemIdentity = systemIdentity != <span class="keyword">null</span> &amp;&amp; !isLikelyDbUser;</div>
+<div class="line"><span class="lineno">  200</span>                <span class="keywordflow">if</span> (!oAuthLogin)</div>
+<div class="line"><span class="lineno">  201</span>                    <span class="keywordflow">if</span> (!usingSystemIdentity)</div>
+<div class="line"><span class="lineno">  202</span>                    {</div>
+<div class="line"><span class="lineno">  203</span>                        <span class="comment">// DB User password check and update</span></div>
+<div class="line"><span class="lineno">  204</span>                        <span class="keywordflow">if</span> (!isLikelyDbUser || !<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ae0b2d6854f69f4f2f196ebee58689f1f">cryptographySuite</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac23fd656dc42cf07e64a62844f8bcfbc">CheckUserPassword</a>(user, headers.Password!))</div>
+<div class="line"><span class="lineno">  205</span>                            <span class="keywordflow">return</span> Unauthorized&lt;LoginResult&gt;();</div>
+<div class="line"><span class="lineno">  206</span>                        <span class="keywordflow">if</span> (user.PasswordHash != originalHash)</div>
+<div class="line"><span class="lineno">  207</span>                        {</div>
+<div class="line"><span class="lineno">  208</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ac08240a96d7175f7af6966c3922593a3">Logger</a>.LogDebug(<span class="stringliteral">&quot;User ID {userId}&#39;s password hash needs a refresh, updating database.&quot;</span>, user.Id);</div>
+<div class="line"><span class="lineno">  209</span>                            var updatedUser = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a></div>
+<div class="line"><span class="lineno">  210</span>                            {</div>
+<div class="line"><span class="lineno">  211</span>                                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Id</a> = user.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>,</div>
+<div class="line"><span class="lineno">  212</span>                            };</div>
+<div class="line"><span class="lineno">  213</span>                            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.Attach(updatedUser);</div>
+<div class="line"><span class="lineno">  214</span>                            updatedUser.PasswordHash = user.PasswordHash;</div>
+<div class="line"><span class="lineno">  215</span>                            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">  216</span>                        }</div>
+<div class="line"><span class="lineno">  217</span>                    }</div>
+<div class="line"><span class="lineno">  218</span>                    <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  219</span>                    {</div>
-<div class="line"><span class="lineno">  220</span>                        <span class="comment">// DB User password check and update</span></div>
-<div class="line"><span class="lineno">  221</span>                        <span class="keywordflow">if</span> (!isLikelyDbUser || !<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ae0b2d6854f69f4f2f196ebee58689f1f">cryptographySuite</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac23fd656dc42cf07e64a62844f8bcfbc">CheckUserPassword</a>(user, headers.Password!))</div>
-<div class="line"><span class="lineno">  222</span>                            <span class="keywordflow">return</span> Unauthorized&lt;LoginResult&gt;();</div>
-<div class="line"><span class="lineno">  223</span>                        <span class="keywordflow">if</span> (user.PasswordHash != originalHash)</div>
-<div class="line"><span class="lineno">  224</span>                        {</div>
-<div class="line"><span class="lineno">  225</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ac08240a96d7175f7af6966c3922593a3">Logger</a>.LogDebug(<span class="stringliteral">&quot;User ID {userId}&#39;s password hash needs a refresh, updating database.&quot;</span>, user.Id);</div>
-<div class="line"><span class="lineno">  226</span>                            var updatedUser = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a></div>
-<div class="line"><span class="lineno">  227</span>                            {</div>
-<div class="line"><span class="lineno">  228</span>                                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Id</a> = user.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>,</div>
-<div class="line"><span class="lineno">  229</span>                            };</div>
-<div class="line"><span class="lineno">  230</span>                            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.Attach(updatedUser);</div>
-<div class="line"><span class="lineno">  231</span>                            updatedUser.PasswordHash = user.PasswordHash;</div>
-<div class="line"><span class="lineno">  232</span>                            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
-<div class="line"><span class="lineno">  233</span>                        }</div>
-<div class="line"><span class="lineno">  234</span>                    }</div>
-<div class="line"><span class="lineno">  235</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  236</span>                    {</div>
-<div class="line"><span class="lineno">  237</span>                        var usernameMismatch = systemIdentity!.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#abdae9176f2609703ff36c43d7af97ac1">Username</a> != user.Name;</div>
-<div class="line"><span class="lineno">  238</span>                        <span class="keywordflow">if</span> (isLikelyDbUser || usernameMismatch)</div>
-<div class="line"><span class="lineno">  239</span>                        {</div>
-<div class="line"><span class="lineno">  240</span>                            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.Attach(user);</div>
-<div class="line"><span class="lineno">  241</span>                            <span class="keywordflow">if</span> (usernameMismatch)</div>
-<div class="line"><span class="lineno">  242</span>                            {</div>
-<div class="line"><span class="lineno">  243</span>                                <span class="comment">// System identity username change update</span></div>
-<div class="line"><span class="lineno">  244</span>                                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ac08240a96d7175f7af6966c3922593a3">Logger</a>.LogDebug(<span class="stringliteral">&quot;User ID {userId}&#39;s system identity needs a refresh, updating database.&quot;</span>, user.Id);</div>
-<div class="line"><span class="lineno">  245</span>                                user.Name = systemIdentity.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#abdae9176f2609703ff36c43d7af97ac1">Username</a>;</div>
-<div class="line"><span class="lineno">  246</span>                                user.CanonicalName = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16">CanonicalizeName</a>(user.Name);</div>
-<div class="line"><span class="lineno">  247</span>                            }</div>
-<div class="line"><span class="lineno">  248</span> </div>
-<div class="line"><span class="lineno">  249</span>                            <span class="keywordflow">if</span> (isLikelyDbUser)</div>
-<div class="line"><span class="lineno">  250</span>                            {</div>
-<div class="line"><span class="lineno">  251</span>                                <span class="comment">// cleanup from https://github.com/tgstation/tgstation-server/issues/1528</span></div>
-<div class="line"><span class="lineno">  252</span>                                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ac08240a96d7175f7af6966c3922593a3">Logger</a>.LogDebug(<span class="stringliteral">&quot;System user ID {userId}&#39;s PasswordHash is polluted, updating database.&quot;</span>, user.Id);</div>
-<div class="line"><span class="lineno">  253</span>                                user.PasswordHash = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  254</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ae768c5c44e5dc97240dfaaf09719af8f">sessionInvalidationTracker</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_session_invalidation_tracker.html#a8d0fb292e7b1fc5f0659014ced9a2a14">UserModifiedInvalidateSessions</a>(user);</div>
-<div class="line"><span class="lineno">  255</span>                            }</div>
-<div class="line"><span class="lineno">  256</span> </div>
-<div class="line"><span class="lineno">  257</span>                            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
-<div class="line"><span class="lineno">  258</span>                        }</div>
-<div class="line"><span class="lineno">  259</span>                    }</div>
+<div class="line"><span class="lineno">  220</span>                        var usernameMismatch = systemIdentity!.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#abdae9176f2609703ff36c43d7af97ac1">Username</a> != user.Name;</div>
+<div class="line"><span class="lineno">  221</span>                        <span class="keywordflow">if</span> (isLikelyDbUser || usernameMismatch)</div>
+<div class="line"><span class="lineno">  222</span>                        {</div>
+<div class="line"><span class="lineno">  223</span>                            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.Attach(user);</div>
+<div class="line"><span class="lineno">  224</span>                            <span class="keywordflow">if</span> (usernameMismatch)</div>
+<div class="line"><span class="lineno">  225</span>                            {</div>
+<div class="line"><span class="lineno">  226</span>                                <span class="comment">// System identity username change update</span></div>
+<div class="line"><span class="lineno">  227</span>                                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ac08240a96d7175f7af6966c3922593a3">Logger</a>.LogDebug(<span class="stringliteral">&quot;User ID {userId}&#39;s system identity needs a refresh, updating database.&quot;</span>, user.Id);</div>
+<div class="line"><span class="lineno">  228</span>                                user.Name = systemIdentity.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#abdae9176f2609703ff36c43d7af97ac1">Username</a>;</div>
+<div class="line"><span class="lineno">  229</span>                                user.CanonicalName = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16">CanonicalizeName</a>(user.Name);</div>
+<div class="line"><span class="lineno">  230</span>                            }</div>
+<div class="line"><span class="lineno">  231</span> </div>
+<div class="line"><span class="lineno">  232</span>                            <span class="keywordflow">if</span> (isLikelyDbUser)</div>
+<div class="line"><span class="lineno">  233</span>                            {</div>
+<div class="line"><span class="lineno">  234</span>                                <span class="comment">// cleanup from https://github.com/tgstation/tgstation-server/issues/1528</span></div>
+<div class="line"><span class="lineno">  235</span>                                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ac08240a96d7175f7af6966c3922593a3">Logger</a>.LogDebug(<span class="stringliteral">&quot;System user ID {userId}&#39;s PasswordHash is polluted, updating database.&quot;</span>, user.Id);</div>
+<div class="line"><span class="lineno">  236</span>                                user.PasswordHash = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  237</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ae768c5c44e5dc97240dfaaf09719af8f">sessionInvalidationTracker</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_session_invalidation_tracker.html#a8d0fb292e7b1fc5f0659014ced9a2a14">UserModifiedInvalidateSessions</a>(user);</div>
+<div class="line"><span class="lineno">  238</span>                            }</div>
+<div class="line"><span class="lineno">  239</span> </div>
+<div class="line"><span class="lineno">  240</span>                            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">  241</span>                        }</div>
+<div class="line"><span class="lineno">  242</span>                    }</div>
+<div class="line"><span class="lineno">  243</span> </div>
+<div class="line"><span class="lineno">  244</span>                <span class="comment">// Now that the bookeeping is done, tell them to fuck off if necessary</span></div>
+<div class="line"><span class="lineno">  245</span>                <span class="keywordflow">if</span> (!user.Enabled!.Value)</div>
+<div class="line"><span class="lineno">  246</span>                {</div>
+<div class="line"><span class="lineno">  247</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ac08240a96d7175f7af6966c3922593a3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Not logging in disabled user {userId}.&quot;</span>, user.Id);</div>
+<div class="line"><span class="lineno">  248</span>                    <span class="keywordflow">return</span> Forbid&lt;LoginResult&gt;();</div>
+<div class="line"><span class="lineno">  249</span>                }</div>
+<div class="line"><span class="lineno">  250</span> </div>
+<div class="line"><span class="lineno">  251</span>                var token = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#aecd1a7c948ab3d4860a620635a040e59">tokenFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a985633f0c977dad0c2979764d1000598">CreateToken</a>(user, oAuthLogin);</div>
+<div class="line"><span class="lineno">  252</span>                var payload = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html">LoginResult</a></div>
+<div class="line"><span class="lineno">  253</span>                {</div>
+<div class="line"><span class="lineno">  254</span>                    Bearer = token,</div>
+<div class="line"><span class="lineno">  255</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> = ((<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html">IApiTransformable</a>&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>, GraphQL.Types.User, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_user_graph_q_l_transformer.html">UserGraphQLTransformer</a>&gt;)user).<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ae966a7ee34ef9b33c28f1d8ac6c631ef">ToApi</a>(),</div>
+<div class="line"><span class="lineno">  256</span>                };</div>
+<div class="line"><span class="lineno">  257</span> </div>
+<div class="line"><span class="lineno">  258</span>                <span class="keywordflow">if</span> (usingSystemIdentity)</div>
+<div class="line"><span class="lineno">  259</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a66306f94bac8b1db1ab289f57478172b">CacheSystemIdentity</a>(systemIdentity!, user, payload);</div>
 <div class="line"><span class="lineno">  260</span> </div>
-<div class="line"><span class="lineno">  261</span>                <span class="comment">// Now that the bookeeping is done, tell them to fuck off if necessary</span></div>
-<div class="line"><span class="lineno">  262</span>                <span class="keywordflow">if</span> (!user.Enabled!.Value)</div>
-<div class="line"><span class="lineno">  263</span>                {</div>
-<div class="line"><span class="lineno">  264</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ac08240a96d7175f7af6966c3922593a3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Not logging in disabled user {userId}.&quot;</span>, user.Id);</div>
-<div class="line"><span class="lineno">  265</span>                    <span class="keywordflow">return</span> Forbid&lt;LoginResult&gt;();</div>
-<div class="line"><span class="lineno">  266</span>                }</div>
-<div class="line"><span class="lineno">  267</span> </div>
-<div class="line"><span class="lineno">  268</span>                var token = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#aecd1a7c948ab3d4860a620635a040e59">tokenFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a985633f0c977dad0c2979764d1000598">CreateToken</a>(user, oAuthLogin);</div>
-<div class="line"><span class="lineno">  269</span>                var payload = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html">LoginResult</a></div>
-<div class="line"><span class="lineno">  270</span>                {</div>
-<div class="line"><span class="lineno">  271</span>                    Bearer = token,</div>
-<div class="line"><span class="lineno">  272</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> = ((<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html">IApiTransformable</a>&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>, GraphQL.Types.User, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_user_graph_q_l_transformer.html">UserGraphQLTransformer</a>&gt;)user).<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ae966a7ee34ef9b33c28f1d8ac6c631ef">ToApi</a>(),</div>
-<div class="line"><span class="lineno">  273</span>                };</div>
-<div class="line"><span class="lineno">  274</span> </div>
-<div class="line"><span class="lineno">  275</span>                <span class="keywordflow">if</span> (usingSystemIdentity)</div>
-<div class="line"><span class="lineno">  276</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a66306f94bac8b1db1ab289f57478172b">CacheSystemIdentity</a>(systemIdentity!, user, payload);</div>
-<div class="line"><span class="lineno">  277</span> </div>
-<div class="line"><span class="lineno">  278</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ac08240a96d7175f7af6966c3922593a3">Logger</a>.LogDebug(<span class="stringliteral">&quot;Successfully logged in user {userId}!&quot;</span>, user.Id);</div>
-<div class="line"><span class="lineno">  279</span> </div>
-<div class="line"><span class="lineno">  280</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse&lt;LoginResult&gt;</a>(payload);</div>
-<div class="line"><span class="lineno">  281</span>            }</div>
-<div class="line"><span class="lineno">  282</span>        }</div>
+<div class="line"><span class="lineno">  261</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ac08240a96d7175f7af6966c3922593a3">Logger</a>.LogDebug(<span class="stringliteral">&quot;Successfully logged in user {userId}!&quot;</span>, user.Id);</div>
+<div class="line"><span class="lineno">  262</span> </div>
+<div class="line"><span class="lineno">  263</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse&lt;LoginResult&gt;</a>(payload);</div>
+<div class="line"><span class="lineno">  264</span>            }</div>
+<div class="line"><span class="lineno">  265</span>        }</div>
 <div class="ttc" id="aclass_i_queryable_html"><div class="ttname"><a href="class_i_queryable.html">IQueryable</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id_html_ae31e478e1d338b37a14565df6fd58570"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Tgstation.Server.Api.Models.EntityId.Id</a></div><div class="ttdeci">virtual ? long Id</div><div class="ttdoc">The ID of the entity.</div><div class="ttdef"><b>Definition</b> <a href="_entity_id_8cs_source.html#l00013">EntityId.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base_html_ac08240a96d7175f7af6966c3922593a3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ac08240a96d7175f7af6966c3922593a3">Tgstation.Server.Host.Authority.Core.AuthorityBase.Logger</a></div><div class="ttdeci">ILogger&lt; AuthorityBase &gt; Logger</div><div class="ttdoc">Gets the ILogger for the AuthorityBase.</div><div class="ttdef"><b>Definition</b> <a href="_authority_base_8cs_source.html#l00033">AuthorityBase.cs:33</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">Tgstation.Server.Host.Authority.Core.AuthorityResponse</a></div><div class="ttdoc">Represents a response from an authority.</div><div class="ttdef"><b>Definition</b> <a href="_authority_response_02_t_result_03_8cs_source.html#l00013">AuthorityResponse{TResult}.cs:14</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_html_a51518b11bebba6f78a360d8b45ce1fab"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a51518b11bebba6f78a360d8b45ce1fab">Tgstation.Server.Host.Authority.LoginAuthority.GenerateHeadersExceptionResponse</a></div><div class="ttdeci">static AuthorityResponse&lt; LoginResult &gt; GenerateHeadersExceptionResponse(HeadersException headersException)</div><div class="ttdoc">Generate an AuthorityResponse&lt;TResult&gt; for a given headersException .</div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_html_a66306f94bac8b1db1ab289f57478172b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a66306f94bac8b1db1ab289f57478172b">Tgstation.Server.Host.Authority.LoginAuthority.CacheSystemIdentity</a></div><div class="ttdeci">async ValueTask CacheSystemIdentity(ISystemIdentity systemIdentity, User user, LoginResult loginPayload)</div><div class="ttdoc">Add a given systemIdentity  to the identityCache.</div><div class="ttdef"><b>Definition</b> <a href="_login_authority_8cs_source.html#l00291">LoginAuthority.cs:291</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_html_ab1ed76568a53f00a51e8f8180c8fd6ec"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ab1ed76568a53f00a51e8f8180c8fd6ec">Tgstation.Server.Host.Authority.LoginAuthority.SelectUserInfoFromQuery</a></div><div class="ttdeci">static async ValueTask&lt; User?&gt; SelectUserInfoFromQuery(IQueryable&lt; User &gt; query, CancellationToken cancellationToken)</div><div class="ttdoc">Select the details needed to generate a TokenResponse from a given query .</div><div class="ttdef"><b>Definition</b> <a href="_login_authority_8cs_source.html#l00082">LoginAuthority.cs:82</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_html_a66306f94bac8b1db1ab289f57478172b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a66306f94bac8b1db1ab289f57478172b">Tgstation.Server.Host.Authority.LoginAuthority.CacheSystemIdentity</a></div><div class="ttdeci">async ValueTask CacheSystemIdentity(ISystemIdentity systemIdentity, User user, LoginResult loginPayload)</div><div class="ttdoc">Add a given systemIdentity  to the identityCache.</div><div class="ttdef"><b>Definition</b> <a href="_login_authority_8cs_source.html#l00298">LoginAuthority.cs:298</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_html_ab1ed76568a53f00a51e8f8180c8fd6ec"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ab1ed76568a53f00a51e8f8180c8fd6ec">Tgstation.Server.Host.Authority.LoginAuthority.SelectUserInfoFromQuery</a></div><div class="ttdeci">static async ValueTask&lt; User?&gt; SelectUserInfoFromQuery(IQueryable&lt; User &gt; query, CancellationToken cancellationToken)</div><div class="ttdoc">Select the details needed to generate a TokenResponse from a given query .</div><div class="ttdef"><b>Definition</b> <a href="_login_authority_8cs_source.html#l00083">LoginAuthority.cs:83</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">Tgstation.Server.Host.Database.DatabaseContext</a></div><div class="ttdoc">Backend abstract implementation of IDatabaseContext.</div><div class="ttdef"><b>Definition</b> <a href="_database_context_8cs_source.html#l00024">DatabaseContext.cs:25</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_html_ac2e88d53bf1b6ac87d175d83ed39da7c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save</a></div><div class="ttdeci">Task Save(CancellationToken cancellationToken)</div><div class="ttdoc">Saves changes made to the IDatabaseContext.A Task representing the running operation.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_html_ad1c33807b7a75d05d0004e024416e17f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Tgstation.Server.Host.Database.DatabaseContext.Users</a></div><div class="ttdeci">DbSet&lt; User &gt; Users</div><div class="ttdoc">The Users in the DatabaseContext.</div><div class="ttdef"><b>Definition</b> <a href="_database_context_8cs_source.html#l00029">DatabaseContext.cs:29</a></div></div>
@@ -547,49 +541,100 @@ Additional Inherited Members</h2></td></tr>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_html_a21339e0b4c3d045ba30c6ac6ea15aa4f"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a21339e0b4c3d045ba30c6ac6ea15aa4f">Tgstation.Server.Host.Security.ISystemIdentity.Uid</a></div><div class="ttdeci">string Uid</div><div class="ttdoc">A unique identifier for the user.</div><div class="ttdef"><b>Definition</b> <a href="_i_system_identity_8cs_source.html#l00015">ISystemIdentity.cs:15</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_html_abdae9176f2609703ff36c43d7af97ac1"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#abdae9176f2609703ff36c43d7af97ac1">Tgstation.Server.Host.Security.ISystemIdentity.Username</a></div><div class="ttdeci">string Username</div><div class="ttdoc">The user's name.</div><div class="ttdef"><b>Definition</b> <a href="_i_system_identity_8cs_source.html#l00020">ISystemIdentity.cs:20</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory_html_a985633f0c977dad0c2979764d1000598"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a985633f0c977dad0c2979764d1000598">Tgstation.Server.Host.Security.ITokenFactory.CreateToken</a></div><div class="ttdeci">string CreateToken(Models.User user, bool oAuth)</div><div class="ttdoc">Create a TokenResponse for a given user .</div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers_html_a35df5b32c769e3c6f01ae709e3221694"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a35df5b32c769e3c6f01ae709e3221694">Tgstation.Server.Host.Security.OAuth.IOAuthProviders.GetValidator</a></div><div class="ttdeci">IOAuthValidator? GetValidator(OAuthProvider oAuthProvider)</div><div class="ttdoc">Gets the IOAuthValidator for a given oAuthProvider .</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider_html_a479fc84909e81d756d193308ff2c0c78"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html#a479fc84909e81d756d193308ff2c0c78">Tgstation.Server.Host.Utils.IApiHeadersProvider.ApiHeaders</a></div><div class="ttdeci">ApiHeaders? ApiHeaders</div><div class="ttdoc">The created Api.ApiHeaders, if any.</div><div class="ttdef"><b>Definition</b> <a href="_i_api_headers_provider_8cs_source.html#l00013">IApiHeadersProvider.cs:13</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider_html_a73e72159437d019196084b645ec73257"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html#a73e72159437d019196084b645ec73257">Tgstation.Server.Host.Utils.IApiHeadersProvider.HeadersException</a></div><div class="ttdeci">HeadersException? HeadersException</div><div class="ttdoc">The Api.HeadersException thrown when attempting to parse the ApiHeaders if any.</div><div class="ttdef"><b>Definition</b> <a href="_i_api_headers_provider_8cs_source.html#l00018">IApiHeadersProvider.cs:18</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition</b> <a href="_error_code_8cs_source.html#l00011">ErrorCode.cs:12</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_authority_html_a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Tgstation.Server.Host.Authority.PermissionSetLookupType.Id</a></div><div class="ttdeci">@ Id</div><div class="ttdoc">Lookup the Api.Models.EntityId.Id of the Models.PermissionSet.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_i_api_headers_provider_8cs_source.html#l00013">Tgstation.Server.Host.Utils.IApiHeadersProvider.ApiHeaders</a>, <a class="el" href="_login_authority_8cs_source.html#l00029">Tgstation.Server.Host.Authority.LoginAuthority.apiHeadersProvider</a>, <a class="el" href="_login_authority_8cs_source.html#l00291">Tgstation.Server.Host.Authority.LoginAuthority.CacheSystemIdentity()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16">Tgstation.Server.Host.Models.User.CanonicalizeName()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac23fd656dc42cf07e64a62844f8bcfbc">Tgstation.Server.Host.Security.ICryptographySuite.CheckUserPassword()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a1484aa5361ad7005e1d53606b17f4e9e">Tgstation.Server.Host.Security.ISystemIdentityFactory.CreateSystemIdentity()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a985633f0c977dad0c2979764d1000598">Tgstation.Server.Host.Security.ITokenFactory.CreateToken()</a>, <a class="el" href="_login_authority_8cs_source.html#l00049">Tgstation.Server.Host.Authority.LoginAuthority.cryptographySuite</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a51518b11bebba6f78a360d8b45ce1fab">Tgstation.Server.Host.Authority.LoginAuthority.GenerateHeadersExceptionResponse()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a35df5b32c769e3c6f01ae709e3221694">Tgstation.Server.Host.Security.OAuth.IOAuthProviders.GetValidator()</a>, <a class="el" href="_i_api_headers_provider_8cs_source.html#l00018">Tgstation.Server.Host.Utils.IApiHeadersProvider.HeadersException</a>, <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Tgstation.Server.Host.Authority.Id</a>, <a class="el" href="_authority_base_8cs_source.html#l00033">Tgstation.Server.Host.Authority.Core.AuthorityBase.Logger</a>, <a class="el" href="_login_authority_8cs_source.html#l00039">Tgstation.Server.Host.Authority.LoginAuthority.oAuthProviders</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save()</a>, <a class="el" href="_login_authority_8cs_source.html#l00082">Tgstation.Server.Host.Authority.LoginAuthority.SelectUserInfoFromQuery()</a>, <a class="el" href="_login_authority_8cs_source.html#l00059">Tgstation.Server.Host.Authority.LoginAuthority.sessionInvalidationTracker</a>, <a class="el" href="_login_authority_8cs_source.html#l00034">Tgstation.Server.Host.Authority.LoginAuthority.systemIdentityFactory</a>, <a class="el" href="_models_2_user_8cs_source.html#l00021">Tgstation.Server.Host.Models.User.TgsSystemUserName</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ae966a7ee34ef9b33c28f1d8ac6c631ef">Tgstation.Server.Host.Models.User.ToApi()</a>, <a class="el" href="_login_authority_8cs_source.html#l00044">Tgstation.Server.Host.Authority.LoginAuthority.tokenFactory</a>, <a class="el" href="_i_system_identity_8cs_source.html#l00015">Tgstation.Server.Host.Security.ISystemIdentity.Uid</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_session_invalidation_tracker.html#a8d0fb292e7b1fc5f0659014ced9a2a14">Tgstation.Server.Host.Security.ISessionInvalidationTracker.UserModifiedInvalidateSessions()</a>, <a class="el" href="_i_system_identity_8cs_source.html#l00020">Tgstation.Server.Host.Security.ISystemIdentity.Username</a>, and <a class="el" href="_database_context_8cs_source.html#l00029">Tgstation.Server.Host.Database.DatabaseContext.Users</a>.</p>
+<p class="reference">References <a class="el" href="_i_api_headers_provider_8cs_source.html#l00013">Tgstation.Server.Host.Utils.IApiHeadersProvider.ApiHeaders</a>, <a class="el" href="_login_authority_8cs_source.html#l00029">Tgstation.Server.Host.Authority.LoginAuthority.apiHeadersProvider</a>, <a class="el" href="_login_authority_8cs_source.html#l00298">Tgstation.Server.Host.Authority.LoginAuthority.CacheSystemIdentity()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16">Tgstation.Server.Host.Models.User.CanonicalizeName()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac23fd656dc42cf07e64a62844f8bcfbc">Tgstation.Server.Host.Security.ICryptographySuite.CheckUserPassword()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a1484aa5361ad7005e1d53606b17f4e9e">Tgstation.Server.Host.Security.ISystemIdentityFactory.CreateSystemIdentity()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a985633f0c977dad0c2979764d1000598">Tgstation.Server.Host.Security.ITokenFactory.CreateToken()</a>, <a class="el" href="_login_authority_8cs_source.html#l00049">Tgstation.Server.Host.Authority.LoginAuthority.cryptographySuite</a>, <a class="el" href="_i_api_headers_provider_8cs_source.html#l00018">Tgstation.Server.Host.Utils.IApiHeadersProvider.HeadersException</a>, <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Tgstation.Server.Host.Authority.Id</a>, <a class="el" href="_authority_base_8cs_source.html#l00033">Tgstation.Server.Host.Authority.Core.AuthorityBase.Logger</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save()</a>, <a class="el" href="_login_authority_8cs_source.html#l00083">Tgstation.Server.Host.Authority.LoginAuthority.SelectUserInfoFromQuery()</a>, <a class="el" href="_login_authority_8cs_source.html#l00059">Tgstation.Server.Host.Authority.LoginAuthority.sessionInvalidationTracker</a>, <a class="el" href="_login_authority_8cs_source.html#l00034">Tgstation.Server.Host.Authority.LoginAuthority.systemIdentityFactory</a>, <a class="el" href="_models_2_user_8cs_source.html#l00021">Tgstation.Server.Host.Models.User.TgsSystemUserName</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ae966a7ee34ef9b33c28f1d8ac6c631ef">Tgstation.Server.Host.Models.User.ToApi()</a>, <a class="el" href="_login_authority_8cs_source.html#l00044">Tgstation.Server.Host.Authority.LoginAuthority.tokenFactory</a>, <a class="el" href="_i_system_identity_8cs_source.html#l00015">Tgstation.Server.Host.Security.ISystemIdentity.Uid</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_session_invalidation_tracker.html#a8d0fb292e7b1fc5f0659014ced9a2a14">Tgstation.Server.Host.Security.ISessionInvalidationTracker.UserModifiedInvalidateSessions()</a>, <a class="el" href="_i_system_identity_8cs_source.html#l00020">Tgstation.Server.Host.Security.ISystemIdentity.Username</a>, and <a class="el" href="_database_context_8cs_source.html#l00029">Tgstation.Server.Host.Database.DatabaseContext.Users</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a56db9647140a1a43ebab0642e99a35b6_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a56db9647140a1a43ebab0642e99a35b6_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a56db9647140a1a43ebab0642e99a35b6_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a56db9647140a1a43ebab0642e99a35b6_cgraph">
-<area shape="rect" title="Attempt to login to the server with the current crentials.A ValueTask&lt;TResult&gt; resulting in a LoginRe..." alt="" coords="5,417,210,458"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a66306f94bac8b1db1ab289f57478172b" title="Add a given systemIdentity &#160;to the identityCache." alt="" coords="275,71,506,111"/>
-<area shape="poly" title=" " alt="" coords="110,416,124,358,150,278,170,236,194,194,222,156,256,122,262,118,265,122,259,126,226,159,198,197,175,238,155,280,129,359,115,417"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="293,136,488,177"/>
-<area shape="poly" title=" " alt="" coords="113,416,130,369,160,307,201,242,227,213,256,188,277,175,280,180,259,192,231,217,205,246,164,309,135,371,118,418"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac23fd656dc42cf07e64a62844f8bcfbc" title="Checks a given password &#160;matches a given user &#39;s User.PasswordHash. This may result in User...." alt="" coords="262,201,519,242"/>
-<area shape="poly" title=" " alt="" coords="117,415,138,380,169,335,209,290,256,251,264,247,267,251,259,256,213,293,174,338,143,382,122,418"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a1484aa5361ad7005e1d53606b17f4e9e" title="Create a ISystemIdentity for a given user ." alt="" coords="271,266,510,322"/>
-<area shape="poly" title=" " alt="" coords="132,415,187,373,256,331,269,325,272,330,259,336,190,378,135,419"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a985633f0c977dad0c2979764d1000598" title="Create a TokenResponse for a given user ." alt="" coords="290,345,491,386"/>
-<area shape="poly" title=" " alt="" coords="185,414,257,395,286,388,288,393,258,400,186,419"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a51518b11bebba6f78a360d8b45ce1fab" title="Generate an AuthorityResponse&lt;TResult&gt; for a given headersException ." alt="" coords="258,410,523,466"/>
-<area shape="poly" title=" " alt="" coords="210,435,242,435,242,440,210,440"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a35df5b32c769e3c6f01ae709e3221694" title="Gets the IOAuthValidator for a given oAuthProvider ." alt="" coords="274,489,507,530"/>
-<area shape="poly" title=" " alt="" coords="186,456,258,475,288,483,286,488,257,480,185,461"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="286,555,495,595"/>
-<area shape="poly" title=" " alt="" coords="134,456,189,498,223,520,259,539,277,547,275,552,257,544,220,525,186,503,131,460"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ab1ed76568a53f00a51e8f8180c8fd6ec" title="Select the details needed to generate a TokenResponse from a given query ." alt="" coords="261,620,520,661"/>
-<area shape="poly" title=" " alt="" coords="123,457,145,490,176,530,215,571,259,605,270,611,268,616,256,609,211,575,172,533,141,493,119,460"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ae966a7ee34ef9b33c28f1d8ac6c631ef" title=" " alt="" coords="293,685,488,726"/>
-<area shape="poly" title=" " alt="" coords="118,458,137,502,166,560,207,620,232,647,259,670,280,682,277,687,256,675,228,651,203,623,162,563,132,505,114,460"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_session_invalidation_tracker.html#a8d0fb292e7b1fc5f0659014ced9a2a14" title="Invalidate all sessions for a given user ." alt="" coords="260,750,521,806"/>
-<area shape="poly" title=" " alt="" coords="116,458,131,513,158,588,177,628,200,667,228,704,259,736,263,739,260,743,256,740,224,707,196,670,173,631,153,590,125,515,111,459"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#ab65ca85c86ab06d4aa3d90f3db2c0f32" title="Keep a user &#39;s systemIdentity &#160;alive until an expiry &#160;time." alt="" coords="588,5,818,46"/>
-<area shape="poly" title=" " alt="" coords="491,67,587,47,588,52,492,73"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a8fc39cb31c7d4490f8fefe71c936aa12" title="Parses the Bearer as a JsonWebToken." alt="" coords="586,71,820,111"/>
-<area shape="poly" title=" " alt="" coords="506,88,571,88,571,94,506,94"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html#a11a28bb37a560879cba3bbec9a5a0f81" title=" " alt="" coords="571,136,835,177"/>
-<area shape="poly" title=" " alt="" coords="492,109,588,130,587,135,491,115"/>
+<area shape="rect" title="Attempt to login to the server with the current Basic or OAuth credentials.A ValueTask&lt;TResult&gt; resul..." alt="" coords="5,345,210,386"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a66306f94bac8b1db1ab289f57478172b" title="Add a given systemIdentity &#160;to the identityCache." alt="" coords="273,71,504,111"/>
+<area shape="poly" title=" " alt="" coords="113,344,131,298,161,238,202,175,228,147,256,122,264,117,267,121,259,126,231,151,206,179,165,240,136,300,118,346"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="291,136,486,177"/>
+<area shape="poly" title=" " alt="" coords="118,344,140,310,171,267,210,224,256,187,275,177,278,182,259,192,214,228,175,271,144,313,122,347"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac23fd656dc42cf07e64a62844f8bcfbc" title="Checks a given password &#160;matches a given user &#39;s User.PasswordHash. This may result in User...." alt="" coords="260,201,517,242"/>
+<area shape="poly" title=" " alt="" coords="129,343,184,296,219,272,256,251,270,245,272,250,259,256,222,277,187,301,132,347"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a1484aa5361ad7005e1d53606b17f4e9e" title="Create a ISystemIdentity for a given user ." alt="" coords="269,266,508,322"/>
+<area shape="poly" title=" " alt="" coords="189,342,262,323,263,329,190,347"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a985633f0c977dad0c2979764d1000598" title="Create a TokenResponse for a given user ." alt="" coords="288,345,489,386"/>
+<area shape="poly" title=" " alt="" coords="210,363,273,363,273,368,210,368"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="284,411,493,451"/>
+<area shape="poly" title=" " alt="" coords="199,384,284,404,282,409,197,389"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#ab1ed76568a53f00a51e8f8180c8fd6ec" title="Select the details needed to generate a TokenResponse from a given query ." alt="" coords="259,476,518,517"/>
+<area shape="poly" title=" " alt="" coords="136,384,191,423,259,461,278,468,276,473,257,465,188,428,133,389"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ae966a7ee34ef9b33c28f1d8ac6c631ef" title=" " alt="" coords="291,541,486,582"/>
+<area shape="poly" title=" " alt="" coords="124,385,177,455,215,493,259,526,277,535,275,540,256,531,212,497,173,458,120,388"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_session_invalidation_tracker.html#a8d0fb292e7b1fc5f0659014ced9a2a14" title="Invalidate all sessions for a given user ." alt="" coords="258,606,519,662"/>
+<area shape="poly" title=" " alt="" coords="119,385,138,429,168,484,209,542,233,568,259,592,265,595,262,600,256,596,229,572,204,545,164,487,133,431,114,388"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#ab65ca85c86ab06d4aa3d90f3db2c0f32" title="Keep a user &#39;s systemIdentity &#160;alive until an expiry &#160;time." alt="" coords="584,5,814,46"/>
+<area shape="poly" title=" " alt="" coords="488,67,584,47,585,52,489,73"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a8fc39cb31c7d4490f8fefe71c936aa12" title="Parses the Bearer as a JsonWebToken." alt="" coords="582,71,816,111"/>
+<area shape="poly" title=" " alt="" coords="504,88,567,88,567,94,504,94"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html#a11a28bb37a560879cba3bbec9a5a0f81" title=" " alt="" coords="567,136,831,177"/>
+<area shape="poly" title=" " alt="" coords="489,109,585,130,584,135,488,115"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="ad7110be411244769c94a0cf3d31770da" name="ad7110be411244769c94a0cf3d31770da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7110be411244769c94a0cf3d31770da">&#9670;&#160;</a></span>AttemptOAuthGatewayLogin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_o_auth_gateway_login_result.html">OAuthGatewayLoginResult</a> &gt; &gt; Tgstation.Server.Host.Authority.LoginAuthority.AttemptOAuthGatewayLogin </td>
+          <td>(</td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Attempt to login to an OAuth service with the current OAuth credentials.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in an OAuthGatewayLoginResult AuthorityResponse&lt;TResult&gt;.</dd></dl>
+ </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_login_authority.html#af6470f6db8ab576a020ad40f9b7dc280">Tgstation.Server.Host.Authority.ILoginAuthority</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00268">268</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  269</span>        {</div>
+<div class="line"><span class="lineno">  270</span>            var headers = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a2b86ce48d340a702b3c7b901e023974c">apiHeadersProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html#a479fc84909e81d756d193308ff2c0c78">ApiHeaders</a>;</div>
+<div class="line"><span class="lineno">  271</span>            <span class="keywordflow">if</span> (headers == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  272</span>                <span class="keywordflow">return</span> GenerateHeadersExceptionResponse&lt;OAuthGatewayLoginResult&gt;(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a2b86ce48d340a702b3c7b901e023974c">apiHeadersProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html#a73e72159437d019196084b645ec73257">HeadersException</a>!);</div>
+<div class="line"><span class="lineno">  273</span> </div>
+<div class="line"><span class="lineno">  274</span>            var oAuthProvider = headers.OAuthProvider;</div>
+<div class="line"><span class="lineno">  275</span>            <span class="keywordflow">if</span> (!oAuthProvider.HasValue)</div>
+<div class="line"><span class="lineno">  276</span>                <span class="keywordflow">return</span> BadRequest&lt;OAuthGatewayLoginResult&gt;(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.BadHeaders);</div>
+<div class="line"><span class="lineno">  277</span> </div>
+<div class="line"><span class="lineno">  278</span>            var (errorResponse, oAuthResult) = await TryOAuthenticate&lt;OAuthGatewayLoginResult&gt;(headers, oAuthProvider.Value, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  279</span>            <span class="keywordflow">if</span> (errorResponse != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  280</span>                <span class="keywordflow">return</span> errorResponse;</div>
+<div class="line"><span class="lineno">  281</span> </div>
+<div class="line"><span class="lineno">  282</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ac08240a96d7175f7af6966c3922593a3">Logger</a>.LogDebug(<span class="stringliteral">&quot;Generated {provider} OAuth AccessCode&quot;</span>, oAuthProvider.Value);</div>
+<div class="line"><span class="lineno">  283</span> </div>
+<div class="line"><span class="lineno">  284</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse&lt;OAuthGatewayLoginResult&gt;</a>(</div>
+<div class="line"><span class="lineno">  285</span>                <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_o_auth_gateway_login_result.html">OAuthGatewayLoginResult</a></div>
+<div class="line"><span class="lineno">  286</span>                {</div>
+<div class="line"><span class="lineno">  287</span>                    AccessCode = oAuthResult!.Value.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_o_auth_gateway_login_result.html#a16688336dce3444c2de600b1472c1566">AccessCode</a>,</div>
+<div class="line"><span class="lineno">  288</span>                });</div>
+<div class="line"><span class="lineno">  289</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_o_auth_gateway_login_result_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_o_auth_gateway_login_result.html">Tgstation.Server.Host.GraphQL.Mutations.Payloads.OAuthGatewayLoginResult</a></div><div class="ttdoc">Success result for an OAuth gateway login attempt.</div><div class="ttdef"><b>Definition</b> <a href="_o_auth_gateway_login_result_8cs_source.html#l00011">OAuthGatewayLoginResult.cs:12</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_o_auth_gateway_login_result_html_a16688336dce3444c2de600b1472c1566"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_o_auth_gateway_login_result.html#a16688336dce3444c2de600b1472c1566">Tgstation.Server.Host.GraphQL.Mutations.Payloads.OAuthGatewayLoginResult.AccessCode</a></div><div class="ttdeci">required string AccessCode</div><div class="ttdoc">The user's access token for the requested OAuth service.</div><div class="ttdef"><b>Definition</b> <a href="_o_auth_gateway_login_result_8cs_source.html#l00016">OAuthGatewayLoginResult.cs:16</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_o_auth_gateway_login_result_8cs_source.html#l00016">Tgstation.Server.Host.GraphQL.Mutations.Payloads.OAuthGatewayLoginResult.AccessCode</a>, <a class="el" href="_i_api_headers_provider_8cs_source.html#l00013">Tgstation.Server.Host.Utils.IApiHeadersProvider.ApiHeaders</a>, <a class="el" href="_login_authority_8cs_source.html#l00029">Tgstation.Server.Host.Authority.LoginAuthority.apiHeadersProvider</a>, <a class="el" href="_i_api_headers_provider_8cs_source.html#l00018">Tgstation.Server.Host.Utils.IApiHeadersProvider.HeadersException</a>, and <a class="el" href="_authority_base_8cs_source.html#l00033">Tgstation.Server.Host.Authority.Core.AuthorityBase.Logger</a>.</p>
 
 </div>
 </div>
@@ -644,14 +689,14 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00291">291</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  292</span>        {</div>
-<div class="line"><span class="lineno">  293</span>            <span class="comment">// expire the identity slightly after the auth token in case of lag</span></div>
-<div class="line"><span class="lineno">  294</span>            var identExpiry = loginPayload.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html#a11a28bb37a560879cba3bbec9a5a0f81">ToApi</a>().<a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a8fc39cb31c7d4490f8fefe71c936aa12">ParseJwt</a>().ValidTo;</div>
-<div class="line"><span class="lineno">  295</span>            identExpiry += <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#aecd1a7c948ab3d4860a620635a040e59">tokenFactory</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a46e66985719064cffa8b569830a3712f">ValidationParameters</a>.ClockSkew;</div>
-<div class="line"><span class="lineno">  296</span>            identExpiry += TimeSpan.FromSeconds(15);</div>
-<div class="line"><span class="lineno">  297</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a74aaa451f13da9508da4b5bce4b5b913">identityCache</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#ab65ca85c86ab06d4aa3d90f3db2c0f32">CacheSystemIdentity</a>(user, systemIdentity!, identExpiry);</div>
-<div class="line"><span class="lineno">  298</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00298">298</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  299</span>        {</div>
+<div class="line"><span class="lineno">  300</span>            <span class="comment">// expire the identity slightly after the auth token in case of lag</span></div>
+<div class="line"><span class="lineno">  301</span>            var identExpiry = loginPayload.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html#a11a28bb37a560879cba3bbec9a5a0f81">ToApi</a>().<a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a8fc39cb31c7d4490f8fefe71c936aa12">ParseJwt</a>().ValidTo;</div>
+<div class="line"><span class="lineno">  302</span>            identExpiry += <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#aecd1a7c948ab3d4860a620635a040e59">tokenFactory</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a46e66985719064cffa8b569830a3712f">ValidationParameters</a>.ClockSkew;</div>
+<div class="line"><span class="lineno">  303</span>            identExpiry += TimeSpan.FromSeconds(15);</div>
+<div class="line"><span class="lineno">  304</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a74aaa451f13da9508da4b5bce4b5b913">identityCache</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#ab65ca85c86ab06d4aa3d90f3db2c0f32">CacheSystemIdentity</a>(user, systemIdentity!, identExpiry);</div>
+<div class="line"><span class="lineno">  305</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response_html_a8fc39cb31c7d4490f8fefe71c936aa12"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a8fc39cb31c7d4490f8fefe71c936aa12">Tgstation.Server.Api.Models.Response.TokenResponse.ParseJwt</a></div><div class="ttdeci">JsonWebToken ParseJwt()</div><div class="ttdoc">Parses the Bearer as a JsonWebToken.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result_html_a11a28bb37a560879cba3bbec9a5a0f81"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html#a11a28bb37a560879cba3bbec9a5a0f81">Tgstation.Server.Host.GraphQL.Mutations.Payloads.LoginResult.ToApi</a></div><div class="ttdeci">TokenResponse ToApi()</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache_html_ab65ca85c86ab06d4aa3d90f3db2c0f32"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#ab65ca85c86ab06d4aa3d90f3db2c0f32">Tgstation.Server.Host.Security.IIdentityCache.CacheSystemIdentity</a></div><div class="ttdeci">ValueTask CacheSystemIdentity(User user, ISystemIdentity systemIdentity, DateTimeOffset expiry)</div><div class="ttdoc">Keep a user 's systemIdentity  alive until an expiry  time.</div></div>
@@ -659,7 +704,7 @@ Here is the call graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#ab65ca85c86ab06d4aa3d90f3db2c0f32">Tgstation.Server.Host.Security.IIdentityCache.CacheSystemIdentity()</a>, <a class="el" href="_login_authority_8cs_source.html#l00054">Tgstation.Server.Host.Authority.LoginAuthority.identityCache</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a8fc39cb31c7d4490f8fefe71c936aa12">Tgstation.Server.Api.Models.Response.TokenResponse.ParseJwt()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html#a11a28bb37a560879cba3bbec9a5a0f81">Tgstation.Server.Host.GraphQL.Mutations.Payloads.LoginResult.ToApi()</a>, <a class="el" href="_login_authority_8cs_source.html#l00044">Tgstation.Server.Host.Authority.LoginAuthority.tokenFactory</a>, and <a class="el" href="_i_token_factory_8cs_source.html#l00022">Tgstation.Server.Host.Security.ITokenFactory.ValidationParameters</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00134">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00135">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -680,15 +725,15 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a66306f94bac8b1db1ab289f57478172b_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a66306f94bac8b1db1ab289f57478172b_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a66306f94bac8b1db1ab289f57478172b_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a66306f94bac8b1db1ab289f57478172b_icgraph">
 <area shape="rect" title="Add a given systemIdentity &#160;to the identityCache." alt="" coords="258,5,488,46"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a56db9647140a1a43ebab0642e99a35b6" title="Attempt to login to the server with the current crentials.A ValueTask&lt;TResult&gt; resulting in a LoginRe..." alt="" coords="5,5,210,46"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a56db9647140a1a43ebab0642e99a35b6" title="Attempt to login to the server with the current Basic or OAuth credentials.A ValueTask&lt;TResult&gt; resul..." alt="" coords="5,5,210,46"/>
 <area shape="poly" title=" " alt="" coords="242,28,210,28,210,23,242,23"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a51518b11bebba6f78a360d8b45ce1fab" name="a51518b11bebba6f78a360d8b45ce1fab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51518b11bebba6f78a360d8b45ce1fab">&#9670;&#160;</a></span>GenerateHeadersExceptionResponse()</h2>
+<a id="ac8b4de51f54c236e18dc9ed5b90abced" name="ac8b4de51f54c236e18dc9ed5b90abced"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8b4de51f54c236e18dc9ed5b90abced">&#9670;&#160;</a></span>GenerateHeadersExceptionResponse&lt; TResult &gt;()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -697,7 +742,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_payloads_1_1_login_result.html">LoginResult</a> &gt; Tgstation.Server.Host.Authority.LoginAuthority.GenerateHeadersExceptionResponse </td>
+          <td class="memname">static <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; TResult &gt; Tgstation.Server.Host.Authority.LoginAuthority.GenerateHeadersExceptionResponse&lt; TResult &gt; </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html">HeadersException</a>&#160;</td>
           <td class="paramname"><em>headersException</em></td><td>)</td>
@@ -712,6 +757,12 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Generate an AuthorityResponse&lt;TResult&gt; for a given <em>headersException</em> . </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TResult</td><td>The Type of AuthorityResponse&lt;TResult&gt; to generate.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">headersException</td><td>The HeadersException to generate a response for.</td></tr>
@@ -721,18 +772,6 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A new, errored LoginResult AuthorityResponse&lt;TResult&gt;.</dd></dl>
 
 <p class="reference">References <a class="el" href="_error_message_response_8cs_source.html#l00021">Tgstation.Server.Api.Models.Response.ErrorMessageResponse.Message</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00134">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a51518b11bebba6f78a360d8b45ce1fab_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a51518b11bebba6f78a360d8b45ce1fab_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a51518b11bebba6f78a360d8b45ce1fab_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a51518b11bebba6f78a360d8b45ce1fab_icgraph">
-<area shape="rect" title="Generate an AuthorityResponse&lt;TResult&gt; for a given headersException ." alt="" coords="258,5,523,61"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a56db9647140a1a43ebab0642e99a35b6" title="Attempt to login to the server with the current crentials.A ValueTask&lt;TResult&gt; resulting in a LoginRe..." alt="" coords="5,13,210,54"/>
-<area shape="poly" title=" " alt="" coords="242,36,210,36,210,31,242,31"/>
-</map>
-</div>
 
 </div>
 </div>
@@ -780,28 +819,146 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the User returned after selecting, if any.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00082">82</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   83</span>        {</div>
-<div class="line"><span class="lineno">   84</span>            var users = await query</div>
-<div class="line"><span class="lineno">   85</span>                .ToListAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>            <span class="comment">// Pick the DB user first</span></div>
-<div class="line"><span class="lineno">   88</span>            var user = users</div>
-<div class="line"><span class="lineno">   89</span>                .OrderByDescending(dbUser =&gt; dbUser.SystemIdentifier == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   90</span>                .FirstOrDefault();</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>            <span class="keywordflow">return</span> user;</div>
-<div class="line"><span class="lineno">   93</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00083">83</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   84</span>        {</div>
+<div class="line"><span class="lineno">   85</span>            var users = await query</div>
+<div class="line"><span class="lineno">   86</span>                .ToListAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">   87</span> </div>
+<div class="line"><span class="lineno">   88</span>            <span class="comment">// Pick the DB user first</span></div>
+<div class="line"><span class="lineno">   89</span>            var user = users</div>
+<div class="line"><span class="lineno">   90</span>                .OrderByDescending(dbUser =&gt; dbUser.SystemIdentifier == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   91</span>                .FirstOrDefault();</div>
+<div class="line"><span class="lineno">   92</span> </div>
+<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">return</span> user;</div>
+<div class="line"><span class="lineno">   94</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00134">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00135">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_ab1ed76568a53f00a51e8f8180c8fd6ec_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_ab1ed76568a53f00a51e8f8180c8fd6ec_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_ab1ed76568a53f00a51e8f8180c8fd6ec_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_ab1ed76568a53f00a51e8f8180c8fd6ec_icgraph">
 <area shape="rect" title="Select the details needed to generate a TokenResponse from a given query ." alt="" coords="258,5,516,46"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a56db9647140a1a43ebab0642e99a35b6" title="Attempt to login to the server with the current crentials.A ValueTask&lt;TResult&gt; resulting in a LoginRe..." alt="" coords="5,5,210,46"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a56db9647140a1a43ebab0642e99a35b6" title="Attempt to login to the server with the current Basic or OAuth credentials.A ValueTask&lt;TResult&gt; resul..." alt="" coords="5,5,210,46"/>
 <area shape="poly" title=" " alt="" coords="242,28,210,28,210,23,242,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a9692b47773844160e291c9fe12608e17" name="a9692b47773844160e291c9fe12608e17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9692b47773844160e291c9fe12608e17">&#9670;&#160;</a></span>TryOAuthenticate&lt; TResult &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">async ValueTask&lt;(<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; TResult &gt;? ErrorResponse,(string? UserID, string AccessCode)? OAuthResult)&gt; Tgstation.Server.Host.Authority.LoginAuthority.TryOAuthenticate&lt; TResult &gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>&#160;</td>
+          <td class="paramname"><em>headers</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>&#160;</td>
+          <td class="paramname"><em>oAuthProvider</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>forLogin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Attempt OAuth authentication. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TResult</td><td>The Type to use for errored AuthorityResponse&lt;TResult&gt;s.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">headers</td><td>The current ApiHeaders.</td></tr>
+    <tr><td class="paramname">oAuthProvider</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS.">OAuthProvider</a> to use.</td></tr>
+    <tr><td class="paramname">forLogin</td><td>If this is for a server login.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in an errored AuthorityResponse&lt;TResult&gt; on failure or the result of the call to <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#acc11a8eb251cb42da89da8c6aa05e7e4" title="Validate a given OAuth response code .">IOAuthValidator.ValidateResponseCode(string, bool, CancellationToken)</a> on success.</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00316">316</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  317</span>        {</div>
+<div class="line"><span class="lineno">  318</span>            (<span class="keywordtype">string</span>? UserID, <span class="keywordtype">string</span> AccessCode)? oauthResult;</div>
+<div class="line"><span class="lineno">  319</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  320</span>            {</div>
+<div class="line"><span class="lineno">  321</span>                var validator = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a5d8fc0a81511213423afb699e3c29064">oAuthProviders</a></div>
+<div class="line"><span class="lineno">  322</span>                    .<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#afeb0800595d048b7cbd35a87bcced8ee">GetValidator</a>(oAuthProvider, forLogin);</div>
+<div class="line"><span class="lineno">  323</span> </div>
+<div class="line"><span class="lineno">  324</span>                <span class="keywordflow">if</span> (validator == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  325</span>                    <span class="keywordflow">return</span> (<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ae13097278410832e7ed9f57fb7b7e808">BadRequest&lt;TResult&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.OAuthProviderDisabled), <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  326</span>                oauthResult = await validator</div>
+<div class="line"><span class="lineno">  327</span>                    .<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#acc11a8eb251cb42da89da8c6aa05e7e4">ValidateResponseCode</a>(headers.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a83843b09b15f9db25c73db6e2bd72db8">OAuthCode</a>!, forLogin, cancellationToken);</div>
+<div class="line"><span class="lineno">  328</span> </div>
+<div class="line"><span class="lineno">  329</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ac08240a96d7175f7af6966c3922593a3">Logger</a>.LogTrace(<span class="stringliteral">&quot;External {oAuthProvider} UID: {externalUserId}&quot;</span>, oAuthProvider, oauthResult);</div>
+<div class="line"><span class="lineno">  330</span>            }</div>
+<div class="line"><span class="lineno">  331</span>            <span class="keywordflow">catch</span> (Octokit.RateLimitExceededException ex)</div>
+<div class="line"><span class="lineno">  332</span>            {</div>
+<div class="line"><span class="lineno">  333</span>                <span class="keywordflow">return</span> (<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ab9c6b0d8eab4fc5c07bc5d2a64cb6db3">RateLimit&lt;TResult&gt;</a>(ex), <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  334</span>            }</div>
+<div class="line"><span class="lineno">  335</span> </div>
+<div class="line"><span class="lineno">  336</span>            <span class="keywordflow">if</span> (!oauthResult.HasValue)</div>
+<div class="line"><span class="lineno">  337</span>                <span class="keywordflow">return</span> (<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#aad46c8d84636ee4f88bd8808ed095f75">Unauthorized&lt;TResult&gt;</a>(), <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  338</span> </div>
+<div class="line"><span class="lineno">  339</span>            <span class="keywordflow">return</span> (<span class="keyword">null</span>, OAuthResult: oauthResult);</div>
+<div class="line"><span class="lineno">  340</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a83843b09b15f9db25c73db6e2bd72db8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a83843b09b15f9db25c73db6e2bd72db8">Tgstation.Server.Api.ApiHeaders.OAuthCode</a></div><div class="ttdeci">string? OAuthCode</div><div class="ttdoc">The OAuth code in use.</div><div class="ttdef"><b>Definition</b> <a href="_api_headers_8cs_source.html#l00119">ApiHeaders.cs:119</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base_html_aad46c8d84636ee4f88bd8808ed095f75"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#aad46c8d84636ee4f88bd8808ed095f75">Tgstation.Server.Host.Authority.Core.AuthorityBase.Unauthorized&lt; TResult &gt;</a></div><div class="ttdeci">static AuthorityResponse&lt; TResult &gt; Unauthorized&lt; TResult &gt;()</div><div class="ttdoc">Generates a HttpFailureResponse.Unauthorized type AuthorityResponse&lt;TResult&gt;.</div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base_html_ab9c6b0d8eab4fc5c07bc5d2a64cb6db3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ab9c6b0d8eab4fc5c07bc5d2a64cb6db3">Tgstation.Server.Host.Authority.Core.AuthorityBase.RateLimit&lt; TResult &gt;</a></div><div class="ttdeci">AuthorityResponse&lt; TResult &gt; RateLimit&lt; TResult &gt;(RateLimitExceededException rateLimitException)</div><div class="ttdoc">Generates a HttpFailureResponse.RateLimited type AuthorityResponse.</div><div class="ttdef"><b>Definition</b> <a href="_authority_base_8cs_source.html#l00119">AuthorityBase.cs:119</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base_html_ae13097278410832e7ed9f57fb7b7e808"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ae13097278410832e7ed9f57fb7b7e808">Tgstation.Server.Host.Authority.Core.AuthorityBase.BadRequest&lt; TResult &gt;</a></div><div class="ttdeci">static AuthorityResponse&lt; TResult &gt; BadRequest&lt; TResult &gt;(ErrorCode errorCode)</div><div class="ttdoc">Generates a HttpFailureResponse.BadRequest type AuthorityResponse&lt;TResult&gt;.</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers_html_afeb0800595d048b7cbd35a87bcced8ee"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#afeb0800595d048b7cbd35a87bcced8ee">Tgstation.Server.Host.Security.OAuth.IOAuthProviders.GetValidator</a></div><div class="ttdeci">IOAuthValidator? GetValidator(OAuthProvider oAuthProvider, bool forLogin)</div><div class="ttdoc">Gets the IOAuthValidator for a given oAuthProvider .</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator_html_acc11a8eb251cb42da89da8c6aa05e7e4"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#acc11a8eb251cb42da89da8c6aa05e7e4">Tgstation.Server.Host.Security.OAuth.IOAuthValidator.ValidateResponseCode</a></div><div class="ttdeci">ValueTask&lt;(string? UserID, string AccessCode)?&gt; ValidateResponseCode(string code, bool requireUserID, CancellationToken cancellationToken)</div><div class="ttdoc">Validate a given OAuth response code .</div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ae13097278410832e7ed9f57fb7b7e808">Tgstation.Server.Host.Authority.Core.AuthorityBase.BadRequest&lt; TResult &gt;()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#afeb0800595d048b7cbd35a87bcced8ee">Tgstation.Server.Host.Security.OAuth.IOAuthProviders.GetValidator()</a>, <a class="el" href="_authority_base_8cs_source.html#l00033">Tgstation.Server.Host.Authority.Core.AuthorityBase.Logger</a>, <a class="el" href="_api_headers_8cs_source.html#l00119">Tgstation.Server.Api.ApiHeaders.OAuthCode</a>, <a class="el" href="_login_authority_8cs_source.html#l00039">Tgstation.Server.Host.Authority.LoginAuthority.oAuthProviders</a>, <a class="el" href="_authority_base_8cs_source.html#l00119">Tgstation.Server.Host.Authority.Core.AuthorityBase.RateLimit&lt; TResult &gt;()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#aad46c8d84636ee4f88bd8808ed095f75">Tgstation.Server.Host.Authority.Core.AuthorityBase.Unauthorized&lt; TResult &gt;()</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#acc11a8eb251cb42da89da8c6aa05e7e4">Tgstation.Server.Host.Security.OAuth.IOAuthValidator.ValidateResponseCode()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a9692b47773844160e291c9fe12608e17_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a9692b47773844160e291c9fe12608e17_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a9692b47773844160e291c9fe12608e17_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority_a9692b47773844160e291c9fe12608e17_cgraph">
+<area shape="rect" title="Attempt OAuth authentication." alt="" coords="5,149,214,205"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ae13097278410832e7ed9f57fb7b7e808" title="Generates a HttpFailureResponse.BadRequest type AuthorityResponse&lt;TResult&gt;." alt="" coords="304,5,511,61"/>
+<area shape="poly" title=" " alt="" coords="143,147,197,108,260,71,288,59,290,64,263,76,199,112,146,151"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#afeb0800595d048b7cbd35a87bcced8ee" title="Gets the IOAuthValidator for a given oAuthProvider ." alt="" coords="291,85,524,126"/>
+<area shape="poly" title=" " alt="" coords="213,147,261,135,293,127,295,132,262,140,215,152"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ab9c6b0d8eab4fc5c07bc5d2a64cb6db3" title="Generates a HttpFailureResponse.RateLimited type AuthorityResponse." alt="" coords="305,149,510,205"/>
+<area shape="poly" title=" " alt="" coords="214,175,289,175,289,180,214,180"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#aad46c8d84636ee4f88bd8808ed095f75" title="Generates a HttpFailureResponse.Unauthorized type AuthorityResponse&lt;TResult&gt;." alt="" coords="302,229,513,285"/>
+<area shape="poly" title=" " alt="" coords="215,203,287,222,286,227,213,208"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#acc11a8eb251cb42da89da8c6aa05e7e4" title="Validate a given OAuth response code ." alt="" coords="262,309,553,350"/>
+<area shape="poly" title=" " alt="" coords="140,203,194,251,227,275,263,295,276,301,274,306,260,300,225,279,191,255,136,207"/>
 </map>
 </div>
 
@@ -832,7 +989,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00029">29</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00134">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00108">Tgstation.Server.Host.Authority.LoginAuthority.LoginAuthority()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00135">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, <a class="el" href="_login_authority_8cs_source.html#l00268">Tgstation.Server.Host.Authority.LoginAuthority.AttemptOAuthGatewayLogin()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00109">Tgstation.Server.Host.Authority.LoginAuthority.LoginAuthority()</a>.</p>
 
 </div>
 </div>
@@ -860,7 +1017,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00049">49</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00134">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00108">Tgstation.Server.Host.Authority.LoginAuthority.LoginAuthority()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00135">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00109">Tgstation.Server.Host.Authority.LoginAuthority.LoginAuthority()</a>.</p>
 
 </div>
 </div>
@@ -888,7 +1045,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00054">54</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00291">Tgstation.Server.Host.Authority.LoginAuthority.CacheSystemIdentity()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00108">Tgstation.Server.Host.Authority.LoginAuthority.LoginAuthority()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00298">Tgstation.Server.Host.Authority.LoginAuthority.CacheSystemIdentity()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00109">Tgstation.Server.Host.Authority.LoginAuthority.LoginAuthority()</a>.</p>
 
 </div>
 </div>
@@ -916,7 +1073,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00039">39</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00134">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00108">Tgstation.Server.Host.Authority.LoginAuthority.LoginAuthority()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00109">Tgstation.Server.Host.Authority.LoginAuthority.LoginAuthority()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00316">Tgstation.Server.Host.Authority.LoginAuthority.TryOAuthenticate&lt; TResult &gt;()</a>.</p>
 
 </div>
 </div>
@@ -944,7 +1101,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00059">59</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00134">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00108">Tgstation.Server.Host.Authority.LoginAuthority.LoginAuthority()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00135">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00109">Tgstation.Server.Host.Authority.LoginAuthority.LoginAuthority()</a>.</p>
 
 </div>
 </div>
@@ -972,7 +1129,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00034">34</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00134">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00108">Tgstation.Server.Host.Authority.LoginAuthority.LoginAuthority()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00135">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00109">Tgstation.Server.Host.Authority.LoginAuthority.LoginAuthority()</a>.</p>
 
 </div>
 </div>
@@ -1000,7 +1157,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_login_authority_8cs_source.html#l00044">44</a> of file <a class="el" href="_login_authority_8cs_source.html">LoginAuthority.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00134">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, <a class="el" href="_login_authority_8cs_source.html#l00291">Tgstation.Server.Host.Authority.LoginAuthority.CacheSystemIdentity()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00108">Tgstation.Server.Host.Authority.LoginAuthority.LoginAuthority()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00135">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, <a class="el" href="_login_authority_8cs_source.html#l00298">Tgstation.Server.Host.Authority.LoginAuthority.CacheSystemIdentity()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00109">Tgstation.Server.Host.Authority.LoginAuthority.LoginAuthority()</a>.</p>
 
 </div>
 </div>

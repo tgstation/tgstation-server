@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['effectivepermissionset_0',['EffectivePermissionSet',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user.html#abc07eec81c982a6884ffff6b85a2a6a9',1,'Tgstation::Server::Host::GraphQL::Types::User']]],
+  ['effectivepermissionset_0',['effectivepermissionset',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user.html#abc07eec81c982a6884ffff6b85a2a6a9',1,'Tgstation.Server.Host.GraphQL.Types.User.EffectivePermissionSet()'],['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_instance.html#a34083b35ae78c58a3461066de6ceff3e',1,'Tgstation.Server.Host.GraphQL.Types.Instance.EffectivePermissionSet()']]],
   ['encodeparameters_1',['EncodeParameters',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installation_base.html#a0993afa66850d7b7832ae721f29a20a6',1,'Tgstation::Server::Host::Components::Engine::EngineInstallationBase']]],
   ['engineclient_2',['EngineClient',['../class_tgstation_1_1_server_1_1_client_1_1_components_1_1_engine_client.html#a4a2d1b5c6fc6e672ea15c0cd15b49580',1,'Tgstation::Server::Client::Components::EngineClient']]],
   ['enginecommand_3',['EngineCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_engine_command.html#ad9f8823a5660d2282f2745269d73af9e',1,'Tgstation::Server::Host::Components::Chat::Commands::EngineCommand']]],

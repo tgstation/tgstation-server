@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.11.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -894,7 +894,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   22</span>                {</div>
 <div class="line"><span class="lineno">   23</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Id</a> = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">   24</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">   25</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   25</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32">Enabled</a> = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">   26</span>                    CreatedAt = table.Column&lt;DateTimeOffset&gt;(nullable: false),</div>
 <div class="line"><span class="lineno">   27</span>                    SystemIdentifier = table.Column&lt;string&gt;(nullable: true),</div>
 <div class="line"><span class="lineno">   28</span>                    Name = table.Column&lt;string&gt;(nullable: false),</div>
@@ -1014,7 +1014,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  142</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Id</a> = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">  143</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
 <div class="line"><span class="lineno">  144</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  145</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: true),</div>
+<div class="line"><span class="lineno">  145</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32">Enabled</a> = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: true),</div>
 <div class="line"><span class="lineno">  146</span>                    Provider = table.Column&lt;int&gt;(nullable: true),</div>
 <div class="line"><span class="lineno">  147</span>                    ConnectionString = table.Column&lt;string&gt;(nullable: false),</div>
 <div class="line"><span class="lineno">  148</span>                    InstanceId = table.Column&lt;long&gt;(nullable: false),</div>
@@ -1472,7 +1472,10 @@ Protected Member Functions</h2></td></tr>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_authority_html_a6055c0b2bf09442f677be3ed1eb725d5a4733e94f511132be01e92cc23c017d16"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a4733e94f511132be01e92cc23c017d16">Tgstation.Server.Host.Authority.PermissionSetLookupType.UserId</a></div><div class="ttdeci">@ UserId</div><div class="ttdoc">Lookup the Api.Models.EntityId.Id of the Models.PermissionSet.User.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_authority_html_a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Tgstation.Server.Host.Authority.PermissionSetLookupType.Id</a></div><div class="ttdeci">@ Id</div><div class="ttdoc">Lookup the Api.Models.EntityId.Id of the Models.PermissionSet.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_html_a3a9adb69be732dbd67aef59559f830c2"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a3a9adb69be732dbd67aef59559f830c2">Tgstation.Server.Host.Components.Session.RebootState</a></div><div class="ttdeci">RebootState</div><div class="ttdoc">Represents the action to take when /world/Reboot() is called.</div><div class="ttdef"><b>Definition</b> <a href="_reboot_state_8cs_source.html#l00006">RebootState.cs:7</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_html_a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32">Tgstation.Server.Host.OAuthGatewayStatus.Enabled</a></div><div class="ttdeci">@ Enabled</div><div class="ttdoc">The OAuth Gateway is enabled.</div></div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32">Tgstation.Server.Host.Enabled</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>

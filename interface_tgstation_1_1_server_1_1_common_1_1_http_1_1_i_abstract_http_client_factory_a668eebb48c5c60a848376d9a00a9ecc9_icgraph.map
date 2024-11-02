@@ -21,7 +21,7 @@
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="335,279,244,269,245,264,335,274"/>
 <area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a821ac265358e43b97a2449a6a6fb17d5" title="Notify the node of an update request from the controller.A ValueTask&lt;TResult&gt; resulting in true if th..." alt="" coords="5,301,287,342"/>
 <area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="335,305,287,310,287,305,335,300"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a943785d93215e437f552142951f53ba4" title="Validate a given OAuth response code .A ValueTask&lt;TResult&gt; resulting in null if authentication failed..." alt="" coords="636,429,880,484"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a7a7d27dd1f064d23a181e033567b41bd" title="Validate a given OAuth response code .A ValueTask&lt;TResult&gt; resulting in null if authentication failed..." alt="" coords="636,429,880,484"/>
 <area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="913,459,881,459,881,454,913,454"/>
 <area shape="poly" id="edge9_Node000009_Node000004" title=" " alt="" coords="627,268,573,276,572,271,626,262"/>
 <area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae8730853752e924741c38443a557c16f" title="Attempt to abort an uncommitted update.A ValueTask representing the running operation...." alt="" coords="661,103,855,143"/>

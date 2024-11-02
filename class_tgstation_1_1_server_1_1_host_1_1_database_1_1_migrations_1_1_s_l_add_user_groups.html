@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.11.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -1095,7 +1095,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  248</span>                {</div>
 <div class="line"><span class="lineno">  249</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Id</a> = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">  250</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  251</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  251</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32">Enabled</a> = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">  252</span>                    CreatedAt = table.Column&lt;DateTimeOffset&gt;(nullable: false),</div>
 <div class="line"><span class="lineno">  253</span>                    SystemIdentifier = table.Column&lt;string&gt;(nullable: true),</div>
 <div class="line"><span class="lineno">  254</span>                    Name = table.Column&lt;string&gt;(maxLength: 100, nullable: false),</div>
@@ -1159,7 +1159,10 @@ Protected Member Functions</h2></td></tr>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_authority_html_a6055c0b2bf09442f677be3ed1eb725d5a3c8708f5c9d6b5e01f7b224a34aacf55"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a3c8708f5c9d6b5e01f7b224a34aacf55">Tgstation.Server.Host.Authority.PermissionSetLookupType.GroupId</a></div><div class="ttdeci">@ GroupId</div><div class="ttdoc">Lookup the Api.Models.EntityId.Id of the Models.PermissionSet.Group.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_authority_html_a6055c0b2bf09442f677be3ed1eb725d5a4733e94f511132be01e92cc23c017d16"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a4733e94f511132be01e92cc23c017d16">Tgstation.Server.Host.Authority.PermissionSetLookupType.UserId</a></div><div class="ttdeci">@ UserId</div><div class="ttdoc">Lookup the Api.Models.EntityId.Id of the Models.PermissionSet.User.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_authority_html_a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Tgstation.Server.Host.Authority.PermissionSetLookupType.Id</a></div><div class="ttdeci">@ Id</div><div class="ttdoc">Lookup the Api.Models.EntityId.Id of the Models.PermissionSet.</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_html_a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32">Tgstation.Server.Host.OAuthGatewayStatus.Enabled</a></div><div class="ttdeci">@ Enabled</div><div class="ttdoc">The OAuth Gateway is enabled.</div></div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32">Tgstation.Server.Host.Enabled</a>.</p>
+
 </div>
 </div>
 <a id="abfe4e4eef5b2f0be8351e5f271684c47" name="abfe4e4eef5b2f0be8351e5f271684c47"></a>
@@ -1281,7 +1284,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  103</span>                {</div>
 <div class="line"><span class="lineno">  104</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Id</a> = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">  105</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  106</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  106</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32">Enabled</a> = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">  107</span>                    CreatedAt = table.Column&lt;DateTimeOffset&gt;(nullable: false),</div>
 <div class="line"><span class="lineno">  108</span>                    SystemIdentifier = table.Column&lt;string&gt;(nullable: true),</div>
 <div class="line"><span class="lineno">  109</span>                    Name = table.Column&lt;string&gt;(maxLength: 10000, nullable: false),</div>
@@ -1368,6 +1371,8 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  190</span>        }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a580a36a11165b2590be342b45c31ec72"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">Tgstation.Server.Api.Rights.ChatBotRights</a></div><div class="ttdeci">ChatBotRights</div><div class="ttdoc">Rights for chat bots.</div><div class="ttdef"><b>Definition</b> <a href="_chat_bot_rights_8cs_source.html#l00009">ChatBotRights.cs:10</a></div></div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32">Tgstation.Server.Host.Enabled</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>

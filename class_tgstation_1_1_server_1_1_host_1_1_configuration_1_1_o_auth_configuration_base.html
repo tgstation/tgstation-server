@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.11.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -114,6 +114,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a397dfdc2a5ed5e414093e9132a988840" id="r_a397dfdc2a5ed5e414093e9132a988840"><td class="memItemLeft" align="right" valign="top">string?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#a397dfdc2a5ed5e414093e9132a988840">ClientSecret</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a397dfdc2a5ed5e414093e9132a988840"><td class="mdescLeft">&#160;</td><td class="mdescRight">The client secret.  <br /></td></tr>
 <tr class="separator:a397dfdc2a5ed5e414093e9132a988840"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4ba5a56dcaf374663fc88576d48c639" id="r_ae4ba5a56dcaf374663fc88576d48c639"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308">OAuthGatewayStatus</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#ae4ba5a56dcaf374663fc88576d48c639">Gateway</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ae4ba5a56dcaf374663fc88576d48c639"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the OAuth setup is only to be used for passing the user's OAuth token to clients.  <br /></td></tr>
+<tr class="separator:ae4ba5a56dcaf374663fc88576d48c639"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base OAuth options. </p>
@@ -137,9 +140,9 @@ Properties</h2></td></tr>
 
 <p>Initializes a new instance of the OAuthConfigurationBase class. </p>
 
-<p class="definition">Definition at line <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00023">23</a> of file <a class="el" href="_o_auth_configuration_base_8cs_source.html">OAuthConfigurationBase.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   24</span>        {</div>
-<div class="line"><span class="lineno">   25</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00028">28</a> of file <a class="el" href="_o_auth_configuration_base_8cs_source.html">OAuthConfigurationBase.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   29</span>        {</div>
+<div class="line"><span class="lineno">   30</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -167,16 +170,18 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00031">31</a> of file <a class="el" href="_o_auth_configuration_base_8cs_source.html">OAuthConfigurationBase.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   32</span>        {</div>
-<div class="line"><span class="lineno">   33</span>            ArgumentNullException.ThrowIfNull(oAuthConfiguration);</div>
-<div class="line"><span class="lineno">   34</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#a8523441e7fcf0bd35a12ee828881e6be">ClientId</a> = oAuthConfiguration.ClientId;</div>
-<div class="line"><span class="lineno">   35</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#a397dfdc2a5ed5e414093e9132a988840">ClientSecret</a> = oAuthConfiguration.ClientSecret;</div>
-<div class="line"><span class="lineno">   36</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00036">36</a> of file <a class="el" href="_o_auth_configuration_base_8cs_source.html">OAuthConfigurationBase.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   37</span>        {</div>
+<div class="line"><span class="lineno">   38</span>            ArgumentNullException.ThrowIfNull(oAuthConfiguration);</div>
+<div class="line"><span class="lineno">   39</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#a8523441e7fcf0bd35a12ee828881e6be">ClientId</a> = oAuthConfiguration.ClientId;</div>
+<div class="line"><span class="lineno">   40</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#a397dfdc2a5ed5e414093e9132a988840">ClientSecret</a> = oAuthConfiguration.ClientSecret;</div>
+<div class="line"><span class="lineno">   41</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#ae4ba5a56dcaf374663fc88576d48c639">Gateway</a> = oAuthConfiguration.Gateway;</div>
+<div class="line"><span class="lineno">   42</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base_html_a397dfdc2a5ed5e414093e9132a988840"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#a397dfdc2a5ed5e414093e9132a988840">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.ClientSecret</a></div><div class="ttdeci">string? ClientSecret</div><div class="ttdoc">The client secret.</div><div class="ttdef"><b>Definition</b> <a href="_o_auth_configuration_base_8cs_source.html#l00018">OAuthConfigurationBase.cs:18</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base_html_a8523441e7fcf0bd35a12ee828881e6be"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#a8523441e7fcf0bd35a12ee828881e6be">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.ClientId</a></div><div class="ttdeci">string? ClientId</div><div class="ttdoc">The client ID.</div><div class="ttdef"><b>Definition</b> <a href="_o_auth_configuration_base_8cs_source.html#l00013">OAuthConfigurationBase.cs:13</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base_html_ae4ba5a56dcaf374663fc88576d48c639"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#ae4ba5a56dcaf374663fc88576d48c639">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.Gateway</a></div><div class="ttdeci">OAuthGatewayStatus? Gateway</div><div class="ttdoc">If the OAuth setup is only to be used for passing the user's OAuth token to clients.</div><div class="ttdef"><b>Definition</b> <a href="_o_auth_configuration_base_8cs_source.html#l00023">OAuthConfigurationBase.cs:23</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00013">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.ClientId</a>, and <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00018">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.ClientSecret</a>.</p>
+<p class="reference">References <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00013">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.ClientId</a>, <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00018">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.ClientSecret</a>, and <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00023">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.Gateway</a>.</p>
 
 </div>
 </div>
@@ -206,7 +211,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00013">13</a> of file <a class="el" href="_o_auth_configuration_base_8cs_source.html">OAuthConfigurationBase.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   13</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_git_hub_service_8cs_source.html#l00049">Tgstation.Server.Host.Utils.GitHub.GitHubService.CreateOAuthAccessToken()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a31d538da6326be9a2eaad2563dd29fdf">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.GetProviderInfo()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#abc12c5a99036b95a8a58c35660798146">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.GetProviderInfo()</a>, and <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00031">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.OAuthConfigurationBase()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_service_8cs_source.html#l00049">Tgstation.Server.Host.Utils.GitHub.GitHubService.CreateOAuthAccessToken()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a31d538da6326be9a2eaad2563dd29fdf">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.GetProviderInfo()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#abc12c5a99036b95a8a58c35660798146">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.GetProviderInfo()</a>, and <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00036">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.OAuthConfigurationBase()</a>.</p>
 
 </div>
 </div>
@@ -235,7 +240,36 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00018">18</a> of file <a class="el" href="_o_auth_configuration_base_8cs_source.html">OAuthConfigurationBase.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   18</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_git_hub_service_8cs_source.html#l00049">Tgstation.Server.Host.Utils.GitHub.GitHubService.CreateOAuthAccessToken()</a>, and <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00031">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.OAuthConfigurationBase()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_service_8cs_source.html#l00049">Tgstation.Server.Host.Utils.GitHub.GitHubService.CreateOAuthAccessToken()</a>, and <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00036">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.OAuthConfigurationBase()</a>.</p>
+
+</div>
+</div>
+<a id="ae4ba5a56dcaf374663fc88576d48c639" name="ae4ba5a56dcaf374663fc88576d48c639"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4ba5a56dcaf374663fc88576d48c639">&#9670;&#160;</a></span>Gateway</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308">OAuthGatewayStatus</a>? Tgstation.Server.Host.Configuration.OAuthConfigurationBase.Gateway</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If the OAuth setup is only to be used for passing the user's OAuth token to clients. </p>
+
+<p class="definition">Definition at line <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00023">23</a> of file <a class="el" href="_o_auth_configuration_base_8cs_source.html">OAuthConfigurationBase.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   23</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00036">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.OAuthConfigurationBase()</a>.</p>
 
 </div>
 </div>

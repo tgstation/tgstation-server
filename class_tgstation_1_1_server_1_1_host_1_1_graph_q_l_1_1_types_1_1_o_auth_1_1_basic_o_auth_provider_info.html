@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.11.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -110,6 +110,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a7b92bc1577ab497a1c1b31a0e8defcb8" id="r_a7b92bc1577ab497a1c1b31a0e8defcb8"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_basic_o_auth_provider_info.html#a7b92bc1577ab497a1c1b31a0e8defcb8">ClientID</a><code> [get]</code></td></tr>
 <tr class="memdesc:a7b92bc1577ab497a1c1b31a0e8defcb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The client ID.  <br /></td></tr>
 <tr class="separator:a7b92bc1577ab497a1c1b31a0e8defcb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a536ff975733850923c9b1f387b48b907" id="r_a536ff975733850923c9b1f387b48b907"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_basic_o_auth_provider_info.html#a536ff975733850923c9b1f387b48b907">GatewayOnly</a><code> [get]</code></td></tr>
+<tr class="memdesc:a536ff975733850923c9b1f387b48b907"><td class="mdescLeft">&#160;</td><td class="mdescRight">If <code>true</code> the OAuth provider can only be used for gateway authentication. If <code>false</code> the OAuth provider may be used for server logins or gateway authentication. If <code>null</code> the OAuth provider may only be used for server logins.  <br /></td></tr>
+<tr class="separator:a536ff975733850923c9b1f387b48b907"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Basic OAuth provider info. </p>
@@ -140,15 +143,18 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_basic_o_auth_provider_info_8cs_source.html#l00021">21</a> of file <a class="el" href="_basic_o_auth_provider_info_8cs_source.html">BasicOAuthProviderInfo.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   22</span>        {</div>
-<div class="line"><span class="lineno">   23</span>            ArgumentNullException.ThrowIfNull(providerInfo);</div>
-<div class="line"><span class="lineno">   24</span> </div>
-<div class="line"><span class="lineno">   25</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_basic_o_auth_provider_info.html#a7b92bc1577ab497a1c1b31a0e8defcb8">ClientID</a> = providerInfo.ClientId ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;ClientID not set!&quot;</span>);</div>
-<div class="line"><span class="lineno">   26</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_basic_o_auth_provider_info_8cs_source.html#l00026">26</a> of file <a class="el" href="_basic_o_auth_provider_info_8cs_source.html">BasicOAuthProviderInfo.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   27</span>        {</div>
+<div class="line"><span class="lineno">   28</span>            ArgumentNullException.ThrowIfNull(providerInfo);</div>
+<div class="line"><span class="lineno">   29</span> </div>
+<div class="line"><span class="lineno">   30</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_basic_o_auth_provider_info.html#a7b92bc1577ab497a1c1b31a0e8defcb8">ClientID</a> = providerInfo.ClientId ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;ClientID not set!&quot;</span>);</div>
+<div class="line"><span class="lineno">   31</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_basic_o_auth_provider_info.html#a536ff975733850923c9b1f387b48b907">GatewayOnly</a> = providerInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html#a6a4d8d15f63b25796afc4873c514b5de">GatewayOnly</a>;</div>
+<div class="line"><span class="lineno">   32</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info_html_a6a4d8d15f63b25796afc4873c514b5de"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html#a6a4d8d15f63b25796afc4873c514b5de">Tgstation.Server.Api.Models.OAuthProviderInfo.GatewayOnly</a></div><div class="ttdeci">bool? GatewayOnly</div><div class="ttdoc">If true the OAuth provider may only be used for gateway authentication. If false the OAuth provider m...</div><div class="ttdef"><b>Definition</b> <a href="_o_auth_provider_info_8cs_source.html#l00029">OAuthProviderInfo.cs:29</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_basic_o_auth_provider_info_html_a536ff975733850923c9b1f387b48b907"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_basic_o_auth_provider_info.html#a536ff975733850923c9b1f387b48b907">Tgstation.Server.Host.GraphQL.Types.OAuth.BasicOAuthProviderInfo.GatewayOnly</a></div><div class="ttdeci">bool? GatewayOnly</div><div class="ttdoc">If true the OAuth provider can only be used for gateway authentication. If false the OAuth provider m...</div><div class="ttdef"><b>Definition</b> <a href="_basic_o_auth_provider_info_8cs_source.html#l00020">BasicOAuthProviderInfo.cs:20</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_basic_o_auth_provider_info_html_a7b92bc1577ab497a1c1b31a0e8defcb8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_basic_o_auth_provider_info.html#a7b92bc1577ab497a1c1b31a0e8defcb8">Tgstation.Server.Host.GraphQL.Types.OAuth.BasicOAuthProviderInfo.ClientID</a></div><div class="ttdeci">string ClientID</div><div class="ttdoc">The client ID.</div><div class="ttdef"><b>Definition</b> <a href="_basic_o_auth_provider_info_8cs_source.html#l00015">BasicOAuthProviderInfo.cs:15</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_basic_o_auth_provider_info_8cs_source.html#l00015">Tgstation.Server.Host.GraphQL.Types.OAuth.BasicOAuthProviderInfo.ClientID</a>.</p>
+<p class="reference">References <a class="el" href="_basic_o_auth_provider_info_8cs_source.html#l00015">Tgstation.Server.Host.GraphQL.Types.OAuth.BasicOAuthProviderInfo.ClientID</a>, <a class="el" href="_o_auth_provider_info_8cs_source.html#l00029">Tgstation.Server.Api.Models.OAuthProviderInfo.GatewayOnly</a>, and <a class="el" href="_basic_o_auth_provider_info_8cs_source.html#l00020">Tgstation.Server.Host.GraphQL.Types.OAuth.BasicOAuthProviderInfo.GatewayOnly</a>.</p>
 
 </div>
 </div>
@@ -178,7 +184,36 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_basic_o_auth_provider_info_8cs_source.html#l00015">15</a> of file <a class="el" href="_basic_o_auth_provider_info_8cs_source.html">BasicOAuthProviderInfo.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   15</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_basic_o_auth_provider_info_8cs_source.html#l00021">Tgstation.Server.Host.GraphQL.Types.OAuth.BasicOAuthProviderInfo.BasicOAuthProviderInfo()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_basic_o_auth_provider_info_8cs_source.html#l00026">Tgstation.Server.Host.GraphQL.Types.OAuth.BasicOAuthProviderInfo.BasicOAuthProviderInfo()</a>.</p>
+
+</div>
+</div>
+<a id="a536ff975733850923c9b1f387b48b907" name="a536ff975733850923c9b1f387b48b907"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a536ff975733850923c9b1f387b48b907">&#9670;&#160;</a></span>GatewayOnly</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool? Tgstation.Server.Host.GraphQL.Types.OAuth.BasicOAuthProviderInfo.GatewayOnly</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If <code>true</code> the OAuth provider can only be used for gateway authentication. If <code>false</code> the OAuth provider may be used for server logins or gateway authentication. If <code>null</code> the OAuth provider may only be used for server logins. </p>
+
+<p class="definition">Definition at line <a class="el" href="_basic_o_auth_provider_info_8cs_source.html#l00020">20</a> of file <a class="el" href="_basic_o_auth_provider_info_8cs_source.html">BasicOAuthProviderInfo.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   20</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_basic_o_auth_provider_info_8cs_source.html#l00026">Tgstation.Server.Host.GraphQL.Types.OAuth.BasicOAuthProviderInfo.BasicOAuthProviderInfo()</a>.</p>
 
 </div>
 </div>

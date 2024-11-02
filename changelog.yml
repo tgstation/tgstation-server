@@ -1,5 +1,12 @@
 Components:
   Configuration:
+  - Version: 5.4.0
+    Changes:
+    - Descriptions:
+      - Added `Gateway` enum to each OAuth provider's configuration section. Can be one of `Disabled` (default), `Enabled`, or `Only`.
+      Author: Cyberboss
+      PullRequest: 1997
+    Unreleased: true
   - Version: 5.3.0
     Changes:
     - Descriptions:
@@ -165,21 +172,25 @@ Components:
   Core:
   - Version: 6.12.0
     ComponentVersions:
-      HttpApi: 10.10.0
-      GraphQLApi: 0.3.0
+      HttpApi: 10.11.0
+      GraphQLApi: 0.5.0
       DreamMakerApi: 7.3.0
-      Configuration: 5.3.0
+      Configuration: 5.4.0
       InteropApi: 5.10.0
       HostWatchdog: 1.5.0
       NugetCommon: 7.0.0
-      NugetApi: 16.1.0
-      NugetClient: 19.1.0
+      NugetApi: 16.2.0
+      NugetClient: 19.2.0
       WebControlPanel: 6.4.0
     Changes:
     - Descriptions:
       - Fixed being able to attempt a server update to major version 3.
       Author: Cyberboss
       PullRequest: 1986
+    - Descriptions:
+      - OAuth providers can now forward user tokens to clients.
+      Author: Cyberboss
+      PullRequest: 1997
     Unreleased: true
   - Version: 6.11.5
     ComponentVersions: {}
@@ -3944,6 +3955,14 @@ Components:
       Author: alexkar598
       PullRequest: 1133
   HttpApi:
+  - Version: 10.11.0
+    Changes:
+    - Descriptions:
+      - Added `gatewayOnly` to OAuthProviderInfo models. If `true`, the provider may only be used for gateway authentication. If `null`, the provider may NOT be used for gateway authentication.
+      - Added endpoint `/api/oauth_gateway`. `POST`ing here with the OAuth authentication scheme will respond with a JSON object containing an `accessCode` for that provider IF the server is configured to allow OAuth gateways.
+      Author: Cyberboss
+      PullRequest: 1997
+    Unreleased: true
   - Version: 10.10.0
     Changes:
     - Descriptions:
@@ -4485,6 +4504,13 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   GraphQLApi:
+  - Version: 0.5.0
+    Changes:
+    - Descriptions:
+      - Added `oAuthGateway` mutation which accepts the OAuth authentication and will respond with a payload containing an `accessCode` for that provider IF the server is configured to allow OAuth gateways.
+      Author: Cyberboss
+      PullRequest: 1997
+    Unreleased: true
   - Version: 0.4.0
     Changes:
     - Descriptions:
@@ -4794,6 +4820,15 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 16.2.0
+    Changes:
+    - Descriptions:
+      - Updated to API version 10.11.0.
+      - Added `OAuthGatewayResponse` model.
+      - Added `GatewayOnly` nullable boolean field to `OAuthProviderInfo`.
+      Author: Cyberboss
+      PullRequest: 1997
+    Unreleased: true
   - Version: 13.5.0
     Changes:
     - Descriptions:
@@ -4877,4 +4912,11 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient: []
+  NugetClient:
+  - Version: 19.2.0
+    Changes:
+    - Descriptions:
+      - Updated to API library version 16.2.0.
+      Author: Cyberboss
+      PullRequest: 1997
+    Unreleased: true

@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Security.OAuth.IOAuthProviders.GetValidator" name="Tgstation.Server.Host.Security.OAuth.IOAuthProviders.GetValidator">
-<area shape="rect" id="Node000001" title="Gets the IOAuthValidator for a given oAuthProvider ." alt="" coords="258,5,490,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a56db9647140a1a43ebab0642e99a35b6" title="Attempt to login to the server with the current crentials.A ValueTask&lt;TResult&gt; resulting in a LoginRe..." alt="" coords="5,5,210,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,28,210,28,210,23,242,23"/>
-</map>

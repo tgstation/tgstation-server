@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.11.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -76,6 +76,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Tgstation.Server.Host.Controllers.ApiRootController Class Reference<span class="mlabels"><span class="mlabel">sealed</span></span></div></div>
@@ -153,9 +154,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a312331c3db52428a3d06f9967ec56cd8" id="r_a312331c3db52428a3d06f9967ec56cd8"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a312331c3db52428a3d06f9967ec56cd8">CreateToken</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a312331c3db52428a3d06f9967ec56cd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to authenticate a User using ApiController.ApiHeaders.  <br /></td></tr>
 <tr class="separator:a312331c3db52428a3d06f9967ec56cd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2087557fa7c483de1b2a87b0560aff31" id="r_a2087557fa7c483de1b2a87b0560aff31"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a2087557fa7c483de1b2a87b0560aff31">CreateOAuthGatewayToken</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a2087557fa7c483de1b2a87b0560aff31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to authenticate a User using ApiController.ApiHeaders.  <br /></td></tr>
+<tr class="separator:a2087557fa7c483de1b2a87b0560aff31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html">Tgstation.Server.Host.Controllers.ApiControllerBase</a></td></tr>
 <tr class="memitem:a28e128e4ebaec3da3fa051d1469505cd inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base" id="r_a28e128e4ebaec3da3fa051d1469505cd"><td class="memItemLeft" align="right" valign="top">override async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html#a28e128e4ebaec3da3fa051d1469505cd">OnActionExecutionAsync</a> (ActionExecutingContext context, ActionExecutionDelegate next)</td></tr>
 <tr class="separator:a28e128e4ebaec3da3fa051d1469505cd inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a660d03d8a0bc9786285e991d98c8ac65" id="r_a660d03d8a0bc9786285e991d98c8ac65"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a660d03d8a0bc9786285e991d98c8ac65">OAuthGatewayResponse</a> (this, authority=&gt; authority.AttemptOAuthGatewayLogin(cancellationToken))</td></tr>
+<tr class="separator:a660d03d8a0bc9786285e991d98c8ac65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -378,6 +387,34 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a2087557fa7c483de1b2a87b0560aff31" name="a2087557fa7c483de1b2a87b0560aff31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2087557fa7c483de1b2a87b0560aff31">&#9670;&#160;</a></span>CreateOAuthGatewayToken()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask&lt; IActionResult &gt; Tgstation.Server.Host.Controllers.ApiRootController.CreateOAuthGatewayToken </td>
+          <td>(</td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Attempt to authenticate a User using ApiController.ApiHeaders. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the IActionResult of the operation.</dd></dl>
+<p>&lt;response code="200"&gt;OAuthGatewayResponse generated successfully.&lt;/response&gt; &lt;response code="401"&gt;OAuth authentication failed.&lt;/response&gt; &lt;response code="429"&gt;OAuth authentication failed due to rate limiting.&lt;/response&gt; </p>
+
+</div>
+</div>
 <a id="a312331c3db52428a3d06f9967ec56cd8" name="a312331c3db52428a3d06f9967ec56cd8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a312331c3db52428a3d06f9967ec56cd8">&#9670;&#160;</a></span>CreateToken()</h2>
 
@@ -446,6 +483,48 @@ Here is the caller graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="220,28,188,28,188,23,220,23"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="a660d03d8a0bc9786285e991d98c8ac65" name="a660d03d8a0bc9786285e991d98c8ac65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a660d03d8a0bc9786285e991d98c8ac65">&#9670;&#160;</a></span>OAuthGatewayResponse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask&lt; IActionResult &gt; Tgstation.Server.Host.Controllers.ApiRootController.OAuthGatewayResponse </td>
+          <td>(</td>
+          <td class="paramtype">this&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">authority&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">authority.&#160;</td>
+          <td class="paramname"><em>AttemptOAuthGatewayLogin</em>cancellationToken&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

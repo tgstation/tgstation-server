@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.11.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -119,17 +119,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1aac253342697e89cff3a35b05f051d3" id="r_a1aac253342697e89cff3a35b05f051d3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a1aac253342697e89cff3a35b05f051d3">GitHubOAuthValidator</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html">IGitHubServiceFactory</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">gitHubServiceFactory</a>, ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html">GitHubOAuthValidator</a> &gt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html">OAuthConfiguration</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#aadd4ea2984d8fbd718b1814a445c58ac">oAuthConfiguration</a>)</td></tr>
 <tr class="memdesc:a1aac253342697e89cff3a35b05f051d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the GitHubOAuthValidator class.  <br /></td></tr>
 <tr class="separator:a1aac253342697e89cff3a35b05f051d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9990c59be1819db82b3ef81761db0d29" id="r_a9990c59be1819db82b3ef81761db0d29"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; string?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a9990c59be1819db82b3ef81761db0d29">ValidateResponseCode</a> (string code, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a9990c59be1819db82b3ef81761db0d29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate a given <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth.html">OAuth</a> response <em>code</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:ab04d9f6cff4beafd46bfc8fa84627cea" id="r_ab04d9f6cff4beafd46bfc8fa84627cea"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt;(string? UserID, string AccessCode)?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#ab04d9f6cff4beafd46bfc8fa84627cea">ValidateResponseCode</a> (string code, bool requireUserID, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ab04d9f6cff4beafd46bfc8fa84627cea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate a given <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth.html">OAuth</a> response <em>code</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">code</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth.html">OAuth</a> response string from web application.</td></tr>
+    <tr><td class="paramname">requireUserID</td><td>If the resulting user ID should be retrieved.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in <code>null</code> if authentication failed, global::System.UInt64.MaxValue if a rate limit occurred, and the validated <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html#ac6be031160f5f535447b7d4b7c2e839c" title="The ID of the user in the Provider.">OAuthConnection.ExternalUserId</a> otherwise.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in <code>null</code> if authentication failed or the validated <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html#ac6be031160f5f535447b7d4b7c2e839c" title="The ID of the user in the Provider.">OAuthConnection.ExternalUserId</a> and <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth.html">OAuth</a> access code otherwise.</dd></dl>
   <br /></td></tr>
-<tr class="separator:a9990c59be1819db82b3ef81761db0d29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ab04d9f6cff4beafd46bfc8fa84627cea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc12c5a99036b95a8a58c35660798146" id="r_abc12c5a99036b95a8a58c35660798146"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html">OAuthProviderInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#abc12c5a99036b95a8a58c35660798146">GetProviderInfo</a> ()</td></tr>
 <tr class="memdesc:abc12c5a99036b95a8a58c35660798146"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS.">OAuthProvider</a> of validator.<dl class="section return"><dt>Returns</dt><dd>The client ID of the validator on success, <code>null</code> on failure.</dd></dl>
   <br /></td></tr>
@@ -140,6 +141,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a4e17b40cd71087550bb3d49d65e2ebf9" id="r_a4e17b40cd71087550bb3d49d65e2ebf9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a4e17b40cd71087550bb3d49d65e2ebf9">Provider</a><code> [get]</code></td></tr>
 <tr class="memdesc:a4e17b40cd71087550bb3d49d65e2ebf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS.">OAuthProvider</a> this validator is for.  <br /></td></tr>
 <tr class="separator:a4e17b40cd71087550bb3d49d65e2ebf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a060ec57be35f0b750277893643443707" id="r_a060ec57be35f0b750277893643443707"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308">OAuthGatewayStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a060ec57be35f0b750277893643443707">GatewayStatus</a><code> [get]</code></td></tr>
+<tr class="memdesc:a060ec57be35f0b750277893643443707"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308" title="Status of the OAuth gateway for a provider.">OAuthGatewayStatus</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider.">IOAuthValidator</a>.  <br /></td></tr>
+<tr class="separator:a060ec57be35f0b750277893643443707"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator"><td colspan="2" onclick="javascript:toggleInherit('properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html">Tgstation.Server.Host.Security.OAuth.IOAuthValidator</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
@@ -157,7 +161,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IOAuthValidator for GitHub. </p>
 
-<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00018">18</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00019">19</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1aac253342697e89cff3a35b05f051d3" name="a1aac253342697e89cff3a35b05f051d3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1aac253342697e89cff3a35b05f051d3">&#9670;&#160;</a></span>GitHubOAuthValidator()</h2>
@@ -201,17 +205,17 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00044">44</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   48</span>        {</div>
-<div class="line"><span class="lineno">   49</span>            this.gitHubServiceFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">gitHubServiceFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">gitHubServiceFactory</a>));</div>
-<div class="line"><span class="lineno">   50</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>));</div>
-<div class="line"><span class="lineno">   51</span>            this.oAuthConfiguration = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#aadd4ea2984d8fbd718b1814a445c58ac">oAuthConfiguration</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#aadd4ea2984d8fbd718b1814a445c58ac">oAuthConfiguration</a>));</div>
-<div class="line"><span class="lineno">   52</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator_html_a431a40f08a97d7a26f55c74ae31f2bbc"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.logger</a></div><div class="ttdeci">readonly ILogger&lt; GitHubOAuthValidator &gt; logger</div><div class="ttdoc">The ILogger for the GitHubOAuthValidator.</div><div class="ttdef"><b>Definition</b> <a href="_git_hub_o_auth_validator_8cs_source.html#l00031">GitHubOAuthValidator.cs:31</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator_html_a5ad102bb2c945c31bb11328bc4d7d73b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.gitHubServiceFactory</a></div><div class="ttdeci">readonly IGitHubServiceFactory gitHubServiceFactory</div><div class="ttdoc">The IGitHubServiceFactory for the GitHubOAuthValidator.</div><div class="ttdef"><b>Definition</b> <a href="_git_hub_o_auth_validator_8cs_source.html#l00026">GitHubOAuthValidator.cs:26</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator_html_aadd4ea2984d8fbd718b1814a445c58ac"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#aadd4ea2984d8fbd718b1814a445c58ac">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.oAuthConfiguration</a></div><div class="ttdeci">readonly OAuthConfiguration oAuthConfiguration</div><div class="ttdoc">The OAuthConfiguration for the GitHubOAuthValidator.</div><div class="ttdef"><b>Definition</b> <a href="_git_hub_o_auth_validator_8cs_source.html#l00036">GitHubOAuthValidator.cs:36</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00048">48</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   52</span>        {</div>
+<div class="line"><span class="lineno">   53</span>            this.gitHubServiceFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">gitHubServiceFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">gitHubServiceFactory</a>));</div>
+<div class="line"><span class="lineno">   54</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>));</div>
+<div class="line"><span class="lineno">   55</span>            this.oAuthConfiguration = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#aadd4ea2984d8fbd718b1814a445c58ac">oAuthConfiguration</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#aadd4ea2984d8fbd718b1814a445c58ac">oAuthConfiguration</a>));</div>
+<div class="line"><span class="lineno">   56</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator_html_a431a40f08a97d7a26f55c74ae31f2bbc"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.logger</a></div><div class="ttdeci">readonly ILogger&lt; GitHubOAuthValidator &gt; logger</div><div class="ttdoc">The ILogger for the GitHubOAuthValidator.</div><div class="ttdef"><b>Definition</b> <a href="_git_hub_o_auth_validator_8cs_source.html#l00035">GitHubOAuthValidator.cs:35</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator_html_a5ad102bb2c945c31bb11328bc4d7d73b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.gitHubServiceFactory</a></div><div class="ttdeci">readonly IGitHubServiceFactory gitHubServiceFactory</div><div class="ttdoc">The IGitHubServiceFactory for the GitHubOAuthValidator.</div><div class="ttdef"><b>Definition</b> <a href="_git_hub_o_auth_validator_8cs_source.html#l00030">GitHubOAuthValidator.cs:30</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator_html_aadd4ea2984d8fbd718b1814a445c58ac"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#aadd4ea2984d8fbd718b1814a445c58ac">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.oAuthConfiguration</a></div><div class="ttdeci">readonly OAuthConfiguration oAuthConfiguration</div><div class="ttdoc">The OAuthConfiguration for the GitHubOAuthValidator.</div><div class="ttdef"><b>Definition</b> <a href="_git_hub_o_auth_validator_8cs_source.html#l00040">GitHubOAuthValidator.cs:40</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00026">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.gitHubServiceFactory</a>, <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00031">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.logger</a>, and <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00036">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.oAuthConfiguration</a>.</p>
+<p class="reference">References <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00030">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.gitHubServiceFactory</a>, <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00035">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.logger</a>, and <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00040">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.oAuthConfiguration</a>.</p>
 
 </div>
 </div>
@@ -236,21 +240,27 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#ab252a816c0eef32b1261d2ceee038ab0">Tgstation.Server.Host.Security.OAuth.IOAuthValidator</a>.</p>
 
-<p class="reference">References <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00013">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.ClientId</a>, <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00036">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.oAuthConfiguration</a>, and <a class="el" href="_o_auth_configuration_8cs_source.html#l00018">Tgstation.Server.Host.Configuration.OAuthConfiguration.RedirectUrl</a>.</p>
+<p class="reference">References <a class="el" href="_o_auth_configuration_base_8cs_source.html#l00013">Tgstation.Server.Host.Configuration.OAuthConfigurationBase.ClientId</a>, <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00025">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.GatewayStatus</a>, <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00040">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.oAuthConfiguration</a>, and <a class="el" href="_o_auth_configuration_8cs_source.html#l00018">Tgstation.Server.Host.Configuration.OAuthConfiguration.RedirectUrl</a>.</p>
 
 </div>
 </div>
-<a id="a9990c59be1819db82b3ef81761db0d29" name="a9990c59be1819db82b3ef81761db0d29"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9990c59be1819db82b3ef81761db0d29">&#9670;&#160;</a></span>ValidateResponseCode()</h2>
+<a id="ab04d9f6cff4beafd46bfc8fa84627cea" name="ab04d9f6cff4beafd46bfc8fa84627cea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab04d9f6cff4beafd46bfc8fa84627cea">&#9670;&#160;</a></span>ValidateResponseCode()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async ValueTask&lt; string?&gt; Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.ValidateResponseCode </td>
+          <td class="memname">async ValueTask&lt;(string? UserID, string AccessCode)?&gt; Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.ValidateResponseCode </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>code</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>requireUserID</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -269,53 +279,57 @@ Private Attributes</h2></td></tr>
 <p>Validate a given <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth.html">OAuth</a> response <em>code</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">code</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth.html">OAuth</a> response string from web application.</td></tr>
+    <tr><td class="paramname">requireUserID</td><td>If the resulting user ID should be retrieved.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in <code>null</code> if authentication failed, global::System.UInt64.MaxValue if a rate limit occurred, and the validated <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html#ac6be031160f5f535447b7d4b7c2e839c" title="The ID of the user in the Provider.">OAuthConnection.ExternalUserId</a> otherwise.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in <code>null</code> if authentication failed or the validated <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html#ac6be031160f5f535447b7d4b7c2e839c" title="The ID of the user in the Provider.">OAuthConnection.ExternalUserId</a> and <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth.html">OAuth</a> access code otherwise.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#abe3935141db0ee8a7a75557b9183a18c">Tgstation.Server.Host.Security.OAuth.IOAuthValidator</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#acc11a8eb251cb42da89da8c6aa05e7e4">Tgstation.Server.Host.Security.OAuth.IOAuthValidator</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00055">55</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   56</span>        {</div>
-<div class="line"><span class="lineno">   57</span>            ArgumentNullException.ThrowIfNull(code);</div>
-<div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   60</span>            {</div>
-<div class="line"><span class="lineno">   61</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>.LogTrace(<span class="stringliteral">&quot;Validating response code...&quot;</span>);</div>
+<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00059">59</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   60</span>        {</div>
+<div class="line"><span class="lineno">   61</span>            ArgumentNullException.ThrowIfNull(code);</div>
 <div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span>                var gitHubService = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(cancellationToken);</div>
-<div class="line"><span class="lineno">   64</span>                var token = await gitHubService.CreateOAuthAccessToken(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#aadd4ea2984d8fbd718b1814a445c58ac">oAuthConfiguration</a>, code, cancellationToken);</div>
-<div class="line"><span class="lineno">   65</span>                <span class="keywordflow">if</span> (token == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   66</span>                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>                var authenticatedClient = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(token, cancellationToken);</div>
-<div class="line"><span class="lineno">   69</span> </div>
-<div class="line"><span class="lineno">   70</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>.LogTrace(<span class="stringliteral">&quot;Getting user details...&quot;</span>);</div>
-<div class="line"><span class="lineno">   71</span>                var userId = await authenticatedClient.GetCurrentUserId(cancellationToken);</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>                <span class="keywordflow">return</span> userId.ToString(CultureInfo.InvariantCulture);</div>
-<div class="line"><span class="lineno">   74</span>            }</div>
-<div class="line"><span class="lineno">   75</span>            <span class="keywordflow">catch</span> (RateLimitExceededException)</div>
-<div class="line"><span class="lineno">   76</span>            {</div>
-<div class="line"><span class="lineno">   77</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">   78</span>            }</div>
-<div class="line"><span class="lineno">   79</span>            <span class="keywordflow">catch</span> (ApiException ex)</div>
-<div class="line"><span class="lineno">   80</span>            {</div>
-<div class="line"><span class="lineno">   81</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;API error while completing OAuth handshake!&quot;</span>);</div>
-<div class="line"><span class="lineno">   82</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   83</span>            }</div>
-<div class="line"><span class="lineno">   84</span>        }</div>
+<div class="line"><span class="lineno">   63</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   64</span>            {</div>
+<div class="line"><span class="lineno">   65</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>.LogTrace(<span class="stringliteral">&quot;Validating response code...&quot;</span>);</div>
+<div class="line"><span class="lineno">   66</span> </div>
+<div class="line"><span class="lineno">   67</span>                var gitHubService = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">   68</span>                var token = await gitHubService.CreateOAuthAccessToken(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#aadd4ea2984d8fbd718b1814a445c58ac">oAuthConfiguration</a>, code, cancellationToken);</div>
+<div class="line"><span class="lineno">   69</span>                <span class="keywordflow">if</span> (token == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   70</span>                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>                <span class="keywordflow">if</span> (!requireUserID)</div>
+<div class="line"><span class="lineno">   73</span>                    <span class="keywordflow">return</span> (<span class="keyword">null</span>, AccessCode: token);</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>                var authenticatedClient = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(token, cancellationToken);</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>.LogTrace(<span class="stringliteral">&quot;Getting user details...&quot;</span>);</div>
+<div class="line"><span class="lineno">   78</span>                var userId = await authenticatedClient.GetCurrentUserId(cancellationToken);</div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   80</span>                <span class="keywordflow">return</span> (userId.ToString(CultureInfo.InvariantCulture), AccessCode: token);</div>
+<div class="line"><span class="lineno">   81</span>            }</div>
+<div class="line"><span class="lineno">   82</span>            <span class="keywordflow">catch</span> (RateLimitExceededException)</div>
+<div class="line"><span class="lineno">   83</span>            {</div>
+<div class="line"><span class="lineno">   84</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">   85</span>            }</div>
+<div class="line"><span class="lineno">   86</span>            <span class="keywordflow">catch</span> (ApiException ex)</div>
+<div class="line"><span class="lineno">   87</span>            {</div>
+<div class="line"><span class="lineno">   88</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;API error while completing OAuth handshake!&quot;</span>);</div>
+<div class="line"><span class="lineno">   89</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   90</span>            }</div>
+<div class="line"><span class="lineno">   91</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory_html_a93de0a6eeb420eec2ecaa935ebabc7b9"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">Tgstation.Server.Host.Utils.GitHub.IGitHubServiceFactory.CreateService</a></div><div class="ttdeci">ValueTask&lt; IGitHubService &gt; CreateService(CancellationToken cancellationToken)</div><div class="ttdoc">Create a IGitHubService.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">Tgstation.Server.Host.Utils.GitHub.IGitHubServiceFactory.CreateService()</a>, <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00026">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.gitHubServiceFactory</a>, <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00031">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.logger</a>, and <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00036">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.oAuthConfiguration</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">Tgstation.Server.Host.Utils.GitHub.IGitHubServiceFactory.CreateService()</a>, <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00030">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.gitHubServiceFactory</a>, <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00035">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.logger</a>, and <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00040">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.oAuthConfiguration</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator_a9990c59be1819db82b3ef81761db0d29_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator_a9990c59be1819db82b3ef81761db0d29_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator_a9990c59be1819db82b3ef81761db0d29_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator_a9990c59be1819db82b3ef81761db0d29_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator_ab04d9f6cff4beafd46bfc8fa84627cea_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator_ab04d9f6cff4beafd46bfc8fa84627cea_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator_ab04d9f6cff4beafd46bfc8fa84627cea_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator_ab04d9f6cff4beafd46bfc8fa84627cea_cgraph">
 <area shape="rect" title="Validate a given OAuth response code .A ValueTask&lt;TResult&gt; resulting in null if authentication failed..." alt="" coords="5,5,246,61"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9" title="Create a IGitHubService." alt="" coords="294,5,532,61"/>
 <area shape="poly" title=" " alt="" coords="246,31,278,31,278,36,246,36"/>
@@ -347,9 +361,9 @@ Here is the call graph for this function:</div>
 
 <p>The IGitHubServiceFactory for the GitHubOAuthValidator. </p>
 
-<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00026">26</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00030">30</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00044">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.GitHubOAuthValidator()</a>, and <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00055">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.ValidateResponseCode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00048">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.GitHubOAuthValidator()</a>, and <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00059">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.ValidateResponseCode()</a>.</p>
 
 </div>
 </div>
@@ -375,9 +389,9 @@ Here is the call graph for this function:</div>
 
 <p>The ILogger for the GitHubOAuthValidator. </p>
 
-<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00031">31</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00035">35</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00044">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.GitHubOAuthValidator()</a>, and <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00055">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.ValidateResponseCode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00048">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.GitHubOAuthValidator()</a>, and <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00059">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.ValidateResponseCode()</a>.</p>
 
 </div>
 </div>
@@ -403,13 +417,43 @@ Here is the call graph for this function:</div>
 
 <p>The OAuthConfiguration for the GitHubOAuthValidator. </p>
 
-<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00036">36</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00040">40</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#abc12c5a99036b95a8a58c35660798146">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.GetProviderInfo()</a>, <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00044">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.GitHubOAuthValidator()</a>, and <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00055">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.ValidateResponseCode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#abc12c5a99036b95a8a58c35660798146">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.GetProviderInfo()</a>, <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00048">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.GitHubOAuthValidator()</a>, and <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00059">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.ValidateResponseCode()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
+<a id="a060ec57be35f0b750277893643443707" name="a060ec57be35f0b750277893643443707"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a060ec57be35f0b750277893643443707">&#9670;&#160;</a></span>GatewayStatus</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308">OAuthGatewayStatus</a> Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.GatewayStatus</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308" title="Status of the OAuth gateway for a provider.">OAuthGatewayStatus</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider.">IOAuthValidator</a>. </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#a191e93ef23e18b68ea5832d9793b33ed">Tgstation.Server.Host.Security.OAuth.IOAuthValidator</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00025">25</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#abc12c5a99036b95a8a58c35660798146">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.GetProviderInfo()</a>.</p>
+
+</div>
+</div>
 <a id="a4e17b40cd71087550bb3d49d65e2ebf9" name="a4e17b40cd71087550bb3d49d65e2ebf9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4e17b40cd71087550bb3d49d65e2ebf9">&#9670;&#160;</a></span>Provider</h2>
 
@@ -434,7 +478,7 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#aaafc1ae9a06f82acc28ebb5e3c73dc58">Tgstation.Server.Host.Security.OAuth.IOAuthValidator</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00021">21</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00022">22</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
 
 </div>
 </div>

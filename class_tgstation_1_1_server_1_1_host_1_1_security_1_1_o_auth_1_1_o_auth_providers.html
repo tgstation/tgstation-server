@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.11.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -112,16 +112,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1ebdce26518125fe48203650aed6da41" id="r_a1ebdce26518125fe48203650aed6da41"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html#a1ebdce26518125fe48203650aed6da41">OAuthProviders</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html">IGitHubServiceFactory</a> gitHubServiceFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html">IAbstractHttpClientFactory</a> httpClientFactory, ILoggerFactory loggerFactory, IOptions&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html">SecurityConfiguration</a> &gt; securityConfigurationOptions)</td></tr>
 <tr class="memdesc:a1ebdce26518125fe48203650aed6da41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the OAuthProviders class.  <br /></td></tr>
 <tr class="separator:a1ebdce26518125fe48203650aed6da41"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32ac25578edc4cd5ff80eb5006e4274c" id="r_a32ac25578edc4cd5ff80eb5006e4274c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html">IOAuthValidator</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html#a32ac25578edc4cd5ff80eb5006e4274c">GetValidator</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a> oAuthProvider)</td></tr>
-<tr class="memdesc:a32ac25578edc4cd5ff80eb5006e4274c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider.">IOAuthValidator</a> for a given <em>oAuthProvider</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a08b551d8a212a7a4d5833c7bbdb9ee68" id="r_a08b551d8a212a7a4d5833c7bbdb9ee68"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html">IOAuthValidator</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html#a08b551d8a212a7a4d5833c7bbdb9ee68">GetValidator</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a> oAuthProvider, bool forLogin)</td></tr>
+<tr class="memdesc:a08b551d8a212a7a4d5833c7bbdb9ee68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider.">IOAuthValidator</a> for a given <em>oAuthProvider</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">oAuthProvider</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS.">OAuthProvider</a> to get the validator for.</td></tr>
+    <tr><td class="paramname">forLogin</td><td>If the resulting <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider.">IOAuthValidator</a> will be used to authenticate a server login.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider.">IOAuthValidator</a> for <em>oAuthProvider</em> .</dd></dl>
   <br /></td></tr>
-<tr class="separator:a32ac25578edc4cd5ff80eb5006e4274c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a08b551d8a212a7a4d5833c7bbdb9ee68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a891e89b90b8f776e7ec2daf0ae6fda56" id="r_a891e89b90b8f776e7ec2daf0ae6fda56"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html">OAuthProviderInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html#a891e89b90b8f776e7ec2daf0ae6fda56">ProviderInfos</a> ()</td></tr>
 <tr class="memdesc:a891e89b90b8f776e7ec2daf0ae6fda56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a Dictionary&lt;TKey, TValue&gt; of the provider client IDs.<dl class="section return"><dt>Returns</dt><dd>A new Dictionary&lt;TKey, TValue&gt; of the active OAuthProviderInfos.</dd></dl>
   <br /></td></tr>
@@ -241,8 +242,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a32ac25578edc4cd5ff80eb5006e4274c" name="a32ac25578edc4cd5ff80eb5006e4274c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32ac25578edc4cd5ff80eb5006e4274c">&#9670;&#160;</a></span>GetValidator()</h2>
+<a id="a08b551d8a212a7a4d5833c7bbdb9ee68" name="a08b551d8a212a7a4d5833c7bbdb9ee68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08b551d8a212a7a4d5833c7bbdb9ee68">&#9670;&#160;</a></span>GetValidator()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -251,8 +252,18 @@ Private Attributes</h2></td></tr>
           <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html">IOAuthValidator</a>? Tgstation.Server.Host.Security.OAuth.OAuthProviders.GetValidator </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>&#160;</td>
-          <td class="paramname"><em>oAuthProvider</em></td><td>)</td>
+          <td class="paramname"><em>oAuthProvider</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>forLogin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -260,13 +271,14 @@ Private Attributes</h2></td></tr>
 <p>Gets the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider.">IOAuthValidator</a> for a given <em>oAuthProvider</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">oAuthProvider</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS.">OAuthProvider</a> to get the validator for.</td></tr>
+    <tr><td class="paramname">forLogin</td><td>If the resulting <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider.">IOAuthValidator</a> will be used to authenticate a server login.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider.">IOAuthValidator</a> for <em>oAuthProvider</em> .</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a35df5b32c769e3c6f01ae709e3221694">Tgstation.Server.Host.Security.OAuth.IOAuthProviders</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#afeb0800595d048b7cbd35a87bcced8ee">Tgstation.Server.Host.Security.OAuth.IOAuthProviders</a>.</p>
 
 </div>
 </div>
@@ -290,18 +302,18 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a733dbba10de53f9c5dfa8daf99b7cdab">Tgstation.Server.Host.Security.OAuth.IOAuthProviders</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_o_auth_providers_8cs_source.html#l00086">86</a> of file <a class="el" href="_o_auth_providers_8cs_source.html">OAuthProviders.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   87</span>        {</div>
-<div class="line"><span class="lineno">   88</span>            var providersAndTasks = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html#a443e2da21e35e7758359e34457b95661">validators</a>.ToDictionary(</div>
-<div class="line"><span class="lineno">   89</span>                x =&gt; x.Provider,</div>
-<div class="line"><span class="lineno">   90</span>                x =&gt; x.GetProviderInfo());</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>            <span class="keywordflow">return</span> providersAndTasks</div>
-<div class="line"><span class="lineno">   93</span>                .Where(x =&gt; x.Value != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   94</span>                .ToDictionary(</div>
-<div class="line"><span class="lineno">   95</span>                    x =&gt; x.Key,</div>
-<div class="line"><span class="lineno">   96</span>                    x =&gt; x.Value);</div>
-<div class="line"><span class="lineno">   97</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_o_auth_providers_8cs_source.html#l00089">89</a> of file <a class="el" href="_o_auth_providers_8cs_source.html">OAuthProviders.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   90</span>        {</div>
+<div class="line"><span class="lineno">   91</span>            var providersAndTasks = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html#a443e2da21e35e7758359e34457b95661">validators</a>.ToDictionary(</div>
+<div class="line"><span class="lineno">   92</span>                x =&gt; x.Provider,</div>
+<div class="line"><span class="lineno">   93</span>                x =&gt; x.GetProviderInfo());</div>
+<div class="line"><span class="lineno">   94</span> </div>
+<div class="line"><span class="lineno">   95</span>            <span class="keywordflow">return</span> providersAndTasks</div>
+<div class="line"><span class="lineno">   96</span>                .Where(x =&gt; x.Value != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   97</span>                .ToDictionary(</div>
+<div class="line"><span class="lineno">   98</span>                    x =&gt; x.Key,</div>
+<div class="line"><span class="lineno">   99</span>                    x =&gt; x.Value);</div>
+<div class="line"><span class="lineno">  100</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_o_auth_providers_8cs_source.html#l00021">Tgstation.Server.Host.Security.OAuth.OAuthProviders.validators</a>.</p>
 
@@ -332,7 +344,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_o_auth_providers_8cs_source.html#l00021">21</a> of file <a class="el" href="_o_auth_providers_8cs_source.html">OAuthProviders.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_o_auth_providers_8cs_source.html#l00030">Tgstation.Server.Host.Security.OAuth.OAuthProviders.OAuthProviders()</a>, and <a class="el" href="_o_auth_providers_8cs_source.html#l00086">Tgstation.Server.Host.Security.OAuth.OAuthProviders.ProviderInfos()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_o_auth_providers_8cs_source.html#l00030">Tgstation.Server.Host.Security.OAuth.OAuthProviders.OAuthProviders()</a>, and <a class="el" href="_o_auth_providers_8cs_source.html#l00089">Tgstation.Server.Host.Security.OAuth.OAuthProviders.ProviderInfos()</a>.</p>
 
 </div>
 </div>

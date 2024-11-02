@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.11.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -185,7 +185,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>                {</div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32">Enabled</a> = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                    CreatedAt = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                    SystemIdentifier = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 10000, nullable: <span class="keyword">false</span>),</div>
@@ -331,7 +331,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>                {</div>
 <div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
 <div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32">Enabled</a> = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                    CreatedAt = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>                    SystemIdentifier = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
 <div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 100, nullable: <span class="keyword">false</span>),</div>
@@ -395,6 +395,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_user_groups_html_a7ffe4a9281389c09d1597ba9475e5899"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_user_groups.html#a7ffe4a9281389c09d1597ba9475e5899">Tgstation.Server.Host.Database.Migrations.SLAddUserGroups.Down</a></div><div class="ttdeci">override void Down(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition</b> <a href="20201214182101___s_l_add_user_groups_8cs_source.html#l00193">20201214182101_SLAddUserGroups.cs:193</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_user_groups_html_abfe4e4eef5b2f0be8351e5f271684c47"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_user_groups.html#abfe4e4eef5b2f0be8351e5f271684c47">Tgstation.Server.Host.Database.Migrations.SLAddUserGroups.Up</a></div><div class="ttdeci">override void Up(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition</b> <a href="20201214182101___s_l_add_user_groups_8cs_source.html#l00013">20201214182101_SLAddUserGroups.cs:13</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations.html">Tgstation.Server.Host.Database.Migrations</a></div><div class="ttdef"><b>Definition</b> <a href="20180906135553___m_s_initial_create_8cs_source.html#l00006">20180906135553_MSInitialCreate.cs:7</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_html_a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32">Tgstation.Server.Host.OAuthGatewayStatus.Enabled</a></div><div class="ttdeci">@ Enabled</div><div class="ttdoc">The OAuth Gateway is enabled.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
