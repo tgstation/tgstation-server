@@ -18,6 +18,11 @@ namespace Tgstation.Server.Host.Configuration
 		public string? ClientSecret { get; set; }
 
 		/// <summary>
+		/// If the OAuth setup is only to be used for passing the user's OAuth token to clients.
+		/// </summary>
+		public OAuthGatewayStatus? Gateway { get; set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="OAuthConfigurationBase"/> class.
 		/// </summary>
 		public OAuthConfigurationBase()
@@ -33,6 +38,7 @@ namespace Tgstation.Server.Host.Configuration
 			ArgumentNullException.ThrowIfNull(oAuthConfiguration);
 			ClientId = oAuthConfiguration.ClientId;
 			ClientSecret = oAuthConfiguration.ClientSecret;
+			Gateway = oAuthConfiguration.Gateway;
 		}
 	}
 }

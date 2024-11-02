@@ -80,7 +80,10 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public IOAuthValidator? GetValidator(OAuthProvider oAuthProvider) => validators.FirstOrDefault(x => x.Provider == oAuthProvider);
+		public IOAuthValidator? GetValidator(OAuthProvider oAuthProvider, bool forLogin)
+			=> validators.FirstOrDefault(
+				x => x.Provider == oAuthProvider
+				&& ((forLogin && x.GatewayStatus != OAuthGatewayStatus.Only) || (!forLogin && x.GatewayStatus != OAuthGatewayStatus.Disabled)));
 
 		/// <inheritdoc />
 		public Dictionary<OAuthProvider, OAuthProviderInfo> ProviderInfos()

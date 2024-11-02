@@ -1,4 +1,6 @@
-﻿using Tgstation.Server.Api.Rights;
+﻿using System;
+
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
@@ -7,6 +9,13 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// </summary>
 	public sealed class InstancePermissionSet
 	{
+		/// <summary>
+		/// Gets the <see cref="Types.PermissionSet"/> the <see cref="InstancePermissionSet"/> belongs to.
+		/// </summary>
+		/// <returns>The owning <see cref="Types.PermissionSet"/>.</returns>
+		public PermissionSet PermissionSet()
+			=> throw new NotImplementedException();
+
 		/// <summary>
 		/// The <see cref="Api.Rights.InstancePermissionSetRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
