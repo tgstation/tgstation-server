@@ -196,8 +196,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200"><see cref="OAuthGatewayResponse"/> generated successfully.</response>
 		/// <response code="401">OAuth authentication failed.</response>
+		/// <response code="429">OAuth authentication failed due to rate limiting.</response>
 		[HttpPost("oauth_gateway")]
 		[ProducesResponseType(typeof(OAuthGatewayResponse), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 429)]
 		public ValueTask<IActionResult> CreateOAuthGatewayToken(CancellationToken cancellationToken)
 			=> loginAuthority.InvokeTransformable<OAuthGatewayLoginResult, OAuthGatewayResponse>(this, authority => authority.AttemptOAuthGatewayLogin(cancellationToken));
 	}
