@@ -61,9 +61,10 @@ namespace Tgstation.Server.Host.Authority
 		/// <summary>
 		/// Generate an <see cref="AuthorityResponse{TResult}"/> for a given <paramref name="headersException"/>.
 		/// </summary>
+		/// <typeparam name="TResult">The <see cref="Type"/> of <see cref="AuthorityResponse{TResult}"/> to generate.</typeparam>
 		/// <param name="headersException">The <see cref="HeadersException"/> to generate a response for.</param>
 		/// <returns>A new, errored <see cref="LoginResult"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
-		static AuthorityResponse<LoginResult> GenerateHeadersExceptionResponse(HeadersException headersException)
+		static AuthorityResponse<TResult> GenerateHeadersExceptionResponse<TResult>(HeadersException headersException)
 			=> new(
 				new ErrorMessageResponse(ErrorCode.BadHeaders)
 				{
@@ -135,7 +136,7 @@ namespace Tgstation.Server.Host.Authority
 		{
 			var headers = apiHeadersProvider.ApiHeaders;
 			if (headers == null)
-				return GenerateHeadersExceptionResponse(apiHeadersProvider.HeadersException!);
+				return GenerateHeadersExceptionResponse<LoginResult>(apiHeadersProvider.HeadersException!);
 
 			if (headers.IsTokenAuthentication)
 				return BadRequest<LoginResult>(ErrorCode.TokenWithToken);
@@ -161,32 +162,32 @@ namespace Tgstation.Server.Host.Authority
 				if (oAuthLogin)
 				{
 					var oAuthProvider = headers.OAuthProvider!.Value;
-					string? externalUserId;
+					(string? UserID, string AccessCode)? oauthResult;
 					try
 					{
 						var validator = oAuthProviders
-							.GetValidator(oAuthProvider);
+							.GetValidator(oAuthProvider, true);
 
 						if (validator == null)
 							return BadRequest<LoginResult>(ErrorCode.OAuthProviderDisabled);
 
-						externalUserId = await validator
-							.ValidateResponseCode(headers.OAuthCode!, cancellationToken);
+						oauthResult = await validator
+							.ValidateResponseCode(headers.OAuthCode!, true, cancellationToken);
 
-						Logger.LogTrace("External {oAuthProvider} UID: {externalUserId}", oAuthProvider, externalUserId);
+						Logger.LogTrace("External {oAuthProvider} UID: {externalUserId}", oAuthProvider, oauthResult);
 					}
 					catch (Octokit.RateLimitExceededException ex)
 					{
 						return RateLimit<LoginResult>(ex);
 					}
 
-					if (externalUserId == null)
+					if (!oauthResult.HasValue)
 						return Unauthorized<LoginResult>();
 
 					query = query.Where(
 						x => x.OAuthConnections!.Any(
 							y => y.Provider == oAuthProvider
-							&& y.ExternalUserId == externalUserId));
+							&& y.ExternalUserId == oauthResult.Value.UserID));
 				}
 				else
 				{
@@ -279,6 +280,38 @@ namespace Tgstation.Server.Host.Authority
 
 				return new AuthorityResponse<LoginResult>(payload);
 			}
+		}
+
+		/// <inheritdoc />
+		public async ValueTask<AuthorityResponse<OAuthGatewayLoginResult>> AttemptOAuthGatewayLogin(CancellationToken cancellationToken)
+		{
+			var headers = apiHeadersProvider.ApiHeaders;
+			if (headers == null)
+				return GenerateHeadersExceptionResponse<OAuthGatewayLoginResult>(apiHeadersProvider.HeadersException!);
+
+			var oAuthProvider = headers.OAuthProvider;
+			if (!oAuthProvider.HasValue)
+				return BadRequest<OAuthGatewayLoginResult>(ErrorCode.BadHeaders);
+
+			var validator = oAuthProviders
+				.GetValidator(oAuthProvider.Value, false);
+
+			if (validator == null)
+				return BadRequest<OAuthGatewayLoginResult>(ErrorCode.OAuthProviderDisabled);
+
+			var result = await validator
+				.ValidateResponseCode(headers.OAuthCode!, false, cancellationToken);
+
+			if (!result.HasValue)
+				return Unauthorized<OAuthGatewayLoginResult>();
+
+			Logger.LogDebug("Generated {provider} OAuth AccessCode", oAuthProvider.Value);
+
+			return new AuthorityResponse<OAuthGatewayLoginResult>(
+				new OAuthGatewayLoginResult
+				{
+					AccessCode = result.Value.AccessCode,
+				});
 		}
 
 		/// <summary>

@@ -23,11 +23,11 @@ namespace Tgstation.Server.Host.GraphQL
 		public const string GraphQLDescription = "Root Mutation type";
 
 		/// <summary>
-		/// Generate a JWT for authenticating with server. This is the only operation that accepts and required basic authentication.
+		/// Generate a JWT for authenticating with server. This requires either the Basic authentication or OAuth authentication schemes.
 		/// </summary>
 		/// <param name="loginAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="ILoginAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A Bearer token to be used with further communication with the server.</returns>
+		/// <returns>A <see cref="LoginResult"/>.</returns>
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<LoginResult> Login(
 			[Service] IGraphQLAuthorityInvoker<ILoginAuthority> loginAuthority,
@@ -37,6 +37,23 @@ namespace Tgstation.Server.Host.GraphQL
 
 			return loginAuthority.Invoke<LoginResult, LoginResult>(
 				authority => authority.AttemptLogin(cancellationToken));
+		}
+
+		/// <summary>
+		/// Generate an OAuth user token for the requested service. This requires the OAuth authentication scheme.
+		/// </summary>
+		/// <param name="loginAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="ILoginAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>An <see cref="OAuthGatewayLoginResult"/>.</returns>
+		[Error(typeof(ErrorMessageException))]
+		public ValueTask<OAuthGatewayLoginResult> OAuthGateway(
+			[Service] IGraphQLAuthorityInvoker<ILoginAuthority> loginAuthority,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(loginAuthority);
+
+			return loginAuthority.Invoke<OAuthGatewayLoginResult, OAuthGatewayLoginResult>(
+				authority => authority.AttemptOAuthGatewayLogin(cancellationToken));
 		}
 	}
 }

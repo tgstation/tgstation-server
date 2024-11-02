@@ -292,7 +292,7 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `Swarm:UpdateRequiredNodeCount`: Should be set to the total number of servers in your swarm minus 1. Prevents updates from occurring unless the non-controller server count in the swarm is greater than or equal to this value.
 
-- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `Keycloak`, `GitHub`, `Discord`, `InvisionCommunity` and `TGForums`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
+- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `Keycloak`, `GitHub`, `Discord`, `InvisionCommunity` and `TGForums`. Setting these fields to `null` disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
 ```yml
 Security:
   OAuth:
@@ -301,6 +301,7 @@ Security:
       ClientSecret: "..."
       RedirectUrl: "..."
       ServerUrl: "..."
+	  Gateway: Disabled # Can be one of `Disabled` disallowing gateway auth (default), `Enabled` allowing gateway auth, or `Only` allowing gateway auth and disabling OAuth logins with this provider
       UserInformationUrlOverride: "..." # For power users, leave out of configuration for most cases. Not supported by GitHub provider.
 ```
 The following providers use the `RedirectUrl` setting:
@@ -314,6 +315,8 @@ The following providers use the `ServerUrl` setting:
 
 - Keycloak
 - InvisionCommunity
+
+Gateway auth simply allows the users to authenticate with the service using the configuration you provide and have their impersonation token passed back to the client. An example of this is using GitHub gateway auth to allow clients to enumerate pull requests without getting rate limited.
 
 - `Telemetry:DisableVersionReporting`: Prevents you installation and the version you're using from being reported on the source repository's deployments list
 
@@ -637,7 +640,7 @@ This functionality has the following prerequisites:
 Here are tools for interacting with the TGS web API
 
 - [tgstation-server-webpanel](https://github.com/tgstation/tgstation-server-webpanel): Official client and included with the server. A react web app for using tgstation-server.
-- [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Official client. A cross platform GUI for using tgstation-server. Feature complete but lacks OAuth login options.
+- [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Deprecated client. A cross platform GUI for using tgstation-server.
 - [Tgstation.Server.Client](https://www.nuget.org/packages/Tgstation.Server.Client): A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server. Feature complete.
 - [Tgstation.Server.Api](https://www.nuget.org/packages/Tgstation.Server.Api): A nuget .NET Standard 2.0 library containing API definitions for tgstation-server. Feature complete.
 

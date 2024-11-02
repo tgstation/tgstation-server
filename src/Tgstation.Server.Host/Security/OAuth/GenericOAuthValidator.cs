@@ -15,6 +15,7 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.Security.OAuth
 {
@@ -25,6 +26,9 @@ namespace Tgstation.Server.Host.Security.OAuth
 	{
 		/// <inheritdoc />
 		public abstract OAuthProvider Provider { get; }
+
+		/// <inheritdoc />
+		public OAuthGatewayStatus GatewayStatus => OAuthConfiguration.Gateway!.Value;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="GenericOAuthValidator"/>.
@@ -80,7 +84,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<string?> ValidateResponseCode(string code, CancellationToken cancellationToken)
+		public async ValueTask<(string? UserID, string AccessCode)?> ValidateResponseCode(string code, bool requireUserID, CancellationToken cancellationToken)
 		{
 			using var httpClient = CreateHttpClient();
 			string? tokenResponsePayload = null;
@@ -112,6 +116,9 @@ namespace Tgstation.Server.Host.Security.OAuth
 					return null;
 				}
 
+				if (!requireUserID)
+					return (null, AccessCode: accessToken);
+
 				Logger.LogTrace("Getting user details...");
 
 				var userInfoUrl = OAuthConfiguration?.UserInformationUrlOverride ?? UserInformationUrl;
@@ -126,7 +133,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 
 				var userInformationJson = JObject.Parse(userInformationPayload);
 
-				return DecodeUserInformationPayload(userInformationJson);
+				return (DecodeUserInformationPayload(userInformationJson), AccessCode: accessToken);
 			}
 			catch (Exception ex)
 			{
@@ -146,6 +153,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 				ClientId = OAuthConfiguration.ClientId,
 				RedirectUri = OAuthConfiguration.RedirectUrl,
 				ServerUrl = OAuthConfiguration.ServerUrl,
+				GatewayOnly = GatewayStatus.ToBoolean(),
 			};
 
 		/// <summary>

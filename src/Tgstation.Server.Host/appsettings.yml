@@ -65,6 +65,7 @@ Security:
 #     ClientId: # OAuth client ID
 #     ClientSecret: # OAuth client secret
 #     ServerUrl: # Only used by Keycloak and InvisionCommunity. Server URL (Includes Keycloak realm)
+#     Gateway: # Can be one of `Disabled` disallowing gateway auth (default), `Enabled` allowing gateway auth, or `Only` allowing gateway auth and disabling OAuth logins with this provider
 #     UserInformationUrlOverride: # Not supported by GitHub. Overrides the URL TGS uses to retrieve a user's information
     GitHub: # https://github.com OAuth configuration
     Discord: # https://discord.com OAuth configuration
