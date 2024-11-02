@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations.Payloads
 	public sealed class LoginResult : ILegacyApiTransformable<TokenResponse>
 	{
 		/// <summary>
-		/// The JSON Web Token (JWT) to use as a Bearer token for accessing the server at non-login and non-transfer endpoints. Contains an expiry time.
+		/// The JSON Web Token (JWT) to use as a Bearer token for accessing the server at non-login endpoints. Contains an expiry time.
 		/// </summary>
 		[GraphQLType<JwtType>]
 		[GraphQLNonNullType]
