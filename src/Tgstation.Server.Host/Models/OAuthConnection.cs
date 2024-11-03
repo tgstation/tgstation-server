@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.OAuthConnection" />
 	public sealed class OAuthConnection : Api.Models.OAuthConnection, ILegacyApiTransformable<Api.Models.OAuthConnection>
@@ -16,6 +18,7 @@
 		/// <summary>
 		/// The owning <see cref="Models.User"/>.
 		/// </summary>
+		[Required]
 		public User? User { get; set; }
 
 		/// <inheritdoc />
