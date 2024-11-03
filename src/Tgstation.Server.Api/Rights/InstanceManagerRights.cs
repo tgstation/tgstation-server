@@ -67,5 +67,15 @@ namespace Tgstation.Server.Api.Rights
 		/// User can give themselves or their group full <see cref="InstancePermissionSetRights"/> on ALL instances.
 		/// </summary>
 		GrantPermissions = 1 << 10,
+
+		/// <summary>
+		/// User can change <see cref="Models.Instance.AutoStartCron"/>.
+		/// </summary>
+		SetAutoStart = 1 << 11,
+
+		/// <summary>
+		/// User can change <see cref="Models.Instance.AutoStopCron"/>.
+		/// </summary>
+		SetAutoStop = 1 << 12,
 	}
 }

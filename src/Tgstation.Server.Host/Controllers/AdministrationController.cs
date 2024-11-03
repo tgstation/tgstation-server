@@ -124,7 +124,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// Attempt to perform a server upgrade.
 		/// </summary>
 		/// <param name="model">The <see cref="ServerUpdateRequest"/>.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <param name="cancellationToken">The <see cref="Cancellati6onToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="202">Update has been started successfully.</response>
 		/// <response code="410">The requested release version could not be found in the target GitHub repository.</response>

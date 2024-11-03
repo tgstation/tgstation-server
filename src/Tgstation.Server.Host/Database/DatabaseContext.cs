@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -451,22 +451,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddDMApiValidationMode);
+		internal static readonly Type MSLatestMigration = typeof(MSAddAutoStartAndStop);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddDMApiValidationMode);
+		internal static readonly Type MYLatestMigration = typeof(MYAddAutoStartAndStop);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddDMApiValidationMode);
+		internal static readonly Type PGLatestMigration = typeof(PGAddAutoStartAndStop);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddDMApiValidationMode);
+		internal static readonly Type SLLatestMigration = typeof(SLAddAutoStartAndStop);
 
 		/// <summary>
 		/// Gets the name of the migration to run for migrating down to a given <paramref name="targetVersion"/> for the <paramref name="currentDatabaseType"/>.
@@ -482,6 +482,16 @@ namespace Tgstation.Server.Host.Database
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 
 			// !!! DON'T FORGET TO UPDATE THE SWARM PROTOCOL MAJOR VERSION !!!
+			if (targetVersion < new Version(6, 12, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddDMApiValidationMode),
+					DatabaseType.PostgresSql => nameof(PGAddDMApiValidationMode),
+					DatabaseType.SqlServer => nameof(MSAddDMApiValidationMode),
+					DatabaseType.Sqlite => nameof(SLAddDMApiValidationMode),
+					_ => BadDatabaseType(),
+				};
+
 			if (targetVersion < new Version(6, 7, 0))
 				targetMigration = currentDatabaseType switch
 				{

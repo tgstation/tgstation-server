@@ -20,6 +20,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers.Results;
@@ -341,7 +342,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="202">Instance updated successfully and relocation job created.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
-		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline | InstanceManagerRights.SetChatBotLimit)]
+		[TgsAuthorize(
+			InstanceManagerRights.Relocate
+			| InstanceManagerRights.Rename
+			| InstanceManagerRights.SetAutoUpdate
+			| InstanceManagerRights.SetConfiguration
+			| InstanceManagerRights.SetOnline
+			| InstanceManagerRights.SetChatBotLimit
+			| InstanceManagerRights.SetAutoStart
+			| InstanceManagerRights.SetAutoStop)]
 		[ProducesResponseType(typeof(InstanceResponse), 200)]
 		[ProducesResponseType(typeof(InstanceResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
@@ -422,13 +431,18 @@ namespace Tgstation.Server.Host.Controllers
 
 			var oldAutoUpdateInterval = originalModel.AutoUpdateInterval!.Value;
 			var oldAutoUpdateCron = originalModel.AutoUpdateCron;
+			var oldAutoStartCron = originalModel.AutoStartCron;
+			var oldAutoStopCron = originalModel.AutoStopCron;
 
 			var earlyOut = ValidateCronSetting(model);
 			if (earlyOut != null)
 				return earlyOut;
 
-			var changedAutoInterval = model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval;
-			var changedAutoCron = model.AutoUpdateCron != null && oldAutoUpdateCron != model.AutoUpdateCron;
+			var changedAutoUpdateInterval = model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval;
+			var changedAutoUpdateCron = model.AutoUpdateCron != null && oldAutoUpdateCron != model.AutoUpdateCron;
+
+			var changedAutoStart = model.AutoStartCron != null && oldAutoStartCron != model.AutoStartCron;
+			var changedAutoStop = model.AutoStopCron != null && oldAutoStopCron != model.AutoStopCron;
 
 			var renamed = model.Name != null && originalModel.Name != model.Name;
 
@@ -437,7 +451,9 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.ConfigurationType, InstanceManagerRights.SetConfiguration)
 				|| CheckModified(x => x.Name, InstanceManagerRights.Rename)
 				|| CheckModified(x => x.Online, InstanceManagerRights.SetOnline)
-				|| CheckModified(x => x.ChatBotLimit, InstanceManagerRights.SetChatBotLimit))
+				|| CheckModified(x => x.ChatBotLimit, InstanceManagerRights.SetChatBotLimit)
+				|| CheckModified(x => x.AutoStartCron, InstanceManagerRights.SetAutoStart)
+				|| CheckModified(x => x.AutoStopCron, InstanceManagerRights.SetAutoStop))
 				return Forbid();
 
 			if (model.ChatBotLimit.HasValue)
@@ -452,9 +468,9 @@ namespace Tgstation.Server.Host.Controllers
 					return Conflict(new ErrorMessageResponse(ErrorCode.ChatBotMax));
 			}
 
-			if (changedAutoCron)
+			if (changedAutoUpdateCron)
 				model.AutoUpdateInterval = 0;
-			else if (changedAutoInterval)
+			else if (changedAutoUpdateInterval)
 				model.AutoUpdateCron = String.Empty;
 
 			await DatabaseContext.Save(cancellationToken);
@@ -518,13 +534,27 @@ namespace Tgstation.Server.Host.Controllers
 				api.MoveJob = job.ToApi();
 			}
 
-			if (changedAutoInterval || changedAutoCron)
+			var changedAutoUpdate = changedAutoUpdateInterval || changedAutoUpdateCron;
+			if (changedAutoUpdate || changedAutoStart || changedAutoStop)
 			{
 				// ignoring retval because we don't care if it's offline
 				await WithComponentInstanceNullable(
 					async componentInstance =>
 					{
-						await componentInstance.ScheduleAutoUpdate(model.AutoUpdateInterval!.Value, model.AutoUpdateCron);
+						var autoUpdateTask = changedAutoUpdate
+							? componentInstance.ScheduleAutoUpdate(model.AutoUpdateInterval!.Value, model.AutoUpdateCron)
+							: ValueTask.CompletedTask;
+
+						var autoStartTask = changedAutoStart
+							? componentInstance.ScheduleServerStart(model.AutoStartCron)
+							: ValueTask.CompletedTask;
+
+						var autoStopTask = changedAutoStop
+							? componentInstance.ScheduleServerStop(model.AutoStopCron)
+							: ValueTask.CompletedTask;
+
+						await ValueTaskExtensions.WhenAll(autoUpdateTask, autoStartTask, autoStopTask);
+
 						return null;
 					},
 					originalModel);
@@ -769,6 +799,8 @@ namespace Tgstation.Server.Host.Controllers
 				Path = initialSettings.Path,
 				AutoUpdateInterval = initialSettings.AutoUpdateInterval ?? 0,
 				AutoUpdateCron = initialSettings.AutoUpdateCron ?? String.Empty,
+				AutoStartCron = initialSettings.AutoStartCron ?? String.Empty,
+				AutoStopCron = initialSettings.AutoStopCron ?? String.Empty,
 				ChatBotLimit = initialSettings.ChatBotLimit ?? Models.Instance.DefaultChatBotLimit,
 				RepositorySettings = new Models.RepositorySettings
 				{
