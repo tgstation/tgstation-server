@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorRestart" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorRestart">
 <area shape="rect" id="Node000001" title="Attempt to restart the monitor from scratch." alt="" coords="5,167,264,207"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html#a866d0f61c2a2311e5fbe5d8de329df33" title="Create a Task that completes after a given timeSpan .A Task representing the running operation." alt="" coords="353,5,533,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html#a5255a8616967ddacc72efca3bc7b0dcd" title="Create a Task that completes after a given timeSpan .A ValueTask representing the running operation." alt="" coords="353,5,533,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,164,224,114,266,86,311,62,341,49,343,54,313,67,269,91,227,118,162,169"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ac84983fa4b27fcdf9044aaf68ae82a50" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="1307,222,1574,278"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="264,190,1292,240,1292,245,264,196"/>

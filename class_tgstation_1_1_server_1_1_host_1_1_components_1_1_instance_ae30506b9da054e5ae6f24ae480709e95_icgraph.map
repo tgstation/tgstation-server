@@ -1,0 +1,15 @@
+<map id="Tgstation.Server.Host.Components.Instance.TimerLoop" name="Tgstation.Server.Host.Components.Instance.TimerLoop">
+<area shape="rect" id="Node000001" title="Runs a timerAction &#160;every set of given minutes &#160;or on a given cron &#160;schedule." alt="" coords="554,71,780,111"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore.A ValueTask representing the running operation." alt="" coords="280,136,506,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="564,118,482,138,481,133,563,113"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a2fa8e8fdab5b9686604f43fb09f4beee" title="Change the server auto&#45;start timing for the IInstanceCore.A ValueTask representing the running operat..." alt="" coords="280,5,506,46"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="563,69,481,49,482,44,564,64"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#aa94dcbda191729bfe88156309e7f8702" title="Change the server auto&#45;stop timing for the IInstanceCore.A ValueTask representing the running operati..." alt="" coords="280,71,506,111"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="538,94,507,94,507,88,538,88"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,71,232,111"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="289,134,206,115,208,109,290,129"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,136,232,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="264,159,232,159,232,154,264,154"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="290,53,208,73,206,67,289,48"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="264,94,232,94,232,88,264,88"/>
+</map>

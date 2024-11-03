@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Components.Instance.ScheduleServerStop" name="Tgstation.Server.Host.Components.Instance.ScheduleServerStop">
+<area shape="rect" id="Node000001" title="Change the server auto&#45;stop timing for the IInstanceCore.A ValueTask representing the running operati..." alt="" coords="5,39,232,79"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#abd3483d8e410fa0651dcb211a93ad4ea" title="Stops the watchdog." alt="" coords="280,5,506,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,43,264,39,264,44,233,48"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ae30506b9da054e5ae6f24ae480709e95" title="Runs a timerAction &#160;every set of given minutes &#160;or on a given cron &#160;schedule." alt="" coords="280,71,506,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,70,264,73,264,79,232,75"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce" title="Create a Task that completes after a given timeSpan ." alt="" coords="554,71,734,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="506,88,538,88,538,94,506,94"/>
+</map>

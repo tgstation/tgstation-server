@@ -55,6 +55,6 @@
 <area shape="poly" id="edge28_Node000024_Node000007" title=" " alt="" coords="832,211,905,245,989,279,1010,286,1008,291,987,284,903,250,830,216"/>
 <area shape="poly" id="edge30_Node000024_Node000012" title=" " alt="" coords="918,180,1020,177,1126,180,1218,191,1255,201,1281,216,1297,232,1305,250,1308,288,1309,325,1316,343,1329,360,1353,375,1350,380,1326,364,1311,345,1304,326,1303,288,1300,252,1293,235,1278,220,1253,206,1217,196,1125,185,1020,183,918,186"/>
 <area shape="poly" id="edge31_Node000024_Node000016" title=" " alt="" coords="915,211,993,224,992,229,914,216"/>
-<area shape="rect" id="Node000025" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html#a866d0f61c2a2311e5fbe5d8de329df33" title="Create a Task that completes after a given timeSpan .A Task representing the running operation." alt="" coords="1044,115,1224,155"/>
+<area shape="rect" id="Node000025" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html#a5255a8616967ddacc72efca3bc7b0dcd" title="Create a Task that completes after a given timeSpan .A ValueTask representing the running operation." alt="" coords="1044,115,1224,155"/>
 <area shape="poly" id="edge27_Node000024_Node000025" title=" " alt="" coords="914,169,1028,150,1029,155,915,174"/>
 </map>

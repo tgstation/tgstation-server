@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Utils.AsyncDelayer" name="Tgstation.Server.Host.Utils.AsyncDelayer">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,79,186,120"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="43,5,148,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,46,98,79,93,79,93,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="58,109,238,150"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="5,13,110,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,48,133,107,129,110,76,52"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="134,5,347,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="214,60,168,110,164,107,210,56"/>
 </map>

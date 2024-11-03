@@ -11,7 +11,7 @@
 <area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="267,170,334,181,333,187,266,175"/>
 <area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#af8163fad46986d9e6ba2de211e21a849" title="Trigger a custom event from a given invocation ." alt="" coords="315,252,609,292"/>
 <area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="187,175,247,207,316,236,341,244,339,249,314,241,245,212,184,180"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="708,13,888,54"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce" title="Create a Task that completes after a given timeSpan ." alt="" coords="708,13,888,54"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="593,31,692,31,692,36,593,36"/>
 <area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="593,56,685,74,684,79,592,61"/>
 <area shape="poly" id="edge9_Node000007_Node000002" title=" " alt="" coords="561,248,608,236,726,198,727,203,610,241,562,253"/>

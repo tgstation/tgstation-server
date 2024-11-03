@@ -385,7 +385,7 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="238,42,270,39,271,44,238,48"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ab436e58d73b02b895c76ad21caf7d145" title="Queue an expireAction &#160;to run after TicketValidityMinutes." alt="" coords="296,71,505,111"/>
 <area shape="poly" title=" " alt="" coords="238,70,280,75,280,80,238,75"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="563,71,743,111"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce" title="Create a Task that completes after a given timeSpan ." alt="" coords="563,71,743,111"/>
 <area shape="poly" title=" " alt="" coords="506,88,548,88,548,94,506,94"/>
 </map>
 </div>
@@ -462,7 +462,7 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="222,43,254,39,255,44,222,48"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ab436e58d73b02b895c76ad21caf7d145" title="Queue an expireAction &#160;to run after TicketValidityMinutes." alt="" coords="280,71,489,111"/>
 <area shape="poly" title=" " alt="" coords="222,69,264,74,264,79,222,74"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="547,71,727,111"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce" title="Create a Task that completes after a given timeSpan ." alt="" coords="547,71,727,111"/>
 <area shape="poly" title=" " alt="" coords="490,88,532,88,532,94,490,94"/>
 </map>
 </div>
@@ -552,7 +552,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  274</span> </div>
 <div class="line"><span class="lineno">  275</span>                    var now = DateTimeOffset.UtcNow;</div>
 <div class="line"><span class="lineno">  276</span>                    <span class="keywordflow">if</span> (now &lt; expireAt)</div>
-<div class="line"><span class="lineno">  277</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ab838c7d4af83e6c3526288894b883d63">asyncDelayer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Delay</a>(expireAt - now, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#aca7837f476e01b115f7a1f2f6ccc555d">disposeCts</a>.Token);</div>
+<div class="line"><span class="lineno">  277</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ab838c7d4af83e6c3526288894b883d63">asyncDelayer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce">Delay</a>(expireAt - now, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#aca7837f476e01b115f7a1f2f6ccc555d">disposeCts</a>.Token);</div>
 <div class="line"><span class="lineno">  278</span>                }</div>
 <div class="line"><span class="lineno">  279</span>                <span class="keywordflow">finally</span></div>
 <div class="line"><span class="lineno">  280</span>                {</div>
@@ -567,9 +567,9 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  289</span>            }</div>
 <div class="line"><span class="lineno">  290</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_html_a4d32a387874aeea222a5dba31f7617e4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a4d32a387874aeea222a5dba31f7617e4">Tgstation.Server.Host.Transfer.FileTransferService.TicketValidityMinutes</a></div><div class="ttdeci">const int TicketValidityMinutes</div><div class="ttdoc">Number of minutes before transfer ticket expire.</div><div class="ttdef"><b>Definition</b> <a href="_file_transfer_service_8cs_source.html#l00025">FileTransferService.cs:25</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer_html_aeb604334bd297d47506dc23e0d115977"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Tgstation.Server.Host.Utils.IAsyncDelayer.Delay</a></div><div class="ttdeci">Task Delay(TimeSpan timeSpan, CancellationToken cancellationToken)</div><div class="ttdoc">Create a Task that completes after a given timeSpan .</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer_html_a588b00b42267c8d23088bde28d3f7fce"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce">Tgstation.Server.Host.Utils.IAsyncDelayer.Delay</a></div><div class="ttdeci">ValueTask Delay(TimeSpan timeSpan, CancellationToken cancellationToken)</div><div class="ttdoc">Create a Task that completes after a given timeSpan .</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_file_transfer_service_8cs_source.html#l00040">Tgstation.Server.Host.Transfer.FileTransferService.asyncDelayer</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Tgstation.Server.Host.Utils.IAsyncDelayer.Delay()</a>, <a class="el" href="_file_transfer_service_8cs_source.html#l00060">Tgstation.Server.Host.Transfer.FileTransferService.disposeCts</a>, <a class="el" href="_file_transfer_service_8cs_source.html#l00070">Tgstation.Server.Host.Transfer.FileTransferService.expireTask</a>, <a class="el" href="_file_transfer_service_8cs_source.html#l00065">Tgstation.Server.Host.Transfer.FileTransferService.synchronizationLock</a>, and <a class="el" href="_file_transfer_service_8cs_source.html#l00025">Tgstation.Server.Host.Transfer.FileTransferService.TicketValidityMinutes</a>.</p>
+<p class="reference">References <a class="el" href="_file_transfer_service_8cs_source.html#l00040">Tgstation.Server.Host.Transfer.FileTransferService.asyncDelayer</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce">Tgstation.Server.Host.Utils.IAsyncDelayer.Delay()</a>, <a class="el" href="_file_transfer_service_8cs_source.html#l00060">Tgstation.Server.Host.Transfer.FileTransferService.disposeCts</a>, <a class="el" href="_file_transfer_service_8cs_source.html#l00070">Tgstation.Server.Host.Transfer.FileTransferService.expireTask</a>, <a class="el" href="_file_transfer_service_8cs_source.html#l00065">Tgstation.Server.Host.Transfer.FileTransferService.synchronizationLock</a>, and <a class="el" href="_file_transfer_service_8cs_source.html#l00025">Tgstation.Server.Host.Transfer.FileTransferService.TicketValidityMinutes</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_file_transfer_service_8cs_source.html#l00124">Tgstation.Server.Host.Transfer.FileTransferService.CreateDownload()</a>, and <a class="el" href="_file_transfer_service_8cs_source.html#l00151">Tgstation.Server.Host.Transfer.FileTransferService.CreateUpload()</a>.</p>
 <div class="dynheader">
@@ -578,7 +578,7 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_ab436e58d73b02b895c76ad21caf7d145_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_ab436e58d73b02b895c76ad21caf7d145_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_ab436e58d73b02b895c76ad21caf7d145_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_ab436e58d73b02b895c76ad21caf7d145_cgraph">
 <area shape="rect" title="Queue an expireAction &#160;to run after TicketValidityMinutes." alt="" coords="5,5,215,46"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="263,5,443,46"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce" title="Create a Task that completes after a given timeSpan ." alt="" coords="263,5,443,46"/>
 <area shape="poly" title=" " alt="" coords="215,23,247,23,247,28,215,28"/>
 </map>
 </div>

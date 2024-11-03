@@ -129,15 +129,15 @@ Public Member Functions</h2></td></tr>
 </dl>
   <br /></td></tr>
 <tr class="separator:ac9b2740c9d03eb9199d385465bba7630"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4cdb337a82017a480dcfb022ddd3d9b" id="r_ae4cdb337a82017a480dcfb022ddd3d9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker.html#ae4cdb337a82017a480dcfb022ddd3d9b">UserModifiedInvalidateSessions</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> user)</td></tr>
-<tr class="memdesc:ae4cdb337a82017a480dcfb022ddd3d9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invalidate all sessions for a given <em>user</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:ae602123bfa5dcde3f0a5745ff131126f" id="r_ae602123bfa5dcde3f0a5745ff131126f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker.html#ae602123bfa5dcde3f0a5745ff131126f">UserModifiedInvalidateSessions</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> user)</td></tr>
+<tr class="memdesc:ae602123bfa5dcde3f0a5745ff131126f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invalidate all sessions for a given <em>user</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">user</td><td>The User whose sessions should be invalidated.</td></tr>
   </table>
   </dd>
 </dl>
   <br /></td></tr>
-<tr class="separator:ae4cdb337a82017a480dcfb022ddd3d9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ae602123bfa5dcde3f0a5745ff131126f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -154,7 +154,7 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:a5babfeb8f87865259add273e591e36b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ILogger for the SessionInvalidationTracker.  <br /></td></tr>
 <tr class="separator:a5babfeb8f87865259add273e591e36b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a764b0bd626b63197bf21f0d3d704dd54" id="r_a764b0bd626b63197bf21f0d3d704dd54"><td class="memItemLeft" align="right" valign="top">readonly ConcurrentDictionary&lt;(string SessionId, long UserId), TaskCompletionSource&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_subscriptions.html#a520354dfdc2747522110b03b9f1e4a9f">SessionInvalidationReason</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker.html#a764b0bd626b63197bf21f0d3d704dd54">trackedSessions</a></td></tr>
-<tr class="memdesc:a764b0bd626b63197bf21f0d3d704dd54"><td class="mdescLeft">&#160;</td><td class="mdescRight">ConcurrentDictionary&lt;TKey, TValue&gt; of tracked IAuthenticationContext.SessionIds and Models.User Api.Models.EntityId.Ids to the TaskCompletionSource&lt;TResult&gt; for their <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_subscriptions.html#a520354dfdc2747522110b03b9f1e4a9f" title="Reasons TGS may invalidate a user&#39;s login session.">SessionInvalidationReason</a>s.  <br /></td></tr>
+<tr class="memdesc:a764b0bd626b63197bf21f0d3d704dd54"><td class="mdescLeft">&#160;</td><td class="mdescRight">ConcurrentDictionary&lt;TKey, TValue&gt; of tracked IAuthenticationContext.SessionIds and User Api.Models.EntityId.Ids to the TaskCompletionSource&lt;TResult&gt; for their <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_subscriptions.html#a520354dfdc2747522110b03b9f1e4a9f" title="Reasons TGS may invalidate a user&#39;s login session.">SessionInvalidationReason</a>s.  <br /></td></tr>
 <tr class="separator:a764b0bd626b63197bf21f0d3d704dd54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -222,7 +222,7 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker_html_a149bfc37371af844ee238b9e9b5e62a7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker.html#a149bfc37371af844ee238b9e9b5e62a7">Tgstation.Server.Host.Security.SessionInvalidationTracker.asyncDelayer</a></div><div class="ttdeci">readonly IAsyncDelayer asyncDelayer</div><div class="ttdoc">The IAsyncDelayer for the SessionInvalidationTracker.</div><div class="ttdef"><b>Definition</b> <a href="_session_invalidation_tracker_8cs_source.html#l00030">SessionInvalidationTracker.cs:30</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker_html_a5babfeb8f87865259add273e591e36b9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker.html#a5babfeb8f87865259add273e591e36b9">Tgstation.Server.Host.Security.SessionInvalidationTracker.logger</a></div><div class="ttdeci">readonly ILogger&lt; SessionInvalidationTracker &gt; logger</div><div class="ttdoc">The ILogger for the SessionInvalidationTracker.</div><div class="ttdef"><b>Definition</b> <a href="_session_invalidation_tracker_8cs_source.html#l00040">SessionInvalidationTracker.cs:40</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker_html_a6a2952ad2a54539e9ece0cc435b2ef63"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker.html#a6a2952ad2a54539e9ece0cc435b2ef63">Tgstation.Server.Host.Security.SessionInvalidationTracker.eventSender</a></div><div class="ttdeci">readonly ITopicEventSender eventSender</div><div class="ttdoc">The ITopicEventSender for the SessionInvalidationTracker.</div><div class="ttdef"><b>Definition</b> <a href="_session_invalidation_tracker_8cs_source.html#l00025">SessionInvalidationTracker.cs:25</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker_html_a764b0bd626b63197bf21f0d3d704dd54"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker.html#a764b0bd626b63197bf21f0d3d704dd54">Tgstation.Server.Host.Security.SessionInvalidationTracker.trackedSessions</a></div><div class="ttdeci">readonly ConcurrentDictionary&lt;(string SessionId, long UserId), TaskCompletionSource&lt; SessionInvalidationReason &gt; &gt; trackedSessions</div><div class="ttdoc">ConcurrentDictionary&lt;TKey, TValue&gt; of tracked IAuthenticationContext.SessionIds and Models....</div><div class="ttdef"><b>Definition</b> <a href="_session_invalidation_tracker_8cs_source.html#l00045">SessionInvalidationTracker.cs:45</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker_html_a764b0bd626b63197bf21f0d3d704dd54"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker.html#a764b0bd626b63197bf21f0d3d704dd54">Tgstation.Server.Host.Security.SessionInvalidationTracker.trackedSessions</a></div><div class="ttdeci">readonly ConcurrentDictionary&lt;(string SessionId, long UserId), TaskCompletionSource&lt; SessionInvalidationReason &gt; &gt; trackedSessions</div><div class="ttdoc">ConcurrentDictionary&lt;TKey, TValue&gt; of tracked IAuthenticationContext.SessionIds and User Api....</div><div class="ttdef"><b>Definition</b> <a href="_session_invalidation_tracker_8cs_source.html#l00045">SessionInvalidationTracker.cs:45</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker_html_ab073edc6db5c55445553b2f3c09a92d7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker.html#ab073edc6db5c55445553b2f3c09a92d7">Tgstation.Server.Host.Security.SessionInvalidationTracker.applicationLifetime</a></div><div class="ttdeci">readonly IHostApplicationLifetime applicationLifetime</div><div class="ttdoc">The IHostApplicationLifetime for the SessionInvalidationTracker.</div><div class="ttdef"><b>Definition</b> <a href="_session_invalidation_tracker_8cs_source.html#l00035">SessionInvalidationTracker.cs:35</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_session_invalidation_tracker_8cs_source.html#l00035">Tgstation.Server.Host.Security.SessionInvalidationTracker.applicationLifetime</a>, <a class="el" href="_session_invalidation_tracker_8cs_source.html#l00030">Tgstation.Server.Host.Security.SessionInvalidationTracker.asyncDelayer</a>, <a class="el" href="_session_invalidation_tracker_8cs_source.html#l00025">Tgstation.Server.Host.Security.SessionInvalidationTracker.eventSender</a>, <a class="el" href="_session_invalidation_tracker_8cs_source.html#l00040">Tgstation.Server.Host.Security.SessionInvalidationTracker.logger</a>, and <a class="el" href="_session_invalidation_tracker_8cs_source.html#l00045">Tgstation.Server.Host.Security.SessionInvalidationTracker.trackedSessions</a>.</p>
@@ -276,7 +276,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   86</span>                                var timeTillSessionExpiry = authenticationContext.SessionExpiry - DateTimeOffset.UtcNow;</div>
 <div class="line"><span class="lineno">   87</span>                                if (timeTillSessionExpiry &gt; TimeSpan.Zero)</div>
 <div class="line"><span class="lineno">   88</span>                                {</div>
-<div class="line"><span class="lineno">   89</span>                                    var delayTask = asyncDelayer.Delay(timeTillSessionExpiry, applicationLifetime.ApplicationStopping);</div>
+<div class="line"><span class="lineno">   89</span>                                    var delayTask = asyncDelayer.Delay(timeTillSessionExpiry, applicationLifetime.ApplicationStopping).AsTask();</div>
 <div class="line"><span class="lineno">   90</span> </div>
 <div class="line"><span class="lineno">   91</span>                                    await Task.WhenAny(delayTask, otherCancellationReason);</div>
 <div class="line"><span class="lineno">   92</span> </div>
@@ -315,8 +315,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ae4cdb337a82017a480dcfb022ddd3d9b" name="ae4cdb337a82017a480dcfb022ddd3d9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4cdb337a82017a480dcfb022ddd3d9b">&#9670;&#160;</a></span>UserModifiedInvalidateSessions()</h2>
+<a id="ae602123bfa5dcde3f0a5745ff131126f" name="ae602123bfa5dcde3f0a5745ff131126f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae602123bfa5dcde3f0a5745ff131126f">&#9670;&#160;</a></span>UserModifiedInvalidateSessions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -324,7 +324,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void Tgstation.Server.Host.Security.SessionInvalidationTracker.UserModifiedInvalidateSessions </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models::User</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>&#160;</td>
           <td class="paramname"><em>user</em></td><td>)</td>
           <td></td>
         </tr>
@@ -492,7 +492,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>ConcurrentDictionary&lt;TKey, TValue&gt; of tracked IAuthenticationContext.SessionIds and Models.User Api.Models.EntityId.Ids to the TaskCompletionSource&lt;TResult&gt; for their <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_subscriptions.html#a520354dfdc2747522110b03b9f1e4a9f" title="Reasons TGS may invalidate a user&#39;s login session.">SessionInvalidationReason</a>s. </p>
+<p>ConcurrentDictionary&lt;TKey, TValue&gt; of tracked IAuthenticationContext.SessionIds and User Api.Models.EntityId.Ids to the TaskCompletionSource&lt;TResult&gt; for their <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_subscriptions.html#a520354dfdc2747522110b03b9f1e4a9f" title="Reasons TGS may invalidate a user&#39;s login session.">SessionInvalidationReason</a>s. </p>
 
 <p class="definition">Definition at line <a class="el" href="_session_invalidation_tracker_8cs_source.html#l00045">45</a> of file <a class="el" href="_session_invalidation_tracker_8cs_source.html">SessionInvalidationTracker.cs</a>.</p>
 

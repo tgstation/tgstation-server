@@ -172,15 +172,15 @@ Components:
   Core:
   - Version: 6.12.0
     ComponentVersions:
-      HttpApi: 10.11.0
+      HttpApi: 10.12.0
       GraphQLApi: 0.5.0
       DreamMakerApi: 7.3.0
       Configuration: 5.4.0
       InteropApi: 5.10.0
       HostWatchdog: 1.5.0
       NugetCommon: 7.0.0
-      NugetApi: 16.2.0
-      NugetClient: 19.2.0
+      NugetApi: 16.3.0
+      NugetClient: 19.3.0
       WebControlPanel: 6.4.0
     Changes:
     - Descriptions:
@@ -191,6 +191,16 @@ Components:
       - OAuth providers can now forward user tokens to clients.
       Author: Cyberboss
       PullRequest: 1997
+    - Descriptions:
+      - Fixed version telemetry not being reported. This was due to a misconfiguration in the deployment process and isn't reflected in code.
+      - Fixed `GET /Administration` returning bad data if a prior request to it was aborted.
+      - Fixed downgrading to versions between <6.70 and >=6.6.0 migrating MySQL/MariaDB databases incorrectly.
+      - UserId in OAuthConnections schema is now properly non-nullable.
+      - '**(POTENTIAL INCOMPATIBILITY) Limited database cron string lengths to 1000 characters instead of 10000.**'
+      - Fixed cases where very long timers could throw exceptions.
+      - Added start/stop cron schedules for instance game servers.
+      Author: Cyberboss
+      PullRequest: 1998
     Unreleased: true
   - Version: 6.11.5
     ComponentVersions: {}
@@ -3955,6 +3965,13 @@ Components:
       Author: alexkar598
       PullRequest: 1133
   HttpApi:
+  - Version: 10.12.0
+    Changes:
+    - Descriptions:
+      - Added `autoStartCron` and `autoStopCron` to Instance model. Functions identically to `autoUpdateCron` but will instead launch and gracefully shutdown the server respectively. Added instance rights 2048 and 4096 to adjust these respectively.
+      Author: Cyberboss
+      PullRequest: 1998
+    Unreleased: true
   - Version: 10.11.0
     Changes:
     - Descriptions:
@@ -4820,6 +4837,17 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 16.3.0
+    Changes:
+    - Descriptions:
+      - Updated to API v10.12.0.
+      - Added `Limits.CronStringLength`.
+      - Adjusted `StringLength` attribute on `Instance.AutoUpdateCron`.
+      - Added `Instance.AutoStartCron` and `Instance.AutoStopCron`.
+      - Added `InstanceManagerRights.SetAutoStart` and `InstanceManagerRights.SetAutoStop`.
+      Author: Cyberboss
+      PullRequest: 1998
+    Unreleased: true
   - Version: 16.2.0
     Changes:
     - Descriptions:
@@ -4913,6 +4941,13 @@ Components:
       Author: Cyberboss
       PullRequest: 1629
   NugetClient:
+  - Version: 19.3.0
+    Changes:
+    - Descriptions:
+      - Update API Library to v16.3.0
+      Author: Cyberboss
+      PullRequest: 1998
+    Unreleased: true
   - Version: 19.2.0
     Changes:
     - Descriptions:

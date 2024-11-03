@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.IWatchdog.Launch" name="Tgstation.Server.Host.Components.Watchdog.IWatchdog.Launch">
+<area shape="rect" id="Node000001" title="Start the IWatchdog." alt="" coords="554,5,780,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a2fa8e8fdab5b9686604f43fb09f4beee" title="Change the server auto&#45;start timing for the IInstanceCore.A ValueTask representing the running operat..." alt="" coords="280,5,506,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="538,28,507,28,507,23,538,23"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="264,28,232,28,232,23,264,23"/>
+</map>

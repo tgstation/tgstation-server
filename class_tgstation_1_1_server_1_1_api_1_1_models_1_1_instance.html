@@ -136,6 +136,12 @@ Properties</h2></td></tr>
 <tr class="memitem:ae07e119a1bd8ddbcf2641a8f7b734c2b" id="r_ae07e119a1bd8ddbcf2641a8f7b734c2b"><td class="memItemLeft" align="right" valign="top">ushort?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#ae07e119a1bd8ddbcf2641a8f7b734c2b">ChatBotLimit</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:ae07e119a1bd8ddbcf2641a8f7b734c2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum number of chat bots the Instance may contain.  <br /></td></tr>
 <tr class="separator:ae07e119a1bd8ddbcf2641a8f7b734c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fadb8afb3c5dd08834156669acc5da0" id="r_a5fadb8afb3c5dd08834156669acc5da0"><td class="memItemLeft" align="right" valign="top">string?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a5fadb8afb3c5dd08834156669acc5da0">AutoStartCron</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a5fadb8afb3c5dd08834156669acc5da0"><td class="mdescLeft">&#160;</td><td class="mdescRight">A cron expression indicating when the game server should start. Must be a valid 6 part cron schedule (SECONDS MINUTES HOURS DAY/MONTH MONTH DAY/WEEK). Empty string disables.  <br /></td></tr>
+<tr class="separator:a5fadb8afb3c5dd08834156669acc5da0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaeeec5c23776ed01d28343c131f3b02" id="r_aeaeeec5c23776ed01d28343c131f3b02"><td class="memItemLeft" align="right" valign="top">string?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#aeaeeec5c23776ed01d28343c131f3b02">AutoStopCron</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:aeaeeec5c23776ed01d28343c131f3b02"><td class="mdescLeft">&#160;</td><td class="mdescRight">A cron expression indicating when the game server should stop. Must be a valid 6 part cron schedule (SECONDS MINUTES HOURS DAY/MONTH MONTH DAY/WEEK). Empty string disables.  <br /></td></tr>
+<tr class="separator:aeaeeec5c23776ed01d28343c131f3b02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity"><td colspan="2" onclick="javascript:toggleInherit('properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html">Tgstation.Server.Api.Models.NamedEntity</a></td></tr>
 <tr class="memitem:a7e2f2eeddbc6315acbcfa00c54762183 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity" id="r_a7e2f2eeddbc6315acbcfa00c54762183"><td class="memItemLeft" align="right" valign="top">virtual ? string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html#a7e2f2eeddbc6315acbcfa00c54762183">Name</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a7e2f2eeddbc6315acbcfa00c54762183 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the entity represented by the NamedEntity.  <br /></td></tr>
@@ -150,6 +156,66 @@ Properties</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00008">8</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
 </div><h2 class="groupheader">Property Documentation</h2>
+<a id="a5fadb8afb3c5dd08834156669acc5da0" name="a5fadb8afb3c5dd08834156669acc5da0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fadb8afb3c5dd08834156669acc5da0">&#9670;&#160;</a></span>AutoStartCron</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string? Tgstation.Server.Api.Models.Instance.AutoStartCron</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A cron expression indicating when the game server should start. Must be a valid 6 part cron schedule (SECONDS MINUTES HOURS DAY/MONTH MONTH DAY/WEEK). Empty string disables. </p>
+<p>This will have no effect if the game server is already running when it fires.</p>
+
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00058">58</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   58</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html#a2ae360e577f915de427561144e8a2b21">Tgstation.Server.Host.Models.Instance.ToApi()</a>.</p>
+
+</div>
+</div>
+<a id="aeaeeec5c23776ed01d28343c131f3b02" name="aeaeeec5c23776ed01d28343c131f3b02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeaeeec5c23776ed01d28343c131f3b02">&#9670;&#160;</a></span>AutoStopCron</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string? Tgstation.Server.Api.Models.Instance.AutoStopCron</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A cron expression indicating when the game server should stop. Must be a valid 6 part cron schedule (SECONDS MINUTES HOURS DAY/MONTH MONTH DAY/WEEK). Empty string disables. </p>
+<p>This will have no effect if the game server is not running when it fires.</p>
+
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00066">66</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   66</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html#a2ae360e577f915de427561144e8a2b21">Tgstation.Server.Host.Models.Instance.ToApi()</a>.</p>
+
+</div>
+</div>
 <a id="aa94e263fa829683a2b8ae4cdf8d366c6" name="aa94e263fa829683a2b8ae4cdf8d366c6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa94e263fa829683a2b8ae4cdf8d366c6">&#9670;&#160;</a></span>AutoUpdateCron</h2>
 

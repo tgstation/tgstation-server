@@ -2,6 +2,6 @@
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,5,264,46"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a42facc7032e0b6c2e11c446774de6c89" title="Attempt to disconnect from IRC immediately." alt="" coords="312,5,580,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,23,296,23,296,28,264,28"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html#a866d0f61c2a2311e5fbe5d8de329df33" title="Create a Task that completes after a given timeSpan .A Task representing the running operation." alt="" coords="628,5,808,46"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html#a5255a8616967ddacc72efca3bc7b0dcd" title="Create a Task that completes after a given timeSpan .A ValueTask representing the running operation." alt="" coords="628,5,808,46"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="580,23,612,23,612,28,580,28"/>
 </map>

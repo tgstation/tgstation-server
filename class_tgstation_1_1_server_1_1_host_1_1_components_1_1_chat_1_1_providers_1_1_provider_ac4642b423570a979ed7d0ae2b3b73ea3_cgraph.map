@@ -8,7 +8,7 @@
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="464,199,537,129,587,90,642,57,657,50,660,54,644,61,590,94,541,133,468,203"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#afb982e4f4d1492aced7dcf14d9ba5d97" title="Creates a new job for registering in the Jobs.IJobService." alt="" coords="677,71,872,111"/>
 <area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="482,198,555,160,642,122,666,114,668,119,644,127,557,165,484,203"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html#a866d0f61c2a2311e5fbe5d8de329df33" title="Create a Task that completes after a given timeSpan .A Task representing the running operation." alt="" coords="685,136,865,177"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html#a5255a8616967ddacc72efca3bc7b0dcd" title="Create a Task that completes after a given timeSpan .A ValueTask representing the running operation." alt="" coords="685,136,865,177"/>
 <area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="551,198,669,175,670,180,552,203"/>
 <area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a3b359aa78d4328a994a8cb351dff7725" title="Gracefully disconnects the provider." alt="" coords="650,201,900,242"/>
 <area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="580,219,634,219,634,224,580,224"/>

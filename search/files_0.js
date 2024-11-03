@@ -311,5 +311,13 @@ var searchData=
   ['20240907172251_5fpgadddmapivalidationmode_2ecs_308',['20240907172251_PGAddDMApiValidationMode.cs',['../20240907172251___p_g_add_d_m_api_validation_mode_8cs.html',1,'']]],
   ['20240907172251_5fpgadddmapivalidationmode_2edesigner_2ecs_309',['20240907172251_PGAddDMApiValidationMode.Designer.cs',['../20240907172251___p_g_add_d_m_api_validation_mode_8_designer_8cs.html',1,'']]],
   ['20240907172259_5fsladddmapivalidationmode_2ecs_310',['20240907172259_SLAddDMApiValidationMode.cs',['../20240907172259___s_l_add_d_m_api_validation_mode_8cs.html',1,'']]],
-  ['20240907172259_5fsladddmapivalidationmode_2edesigner_2ecs_311',['20240907172259_SLAddDMApiValidationMode.Designer.cs',['../20240907172259___s_l_add_d_m_api_validation_mode_8_designer_8cs.html',1,'']]]
+  ['20240907172259_5fsladddmapivalidationmode_2edesigner_2ecs_311',['20240907172259_SLAddDMApiValidationMode.Designer.cs',['../20240907172259___s_l_add_d_m_api_validation_mode_8_designer_8cs.html',1,'']]],
+  ['20241103161845_5fmsaddautostartandstop_2ecs_312',['20241103161845_MSAddAutoStartAndStop.cs',['../20241103161845___m_s_add_auto_start_and_stop_8cs.html',1,'']]],
+  ['20241103161845_5fmsaddautostartandstop_2edesigner_2ecs_313',['20241103161845_MSAddAutoStartAndStop.Designer.cs',['../20241103161845___m_s_add_auto_start_and_stop_8_designer_8cs.html',1,'']]],
+  ['20241103161856_5fmyaddautostartandstop_2ecs_314',['20241103161856_MYAddAutoStartAndStop.cs',['../20241103161856___m_y_add_auto_start_and_stop_8cs.html',1,'']]],
+  ['20241103161856_5fmyaddautostartandstop_2edesigner_2ecs_315',['20241103161856_MYAddAutoStartAndStop.Designer.cs',['../20241103161856___m_y_add_auto_start_and_stop_8_designer_8cs.html',1,'']]],
+  ['20241103161906_5fpgaddautostartandstop_2ecs_316',['20241103161906_PGAddAutoStartAndStop.cs',['../20241103161906___p_g_add_auto_start_and_stop_8cs.html',1,'']]],
+  ['20241103161906_5fpgaddautostartandstop_2edesigner_2ecs_317',['20241103161906_PGAddAutoStartAndStop.Designer.cs',['../20241103161906___p_g_add_auto_start_and_stop_8_designer_8cs.html',1,'']]],
+  ['20241103161915_5fsladdautostartandstop_2ecs_318',['20241103161915_SLAddAutoStartAndStop.cs',['../20241103161915___s_l_add_auto_start_and_stop_8cs.html',1,'']]],
+  ['20241103161915_5fsladdautostartandstop_2edesigner_2ecs_319',['20241103161915_SLAddAutoStartAndStop.Designer.cs',['../20241103161915___s_l_add_auto_start_and_stop_8_designer_8cs.html',1,'']]]
 ];

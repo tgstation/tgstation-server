@@ -8,7 +8,7 @@
 <area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1509,151,1410,171,1409,166,1508,146"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title="Create and a compile job and insert it into the database. Meant to be called by a IJobManager...." alt="" coords="828,39,1114,79"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1178,62,1114,62,1114,56,1178,56"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="554,39,780,79"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9ab4ae1f451c0feaf8845768bfb461c2" title="Pulls the repository and compiles." alt="" coords="554,39,780,79"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="813,62,781,62,781,56,813,56"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore.A ValueTask representing the running operation." alt="" coords="280,39,506,79"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="538,62,507,62,507,56,538,56"/>

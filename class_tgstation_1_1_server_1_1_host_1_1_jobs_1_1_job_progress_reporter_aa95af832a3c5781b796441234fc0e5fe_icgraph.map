@@ -34,7 +34,7 @@
 <area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="604,550,506,529,507,524,605,545"/>
 <area shape="poly" id="edge13_Node000013_Node000003" title=" " alt="" coords="930,82,839,82,839,77,930,77"/>
 <area shape="poly" id="edge14_Node000013_Node000004" title=" " alt="" coords="938,106,831,126,830,121,937,100"/>
-<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="609,616,835,657"/>
+<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9ab4ae1f451c0feaf8845768bfb461c2" title="Pulls the repository and compiles." alt="" coords="609,616,835,657"/>
 <area shape="poly" id="edge16_Node000014_Node000015" title=" " alt="" coords="933,639,835,639,835,634,933,634"/>
 <area shape="rect" id="Node000016" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore.A ValueTask representing the running operation." alt="" coords="291,616,518,657"/>
 <area shape="poly" id="edge17_Node000015_Node000016" title=" " alt="" coords="593,639,518,639,518,634,593,634"/>

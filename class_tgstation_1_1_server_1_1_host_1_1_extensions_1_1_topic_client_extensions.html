@@ -217,23 +217,23 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   65</span>                    logger.LogWarning(ex, <span class="stringliteral">&quot;SendTopic exception!{retryDetails}&quot;</span>, priority ? $<span class="stringliteral">&quot; {i} attempts remaining.&quot;</span> : String.Empty);</div>
 <div class="line"><span class="lineno">   66</span> </div>
 <div class="line"><span class="lineno">   67</span>                    <span class="keywordflow">if</span> (priority &amp;&amp; i &gt; 0)</div>
-<div class="line"><span class="lineno">   68</span>                        await delayer.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Delay</a>(TimeSpan.FromSeconds(2), cancellationToken);</div>
+<div class="line"><span class="lineno">   68</span>                        await delayer.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce">Delay</a>(TimeSpan.FromSeconds(2), cancellationToken);</div>
 <div class="line"><span class="lineno">   69</span>                }</div>
 <div class="line"><span class="lineno">   70</span> </div>
 <div class="line"><span class="lineno">   71</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">   72</span>        }</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_topic_client_extensions_html_a69da51f6f928e9a037d74019f800c517"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_topic_client_extensions.html#a69da51f6f928e9a037d74019f800c517">Tgstation.Server.Host.Extensions.TopicClientExtensions.topicRequestId</a></div><div class="ttdeci">static ulong topicRequestId</div><div class="ttdoc">Counter for topic request logging.</div><div class="ttdef"><b>Definition</b> <a href="_topic_client_extensions_8cs_source.html#l00022">TopicClientExtensions.cs:22</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer_html_aeb604334bd297d47506dc23e0d115977"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Tgstation.Server.Host.Utils.IAsyncDelayer.Delay</a></div><div class="ttdeci">Task Delay(TimeSpan timeSpan, CancellationToken cancellationToken)</div><div class="ttdoc">Create a Task that completes after a given timeSpan .</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer_html_a588b00b42267c8d23088bde28d3f7fce"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce">Tgstation.Server.Host.Utils.IAsyncDelayer.Delay</a></div><div class="ttdeci">ValueTask Delay(TimeSpan timeSpan, CancellationToken cancellationToken)</div><div class="ttdoc">Create a Task that completes after a given timeSpan .</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Tgstation.Server.Host.Utils.IAsyncDelayer.Delay()</a>, and <a class="el" href="_topic_client_extensions_8cs_source.html#l00022">Tgstation.Server.Host.Extensions.TopicClientExtensions.topicRequestId</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce">Tgstation.Server.Host.Utils.IAsyncDelayer.Delay()</a>, and <a class="el" href="_topic_client_extensions_8cs_source.html#l00022">Tgstation.Server.Host.Extensions.TopicClientExtensions.topicRequestId</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_topic_client_extensions_a02c1f045aed9552d49262777a0d2d1f5_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_topic_client_extensions_a02c1f045aed9552d49262777a0d2d1f5_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_topic_client_extensions_a02c1f045aed9552d49262777a0d2d1f5_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_topic_client_extensions_a02c1f045aed9552d49262777a0d2d1f5_cgraph">
 <area shape="rect" title="Send a queryString &#160;with optional repeated priority." alt="" coords="5,5,262,61"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="310,13,490,54"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce" title="Create a Task that completes after a given timeSpan ." alt="" coords="310,13,490,54"/>
 <area shape="poly" title=" " alt="" coords="262,31,294,31,294,36,262,36"/>
 </map>
 </div>

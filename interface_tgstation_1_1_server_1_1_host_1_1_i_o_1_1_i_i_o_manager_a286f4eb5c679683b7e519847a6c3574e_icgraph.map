@@ -101,7 +101,7 @@
 <area shape="poly" id="edge46_Node000040_Node000041" title=" " alt="" coords="955,1723,872,1723,872,1717,955,1717"/>
 <area shape="rect" id="Node000042" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title="Create and a compile job and insert it into the database. Meant to be called by a IJobManager...." alt="" coords="280,1700,566,1740"/>
 <area shape="poly" id="edge47_Node000041_Node000042" title=" " alt="" coords="630,1723,566,1723,566,1717,630,1717"/>
-<area shape="rect" id="Node000043" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="5,1700,232,1740"/>
+<area shape="rect" id="Node000043" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9ab4ae1f451c0feaf8845768bfb461c2" title="Pulls the repository and compiles." alt="" coords="5,1700,232,1740"/>
 <area shape="poly" id="edge48_Node000042_Node000043" title=" " alt="" coords="264,1723,232,1723,232,1717,264,1717"/>
 <area shape="poly" id="edge50_Node000047_Node000003" title=" " alt="" coords="965,68,849,95,848,90,964,62"/>
 <area shape="rect" id="Node000045" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="646,1765,872,1806"/>

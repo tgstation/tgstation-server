@@ -43,7 +43,7 @@
 <area shape="poly" id="edge23_Node000019_Node000002" title=" " alt="" coords="513,332,755,196,758,201,516,336"/>
 <area shape="poly" id="edge31_Node000019_Node000007" title=" " alt="" coords="605,338,1047,289,1048,294,606,343"/>
 <area shape="poly" id="edge32_Node000019_Node000011" title=" " alt="" coords="605,361,1000,387,1000,393,605,366"/>
-<area shape="rect" id="Node000020" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html#a866d0f61c2a2311e5fbe5d8de329df33" title="Create a Task that completes after a given timeSpan .A Task representing the running operation." alt="" coords="732,417,912,458"/>
+<area shape="rect" id="Node000020" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html#a5255a8616967ddacc72efca3bc7b0dcd" title="Create a Task that completes after a given timeSpan .A ValueTask representing the running operation." alt="" coords="732,417,912,458"/>
 <area shape="poly" id="edge22_Node000019_Node000020" title=" " alt="" coords="575,373,629,386,727,410,726,416,627,391,574,379"/>
 <area shape="rect" id="Node000021" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#abbff1b419510f84375b7ca3dcf315b03" title="Launches the watchdog." alt="" coords="691,532,953,573"/>
 <area shape="poly" id="edge24_Node000019_Node000021" title=" " alt="" coords="607,373,630,386,648,406,656,426,663,447,678,468,716,498,758,522,755,527,713,503,674,471,658,449,651,428,643,409,626,390,604,378"/>

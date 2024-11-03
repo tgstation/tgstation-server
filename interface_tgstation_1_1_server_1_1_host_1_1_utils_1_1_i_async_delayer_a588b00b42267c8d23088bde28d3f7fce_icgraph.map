@@ -1,0 +1,66 @@
+<map id="Tgstation.Server.Host.Utils.IAsyncDelayer.Delay" name="Tgstation.Server.Host.Utils.IAsyncDelayer.Delay">
+<area shape="rect" id="Node000001" title="Create a Task that completes after a given timeSpan ." alt="" coords="991,433,1172,474"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a33e4098f6026023493a1a03c300047ee" title="Signal to the swarm that an update is ready to be applied.A ValueTask&lt;TResult&gt; resulting in the Swarm..." alt="" coords="700,5,896,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1076,418,1068,343,1047,246,1030,195,1007,146,978,101,942,61,920,46,895,37,897,32,923,42,945,57,982,97,1011,144,1034,193,1052,245,1073,342,1081,418"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afe4594add2f59816b1b76998d95eef66" title=" " alt="" coords="652,71,943,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1073,418,1061,355,1038,275,1020,234,999,195,973,158,942,126,924,114,927,110,945,122,977,155,1003,192,1025,232,1043,274,1066,353,1079,417"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_version_reporting_service.html#a80b969d62c493eaecb088134c4b29111" title=" " alt="" coords="673,136,922,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1070,419,1054,368,1028,306,991,244,968,216,942,192,921,179,924,175,945,188,972,212,996,241,1033,303,1059,366,1075,418"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#abe969c596f06eb501dfd16ab3e0cab93" title="The Task&lt;TResult&gt; for LaunchResult." alt="" coords="659,201,936,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1064,420,1044,382,1018,337,983,294,942,257,919,245,922,240,945,253,987,290,1022,334,1049,379,1068,418"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a77e5495fa90b8eed2f2d86c6fb711da8" title="Initializes a new instance of the IdentityCacheObject class." alt="" coords="669,267,927,307"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1054,423,1006,371,975,345,942,323,914,310,916,305,945,318,978,340,1009,367,1058,419"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ae64238c09aa5b3301d05109ceee5d09e" title="Initializes the connection to the TGS swarm." alt="" coords="685,332,911,373"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1029,428,988,407,942,388,902,376,904,371,944,383,990,402,1032,423"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a7f569962d99d053d51ce1f51e2be4a04" title="Lock all DeploymentLockManagers states." alt="" coords="671,397,925,438"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="976,443,925,436,925,431,976,438"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a5fceb9618381d05a21cfb3254218f3ff" title="Check if a given port &#160;can be bound to." alt="" coords="676,462,919,518"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="976,470,920,477,920,472,975,464"/>
+<area shape="rect" id="Node000016" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a942e01f9d2d1d1bea135e4edf5ce6656" title="Terminates the server after ten seconds if it does not exit." alt="" coords="668,542,928,598"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="1037,485,993,509,944,532,913,544,911,539,942,527,990,505,1034,480"/>
+<area shape="rect" id="Node000019" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad5ab3803515d1f7387db7d7bbdc2a7e0" title="Handle a set of bridge parameters .A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the reque..." alt="" coords="669,621,926,662"/>
+<area shape="poly" id="edge19_Node000001_Node000019" title=" " alt="" coords="1062,489,1014,552,982,585,945,612,922,623,919,618,942,607,978,581,1010,549,1058,486"/>
+<area shape="rect" id="Node000020" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ab436e58d73b02b895c76ad21caf7d145" title="Queue an expireAction &#160;to run after TicketValidityMinutes." alt="" coords="693,687,902,727"/>
+<area shape="poly" id="edge20_Node000001_Node000020" title=" " alt="" coords="1071,489,1053,533,1026,583,990,634,969,656,945,676,904,696,902,691,942,671,965,652,986,630,1021,580,1048,530,1066,487"/>
+<area shape="rect" id="Node000023" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_topic_client_extensions.html#a02c1f045aed9552d49262777a0d2d1f5" title="Send a queryString &#160;with optional repeated priority." alt="" coords="670,751,926,807"/>
+<area shape="poly" id="edge23_Node000001_Node000023" title=" " alt="" coords="1076,490,1061,545,1035,613,997,682,973,713,945,741,928,753,925,749,942,737,969,710,993,679,1030,611,1056,544,1071,488"/>
+<area shape="rect" id="Node000024" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#aa775b37e8e7b6a06494a34845894d5e8" title="Thread for listening to signal." alt="" coords="687,831,908,871"/>
+<area shape="poly" id="edge24_Node000001_Node000024" title=" " alt="" coords="1080,490,1071,560,1048,650,1031,697,1008,742,980,784,945,821,910,841,907,837,942,817,976,781,1003,740,1026,695,1043,648,1065,559,1075,489"/>
+<area shape="rect" id="Node000026" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ae30506b9da054e5ae6f24ae480709e95" title="Runs a timerAction &#160;every set of given minutes &#160;or on a given cron &#160;schedule." alt="" coords="685,912,911,953"/>
+<area shape="poly" id="edge26_Node000001_Node000026" title=" " alt="" coords="1082,490,1074,570,1053,675,1036,732,1013,787,983,839,945,885,925,901,901,914,899,909,922,897,941,881,978,836,1008,784,1031,730,1048,674,1069,569,1076,489"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a9c7045ef0230c1d6c2cf3f711ec6b9ba" title="Initializes a new instance of the SessionController class." alt="" coords="320,201,599,242"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="643,224,599,224,599,219,643,219"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="346,332,573,373"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="669,355,573,355,573,350,669,350"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="23,332,249,373"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="331,355,249,355,249,350,331,350"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ae898120e96809cdb6bbd582072bcff71" title=" " alt="" coords="345,397,574,438"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="655,420,574,420,574,415,655,415"/>
+<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#aa1f001876dbd9f80e47e492fc2ed9d39" title="Create a ISessionController from a freshly launch DreamDaemon instance.A ValueTask&lt;TResult&gt; resulting..." alt="" coords="315,465,604,506"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="660,491,604,490,604,485,660,485"/>
+<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a857f98eb5a2516c2a70c35d684c2c21b" title=" " alt="" coords="11,465,261,506"/>
+<area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="299,488,261,488,261,483,299,483"/>
+<area shape="rect" id="Node000017" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a02b569cf7792648fb692e8e70487fcd3" title="Handle a set of bridge parameters ." alt="" coords="329,554,590,610"/>
+<area shape="poly" id="edge16_Node000016_Node000017" title=" " alt="" coords="652,577,591,580,590,574,652,572"/>
+<area shape="poly" id="edge17_Node000017_Node000017" title=" " alt="" coords="512,542,493,535,459,532,430,534,411,539,403,546,402,554,397,553,398,543,409,534,430,529,459,527,494,530,514,537"/>
+<area shape="rect" id="Node000018" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a500e760430625c2b3bbbdf5bfe606c3d" title="Handle a set of bridge parameters .A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the reque..." alt="" coords="5,554,267,610"/>
+<area shape="poly" id="edge18_Node000017_Node000018" title=" " alt="" coords="313,584,267,584,267,579,313,579"/>
+<area shape="rect" id="Node000021" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ad8baa2421efb63c1528f9614352739c3" title="Create a FileTicketResponse for a download.A new FileTicketResponse for a download." alt="" coords="343,659,576,699"/>
+<area shape="poly" id="edge21_Node000020_Node000021" title=" " alt="" coords="677,700,576,691,576,686,678,694"/>
+<area shape="rect" id="Node000022" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a326e6dbdb12cf2b96a505261ef79c117" title="Create a IFileUploadTicket.A new IFileUploadTicket." alt="" coords="351,724,568,765"/>
+<area shape="poly" id="edge22_Node000020_Node000022" title=" " alt="" coords="678,723,568,735,568,730,677,718"/>
+<area shape="rect" id="Node000025" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a1251a072a3b3c3bce15ee2611a2e1e21" title=" " alt="" coords="359,813,560,854"/>
+<area shape="poly" id="edge25_Node000024_Node000025" title=" " alt="" coords="671,847,560,841,561,836,672,842"/>
+<area shape="rect" id="Node000027" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore.A ValueTask representing the running operation." alt="" coords="346,1009,573,1050"/>
+<area shape="poly" id="edge27_Node000026_Node000027" title=" " alt="" coords="725,961,605,999,557,1011,556,1006,603,994,723,956"/>
+<area shape="rect" id="Node000030" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a2fa8e8fdab5b9686604f43fb09f4beee" title="Change the server auto&#45;start timing for the IInstanceCore.A ValueTask representing the running operat..." alt="" coords="346,879,573,919"/>
+<area shape="poly" id="edge30_Node000026_Node000030" title=" " alt="" coords="669,922,573,913,573,907,669,917"/>
+<area shape="rect" id="Node000031" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#aa94dcbda191729bfe88156309e7f8702" title="Change the server auto&#45;stop timing for the IInstanceCore.A ValueTask representing the running operati..." alt="" coords="346,944,573,985"/>
+<area shape="poly" id="edge32_Node000026_Node000031" title=" " alt="" coords="669,947,573,956,573,951,669,942"/>
+<area shape="rect" id="Node000028" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="23,944,249,985"/>
+<area shape="poly" id="edge28_Node000027_Node000028" title=" " alt="" coords="340,1008,240,988,241,983,341,1003"/>
+<area shape="rect" id="Node000029" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="23,1009,249,1050"/>
+<area shape="poly" id="edge29_Node000027_Node000029" title=" " alt="" coords="331,1032,249,1032,249,1027,331,1027"/>
+<area shape="poly" id="edge31_Node000030_Node000028" title=" " alt="" coords="341,926,241,946,240,941,340,920"/>
+<area shape="poly" id="edge33_Node000031_Node000028" title=" " alt="" coords="331,967,249,967,249,962,331,962"/>
+</map>

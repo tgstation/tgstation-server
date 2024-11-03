@@ -217,6 +217,9 @@ Enumerations</h2></td></tr>
 , <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a2e54e04dba31375a3401f9f300a80d81">SetAutoUpdate</a> = 1 &lt;&lt; 8
 , <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79aa0526dcf7b059eda11e1e3bc375eb6d0">SetChatBotLimit</a> = 1 &lt;&lt; 9
 , <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a7c3e6b3f8a8a8a4bf639c2ab5a57bda3">GrantPermissions</a> = 1 &lt;&lt; 10
+, <br />
+&#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79ac73c1c7e96a1b68753840b8502528ab0">SetAutoStart</a> = 1 &lt;&lt; 11
+, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79ab50385daa6adb50a785cca95511a82a5">SetAutoStop</a> = 1 &lt;&lt; 12
 <br />
  }</td></tr>
 <tr class="memdesc:af199a84ed6fe6ca557db9de91070ad79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rights for managing Models.Instances.  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">More...</a><br /></td></tr>
@@ -771,6 +774,10 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="af199a84ed6fe6ca557db9de91070ad79a7c3e6b3f8a8a8a4bf639c2ab5a57bda3" name="af199a84ed6fe6ca557db9de91070ad79a7c3e6b3f8a8a8a4bf639c2ab5a57bda3"></a>GrantPermissions&#160;</td><td class="fielddoc"><p>User can give themselves or their group full InstancePermissionSetRights on ALL instances. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="af199a84ed6fe6ca557db9de91070ad79ac73c1c7e96a1b68753840b8502528ab0" name="af199a84ed6fe6ca557db9de91070ad79ac73c1c7e96a1b68753840b8502528ab0"></a>SetAutoStart&#160;</td><td class="fielddoc"><p>User can change Models.Instance.AutoStartCron. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af199a84ed6fe6ca557db9de91070ad79ab50385daa6adb50a785cca95511a82a5" name="af199a84ed6fe6ca557db9de91070ad79ab50385daa6adb50a785cca95511a82a5"></a>SetAutoStop&#160;</td><td class="fielddoc"><p>User can change Models.Instance.AutoStopCron. </p>
+</td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="_instance_manager_rights_8cs_source.html#l00009">9</a> of file <a class="el" href="_instance_manager_rights_8cs_source.html">InstanceManagerRights.cs</a>.</p>
@@ -798,7 +805,11 @@ Enumerations</h2></td></tr>
 <div class="line"><span class="lineno">   64</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79aa0526dcf7b059eda11e1e3bc375eb6d0">SetChatBotLimit</a> = 1 &lt;&lt; 9,</div>
 <div class="line"><span class="lineno">   65</span> </div>
 <div class="line"><span class="lineno">   69</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a7c3e6b3f8a8a8a4bf639c2ab5a57bda3">GrantPermissions</a> = 1 &lt;&lt; 10,</div>
-<div class="line"><span class="lineno">   70</span>    }</div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   74</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49ac73c1c7e96a1b68753840b8502528ab0">SetAutoStart</a> = 1 &lt;&lt; 11,</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   79</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79ab50385daa6adb50a785cca95511a82a5">SetAutoStop</a> = 1 &lt;&lt; 12,</div>
+<div class="line"><span class="lineno">   80</span>    }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79a2e423f35163ade75efce4061c98e1803"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a2e423f35163ade75efce4061c98e1803">Tgstation.Server.Api.Rights.InstanceManagerRights.SetConfiguration</a></div><div class="ttdeci">@ SetConfiguration</div><div class="ttdoc">User can change Models.Instance.ConfigurationType on instances they can view.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79a2e54e04dba31375a3401f9f300a80d81"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a2e54e04dba31375a3401f9f300a80d81">Tgstation.Server.Api.Rights.InstanceManagerRights.SetAutoUpdate</a></div><div class="ttdeci">@ SetAutoUpdate</div><div class="ttdoc">User can change Models.Instance.AutoUpdateInterval on instances they can view.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79a49241bae6f08ea45c321cbee8ce70cda"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a49241bae6f08ea45c321cbee8ce70cda">Tgstation.Server.Api.Rights.InstanceManagerRights.SetOnline</a></div><div class="ttdeci">@ SetOnline</div><div class="ttdoc">User can online Models.Instances they can view.</div></div>
@@ -806,6 +817,7 @@ Enumerations</h2></td></tr>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79a904a8304056d77e4547744781b7ceb50"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a904a8304056d77e4547744781b7ceb50">Tgstation.Server.Api.Rights.InstanceManagerRights.Rename</a></div><div class="ttdeci">@ Rename</div><div class="ttdoc">User can rename Models.Instances they can view.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79aa0526dcf7b059eda11e1e3bc375eb6d0"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79aa0526dcf7b059eda11e1e3bc375eb6d0">Tgstation.Server.Api.Rights.InstanceManagerRights.SetChatBotLimit</a></div><div class="ttdeci">@ SetChatBotLimit</div><div class="ttdoc">User can change Models.Instance.ChatBotLimit on instances they can view.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79aa8642eb657c3ab24f0a52b2ef8115d3f"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79aa8642eb657c3ab24f0a52b2ef8115d3f">Tgstation.Server.Api.Rights.InstanceManagerRights.Relocate</a></div><div class="ttdeci">@ Relocate</div><div class="ttdoc">User can relocate Models.Instances they can view.</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79ab50385daa6adb50a785cca95511a82a5"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79ab50385daa6adb50a785cca95511a82a5">Tgstation.Server.Api.Rights.InstanceManagerRights.SetAutoStop</a></div><div class="ttdeci">@ SetAutoStop</div><div class="ttdoc">User can change Models.Instance.AutoStopCron.</div></div>
 </div><!-- fragment -->
 </div>
 </div>

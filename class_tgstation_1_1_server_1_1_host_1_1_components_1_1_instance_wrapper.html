@@ -159,6 +159,26 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a9843d0678609769f4c1d26dbbd80503b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the latest CompileJob.<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the latest CompileJob or <code>null</code> if none are available.</dd></dl>
   <br /></td></tr>
 <tr class="separator:a9843d0678609769f4c1d26dbbd80503b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91855968b43f5ef9f1cdae07b1d8b64b" id="r_a91855968b43f5ef9f1cdae07b1d8b64b"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html#a91855968b43f5ef9f1cdae07b1d8b64b">ScheduleServerStart</a> (string? newCron)</td></tr>
+<tr class="memdesc:a91855968b43f5ef9f1cdae07b1d8b64b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the server auto-start timing for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services.">IInstanceCore</a>.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newCron</td><td>The new auto-start cron schedule.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+  <br /></td></tr>
+<tr class="separator:a91855968b43f5ef9f1cdae07b1d8b64b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3621cd4d7a6afa22806544d2f671e6c4" id="r_a3621cd4d7a6afa22806544d2f671e6c4"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html#a3621cd4d7a6afa22806544d2f671e6c4">ScheduleServerStop</a> (string? newCron)</td></tr>
+<tr class="memdesc:a3621cd4d7a6afa22806544d2f671e6c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the server auto-stop timing for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services.">IInstanceCore</a>.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newCron</td><td>The new auto-stop cron schedule.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+  <br /></td></tr>
+<tr class="separator:a3621cd4d7a6afa22806544d2f671e6c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html">Tgstation.Server.Host.Utils.ReferenceCounter&lt; IInstance &gt;</a></td></tr>
 <tr class="memitem:a35603269a01198b149ea66eaba0dd014 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter" id="r_a35603269a01198b149ea66eaba0dd014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a35603269a01198b149ea66eaba0dd014">Dispose</a> ()</td></tr>
 <tr class="separator:a35603269a01198b149ea66eaba0dd014 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -345,6 +365,64 @@ Additional Inherited Members</h2></td></tr>
  </p>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html#af8044f32ab99ce1fed6d819056e02518">Tgstation.Server.Host.Components.IInstanceCore</a>.</p>
+
+</div>
+</div>
+<a id="a91855968b43f5ef9f1cdae07b1d8b64b" name="a91855968b43f5ef9f1cdae07b1d8b64b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91855968b43f5ef9f1cdae07b1d8b64b">&#9670;&#160;</a></span>ScheduleServerStart()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask Tgstation.Server.Host.Components.InstanceWrapper.ScheduleServerStart </td>
+          <td>(</td>
+          <td class="paramtype">string?&#160;</td>
+          <td class="paramname"><em>newCron</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Change the server auto-start timing for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services.">IInstanceCore</a>.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newCron</td><td>The new auto-start cron schedule.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+ </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html#acae2a50fe50c7cce96f4923737b364a4">Tgstation.Server.Host.Components.IInstanceCore</a>.</p>
+
+</div>
+</div>
+<a id="a3621cd4d7a6afa22806544d2f671e6c4" name="a3621cd4d7a6afa22806544d2f671e6c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3621cd4d7a6afa22806544d2f671e6c4">&#9670;&#160;</a></span>ScheduleServerStop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask Tgstation.Server.Host.Components.InstanceWrapper.ScheduleServerStop </td>
+          <td>(</td>
+          <td class="paramtype">string?&#160;</td>
+          <td class="paramname"><em>newCron</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Change the server auto-stop timing for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services.">IInstanceCore</a>.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newCron</td><td>The new auto-stop cron schedule.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+ </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html#ad7911d25da53b3dcd01d39769d401382">Tgstation.Server.Host.Components.IInstanceCore</a>.</p>
 
 </div>
 </div>

@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Api.Models.Limits" name="Tgstation.Server.Api.Models.Limits">
-<area shape="rect" id="Node000001" title="Sanity limits to prevent users from overloading." alt="" coords="5,139,192,180"/>
+<area shape="rect" id="Node000001" title="Sanity limits to prevent users from overloading." alt="" coords="5,154,192,195"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="63,5,134,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,46,101,139,96,139,96,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,47,101,153,96,153,96,47"/>
 </map>

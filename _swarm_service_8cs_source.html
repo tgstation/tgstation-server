@@ -305,9 +305,9 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>            }</div>
 <div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span> </div>
 <div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>            var timeoutTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a100bde23a659ca75ab63c9d5f839251a">swarmController</a></div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>                ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2607f4b8deb2a31d1efcbf8b651a520d">asyncDelayer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Delay</a>(</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>                ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2607f4b8deb2a31d1efcbf8b651a520d">asyncDelayer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce">Delay</a>(</div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>                    TimeSpan.FromMinutes(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html">SwarmConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#ad9301c887de967ed3668350d2d230474">UpdateCommitTimeoutMinutes</a>),</div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>                    cancellationToken)</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>                    cancellationToken).AsTask()</div>
 <div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>                : Extensions.TaskExtensions.InfiniteTask.WaitAsync(cancellationToken);</div>
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span> </div>
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>            var commitTask = Task.WhenAny(localUpdateOperation.CommitGate, timeoutTask);</div>
@@ -1483,83 +1483,84 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l01512" name="l01512"></a><span class="lineno"> 1512</span> </div>
 <div class="line"><a id="l01513" name="l01513"></a><span class="lineno"> 1513</span>                    var delayTask = asyncDelayer.Delay(</div>
 <div class="line"><a id="l01514" name="l01514"></a><span class="lineno"> 1514</span>                        delay,</div>
-<div class="line"><a id="l01515" name="l01515"></a><span class="lineno"> 1515</span>                        cancellationToken);</div>
-<div class="line"><a id="l01516" name="l01516"></a><span class="lineno"> 1516</span> </div>
-<div class="line"><a id="l01517" name="l01517"></a><span class="lineno"> 1517</span>                    var awakeningTask = Task.WhenAny(</div>
-<div class="line"><a id="l01518" name="l01518"></a><span class="lineno"> 1518</span>                        delayTask,</div>
-<div class="line"><a id="l01519" name="l01519"></a><span class="lineno"> 1519</span>                        nextForceHealthCheckTask);</div>
-<div class="line"><a id="l01520" name="l01520"></a><span class="lineno"> 1520</span> </div>
-<div class="line"><a id="l01521" name="l01521"></a><span class="lineno"> 1521</span>                    await awakeningTask;</div>
-<div class="line"><a id="l01522" name="l01522"></a><span class="lineno"> 1522</span> </div>
-<div class="line"><a id="l01523" name="l01523"></a><span class="lineno"> 1523</span>                    <span class="keywordflow">if</span> (nextForceHealthCheckTask.IsCompleted &amp;&amp; swarmController)</div>
-<div class="line"><a id="l01524" name="l01524"></a><span class="lineno"> 1524</span>                    {</div>
-<div class="line"><a id="l01525" name="l01525"></a><span class="lineno"> 1525</span>                        <span class="comment">// Intentionally wait a few seconds for the other server to start up before interogating it</span></div>
-<div class="line"><a id="l01526" name="l01526"></a><span class="lineno"> 1526</span>                        logger.LogTrace(<span class="stringliteral">&quot;Next health check triggering in {delaySeconds}s...&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html">SwarmConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#aea9c30930f13c68e4b5f72ca59f23ecd">SecondsToDelayForcedHealthChecks</a>);</div>
-<div class="line"><a id="l01527" name="l01527"></a><span class="lineno"> 1527</span>                        await asyncDelayer.Delay(TimeSpan.FromSeconds(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html">SwarmConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#aea9c30930f13c68e4b5f72ca59f23ecd">SecondsToDelayForcedHealthChecks</a>), cancellationToken);</div>
-<div class="line"><a id="l01528" name="l01528"></a><span class="lineno"> 1528</span>                    }</div>
-<div class="line"><a id="l01529" name="l01529"></a><span class="lineno"> 1529</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!swarmController &amp;&amp; !nextForceHealthCheckTask.IsCompleted)</div>
-<div class="line"><a id="l01530" name="l01530"></a><span class="lineno"> 1530</span>                    {</div>
-<div class="line"><a id="l01531" name="l01531"></a><span class="lineno"> 1531</span>                        <span class="keywordflow">if</span> (!lastControllerHealthCheck.HasValue)</div>
-<div class="line"><a id="l01532" name="l01532"></a><span class="lineno"> 1532</span>                        {</div>
-<div class="line"><a id="l01533" name="l01533"></a><span class="lineno"> 1533</span>                            logger.LogTrace(<span class="stringliteral">&quot;Not initially registered with controller, skipping health check.&quot;</span>);</div>
-<div class="line"><a id="l01534" name="l01534"></a><span class="lineno"> 1534</span>                            <span class="keywordflow">continue</span>; <span class="comment">// unregistered</span></div>
-<div class="line"><a id="l01535" name="l01535"></a><span class="lineno"> 1535</span>                        }</div>
-<div class="line"><a id="l01536" name="l01536"></a><span class="lineno"> 1536</span> </div>
-<div class="line"><a id="l01537" name="l01537"></a><span class="lineno"> 1537</span>                        <span class="keywordflow">if</span> ((DateTimeOffset.UtcNow - lastControllerHealthCheck.Value).TotalMinutes &lt; <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html">SwarmConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a9b88251428573800000fea910531443d">NodeHealthCheckIntervalMinutes</a>)</div>
-<div class="line"><a id="l01538" name="l01538"></a><span class="lineno"> 1538</span>                        {</div>
-<div class="line"><a id="l01539" name="l01539"></a><span class="lineno"> 1539</span>                            logger.LogTrace(<span class="stringliteral">&quot;Controller seems to be active, skipping health check.&quot;</span>);</div>
-<div class="line"><a id="l01540" name="l01540"></a><span class="lineno"> 1540</span>                            <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l01541" name="l01541"></a><span class="lineno"> 1541</span>                        }</div>
-<div class="line"><a id="l01542" name="l01542"></a><span class="lineno"> 1542</span>                    }</div>
-<div class="line"><a id="l01543" name="l01543"></a><span class="lineno"> 1543</span> </div>
-<div class="line"><a id="l01544" name="l01544"></a><span class="lineno"> 1544</span>                    nextForceHealthCheckTask = forceHealthCheckTcs.Task;</div>
-<div class="line"><a id="l01545" name="l01545"></a><span class="lineno"> 1545</span> </div>
-<div class="line"><a id="l01546" name="l01546"></a><span class="lineno"> 1546</span>                    logger.LogTrace(<span class="stringliteral">&quot;Performing swarm health check...&quot;</span>);</div>
-<div class="line"><a id="l01547" name="l01547"></a><span class="lineno"> 1547</span>                    <span class="keywordflow">try</span></div>
-<div class="line"><a id="l01548" name="l01548"></a><span class="lineno"> 1548</span>                    {</div>
-<div class="line"><a id="l01549" name="l01549"></a><span class="lineno"> 1549</span>                        <span class="keywordflow">if</span> (swarmController)</div>
-<div class="line"><a id="l01550" name="l01550"></a><span class="lineno"> 1550</span>                            await HealthCheckNodes(cancellationToken);</div>
-<div class="line"><a id="l01551" name="l01551"></a><span class="lineno"> 1551</span>                        <span class="keywordflow">else</span></div>
-<div class="line"><a id="l01552" name="l01552"></a><span class="lineno"> 1552</span>                            await HealthCheckController(cancellationToken);</div>
-<div class="line"><a id="l01553" name="l01553"></a><span class="lineno"> 1553</span>                    }</div>
-<div class="line"><a id="l01554" name="l01554"></a><span class="lineno"> 1554</span>                    <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
-<div class="line"><a id="l01555" name="l01555"></a><span class="lineno"> 1555</span>                    {</div>
-<div class="line"><a id="l01556" name="l01556"></a><span class="lineno"> 1556</span>                        logger.LogError(ex, <span class="stringliteral">&quot;Health check error!&quot;</span>);</div>
-<div class="line"><a id="l01557" name="l01557"></a><span class="lineno"> 1557</span>                    }</div>
-<div class="line"><a id="l01558" name="l01558"></a><span class="lineno"> 1558</span>                }</div>
-<div class="line"><a id="l01559" name="l01559"></a><span class="lineno"> 1559</span>            }</div>
-<div class="line"><a id="l01560" name="l01560"></a><span class="lineno"> 1560</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><a id="l01561" name="l01561"></a><span class="lineno"> 1561</span>            {</div>
-<div class="line"><a id="l01562" name="l01562"></a><span class="lineno"> 1562</span>                logger.LogTrace(ex, <span class="stringliteral">&quot;Health check loop cancelled!&quot;</span>);</div>
-<div class="line"><a id="l01563" name="l01563"></a><span class="lineno"> 1563</span>            }</div>
-<div class="line"><a id="l01564" name="l01564"></a><span class="lineno"> 1564</span> </div>
-<div class="line"><a id="l01565" name="l01565"></a><span class="lineno"> 1565</span>            logger.LogTrace(<span class="stringliteral">&quot;Stopped HealthCheckLoop&quot;</span>);</div>
-<div class="line"><a id="l01566" name="l01566"></a><span class="lineno"> 1566</span>        }</div>
+<div class="line"><a id="l01515" name="l01515"></a><span class="lineno"> 1515</span>                        cancellationToken)</div>
+<div class="line"><a id="l01516" name="l01516"></a><span class="lineno"> 1516</span>                        .AsTask();</div>
+<div class="line"><a id="l01517" name="l01517"></a><span class="lineno"> 1517</span> </div>
+<div class="line"><a id="l01518" name="l01518"></a><span class="lineno"> 1518</span>                    var awakeningTask = Task.WhenAny(</div>
+<div class="line"><a id="l01519" name="l01519"></a><span class="lineno"> 1519</span>                        delayTask,</div>
+<div class="line"><a id="l01520" name="l01520"></a><span class="lineno"> 1520</span>                        nextForceHealthCheckTask);</div>
+<div class="line"><a id="l01521" name="l01521"></a><span class="lineno"> 1521</span> </div>
+<div class="line"><a id="l01522" name="l01522"></a><span class="lineno"> 1522</span>                    await awakeningTask;</div>
+<div class="line"><a id="l01523" name="l01523"></a><span class="lineno"> 1523</span> </div>
+<div class="line"><a id="l01524" name="l01524"></a><span class="lineno"> 1524</span>                    <span class="keywordflow">if</span> (nextForceHealthCheckTask.IsCompleted &amp;&amp; swarmController)</div>
+<div class="line"><a id="l01525" name="l01525"></a><span class="lineno"> 1525</span>                    {</div>
+<div class="line"><a id="l01526" name="l01526"></a><span class="lineno"> 1526</span>                        <span class="comment">// Intentionally wait a few seconds for the other server to start up before interogating it</span></div>
+<div class="line"><a id="l01527" name="l01527"></a><span class="lineno"> 1527</span>                        logger.LogTrace(<span class="stringliteral">&quot;Next health check triggering in {delaySeconds}s...&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html">SwarmConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#aea9c30930f13c68e4b5f72ca59f23ecd">SecondsToDelayForcedHealthChecks</a>);</div>
+<div class="line"><a id="l01528" name="l01528"></a><span class="lineno"> 1528</span>                        await asyncDelayer.Delay(TimeSpan.FromSeconds(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html">SwarmConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#aea9c30930f13c68e4b5f72ca59f23ecd">SecondsToDelayForcedHealthChecks</a>), cancellationToken);</div>
+<div class="line"><a id="l01529" name="l01529"></a><span class="lineno"> 1529</span>                    }</div>
+<div class="line"><a id="l01530" name="l01530"></a><span class="lineno"> 1530</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!swarmController &amp;&amp; !nextForceHealthCheckTask.IsCompleted)</div>
+<div class="line"><a id="l01531" name="l01531"></a><span class="lineno"> 1531</span>                    {</div>
+<div class="line"><a id="l01532" name="l01532"></a><span class="lineno"> 1532</span>                        <span class="keywordflow">if</span> (!lastControllerHealthCheck.HasValue)</div>
+<div class="line"><a id="l01533" name="l01533"></a><span class="lineno"> 1533</span>                        {</div>
+<div class="line"><a id="l01534" name="l01534"></a><span class="lineno"> 1534</span>                            logger.LogTrace(<span class="stringliteral">&quot;Not initially registered with controller, skipping health check.&quot;</span>);</div>
+<div class="line"><a id="l01535" name="l01535"></a><span class="lineno"> 1535</span>                            <span class="keywordflow">continue</span>; <span class="comment">// unregistered</span></div>
+<div class="line"><a id="l01536" name="l01536"></a><span class="lineno"> 1536</span>                        }</div>
+<div class="line"><a id="l01537" name="l01537"></a><span class="lineno"> 1537</span> </div>
+<div class="line"><a id="l01538" name="l01538"></a><span class="lineno"> 1538</span>                        <span class="keywordflow">if</span> ((DateTimeOffset.UtcNow - lastControllerHealthCheck.Value).TotalMinutes &lt; <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html">SwarmConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a9b88251428573800000fea910531443d">NodeHealthCheckIntervalMinutes</a>)</div>
+<div class="line"><a id="l01539" name="l01539"></a><span class="lineno"> 1539</span>                        {</div>
+<div class="line"><a id="l01540" name="l01540"></a><span class="lineno"> 1540</span>                            logger.LogTrace(<span class="stringliteral">&quot;Controller seems to be active, skipping health check.&quot;</span>);</div>
+<div class="line"><a id="l01541" name="l01541"></a><span class="lineno"> 1541</span>                            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l01542" name="l01542"></a><span class="lineno"> 1542</span>                        }</div>
+<div class="line"><a id="l01543" name="l01543"></a><span class="lineno"> 1543</span>                    }</div>
+<div class="line"><a id="l01544" name="l01544"></a><span class="lineno"> 1544</span> </div>
+<div class="line"><a id="l01545" name="l01545"></a><span class="lineno"> 1545</span>                    nextForceHealthCheckTask = forceHealthCheckTcs.Task;</div>
+<div class="line"><a id="l01546" name="l01546"></a><span class="lineno"> 1546</span> </div>
+<div class="line"><a id="l01547" name="l01547"></a><span class="lineno"> 1547</span>                    logger.LogTrace(<span class="stringliteral">&quot;Performing swarm health check...&quot;</span>);</div>
+<div class="line"><a id="l01548" name="l01548"></a><span class="lineno"> 1548</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><a id="l01549" name="l01549"></a><span class="lineno"> 1549</span>                    {</div>
+<div class="line"><a id="l01550" name="l01550"></a><span class="lineno"> 1550</span>                        <span class="keywordflow">if</span> (swarmController)</div>
+<div class="line"><a id="l01551" name="l01551"></a><span class="lineno"> 1551</span>                            await HealthCheckNodes(cancellationToken);</div>
+<div class="line"><a id="l01552" name="l01552"></a><span class="lineno"> 1552</span>                        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l01553" name="l01553"></a><span class="lineno"> 1553</span>                            await HealthCheckController(cancellationToken);</div>
+<div class="line"><a id="l01554" name="l01554"></a><span class="lineno"> 1554</span>                    }</div>
+<div class="line"><a id="l01555" name="l01555"></a><span class="lineno"> 1555</span>                    <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
+<div class="line"><a id="l01556" name="l01556"></a><span class="lineno"> 1556</span>                    {</div>
+<div class="line"><a id="l01557" name="l01557"></a><span class="lineno"> 1557</span>                        logger.LogError(ex, <span class="stringliteral">&quot;Health check error!&quot;</span>);</div>
+<div class="line"><a id="l01558" name="l01558"></a><span class="lineno"> 1558</span>                    }</div>
+<div class="line"><a id="l01559" name="l01559"></a><span class="lineno"> 1559</span>                }</div>
+<div class="line"><a id="l01560" name="l01560"></a><span class="lineno"> 1560</span>            }</div>
+<div class="line"><a id="l01561" name="l01561"></a><span class="lineno"> 1561</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><a id="l01562" name="l01562"></a><span class="lineno"> 1562</span>            {</div>
+<div class="line"><a id="l01563" name="l01563"></a><span class="lineno"> 1563</span>                logger.LogTrace(ex, <span class="stringliteral">&quot;Health check loop cancelled!&quot;</span>);</div>
+<div class="line"><a id="l01564" name="l01564"></a><span class="lineno"> 1564</span>            }</div>
+<div class="line"><a id="l01565" name="l01565"></a><span class="lineno"> 1565</span> </div>
+<div class="line"><a id="l01566" name="l01566"></a><span class="lineno"> 1566</span>            logger.LogTrace(<span class="stringliteral">&quot;Stopped HealthCheckLoop&quot;</span>);</div>
+<div class="line"><a id="l01567" name="l01567"></a><span class="lineno"> 1567</span>        }</div>
 </div>
-<div class="line"><a id="l01567" name="l01567"></a><span class="lineno"> 1567</span> </div>
-<div class="foldopen" id="foldopen01573" data-start="{" data-end="}">
-<div class="line"><a id="l01573" name="l01573"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0833d2372f5d079819d26aedcae6ddd0"> 1573</a></span>        <span class="keywordtype">string</span>? <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0833d2372f5d079819d26aedcae6ddd0">NodeIdentifierFromRegistration</a>(Guid registrationId)</div>
-<div class="line"><a id="l01574" name="l01574"></a><span class="lineno"> 1574</span>        {</div>
-<div class="line"><a id="l01575" name="l01575"></a><span class="lineno"> 1575</span>            <span class="keywordflow">if</span> (!swarmController)</div>
-<div class="line"><a id="l01576" name="l01576"></a><span class="lineno"> 1576</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;NodeIdentifierFromRegistration on node!&quot;</span>);</div>
-<div class="line"><a id="l01577" name="l01577"></a><span class="lineno"> 1577</span> </div>
-<div class="line"><a id="l01578" name="l01578"></a><span class="lineno"> 1578</span>            lock (swarmServers!)</div>
-<div class="line"><a id="l01579" name="l01579"></a><span class="lineno"> 1579</span>            {</div>
-<div class="line"><a id="l01580" name="l01580"></a><span class="lineno"> 1580</span>                var registrationIdsAndTimes = this.registrationIdsAndTimes!;</div>
-<div class="line"><a id="l01581" name="l01581"></a><span class="lineno"> 1581</span>                var exists = registrationIdsAndTimes.Any(x =&gt; x.Value.RegistrationId == registrationId);</div>
-<div class="line"><a id="l01582" name="l01582"></a><span class="lineno"> 1582</span>                <span class="keywordflow">if</span> (!exists)</div>
-<div class="line"><a id="l01583" name="l01583"></a><span class="lineno"> 1583</span>                {</div>
-<div class="line"><a id="l01584" name="l01584"></a><span class="lineno"> 1584</span>                    logger.LogWarning(<span class="stringliteral">&quot;A node that was to be looked up ({registrationId}) disappeared from our records!&quot;</span>, registrationId);</div>
-<div class="line"><a id="l01585" name="l01585"></a><span class="lineno"> 1585</span>                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><a id="l01586" name="l01586"></a><span class="lineno"> 1586</span>                }</div>
-<div class="line"><a id="l01587" name="l01587"></a><span class="lineno"> 1587</span> </div>
-<div class="line"><a id="l01588" name="l01588"></a><span class="lineno"> 1588</span>                <span class="keywordflow">return</span> registrationIdsAndTimes.First(x =&gt; x.Value.RegistrationId == registrationId).Key;</div>
-<div class="line"><a id="l01589" name="l01589"></a><span class="lineno"> 1589</span>            }</div>
-<div class="line"><a id="l01590" name="l01590"></a><span class="lineno"> 1590</span>        }</div>
+<div class="line"><a id="l01568" name="l01568"></a><span class="lineno"> 1568</span> </div>
+<div class="foldopen" id="foldopen01574" data-start="{" data-end="}">
+<div class="line"><a id="l01574" name="l01574"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0833d2372f5d079819d26aedcae6ddd0"> 1574</a></span>        <span class="keywordtype">string</span>? <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0833d2372f5d079819d26aedcae6ddd0">NodeIdentifierFromRegistration</a>(Guid registrationId)</div>
+<div class="line"><a id="l01575" name="l01575"></a><span class="lineno"> 1575</span>        {</div>
+<div class="line"><a id="l01576" name="l01576"></a><span class="lineno"> 1576</span>            <span class="keywordflow">if</span> (!swarmController)</div>
+<div class="line"><a id="l01577" name="l01577"></a><span class="lineno"> 1577</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;NodeIdentifierFromRegistration on node!&quot;</span>);</div>
+<div class="line"><a id="l01578" name="l01578"></a><span class="lineno"> 1578</span> </div>
+<div class="line"><a id="l01579" name="l01579"></a><span class="lineno"> 1579</span>            lock (swarmServers!)</div>
+<div class="line"><a id="l01580" name="l01580"></a><span class="lineno"> 1580</span>            {</div>
+<div class="line"><a id="l01581" name="l01581"></a><span class="lineno"> 1581</span>                var registrationIdsAndTimes = this.registrationIdsAndTimes!;</div>
+<div class="line"><a id="l01582" name="l01582"></a><span class="lineno"> 1582</span>                var exists = registrationIdsAndTimes.Any(x =&gt; x.Value.RegistrationId == registrationId);</div>
+<div class="line"><a id="l01583" name="l01583"></a><span class="lineno"> 1583</span>                <span class="keywordflow">if</span> (!exists)</div>
+<div class="line"><a id="l01584" name="l01584"></a><span class="lineno"> 1584</span>                {</div>
+<div class="line"><a id="l01585" name="l01585"></a><span class="lineno"> 1585</span>                    logger.LogWarning(<span class="stringliteral">&quot;A node that was to be looked up ({registrationId}) disappeared from our records!&quot;</span>, registrationId);</div>
+<div class="line"><a id="l01586" name="l01586"></a><span class="lineno"> 1586</span>                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><a id="l01587" name="l01587"></a><span class="lineno"> 1587</span>                }</div>
+<div class="line"><a id="l01588" name="l01588"></a><span class="lineno"> 1588</span> </div>
+<div class="line"><a id="l01589" name="l01589"></a><span class="lineno"> 1589</span>                <span class="keywordflow">return</span> registrationIdsAndTimes.First(x =&gt; x.Value.RegistrationId == registrationId).Key;</div>
+<div class="line"><a id="l01590" name="l01590"></a><span class="lineno"> 1590</span>            }</div>
+<div class="line"><a id="l01591" name="l01591"></a><span class="lineno"> 1591</span>        }</div>
 </div>
-<div class="line"><a id="l01591" name="l01591"></a><span class="lineno"> 1591</span>    }</div>
+<div class="line"><a id="l01592" name="l01592"></a><span class="lineno"> 1592</span>    }</div>
 </div>
-<div class="line"><a id="l01592" name="l01592"></a><span class="lineno"> 1592</span>}</div>
+<div class="line"><a id="l01593" name="l01593"></a><span class="lineno"> 1593</span>}</div>
 <div class="ttc" id="aclass_controller_html"><div class="ttname"><a href="class_controller.html">Controller</a></div></div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_i_disposable_html"><div class="ttname"><a href="class_i_disposable.html">IDisposable</a></div></div>
@@ -1598,7 +1599,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html_a0284d2a7f1508bc31dd208906cfbe4d3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0284d2a7f1508bc31dd208906cfbe4d3">Tgstation.Server.Host.Swarm.SwarmService.PrepareSwarmRequest</a></div><div class="ttdeci">HttpRequestMessage PrepareSwarmRequest(SwarmServerInformation? swarmServer, HttpMethod httpMethod, string route, object? body, Guid? registrationIdOverride=null)</div><div class="ttdoc">Prepares a HttpRequestMessage for swarm communication.</div><div class="ttdef"><b>Definition</b> <a href="_swarm_service_8cs_source.html#l01431">SwarmService.cs:1431</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html_a072bf30b2a5cbce33c3a96e12f6a31c2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a072bf30b2a5cbce33c3a96e12f6a31c2">Tgstation.Server.Host.Swarm.SwarmService.ControllerDistributedPrepareUpdate</a></div><div class="ttdeci">async ValueTask&lt; SwarmPrepareResult &gt; ControllerDistributedPrepareUpdate(ISeekableFileStreamProvider? initiatorProvider, SwarmUpdateRequest updateRequest, SwarmUpdateOperation currentUpdateOperation, CancellationToken cancellationToken)</div><div class="ttdoc">Send a given updateRequest  out to nodes from the swarm controller.</div><div class="ttdef"><b>Definition</b> <a href="_swarm_service_8cs_source.html#l00964">SwarmService.cs:964</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html_a0832febbf09fa006090de3e3db2efa75"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0832febbf09fa006090de3e3db2efa75">Tgstation.Server.Host.Swarm.SwarmService.UpdateSwarmServersList</a></div><div class="ttdeci">void UpdateSwarmServersList(IEnumerable&lt; SwarmServerInformation &gt; swarmServers)</div><div class="ttdoc">Pass in an updated list of swarmServers  to the node.</div><div class="ttdef"><b>Definition</b> <a href="_swarm_service_8cs_source.html#l00519">SwarmService.cs:519</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html_a0833d2372f5d079819d26aedcae6ddd0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0833d2372f5d079819d26aedcae6ddd0">Tgstation.Server.Host.Swarm.SwarmService.NodeIdentifierFromRegistration</a></div><div class="ttdeci">string? NodeIdentifierFromRegistration(Guid registrationId)</div><div class="ttdoc">Gets the SwarmServer.Identifier from a given registrationId .</div><div class="ttdef"><b>Definition</b> <a href="_swarm_service_8cs_source.html#l01573">SwarmService.cs:1573</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html_a0833d2372f5d079819d26aedcae6ddd0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0833d2372f5d079819d26aedcae6ddd0">Tgstation.Server.Host.Swarm.SwarmService.NodeIdentifierFromRegistration</a></div><div class="ttdeci">string? NodeIdentifierFromRegistration(Guid registrationId)</div><div class="ttdoc">Gets the SwarmServer.Identifier from a given registrationId .</div><div class="ttdef"><b>Definition</b> <a href="_swarm_service_8cs_source.html#l01574">SwarmService.cs:1574</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html_a100bde23a659ca75ab63c9d5f839251a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a100bde23a659ca75ab63c9d5f839251a">Tgstation.Server.Host.Swarm.SwarmService.swarmController</a></div><div class="ttdeci">readonly bool swarmController</div><div class="ttdoc">If the current server is the swarm controller.</div><div class="ttdef"><b>Definition</b> <a href="_swarm_service_8cs_source.html#l00129">SwarmService.cs:129</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html_a19995c107d8efaee1fe2dfdda5c509cc"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a19995c107d8efaee1fe2dfdda5c509cc">Tgstation.Server.Host.Swarm.SwarmService.UnregisterNode</a></div><div class="ttdeci">async ValueTask UnregisterNode(Guid registrationId, CancellationToken cancellationToken)</div><div class="ttdoc">Attempt to unregister a node with a given registrationId  with the controller.A ValueTask representin...</div><div class="ttdef"><b>Definition</b> <a href="_swarm_service_8cs_source.html#l00672">SwarmService.cs:672</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html_a1a74e21c712b43ff53854d56b70d454a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a1a74e21c712b43ff53854d56b70d454a">Tgstation.Server.Host.Swarm.SwarmService.ValidateRegistration</a></div><div class="ttdeci">bool ValidateRegistration(Guid registrationId)</div><div class="ttdoc">Validate a given registrationId .true if the registration is valid, false otherwise.</div><div class="ttdef"><b>Definition</b> <a href="_swarm_service_8cs_source.html#l00538">SwarmService.cs:538</a></div></div>
@@ -1675,7 +1676,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_a600df9ffd79d4f94f59dfefccbcec099"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a600df9ffd79d4f94f59dfefccbcec099">Tgstation.Server.Host.System.IAssemblyInformationProvider.Version</a></div><div class="ttdeci">Version Version</div><div class="ttdoc">The version of the assembly.</div><div class="ttdef"><b>Definition</b> <a href="_i_assembly_information_provider_8cs_source.html#l00035">IAssemblyInformationProvider.cs:35</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html">Tgstation.Server.Host.Transfer.IFileTransferTicketProvider</a></div><div class="ttdoc">Service for temporarily storing files to be downloaded or uploaded.</div><div class="ttdef"><b>Definition</b> <a href="_i_file_transfer_ticket_provider_8cs_source.html#l00008">IFileTransferTicketProvider.cs:9</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html">Tgstation.Server.Host.Utils.IAsyncDelayer</a></div><div class="ttdoc">For waiting asynchronously.</div><div class="ttdef"><b>Definition</b> <a href="_i_async_delayer_8cs_source.html#l00010">IAsyncDelayer.cs:11</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer_html_aeb604334bd297d47506dc23e0d115977"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Tgstation.Server.Host.Utils.IAsyncDelayer.Delay</a></div><div class="ttdeci">Task Delay(TimeSpan timeSpan, CancellationToken cancellationToken)</div><div class="ttdoc">Create a Task that completes after a given timeSpan .</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer_html_a588b00b42267c8d23088bde28d3f7fce"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce">Tgstation.Server.Host.Utils.IAsyncDelayer.Delay</a></div><div class="ttdeci">ValueTask Delay(TimeSpan timeSpan, CancellationToken cancellationToken)</div><div class="ttdoc">Create a Task that completes after a given timeSpan .</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal.html">Tgstation.Server.Api.Models.Internal</a></div><div class="ttdef"><b>Definition</b> <a href="_chat_bot_api_base_8cs_source.html#l00005">ChatBotApiBase.cs:6</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models_1_1_response.html">Tgstation.Server.Api.Models.Response</a></div><div class="ttdef"><b>Definition</b> <a href="_administration_response_8cs_source.html#l00005">AdministrationResponse.cs:6</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_common_1_1_extensions_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_common_1_1_extensions.html">Tgstation.Server.Common.Extensions</a></div><div class="ttdef"><b>Definition</b> <a href="_value_task_extensions_8cs_source.html#l00006">ValueTaskExtensions.cs:7</a></div></div>
