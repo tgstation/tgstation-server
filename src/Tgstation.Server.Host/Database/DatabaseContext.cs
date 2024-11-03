@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -485,7 +485,7 @@ namespace Tgstation.Server.Host.Database
 			if (targetVersion < new Version(6, 7, 0))
 				targetMigration = currentDatabaseType switch
 				{
-					DatabaseType.MySql => nameof(MSAddCronAutoUpdates),
+					DatabaseType.MySql => nameof(MYAddCronAutoUpdates),
 					DatabaseType.PostgresSql => nameof(PGAddCronAutoUpdates),
 					DatabaseType.SqlServer => nameof(MSAddCronAutoUpdates),
 					DatabaseType.Sqlite => nameof(SLAddCronAutoUpdates),
