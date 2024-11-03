@@ -98,11 +98,12 @@ namespace Tgstation.Server.Host.Authority
 				{
 					Version? greatestVersion = null;
 					Uri? repoUrl = null;
+					var scopeCancellationToken = CancellationToken.None; // DCT: None available
 					try
 					{
-						var gitHubService = await gitHubServiceFactory.CreateService(cancellationToken);
-						var repositoryUrlTask = gitHubService.GetUpdatesRepositoryUrl(cancellationToken);
-						var releases = await gitHubService.GetTgsReleases(cancellationToken);
+						var gitHubService = await gitHubServiceFactory.CreateService(scopeCancellationToken);
+						var repositoryUrlTask = gitHubService.GetUpdatesRepositoryUrl(scopeCancellationToken);
+						var releases = await gitHubService.GetTgsReleases(scopeCancellationToken);
 
 						foreach (var kvp in releases)
 						{
@@ -139,7 +140,8 @@ namespace Tgstation.Server.Host.Authority
 				else
 					task = (Task<AdministrationResponse>)rawCacheObject!;
 
-				return new AuthorityResponse<AdministrationResponse>(await task);
+				var result = await task.WaitAsync(cancellationToken);
+				return new AuthorityResponse<AdministrationResponse>(result);
 			}
 			catch (RateLimitExceededException e)
 			{

@@ -3,20 +3,23 @@ using System;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Database
 {
-	[DbContext(typeof(PostgresSqlDatabaseContext))]
-	partial class PostgresSqlDatabaseContextModelSnapshot : ModelSnapshot
+	[DbContext(typeof(MySqlDatabaseContext))]
+	[Migration("20241103161856_MYAddAutoStartAndStop")]
+	partial class MYAddAutoStartAndStop
 	{
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		/// <inheritdoc />
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
 				.HasAnnotation("ProductVersion", "8.0.10")
-				.HasAnnotation("Relational:MaxIdentifierLength", 63);
+				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-			NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+			MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 			{
@@ -24,18 +27,21 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
-				b.Property<int>("ChannelLimit")
-					.HasColumnType("integer");
+				b.Property<ushort?>("ChannelLimit")
+					.IsRequired()
+					.HasColumnType("smallint unsigned");
 
 				b.Property<string>("ConnectionString")
 					.IsRequired()
 					.HasMaxLength(10000)
-					.HasColumnType("character varying(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ConnectionString"), "utf8mb4");
 
 				b.Property<bool?>("Enabled")
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
@@ -43,13 +49,14 @@ namespace Tgstation.Server.Host.Database
 				b.Property<string>("Name")
 					.IsRequired()
 					.HasMaxLength(100)
-					.HasColumnType("character varying(100)");
+					.HasColumnType("varchar(100)");
 
 				b.Property<int>("Provider")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
-				b.Property<long>("ReconnectionInterval")
-					.HasColumnType("bigint");
+				b.Property<uint?>("ReconnectionInterval")
+					.IsRequired()
+					.HasColumnType("int unsigned");
 
 				b.HasKey("Id");
 
@@ -65,37 +72,41 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<long>("ChatSettingsId")
 					.HasColumnType("bigint");
 
-				b.Property<decimal?>("DiscordChannelId")
-					.HasColumnType("numeric(20,0)");
+				b.Property<ulong?>("DiscordChannelId")
+					.HasColumnType("bigint unsigned");
 
 				b.Property<string>("IrcChannel")
 					.HasMaxLength(100)
-					.HasColumnType("character varying(100)");
+					.HasColumnType("varchar(100)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("IrcChannel"), "utf8mb4");
 
 				b.Property<bool?>("IsAdminChannel")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<bool?>("IsSystemChannel")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<bool?>("IsUpdatesChannel")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<bool?>("IsWatchdogChannel")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<string>("Tag")
 					.HasMaxLength(10000)
-					.HasColumnType("character varying(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Tag"), "utf8mb4");
 
 				b.HasKey("Id");
 
@@ -114,28 +125,32 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<int?>("DMApiMajorVersion")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
 				b.Property<int?>("DMApiMinorVersion")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
 				b.Property<int?>("DMApiPatchVersion")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
 				b.Property<Guid?>("DirectoryName")
 					.IsRequired()
-					.HasColumnType("uuid");
+					.HasColumnType("char(36)");
 
 				b.Property<string>("DmeName")
 					.IsRequired()
-					.HasColumnType("text");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("DmeName"), "utf8mb4");
 
 				b.Property<string>("EngineVersion")
 					.IsRequired()
-					.HasColumnType("text");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("EngineVersion"), "utf8mb4");
 
 				b.Property<long?>("GitHubDeploymentId")
 					.HasColumnType("bigint");
@@ -147,14 +162,18 @@ namespace Tgstation.Server.Host.Database
 					.HasColumnType("bigint");
 
 				b.Property<int?>("MinimumSecurityLevel")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
 				b.Property<string>("Output")
 					.IsRequired()
-					.HasColumnType("text");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Output"), "utf8mb4");
 
 				b.Property<string>("RepositoryOrigin")
-					.HasColumnType("text");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("RepositoryOrigin"), "utf8mb4");
 
 				b.Property<long>("RevisionInformationId")
 					.HasColumnType("bigint");
@@ -177,63 +196,71 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<string>("AdditionalParameters")
 					.IsRequired()
 					.HasMaxLength(10000)
-					.HasColumnType("character varying(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("AdditionalParameters"), "utf8mb4");
 
 				b.Property<bool?>("AllowWebClient")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<bool?>("AutoStart")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<bool?>("DumpOnHealthCheckRestart")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
-				b.Property<long>("HealthCheckSeconds")
-					.HasColumnType("bigint");
+				b.Property<uint?>("HealthCheckSeconds")
+					.IsRequired()
+					.HasColumnType("int unsigned");
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
 
 				b.Property<bool?>("LogOutput")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
-				b.Property<long>("MapThreads")
-					.HasColumnType("bigint");
+				b.Property<uint?>("MapThreads")
+					.IsRequired()
+					.HasColumnType("int unsigned");
 
 				b.Property<bool?>("Minidumps")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
-				b.Property<int>("OpenDreamTopicPort")
-					.HasColumnType("integer");
+				b.Property<ushort?>("OpenDreamTopicPort")
+					.IsRequired()
+					.HasColumnType("smallint unsigned");
 
-				b.Property<int>("Port")
-					.HasColumnType("integer");
+				b.Property<ushort?>("Port")
+					.IsRequired()
+					.HasColumnType("smallint unsigned");
 
 				b.Property<int>("SecurityLevel")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
 				b.Property<bool?>("StartProfiler")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
-				b.Property<long>("StartupTimeout")
-					.HasColumnType("bigint");
+				b.Property<uint?>("StartupTimeout")
+					.IsRequired()
+					.HasColumnType("int unsigned");
 
-				b.Property<long>("TopicRequestTimeout")
-					.HasColumnType("bigint");
+				b.Property<uint?>("TopicRequestTimeout")
+					.IsRequired()
+					.HasColumnType("int unsigned");
 
 				b.Property<int>("Visibility")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
 				b.HasKey("Id");
 
@@ -249,31 +276,34 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
-				b.Property<int>("ApiValidationPort")
-					.HasColumnType("integer");
+				b.Property<ushort?>("ApiValidationPort")
+					.IsRequired()
+					.HasColumnType("smallint unsigned");
 
 				b.Property<int>("ApiValidationSecurityLevel")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
 				b.Property<string>("CompilerAdditionalArguments")
 					.HasMaxLength(10000)
-					.HasColumnType("character varying(10000)");
+					.HasColumnType("varchar(10000)");
 
 				b.Property<int>("DMApiValidationMode")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
 
 				b.Property<string>("ProjectName")
 					.HasMaxLength(10000)
-					.HasColumnType("character varying(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ProjectName"), "utf8mb4");
 
 				b.Property<TimeSpan?>("Timeout")
 					.IsRequired()
-					.HasColumnType("interval");
+					.HasColumnType("time(6)");
 
 				b.HasKey("Id");
 
@@ -289,47 +319,55 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<string>("AutoStartCron")
 					.IsRequired()
 					.HasMaxLength(1000)
-					.HasColumnType("character varying(1000)");
+					.HasColumnType("varchar(1000)");
 
 				b.Property<string>("AutoStopCron")
 					.IsRequired()
 					.HasMaxLength(1000)
-					.HasColumnType("character varying(1000)");
+					.HasColumnType("varchar(1000)");
 
 				b.Property<string>("AutoUpdateCron")
 					.IsRequired()
 					.HasMaxLength(1000)
-					.HasColumnType("character varying(1000)");
+					.HasColumnType("varchar(1000)");
 
-				b.Property<long>("AutoUpdateInterval")
-					.HasColumnType("bigint");
+				b.Property<uint?>("AutoUpdateInterval")
+					.IsRequired()
+					.HasColumnType("int unsigned");
 
-				b.Property<int>("ChatBotLimit")
-					.HasColumnType("integer");
+				b.Property<ushort?>("ChatBotLimit")
+					.IsRequired()
+					.HasColumnType("smallint unsigned");
 
 				b.Property<int>("ConfigurationType")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
 				b.Property<string>("Name")
 					.IsRequired()
 					.HasMaxLength(100)
-					.HasColumnType("character varying(100)");
+					.HasColumnType("varchar(100)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Name"), "utf8mb4");
 
 				b.Property<bool?>("Online")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<string>("Path")
 					.IsRequired()
-					.HasColumnType("text");
+					.HasColumnType("varchar(255)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Path"), "utf8mb4");
 
 				b.Property<string>("SwarmIdentifer")
-					.HasColumnType("text");
+					.HasColumnType("varchar(255)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("SwarmIdentifer"), "utf8mb4");
 
 				b.HasKey("Id");
 
@@ -345,34 +383,34 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
-				b.Property<decimal>("ChatBotRights")
-					.HasColumnType("numeric(20,0)");
+				b.Property<ulong>("ChatBotRights")
+					.HasColumnType("bigint unsigned");
 
-				b.Property<decimal>("ConfigurationRights")
-					.HasColumnType("numeric(20,0)");
+				b.Property<ulong>("ConfigurationRights")
+					.HasColumnType("bigint unsigned");
 
-				b.Property<decimal>("DreamDaemonRights")
-					.HasColumnType("numeric(20,0)");
+				b.Property<ulong>("DreamDaemonRights")
+					.HasColumnType("bigint unsigned");
 
-				b.Property<decimal>("DreamMakerRights")
-					.HasColumnType("numeric(20,0)");
+				b.Property<ulong>("DreamMakerRights")
+					.HasColumnType("bigint unsigned");
 
-				b.Property<decimal>("EngineRights")
-					.HasColumnType("numeric(20,0)");
+				b.Property<ulong>("EngineRights")
+					.HasColumnType("bigint unsigned");
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
 
-				b.Property<decimal>("InstancePermissionSetRights")
-					.HasColumnType("numeric(20,0)");
+				b.Property<ulong>("InstancePermissionSetRights")
+					.HasColumnType("bigint unsigned");
 
 				b.Property<long>("PermissionSetId")
 					.HasColumnType("bigint");
 
-				b.Property<decimal>("RepositoryRights")
-					.HasColumnType("numeric(20,0)");
+				b.Property<ulong>("RepositoryRights")
+					.HasColumnType("bigint unsigned");
 
 				b.HasKey("Id");
 
@@ -390,46 +428,50 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
-				b.Property<decimal?>("CancelRight")
-					.HasColumnType("numeric(20,0)");
+				b.Property<ulong?>("CancelRight")
+					.HasColumnType("bigint unsigned");
 
-				b.Property<decimal?>("CancelRightsType")
-					.HasColumnType("numeric(20,0)");
+				b.Property<ulong?>("CancelRightsType")
+					.HasColumnType("bigint unsigned");
 
 				b.Property<bool?>("Cancelled")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<long?>("CancelledById")
 					.HasColumnType("bigint");
 
 				b.Property<string>("Description")
 					.IsRequired()
-					.HasColumnType("text");
+					.HasColumnType("longtext");
 
-				b.Property<long?>("ErrorCode")
-					.HasColumnType("bigint");
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Description"), "utf8mb4");
+
+				b.Property<uint?>("ErrorCode")
+					.HasColumnType("int unsigned");
 
 				b.Property<string>("ExceptionDetails")
-					.HasColumnType("text");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ExceptionDetails"), "utf8mb4");
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
 
 				b.Property<byte>("JobCode")
-					.HasColumnType("smallint");
+					.HasColumnType("tinyint unsigned");
 
 				b.Property<DateTimeOffset?>("StartedAt")
 					.IsRequired()
-					.HasColumnType("timestamp with time zone");
+					.HasColumnType("datetime(6)");
 
 				b.Property<long>("StartedById")
 					.HasColumnType("bigint");
 
 				b.Property<DateTimeOffset?>("StoppedAt")
-					.HasColumnType("timestamp with time zone");
+					.HasColumnType("datetime(6)");
 
 				b.HasKey("Id");
 
@@ -448,15 +490,17 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<string>("ExternalUserId")
 					.IsRequired()
 					.HasMaxLength(100)
-					.HasColumnType("character varying(100)");
+					.HasColumnType("varchar(100)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ExternalUserId"), "utf8mb4");
 
 				b.Property<int>("Provider")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
 				b.Property<long>("UserId")
 					.HasColumnType("bigint");
@@ -477,16 +521,16 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
-				b.Property<decimal>("AdministrationRights")
-					.HasColumnType("numeric(20,0)");
+				b.Property<ulong>("AdministrationRights")
+					.HasColumnType("bigint unsigned");
 
 				b.Property<long?>("GroupId")
 					.HasColumnType("bigint");
 
-				b.Property<decimal>("InstanceManagerRights")
-					.HasColumnType("numeric(20,0)");
+				b.Property<ulong>("InstanceManagerRights")
+					.HasColumnType("bigint unsigned");
 
 				b.Property<long?>("UserId")
 					.HasColumnType("bigint");
@@ -508,11 +552,13 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<string>("AccessIdentifier")
 					.IsRequired()
-					.HasColumnType("text");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("AccessIdentifier"), "utf8mb4");
 
 				b.Property<long>("CompileJobId")
 					.HasColumnType("bigint");
@@ -521,22 +567,22 @@ namespace Tgstation.Server.Host.Database
 					.HasColumnType("bigint");
 
 				b.Property<int>("LaunchSecurityLevel")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
 				b.Property<int>("LaunchVisibility")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
-				b.Property<int>("Port")
-					.HasColumnType("integer");
+				b.Property<ushort>("Port")
+					.HasColumnType("smallint unsigned");
 
 				b.Property<int>("ProcessId")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
 				b.Property<int>("RebootState")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
-				b.Property<int?>("TopicPort")
-					.HasColumnType("integer");
+				b.Property<ushort?>("TopicPort")
+					.HasColumnType("smallint unsigned");
 
 				b.HasKey("Id");
 
@@ -553,56 +599,64 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<string>("AccessToken")
 					.HasMaxLength(10000)
-					.HasColumnType("character varying(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("AccessToken"), "utf8mb4");
 
 				b.Property<string>("AccessUser")
 					.HasMaxLength(10000)
-					.HasColumnType("character varying(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("AccessUser"), "utf8mb4");
 
 				b.Property<bool?>("AutoUpdatesKeepTestMerges")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<bool?>("AutoUpdatesSynchronize")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<string>("CommitterEmail")
 					.IsRequired()
 					.HasMaxLength(10000)
-					.HasColumnType("character varying(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("CommitterEmail"), "utf8mb4");
 
 				b.Property<string>("CommitterName")
 					.IsRequired()
 					.HasMaxLength(10000)
-					.HasColumnType("character varying(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("CommitterName"), "utf8mb4");
 
 				b.Property<bool?>("CreateGitHubDeployments")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
 
 				b.Property<bool?>("PostTestMergeComment")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<bool?>("PushTestMergeCommits")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<bool?>("ShowTestMergeCommitters")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<bool?>("UpdateSubmodules")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.HasKey("Id");
 
@@ -618,7 +672,7 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<long>("RevisionInformationId")
 					.HasColumnType("bigint");
@@ -641,12 +695,14 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<string>("CommitSha")
 					.IsRequired()
 					.HasMaxLength(40)
-					.HasColumnType("character varying(40)");
+					.HasColumnType("varchar(40)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("CommitSha"), "utf8mb4");
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
@@ -654,10 +710,12 @@ namespace Tgstation.Server.Host.Database
 				b.Property<string>("OriginCommitSha")
 					.IsRequired()
 					.HasMaxLength(40)
-					.HasColumnType("character varying(40)");
+					.HasColumnType("varchar(40)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("OriginCommitSha"), "utf8mb4");
 
 				b.Property<DateTimeOffset>("Timestamp")
-					.HasColumnType("timestamp with time zone");
+					.HasColumnType("datetime(6)");
 
 				b.HasKey("Id");
 
@@ -673,28 +731,34 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<string>("Author")
 					.IsRequired()
-					.HasColumnType("text");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Author"), "utf8mb4");
 
 				b.Property<string>("BodyAtMerge")
 					.IsRequired()
-					.HasColumnType("text");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("BodyAtMerge"), "utf8mb4");
 
 				b.Property<string>("Comment")
 					.HasMaxLength(10000)
-					.HasColumnType("character varying(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Comment"), "utf8mb4");
 
 				b.Property<DateTimeOffset>("MergedAt")
-					.HasColumnType("timestamp with time zone");
+					.HasColumnType("datetime(6)");
 
 				b.Property<long>("MergedById")
 					.HasColumnType("bigint");
 
 				b.Property<int>("Number")
-					.HasColumnType("integer");
+					.HasColumnType("int");
 
 				b.Property<long?>("PrimaryRevisionInformationId")
 					.IsRequired()
@@ -703,15 +767,21 @@ namespace Tgstation.Server.Host.Database
 				b.Property<string>("TargetCommitSha")
 					.IsRequired()
 					.HasMaxLength(40)
-					.HasColumnType("character varying(40)");
+					.HasColumnType("varchar(40)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("TargetCommitSha"), "utf8mb4");
 
 				b.Property<string>("TitleAtMerge")
 					.IsRequired()
-					.HasColumnType("text");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("TitleAtMerge"), "utf8mb4");
 
 				b.Property<string>("Url")
 					.IsRequired()
-					.HasColumnType("text");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Url"), "utf8mb4");
 
 				b.HasKey("Id");
 
@@ -729,41 +799,49 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<string>("CanonicalName")
 					.IsRequired()
 					.HasMaxLength(100)
-					.HasColumnType("character varying(100)");
+					.HasColumnType("varchar(100)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("CanonicalName"), "utf8mb4");
 
 				b.Property<DateTimeOffset?>("CreatedAt")
 					.IsRequired()
-					.HasColumnType("timestamp with time zone");
+					.HasColumnType("datetime(6)");
 
 				b.Property<long?>("CreatedById")
 					.HasColumnType("bigint");
 
 				b.Property<bool?>("Enabled")
 					.IsRequired()
-					.HasColumnType("boolean");
+					.HasColumnType("tinyint(1)");
 
 				b.Property<long?>("GroupId")
 					.HasColumnType("bigint");
 
 				b.Property<DateTimeOffset?>("LastPasswordUpdate")
-					.HasColumnType("timestamp with time zone");
+					.HasColumnType("datetime(6)");
 
 				b.Property<string>("Name")
 					.IsRequired()
 					.HasMaxLength(100)
-					.HasColumnType("character varying(100)");
+					.HasColumnType("varchar(100)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Name"), "utf8mb4");
 
 				b.Property<string>("PasswordHash")
-					.HasColumnType("text");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("PasswordHash"), "utf8mb4");
 
 				b.Property<string>("SystemIdentifier")
 					.HasMaxLength(100)
-					.HasColumnType("character varying(100)");
+					.HasColumnType("varchar(100)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("SystemIdentifier"), "utf8mb4");
 
 				b.HasKey("Id");
 
@@ -786,12 +864,14 @@ namespace Tgstation.Server.Host.Database
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<string>("Name")
 					.IsRequired()
 					.HasMaxLength(100)
-					.HasColumnType("character varying(100)");
+					.HasColumnType("varchar(100)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Name"), "utf8mb4");
 
 				b.HasKey("Id");
 

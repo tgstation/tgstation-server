@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Utils
 		/// </summary>
 		/// <param name="timeSpan">The <see cref="TimeSpan"/> that must elapse.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task Delay(TimeSpan timeSpan, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask Delay(TimeSpan timeSpan, CancellationToken cancellationToken);
 	}
 }

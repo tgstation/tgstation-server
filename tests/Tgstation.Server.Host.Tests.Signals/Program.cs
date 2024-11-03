@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Tests.Signals
 				.Returns(ValueTask.CompletedTask);
 
 			var mockAsyncDelayer = new Mock<IAsyncDelayer>();
-			mockAsyncDelayer.Setup(x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+			mockAsyncDelayer.Setup(x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>())).Returns(ValueTask.CompletedTask);
 			using var signalHandler = new PosixSignalHandler(mockServerControl.Object, mockAsyncDelayer.Object, Mock.Of<ILogger<PosixSignalHandler>>());
 
 			Assert.IsFalse(tcs.Task.IsCompleted);

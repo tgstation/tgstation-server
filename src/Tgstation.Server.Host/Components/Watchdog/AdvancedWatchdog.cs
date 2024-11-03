@@ -185,7 +185,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						lingeringDeploymentExpirySeconds);
 
 					// DCT: A cancel firing here can result in us leaving a dmbprovider undisposed, localDeploymentCleanupGate will always fire in that case
-					var timeout = AsyncDelayer.Delay(TimeSpan.FromSeconds(lingeringDeploymentExpirySeconds), CancellationToken.None);
+					var timeout = AsyncDelayer.Delay(TimeSpan.FromSeconds(lingeringDeploymentExpirySeconds), CancellationToken.None).AsTask();
 
 					var completedTask = await Task.WhenAny(
 						localDeploymentCleanupGate.Task,

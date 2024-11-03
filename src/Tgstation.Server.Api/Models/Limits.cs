@@ -13,6 +13,11 @@ namespace Tgstation.Server.Api.Models
 		public const int MaximumStringLength = 10000;
 
 		/// <summary>
+		/// Length limit for cron strings in fields.
+		/// </summary>
+		public const int CronStringLength = 1000;
+
+		/// <summary>
 		/// Length limit for <see cref="NamedEntity.Name"/>s.
 		/// </summary>
 		public const int MaximumIndexableStringLength = 100;

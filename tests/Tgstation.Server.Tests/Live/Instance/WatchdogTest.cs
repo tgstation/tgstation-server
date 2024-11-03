@@ -309,7 +309,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					? await session.TopicSendSemaphore.Lock(cancellationToken)
 					: null)
 					return await topicClient.SendWithOptionalPriority(
-						new AsyncDelayer(),
+						new AsyncDelayer(loggerFactory.CreateLogger<AsyncDelayer>()),
 						loggerFactory.CreateLogger<WatchdogTest>(),
 						queryString,
 						topicPort,

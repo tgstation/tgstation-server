@@ -4,7 +4,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Tgstation.Server.Host.Database.Migrations
+namespace Tgstation.Server.Host.Database
 {
 	[DbContext(typeof(SqliteDatabaseContext))]
 	partial class SqliteDatabaseContextModelSnapshot : ModelSnapshot
@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
-			modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
+			modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 			{
@@ -284,9 +284,19 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
+				b.Property<string>("AutoStartCron")
+					.IsRequired()
+					.HasMaxLength(1000)
+					.HasColumnType("TEXT");
+
+				b.Property<string>("AutoStopCron")
+					.IsRequired()
+					.HasMaxLength(1000)
+					.HasColumnType("TEXT");
+
 				b.Property<string>("AutoUpdateCron")
 					.IsRequired()
-					.HasMaxLength(10000)
+					.HasMaxLength(1000)
 					.HasColumnType("TEXT");
 
 				b.Property<uint?>("AutoUpdateInterval")
@@ -437,7 +447,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<int>("Provider")
 					.HasColumnType("INTEGER");
 
-				b.Property<long?>("UserId")
+				b.Property<long>("UserId")
 					.HasColumnType("INTEGER");
 
 				b.HasKey("Id");
@@ -876,7 +886,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.HasOne("Tgstation.Server.Host.Models.User", "User")
 					.WithMany("OAuthConnections")
 					.HasForeignKey("UserId")
-					.OnDelete(DeleteBehavior.Cascade);
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
 
 				b.Navigation("User");
 			});

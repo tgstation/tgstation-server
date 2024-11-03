@@ -59,5 +59,11 @@ namespace Tgstation.Server.Host.Components
 
 		/// <inheritdoc />
 		public ValueTask<CompileJob?> LatestCompileJob() => Instance.LatestCompileJob();
+
+		/// <inheritdoc />
+		public ValueTask ScheduleServerStart(string? newCron) => Instance.ScheduleServerStart(newCron);
+
+		/// <inheritdoc />
+		public ValueTask ScheduleServerStop(string? newCron) => Instance.ScheduleServerStop(newCron);
 	}
 }
