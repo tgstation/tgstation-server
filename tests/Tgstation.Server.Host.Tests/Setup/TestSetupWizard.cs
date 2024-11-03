@@ -91,7 +91,7 @@ namespace Tgstation.Server.Host.Setup.Tests
 				mockInternalConfigurationOptions.Object);
 
 			mockPlatformIdentifier.SetupGet(x => x.IsWindows).Returns(true).Verifiable();
-			mockAsyncDelayer.Setup(x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
+			mockAsyncDelayer.Setup(x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>())).Returns(ValueTask.CompletedTask).Verifiable();
 
 			await RunWizard();
 

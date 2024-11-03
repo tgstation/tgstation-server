@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -521,30 +520,6 @@ namespace Tgstation.Server.Host.Components
 					}
 
 					logger.LogInformation("Next auto-update will occur at {time}", DateTimeOffset.UtcNow + delay);
-
-					// https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.delay?view=net-8.0#system-threading-tasks-task-delay(system-timespan)
-					const uint DelayMinutesLimit = UInt32.MaxValue - 1;
-					Debug.Assert(DelayMinutesLimit == 4294967294, "Delay limit assertion failure!");
-
-					var maxDelayIterations = 0UL;
-					if (delay.TotalMilliseconds >= UInt32.MaxValue)
-					{
-						maxDelayIterations = (ulong)Math.Floor(delay.TotalMilliseconds / DelayMinutesLimit);
-						logger.LogDebug("Breaking interval into {iterationCount} iterations", maxDelayIterations + 1);
-						delay = TimeSpan.FromMilliseconds(delay.TotalMilliseconds - (maxDelayIterations * DelayMinutesLimit));
-					}
-
-					if (maxDelayIterations > 0)
-					{
-						var longDelayTimeSpan = TimeSpan.FromMilliseconds(DelayMinutesLimit);
-						for (var i = 0UL; i < maxDelayIterations; ++i)
-						{
-							logger.LogTrace("Long delay #{iteration}...", i + 1);
-							await asyncDelayer.Delay(longDelayTimeSpan, cancellationToken);
-						}
-
-						logger.LogTrace("Final delay iteration #{iteration}...", maxDelayIterations + 1);
-					}
 
 					await asyncDelayer.Delay(delay, cancellationToken);
 					logger.LogInformation("Beginning auto update...");

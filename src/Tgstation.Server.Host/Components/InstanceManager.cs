@@ -541,7 +541,7 @@ namespace Tgstation.Server.Host.Components
 							loggedDelay = true;
 						}
 
-						delayTask = asyncDelayer.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
+						delayTask = asyncDelayer.Delay(TimeSpan.FromMilliseconds(100), cancellationToken).AsTask();
 					}
 
 				await delayTask;

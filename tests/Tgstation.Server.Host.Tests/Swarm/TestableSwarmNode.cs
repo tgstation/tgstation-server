@@ -129,7 +129,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			mockAsyncDelayer.Setup(
 				x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>()))
 				.Returns<TimeSpan, CancellationToken>(
-					(delay, ct) => Task.Delay(TimeSpan.FromMilliseconds(100), ct));
+					async (delay, ct) => await Task.Delay(TimeSpan.FromMilliseconds(100), ct));
 
 			var mockServerUpdater = new Mock<IServerUpdater>();
 
@@ -152,7 +152,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				new CryptographySuite(
 					Mock.Of<IPasswordHasher<Models.User>>()),
 				Mock.Of<IIOManager>(),
-				new AsyncDelayer(), // use a real one here because otherwise tickets expire too fast
+				new AsyncDelayer(Mock.Of<ILogger<AsyncDelayer>>()), // use a real one here because otherwise tickets expire too fast
 				CreateLoggerFactoryForLogger(loggerFactory.CreateLogger($"FileTransferService-{swarmConfiguration.Identifier}"), out var mockLoggerFactory).CreateLogger<FileTransferService>());
 
 			RpcMapper = new SwarmRpcMapper(

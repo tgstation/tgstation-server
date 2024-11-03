@@ -710,7 +710,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Task.WhenAll(
 					disconnectTask,
 					listenTask ?? Task.CompletedTask),
-				AsyncDelayer.Delay(TimeSpan.FromSeconds(5), cancellationToken));
+				AsyncDelayer.Delay(TimeSpan.FromSeconds(5), cancellationToken).AsTask());
 		}
 
 		/// <summary>

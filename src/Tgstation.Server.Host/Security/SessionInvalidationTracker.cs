@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Security
 								var timeTillSessionExpiry = authenticationContext.SessionExpiry - DateTimeOffset.UtcNow;
 								if (timeTillSessionExpiry > TimeSpan.Zero)
 								{
-									var delayTask = asyncDelayer.Delay(timeTillSessionExpiry, applicationLifetime.ApplicationStopping);
+									var delayTask = asyncDelayer.Delay(timeTillSessionExpiry, applicationLifetime.ApplicationStopping).AsTask();
 
 									await Task.WhenAny(delayTask, otherCancellationReason);
 
