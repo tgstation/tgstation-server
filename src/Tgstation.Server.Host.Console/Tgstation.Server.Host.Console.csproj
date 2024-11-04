@@ -4,6 +4,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
+    <!-- Important that this is core and not host watchdog. Bootstrapping depends on it -->
     <Version>$(TgsCoreVersion)</Version>
     <Nullable>enable</Nullable>
     <UseAppHost>false</UseAppHost>

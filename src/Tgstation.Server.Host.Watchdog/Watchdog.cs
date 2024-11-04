@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -119,6 +122,49 @@ namespace Tgstation.Server.Host.Watchdog
 				else
 					Directory.CreateDirectory(assemblyStoragePath);
 
+				var bootstrappable = args.Contains("--bootstrap", StringComparer.OrdinalIgnoreCase);
+				var homeDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+				var bootstrapperSettingsFile = Path.Combine(homeDirectory, ".tgstation-server-bootstrap.json");
+				BootstrapSettings? bootstrapSettings = null;
+				if (!Directory.Exists(defaultAssemblyPath))
+				{
+					if (!bootstrappable)
+					{
+						logger.LogCritical("Unable to locate host assembly directory!");
+						return false;
+					}
+
+					if (File.Exists(bootstrapperSettingsFile))
+					{
+						logger.LogInformation("Loading bootstrap settings...");
+						var bootstrapperSettingsJson = await File.ReadAllTextAsync(bootstrapperSettingsFile, cancellationToken);
+						bootstrapSettings = JsonSerializer.Deserialize<BootstrapSettings>(bootstrapperSettingsJson);
+						if (bootstrapSettings == null)
+						{
+							logger.LogCritical("Failed to deserialize {settingsFile}!", bootstrapperSettingsFile);
+							return false;
+						}
+					}
+					else
+					{
+						logger.LogInformation("Using default bootstrap settings...");
+						bootstrapSettings = new BootstrapSettings(); // defaults
+					}
+
+					if (bootstrapSettings.FileVersion.Major != BootstrapSettings.FileMajorVersion)
+					{
+						logger.LogCritical("Unable to parse bootstrapper file! Expected version: {expected}.X.X", BootstrapSettings.FileMajorVersion);
+						return false;
+					}
+
+					string downloadUrl = bootstrapSettings.ServerUpdatePackageUrlFormatter.Replace(BootstrapSettings.VersionSubstitutionToken, bootstrapSettings.TgsVersion.ToString(), StringComparison.Ordinal);
+					logger.LogInformation("Bootstrapping from: {url}", downloadUrl);
+					using var httpClient = new HttpClient();
+					await using var zipData = await httpClient.GetStreamAsync(new Uri(downloadUrl), cancellationToken);
+					using var archive = new ZipArchive(zipData, ZipArchiveMode.Read, true);
+					archive.ExtractToDirectory(defaultAssemblyPath);
+				}
+
 				var assemblyName = String.Join(".", nameof(Tgstation), nameof(Server), nameof(Host), "dll");
 				var assemblyPath = Path.Combine(defaultAssemblyPath, assemblyName);
 
@@ -128,28 +174,59 @@ namespace Tgstation.Server.Host.Watchdog
 					return false;
 				}
 
-				if (!File.Exists(assemblyPath))
-				{
-					logger.LogCritical("Unable to locate host assembly!");
-					return false;
-				}
-
-				var fileVersion = FileVersionInfo.GetVersionInfo(assemblyPath).FileVersion;
-				if (fileVersion == null)
-				{
-					logger.LogCritical("Failed to parse version info from {assemblyPath}!", assemblyPath);
-					return false;
-				}
-
-				initialHostVersionTcs.SetResult(
-					Version.Parse(
-						fileVersion));
-
 				var watchdogVersion = executingAssembly.GetName().Version?.Semver().ToString();
 
 				while (!cancellationToken.IsCancellationRequested)
+				{
+					if (!File.Exists(assemblyPath))
+					{
+						logger.LogCritical("Unable to locate host assembly!");
+						return false;
+					}
+
+					var fileVersion = FileVersionInfo.GetVersionInfo(assemblyPath).FileVersion;
+					if (fileVersion == null)
+					{
+						logger.LogCritical("Failed to parse version info from {assemblyPath}!", assemblyPath);
+						return false;
+					}
+
+					if (bootstrappable)
+					{
+						if (!Version.TryParse(fileVersion, out var bootstrappedVersion))
+						{
+							logger.LogCritical("Failed to parse bootstrapped version prior to launch: {fileVersion}", fileVersion);
+						}
+						else
+						{
+							// save bootstrapper settings
+							var oldUrl = bootstrapSettings?.ServerUpdatePackageUrlFormatter;
+							bootstrapSettings = new BootstrapSettings
+							{
+								TgsVersion = bootstrappedVersion.Semver(),
+							};
+
+							bootstrapSettings.ServerUpdatePackageUrlFormatter = oldUrl ?? bootstrapSettings.ServerUpdatePackageUrlFormatter;
+
+							Directory.CreateDirectory(homeDirectory);
+							await File.WriteAllTextAsync(
+								bootstrapperSettingsFile,
+								JsonSerializer.Serialize(
+									bootstrapSettings,
+									new JsonSerializerOptions
+									{
+										WriteIndented = true,
+									}),
+								cancellationToken);
+						}
+					}
+
 					using (logger.BeginScope("Host invocation"))
 					{
+						initialHostVersionTcs.SetResult(
+							Version.Parse(
+								fileVersion));
+
 						updateDirectory = Path.GetFullPath(Path.Combine(assemblyStoragePath, Guid.NewGuid().ToString()));
 						logger.LogInformation("Update path set to {updateDirectory}", updateDirectory);
 						using (var process = new Process())
@@ -358,6 +435,7 @@ namespace Tgstation.Server.Host.Watchdog
 							}
 						}
 					}
+				}
 			}
 			catch (OperationCanceledException ex)
 			{
