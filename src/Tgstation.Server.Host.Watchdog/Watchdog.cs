@@ -92,7 +92,10 @@ namespace Tgstation.Server.Host.Watchdog
 					return false;
 				}
 
-				var assemblyStoragePath = Path.Combine(rootLocation, "lib"); // always always next to watchdog
+				var bootstrappable = args.Contains("--bootstrap", StringComparer.OrdinalIgnoreCase);
+				var homeDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tgstation-server");
+
+				var assemblyStoragePath = Path.Combine(bootstrappable ? homeDirectory : rootLocation, "lib"); // always always next to watchdog
 
 				var defaultAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, "Default"));
 
@@ -122,9 +125,7 @@ namespace Tgstation.Server.Host.Watchdog
 				else
 					Directory.CreateDirectory(assemblyStoragePath);
 
-				var bootstrappable = args.Contains("--bootstrap", StringComparer.OrdinalIgnoreCase);
-				var homeDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-				var bootstrapperSettingsFile = Path.Combine(homeDirectory, ".tgstation-server-bootstrap.json");
+				var bootstrapperSettingsFile = Path.Combine(homeDirectory, "bootstrap.json");
 				BootstrapSettings? bootstrapSettings = null;
 				if (!Directory.Exists(defaultAssemblyPath))
 				{
