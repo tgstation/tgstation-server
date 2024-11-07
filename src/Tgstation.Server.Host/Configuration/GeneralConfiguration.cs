@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -151,6 +154,11 @@ namespace Tgstation.Server.Host.Configuration
 		public bool OpenDreamSuppressInstallOutput { get; set; }
 
 		/// <summary>
+		/// List of directories that have their contents merged with instance EventScripts directories when executing scripts.
+		/// </summary>
+		public List<string>? AdditionalEventScriptsDirectories { get; set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> class.
 		/// </summary>
 		public GeneralConfiguration()
@@ -190,6 +198,9 @@ namespace Tgstation.Server.Host.Configuration
 
 			if (ByondTopicTimeout <= 1000)
 				logger.LogWarning("The timeout for sending BYOND topics is very low ({ms}ms). Topic calls may fail to complete at all!", ByondTopicTimeout);
+
+			if (AdditionalEventScriptsDirectories?.Any(path => !Path.IsPathRooted(path)) == true)
+				logger.LogWarning($"Config option \"{nameof(AdditionalEventScriptsDirectories)}\" contains non-rooted paths. These will be evaluated relative to each instances \"Configuration\" directory!");
 		}
 	}
 }
