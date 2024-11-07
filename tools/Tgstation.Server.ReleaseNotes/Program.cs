@@ -315,6 +315,39 @@ namespace Tgstation.Server.ReleaseNotes
 							Description = "Next patch version"
 						});
 
+
+					async ValueTask RelocateOpenIssues(Milestone originalMilestone, int moveToMilestoneNumber)
+					{
+						if (originalMilestone.OpenIssues + originalMilestone.ClosedIssues > 0)
+						{
+							var issuesInUnusedMilestone = await client.Search.SearchIssues(new SearchIssuesRequest
+							{
+								Milestone = originalMilestone.Title,
+								Repos = { { RepoOwner, RepoName } }
+							});
+
+							var issueUpdateTasks = new List<Task>();
+							foreach (var I in issuesInUnusedMilestone.Items)
+							{
+								if (I.State.Value != ItemState.Closed)
+									issueUpdateTasks.Add(client.Issue.Update(RepoOwner, RepoName, I.Number, new IssueUpdate
+									{
+										Milestone = moveToMilestoneNumber
+									}));
+
+								if (I.PullRequest != null && I.PullRequest.Merged)
+								{
+									Console.WriteLine($"Adding additional merged PR #{I.Number}...");
+									var task = GetReleaseNotesFromPR(client, I, doNotCloseMilestone, false, false);
+									noteTasks.Add(task);
+									allTasks.Add(task);
+								}
+							}
+
+							await Task.WhenAll(issueUpdateTasks).ConfigureAwait(false);
+						}
+					}
+
 					if (version.Build == 0)
 					{
 						// close the patch milestone if it exists
@@ -326,38 +359,9 @@ namespace Tgstation.Server.ReleaseNotes
 						async ValueTask DeleteMilestone(Milestone milestoneToDelete, int moveToMilestoneNumber)
 						{
 							Console.WriteLine($"Moving {milestoneToDelete.OpenIssues} open issues and {milestoneToDelete.ClosedIssues} closed issues from unused patch milestone {milestoneToDelete.Title} to upcoming ones and deleting...");
-							if (milestoneToDelete.OpenIssues + milestoneToDelete.ClosedIssues > 0)
-							{
-								var issuesInUnusedMilestone = await client.Search.SearchIssues(new SearchIssuesRequest
-								{
-									Milestone = milestoneToDelete.Title,
-									Repos = { { RepoOwner, RepoName } }
-								});
-
-								var issueUpdateTasks = new List<Task>();
-								foreach (var I in issuesInUnusedMilestone.Items)
-								{
-									if (I.State.Value != ItemState.Closed)
-										issueUpdateTasks.Add(client.Issue.Update(RepoOwner, RepoName, I.Number, new IssueUpdate
-										{
-											Milestone = moveToMilestoneNumber
-										}));
-
-									if (I.PullRequest != null)
-									{
-										Console.WriteLine($"Adding additional merged PR #{I.Number}...");
-										var task = GetReleaseNotesFromPR(client, I, doNotCloseMilestone, false, false);
-										noteTasks.Add(task);
-										allTasks.Add(task);
-									}
-								}
-
-								await Task.WhenAll(issueUpdateTasks).ConfigureAwait(false);
-							}
-
+							await RelocateOpenIssues(milestoneToDelete, moveToMilestoneNumber);
 							allTasks.Add(client.Issue.Milestone.Delete(RepoOwner, RepoName, milestoneToDelete.Number));
 						}
-
 
 						var unreleasedNextPatchMilestone = milestones.FirstOrDefault(x => x.Title.StartsWith($"v{highestReleaseVersion.Major}.{highestReleaseVersion.Minor}."));
 						if (unreleasedNextPatchMilestone != null)
@@ -401,7 +405,11 @@ namespace Tgstation.Server.ReleaseNotes
 							if (unreleasedNextMinorMilestone != null)
 								await DeleteMilestone(unreleasedNextMinorMilestone, nextMinorMilestone.Number);
 						}
+						else
+							await RelocateOpenIssues(milestone, nextMinorMilestone.Number);
 					}
+					else
+						await RelocateOpenIssues(milestone, nextPatchMilestone.Number);
 				}
 
 				newNotes.Append(milestone.HtmlUrl);
