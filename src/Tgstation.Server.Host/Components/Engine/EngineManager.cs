@@ -477,9 +477,9 @@ namespace Tgstation.Server.Host.Components.Engine
 
 					await InstallVersionFiles(progressReporter, version, customVersionStream, deploymentPipelineProcesses, cancellationToken);
 
-					ourTcs.SetResult();
-
 					await eventConsumer.HandleEvent(EventType.EngineInstallComplete, new List<string> { versionString }, deploymentPipelineProcesses, cancellationToken);
+
+					ourTcs.SetResult();
 				}
 				catch (Exception ex)
 				{
