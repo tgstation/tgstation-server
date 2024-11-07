@@ -603,7 +603,7 @@ namespace Tgstation.Server.Host.Components
 				logger.LogInformation("{versionString}", assemblyInformationProvider.VersionString);
 				console.SetTitle(assemblyInformationProvider.VersionString);
 
-				CheckSystemCompatibility();
+				PreflightChecks();
 
 				// To let the web server startup immediately before we do any intense work
 				await Task.Yield();
@@ -673,7 +673,7 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Check we have a valid system and configuration.
 		/// </summary>
-		void CheckSystemCompatibility()
+		void PreflightChecks()
 		{
 			logger.LogDebug("Running as user: {username}", Environment.UserName);
 
