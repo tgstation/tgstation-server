@@ -794,13 +794,20 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				var tasks = directories.Select<string, ValueTask>(
 					async scriptDirectory =>
 					{
-						var files = await ioManager.GetFilesWithExtension(scriptDirectory, platformIdentifier.ScriptFileExtension, false, cancellationToken);
 						var resolvedScriptsDir = ioManager.ResolvePath(scriptDirectory);
+						logger.LogTrace("Checking for scripts in {directory}...", scriptDirectory);
+						var files = await ioManager.GetFilesWithExtension(scriptDirectory, platformIdentifier.ScriptFileExtension, false, cancellationToken);
 
 						var scriptFiles = files
-							.Select(x => ioManager.ConcatPath(resolvedScriptsDir, ioManager.GetFileName(x)))
+							.Select(ioManager.GetFileName)
 							.Where(x => scriptNames.Any(
-								scriptName => x.StartsWith(scriptName, StringComparison.Ordinal)));
+								scriptName => x.StartsWith(scriptName, StringComparison.Ordinal)))
+							.Select(x =>
+							{
+								var fullScriptPath = ioManager.ConcatPath(resolvedScriptsDir, x);
+								logger.LogTrace("Found matching script: {scriptPath}", fullScriptPath);
+								return fullScriptPath;
+							});
 
 						lock (allScripts)
 							allScripts.AddRange(scriptFiles);
