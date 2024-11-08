@@ -1731,6 +1731,12 @@ jobs:
           body_path: release_notes.md
           commitish: ${{ github.event.head_commit.id }}
 
+      - name: Generate Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./swagger/tgs_api.json
+          github-token: ${{ steps.app-token-generation.outputs.token }}
+
       - name: Upload OpenApi Spec
         uses: actions/upload-release-asset@v1
         env:
@@ -1811,6 +1817,12 @@ jobs:
           commitish: ${{ github.event.head_commit.id }}
           prerelease: ${{ env.TGS_GRAPHQL_PRERELEASE }}
 
+      - name: Generate Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./schema/tgs_api.graphql
+          github-token: ${{ steps.app-token-generation.outputs.token }}
+
       - name: Upload GraphQL Schema
         uses: actions/upload-release-asset@v1
         env:
@@ -1882,6 +1894,12 @@ jobs:
           release_name: tgstation-server DMAPI v${{ env.TGS_DM_VERSION }}
           body_path: release_notes.md
           commitish: ${{ github.event.head_commit.id }}
+
+      - name: Generate Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./DMAPI.zip
+          github-token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Upload DMAPI Artifact
         uses: actions/upload-release-asset@v1
@@ -2148,6 +2166,12 @@ jobs:
           body_path: release_notes.md
           commitish: ${{ github.event.head_commit.id }}
 
+      - name: Generate Server Console Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./ServerConsole.zip
+          github-token: ${{ steps.app-token-generation.outputs.token }}
+
       - name: Upload Server Console Artifact
         uses: actions/upload-release-asset@v1
         env:
@@ -2157,6 +2181,12 @@ jobs:
           asset_path: ./ServerConsole.zip
           asset_name: ServerConsole.zip
           asset_content_type: application/zip
+
+      - name: Generate Server Service Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./ServerService.zip
+          github-token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Upload Server Service Artifact
         uses: actions/upload-release-asset@v1
@@ -2168,6 +2198,12 @@ jobs:
           asset_name: ServerService.zip
           asset_content_type: application/zip
 
+      - name: Generate DMAPI Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./DMAPI.zip
+          github-token: ${{ steps.app-token-generation.outputs.token }}
+
       - name: Upload DMAPI Artifact
         uses: actions/upload-release-asset@v1
         env:
@@ -2177,6 +2213,12 @@ jobs:
           asset_path: ./DMAPI.zip
           asset_name: DMAPI.zip
           asset_content_type: application/zip
+
+      - name: Generate REST API Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./swagger/tgs_api.json
+          github-token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Upload REST API Artifact
         uses: actions/upload-release-asset@v1
@@ -2188,6 +2230,12 @@ jobs:
           asset_name: swagger.json
           asset_content_type: application/json
 
+      - name: Generate GraphQL API Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./schema/tgs-api.graphql
+          github-token: ${{ steps.app-token-generation.outputs.token }}
+
       - name: Upload GraphQL API Artifact
         uses: actions/upload-release-asset@v1
         env:
@@ -2197,6 +2245,12 @@ jobs:
           asset_path: ./schema/tgs-api.graphql
           asset_name: tgs-api.graphql
           asset_content_type: text/plain
+
+      - name: Generate Server Update Package Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./ServerUpdatePackage.zip
+          github-token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Upload Server Update Package Artifact
         uses: actions/upload-release-asset@v1
@@ -2208,7 +2262,13 @@ jobs:
           asset_name: ServerUpdatePackage.zip
           asset_content_type: application/zip
 
-      - name: Upload Debian Pacakaging Artifact
+      - name: Generate Debian Packaging Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./packaging-debian/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
+          github-token: ${{ steps.app-token-generation.outputs.token }}
+
+      - name: Upload Debian Packaging Artifact
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
@@ -2217,6 +2277,12 @@ jobs:
           asset_path: ./packaging-debian/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
           asset_name: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
           asset_content_type: application/x-tar
+
+      - name: Generate MariaDB .msi Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/mariadb.msi
+          github-token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Upload MariaDB .msi
         uses: actions/upload-release-asset@v1
@@ -2227,6 +2293,12 @@ jobs:
           asset_path: ./build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/mariadb.msi
           asset_name: mariadb-${{ env.MARIADB_VERSION }}-winx64.msi
           asset_content_type: application/octet-stream
+
+      - name: Generate Installer .exe Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./build/package/winget/tgstation-server-installer.exe
+          github-token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Upload Installer .exe
         uses: actions/upload-release-asset@v1
