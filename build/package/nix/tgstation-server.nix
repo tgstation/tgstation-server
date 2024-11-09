@@ -23,7 +23,7 @@ let
   byond-patcher = pkgs-i686.writeShellScriptBin "EngineInstallComplete-050-TgsPatchELFByond.sh" ''
     BYOND_PATH=$(realpath ../../Byond/$1/byond/bin/)
 
-    patchelf --set-interpreter "$(cat ${stdenv.cc}/nix-support/dynamic-linker)" \
+    ${pkgs.patchelf}/bin/patchelf --set-interpreter "$(cat ${stdenv.cc}/nix-support/dynamic-linker)" \
       --set-rpath "$BYOND_PATH:${rpath}" \
       $BYOND_PATH/{DreamDaemon,DreamDownload,DreamMaker,*.so}
   '';
