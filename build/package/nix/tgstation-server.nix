@@ -19,7 +19,7 @@ let
     stdenv.cc.cc.lib
   ];
 
-  byond-patcher = pkgs-i686.writeShellScriptBin "byond-patcher" ''
+  byond-patcher = pkgs-i686.writeShellScriptBin "EngineInstallComplete-050-TgsPatchELFByond.sh" ''
     BYOND_PATH=$(realpath ../../Byond/$1/byond/bin/)
 
     patchelf --set-interpreter "$(cat ${stdenv.cc}/nix-support/dynamic-linker)" \
@@ -95,11 +95,6 @@ in
         group = cfg.groupname;
         mode = "0640";
       };
-      "tgstation-server.d/EventScripts/EngineInstallComplete-050-PatchELFByond.sh" = {
-        source = "${byond-patcher}/bin/byond-patcher";
-        group = cfg.groupname;
-        mode = "755";
-      };
     };
 
     systemd.services.tgstation-server = {
@@ -109,7 +104,7 @@ in
         Type = "notify-reload";
         NotifyAccess = "all";
         WorkingDirectory = "${package}/bin";
-        ExecStart = "${package}/bin/tgstation-server --appsettings-base-path=/etc/tgstation-server.d --General:SetupWizardMode=Never --General:AdditionalEventScriptsDirectories:0=/etc/tgstation-server.d/EventScripts";
+        ExecStart = "${package}/bin/tgstation-server --appsettings-base-path=/etc/tgstation-server.d --General:SetupWizardMode=Never --General:AdditionalEventScriptsDirectories:0=/etc/tgstation-server.d/EventScripts --General:AdditionalEventScriptsDirectories:1=${byond-patcher}/bin";
         Restart = "always";
         KillMode = "process";
         ReloadSignal = "SIGUSR2";
