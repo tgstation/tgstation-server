@@ -1444,6 +1444,7 @@ jobs:
   build-msi:
     name: Build Windows Installer .exe
     runs-on: windows-latest
+    needs: start-gate
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     steps:
