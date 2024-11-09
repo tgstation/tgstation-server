@@ -3,6 +3,7 @@ inputs@{
   lib,
   nixpkgs,
   pkgs,
+  writeShellScriptBin,
   ...
 }:
 
@@ -25,6 +26,11 @@ let
     patchelf --set-interpreter "$(cat ${stdenv.cc}/nix-support/dynamic-linker)" \
       --set-rpath "$BYOND_PATH:${rpath}" \
       $BYOND_PATH/{DreamDaemon,DreamDownload,DreamMaker}
+  '';
+
+  tgs-wrapper = pkgs.writeShellScriptBin "tgs-path-wrapper" ''
+    export PATH=$PATH:${cfg.extra-path}
+    exec ${package}/bin/tgstation-server --appsettings-base-path=/etc/tgstation-server.d --General:SetupWizardMode=Never --General:AdditionalEventScriptsDirectories:0=/etc/tgstation-server.d/EventScripts --General:AdditionalEventScriptsDirectories:1=${byond-patcher}/bin
   '';
 in
 {
@@ -71,6 +77,14 @@ in
           The contents of appsettings.Production.yml in the /etc/tgstation-server.d directory.
         '';
       };
+
+      extra-path = lib.mkOption {
+        type = lib.types.str;
+        default = "";
+        description = ''
+          Extra PATH entries to add to the TGS process
+        '';
+      };
     };
   };
 
@@ -104,7 +118,7 @@ in
         Type = "notify-reload";
         NotifyAccess = "all";
         WorkingDirectory = "${package}/bin";
-        ExecStart = "${package}/bin/tgstation-server --appsettings-base-path=/etc/tgstation-server.d --General:SetupWizardMode=Never --General:AdditionalEventScriptsDirectories:0=/etc/tgstation-server.d/EventScripts --General:AdditionalEventScriptsDirectories:1=${byond-patcher}/bin";
+        ExecStart = "${tgs-wrapper}/bin/tgs-path-wrapper";
         Restart = "always";
         KillMode = "process";
         ReloadSignal = "SIGUSR2";
