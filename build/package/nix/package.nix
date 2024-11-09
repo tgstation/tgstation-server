@@ -84,7 +84,6 @@ stdenv.mkDerivation {
     zlib
     gcc_multi
     glibc
-    patchelf
   ];
   nativeBuildInputs = with pkgs; [
     makeWrapper
@@ -103,7 +102,6 @@ stdenv.mkDerivation {
       lib.makeBinPath (
         with pkgs;
         [
-          patchelf
           dotnetCorePackages.aspnetcore_8_0
           gdb
         ]
