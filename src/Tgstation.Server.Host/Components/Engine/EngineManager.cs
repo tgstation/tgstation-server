@@ -456,6 +456,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				}
 
 				// okay up to us to install it then
+				string? installPath = null;
 				try
 				{
 					if (customVersionStream != null)
@@ -475,15 +476,26 @@ namespace Tgstation.Server.Host.Components.Engine
 					var versionString = version.ToString();
 					await eventConsumer.HandleEvent(EventType.EngineInstallStart, new List<string> { versionString }, deploymentPipelineProcesses, cancellationToken);
 
-					await InstallVersionFiles(progressReporter, version, customVersionStream, deploymentPipelineProcesses, cancellationToken);
-
+					installPath = await InstallVersionFiles(progressReporter, version, customVersionStream, deploymentPipelineProcesses, cancellationToken);
 					await eventConsumer.HandleEvent(EventType.EngineInstallComplete, new List<string> { versionString }, deploymentPipelineProcesses, cancellationToken);
 
 					ourTcs.SetResult();
 				}
 				catch (Exception ex)
 				{
-					if (ex is not OperationCanceledException)
+					if (installPath != null)
+					{
+						try
+						{
+							logger.LogDebug("Cleaning up failed installation at {path}...", installPath);
+							await ioManager.DeleteDirectory(installPath, cancellationToken);
+						}
+						catch (Exception ex2)
+						{
+							logger.LogError(ex2, "Error cleaning up failed installation!");
+						}
+					}
+					else if (ex is not OperationCanceledException)
 						await eventConsumer.HandleEvent(EventType.EngineInstallFail, new List<string> { ex.Message }, deploymentPipelineProcesses, cancellationToken);
 
 					lock (installedVersions)
@@ -510,8 +522,8 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="customVersionStream">Custom zip file <see cref="Stream"/> to use. Will cause a <see cref="Version.Build"/> number to be added.</param>
 		/// <param name="deploymentPipelineProcesses">If processes should be launched as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask InstallVersionFiles(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the directory the engine was installed to.</returns>
+		async ValueTask<string> InstallVersionFiles(
 			JobProgressReporter progressReporter,
 			EngineVersion version,
 			Stream? customVersionStream,
@@ -597,6 +609,8 @@ namespace Tgstation.Server.Host.Components.Engine
 				await ioManager.DeleteDirectory(installFullPath, cancellationToken);
 				throw;
 			}
+
+			return installFullPath;
 		}
 
 		/// <summary>
