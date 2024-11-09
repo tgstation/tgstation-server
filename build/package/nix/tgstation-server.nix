@@ -25,7 +25,9 @@ let
 
     ${pkgs.patchelf}/bin/patchelf --set-interpreter "$(cat ${stdenv.cc}/nix-support/dynamic-linker)" \
       --set-rpath "$BYOND_PATH:${rpath}" \
-      $BYOND_PATH/{DreamDaemon,DreamDownload,DreamMaker,*.so}
+      $BYOND_PATH/{DreamDaemon,DreamDownload,DreamMaker}
+
+    ${pkgs.patchelf}/bin/patchelf --set-rpath "$BYOND_PATH:${rpath}" $BYOND_PATH/*.so
   '';
 
   tgs-wrapper = pkgs.writeShellScriptBin "tgs-path-wrapper" ''
