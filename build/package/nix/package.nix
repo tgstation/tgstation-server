@@ -51,7 +51,7 @@ let
     src = ./.;
 
     buildPhase = ''
-      curl -L https://file.house/b2eyKOJZ7ptxwqm8O24-9A==.zip -o ServerConsole.zip
+      curl -L https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v${version}/ServerConsole.zip -o ServerConsole.zip
     '';
 
     installPhase = ''
