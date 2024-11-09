@@ -14,7 +14,7 @@
 <area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="1008,486,926,522,886,535,884,530,924,517,1005,481"/>
 <area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a98b3d4659e9a7927e6661cca2e08ec8f" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="670,598,896,639"/>
 <area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="1035,490,988,541,959,566,927,588,898,600,895,596,924,583,956,562,985,537,1031,486"/>
-<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#ac06e9789785574f8d657a29fdd183795" title="Installs the files for a given BYOND version ." alt="" coords="652,337,914,378"/>
+<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#aaff0a1cd6da08efa4de8455503d48b72" title="Installs the files for a given BYOND version ." alt="" coords="652,337,914,378"/>
 <area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="1006,430,924,393,885,381,886,376,926,388,1008,425"/>
 <area shape="rect" id="Node000017" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad3dc0cfcb7f415f1dd8a98bfd018f90e" title="Move an IInstance.A ValueTask representing the running operation." alt="" coords="670,664,896,704"/>
 <area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="1046,491,1027,530,1001,573,968,616,927,653,897,668,895,663,924,648,964,613,997,570,1023,527,1041,489"/>

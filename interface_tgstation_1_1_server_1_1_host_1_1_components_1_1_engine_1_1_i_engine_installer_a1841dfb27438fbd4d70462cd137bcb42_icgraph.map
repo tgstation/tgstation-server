@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Engine.IEngineInstaller.DownloadVersion" name="Tgstation.Server.Host.Components.Engine.IEngineInstaller.DownloadVersion">
 <area shape="rect" id="Node000001" title="Download a given engine version ." alt="" coords="950,39,1207,79"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#ac06e9789785574f8d657a29fdd183795" title="Installs the files for a given BYOND version ." alt="" coords="640,39,902,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#aaff0a1cd6da08efa4de8455503d48b72" title="Installs the files for a given BYOND version ." alt="" coords="640,39,902,79"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="934,62,903,62,903,56,934,56"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a4d0593064aa1c11835cfa1ab2823ec34" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="303,39,592,79"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="625,62,592,62,592,56,625,56"/>

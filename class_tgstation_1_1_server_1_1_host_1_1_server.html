@@ -367,16 +367,16 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00316">316</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  317</span>        {</div>
-<div class="line"><span class="lineno">  318</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ab4f24d11ae5ed3598cc9c483348da518">propagatedException</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  319</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  320</span> </div>
-<div class="line"><span class="lineno">  321</span>            <span class="keywordflow">if</span> (otherException != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  322</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> AggregateException(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ab4f24d11ae5ed3598cc9c483348da518">propagatedException</a>, otherException);</div>
-<div class="line"><span class="lineno">  323</span> </div>
-<div class="line"><span class="lineno">  324</span>            <span class="keywordflow">throw</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ab4f24d11ae5ed3598cc9c483348da518">propagatedException</a>;</div>
-<div class="line"><span class="lineno">  325</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00332">332</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  333</span>        {</div>
+<div class="line"><span class="lineno">  334</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ab4f24d11ae5ed3598cc9c483348da518">propagatedException</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  335</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  336</span> </div>
+<div class="line"><span class="lineno">  337</span>            <span class="keywordflow">if</span> (otherException != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  338</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> AggregateException(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ab4f24d11ae5ed3598cc9c483348da518">propagatedException</a>, otherException);</div>
+<div class="line"><span class="lineno">  339</span> </div>
+<div class="line"><span class="lineno">  340</span>            <span class="keywordflow">throw</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ab4f24d11ae5ed3598cc9c483348da518">propagatedException</a>;</div>
+<div class="line"><span class="lineno">  341</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_ab4f24d11ae5ed3598cc9c483348da518"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ab4f24d11ae5ed3598cc9c483348da518">Tgstation.Server.Host.Server.propagatedException</a></div><div class="ttdeci">Exception? propagatedException</div><div class="ttdoc">The Exception to propagate when the server terminates.</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00084">Server.cs:84</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_server_8cs_source.html#l00084">Tgstation.Server.Host.Server.propagatedException</a>.</p>
@@ -427,20 +427,20 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00303">303</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  304</span>        {</div>
-<div class="line"><span class="lineno">  305</span>            <span class="keywordflow">if</span> (checkWatchdog &amp;&amp; !<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a00ad28e8a1946d6dfd1ceda6d02be5b4">WatchdogPresent</a> &amp;&amp; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ab4f24d11ae5ed3598cc9c483348da518">propagatedException</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  306</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Server restarts are not supported&quot;</span>);</div>
-<div class="line"><span class="lineno">  307</span> </div>
-<div class="line"><span class="lineno">  308</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a79b49f97bb5aaf565c8e0a2a2803c825">cancellationTokenSource</a> == <span class="keyword">null</span> || <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  309</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Tried to control a non-running Server!&quot;</span>);</div>
-<div class="line"><span class="lineno">  310</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00319">319</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  320</span>        {</div>
+<div class="line"><span class="lineno">  321</span>            <span class="keywordflow">if</span> (checkWatchdog &amp;&amp; !<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a00ad28e8a1946d6dfd1ceda6d02be5b4">WatchdogPresent</a> &amp;&amp; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ab4f24d11ae5ed3598cc9c483348da518">propagatedException</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  322</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Server restarts are not supported&quot;</span>);</div>
+<div class="line"><span class="lineno">  323</span> </div>
+<div class="line"><span class="lineno">  324</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a79b49f97bb5aaf565c8e0a2a2803c825">cancellationTokenSource</a> == <span class="keyword">null</span> || <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  325</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Tried to control a non-running Server!&quot;</span>);</div>
+<div class="line"><span class="lineno">  326</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_a00ad28e8a1946d6dfd1ceda6d02be5b4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a00ad28e8a1946d6dfd1ceda6d02be5b4">Tgstation.Server.Host.Server.WatchdogPresent</a></div><div class="ttdeci">bool WatchdogPresent</div><div class="ttdoc">true if live updates are supported, false. TryStartUpdate(IServerUpdateExecutor, Version) and Restart...</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00034">Server.cs:34</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_a79b49f97bb5aaf565c8e0a2a2803c825"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a79b49f97bb5aaf565c8e0a2a2803c825">Tgstation.Server.Host.Server.cancellationTokenSource</a></div><div class="ttdeci">CancellationTokenSource? cancellationTokenSource</div><div class="ttdoc">The cancellationTokenSource for the Server.</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00079">Server.cs:79</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_server_8cs_source.html#l00079">Tgstation.Server.Host.Server.cancellationTokenSource</a>, <a class="el" href="_server_8cs_source.html#l00069">Tgstation.Server.Host.Server.logger</a>, <a class="el" href="_server_8cs_source.html#l00084">Tgstation.Server.Host.Server.propagatedException</a>, and <a class="el" href="_server_8cs_source.html#l00034">Tgstation.Server.Host.Server.WatchdogPresent</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00233">Tgstation.Server.Host.Server.RegisterForRestart()</a>, <a class="el" href="_server_8cs_source.html#l00335">Tgstation.Server.Host.Server.RestartImpl()</a>, and <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00249">Tgstation.Server.Host.Server.RegisterForRestart()</a>, <a class="el" href="_server_8cs_source.html#l00351">Tgstation.Server.Host.Server.RestartImpl()</a>, and <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -488,18 +488,18 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#adb01d302ec13ad32897ae83be130afd0">Tgstation.Server.Host.Core.IServerControl</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00265">265</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  266</span>        {</div>
-<div class="line"><span class="lineno">  267</span>            <span class="keywordflow">if</span> (exception != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  268</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2">RestartImpl</a>(<span class="keyword">null</span>, exception, <span class="keyword">false</span>, <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  269</span> </div>
-<div class="line"><span class="lineno">  270</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d">StopServerImmediate</a>();</div>
-<div class="line"><span class="lineno">  271</span>            <span class="keywordflow">return</span> ValueTask.CompletedTask;</div>
-<div class="line"><span class="lineno">  272</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_a495a873033e07e8befddaf022738e0a2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2">Tgstation.Server.Host.Server.RestartImpl</a></div><div class="ttdeci">async ValueTask RestartImpl(Version? newVersion, Exception? exception, bool requireWatchdog, bool completeAsap)</div><div class="ttdoc">Implements Restart().</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00335">Server.cs:335</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_af37c73bdc1de34bc4c34214e6dd9a98d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d">Tgstation.Server.Host.Server.StopServerImmediate</a></div><div class="ttdeci">void StopServerImmediate()</div><div class="ttdoc">Fires off the cancellationTokenSource without any checks, shutting down everything.</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00434">Server.cs:434</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00281">281</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  282</span>        {</div>
+<div class="line"><span class="lineno">  283</span>            <span class="keywordflow">if</span> (exception != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  284</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2">RestartImpl</a>(<span class="keyword">null</span>, exception, <span class="keyword">false</span>, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  285</span> </div>
+<div class="line"><span class="lineno">  286</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d">StopServerImmediate</a>();</div>
+<div class="line"><span class="lineno">  287</span>            <span class="keywordflow">return</span> ValueTask.CompletedTask;</div>
+<div class="line"><span class="lineno">  288</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_a495a873033e07e8befddaf022738e0a2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2">Tgstation.Server.Host.Server.RestartImpl</a></div><div class="ttdeci">async ValueTask RestartImpl(Version? newVersion, Exception? exception, bool requireWatchdog, bool completeAsap)</div><div class="ttdoc">Implements Restart().</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00351">Server.cs:351</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_af37c73bdc1de34bc4c34214e6dd9a98d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d">Tgstation.Server.Host.Server.StopServerImmediate</a></div><div class="ttdeci">void StopServerImmediate()</div><div class="ttdoc">Fires off the cancellationTokenSource without any checks, shutting down everything.</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00450">Server.cs:450</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_server_8cs_source.html#l00335">Tgstation.Server.Host.Server.RestartImpl()</a>, and <a class="el" href="_server_8cs_source.html#l00434">Tgstation.Server.Host.Server.StopServerImmediate()</a>.</p>
+<p class="reference">References <a class="el" href="_server_8cs_source.html#l00351">Tgstation.Server.Host.Server.RestartImpl()</a>, and <a class="el" href="_server_8cs_source.html#l00450">Tgstation.Server.Host.Server.StopServerImmediate()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -564,24 +564,24 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in <code>true</code> if the GraphQL API was dumped, <code>false</code> otherwise.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00280">280</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  281</span>        {</div>
-<div class="line"><span class="lineno">  282</span>            var internalConfigurationOptions = services.GetRequiredService&lt;IOptions&lt;InternalConfiguration&gt;&gt;();</div>
-<div class="line"><span class="lineno">  283</span>            var apiDumpPath = internalConfigurationOptions.Value.DumpGraphQLApiPath;</div>
-<div class="line"><span class="lineno">  284</span>            <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(apiDumpPath))</div>
-<div class="line"><span class="lineno">  285</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  286</span> </div>
-<div class="line"><span class="lineno">  287</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>!.LogInformation(<span class="stringliteral">&quot;Dumping GraphQL API spec to {path} and exiting...&quot;</span>, apiDumpPath);</div>
-<div class="line"><span class="lineno">  288</span> </div>
-<div class="line"><span class="lineno">  289</span>            <span class="comment">// https://github.com/ChilliCream/graphql-platform/discussions/5885</span></div>
-<div class="line"><span class="lineno">  290</span>            var resolver = services.GetRequiredService&lt;IRequestExecutorResolver&gt;();</div>
-<div class="line"><span class="lineno">  291</span>            var executor = await resolver.GetRequestExecutorAsync(cancellationToken: cancellationToken);</div>
-<div class="line"><span class="lineno">  292</span>            var sdl = executor.Schema.Print();</div>
-<div class="line"><span class="lineno">  293</span> </div>
-<div class="line"><span class="lineno">  294</span>            var ioManager = services.GetRequiredService&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a>&gt;();</div>
-<div class="line"><span class="lineno">  295</span>            await ioManager.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">WriteAllBytes</a>(apiDumpPath, Encoding.UTF8.GetBytes(sdl), cancellationToken);</div>
-<div class="line"><span class="lineno">  296</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  297</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00296">296</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  297</span>        {</div>
+<div class="line"><span class="lineno">  298</span>            var internalConfigurationOptions = services.GetRequiredService&lt;IOptions&lt;InternalConfiguration&gt;&gt;();</div>
+<div class="line"><span class="lineno">  299</span>            var apiDumpPath = internalConfigurationOptions.Value.DumpGraphQLApiPath;</div>
+<div class="line"><span class="lineno">  300</span>            <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(apiDumpPath))</div>
+<div class="line"><span class="lineno">  301</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  302</span> </div>
+<div class="line"><span class="lineno">  303</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>!.LogInformation(<span class="stringliteral">&quot;Dumping GraphQL API spec to {path} and exiting...&quot;</span>, apiDumpPath);</div>
+<div class="line"><span class="lineno">  304</span> </div>
+<div class="line"><span class="lineno">  305</span>            <span class="comment">// https://github.com/ChilliCream/graphql-platform/discussions/5885</span></div>
+<div class="line"><span class="lineno">  306</span>            var resolver = services.GetRequiredService&lt;IRequestExecutorResolver&gt;();</div>
+<div class="line"><span class="lineno">  307</span>            var executor = await resolver.GetRequestExecutorAsync(cancellationToken: cancellationToken);</div>
+<div class="line"><span class="lineno">  308</span>            var sdl = executor.Schema.Print();</div>
+<div class="line"><span class="lineno">  309</span> </div>
+<div class="line"><span class="lineno">  310</span>            var ioManager = services.GetRequiredService&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a>&gt;();</div>
+<div class="line"><span class="lineno">  311</span>            await ioManager.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">WriteAllBytes</a>(apiDumpPath, Encoding.UTF8.GetBytes(sdl), cancellationToken);</div>
+<div class="line"><span class="lineno">  312</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  313</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">Tgstation.Server.Host.IO.IIOManager</a></div><div class="ttdoc">Interface for using filesystems.</div><div class="ttdef"><b>Definition</b> <a href="_i_i_o_manager_8cs_source.html#l00012">IIOManager.cs:13</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a9aeb8b83ea3f4b13a183b6ac55b35a70"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">Tgstation.Server.Host.IO.IIOManager.WriteAllBytes</a></div><div class="ttdeci">ValueTask WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)</div><div class="ttdoc">Writes some contents  to a file at path  overwriting previous content.</div></div>
 </div><!-- fragment -->
@@ -667,36 +667,36 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a35728d66030addfd5551351b8c6db942">Tgstation.Server.Host.Core.IServerControl</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00233">233</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  234</span>        {</div>
-<div class="line"><span class="lineno">  235</span>            ArgumentNullException.ThrowIfNull(handler);</div>
-<div class="line"><span class="lineno">  236</span> </div>
-<div class="line"><span class="lineno">  237</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f">CheckSanity</a>(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  238</span> </div>
-<div class="line"><span class="lineno">  239</span>            var <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a> = this.logger!;</div>
-<div class="line"><span class="lineno">  240</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abf1047eeb7fc9f915460a1bacc58666e">restartLock</a>)</div>
-<div class="line"><span class="lineno">  241</span>                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ac2a343b2b95364cb03dc4a3fe2b7bccf">shutdownInProgress</a>)</div>
-<div class="line"><span class="lineno">  242</span>                {</div>
-<div class="line"><span class="lineno">  243</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogTrace(<span class="stringliteral">&quot;Registering restart handler {handlerImplementationName}...&quot;</span>, handler);</div>
-<div class="line"><span class="lineno">  244</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a6fd99785ffec475ce3d3835c1206505f">restartHandlers</a>.Add(handler);</div>
-<div class="line"><span class="lineno">  245</span>                    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_restart_registration.html">RestartRegistration</a>(</div>
-<div class="line"><span class="lineno">  246</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker.html">DisposeInvoker</a>(() =&gt;</div>
-<div class="line"><span class="lineno">  247</span>                        {</div>
-<div class="line"><span class="lineno">  248</span>                            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abf1047eeb7fc9f915460a1bacc58666e">restartLock</a>)</div>
-<div class="line"><span class="lineno">  249</span>                                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ac2a343b2b95364cb03dc4a3fe2b7bccf">shutdownInProgress</a>)</div>
-<div class="line"><span class="lineno">  250</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a6fd99785ffec475ce3d3835c1206505f">restartHandlers</a>.Remove(handler);</div>
-<div class="line"><span class="lineno">  251</span>                        }));</div>
-<div class="line"><span class="lineno">  252</span>                }</div>
-<div class="line"><span class="lineno">  253</span> </div>
-<div class="line"><span class="lineno">  254</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogWarning(<span class="stringliteral">&quot;Restart handler {handlerImplementationName} register after a shutdown had begun!&quot;</span>, handler);</div>
-<div class="line"><span class="lineno">  255</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_restart_registration.html">RestartRegistration</a>(<span class="keyword">null</span>);</div>
-<div class="line"><span class="lineno">  256</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00249">249</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  250</span>        {</div>
+<div class="line"><span class="lineno">  251</span>            ArgumentNullException.ThrowIfNull(handler);</div>
+<div class="line"><span class="lineno">  252</span> </div>
+<div class="line"><span class="lineno">  253</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f">CheckSanity</a>(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  254</span> </div>
+<div class="line"><span class="lineno">  255</span>            var <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a> = this.logger!;</div>
+<div class="line"><span class="lineno">  256</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abf1047eeb7fc9f915460a1bacc58666e">restartLock</a>)</div>
+<div class="line"><span class="lineno">  257</span>                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ac2a343b2b95364cb03dc4a3fe2b7bccf">shutdownInProgress</a>)</div>
+<div class="line"><span class="lineno">  258</span>                {</div>
+<div class="line"><span class="lineno">  259</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogTrace(<span class="stringliteral">&quot;Registering restart handler {handlerImplementationName}...&quot;</span>, handler);</div>
+<div class="line"><span class="lineno">  260</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a6fd99785ffec475ce3d3835c1206505f">restartHandlers</a>.Add(handler);</div>
+<div class="line"><span class="lineno">  261</span>                    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_restart_registration.html">RestartRegistration</a>(</div>
+<div class="line"><span class="lineno">  262</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker.html">DisposeInvoker</a>(() =&gt;</div>
+<div class="line"><span class="lineno">  263</span>                        {</div>
+<div class="line"><span class="lineno">  264</span>                            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abf1047eeb7fc9f915460a1bacc58666e">restartLock</a>)</div>
+<div class="line"><span class="lineno">  265</span>                                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ac2a343b2b95364cb03dc4a3fe2b7bccf">shutdownInProgress</a>)</div>
+<div class="line"><span class="lineno">  266</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a6fd99785ffec475ce3d3835c1206505f">restartHandlers</a>.Remove(handler);</div>
+<div class="line"><span class="lineno">  267</span>                        }));</div>
+<div class="line"><span class="lineno">  268</span>                }</div>
+<div class="line"><span class="lineno">  269</span> </div>
+<div class="line"><span class="lineno">  270</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogWarning(<span class="stringliteral">&quot;Restart handler {handlerImplementationName} register after a shutdown had begun!&quot;</span>, handler);</div>
+<div class="line"><span class="lineno">  271</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_restart_registration.html">RestartRegistration</a>(<span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  272</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_restart_registration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_restart_registration.html">Tgstation.Server.Host.Core.RestartRegistration</a></div><div class="ttdef"><b>Definition</b> <a href="_restart_registration_8cs_source.html#l00006">RestartRegistration.cs:7</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_a5307337e3bb84c45327e8a856b7f425f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f">Tgstation.Server.Host.Server.CheckSanity</a></div><div class="ttdeci">void CheckSanity(bool checkWatchdog)</div><div class="ttdoc">Throws an InvalidOperationException if the IServerControl cannot be used.</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00303">Server.cs:303</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_a5307337e3bb84c45327e8a856b7f425f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f">Tgstation.Server.Host.Server.CheckSanity</a></div><div class="ttdeci">void CheckSanity(bool checkWatchdog)</div><div class="ttdoc">Throws an InvalidOperationException if the IServerControl cannot be used.</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00319">Server.cs:319</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_ac2a343b2b95364cb03dc4a3fe2b7bccf"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ac2a343b2b95364cb03dc4a3fe2b7bccf">Tgstation.Server.Host.Server.shutdownInProgress</a></div><div class="ttdeci">bool shutdownInProgress</div><div class="ttdoc">If the server is being shut down or restarted.</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00094">Server.cs:94</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker.html">Tgstation.Server.Host.Utils.DisposeInvoker</a></div><div class="ttdoc">Runs a given disposeAction on Dispose.</div><div class="ttdef"><b>Definition</b> <a href="_dispose_invoker_8cs_source.html#l00009">DisposeInvoker.cs:10</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_server_8cs_source.html#l00303">Tgstation.Server.Host.Server.CheckSanity()</a>, <a class="el" href="_server_8cs_source.html#l00069">Tgstation.Server.Host.Server.logger</a>, <a class="el" href="_server_8cs_source.html#l00054">Tgstation.Server.Host.Server.restartHandlers</a>, <a class="el" href="_server_8cs_source.html#l00064">Tgstation.Server.Host.Server.restartLock</a>, and <a class="el" href="_server_8cs_source.html#l00094">Tgstation.Server.Host.Server.shutdownInProgress</a>.</p>
+<p class="reference">References <a class="el" href="_server_8cs_source.html#l00319">Tgstation.Server.Host.Server.CheckSanity()</a>, <a class="el" href="_server_8cs_source.html#l00069">Tgstation.Server.Host.Server.logger</a>, <a class="el" href="_server_8cs_source.html#l00054">Tgstation.Server.Host.Server.restartHandlers</a>, <a class="el" href="_server_8cs_source.html#l00064">Tgstation.Server.Host.Server.restartLock</a>, and <a class="el" href="_server_8cs_source.html#l00094">Tgstation.Server.Host.Server.shutdownInProgress</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -802,84 +802,84 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00335">335</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  336</span>        {</div>
-<div class="line"><span class="lineno">  337</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f">CheckSanity</a>(requireWatchdog);</div>
-<div class="line"><span class="lineno">  338</span> </div>
-<div class="line"><span class="lineno">  339</span>            <span class="comment">// if the watchdog isn&#39;t required and there&#39;s no issue, this is just a graceful shutdown</span></div>
-<div class="line"><span class="lineno">  340</span>            <span class="keywordtype">bool</span> isGracefulShutdown = !requireWatchdog &amp;&amp; exception == <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  341</span>            var <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a> = this.logger!;</div>
-<div class="line"><span class="lineno">  342</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogTrace(</div>
-<div class="line"><span class="lineno">  343</span>                <span class="stringliteral">&quot;Begin {restartType}...&quot;</span>,</div>
-<div class="line"><span class="lineno">  344</span>                isGracefulShutdown</div>
-<div class="line"><span class="lineno">  345</span>                    ? completeAsap</div>
-<div class="line"><span class="lineno">  346</span>                        ? <span class="stringliteral">&quot;semi-graceful shutdown&quot;</span></div>
-<div class="line"><span class="lineno">  347</span>                        : <span class="stringliteral">&quot;graceful shutdown&quot;</span></div>
-<div class="line"><span class="lineno">  348</span>                    : <span class="stringliteral">&quot;restart&quot;</span>);</div>
-<div class="line"><span class="lineno">  349</span> </div>
-<div class="line"><span class="lineno">  350</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abf1047eeb7fc9f915460a1bacc58666e">restartLock</a>)</div>
-<div class="line"><span class="lineno">  351</span>            {</div>
-<div class="line"><span class="lineno">  352</span>                <span class="keywordflow">if</span> ((<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a1c2788a9167272c0cf3f6c6f85c8ce09">UpdateInProgress</a> &amp;&amp; newVersion == <span class="keyword">null</span>) || <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ac2a343b2b95364cb03dc4a3fe2b7bccf">shutdownInProgress</a>)</div>
-<div class="line"><span class="lineno">  353</span>                {</div>
-<div class="line"><span class="lineno">  354</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogTrace(<span class="stringliteral">&quot;Aborted restart due to concurrency conflict!&quot;</span>);</div>
-<div class="line"><span class="lineno">  355</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  356</span>                }</div>
-<div class="line"><span class="lineno">  357</span> </div>
-<div class="line"><span class="lineno">  358</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#add86891cdb4011d078e94671466ef14e">RestartRequested</a> = !isGracefulShutdown;</div>
-<div class="line"><span class="lineno">  359</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ab4f24d11ae5ed3598cc9c483348da518">propagatedException</a> ??= exception;</div>
-<div class="line"><span class="lineno">  360</span>            }</div>
-<div class="line"><span class="lineno">  361</span> </div>
-<div class="line"><span class="lineno">  362</span>            <span class="keywordflow">if</span> (exception == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  363</span>            {</div>
-<div class="line"><span class="lineno">  364</span>                var giveHandlersTimeToWaitAround = isGracefulShutdown &amp;&amp; !completeAsap;</div>
-<div class="line"><span class="lineno">  365</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogInformation(<span class="stringliteral">&quot;Stopping server...&quot;</span>);</div>
-<div class="line"><span class="lineno">  366</span>                <span class="keyword">using </span>var cts = <span class="keyword">new</span> CancellationTokenSource(</div>
-<div class="line"><span class="lineno">  367</span>                    TimeSpan.FromMinutes(</div>
-<div class="line"><span class="lineno">  368</span>                        giveHandlersTimeToWaitAround</div>
-<div class="line"><span class="lineno">  369</span>                            ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abd7505122bd8aec63b63bb72cffed70e">generalConfiguration</a>!.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a2946cf246064f33a39988b01c7506ea2">ShutdownTimeoutMinutes</a></div>
-<div class="line"><span class="lineno">  370</span>                            : <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abd7505122bd8aec63b63bb72cffed70e">generalConfiguration</a>!.RestartTimeoutMinutes));</div>
-<div class="line"><span class="lineno">  371</span>                var cancellationToken = cts.Token;</div>
-<div class="line"><span class="lineno">  372</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  373</span>                {</div>
-<div class="line"><span class="lineno">  374</span>                    ValueTask eventsTask;</div>
-<div class="line"><span class="lineno">  375</span>                    lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abf1047eeb7fc9f915460a1bacc58666e">restartLock</a>)</div>
-<div class="line"><span class="lineno">  376</span>                        eventsTask = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html">ValueTaskExtensions</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3">WhenAll</a>(</div>
-<div class="line"><span class="lineno">  377</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a6fd99785ffec475ce3d3835c1206505f">restartHandlers</a></div>
-<div class="line"><span class="lineno">  378</span>                                .Select(</div>
-<div class="line"><span class="lineno">  379</span>                                    x =&gt; x.HandleRestart(newVersion, giveHandlersTimeToWaitAround, cancellationToken))</div>
-<div class="line"><span class="lineno">  380</span>                                .ToList());</div>
-<div class="line"><span class="lineno">  381</span> </div>
-<div class="line"><span class="lineno">  382</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogTrace(<span class="stringliteral">&quot;Joining restart handlers...&quot;</span>);</div>
-<div class="line"><span class="lineno">  383</span>                    await eventsTask;</div>
-<div class="line"><span class="lineno">  384</span>                }</div>
-<div class="line"><span class="lineno">  385</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><span class="lineno">  386</span>                {</div>
-<div class="line"><span class="lineno">  387</span>                    <span class="keywordflow">if</span> (isGracefulShutdown)</div>
-<div class="line"><span class="lineno">  388</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Graceful shutdown timeout hit! Existing DreamDaemon processes will be terminated!&quot;</span>);</div>
-<div class="line"><span class="lineno">  389</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  390</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogError(</div>
-<div class="line"><span class="lineno">  391</span>                            ex,</div>
-<div class="line"><span class="lineno">  392</span>                            <span class="stringliteral">&quot;Restart timeout hit! Existing DreamDaemon processes will be lost and must be killed manually before being restarted with TGS!&quot;</span>);</div>
-<div class="line"><span class="lineno">  393</span>                }</div>
-<div class="line"><span class="lineno">  394</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> e)</div>
-<div class="line"><span class="lineno">  395</span>                {</div>
-<div class="line"><span class="lineno">  396</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogError(e, <span class="stringliteral">&quot;Restart handlers error!&quot;</span>);</div>
-<div class="line"><span class="lineno">  397</span>                }</div>
-<div class="line"><span class="lineno">  398</span>            }</div>
-<div class="line"><span class="lineno">  399</span> </div>
-<div class="line"><span class="lineno">  400</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d">StopServerImmediate</a>();</div>
-<div class="line"><span class="lineno">  401</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00351">351</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  352</span>        {</div>
+<div class="line"><span class="lineno">  353</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f">CheckSanity</a>(requireWatchdog);</div>
+<div class="line"><span class="lineno">  354</span> </div>
+<div class="line"><span class="lineno">  355</span>            <span class="comment">// if the watchdog isn&#39;t required and there&#39;s no issue, this is just a graceful shutdown</span></div>
+<div class="line"><span class="lineno">  356</span>            <span class="keywordtype">bool</span> isGracefulShutdown = !requireWatchdog &amp;&amp; exception == <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  357</span>            var <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a> = this.logger!;</div>
+<div class="line"><span class="lineno">  358</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogTrace(</div>
+<div class="line"><span class="lineno">  359</span>                <span class="stringliteral">&quot;Begin {restartType}...&quot;</span>,</div>
+<div class="line"><span class="lineno">  360</span>                isGracefulShutdown</div>
+<div class="line"><span class="lineno">  361</span>                    ? completeAsap</div>
+<div class="line"><span class="lineno">  362</span>                        ? <span class="stringliteral">&quot;semi-graceful shutdown&quot;</span></div>
+<div class="line"><span class="lineno">  363</span>                        : <span class="stringliteral">&quot;graceful shutdown&quot;</span></div>
+<div class="line"><span class="lineno">  364</span>                    : <span class="stringliteral">&quot;restart&quot;</span>);</div>
+<div class="line"><span class="lineno">  365</span> </div>
+<div class="line"><span class="lineno">  366</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abf1047eeb7fc9f915460a1bacc58666e">restartLock</a>)</div>
+<div class="line"><span class="lineno">  367</span>            {</div>
+<div class="line"><span class="lineno">  368</span>                <span class="keywordflow">if</span> ((<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a1c2788a9167272c0cf3f6c6f85c8ce09">UpdateInProgress</a> &amp;&amp; newVersion == <span class="keyword">null</span>) || <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ac2a343b2b95364cb03dc4a3fe2b7bccf">shutdownInProgress</a>)</div>
+<div class="line"><span class="lineno">  369</span>                {</div>
+<div class="line"><span class="lineno">  370</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogTrace(<span class="stringliteral">&quot;Aborted restart due to concurrency conflict!&quot;</span>);</div>
+<div class="line"><span class="lineno">  371</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  372</span>                }</div>
+<div class="line"><span class="lineno">  373</span> </div>
+<div class="line"><span class="lineno">  374</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#add86891cdb4011d078e94671466ef14e">RestartRequested</a> = !isGracefulShutdown;</div>
+<div class="line"><span class="lineno">  375</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ab4f24d11ae5ed3598cc9c483348da518">propagatedException</a> ??= exception;</div>
+<div class="line"><span class="lineno">  376</span>            }</div>
+<div class="line"><span class="lineno">  377</span> </div>
+<div class="line"><span class="lineno">  378</span>            <span class="keywordflow">if</span> (exception == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  379</span>            {</div>
+<div class="line"><span class="lineno">  380</span>                var giveHandlersTimeToWaitAround = isGracefulShutdown &amp;&amp; !completeAsap;</div>
+<div class="line"><span class="lineno">  381</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogInformation(<span class="stringliteral">&quot;Stopping server...&quot;</span>);</div>
+<div class="line"><span class="lineno">  382</span>                <span class="keyword">using </span>var cts = <span class="keyword">new</span> CancellationTokenSource(</div>
+<div class="line"><span class="lineno">  383</span>                    TimeSpan.FromMinutes(</div>
+<div class="line"><span class="lineno">  384</span>                        giveHandlersTimeToWaitAround</div>
+<div class="line"><span class="lineno">  385</span>                            ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abd7505122bd8aec63b63bb72cffed70e">generalConfiguration</a>!.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a2946cf246064f33a39988b01c7506ea2">ShutdownTimeoutMinutes</a></div>
+<div class="line"><span class="lineno">  386</span>                            : <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abd7505122bd8aec63b63bb72cffed70e">generalConfiguration</a>!.RestartTimeoutMinutes));</div>
+<div class="line"><span class="lineno">  387</span>                var cancellationToken = cts.Token;</div>
+<div class="line"><span class="lineno">  388</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  389</span>                {</div>
+<div class="line"><span class="lineno">  390</span>                    ValueTask eventsTask;</div>
+<div class="line"><span class="lineno">  391</span>                    lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abf1047eeb7fc9f915460a1bacc58666e">restartLock</a>)</div>
+<div class="line"><span class="lineno">  392</span>                        eventsTask = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html">ValueTaskExtensions</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3">WhenAll</a>(</div>
+<div class="line"><span class="lineno">  393</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a6fd99785ffec475ce3d3835c1206505f">restartHandlers</a></div>
+<div class="line"><span class="lineno">  394</span>                                .Select(</div>
+<div class="line"><span class="lineno">  395</span>                                    x =&gt; x.HandleRestart(newVersion, giveHandlersTimeToWaitAround, cancellationToken))</div>
+<div class="line"><span class="lineno">  396</span>                                .ToList());</div>
+<div class="line"><span class="lineno">  397</span> </div>
+<div class="line"><span class="lineno">  398</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogTrace(<span class="stringliteral">&quot;Joining restart handlers...&quot;</span>);</div>
+<div class="line"><span class="lineno">  399</span>                    await eventsTask;</div>
+<div class="line"><span class="lineno">  400</span>                }</div>
+<div class="line"><span class="lineno">  401</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><span class="lineno">  402</span>                {</div>
+<div class="line"><span class="lineno">  403</span>                    <span class="keywordflow">if</span> (isGracefulShutdown)</div>
+<div class="line"><span class="lineno">  404</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Graceful shutdown timeout hit! Existing DreamDaemon processes will be terminated!&quot;</span>);</div>
+<div class="line"><span class="lineno">  405</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  406</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogError(</div>
+<div class="line"><span class="lineno">  407</span>                            ex,</div>
+<div class="line"><span class="lineno">  408</span>                            <span class="stringliteral">&quot;Restart timeout hit! Existing DreamDaemon processes will be lost and must be killed manually before being restarted with TGS!&quot;</span>);</div>
+<div class="line"><span class="lineno">  409</span>                }</div>
+<div class="line"><span class="lineno">  410</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> e)</div>
+<div class="line"><span class="lineno">  411</span>                {</div>
+<div class="line"><span class="lineno">  412</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogError(e, <span class="stringliteral">&quot;Restart handlers error!&quot;</span>);</div>
+<div class="line"><span class="lineno">  413</span>                }</div>
+<div class="line"><span class="lineno">  414</span>            }</div>
+<div class="line"><span class="lineno">  415</span> </div>
+<div class="line"><span class="lineno">  416</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d">StopServerImmediate</a>();</div>
+<div class="line"><span class="lineno">  417</span>        }</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html">Tgstation.Server.Common.Extensions.ValueTaskExtensions</a></div><div class="ttdoc">Extension methods for the ValueTask and ValueTask&lt;TResult&gt; classes.</div><div class="ttdef"><b>Definition</b> <a href="_value_task_extensions_8cs_source.html#l00011">ValueTaskExtensions.cs:12</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions_html_a58adbd94d764754bd3e6c566a5fe7fe3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3">Tgstation.Server.Common.Extensions.ValueTaskExtensions.WhenAll</a></div><div class="ttdeci">static async ValueTask WhenAll(IEnumerable&lt; ValueTask &gt; tasks)</div><div class="ttdoc">Fully await a given list of tasks .</div><div class="ttdef"><b>Definition</b> <a href="_value_task_extensions_8cs_source.html#l00099">ValueTaskExtensions.cs:99</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a2946cf246064f33a39988b01c7506ea2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a2946cf246064f33a39988b01c7506ea2">Tgstation.Server.Host.Configuration.GeneralConfiguration.ShutdownTimeoutMinutes</a></div><div class="ttdeci">uint ShutdownTimeoutMinutes</div><div class="ttdoc">The timeout minutes for gracefully stopping the server.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00115">GeneralConfiguration.cs:115</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a2946cf246064f33a39988b01c7506ea2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a2946cf246064f33a39988b01c7506ea2">Tgstation.Server.Host.Configuration.GeneralConfiguration.ShutdownTimeoutMinutes</a></div><div class="ttdeci">uint ShutdownTimeoutMinutes</div><div class="ttdoc">The timeout minutes for gracefully stopping the server.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00118">GeneralConfiguration.cs:118</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_a1c2788a9167272c0cf3f6c6f85c8ce09"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a1c2788a9167272c0cf3f6c6f85c8ce09">Tgstation.Server.Host.Server.UpdateInProgress</a></div><div class="ttdeci">bool UpdateInProgress</div><div class="ttdoc">Whether or not the server is currently updating.</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00031">Server.cs:31</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_abd7505122bd8aec63b63bb72cffed70e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abd7505122bd8aec63b63bb72cffed70e">Tgstation.Server.Host.Server.generalConfiguration</a></div><div class="ttdeci">GeneralConfiguration? generalConfiguration</div><div class="ttdoc">The GeneralConfiguration for the Server.</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00074">Server.cs:74</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_add86891cdb4011d078e94671466ef14e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#add86891cdb4011d078e94671466ef14e">Tgstation.Server.Host.Server.RestartRequested</a></div><div class="ttdeci">bool RestartRequested</div><div class="ttdoc">If the IServer should restart.</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00028">Server.cs:28</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_server_8cs_source.html#l00303">Tgstation.Server.Host.Server.CheckSanity()</a>, <a class="el" href="_server_8cs_source.html#l00074">Tgstation.Server.Host.Server.generalConfiguration</a>, <a class="el" href="_server_8cs_source.html#l00069">Tgstation.Server.Host.Server.logger</a>, <a class="el" href="_server_8cs_source.html#l00084">Tgstation.Server.Host.Server.propagatedException</a>, <a class="el" href="_server_8cs_source.html#l00054">Tgstation.Server.Host.Server.restartHandlers</a>, <a class="el" href="_server_8cs_source.html#l00064">Tgstation.Server.Host.Server.restartLock</a>, <a class="el" href="_server_8cs_source.html#l00028">Tgstation.Server.Host.Server.RestartRequested</a>, <a class="el" href="_general_configuration_8cs_source.html#l00110">Tgstation.Server.Host.Configuration.GeneralConfiguration.RestartTimeoutMinutes</a>, <a class="el" href="_server_8cs_source.html#l00094">Tgstation.Server.Host.Server.shutdownInProgress</a>, <a class="el" href="_general_configuration_8cs_source.html#l00115">Tgstation.Server.Host.Configuration.GeneralConfiguration.ShutdownTimeoutMinutes</a>, <a class="el" href="_server_8cs_source.html#l00434">Tgstation.Server.Host.Server.StopServerImmediate()</a>, <a class="el" href="_server_8cs_source.html#l00031">Tgstation.Server.Host.Server.UpdateInProgress</a>, and <a class="el" href="_value_task_extensions_8cs_source.html#l00099">Tgstation.Server.Common.Extensions.ValueTaskExtensions.WhenAll()</a>.</p>
+<p class="reference">References <a class="el" href="_server_8cs_source.html#l00319">Tgstation.Server.Host.Server.CheckSanity()</a>, <a class="el" href="_server_8cs_source.html#l00074">Tgstation.Server.Host.Server.generalConfiguration</a>, <a class="el" href="_server_8cs_source.html#l00069">Tgstation.Server.Host.Server.logger</a>, <a class="el" href="_server_8cs_source.html#l00084">Tgstation.Server.Host.Server.propagatedException</a>, <a class="el" href="_server_8cs_source.html#l00054">Tgstation.Server.Host.Server.restartHandlers</a>, <a class="el" href="_server_8cs_source.html#l00064">Tgstation.Server.Host.Server.restartLock</a>, <a class="el" href="_server_8cs_source.html#l00028">Tgstation.Server.Host.Server.RestartRequested</a>, <a class="el" href="_general_configuration_8cs_source.html#l00113">Tgstation.Server.Host.Configuration.GeneralConfiguration.RestartTimeoutMinutes</a>, <a class="el" href="_server_8cs_source.html#l00094">Tgstation.Server.Host.Server.shutdownInProgress</a>, <a class="el" href="_general_configuration_8cs_source.html#l00118">Tgstation.Server.Host.Configuration.GeneralConfiguration.ShutdownTimeoutMinutes</a>, <a class="el" href="_server_8cs_source.html#l00450">Tgstation.Server.Host.Server.StopServerImmediate()</a>, <a class="el" href="_server_8cs_source.html#l00031">Tgstation.Server.Host.Server.UpdateInProgress</a>, and <a class="el" href="_value_task_extensions_8cs_source.html#l00099">Tgstation.Server.Common.Extensions.ValueTaskExtensions.WhenAll()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00265">Tgstation.Server.Host.Server.Die()</a>, and <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00281">Tgstation.Server.Host.Server.Die()</a>, and <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -996,11 +996,11 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  176</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#affd42da17161c87eb45526811e2fbfb4">CheckExceptionPropagation</a>(<span class="keyword">null</span>);</div>
 <div class="line"><span class="lineno">  177</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_a42bc9e117b4f37babf6cdb0b1f89b527"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a42bc9e117b4f37babf6cdb0b1f89b527">Tgstation.Server.Host.Server.updateTask</a></div><div class="ttdeci">Task? updateTask</div><div class="ttdoc">The Task that is used for asynchronously updating the server.</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00089">Server.cs:89</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_aa9b14ade37ba07f8294f011d42a07b28"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa9b14ade37ba07f8294f011d42a07b28">Tgstation.Server.Host.Server.WatchForShutdownFileCreation</a></div><div class="ttdeci">void WatchForShutdownFileCreation(object sender, FileSystemEventArgs eventArgs)</div><div class="ttdoc">Event handler for the updatePath's FileSystemWatcher. Triggers shutdown if requested by host watchdog...</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00408">Server.cs:408</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_acea919f32c8116e8fe0088df1b991eea"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#acea919f32c8116e8fe0088df1b991eea">Tgstation.Server.Host.Server.DumpGraphQLSchemaIfRequested</a></div><div class="ttdeci">async ValueTask&lt; bool &gt; DumpGraphQLSchemaIfRequested(IServiceProvider services, CancellationToken cancellationToken)</div><div class="ttdoc">Checks if InternalConfiguration.DumpGraphQLApiPath is set and dumps the GraphQL API Schema to it if s...</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00280">Server.cs:280</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_affd42da17161c87eb45526811e2fbfb4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#affd42da17161c87eb45526811e2fbfb4">Tgstation.Server.Host.Server.CheckExceptionPropagation</a></div><div class="ttdeci">void CheckExceptionPropagation(Exception? otherException)</div><div class="ttdoc">Re-throw propagatedException if it exists.</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00316">Server.cs:316</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_aa9b14ade37ba07f8294f011d42a07b28"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa9b14ade37ba07f8294f011d42a07b28">Tgstation.Server.Host.Server.WatchForShutdownFileCreation</a></div><div class="ttdeci">void WatchForShutdownFileCreation(object sender, FileSystemEventArgs eventArgs)</div><div class="ttdoc">Event handler for the updatePath's FileSystemWatcher. Triggers shutdown if requested by host watchdog...</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00424">Server.cs:424</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_acea919f32c8116e8fe0088df1b991eea"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#acea919f32c8116e8fe0088df1b991eea">Tgstation.Server.Host.Server.DumpGraphQLSchemaIfRequested</a></div><div class="ttdeci">async ValueTask&lt; bool &gt; DumpGraphQLSchemaIfRequested(IServiceProvider services, CancellationToken cancellationToken)</div><div class="ttdoc">Checks if InternalConfiguration.DumpGraphQLApiPath is set and dumps the GraphQL API Schema to it if s...</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00296">Server.cs:296</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_affd42da17161c87eb45526811e2fbfb4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#affd42da17161c87eb45526811e2fbfb4">Tgstation.Server.Host.Server.CheckExceptionPropagation</a></div><div class="ttdeci">void CheckExceptionPropagation(Exception? otherException)</div><div class="ttdoc">Re-throw propagatedException if it exists.</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00332">Server.cs:332</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_server_8cs_source.html#l00079">Tgstation.Server.Host.Server.cancellationTokenSource</a>, <a class="el" href="_server_8cs_source.html#l00316">Tgstation.Server.Host.Server.CheckExceptionPropagation()</a>, <a class="el" href="_server_8cs_source.html#l00280">Tgstation.Server.Host.Server.DumpGraphQLSchemaIfRequested()</a>, <a class="el" href="_server_8cs_source.html#l00074">Tgstation.Server.Host.Server.generalConfiguration</a>, <a class="el" href="_server_8cs_source.html#l00049">Tgstation.Server.Host.Server.hostBuilder</a>, <a class="el" href="_server_8cs_source.html#l00069">Tgstation.Server.Host.Server.logger</a>, <a class="el" href="_server_8cs_source.html#l00059">Tgstation.Server.Host.Server.updatePath</a>, <a class="el" href="_server_8cs_source.html#l00089">Tgstation.Server.Host.Server.updateTask</a>, and <a class="el" href="_server_8cs_source.html#l00408">Tgstation.Server.Host.Server.WatchForShutdownFileCreation()</a>.</p>
+<p class="reference">References <a class="el" href="_server_8cs_source.html#l00079">Tgstation.Server.Host.Server.cancellationTokenSource</a>, <a class="el" href="_server_8cs_source.html#l00332">Tgstation.Server.Host.Server.CheckExceptionPropagation()</a>, <a class="el" href="_server_8cs_source.html#l00296">Tgstation.Server.Host.Server.DumpGraphQLSchemaIfRequested()</a>, <a class="el" href="_server_8cs_source.html#l00074">Tgstation.Server.Host.Server.generalConfiguration</a>, <a class="el" href="_server_8cs_source.html#l00049">Tgstation.Server.Host.Server.hostBuilder</a>, <a class="el" href="_server_8cs_source.html#l00069">Tgstation.Server.Host.Server.logger</a>, <a class="el" href="_server_8cs_source.html#l00059">Tgstation.Server.Host.Server.updatePath</a>, <a class="el" href="_server_8cs_source.html#l00089">Tgstation.Server.Host.Server.updateTask</a>, and <a class="el" href="_server_8cs_source.html#l00424">Tgstation.Server.Host.Server.WatchForShutdownFileCreation()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1047,16 +1047,16 @@ Here is the call graph for this function:</div>
 
 <p>Fires off the cancellationTokenSource without any checks, shutting down everything. </p>
 
-<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00434">434</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  435</span>        {</div>
-<div class="line"><span class="lineno">  436</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ac2a343b2b95364cb03dc4a3fe2b7bccf">shutdownInProgress</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  437</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>!.LogDebug(<span class="stringliteral">&quot;Stopping host...&quot;</span>);</div>
-<div class="line"><span class="lineno">  438</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a79b49f97bb5aaf565c8e0a2a2803c825">cancellationTokenSource</a>!.Cancel();</div>
-<div class="line"><span class="lineno">  439</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00450">450</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  451</span>        {</div>
+<div class="line"><span class="lineno">  452</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ac2a343b2b95364cb03dc4a3fe2b7bccf">shutdownInProgress</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  453</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>!.LogDebug(<span class="stringliteral">&quot;Stopping host...&quot;</span>);</div>
+<div class="line"><span class="lineno">  454</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a79b49f97bb5aaf565c8e0a2a2803c825">cancellationTokenSource</a>!.Cancel();</div>
+<div class="line"><span class="lineno">  455</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_server_8cs_source.html#l00079">Tgstation.Server.Host.Server.cancellationTokenSource</a>, <a class="el" href="_server_8cs_source.html#l00069">Tgstation.Server.Host.Server.logger</a>, and <a class="el" href="_server_8cs_source.html#l00094">Tgstation.Server.Host.Server.shutdownInProgress</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00265">Tgstation.Server.Host.Server.Die()</a>, <a class="el" href="_server_8cs_source.html#l00335">Tgstation.Server.Host.Server.RestartImpl()</a>, and <a class="el" href="_server_8cs_source.html#l00408">Tgstation.Server.Host.Server.WatchForShutdownFileCreation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00281">Tgstation.Server.Host.Server.Die()</a>, <a class="el" href="_server_8cs_source.html#l00351">Tgstation.Server.Host.Server.RestartImpl()</a>, and <a class="el" href="_server_8cs_source.html#l00424">Tgstation.Server.Host.Server.WatchForShutdownFileCreation()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1148,30 +1148,46 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  208</span> </div>
 <div class="line"><span class="lineno">  209</span>            async Task RunUpdate()</div>
 <div class="line"><span class="lineno">  210</span>            {</div>
-<div class="line"><span class="lineno">  211</span>                <span class="keywordflow">if</span> (await updateExecutor.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a8ce371405040dc3ce0e6c6ba7072325e">ExecuteUpdate</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a9738748d5b1d3dbdaa6fd4646db8f2aa">updatePath</a>, criticalCancellationToken, criticalCancellationToken))</div>
-<div class="line"><span class="lineno">  212</span>                {</div>
-<div class="line"><span class="lineno">  213</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogTrace(<span class="stringliteral">&quot;Update complete!&quot;</span>);</div>
-<div class="line"><span class="lineno">  214</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2">RestartImpl</a>(newVersion, <span class="keyword">null</span>, <span class="keyword">true</span>, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  211</span>                var updateExecutedSuccessfully = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  212</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  213</span>                {</div>
+<div class="line"><span class="lineno">  214</span>                    updateExecutedSuccessfully = await updateExecutor.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a8ce371405040dc3ce0e6c6ba7072325e">ExecuteUpdate</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a9738748d5b1d3dbdaa6fd4646db8f2aa">updatePath</a>, criticalCancellationToken, criticalCancellationToken);</div>
 <div class="line"><span class="lineno">  215</span>                }</div>
-<div class="line"><span class="lineno">  216</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a910e71f0be9d723d37783abb8ccd838a">terminateIfUpdateFails</a>)</div>
+<div class="line"><span class="lineno">  216</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
 <div class="line"><span class="lineno">  217</span>                {</div>
-<div class="line"><span class="lineno">  218</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogTrace(<span class="stringliteral">&quot;Stopping host due to termination request...&quot;</span>);</div>
-<div class="line"><span class="lineno">  219</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a79b49f97bb5aaf565c8e0a2a2803c825">cancellationTokenSource</a>.Cancel();</div>
+<div class="line"><span class="lineno">  218</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Update cancelled!&quot;</span>);</div>
+<div class="line"><span class="lineno">  219</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a1c2788a9167272c0cf3f6c6f85c8ce09">UpdateInProgress</a> = <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">  220</span>                }</div>
-<div class="line"><span class="lineno">  221</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  221</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
 <div class="line"><span class="lineno">  222</span>                {</div>
-<div class="line"><span class="lineno">  223</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogTrace(<span class="stringliteral">&quot;Update failed!&quot;</span>);</div>
+<div class="line"><span class="lineno">  223</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogError(ex, <span class="stringliteral">&quot;Update errored!&quot;</span>);</div>
 <div class="line"><span class="lineno">  224</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a1c2788a9167272c0cf3f6c6f85c8ce09">UpdateInProgress</a> = <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">  225</span>                }</div>
-<div class="line"><span class="lineno">  226</span>            }</div>
-<div class="line"><span class="lineno">  227</span> </div>
-<div class="line"><span class="lineno">  228</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a42bc9e117b4f37babf6cdb0b1f89b527">updateTask</a> = RunUpdate();</div>
-<div class="line"><span class="lineno">  229</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  230</span>        }</div>
+<div class="line"><span class="lineno">  226</span> </div>
+<div class="line"><span class="lineno">  227</span>                <span class="keywordflow">if</span> (updateExecutedSuccessfully)</div>
+<div class="line"><span class="lineno">  228</span>                {</div>
+<div class="line"><span class="lineno">  229</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogTrace(<span class="stringliteral">&quot;Update complete!&quot;</span>);</div>
+<div class="line"><span class="lineno">  230</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2">RestartImpl</a>(newVersion, <span class="keyword">null</span>, <span class="keyword">true</span>, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  231</span>                }</div>
+<div class="line"><span class="lineno">  232</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a910e71f0be9d723d37783abb8ccd838a">terminateIfUpdateFails</a>)</div>
+<div class="line"><span class="lineno">  233</span>                {</div>
+<div class="line"><span class="lineno">  234</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogTrace(<span class="stringliteral">&quot;Stopping host due to termination request...&quot;</span>);</div>
+<div class="line"><span class="lineno">  235</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a79b49f97bb5aaf565c8e0a2a2803c825">cancellationTokenSource</a>.Cancel();</div>
+<div class="line"><span class="lineno">  236</span>                }</div>
+<div class="line"><span class="lineno">  237</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  238</span>                {</div>
+<div class="line"><span class="lineno">  239</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>.LogTrace(<span class="stringliteral">&quot;Update failed!&quot;</span>);</div>
+<div class="line"><span class="lineno">  240</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a1c2788a9167272c0cf3f6c6f85c8ce09">UpdateInProgress</a> = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  241</span>                }</div>
+<div class="line"><span class="lineno">  242</span>            }</div>
+<div class="line"><span class="lineno">  243</span> </div>
+<div class="line"><span class="lineno">  244</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a42bc9e117b4f37babf6cdb0b1f89b527">updateTask</a> = RunUpdate();</div>
+<div class="line"><span class="lineno">  245</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  246</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_html_a910e71f0be9d723d37783abb8ccd838a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a910e71f0be9d723d37783abb8ccd838a">Tgstation.Server.Host.Server.terminateIfUpdateFails</a></div><div class="ttdeci">bool terminateIfUpdateFails</div><div class="ttdoc">If there is an update in progress and this flag is set, it should stop the server immediately if it f...</div><div class="ttdef"><b>Definition</b> <a href="_server_8cs_source.html#l00099">Server.cs:99</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor_html_a8ce371405040dc3ce0e6c6ba7072325e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a8ce371405040dc3ce0e6c6ba7072325e">Tgstation.Server.Host.Core.IServerUpdateExecutor.ExecuteUpdate</a></div><div class="ttdeci">ValueTask&lt; bool &gt; ExecuteUpdate(string updatePath, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)</div><div class="ttdoc">Executes a pending server update by extracting the new server to a given updatePath .</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_server_8cs_source.html#l00079">Tgstation.Server.Host.Server.cancellationTokenSource</a>, <a class="el" href="_server_8cs_source.html#l00303">Tgstation.Server.Host.Server.CheckSanity()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a8ce371405040dc3ce0e6c6ba7072325e">Tgstation.Server.Host.Core.IServerUpdateExecutor.ExecuteUpdate()</a>, <a class="el" href="_server_8cs_source.html#l00069">Tgstation.Server.Host.Server.logger</a>, <a class="el" href="_server_8cs_source.html#l00335">Tgstation.Server.Host.Server.RestartImpl()</a>, <a class="el" href="_server_8cs_source.html#l00064">Tgstation.Server.Host.Server.restartLock</a>, <a class="el" href="_server_8cs_source.html#l00094">Tgstation.Server.Host.Server.shutdownInProgress</a>, <a class="el" href="_server_8cs_source.html#l00099">Tgstation.Server.Host.Server.terminateIfUpdateFails</a>, <a class="el" href="_server_8cs_source.html#l00031">Tgstation.Server.Host.Server.UpdateInProgress</a>, <a class="el" href="_server_8cs_source.html#l00059">Tgstation.Server.Host.Server.updatePath</a>, and <a class="el" href="_server_8cs_source.html#l00089">Tgstation.Server.Host.Server.updateTask</a>.</p>
+<p class="reference">References <a class="el" href="_server_8cs_source.html#l00079">Tgstation.Server.Host.Server.cancellationTokenSource</a>, <a class="el" href="_server_8cs_source.html#l00319">Tgstation.Server.Host.Server.CheckSanity()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a8ce371405040dc3ce0e6c6ba7072325e">Tgstation.Server.Host.Core.IServerUpdateExecutor.ExecuteUpdate()</a>, <a class="el" href="_server_8cs_source.html#l00069">Tgstation.Server.Host.Server.logger</a>, <a class="el" href="_server_8cs_source.html#l00351">Tgstation.Server.Host.Server.RestartImpl()</a>, <a class="el" href="_server_8cs_source.html#l00064">Tgstation.Server.Host.Server.restartLock</a>, <a class="el" href="_server_8cs_source.html#l00094">Tgstation.Server.Host.Server.shutdownInProgress</a>, <a class="el" href="_server_8cs_source.html#l00099">Tgstation.Server.Host.Server.terminateIfUpdateFails</a>, <a class="el" href="_server_8cs_source.html#l00031">Tgstation.Server.Host.Server.UpdateInProgress</a>, <a class="el" href="_server_8cs_source.html#l00059">Tgstation.Server.Host.Server.updatePath</a>, and <a class="el" href="_server_8cs_source.html#l00089">Tgstation.Server.Host.Server.updateTask</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1237,30 +1253,30 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00408">408</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  409</span>        {</div>
-<div class="line"><span class="lineno">  410</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>?.LogTrace(<span class="stringliteral">&quot;FileSystemWatcher triggered.&quot;</span>);</div>
-<div class="line"><span class="lineno">  411</span> </div>
-<div class="line"><span class="lineno">  412</span>            <span class="comment">// TODO: Refactor this to not use System.IO function here.</span></div>
-<div class="line"><span class="lineno">  413</span>            <span class="keywordflow">if</span> (eventArgs.FullPath == Path.GetFullPath(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a9738748d5b1d3dbdaa6fd4646db8f2aa">updatePath</a>!) &amp;&amp; File.Exists(eventArgs.FullPath))</div>
-<div class="line"><span class="lineno">  414</span>            {</div>
-<div class="line"><span class="lineno">  415</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>?.LogInformation(<span class="stringliteral">&quot;Host watchdog appears to be requesting server termination!&quot;</span>);</div>
-<div class="line"><span class="lineno">  416</span>                lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abf1047eeb7fc9f915460a1bacc58666e">restartLock</a>)</div>
-<div class="line"><span class="lineno">  417</span>                {</div>
-<div class="line"><span class="lineno">  418</span>                    <span class="keywordflow">if</span> (!<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a1c2788a9167272c0cf3f6c6f85c8ce09">UpdateInProgress</a>)</div>
-<div class="line"><span class="lineno">  419</span>                    {</div>
-<div class="line"><span class="lineno">  420</span>                        <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d">StopServerImmediate</a>();</div>
-<div class="line"><span class="lineno">  421</span>                        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  422</span>                    }</div>
-<div class="line"><span class="lineno">  423</span> </div>
-<div class="line"><span class="lineno">  424</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a910e71f0be9d723d37783abb8ccd838a">terminateIfUpdateFails</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  425</span>                }</div>
-<div class="line"><span class="lineno">  426</span> </div>
-<div class="line"><span class="lineno">  427</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>?.LogInformation(<span class="stringliteral">&quot;An update is in progress, we will wait for that to complete...&quot;</span>);</div>
-<div class="line"><span class="lineno">  428</span>            }</div>
-<div class="line"><span class="lineno">  429</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00424">424</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  425</span>        {</div>
+<div class="line"><span class="lineno">  426</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>?.LogTrace(<span class="stringliteral">&quot;FileSystemWatcher triggered.&quot;</span>);</div>
+<div class="line"><span class="lineno">  427</span> </div>
+<div class="line"><span class="lineno">  428</span>            <span class="comment">// TODO: Refactor this to not use System.IO function here.</span></div>
+<div class="line"><span class="lineno">  429</span>            <span class="keywordflow">if</span> (eventArgs.FullPath == Path.GetFullPath(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a9738748d5b1d3dbdaa6fd4646db8f2aa">updatePath</a>!) &amp;&amp; File.Exists(eventArgs.FullPath))</div>
+<div class="line"><span class="lineno">  430</span>            {</div>
+<div class="line"><span class="lineno">  431</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>?.LogInformation(<span class="stringliteral">&quot;Host watchdog appears to be requesting server termination!&quot;</span>);</div>
+<div class="line"><span class="lineno">  432</span>                lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#abf1047eeb7fc9f915460a1bacc58666e">restartLock</a>)</div>
+<div class="line"><span class="lineno">  433</span>                {</div>
+<div class="line"><span class="lineno">  434</span>                    <span class="keywordflow">if</span> (!<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a1c2788a9167272c0cf3f6c6f85c8ce09">UpdateInProgress</a>)</div>
+<div class="line"><span class="lineno">  435</span>                    {</div>
+<div class="line"><span class="lineno">  436</span>                        <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d">StopServerImmediate</a>();</div>
+<div class="line"><span class="lineno">  437</span>                        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  438</span>                    }</div>
+<div class="line"><span class="lineno">  439</span> </div>
+<div class="line"><span class="lineno">  440</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a910e71f0be9d723d37783abb8ccd838a">terminateIfUpdateFails</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  441</span>                }</div>
+<div class="line"><span class="lineno">  442</span> </div>
+<div class="line"><span class="lineno">  443</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aa7f4eca802f2d56637349cefbe0918a8">logger</a>?.LogInformation(<span class="stringliteral">&quot;An update is in progress, we will wait for that to complete...&quot;</span>);</div>
+<div class="line"><span class="lineno">  444</span>            }</div>
+<div class="line"><span class="lineno">  445</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_server_8cs_source.html#l00069">Tgstation.Server.Host.Server.logger</a>, <a class="el" href="_server_8cs_source.html#l00064">Tgstation.Server.Host.Server.restartLock</a>, <a class="el" href="_server_8cs_source.html#l00434">Tgstation.Server.Host.Server.StopServerImmediate()</a>, <a class="el" href="_server_8cs_source.html#l00099">Tgstation.Server.Host.Server.terminateIfUpdateFails</a>, <a class="el" href="_server_8cs_source.html#l00031">Tgstation.Server.Host.Server.UpdateInProgress</a>, and <a class="el" href="_server_8cs_source.html#l00059">Tgstation.Server.Host.Server.updatePath</a>.</p>
+<p class="reference">References <a class="el" href="_server_8cs_source.html#l00069">Tgstation.Server.Host.Server.logger</a>, <a class="el" href="_server_8cs_source.html#l00064">Tgstation.Server.Host.Server.restartLock</a>, <a class="el" href="_server_8cs_source.html#l00450">Tgstation.Server.Host.Server.StopServerImmediate()</a>, <a class="el" href="_server_8cs_source.html#l00099">Tgstation.Server.Host.Server.terminateIfUpdateFails</a>, <a class="el" href="_server_8cs_source.html#l00031">Tgstation.Server.Host.Server.UpdateInProgress</a>, and <a class="el" href="_server_8cs_source.html#l00059">Tgstation.Server.Host.Server.updatePath</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00119">Tgstation.Server.Host.Server.Run()</a>.</p>
 <div class="dynheader">
@@ -1311,7 +1327,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00079">79</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00303">Tgstation.Server.Host.Server.CheckSanity()</a>, <a class="el" href="_server_8cs_source.html#l00119">Tgstation.Server.Host.Server.Run()</a>, <a class="el" href="_server_8cs_source.html#l00434">Tgstation.Server.Host.Server.StopServerImmediate()</a>, and <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00319">Tgstation.Server.Host.Server.CheckSanity()</a>, <a class="el" href="_server_8cs_source.html#l00119">Tgstation.Server.Host.Server.Run()</a>, <a class="el" href="_server_8cs_source.html#l00450">Tgstation.Server.Host.Server.StopServerImmediate()</a>, and <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>.</p>
 
 </div>
 </div>
@@ -1339,7 +1355,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00074">74</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00335">Tgstation.Server.Host.Server.RestartImpl()</a>, and <a class="el" href="_server_8cs_source.html#l00119">Tgstation.Server.Host.Server.Run()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00351">Tgstation.Server.Host.Server.RestartImpl()</a>, and <a class="el" href="_server_8cs_source.html#l00119">Tgstation.Server.Host.Server.Run()</a>.</p>
 
 </div>
 </div>
@@ -1395,7 +1411,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00069">69</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00303">Tgstation.Server.Host.Server.CheckSanity()</a>, <a class="el" href="_server_8cs_source.html#l00280">Tgstation.Server.Host.Server.DumpGraphQLSchemaIfRequested()</a>, <a class="el" href="_server_8cs_source.html#l00233">Tgstation.Server.Host.Server.RegisterForRestart()</a>, <a class="el" href="_server_8cs_source.html#l00335">Tgstation.Server.Host.Server.RestartImpl()</a>, <a class="el" href="_server_8cs_source.html#l00119">Tgstation.Server.Host.Server.Run()</a>, <a class="el" href="_server_8cs_source.html#l00106">Tgstation.Server.Host.Server.Server()</a>, <a class="el" href="_server_8cs_source.html#l00434">Tgstation.Server.Host.Server.StopServerImmediate()</a>, <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>, and <a class="el" href="_server_8cs_source.html#l00408">Tgstation.Server.Host.Server.WatchForShutdownFileCreation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00319">Tgstation.Server.Host.Server.CheckSanity()</a>, <a class="el" href="_server_8cs_source.html#l00296">Tgstation.Server.Host.Server.DumpGraphQLSchemaIfRequested()</a>, <a class="el" href="_server_8cs_source.html#l00249">Tgstation.Server.Host.Server.RegisterForRestart()</a>, <a class="el" href="_server_8cs_source.html#l00351">Tgstation.Server.Host.Server.RestartImpl()</a>, <a class="el" href="_server_8cs_source.html#l00119">Tgstation.Server.Host.Server.Run()</a>, <a class="el" href="_server_8cs_source.html#l00106">Tgstation.Server.Host.Server.Server()</a>, <a class="el" href="_server_8cs_source.html#l00450">Tgstation.Server.Host.Server.StopServerImmediate()</a>, <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>, and <a class="el" href="_server_8cs_source.html#l00424">Tgstation.Server.Host.Server.WatchForShutdownFileCreation()</a>.</p>
 
 </div>
 </div>
@@ -1423,7 +1439,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00084">84</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00316">Tgstation.Server.Host.Server.CheckExceptionPropagation()</a>, <a class="el" href="_server_8cs_source.html#l00303">Tgstation.Server.Host.Server.CheckSanity()</a>, and <a class="el" href="_server_8cs_source.html#l00335">Tgstation.Server.Host.Server.RestartImpl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00332">Tgstation.Server.Host.Server.CheckExceptionPropagation()</a>, <a class="el" href="_server_8cs_source.html#l00319">Tgstation.Server.Host.Server.CheckSanity()</a>, and <a class="el" href="_server_8cs_source.html#l00351">Tgstation.Server.Host.Server.RestartImpl()</a>.</p>
 
 </div>
 </div>
@@ -1451,7 +1467,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00054">54</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00233">Tgstation.Server.Host.Server.RegisterForRestart()</a>, <a class="el" href="_server_8cs_source.html#l00335">Tgstation.Server.Host.Server.RestartImpl()</a>, and <a class="el" href="_server_8cs_source.html#l00106">Tgstation.Server.Host.Server.Server()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00249">Tgstation.Server.Host.Server.RegisterForRestart()</a>, <a class="el" href="_server_8cs_source.html#l00351">Tgstation.Server.Host.Server.RestartImpl()</a>, and <a class="el" href="_server_8cs_source.html#l00106">Tgstation.Server.Host.Server.Server()</a>.</p>
 
 </div>
 </div>
@@ -1479,7 +1495,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00064">64</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00233">Tgstation.Server.Host.Server.RegisterForRestart()</a>, <a class="el" href="_server_8cs_source.html#l00335">Tgstation.Server.Host.Server.RestartImpl()</a>, <a class="el" href="_server_8cs_source.html#l00106">Tgstation.Server.Host.Server.Server()</a>, <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>, and <a class="el" href="_server_8cs_source.html#l00408">Tgstation.Server.Host.Server.WatchForShutdownFileCreation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00249">Tgstation.Server.Host.Server.RegisterForRestart()</a>, <a class="el" href="_server_8cs_source.html#l00351">Tgstation.Server.Host.Server.RestartImpl()</a>, <a class="el" href="_server_8cs_source.html#l00106">Tgstation.Server.Host.Server.Server()</a>, <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>, and <a class="el" href="_server_8cs_source.html#l00424">Tgstation.Server.Host.Server.WatchForShutdownFileCreation()</a>.</p>
 
 </div>
 </div>
@@ -1507,7 +1523,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00094">94</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00233">Tgstation.Server.Host.Server.RegisterForRestart()</a>, <a class="el" href="_server_8cs_source.html#l00335">Tgstation.Server.Host.Server.RestartImpl()</a>, <a class="el" href="_server_8cs_source.html#l00434">Tgstation.Server.Host.Server.StopServerImmediate()</a>, and <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00249">Tgstation.Server.Host.Server.RegisterForRestart()</a>, <a class="el" href="_server_8cs_source.html#l00351">Tgstation.Server.Host.Server.RestartImpl()</a>, <a class="el" href="_server_8cs_source.html#l00450">Tgstation.Server.Host.Server.StopServerImmediate()</a>, and <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>.</p>
 
 </div>
 </div>
@@ -1535,7 +1551,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00099">99</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>, and <a class="el" href="_server_8cs_source.html#l00408">Tgstation.Server.Host.Server.WatchForShutdownFileCreation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>, and <a class="el" href="_server_8cs_source.html#l00424">Tgstation.Server.Host.Server.WatchForShutdownFileCreation()</a>.</p>
 
 </div>
 </div>
@@ -1563,7 +1579,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00059">59</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00119">Tgstation.Server.Host.Server.Run()</a>, <a class="el" href="_server_8cs_source.html#l00106">Tgstation.Server.Host.Server.Server()</a>, <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>, and <a class="el" href="_server_8cs_source.html#l00408">Tgstation.Server.Host.Server.WatchForShutdownFileCreation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00119">Tgstation.Server.Host.Server.Run()</a>, <a class="el" href="_server_8cs_source.html#l00106">Tgstation.Server.Host.Server.Server()</a>, <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>, and <a class="el" href="_server_8cs_source.html#l00424">Tgstation.Server.Host.Server.WatchForShutdownFileCreation()</a>.</p>
 
 </div>
 </div>
@@ -1623,7 +1639,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00028">28</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   28</span>{ <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00335">Tgstation.Server.Host.Server.RestartImpl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00351">Tgstation.Server.Host.Server.RestartImpl()</a>.</p>
 
 </div>
 </div>
@@ -1654,7 +1670,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00031">31</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   31</span>{ <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00335">Tgstation.Server.Host.Server.RestartImpl()</a>, <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>, and <a class="el" href="_server_8cs_source.html#l00408">Tgstation.Server.Host.Server.WatchForShutdownFileCreation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00351">Tgstation.Server.Host.Server.RestartImpl()</a>, <a class="el" href="_server_8cs_source.html#l00180">Tgstation.Server.Host.Server.TryStartUpdate()</a>, and <a class="el" href="_server_8cs_source.html#l00424">Tgstation.Server.Host.Server.WatchForShutdownFileCreation()</a>.</p>
 
 </div>
 </div>
@@ -1684,7 +1700,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_8cs_source.html#l00034">34</a> of file <a class="el" href="_server_8cs_source.html">Server.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00303">Tgstation.Server.Host.Server.CheckSanity()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00319">Tgstation.Server.Host.Server.CheckSanity()</a>.</p>
 
 </div>
 </div>

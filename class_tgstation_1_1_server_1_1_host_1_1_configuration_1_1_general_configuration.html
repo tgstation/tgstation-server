@@ -180,6 +180,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a05de9ae65e5cd442c9972ab36185ec7f" id="r_a05de9ae65e5cd442c9972ab36185ec7f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a05de9ae65e5cd442c9972ab36185ec7f">OpenDreamSuppressInstallOutput</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a05de9ae65e5cd442c9972ab36185ec7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the dotnet output of creating an OpenDream installation should be suppressed. Known to cause issues in CI.  <br /></td></tr>
 <tr class="separator:a05de9ae65e5cd442c9972ab36185ec7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5ee8e757e5b6bbeb6fae1cd19924c46" id="r_ae5ee8e757e5b6bbeb6fae1cd19924c46"><td class="memItemLeft" align="right" valign="top">List&lt; string &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#ae5ee8e757e5b6bbeb6fae1cd19924c46">AdditionalEventScriptsDirectories</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ae5ee8e757e5b6bbeb6fae1cd19924c46"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of directories that have their contents merged with instance EventScripts directories when executing scripts.  <br /></td></tr>
+<tr class="separator:ae5ee8e757e5b6bbeb6fae1cd19924c46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base"><td colspan="2" onclick="javascript:toggleInherit('properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html">Tgstation.Server.Api.Models.Internal.ServerInformationBase</a></td></tr>
 <tr class="memitem:ac7cfeea4c6b91c9a8264c7e39e176882 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base" id="r_ac7cfeea4c6b91c9a8264c7e39e176882"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#ac7cfeea4c6b91c9a8264c7e39e176882">MinimumPasswordLength</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:ac7cfeea4c6b91c9a8264c7e39e176882 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum length of database user passwords.  <br /></td></tr>
@@ -230,7 +233,7 @@ Static Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>General configuration options. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00019">19</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00022">22</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a0d5ca385e9de5c07753ed5ff5ad84b52" name="a0d5ca385e9de5c07753ed5ff5ad84b52"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0d5ca385e9de5c07753ed5ff5ad84b52">&#9670;&#160;</a></span>GeneralConfiguration()</h2>
@@ -249,23 +252,23 @@ Static Private Attributes</h2></td></tr>
 
 <p>Initializes a new instance of the GeneralConfiguration class. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00156">156</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  157</span>        {</div>
-<div class="line"><span class="lineno">  158</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#ac7cfeea4c6b91c9a8264c7e39e176882">MinimumPasswordLength</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a2f4d695a6363f6d92a8adb8f7860e809">DefaultMinimumPasswordLength</a>;</div>
-<div class="line"><span class="lineno">  159</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#af1beb234779e0c00a3d62fa62f2b177e">InstanceLimit</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#aa4150fdf328588da7e2fdda649311d1a">DefaultInstanceLimit</a>;</div>
-<div class="line"><span class="lineno">  160</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#ae598bca044b6997650efb8996104419a">UserLimit</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a72a9ee77858ff9b03b66ffe774eb0931">DefaultUserLimit</a>;</div>
-<div class="line"><span class="lineno">  161</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#a3e9282b16ff9ab6138fad75472968029">UserGroupLimit</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#abb9a54bdc8033b7b0354a00285a78449">DefaultUserGroupLimit</a>;</div>
-<div class="line"><span class="lineno">  162</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00164">164</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  165</span>        {</div>
+<div class="line"><span class="lineno">  166</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#ac7cfeea4c6b91c9a8264c7e39e176882">MinimumPasswordLength</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a2f4d695a6363f6d92a8adb8f7860e809">DefaultMinimumPasswordLength</a>;</div>
+<div class="line"><span class="lineno">  167</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#af1beb234779e0c00a3d62fa62f2b177e">InstanceLimit</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#aa4150fdf328588da7e2fdda649311d1a">DefaultInstanceLimit</a>;</div>
+<div class="line"><span class="lineno">  168</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#ae598bca044b6997650efb8996104419a">UserLimit</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a72a9ee77858ff9b03b66ffe774eb0931">DefaultUserLimit</a>;</div>
+<div class="line"><span class="lineno">  169</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#a3e9282b16ff9ab6138fad75472968029">UserGroupLimit</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#abb9a54bdc8033b7b0354a00285a78449">DefaultUserGroupLimit</a>;</div>
+<div class="line"><span class="lineno">  170</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base_html_a3e9282b16ff9ab6138fad75472968029"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#a3e9282b16ff9ab6138fad75472968029">Tgstation.Server.Api.Models.Internal.ServerInformationBase.UserGroupLimit</a></div><div class="ttdeci">uint UserGroupLimit</div><div class="ttdoc">The maximum number of user groups allowed.</div><div class="ttdef"><b>Definition</b> <a href="_server_information_base_8cs_source.html#l00028">ServerInformationBase.cs:28</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base_html_ac7cfeea4c6b91c9a8264c7e39e176882"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#ac7cfeea4c6b91c9a8264c7e39e176882">Tgstation.Server.Api.Models.Internal.ServerInformationBase.MinimumPasswordLength</a></div><div class="ttdeci">uint MinimumPasswordLength</div><div class="ttdoc">Minimum length of database user passwords.</div><div class="ttdef"><b>Definition</b> <a href="_server_information_base_8cs_source.html#l00013">ServerInformationBase.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base_html_ae598bca044b6997650efb8996104419a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#ae598bca044b6997650efb8996104419a">Tgstation.Server.Api.Models.Internal.ServerInformationBase.UserLimit</a></div><div class="ttdeci">uint UserLimit</div><div class="ttdoc">The maximum number of users allowed.</div><div class="ttdef"><b>Definition</b> <a href="_server_information_base_8cs_source.html#l00023">ServerInformationBase.cs:23</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base_html_af1beb234779e0c00a3d62fa62f2b177e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#af1beb234779e0c00a3d62fa62f2b177e">Tgstation.Server.Api.Models.Internal.ServerInformationBase.InstanceLimit</a></div><div class="ttdeci">uint InstanceLimit</div><div class="ttdoc">The maximum number of Instances allowed.</div><div class="ttdef"><b>Definition</b> <a href="_server_information_base_8cs_source.html#l00018">ServerInformationBase.cs:18</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a2f4d695a6363f6d92a8adb8f7860e809"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a2f4d695a6363f6d92a8adb8f7860e809">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultMinimumPasswordLength</a></div><div class="ttdeci">const uint DefaultMinimumPasswordLength</div><div class="ttdoc">The default value for ServerInformationBase.MinimumPasswordLength.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00034">GeneralConfiguration.cs:34</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a72a9ee77858ff9b03b66ffe774eb0931"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a72a9ee77858ff9b03b66ffe774eb0931">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultUserLimit</a></div><div class="ttdeci">const uint DefaultUserLimit</div><div class="ttdoc">The default value for ServerInformationBase.UserLimit.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00044">GeneralConfiguration.cs:44</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_aa4150fdf328588da7e2fdda649311d1a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#aa4150fdf328588da7e2fdda649311d1a">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultInstanceLimit</a></div><div class="ttdeci">const uint DefaultInstanceLimit</div><div class="ttdoc">The default value for ServerInformationBase.InstanceLimit.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00039">GeneralConfiguration.cs:39</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_abb9a54bdc8033b7b0354a00285a78449"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#abb9a54bdc8033b7b0354a00285a78449">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultUserGroupLimit</a></div><div class="ttdeci">const uint DefaultUserGroupLimit</div><div class="ttdoc">The default value for ServerInformationBase.UserGroupLimit.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00049">GeneralConfiguration.cs:49</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a2f4d695a6363f6d92a8adb8f7860e809"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a2f4d695a6363f6d92a8adb8f7860e809">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultMinimumPasswordLength</a></div><div class="ttdeci">const uint DefaultMinimumPasswordLength</div><div class="ttdoc">The default value for ServerInformationBase.MinimumPasswordLength.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00037">GeneralConfiguration.cs:37</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a72a9ee77858ff9b03b66ffe774eb0931"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a72a9ee77858ff9b03b66ffe774eb0931">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultUserLimit</a></div><div class="ttdeci">const uint DefaultUserLimit</div><div class="ttdoc">The default value for ServerInformationBase.UserLimit.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00047">GeneralConfiguration.cs:47</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_aa4150fdf328588da7e2fdda649311d1a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#aa4150fdf328588da7e2fdda649311d1a">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultInstanceLimit</a></div><div class="ttdeci">const uint DefaultInstanceLimit</div><div class="ttdoc">The default value for ServerInformationBase.InstanceLimit.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00042">GeneralConfiguration.cs:42</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_abb9a54bdc8033b7b0354a00285a78449"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#abb9a54bdc8033b7b0354a00285a78449">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultUserGroupLimit</a></div><div class="ttdeci">const uint DefaultUserGroupLimit</div><div class="ttdoc">The default value for ServerInformationBase.UserGroupLimit.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00052">GeneralConfiguration.cs:52</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_general_configuration_8cs_source.html#l00039">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultInstanceLimit</a>, <a class="el" href="_general_configuration_8cs_source.html#l00034">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultMinimumPasswordLength</a>, <a class="el" href="_general_configuration_8cs_source.html#l00049">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultUserGroupLimit</a>, <a class="el" href="_general_configuration_8cs_source.html#l00044">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultUserLimit</a>, <a class="el" href="_server_information_base_8cs_source.html#l00018">Tgstation.Server.Api.Models.Internal.ServerInformationBase.InstanceLimit</a>, <a class="el" href="_server_information_base_8cs_source.html#l00013">Tgstation.Server.Api.Models.Internal.ServerInformationBase.MinimumPasswordLength</a>, <a class="el" href="_server_information_base_8cs_source.html#l00028">Tgstation.Server.Api.Models.Internal.ServerInformationBase.UserGroupLimit</a>, and <a class="el" href="_server_information_base_8cs_source.html#l00023">Tgstation.Server.Api.Models.Internal.ServerInformationBase.UserLimit</a>.</p>
+<p class="reference">References <a class="el" href="_general_configuration_8cs_source.html#l00042">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultInstanceLimit</a>, <a class="el" href="_general_configuration_8cs_source.html#l00037">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultMinimumPasswordLength</a>, <a class="el" href="_general_configuration_8cs_source.html#l00052">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultUserGroupLimit</a>, <a class="el" href="_general_configuration_8cs_source.html#l00047">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultUserLimit</a>, <a class="el" href="_server_information_base_8cs_source.html#l00018">Tgstation.Server.Api.Models.Internal.ServerInformationBase.InstanceLimit</a>, <a class="el" href="_server_information_base_8cs_source.html#l00013">Tgstation.Server.Api.Models.Internal.ServerInformationBase.MinimumPasswordLength</a>, <a class="el" href="_server_information_base_8cs_source.html#l00028">Tgstation.Server.Api.Models.Internal.ServerInformationBase.UserGroupLimit</a>, and <a class="el" href="_server_information_base_8cs_source.html#l00023">Tgstation.Server.Api.Models.Internal.ServerInformationBase.UserLimit</a>.</p>
 
 </div>
 </div>
@@ -294,50 +297,54 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00168">168</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  169</span>        {</div>
-<div class="line"><span class="lineno">  170</span>            ArgumentNullException.ThrowIfNull(logger);</div>
-<div class="line"><span class="lineno">  171</span> </div>
-<div class="line"><span class="lineno">  172</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a786c0da035badd8742a8dfed1f45e655">ConfigVersion</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  173</span>                logger.LogCritical(</div>
-<div class="line"><span class="lineno">  174</span>                    <span class="stringliteral">&quot;No `ConfigVersion` specified, your configuration may be out of date! The current version is \&quot;{currentVersion}\&quot;&quot;</span>,</div>
-<div class="line"><span class="lineno">  175</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>);</div>
-<div class="line"><span class="lineno">  176</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a786c0da035badd8742a8dfed1f45e655">ConfigVersion</a> != <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>)</div>
-<div class="line"><span class="lineno">  177</span>                <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a786c0da035badd8742a8dfed1f45e655">ConfigVersion</a>.Major != <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>.Major)</div>
-<div class="line"><span class="lineno">  178</span>                    logger.LogCritical(</div>
-<div class="line"><span class="lineno">  179</span>                        <span class="stringliteral">&quot;Your `ConfigVersion` is majorly out-of-date and may potentially cause issues running the server. Please follow migration instructions from the TGS release notes. The current config version is v{currentConfigVersion}.&quot;</span>,</div>
-<div class="line"><span class="lineno">  180</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>);</div>
-<div class="line"><span class="lineno">  181</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  182</span>                    logger.LogWarning(<span class="stringliteral">&quot;Your `ConfigVersion` is out-of-date. Please follow migration instructions from the TGS release notes.&quot;</span>);</div>
-<div class="line"><span class="lineno">  183</span> </div>
-<div class="line"><span class="lineno">  184</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0013cf7d170889a776193f9c0792a78d">DeploymentDirectoryCopyTasksPerCore</a> == 0)</div>
-<div class="line"><span class="lineno">  185</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(</div>
-<div class="line"><span class="lineno">  186</span>                    $<span class="stringliteral">&quot;{nameof(DeploymentDirectoryCopyTasksPerCore)} must be at least 1!&quot;</span>);</div>
-<div class="line"><span class="lineno">  187</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (this.GetCopyDirectoryTaskThrottle() &lt; 1)</div>
-<div class="line"><span class="lineno">  188</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(</div>
-<div class="line"><span class="lineno">  189</span>                    $<span class="stringliteral">&quot;{nameof(DeploymentDirectoryCopyTasksPerCore)} is too large for the CPU core count of {Environment.ProcessorCount} and overflows a 32-bit signed integer. Please lower the value!&quot;</span>);</div>
-<div class="line"><span class="lineno">  190</span> </div>
-<div class="line"><span class="lineno">  191</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a51431792c5538add1bdad55e499a4971">ByondTopicTimeout</a> &lt;= 1000)</div>
-<div class="line"><span class="lineno">  192</span>                logger.LogWarning(<span class="stringliteral">&quot;The timeout for sending BYOND topics is very low ({ms}ms). Topic calls may fail to complete at all!&quot;</span>, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a51431792c5538add1bdad55e499a4971">ByondTopicTimeout</a>);</div>
-<div class="line"><span class="lineno">  193</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a0013cf7d170889a776193f9c0792a78d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0013cf7d170889a776193f9c0792a78d">Tgstation.Server.Host.Configuration.GeneralConfiguration.DeploymentDirectoryCopyTasksPerCore</a></div><div class="ttdeci">uint? DeploymentDirectoryCopyTasksPerCore</div><div class="ttdoc">A limit on the amount of tasks used for asynchronous I/O when copying directories during the deployme...</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00135">GeneralConfiguration.cs:135</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a11cacc87b093badf8b45cc9fd858df54"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">Tgstation.Server.Host.Configuration.GeneralConfiguration.CurrentConfigVersion</a></div><div class="ttdeci">static readonly Version CurrentConfigVersion</div><div class="ttdoc">The current ConfigVersion.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00079">GeneralConfiguration.cs:79</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a51431792c5538add1bdad55e499a4971"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a51431792c5538add1bdad55e499a4971">Tgstation.Server.Host.Configuration.GeneralConfiguration.ByondTopicTimeout</a></div><div class="ttdeci">uint ByondTopicTimeout</div><div class="ttdoc">The timeout in milliseconds for sending and receiving topics to/from DreamDaemon. Note that a single ...</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00105">GeneralConfiguration.cs:105</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a786c0da035badd8742a8dfed1f45e655"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a786c0da035badd8742a8dfed1f45e655">Tgstation.Server.Host.Configuration.GeneralConfiguration.ConfigVersion</a></div><div class="ttdeci">Version? ConfigVersion</div><div class="ttdoc">The Version the file says it is.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00084">GeneralConfiguration.cs:84</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00176">176</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  177</span>        {</div>
+<div class="line"><span class="lineno">  178</span>            ArgumentNullException.ThrowIfNull(logger);</div>
+<div class="line"><span class="lineno">  179</span> </div>
+<div class="line"><span class="lineno">  180</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a786c0da035badd8742a8dfed1f45e655">ConfigVersion</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  181</span>                logger.LogCritical(</div>
+<div class="line"><span class="lineno">  182</span>                    <span class="stringliteral">&quot;No `ConfigVersion` specified, your configuration may be out of date! The current version is \&quot;{currentVersion}\&quot;&quot;</span>,</div>
+<div class="line"><span class="lineno">  183</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>);</div>
+<div class="line"><span class="lineno">  184</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a786c0da035badd8742a8dfed1f45e655">ConfigVersion</a> != <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>)</div>
+<div class="line"><span class="lineno">  185</span>                <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a786c0da035badd8742a8dfed1f45e655">ConfigVersion</a>.Major != <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>.Major)</div>
+<div class="line"><span class="lineno">  186</span>                    logger.LogCritical(</div>
+<div class="line"><span class="lineno">  187</span>                        <span class="stringliteral">&quot;Your `ConfigVersion` is majorly out-of-date and may potentially cause issues running the server. Please follow migration instructions from the TGS release notes. The current config version is v{currentConfigVersion}.&quot;</span>,</div>
+<div class="line"><span class="lineno">  188</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>);</div>
+<div class="line"><span class="lineno">  189</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  190</span>                    logger.LogWarning(<span class="stringliteral">&quot;Your `ConfigVersion` is out-of-date. Please follow migration instructions from the TGS release notes.&quot;</span>);</div>
+<div class="line"><span class="lineno">  191</span> </div>
+<div class="line"><span class="lineno">  192</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0013cf7d170889a776193f9c0792a78d">DeploymentDirectoryCopyTasksPerCore</a> == 0)</div>
+<div class="line"><span class="lineno">  193</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(</div>
+<div class="line"><span class="lineno">  194</span>                    $<span class="stringliteral">&quot;{nameof(DeploymentDirectoryCopyTasksPerCore)} must be at least 1!&quot;</span>);</div>
+<div class="line"><span class="lineno">  195</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (this.GetCopyDirectoryTaskThrottle() &lt; 1)</div>
+<div class="line"><span class="lineno">  196</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(</div>
+<div class="line"><span class="lineno">  197</span>                    $<span class="stringliteral">&quot;{nameof(DeploymentDirectoryCopyTasksPerCore)} is too large for the CPU core count of {Environment.ProcessorCount} and overflows a 32-bit signed integer. Please lower the value!&quot;</span>);</div>
+<div class="line"><span class="lineno">  198</span> </div>
+<div class="line"><span class="lineno">  199</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a51431792c5538add1bdad55e499a4971">ByondTopicTimeout</a> &lt;= 1000)</div>
+<div class="line"><span class="lineno">  200</span>                logger.LogWarning(<span class="stringliteral">&quot;The timeout for sending BYOND topics is very low ({ms}ms). Topic calls may fail to complete at all!&quot;</span>, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a51431792c5538add1bdad55e499a4971">ByondTopicTimeout</a>);</div>
+<div class="line"><span class="lineno">  201</span> </div>
+<div class="line"><span class="lineno">  202</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#ae5ee8e757e5b6bbeb6fae1cd19924c46">AdditionalEventScriptsDirectories</a>?.Any(path =&gt; !Path.IsPathRooted(path)) == <span class="keyword">true</span>)</div>
+<div class="line"><span class="lineno">  203</span>                logger.LogWarning($<span class="stringliteral">&quot;Config option \&quot;{nameof(AdditionalEventScriptsDirectories)}\&quot; contains non-rooted paths. These will be evaluated relative to each instances \&quot;Configuration\&quot; directory!&quot;</span>);</div>
+<div class="line"><span class="lineno">  204</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a0013cf7d170889a776193f9c0792a78d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0013cf7d170889a776193f9c0792a78d">Tgstation.Server.Host.Configuration.GeneralConfiguration.DeploymentDirectoryCopyTasksPerCore</a></div><div class="ttdeci">uint? DeploymentDirectoryCopyTasksPerCore</div><div class="ttdoc">A limit on the amount of tasks used for asynchronous I/O when copying directories during the deployme...</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00138">GeneralConfiguration.cs:138</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a11cacc87b093badf8b45cc9fd858df54"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">Tgstation.Server.Host.Configuration.GeneralConfiguration.CurrentConfigVersion</a></div><div class="ttdeci">static readonly Version CurrentConfigVersion</div><div class="ttdoc">The current ConfigVersion.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00082">GeneralConfiguration.cs:82</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a51431792c5538add1bdad55e499a4971"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a51431792c5538add1bdad55e499a4971">Tgstation.Server.Host.Configuration.GeneralConfiguration.ByondTopicTimeout</a></div><div class="ttdeci">uint ByondTopicTimeout</div><div class="ttdoc">The timeout in milliseconds for sending and receiving topics to/from DreamDaemon. Note that a single ...</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00108">GeneralConfiguration.cs:108</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a786c0da035badd8742a8dfed1f45e655"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a786c0da035badd8742a8dfed1f45e655">Tgstation.Server.Host.Configuration.GeneralConfiguration.ConfigVersion</a></div><div class="ttdeci">Version? ConfigVersion</div><div class="ttdoc">The Version the file says it is.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00087">GeneralConfiguration.cs:87</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_ae5ee8e757e5b6bbeb6fae1cd19924c46"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#ae5ee8e757e5b6bbeb6fae1cd19924c46">Tgstation.Server.Host.Configuration.GeneralConfiguration.AdditionalEventScriptsDirectories</a></div><div class="ttdeci">List&lt; string &gt;? AdditionalEventScriptsDirectories</div><div class="ttdoc">List of directories that have their contents merged with instance EventScripts directories when execu...</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00159">GeneralConfiguration.cs:159</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_general_configuration_8cs_source.html#l00105">Tgstation.Server.Host.Configuration.GeneralConfiguration.ByondTopicTimeout</a>, <a class="el" href="_general_configuration_8cs_source.html#l00084">Tgstation.Server.Host.Configuration.GeneralConfiguration.ConfigVersion</a>, <a class="el" href="_general_configuration_8cs_source.html#l00079">Tgstation.Server.Host.Configuration.GeneralConfiguration.CurrentConfigVersion</a>, and <a class="el" href="_general_configuration_8cs_source.html#l00135">Tgstation.Server.Host.Configuration.GeneralConfiguration.DeploymentDirectoryCopyTasksPerCore</a>.</p>
+<p class="reference">References <a class="el" href="_general_configuration_8cs_source.html#l00159">Tgstation.Server.Host.Configuration.GeneralConfiguration.AdditionalEventScriptsDirectories</a>, <a class="el" href="_general_configuration_8cs_source.html#l00108">Tgstation.Server.Host.Configuration.GeneralConfiguration.ByondTopicTimeout</a>, <a class="el" href="_general_configuration_8cs_source.html#l00087">Tgstation.Server.Host.Configuration.GeneralConfiguration.ConfigVersion</a>, <a class="el" href="_general_configuration_8cs_source.html#l00082">Tgstation.Server.Host.Configuration.GeneralConfiguration.CurrentConfigVersion</a>, and <a class="el" href="_general_configuration_8cs_source.html#l00138">Tgstation.Server.Host.Configuration.GeneralConfiguration.DeploymentDirectoryCopyTasksPerCore</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.PreflightChecks()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_a0dff52d3ac52e100397122e63e1337ee_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_a0dff52d3ac52e100397122e63e1337ee_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_a0dff52d3ac52e100397122e63e1337ee_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_a0dff52d3ac52e100397122e63e1337ee_icgraph">
-<area shape="rect" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="881,5,1137,46"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44" title="Check we have a valid system and configuration." alt="" coords="554,5,833,46"/>
-<area shape="poly" title=" " alt="" coords="866,28,834,28,834,23,866,23"/>
+<area shape="rect" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="828,5,1084,46"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a799f1f7613771ef7c9d9f5ff55fb8b47" title="Check we have a valid system and configuration." alt="" coords="554,5,780,46"/>
+<area shape="poly" title=" " alt="" coords="813,28,781,28,781,23,813,23"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="280,5,506,46"/>
-<area shape="poly" title=" " alt="" coords="539,28,507,28,507,23,539,23"/>
+<area shape="poly" title=" " alt="" coords="538,28,507,28,507,23,538,23"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="5,5,232,46"/>
 <area shape="poly" title=" " alt="" coords="264,28,232,28,232,23,264,23"/>
 </map>
@@ -368,9 +375,9 @@ Here is the caller graph for this function:</div>
 
 <p>The current ConfigVersion. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00079">79</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00082">82</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00168">Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility()</a>, <a class="el" href="_application_8cs_source.html#l00530">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l01000">Tgstation.Server.Host.Setup.SetupWizard.SaveConfiguration()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00176">Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility()</a>, <a class="el" href="_application_8cs_source.html#l00530">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l01000">Tgstation.Server.Host.Setup.SetupWizard.SaveConfiguration()</a>.</p>
 
 </div>
 </div>
@@ -396,7 +403,7 @@ Here is the caller graph for this function:</div>
 
 <p>The default value of ApiPort. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00029">29</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00032">32</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01000">Tgstation.Server.Host.Setup.SetupWizard.SaveConfiguration()</a>.</p>
 
@@ -424,7 +431,7 @@ Here is the caller graph for this function:</div>
 
 <p>The default value for ByondTopicTimeout. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00054">54</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00057">57</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
 </div>
 </div>
@@ -450,9 +457,9 @@ Here is the caller graph for this function:</div>
 
 <p>The default value for <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#af1beb234779e0c00a3d62fa62f2b177e" title="The maximum number of Instances allowed.">ServerInformationBase.InstanceLimit</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00039">39</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00042">42</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00156">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00164">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>.</p>
 
 </div>
 </div>
@@ -478,9 +485,9 @@ Here is the caller graph for this function:</div>
 
 <p>The default value for <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#ac7cfeea4c6b91c9a8264c7e39e176882" title="Minimum length of database user passwords.">ServerInformationBase.MinimumPasswordLength</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00034">34</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00037">37</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00156">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00164">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>.</p>
 
 </div>
 </div>
@@ -506,7 +513,7 @@ Here is the caller graph for this function:</div>
 
 <p>The default value for OpenDreamGitTagPrefix. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00074">74</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00077">77</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
 </div>
 </div>
@@ -532,7 +539,7 @@ Here is the caller graph for this function:</div>
 
 <p>The default value for OpenDreamGitUrl. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00069">69</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00072">72</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
 </div>
 </div>
@@ -558,7 +565,7 @@ Here is the caller graph for this function:</div>
 
 <p>The default value for RestartTimeoutMinutes. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00059">59</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00062">62</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
 </div>
 </div>
@@ -584,7 +591,7 @@ Here is the caller graph for this function:</div>
 
 <p>The default value for ShutdownTimeoutMinutes. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00064">64</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00067">67</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
 </div>
 </div>
@@ -610,9 +617,9 @@ Here is the caller graph for this function:</div>
 
 <p>The default value for <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#a3e9282b16ff9ab6138fad75472968029" title="The maximum number of user groups allowed.">ServerInformationBase.UserGroupLimit</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00049">49</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00052">52</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00156">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00164">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>.</p>
 
 </div>
 </div>
@@ -638,9 +645,9 @@ Here is the caller graph for this function:</div>
 
 <p>The default value for <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#ae598bca044b6997650efb8996104419a" title="The maximum number of users allowed.">ServerInformationBase.UserLimit</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00044">44</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00047">47</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00156">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00164">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>.</p>
 
 </div>
 </div>
@@ -666,13 +673,42 @@ Here is the caller graph for this function:</div>
 
 <p>The key for the Microsoft.Extensions.Configuration.IConfigurationSection the GeneralConfiguration resides in. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00024">24</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00027">27</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01000">Tgstation.Server.Host.Setup.SetupWizard.SaveConfiguration()</a>, and <a class="el" href="_service_collection_extensions_8cs_source.html#l00146">Tgstation.Server.Host.Extensions.ServiceCollectionExtensions.UseStandardConfig&lt; TConfig &gt;()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
+<a id="ae5ee8e757e5b6bbeb6fae1cd19924c46" name="ae5ee8e757e5b6bbeb6fae1cd19924c46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5ee8e757e5b6bbeb6fae1cd19924c46">&#9670;&#160;</a></span>AdditionalEventScriptsDirectories</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt;string&gt;? Tgstation.Server.Host.Configuration.GeneralConfiguration.AdditionalEventScriptsDirectories</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>List of directories that have their contents merged with instance EventScripts directories when executing scripts. </p>
+
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00159">159</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  159</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00176">Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility()</a>.</p>
+
+</div>
+</div>
 <a id="abc34147a4a8a95c6578124b69c284a0b" name="abc34147a4a8a95c6578124b69c284a0b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abc34147a4a8a95c6578124b69c284a0b">&#9670;&#160;</a></span>ApiPort</h2>
 
@@ -695,8 +731,8 @@ Here is the caller graph for this function:</div>
 
 <p>The port the TGS API listens on. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00089">89</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   89</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00092">92</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   92</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -722,11 +758,11 @@ Here is the caller graph for this function:</div>
 
 <p>The timeout in milliseconds for sending and receiving topics to/from DreamDaemon. Note that a single topic exchange can take up to twice this value. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00105">105</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  105</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a9f825b6fe4bb53fd2c8317b271b57157">DefaultByondTopicTimeout</a>;</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a9f825b6fe4bb53fd2c8317b271b57157"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a9f825b6fe4bb53fd2c8317b271b57157">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultByondTopicTimeout</a></div><div class="ttdeci">const uint DefaultByondTopicTimeout</div><div class="ttdoc">The default value for ByondTopicTimeout.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00054">GeneralConfiguration.cs:54</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00108">108</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  108</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a9f825b6fe4bb53fd2c8317b271b57157">DefaultByondTopicTimeout</a>;</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a9f825b6fe4bb53fd2c8317b271b57157"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a9f825b6fe4bb53fd2c8317b271b57157">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultByondTopicTimeout</a></div><div class="ttdeci">const uint DefaultByondTopicTimeout</div><div class="ttdoc">The default value for ByondTopicTimeout.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00057">GeneralConfiguration.cs:57</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00168">Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00744">Tgstation.Server.Host.Controllers.InstanceController.CreateDefaultInstance()</a>, and <a class="el" href="_database_seeder_8cs_source.html#l00201">Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00176">Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00744">Tgstation.Server.Host.Controllers.InstanceController.CreateDefaultInstance()</a>, and <a class="el" href="_database_seeder_8cs_source.html#l00201">Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase()</a>.</p>
 
 </div>
 </div>
@@ -752,10 +788,10 @@ Here is the caller graph for this function:</div>
 
 <p>The Version the file says it is. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00084">84</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   84</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00087">87</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   87</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00168">Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00176">Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility()</a>.</p>
 
 </div>
 </div>
@@ -781,10 +817,10 @@ Here is the caller graph for this function:</div>
 
 <p>A limit on the amount of tasks used for asynchronous I/O when copying directories during the deployment process as a multiplier to the machine's Environment.ProcessorCount. Too few can significantly increase deployment times, too many can make TGS unresponsive and slowdown other I/O operations on the machine. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00135">135</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  135</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00138">138</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  138</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00168">Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility()</a>, and <a class="el" href="_general_configuration_extensions_8cs_source.html#l00017">Tgstation.Server.Host.Extensions.GeneralConfigurationExtensions.GetCopyDirectoryTaskThrottle()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00176">Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility()</a>, and <a class="el" href="_general_configuration_extensions_8cs_source.html#l00017">Tgstation.Server.Host.Extensions.GeneralConfigurationExtensions.GetCopyDirectoryTaskThrottle()</a>.</p>
 
 </div>
 </div>
@@ -810,8 +846,8 @@ Here is the caller graph for this function:</div>
 
 <p>A classic GitHub personal access token to use for bypassing rate limits on requests. Requires no scopes. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00094">94</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   94</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00097">97</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   97</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00277">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>.</p>
 
@@ -839,8 +875,8 @@ Here is the caller graph for this function:</div>
 
 <p>If the swagger documentation and UI should be made avaiable. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00125">125</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  125</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00128">128</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  128</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00142">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>, and <a class="el" href="_root_controller_8cs_source.html#l00126">Tgstation.Server.Host.Controllers.RootController.Index()</a>.</p>
 
@@ -868,9 +904,9 @@ Here is the caller graph for this function:</div>
 
 <p>The prefix to the OpenDream semver as tags appear in the git repository. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00146">146</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  146</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a09b62f847ef0c2c72f8ba8421c32b492">DefaultOpenDreamGitTagPrefix</a>;</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a09b62f847ef0c2c72f8ba8421c32b492"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a09b62f847ef0c2c72f8ba8421c32b492">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultOpenDreamGitTagPrefix</a></div><div class="ttdeci">const string DefaultOpenDreamGitTagPrefix</div><div class="ttdoc">The default value for OpenDreamGitTagPrefix.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00074">GeneralConfiguration.cs:74</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00149">149</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  149</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a09b62f847ef0c2c72f8ba8421c32b492">DefaultOpenDreamGitTagPrefix</a>;</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a09b62f847ef0c2c72f8ba8421c32b492"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a09b62f847ef0c2c72f8ba8421c32b492">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultOpenDreamGitTagPrefix</a></div><div class="ttdeci">const string DefaultOpenDreamGitTagPrefix</div><div class="ttdoc">The default value for OpenDreamGitTagPrefix.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00077">GeneralConfiguration.cs:77</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -896,9 +932,9 @@ Here is the caller graph for this function:</div>
 
 <p>Location of a publically accessible OpenDream repository. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00141">141</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  141</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="keyword">new</span> Uri(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a257a8803a093a75e02b7feda30bf7186">DefaultOpenDreamGitUrl</a>);</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a257a8803a093a75e02b7feda30bf7186"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a257a8803a093a75e02b7feda30bf7186">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultOpenDreamGitUrl</a></div><div class="ttdeci">const string DefaultOpenDreamGitUrl</div><div class="ttdoc">The default value for OpenDreamGitUrl.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00069">GeneralConfiguration.cs:69</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00144">144</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  144</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="keyword">new</span> Uri(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a257a8803a093a75e02b7feda30bf7186">DefaultOpenDreamGitUrl</a>);</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a257a8803a093a75e02b7feda30bf7186"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a257a8803a093a75e02b7feda30bf7186">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultOpenDreamGitUrl</a></div><div class="ttdeci">const string DefaultOpenDreamGitUrl</div><div class="ttdoc">The default value for OpenDreamGitUrl.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00072">GeneralConfiguration.cs:72</a></div></div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00136">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.DownloadVersion()</a>.</p>
 
@@ -926,8 +962,8 @@ Here is the caller graph for this function:</div>
 
 <p>If the dotnet output of creating an OpenDream installation should be suppressed. Known to cause issues in CI. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00151">151</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  151</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00154">154</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  154</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00215">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.Install()</a>.</p>
 
@@ -955,11 +991,11 @@ Here is the caller graph for this function:</div>
 
 <p>The timeout minutes for restarting the server. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00110">110</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  110</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a687263233469a2a30d87fe2f7f5ba22c">DefaultRestartTimeoutMinutes</a>;</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a687263233469a2a30d87fe2f7f5ba22c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a687263233469a2a30d87fe2f7f5ba22c">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultRestartTimeoutMinutes</a></div><div class="ttdeci">const uint DefaultRestartTimeoutMinutes</div><div class="ttdoc">The default value for RestartTimeoutMinutes.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00059">GeneralConfiguration.cs:59</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00113">113</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  113</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a687263233469a2a30d87fe2f7f5ba22c">DefaultRestartTimeoutMinutes</a>;</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a687263233469a2a30d87fe2f7f5ba22c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a687263233469a2a30d87fe2f7f5ba22c">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultRestartTimeoutMinutes</a></div><div class="ttdeci">const uint DefaultRestartTimeoutMinutes</div><div class="ttdoc">The default value for RestartTimeoutMinutes.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00062">GeneralConfiguration.cs:62</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00142">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>, <a class="el" href="_server_factory_8cs_source.html#l00054">Tgstation.Server.Host.ServerFactory.CreateServer()</a>, and <a class="el" href="_server_8cs_source.html#l00335">Tgstation.Server.Host.Server.RestartImpl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00142">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>, <a class="el" href="_server_factory_8cs_source.html#l00054">Tgstation.Server.Host.ServerFactory.CreateServer()</a>, and <a class="el" href="_server_8cs_source.html#l00351">Tgstation.Server.Host.Server.RestartImpl()</a>.</p>
 
 </div>
 </div>
@@ -985,8 +1021,8 @@ Here is the caller graph for this function:</div>
 
 <p>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_setup.html#ada83b66b0eb589bb855302d25c41e4de" title="Determines if the SetupWizard will run.">SetupWizardMode</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00100">100</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  100</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00103">103</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  103</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1012,11 +1048,11 @@ Here is the caller graph for this function:</div>
 
 <p>The timeout minutes for gracefully stopping the server. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00115">115</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  115</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#acc33c2e87eb87d74ac38ec2d46482c25">DefaultShutdownTimeoutMinutes</a>;</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_acc33c2e87eb87d74ac38ec2d46482c25"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#acc33c2e87eb87d74ac38ec2d46482c25">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultShutdownTimeoutMinutes</a></div><div class="ttdeci">const uint DefaultShutdownTimeoutMinutes</div><div class="ttdoc">The default value for ShutdownTimeoutMinutes.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00064">GeneralConfiguration.cs:64</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00118">118</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  118</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#acc33c2e87eb87d74ac38ec2d46482c25">DefaultShutdownTimeoutMinutes</a>;</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_acc33c2e87eb87d74ac38ec2d46482c25"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#acc33c2e87eb87d74ac38ec2d46482c25">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultShutdownTimeoutMinutes</a></div><div class="ttdeci">const uint DefaultShutdownTimeoutMinutes</div><div class="ttdoc">The default value for ShutdownTimeoutMinutes.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00067">GeneralConfiguration.cs:67</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00335">Tgstation.Server.Host.Server.RestartImpl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00351">Tgstation.Server.Host.Server.RestartImpl()</a>.</p>
 
 </div>
 </div>
@@ -1042,8 +1078,8 @@ Here is the caller graph for this function:</div>
 
 <p>If the netsh.exe execution to exempt DreamDaemon from Windows firewall should be skipped. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00130">130</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  130</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00133">133</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  133</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_windows_open_dream_installer_8cs_source.html#l00109">Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller.AddServerFirewallException()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00140">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.Install()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00163">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.UpgradeInstallation()</a>.</p>
 
@@ -1071,8 +1107,8 @@ Here is the caller graph for this function:</div>
 
 <p>If the Components.Watchdog.BasicWatchdog should be preferred. </p>
 
-<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00120">120</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  120</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00123">123</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  123</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>

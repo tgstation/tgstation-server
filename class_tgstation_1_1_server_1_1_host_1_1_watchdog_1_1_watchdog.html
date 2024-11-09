@@ -149,7 +149,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This <code>class</code> is a HACK but it works. Try not to break it if you wish to change it. Remember, this code doesn't get updated with the rest of the server.</p>
 
-<p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00020">20</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00023">23</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a15b253fbfadb57eae2865a238de8342b" name="a15b253fbfadb57eae2865a238de8342b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a15b253fbfadb57eae2865a238de8342b">&#9670;&#160;</a></span>Watchdog()</h2>
@@ -186,18 +186,18 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00045">45</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   46</span>        {</div>
-<div class="line"><span class="lineno">   47</span>            this.signalChecker = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a5f39816571e2d232a8f1113b351117a5">signalChecker</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a5f39816571e2d232a8f1113b351117a5">signalChecker</a>));</div>
-<div class="line"><span class="lineno">   48</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>));</div>
-<div class="line"><span class="lineno">   49</span> </div>
-<div class="line"><span class="lineno">   50</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a3c286293413e7940f0b43f1d9397d08e">initialHostVersionTcs</a> = <span class="keyword">new</span> TaskCompletionSource&lt;Version&gt;();</div>
-<div class="line"><span class="lineno">   51</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_html_a247d89dab45478183870bbdac843dbde"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">Tgstation.Server.Host.Watchdog.Watchdog.logger</a></div><div class="ttdeci">readonly ILogger&lt; Watchdog &gt; logger</div><div class="ttdoc">The ILogger for the Watchdog.</div><div class="ttdef"><b>Definition</b> <a href="_watchdog_8cs_source.html#l00033">Watchdog.cs:33</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_html_a3c286293413e7940f0b43f1d9397d08e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a3c286293413e7940f0b43f1d9397d08e">Tgstation.Server.Host.Watchdog.Watchdog.initialHostVersionTcs</a></div><div class="ttdeci">readonly TaskCompletionSource&lt; Version &gt; initialHostVersionTcs</div><div class="ttdoc">Backing TaskCompletionSource&lt;TResult&gt; for InitialHostVersion.</div><div class="ttdef"><b>Definition</b> <a href="_watchdog_8cs_source.html#l00038">Watchdog.cs:38</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_html_a5f39816571e2d232a8f1113b351117a5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a5f39816571e2d232a8f1113b351117a5">Tgstation.Server.Host.Watchdog.Watchdog.signalChecker</a></div><div class="ttdeci">readonly ISignalChecker signalChecker</div><div class="ttdoc">The ISignalChecker for the Watchdog.</div><div class="ttdef"><b>Definition</b> <a href="_watchdog_8cs_source.html#l00028">Watchdog.cs:28</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00048">48</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>        {</div>
+<div class="line"><span class="lineno">   50</span>            this.signalChecker = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a5f39816571e2d232a8f1113b351117a5">signalChecker</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a5f39816571e2d232a8f1113b351117a5">signalChecker</a>));</div>
+<div class="line"><span class="lineno">   51</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>));</div>
+<div class="line"><span class="lineno">   52</span> </div>
+<div class="line"><span class="lineno">   53</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a3c286293413e7940f0b43f1d9397d08e">initialHostVersionTcs</a> = <span class="keyword">new</span> TaskCompletionSource&lt;Version&gt;();</div>
+<div class="line"><span class="lineno">   54</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_html_a247d89dab45478183870bbdac843dbde"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">Tgstation.Server.Host.Watchdog.Watchdog.logger</a></div><div class="ttdeci">readonly ILogger&lt; Watchdog &gt; logger</div><div class="ttdoc">The ILogger for the Watchdog.</div><div class="ttdef"><b>Definition</b> <a href="_watchdog_8cs_source.html#l00036">Watchdog.cs:36</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_html_a3c286293413e7940f0b43f1d9397d08e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a3c286293413e7940f0b43f1d9397d08e">Tgstation.Server.Host.Watchdog.Watchdog.initialHostVersionTcs</a></div><div class="ttdeci">readonly TaskCompletionSource&lt; Version &gt; initialHostVersionTcs</div><div class="ttdoc">Backing TaskCompletionSource&lt;TResult&gt; for InitialHostVersion.</div><div class="ttdef"><b>Definition</b> <a href="_watchdog_8cs_source.html#l00041">Watchdog.cs:41</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_html_a5f39816571e2d232a8f1113b351117a5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a5f39816571e2d232a8f1113b351117a5">Tgstation.Server.Host.Watchdog.Watchdog.signalChecker</a></div><div class="ttdeci">readonly ISignalChecker signalChecker</div><div class="ttdoc">The ISignalChecker for the Watchdog.</div><div class="ttdef"><b>Definition</b> <a href="_watchdog_8cs_source.html#l00031">Watchdog.cs:31</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_watchdog_8cs_source.html#l00038">Tgstation.Server.Host.Watchdog.Watchdog.initialHostVersionTcs</a>, <a class="el" href="_watchdog_8cs_source.html#l00033">Tgstation.Server.Host.Watchdog.Watchdog.logger</a>, and <a class="el" href="_watchdog_8cs_source.html#l00028">Tgstation.Server.Host.Watchdog.Watchdog.signalChecker</a>.</p>
+<p class="reference">References <a class="el" href="_watchdog_8cs_source.html#l00041">Tgstation.Server.Host.Watchdog.Watchdog.initialHostVersionTcs</a>, <a class="el" href="_watchdog_8cs_source.html#l00036">Tgstation.Server.Host.Watchdog.Watchdog.logger</a>, and <a class="el" href="_watchdog_8cs_source.html#l00031">Tgstation.Server.Host.Watchdog.Watchdog.signalChecker</a>.</p>
 
 </div>
 </div>
@@ -247,339 +247,415 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176">Tgstation.Server.Host.Watchdog.IWatchdog</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00056">56</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   57</span>        {</div>
-<div class="line"><span class="lineno">   58</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Host watchdog starting...&quot;</span>);</div>
-<div class="line"><span class="lineno">   59</span>            <span class="keywordtype">int</span> currentProcessId;</div>
-<div class="line"><span class="lineno">   60</span>            <span class="keyword">using</span> (var currentProc = Process.GetCurrentProcess())</div>
-<div class="line"><span class="lineno">   61</span>                currentProcessId = currentProc.Id;</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogDebug(<span class="stringliteral">&quot;PID: {pid}&quot;</span>, currentProcessId);</div>
-<div class="line"><span class="lineno">   64</span>            <span class="keywordtype">string</span>? updateDirectory = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   65</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   66</span>            {</div>
-<div class="line"><span class="lineno">   67</span>                var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);</div>
-<div class="line"><span class="lineno">   68</span>                var dotnetPath = DotnetHelper.GetPotentialDotnetPaths(isWindows)</div>
-<div class="line"><span class="lineno">   69</span>                    .Where(potentialDotnetPath =&gt;</div>
-<div class="line"><span class="lineno">   70</span>                    {</div>
-<div class="line"><span class="lineno">   71</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogTrace(<span class="stringliteral">&quot;Checking for dotnet at {potentialDotnetPath}&quot;</span>, potentialDotnetPath);</div>
-<div class="line"><span class="lineno">   72</span>                        <span class="keywordflow">return</span> File.Exists(potentialDotnetPath);</div>
-<div class="line"><span class="lineno">   73</span>                    })</div>
-<div class="line"><span class="lineno">   74</span>                    .FirstOrDefault();</div>
-<div class="line"><span class="lineno">   75</span> </div>
-<div class="line"><span class="lineno">   76</span>                <span class="keywordflow">if</span> (dotnetPath == <span class="keywordflow">default</span>)</div>
-<div class="line"><span class="lineno">   77</span>                {</div>
-<div class="line"><span class="lineno">   78</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Unable to locate dotnet executable in PATH! Please ensure the .NET Core runtime is installed and is in your PATH!&quot;</span>);</div>
-<div class="line"><span class="lineno">   79</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   80</span>                }</div>
-<div class="line"><span class="lineno">   81</span> </div>
-<div class="line"><span class="lineno">   82</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Detected dotnet executable at {dotnetPath}&quot;</span>, dotnetPath);</div>
-<div class="line"><span class="lineno">   83</span> </div>
-<div class="line"><span class="lineno">   84</span>                var executingAssembly = Assembly.GetExecutingAssembly();</div>
-<div class="line"><span class="lineno">   85</span>                var rootLocation = Path.GetDirectoryName(executingAssembly.Location);</div>
-<div class="line"><span class="lineno">   86</span>                <span class="keywordflow">if</span> (rootLocation == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   87</span>                {</div>
-<div class="line"><span class="lineno">   88</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Failed to get the directory name of the executing assembly: {location}&quot;</span>, executingAssembly.Location);</div>
-<div class="line"><span class="lineno">   89</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   90</span>                }</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>                var assemblyStoragePath = Path.Combine(rootLocation, <span class="stringliteral">&quot;lib&quot;</span>); <span class="comment">// always always next to watchdog</span></div>
-<div class="line"><span class="lineno">   93</span> </div>
-<div class="line"><span class="lineno">   94</span>                var defaultAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, <span class="stringliteral">&quot;Default&quot;</span>));</div>
-<div class="line"><span class="lineno">   95</span> </div>
-<div class="line"><span class="lineno">   96</span>                <span class="keywordflow">if</span> (Debugger.IsAttached)</div>
-<div class="line"><span class="lineno">   97</span>                {</div>
-<div class="line"><span class="lineno">   98</span>                    <span class="comment">// VS special tactics</span></div>
-<div class="line"><span class="lineno">   99</span>                    <span class="comment">// just copy the shit where it belongs</span></div>
-<div class="line"><span class="lineno">  100</span>                    <span class="keywordflow">if</span> (Directory.Exists(assemblyStoragePath))</div>
-<div class="line"><span class="lineno">  101</span>                        Directory.Delete(assemblyStoragePath, <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  102</span>                    Directory.CreateDirectory(defaultAssemblyPath);</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>                    var sourcePath = Path.GetFullPath(</div>
-<div class="line"><span class="lineno">  105</span>                        Path.Combine(</div>
-<div class="line"><span class="lineno">  106</span>                            rootLocation,</div>
-<div class="line"><span class="lineno">  107</span>                            <span class="stringliteral">&quot;../../../../Tgstation.Server.Host/bin/Debug/net8.0&quot;</span>));</div>
-<div class="line"><span class="lineno">  108</span>                    <span class="keywordflow">foreach</span> (<span class="keywordtype">string</span> dirPath <span class="keywordflow">in</span> Directory.GetDirectories(sourcePath, <span class="stringliteral">&quot;*&quot;</span>, SearchOption.AllDirectories))</div>
-<div class="line"><span class="lineno">  109</span>                        Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath, StringComparison.Ordinal));</div>
-<div class="line"><span class="lineno">  110</span> </div>
-<div class="line"><span class="lineno">  111</span>                    <span class="keywordflow">foreach</span> (<span class="keywordtype">string</span> newPath <span class="keywordflow">in</span> Directory.GetFiles(sourcePath, <span class="stringliteral">&quot;*.*&quot;</span>, SearchOption.AllDirectories))</div>
-<div class="line"><span class="lineno">  112</span>                        File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath, StringComparison.Ordinal), <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  113</span> </div>
-<div class="line"><span class="lineno">  114</span>                    <span class="keyword">const</span> <span class="keywordtype">string</span> AppSettingsYaml = <span class="stringliteral">&quot;appsettings.yml&quot;</span>;</div>
-<div class="line"><span class="lineno">  115</span>                    var rootYaml = Path.Combine(rootLocation, AppSettingsYaml);</div>
-<div class="line"><span class="lineno">  116</span>                    File.Delete(rootYaml);</div>
-<div class="line"><span class="lineno">  117</span>                    File.Move(Path.Combine(defaultAssemblyPath, AppSettingsYaml), rootYaml);</div>
-<div class="line"><span class="lineno">  118</span>                }</div>
-<div class="line"><span class="lineno">  119</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  120</span>                    Directory.CreateDirectory(assemblyStoragePath);</div>
-<div class="line"><span class="lineno">  121</span> </div>
-<div class="line"><span class="lineno">  122</span>                var assemblyName = String.Join(<span class="stringliteral">&quot;.&quot;</span>, nameof(<a class="code hl_namespace" href="namespace_tgstation.html">Tgstation</a>), nameof(Server), nameof(Host), <span class="stringliteral">&quot;dll&quot;</span>);</div>
-<div class="line"><span class="lineno">  123</span>                var assemblyPath = Path.Combine(defaultAssemblyPath, assemblyName);</div>
-<div class="line"><span class="lineno">  124</span> </div>
-<div class="line"><span class="lineno">  125</span>                <span class="keywordflow">if</span> (assemblyPath.Contains(<span class="charliteral">&#39;&quot;&#39;</span>, StringComparison.Ordinal))</div>
-<div class="line"><span class="lineno">  126</span>                {</div>
-<div class="line"><span class="lineno">  127</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Running from paths with \&quot;&#39;s in the name is not supported!&quot;</span>);</div>
-<div class="line"><span class="lineno">  128</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  129</span>                }</div>
-<div class="line"><span class="lineno">  130</span> </div>
-<div class="line"><span class="lineno">  131</span>                <span class="keywordflow">if</span> (!File.Exists(assemblyPath))</div>
-<div class="line"><span class="lineno">  132</span>                {</div>
-<div class="line"><span class="lineno">  133</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Unable to locate host assembly!&quot;</span>);</div>
-<div class="line"><span class="lineno">  134</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  135</span>                }</div>
-<div class="line"><span class="lineno">  136</span> </div>
-<div class="line"><span class="lineno">  137</span>                var fileVersion = FileVersionInfo.GetVersionInfo(assemblyPath).FileVersion;</div>
-<div class="line"><span class="lineno">  138</span>                <span class="keywordflow">if</span> (fileVersion == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  139</span>                {</div>
-<div class="line"><span class="lineno">  140</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Failed to parse version info from {assemblyPath}!&quot;</span>, assemblyPath);</div>
-<div class="line"><span class="lineno">  141</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  142</span>                }</div>
-<div class="line"><span class="lineno">  143</span> </div>
-<div class="line"><span class="lineno">  144</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a3c286293413e7940f0b43f1d9397d08e">initialHostVersionTcs</a>.SetResult(</div>
-<div class="line"><span class="lineno">  145</span>                    Version.Parse(</div>
-<div class="line"><span class="lineno">  146</span>                        fileVersion));</div>
-<div class="line"><span class="lineno">  147</span> </div>
-<div class="line"><span class="lineno">  148</span>                var watchdogVersion = executingAssembly.GetName().Version?.Semver().ToString();</div>
-<div class="line"><span class="lineno">  149</span> </div>
-<div class="line"><span class="lineno">  150</span>                <span class="keywordflow">while</span> (!cancellationToken.IsCancellationRequested)</div>
-<div class="line"><span class="lineno">  151</span>                    <span class="keyword">using</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.BeginScope(<span class="stringliteral">&quot;Host invocation&quot;</span>))</div>
-<div class="line"><span class="lineno">  152</span>                    {</div>
-<div class="line"><span class="lineno">  153</span>                        updateDirectory = Path.GetFullPath(Path.Combine(assemblyStoragePath, Guid.NewGuid().ToString()));</div>
-<div class="line"><span class="lineno">  154</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Update path set to {updateDirectory}&quot;</span>, updateDirectory);</div>
-<div class="line"><span class="lineno">  155</span>                        <span class="keyword">using</span> (var process = <span class="keyword">new</span> Process())</div>
-<div class="line"><span class="lineno">  156</span>                        {</div>
-<div class="line"><span class="lineno">  157</span>                            process.StartInfo.FileName = dotnetPath;</div>
-<div class="line"><span class="lineno">  158</span>                            process.StartInfo.WorkingDirectory = rootLocation;  <span class="comment">// for appsettings</span></div>
-<div class="line"><span class="lineno">  159</span> </div>
-<div class="line"><span class="lineno">  160</span>                            var arguments = <span class="keyword">new</span> List&lt;string&gt;</div>
-<div class="line"><span class="lineno">  161</span>                            {</div>
-<div class="line"><span class="lineno">  162</span>                                $<span class="stringliteral">&quot;\&quot;{assemblyPath}\&quot;&quot;</span>,</div>
-<div class="line"><span class="lineno">  163</span>                                $<span class="stringliteral">&quot;\&quot;{updateDirectory}\&quot;&quot;</span>,</div>
-<div class="line"><span class="lineno">  164</span>                                $<span class="stringliteral">&quot;\&quot;{watchdogVersion}\&quot;&quot;</span>,</div>
-<div class="line"><span class="lineno">  165</span>                            };</div>
-<div class="line"><span class="lineno">  166</span> </div>
-<div class="line"><span class="lineno">  167</span>                            <span class="keywordflow">if</span> (args.Any(x =&gt; x.Equals(<span class="stringliteral">&quot;--attach-host-debugger&quot;</span>, StringComparison.OrdinalIgnoreCase)))</div>
-<div class="line"><span class="lineno">  168</span>                                arguments.Add(<span class="stringliteral">&quot;--attach-debugger&quot;</span>);</div>
-<div class="line"><span class="lineno">  169</span> </div>
-<div class="line"><span class="lineno">  170</span>                            <span class="keywordflow">if</span> (runConfigure)</div>
-<div class="line"><span class="lineno">  171</span>                            {</div>
-<div class="line"><span class="lineno">  172</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Running configuration check and wizard...&quot;</span>);</div>
-<div class="line"><span class="lineno">  173</span>                                arguments.Add(<span class="stringliteral">&quot;--General:SetupWizardMode=Only&quot;</span>);</div>
-<div class="line"><span class="lineno">  174</span>                            }</div>
-<div class="line"><span class="lineno">  175</span> </div>
-<div class="line"><span class="lineno">  176</span>                            arguments.AddRange(args);</div>
+<p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00059">59</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   60</span>        {</div>
+<div class="line"><span class="lineno">   61</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Host watchdog starting...&quot;</span>);</div>
+<div class="line"><span class="lineno">   62</span>            <span class="keywordtype">int</span> currentProcessId;</div>
+<div class="line"><span class="lineno">   63</span>            <span class="keyword">using</span> (var currentProc = Process.GetCurrentProcess())</div>
+<div class="line"><span class="lineno">   64</span>                currentProcessId = currentProc.Id;</div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogDebug(<span class="stringliteral">&quot;PID: {pid}&quot;</span>, currentProcessId);</div>
+<div class="line"><span class="lineno">   67</span>            <span class="keywordtype">string</span>? updateDirectory = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   68</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   69</span>            {</div>
+<div class="line"><span class="lineno">   70</span>                var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);</div>
+<div class="line"><span class="lineno">   71</span>                var dotnetPath = DotnetHelper.GetPotentialDotnetPaths(isWindows)</div>
+<div class="line"><span class="lineno">   72</span>                    .Where(potentialDotnetPath =&gt;</div>
+<div class="line"><span class="lineno">   73</span>                    {</div>
+<div class="line"><span class="lineno">   74</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogTrace(<span class="stringliteral">&quot;Checking for dotnet at {potentialDotnetPath}&quot;</span>, potentialDotnetPath);</div>
+<div class="line"><span class="lineno">   75</span>                        <span class="keywordflow">return</span> File.Exists(potentialDotnetPath);</div>
+<div class="line"><span class="lineno">   76</span>                    })</div>
+<div class="line"><span class="lineno">   77</span>                    .FirstOrDefault();</div>
+<div class="line"><span class="lineno">   78</span> </div>
+<div class="line"><span class="lineno">   79</span>                <span class="keywordflow">if</span> (dotnetPath == <span class="keywordflow">default</span>)</div>
+<div class="line"><span class="lineno">   80</span>                {</div>
+<div class="line"><span class="lineno">   81</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Unable to locate dotnet executable in PATH! Please ensure the .NET Core runtime is installed and is in your PATH!&quot;</span>);</div>
+<div class="line"><span class="lineno">   82</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   83</span>                }</div>
+<div class="line"><span class="lineno">   84</span> </div>
+<div class="line"><span class="lineno">   85</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Detected dotnet executable at {dotnetPath}&quot;</span>, dotnetPath);</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>                var executingAssembly = Assembly.GetExecutingAssembly();</div>
+<div class="line"><span class="lineno">   88</span>                var rootLocation = Path.GetDirectoryName(executingAssembly.Location);</div>
+<div class="line"><span class="lineno">   89</span>                <span class="keywordflow">if</span> (rootLocation == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   90</span>                {</div>
+<div class="line"><span class="lineno">   91</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Failed to get the directory name of the executing assembly: {location}&quot;</span>, executingAssembly.Location);</div>
+<div class="line"><span class="lineno">   92</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   93</span>                }</div>
+<div class="line"><span class="lineno">   94</span> </div>
+<div class="line"><span class="lineno">   95</span>                var bootstrappable = args.Contains(<span class="stringliteral">&quot;--bootstrap&quot;</span>, StringComparer.OrdinalIgnoreCase);</div>
+<div class="line"><span class="lineno">   96</span>                var homeDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), <span class="stringliteral">&quot;.tgstation-server&quot;</span>);</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>                var assemblyStoragePath = Path.Combine(bootstrappable ? homeDirectory : rootLocation, <span class="stringliteral">&quot;lib&quot;</span>); <span class="comment">// always always next to watchdog</span></div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>                var defaultAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, <span class="stringliteral">&quot;Default&quot;</span>));</div>
+<div class="line"><span class="lineno">  101</span> </div>
+<div class="line"><span class="lineno">  102</span>                <span class="keywordflow">if</span> (Debugger.IsAttached)</div>
+<div class="line"><span class="lineno">  103</span>                {</div>
+<div class="line"><span class="lineno">  104</span>                    <span class="comment">// VS special tactics</span></div>
+<div class="line"><span class="lineno">  105</span>                    <span class="comment">// just copy the shit where it belongs</span></div>
+<div class="line"><span class="lineno">  106</span>                    <span class="keywordflow">if</span> (Directory.Exists(assemblyStoragePath))</div>
+<div class="line"><span class="lineno">  107</span>                        Directory.Delete(assemblyStoragePath, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  108</span>                    Directory.CreateDirectory(defaultAssemblyPath);</div>
+<div class="line"><span class="lineno">  109</span> </div>
+<div class="line"><span class="lineno">  110</span>                    var sourcePath = Path.GetFullPath(</div>
+<div class="line"><span class="lineno">  111</span>                        Path.Combine(</div>
+<div class="line"><span class="lineno">  112</span>                            rootLocation,</div>
+<div class="line"><span class="lineno">  113</span>                            <span class="stringliteral">&quot;../../../../Tgstation.Server.Host/bin/Debug/net8.0&quot;</span>));</div>
+<div class="line"><span class="lineno">  114</span>                    <span class="keywordflow">foreach</span> (<span class="keywordtype">string</span> dirPath <span class="keywordflow">in</span> Directory.GetDirectories(sourcePath, <span class="stringliteral">&quot;*&quot;</span>, SearchOption.AllDirectories))</div>
+<div class="line"><span class="lineno">  115</span>                        Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath, StringComparison.Ordinal));</div>
+<div class="line"><span class="lineno">  116</span> </div>
+<div class="line"><span class="lineno">  117</span>                    <span class="keywordflow">foreach</span> (<span class="keywordtype">string</span> newPath <span class="keywordflow">in</span> Directory.GetFiles(sourcePath, <span class="stringliteral">&quot;*.*&quot;</span>, SearchOption.AllDirectories))</div>
+<div class="line"><span class="lineno">  118</span>                        File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath, StringComparison.Ordinal), <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  119</span> </div>
+<div class="line"><span class="lineno">  120</span>                    <span class="keyword">const</span> <span class="keywordtype">string</span> AppSettingsYaml = <span class="stringliteral">&quot;appsettings.yml&quot;</span>;</div>
+<div class="line"><span class="lineno">  121</span>                    var rootYaml = Path.Combine(rootLocation, AppSettingsYaml);</div>
+<div class="line"><span class="lineno">  122</span>                    File.Delete(rootYaml);</div>
+<div class="line"><span class="lineno">  123</span>                    File.Move(Path.Combine(defaultAssemblyPath, AppSettingsYaml), rootYaml);</div>
+<div class="line"><span class="lineno">  124</span>                }</div>
+<div class="line"><span class="lineno">  125</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  126</span>                    Directory.CreateDirectory(assemblyStoragePath);</div>
+<div class="line"><span class="lineno">  127</span> </div>
+<div class="line"><span class="lineno">  128</span>                var bootstrapperSettingsFile = Path.Combine(homeDirectory, <span class="stringliteral">&quot;bootstrap.json&quot;</span>);</div>
+<div class="line"><span class="lineno">  129</span>                BootstrapSettings? bootstrapSettings = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  130</span>                <span class="keywordflow">if</span> (!Directory.Exists(defaultAssemblyPath))</div>
+<div class="line"><span class="lineno">  131</span>                {</div>
+<div class="line"><span class="lineno">  132</span>                    <span class="keywordflow">if</span> (!bootstrappable)</div>
+<div class="line"><span class="lineno">  133</span>                    {</div>
+<div class="line"><span class="lineno">  134</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Unable to locate host assembly directory!&quot;</span>);</div>
+<div class="line"><span class="lineno">  135</span>                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  136</span>                    }</div>
+<div class="line"><span class="lineno">  137</span> </div>
+<div class="line"><span class="lineno">  138</span>                    <span class="keywordflow">if</span> (File.Exists(bootstrapperSettingsFile))</div>
+<div class="line"><span class="lineno">  139</span>                    {</div>
+<div class="line"><span class="lineno">  140</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Loading bootstrap settings...&quot;</span>);</div>
+<div class="line"><span class="lineno">  141</span>                        var bootstrapperSettingsJson = await File.ReadAllTextAsync(bootstrapperSettingsFile, cancellationToken);</div>
+<div class="line"><span class="lineno">  142</span>                        bootstrapSettings = JsonSerializer.Deserialize&lt;BootstrapSettings&gt;(bootstrapperSettingsJson);</div>
+<div class="line"><span class="lineno">  143</span>                        <span class="keywordflow">if</span> (bootstrapSettings == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  144</span>                        {</div>
+<div class="line"><span class="lineno">  145</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Failed to deserialize {settingsFile}!&quot;</span>, bootstrapperSettingsFile);</div>
+<div class="line"><span class="lineno">  146</span>                            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  147</span>                        }</div>
+<div class="line"><span class="lineno">  148</span>                    }</div>
+<div class="line"><span class="lineno">  149</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  150</span>                    {</div>
+<div class="line"><span class="lineno">  151</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Using default bootstrap settings...&quot;</span>);</div>
+<div class="line"><span class="lineno">  152</span>                        bootstrapSettings = <span class="keyword">new</span> BootstrapSettings(); <span class="comment">// defaults</span></div>
+<div class="line"><span class="lineno">  153</span>                    }</div>
+<div class="line"><span class="lineno">  154</span> </div>
+<div class="line"><span class="lineno">  155</span>                    <span class="keywordflow">if</span> (bootstrapSettings.FileVersion.Major != BootstrapSettings.FileMajorVersion)</div>
+<div class="line"><span class="lineno">  156</span>                    {</div>
+<div class="line"><span class="lineno">  157</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Unable to parse bootstrapper file! Expected version: {expected}.X.X&quot;</span>, BootstrapSettings.FileMajorVersion);</div>
+<div class="line"><span class="lineno">  158</span>                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  159</span>                    }</div>
+<div class="line"><span class="lineno">  160</span> </div>
+<div class="line"><span class="lineno">  161</span>                    <span class="keywordtype">string</span> downloadUrl = bootstrapSettings.ServerUpdatePackageUrlFormatter.Replace(BootstrapSettings.VersionSubstitutionToken, bootstrapSettings.TgsVersion.ToString(), StringComparison.Ordinal);</div>
+<div class="line"><span class="lineno">  162</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Bootstrapping from: {url}&quot;</span>, downloadUrl);</div>
+<div class="line"><span class="lineno">  163</span>                    <span class="keyword">using </span>var httpClient = <span class="keyword">new</span> HttpClient();</div>
+<div class="line"><span class="lineno">  164</span>                    await <span class="keyword">using </span>var zipData = await httpClient.GetStreamAsync(<span class="keyword">new</span> Uri(downloadUrl), cancellationToken);</div>
+<div class="line"><span class="lineno">  165</span>                    <span class="keyword">using </span>var archive = <span class="keyword">new</span> ZipArchive(zipData, ZipArchiveMode.Read, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  166</span>                    archive.ExtractToDirectory(defaultAssemblyPath);</div>
+<div class="line"><span class="lineno">  167</span>                }</div>
+<div class="line"><span class="lineno">  168</span> </div>
+<div class="line"><span class="lineno">  169</span>                var assemblyName = String.Join(<span class="stringliteral">&quot;.&quot;</span>, nameof(<a class="code hl_namespace" href="namespace_tgstation.html">Tgstation</a>), nameof(Server), nameof(Host), <span class="stringliteral">&quot;dll&quot;</span>);</div>
+<div class="line"><span class="lineno">  170</span>                var assemblyPath = Path.Combine(defaultAssemblyPath, assemblyName);</div>
+<div class="line"><span class="lineno">  171</span> </div>
+<div class="line"><span class="lineno">  172</span>                <span class="keywordflow">if</span> (assemblyPath.Contains(<span class="charliteral">&#39;&quot;&#39;</span>, StringComparison.Ordinal))</div>
+<div class="line"><span class="lineno">  173</span>                {</div>
+<div class="line"><span class="lineno">  174</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Running from paths with \&quot;&#39;s in the name is not supported!&quot;</span>);</div>
+<div class="line"><span class="lineno">  175</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  176</span>                }</div>
 <div class="line"><span class="lineno">  177</span> </div>
-<div class="line"><span class="lineno">  178</span>                            process.StartInfo.Arguments = String.Join(<span class="stringliteral">&quot; &quot;</span>, arguments);</div>
+<div class="line"><span class="lineno">  178</span>                var watchdogVersion = executingAssembly.GetName().Version?.Semver().ToString();</div>
 <div class="line"><span class="lineno">  179</span> </div>
-<div class="line"><span class="lineno">  180</span>                            process.StartInfo.UseShellExecute = <span class="keyword">false</span>; <span class="comment">// runs in the same console</span></div>
-<div class="line"><span class="lineno">  181</span> </div>
-<div class="line"><span class="lineno">  182</span>                            var killedHostProcess = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  183</span>                            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  184</span>                            {</div>
-<div class="line"><span class="lineno">  185</span>                                Task? processTask = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  186</span>                                (int, Task) StartProcess(<span class="keywordtype">string</span>? additionalArg)</div>
-<div class="line"><span class="lineno">  187</span>                                {</div>
-<div class="line"><span class="lineno">  188</span>                                    <span class="keywordflow">if</span> (additionalArg != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  189</span>                                        process.StartInfo.Arguments += $<span class="stringliteral">&quot; {additionalArg}&quot;</span>;</div>
-<div class="line"><span class="lineno">  190</span> </div>
-<div class="line"><span class="lineno">  191</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Launching host with arguments: {arguments}&quot;</span>, process.StartInfo.Arguments);</div>
-<div class="line"><span class="lineno">  192</span> </div>
-<div class="line"><span class="lineno">  193</span>                                    process.Start();</div>
-<div class="line"><span class="lineno">  194</span>                                    <span class="keywordflow">return</span> (process.Id, processTask = process.WaitForExitAsync(cancellationToken));</div>
-<div class="line"><span class="lineno">  195</span>                                }</div>
-<div class="line"><span class="lineno">  196</span> </div>
-<div class="line"><span class="lineno">  197</span>                                <span class="keyword">using</span> (var processCts = <span class="keyword">new</span> CancellationTokenSource())</div>
-<div class="line"><span class="lineno">  198</span>                                <span class="keyword">using</span> (cancellationToken.Register(() =&gt;</div>
-<div class="line"><span class="lineno">  199</span>                                {</div>
-<div class="line"><span class="lineno">  200</span>                                    if (!Directory.Exists(updateDirectory))</div>
-<div class="line"><span class="lineno">  201</span>                                    {</div>
-<div class="line"><span class="lineno">  202</span>                                        logger.LogInformation(<span class="stringliteral">&quot;Cancellation requested! Writing shutdown lock file...&quot;</span>);</div>
-<div class="line"><span class="lineno">  203</span>                                        File.WriteAllBytes(updateDirectory, Array.Empty&lt;byte&gt;());</div>
-<div class="line"><span class="lineno">  204</span>                                    }</div>
-<div class="line"><span class="lineno">  205</span>                                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  206</span>                                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(<span class="stringliteral">&quot;Cancellation requested while update directory exists!&quot;</span>);</div>
-<div class="line"><span class="lineno">  207</span> </div>
-<div class="line"><span class="lineno">  208</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Will force close host process if it doesn&#39;t exit in 10 seconds...&quot;</span>);</div>
+<div class="line"><span class="lineno">  180</span>                <span class="keywordflow">while</span> (!cancellationToken.IsCancellationRequested)</div>
+<div class="line"><span class="lineno">  181</span>                {</div>
+<div class="line"><span class="lineno">  182</span>                    <span class="keywordflow">if</span> (!File.Exists(assemblyPath))</div>
+<div class="line"><span class="lineno">  183</span>                    {</div>
+<div class="line"><span class="lineno">  184</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Unable to locate host assembly!&quot;</span>);</div>
+<div class="line"><span class="lineno">  185</span>                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  186</span>                    }</div>
+<div class="line"><span class="lineno">  187</span> </div>
+<div class="line"><span class="lineno">  188</span>                    var fileVersion = FileVersionInfo.GetVersionInfo(assemblyPath).FileVersion;</div>
+<div class="line"><span class="lineno">  189</span>                    <span class="keywordflow">if</span> (fileVersion == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  190</span>                    {</div>
+<div class="line"><span class="lineno">  191</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Failed to parse version info from {assemblyPath}!&quot;</span>, assemblyPath);</div>
+<div class="line"><span class="lineno">  192</span>                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  193</span>                    }</div>
+<div class="line"><span class="lineno">  194</span> </div>
+<div class="line"><span class="lineno">  195</span>                    <span class="keywordflow">if</span> (bootstrappable)</div>
+<div class="line"><span class="lineno">  196</span>                    {</div>
+<div class="line"><span class="lineno">  197</span>                        <span class="keywordflow">if</span> (!Version.TryParse(fileVersion, out var bootstrappedVersion))</div>
+<div class="line"><span class="lineno">  198</span>                        {</div>
+<div class="line"><span class="lineno">  199</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Failed to parse bootstrapped version prior to launch: {fileVersion}&quot;</span>, fileVersion);</div>
+<div class="line"><span class="lineno">  200</span>                        }</div>
+<div class="line"><span class="lineno">  201</span>                        <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  202</span>                        {</div>
+<div class="line"><span class="lineno">  203</span>                            <span class="comment">// save bootstrapper settings</span></div>
+<div class="line"><span class="lineno">  204</span>                            var oldUrl = bootstrapSettings?.ServerUpdatePackageUrlFormatter;</div>
+<div class="line"><span class="lineno">  205</span>                            bootstrapSettings = <span class="keyword">new</span> BootstrapSettings</div>
+<div class="line"><span class="lineno">  206</span>                            {</div>
+<div class="line"><span class="lineno">  207</span>                                TgsVersion = bootstrappedVersion.Semver(),</div>
+<div class="line"><span class="lineno">  208</span>                            };</div>
 <div class="line"><span class="lineno">  209</span> </div>
-<div class="line"><span class="lineno">  210</span>                                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  211</span>                                    {</div>
-<div class="line"><span class="lineno">  212</span>                                        processCts.CancelAfter(TimeSpan.FromSeconds(10));</div>
-<div class="line"><span class="lineno">  213</span>                                    }</div>
-<div class="line"><span class="lineno">  214</span>                                    <span class="keywordflow">catch</span> (ObjectDisposedException ex)</div>
-<div class="line"><span class="lineno">  215</span>                                    {</div>
-<div class="line"><span class="lineno">  216</span>                                        <span class="comment">// race conditions</span></div>
-<div class="line"><span class="lineno">  217</span>                                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error triggering timeout!&quot;</span>);</div>
-<div class="line"><span class="lineno">  218</span>                                    }</div>
-<div class="line"><span class="lineno">  219</span>                                }))</div>
-<div class="line"><span class="lineno">  220</span>                                {</div>
-<div class="line"><span class="lineno">  221</span>                                    <span class="keyword">using </span>var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);</div>
-<div class="line"><span class="lineno">  222</span> </div>
-<div class="line"><span class="lineno">  223</span>                                    var checkerTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a5f39816571e2d232a8f1113b351117a5">signalChecker</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#a7699275299c785a24f995bead67dcf5e">CheckSignals</a>(StartProcess, cts.Token);</div>
-<div class="line"><span class="lineno">  224</span>                                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  225</span>                                    {</div>
-<div class="line"><span class="lineno">  226</span>                                        await processTask!;</div>
-<div class="line"><span class="lineno">  227</span>                                    }</div>
-<div class="line"><span class="lineno">  228</span>                                    <span class="keywordflow">finally</span></div>
-<div class="line"><span class="lineno">  229</span>                                    {</div>
-<div class="line"><span class="lineno">  230</span>                                        cts.Cancel();</div>
-<div class="line"><span class="lineno">  231</span>                                        await checkerTask;</div>
-<div class="line"><span class="lineno">  232</span>                                    }</div>
-<div class="line"><span class="lineno">  233</span>                                }</div>
-<div class="line"><span class="lineno">  234</span>                            }</div>
-<div class="line"><span class="lineno">  235</span>                            <span class="keywordflow">catch</span> (InvalidOperationException ex)</div>
-<div class="line"><span class="lineno">  236</span>                            {</div>
-<div class="line"><span class="lineno">  237</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error triggering timeout!&quot;</span>);</div>
-<div class="line"><span class="lineno">  238</span>                            }</div>
-<div class="line"><span class="lineno">  239</span>                            <span class="keywordflow">finally</span></div>
-<div class="line"><span class="lineno">  240</span>                            {</div>
-<div class="line"><span class="lineno">  241</span>                                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  242</span>                                {</div>
-<div class="line"><span class="lineno">  243</span>                                    <span class="keywordflow">if</span> (!process.HasExited)</div>
-<div class="line"><span class="lineno">  244</span>                                    {</div>
-<div class="line"><span class="lineno">  245</span>                                        killedHostProcess = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  246</span>                                        process.Kill();</div>
-<div class="line"><span class="lineno">  247</span>                                        process.WaitForExit();</div>
-<div class="line"><span class="lineno">  248</span>                                    }</div>
-<div class="line"><span class="lineno">  249</span>                                }</div>
-<div class="line"><span class="lineno">  250</span>                                <span class="keywordflow">catch</span> (InvalidOperationException ex2)</div>
-<div class="line"><span class="lineno">  251</span>                                {</div>
-<div class="line"><span class="lineno">  252</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(ex2, <span class="stringliteral">&quot;Error killing host process!&quot;</span>);</div>
-<div class="line"><span class="lineno">  253</span>                                }</div>
-<div class="line"><span class="lineno">  254</span> </div>
-<div class="line"><span class="lineno">  255</span>                                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  256</span>                                {</div>
-<div class="line"><span class="lineno">  257</span>                                    <span class="keywordflow">if</span> (File.Exists(updateDirectory))</div>
-<div class="line"><span class="lineno">  258</span>                                        File.Delete(updateDirectory);</div>
-<div class="line"><span class="lineno">  259</span>                                }</div>
-<div class="line"><span class="lineno">  260</span>                                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex2)</div>
-<div class="line"><span class="lineno">  261</span>                                {</div>
-<div class="line"><span class="lineno">  262</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(ex2, <span class="stringliteral">&quot;Error deleting comms file!&quot;</span>);</div>
-<div class="line"><span class="lineno">  263</span>                                }</div>
-<div class="line"><span class="lineno">  264</span> </div>
-<div class="line"><span class="lineno">  265</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Host exited!&quot;</span>);</div>
-<div class="line"><span class="lineno">  266</span>                            }</div>
-<div class="line"><span class="lineno">  267</span> </div>
-<div class="line"><span class="lineno">  268</span>                            <span class="keywordflow">if</span> (runConfigure)</div>
-<div class="line"><span class="lineno">  269</span>                            {</div>
-<div class="line"><span class="lineno">  270</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Exiting due to configure intent...&quot;</span>);</div>
-<div class="line"><span class="lineno">  271</span>                                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  272</span>                            }</div>
-<div class="line"><span class="lineno">  273</span> </div>
-<div class="line"><span class="lineno">  274</span>                            <span class="keywordflow">switch</span> ((<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_common.html#a839ae2909dd0bfbfc4d06a404f9b4fde">HostExitCode</a>)process.ExitCode)</div>
-<div class="line"><span class="lineno">  275</span>                            {</div>
-<div class="line"><span class="lineno">  276</span>                                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_common.html#a839ae2909dd0bfbfc4d06a404f9b4fde">HostExitCode</a>.CompleteExecution:</div>
-<div class="line"><span class="lineno">  277</span>                                    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  278</span>                                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_common.html#a839ae2909dd0bfbfc4d06a404f9b4fde">HostExitCode</a>.RestartRequested:</div>
-<div class="line"><span class="lineno">  279</span>                                    <span class="keywordflow">if</span> (!cancellationToken.IsCancellationRequested)</div>
-<div class="line"><span class="lineno">  280</span>                                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Watchdog will restart host...&quot;</span>); <span class="comment">// just a restart</span></div>
-<div class="line"><span class="lineno">  281</span>                                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  282</span>                                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(<span class="stringliteral">&quot;Host requested restart but watchdog shutdown is in progress!&quot;</span>);</div>
-<div class="line"><span class="lineno">  283</span>                                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  284</span>                                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_common.html#a839ae2909dd0bfbfc4d06a404f9b4fde">HostExitCode</a>.Error:</div>
-<div class="line"><span class="lineno">  285</span>                                    <span class="comment">// update path is now an exception document</span></div>
-<div class="line"><span class="lineno">  286</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Host crashed, propagating exception dump...&quot;</span>);</div>
+<div class="line"><span class="lineno">  210</span>                            bootstrapSettings.ServerUpdatePackageUrlFormatter = oldUrl ?? bootstrapSettings.ServerUpdatePackageUrlFormatter;</div>
+<div class="line"><span class="lineno">  211</span> </div>
+<div class="line"><span class="lineno">  212</span>                            Directory.CreateDirectory(homeDirectory);</div>
+<div class="line"><span class="lineno">  213</span>                            await File.WriteAllTextAsync(</div>
+<div class="line"><span class="lineno">  214</span>                                bootstrapperSettingsFile,</div>
+<div class="line"><span class="lineno">  215</span>                                JsonSerializer.Serialize(</div>
+<div class="line"><span class="lineno">  216</span>                                    bootstrapSettings,</div>
+<div class="line"><span class="lineno">  217</span>                                    <span class="keyword">new</span> JsonSerializerOptions</div>
+<div class="line"><span class="lineno">  218</span>                                    {</div>
+<div class="line"><span class="lineno">  219</span>                                        WriteIndented = true,</div>
+<div class="line"><span class="lineno">  220</span>                                    }),</div>
+<div class="line"><span class="lineno">  221</span>                                cancellationToken);</div>
+<div class="line"><span class="lineno">  222</span>                        }</div>
+<div class="line"><span class="lineno">  223</span>                    }</div>
+<div class="line"><span class="lineno">  224</span> </div>
+<div class="line"><span class="lineno">  225</span>                    <span class="keyword">using</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.BeginScope(<span class="stringliteral">&quot;Host invocation&quot;</span>))</div>
+<div class="line"><span class="lineno">  226</span>                    {</div>
+<div class="line"><span class="lineno">  227</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a3c286293413e7940f0b43f1d9397d08e">initialHostVersionTcs</a>.SetResult(</div>
+<div class="line"><span class="lineno">  228</span>                            Version.Parse(</div>
+<div class="line"><span class="lineno">  229</span>                                fileVersion));</div>
+<div class="line"><span class="lineno">  230</span> </div>
+<div class="line"><span class="lineno">  231</span>                        updateDirectory = Path.GetFullPath(Path.Combine(assemblyStoragePath, Guid.NewGuid().ToString()));</div>
+<div class="line"><span class="lineno">  232</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Update path set to {updateDirectory}&quot;</span>, updateDirectory);</div>
+<div class="line"><span class="lineno">  233</span>                        <span class="keyword">using</span> (var process = <span class="keyword">new</span> Process())</div>
+<div class="line"><span class="lineno">  234</span>                        {</div>
+<div class="line"><span class="lineno">  235</span>                            process.StartInfo.FileName = dotnetPath;</div>
+<div class="line"><span class="lineno">  236</span>                            process.StartInfo.WorkingDirectory = rootLocation;  <span class="comment">// for appsettings</span></div>
+<div class="line"><span class="lineno">  237</span> </div>
+<div class="line"><span class="lineno">  238</span>                            var arguments = <span class="keyword">new</span> List&lt;string&gt;</div>
+<div class="line"><span class="lineno">  239</span>                            {</div>
+<div class="line"><span class="lineno">  240</span>                                $<span class="stringliteral">&quot;\&quot;{assemblyPath}\&quot;&quot;</span>,</div>
+<div class="line"><span class="lineno">  241</span>                                $<span class="stringliteral">&quot;\&quot;{updateDirectory}\&quot;&quot;</span>,</div>
+<div class="line"><span class="lineno">  242</span>                                $<span class="stringliteral">&quot;\&quot;{watchdogVersion}\&quot;&quot;</span>,</div>
+<div class="line"><span class="lineno">  243</span>                            };</div>
+<div class="line"><span class="lineno">  244</span> </div>
+<div class="line"><span class="lineno">  245</span>                            <span class="keywordflow">if</span> (args.Any(x =&gt; x.Equals(<span class="stringliteral">&quot;--attach-host-debugger&quot;</span>, StringComparison.OrdinalIgnoreCase)))</div>
+<div class="line"><span class="lineno">  246</span>                                arguments.Add(<span class="stringliteral">&quot;--attach-debugger&quot;</span>);</div>
+<div class="line"><span class="lineno">  247</span> </div>
+<div class="line"><span class="lineno">  248</span>                            <span class="keywordflow">if</span> (runConfigure)</div>
+<div class="line"><span class="lineno">  249</span>                            {</div>
+<div class="line"><span class="lineno">  250</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Running configuration check and wizard...&quot;</span>);</div>
+<div class="line"><span class="lineno">  251</span>                                arguments.Add(<span class="stringliteral">&quot;--General:SetupWizardMode=Only&quot;</span>);</div>
+<div class="line"><span class="lineno">  252</span>                            }</div>
+<div class="line"><span class="lineno">  253</span> </div>
+<div class="line"><span class="lineno">  254</span>                            arguments.AddRange(args);</div>
+<div class="line"><span class="lineno">  255</span> </div>
+<div class="line"><span class="lineno">  256</span>                            process.StartInfo.Arguments = String.Join(<span class="stringliteral">&quot; &quot;</span>, arguments);</div>
+<div class="line"><span class="lineno">  257</span> </div>
+<div class="line"><span class="lineno">  258</span>                            process.StartInfo.UseShellExecute = <span class="keyword">false</span>; <span class="comment">// runs in the same console</span></div>
+<div class="line"><span class="lineno">  259</span> </div>
+<div class="line"><span class="lineno">  260</span>                            var killedHostProcess = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  261</span>                            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  262</span>                            {</div>
+<div class="line"><span class="lineno">  263</span>                                Task? processTask = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  264</span>                                (int, Task) StartProcess(<span class="keywordtype">string</span>? additionalArg)</div>
+<div class="line"><span class="lineno">  265</span>                                {</div>
+<div class="line"><span class="lineno">  266</span>                                    <span class="keywordflow">if</span> (additionalArg != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  267</span>                                        process.StartInfo.Arguments += $<span class="stringliteral">&quot; {additionalArg}&quot;</span>;</div>
+<div class="line"><span class="lineno">  268</span> </div>
+<div class="line"><span class="lineno">  269</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Launching host with arguments: {arguments}&quot;</span>, process.StartInfo.Arguments);</div>
+<div class="line"><span class="lineno">  270</span> </div>
+<div class="line"><span class="lineno">  271</span>                                    process.Start();</div>
+<div class="line"><span class="lineno">  272</span>                                    <span class="keywordflow">return</span> (process.Id, processTask = process.WaitForExitAsync(cancellationToken));</div>
+<div class="line"><span class="lineno">  273</span>                                }</div>
+<div class="line"><span class="lineno">  274</span> </div>
+<div class="line"><span class="lineno">  275</span>                                <span class="keyword">using</span> (var processCts = <span class="keyword">new</span> CancellationTokenSource())</div>
+<div class="line"><span class="lineno">  276</span>                                <span class="keyword">using</span> (cancellationToken.Register(() =&gt;</div>
+<div class="line"><span class="lineno">  277</span>                                {</div>
+<div class="line"><span class="lineno">  278</span>                                    if (!Directory.Exists(updateDirectory))</div>
+<div class="line"><span class="lineno">  279</span>                                    {</div>
+<div class="line"><span class="lineno">  280</span>                                        logger.LogInformation(<span class="stringliteral">&quot;Cancellation requested! Writing shutdown lock file...&quot;</span>);</div>
+<div class="line"><span class="lineno">  281</span>                                        File.WriteAllBytes(updateDirectory, Array.Empty&lt;byte&gt;());</div>
+<div class="line"><span class="lineno">  282</span>                                    }</div>
+<div class="line"><span class="lineno">  283</span>                                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  284</span>                                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(<span class="stringliteral">&quot;Cancellation requested while update directory exists!&quot;</span>);</div>
+<div class="line"><span class="lineno">  285</span> </div>
+<div class="line"><span class="lineno">  286</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Will force close host process if it doesn&#39;t exit in 10 seconds...&quot;</span>);</div>
 <div class="line"><span class="lineno">  287</span> </div>
-<div class="line"><span class="lineno">  288</span>                                    var data = <span class="stringliteral">&quot;(NOT PRESENT)&quot;</span>;</div>
-<div class="line"><span class="lineno">  289</span>                                    <span class="keywordflow">if</span> (File.Exists(updateDirectory))</div>
-<div class="line"><span class="lineno">  290</span>                                        data = File.ReadAllText(updateDirectory);</div>
-<div class="line"><span class="lineno">  291</span> </div>
-<div class="line"><span class="lineno">  292</span>                                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  288</span>                                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  289</span>                                    {</div>
+<div class="line"><span class="lineno">  290</span>                                        processCts.CancelAfter(TimeSpan.FromSeconds(10));</div>
+<div class="line"><span class="lineno">  291</span>                                    }</div>
+<div class="line"><span class="lineno">  292</span>                                    <span class="keywordflow">catch</span> (ObjectDisposedException ex)</div>
 <div class="line"><span class="lineno">  293</span>                                    {</div>
-<div class="line"><span class="lineno">  294</span>                                        File.Delete(updateDirectory);</div>
-<div class="line"><span class="lineno">  295</span>                                    }</div>
-<div class="line"><span class="lineno">  296</span>                                    <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> e)</div>
-<div class="line"><span class="lineno">  297</span>                                    {</div>
-<div class="line"><span class="lineno">  298</span>                                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(e, <span class="stringliteral">&quot;Unable to delete exception dump file at {updateDirectory}!&quot;</span>, updateDirectory);</div>
-<div class="line"><span class="lineno">  299</span>                                    }</div>
+<div class="line"><span class="lineno">  294</span>                                        <span class="comment">// race conditions</span></div>
+<div class="line"><span class="lineno">  295</span>                                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error triggering timeout!&quot;</span>);</div>
+<div class="line"><span class="lineno">  296</span>                                    }</div>
+<div class="line"><span class="lineno">  297</span>                                }))</div>
+<div class="line"><span class="lineno">  298</span>                                {</div>
+<div class="line"><span class="lineno">  299</span>                                    <span class="keyword">using </span>var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);</div>
 <div class="line"><span class="lineno">  300</span> </div>
-<div class="line"><span class="lineno">  301</span><span class="preprocessor">#pragma warning disable CA2201 </span><span class="comment">// Do not raise reserved exception types</span></div>
-<div class="line"><span class="lineno">  302</span>                                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_exception.html">Exception</a>(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Host propagated exception: {0}&quot;</span>, data));</div>
-<div class="line"><span class="lineno">  303</span><span class="preprocessor">#pragma warning restore CA2201 </span><span class="comment">// Do not raise reserved exception types</span></div>
-<div class="line"><span class="lineno">  304</span>                                <span class="keywordflow">default</span>:</div>
-<div class="line"><span class="lineno">  305</span>                                    <span class="keywordflow">if</span> (killedHostProcess)</div>
-<div class="line"><span class="lineno">  306</span>                                    {</div>
-<div class="line"><span class="lineno">  307</span>                                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(<span class="stringliteral">&quot;Watchdog forced to kill host process!&quot;</span>);</div>
-<div class="line"><span class="lineno">  308</span>                                        cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><span class="lineno">  309</span>                                    }</div>
-<div class="line"><span class="lineno">  310</span> </div>
-<div class="line"><span class="lineno">  311</span><span class="preprocessor">#pragma warning disable CA2201 </span><span class="comment">// Do not raise reserved exception types</span></div>
-<div class="line"><span class="lineno">  312</span>                                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_exception.html">Exception</a>(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Host crashed with exit code {0}!&quot;</span>, process.ExitCode));</div>
-<div class="line"><span class="lineno">  313</span><span class="preprocessor">#pragma warning restore CA2201 </span><span class="comment">// Do not raise reserved exception types</span></div>
-<div class="line"><span class="lineno">  314</span>                            }</div>
-<div class="line"><span class="lineno">  315</span>                        }</div>
-<div class="line"><span class="lineno">  316</span> </div>
-<div class="line"><span class="lineno">  317</span>                        <span class="comment">// HEY YOU</span></div>
-<div class="line"><span class="lineno">  318</span>                        <span class="comment">// BE WARNED THAT IF YOU DEBUGGED THE HOST PROCESS THAT JUST LAUNCHED THE DEBUGGER WILL HOLD A LOCK ON THE DIRECTORY</span></div>
-<div class="line"><span class="lineno">  319</span>                        <span class="comment">// THIS MEANS THE FIRST DIRECTORY.MOVE WILL THROW</span></div>
-<div class="line"><span class="lineno">  320</span>                        <span class="keywordflow">if</span> (Directory.Exists(updateDirectory))</div>
-<div class="line"><span class="lineno">  321</span>                        {</div>
-<div class="line"><span class="lineno">  322</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Applying server update...&quot;</span>);</div>
-<div class="line"><span class="lineno">  323</span>                            <span class="keywordflow">if</span> (isWindows)</div>
-<div class="line"><span class="lineno">  324</span>                            {</div>
-<div class="line"><span class="lineno">  325</span>                                <span class="comment">// windows dick sucking resource unlocking</span></div>
-<div class="line"><span class="lineno">  326</span>                                GC.Collect(Int32.MaxValue, GCCollectionMode.Default, <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  327</span>                                await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  328</span>                            }</div>
-<div class="line"><span class="lineno">  329</span> </div>
-<div class="line"><span class="lineno">  330</span>                            var tempPath = Path.Combine(assemblyStoragePath, Guid.NewGuid().ToString());</div>
-<div class="line"><span class="lineno">  331</span>                            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  332</span>                            {</div>
-<div class="line"><span class="lineno">  333</span>                                Directory.Move(defaultAssemblyPath, tempPath);</div>
-<div class="line"><span class="lineno">  334</span>                                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  335</span>                                {</div>
-<div class="line"><span class="lineno">  336</span>                                    Directory.Move(updateDirectory, defaultAssemblyPath);</div>
-<div class="line"><span class="lineno">  337</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Server update complete, deleting old server...&quot;</span>);</div>
-<div class="line"><span class="lineno">  338</span>                                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  339</span>                                    {</div>
-<div class="line"><span class="lineno">  340</span>                                        Directory.Delete(tempPath, <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  341</span>                                    }</div>
-<div class="line"><span class="lineno">  342</span>                                    <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> e)</div>
-<div class="line"><span class="lineno">  343</span>                                    {</div>
-<div class="line"><span class="lineno">  344</span>                                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(e, <span class="stringliteral">&quot;Error deleting old server at {tempPath}!&quot;</span>, tempPath);</div>
-<div class="line"><span class="lineno">  345</span>                                    }</div>
-<div class="line"><span class="lineno">  346</span>                                }</div>
-<div class="line"><span class="lineno">  347</span>                                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> e)</div>
-<div class="line"><span class="lineno">  348</span>                                {</div>
-<div class="line"><span class="lineno">  349</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogError(e, <span class="stringliteral">&quot;Error moving updated server directory, attempting revert!&quot;</span>);</div>
-<div class="line"><span class="lineno">  350</span>                                    Directory.Delete(defaultAssemblyPath, <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  351</span>                                    Directory.Move(tempPath, defaultAssemblyPath);</div>
-<div class="line"><span class="lineno">  352</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Revert successful!&quot;</span>);</div>
-<div class="line"><span class="lineno">  353</span>                                }</div>
-<div class="line"><span class="lineno">  354</span>                            }</div>
-<div class="line"><span class="lineno">  355</span>                            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> e)</div>
-<div class="line"><span class="lineno">  356</span>                            {</div>
-<div class="line"><span class="lineno">  357</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(e, <span class="stringliteral">&quot;Failed to move out active host assembly!&quot;</span>);</div>
-<div class="line"><span class="lineno">  358</span>                            }</div>
-<div class="line"><span class="lineno">  359</span>                        }</div>
-<div class="line"><span class="lineno">  360</span>                    }</div>
-<div class="line"><span class="lineno">  361</span>            }</div>
-<div class="line"><span class="lineno">  362</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><span class="lineno">  363</span>            {</div>
-<div class="line"><span class="lineno">  364</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Exiting due to cancellation...&quot;</span>);</div>
-<div class="line"><span class="lineno">  365</span>                <span class="keywordflow">if</span> (updateDirectory != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  366</span>                    <span class="keywordflow">if</span> (!Directory.Exists(updateDirectory))</div>
-<div class="line"><span class="lineno">  367</span>                        File.Delete(updateDirectory);</div>
-<div class="line"><span class="lineno">  368</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  369</span>                        Directory.Delete(updateDirectory, <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  370</span>            }</div>
-<div class="line"><span class="lineno">  371</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
-<div class="line"><span class="lineno">  372</span>            {</div>
-<div class="line"><span class="lineno">  373</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(ex, <span class="stringliteral">&quot;Host watchdog error!&quot;</span>);</div>
-<div class="line"><span class="lineno">  374</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  375</span>            }</div>
-<div class="line"><span class="lineno">  376</span>            <span class="keywordflow">finally</span></div>
-<div class="line"><span class="lineno">  377</span>            {</div>
-<div class="line"><span class="lineno">  378</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Host watchdog exiting...&quot;</span>);</div>
-<div class="line"><span class="lineno">  379</span>            }</div>
-<div class="line"><span class="lineno">  380</span> </div>
-<div class="line"><span class="lineno">  381</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  382</span>        }</div>
+<div class="line"><span class="lineno">  301</span>                                    var checkerTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a5f39816571e2d232a8f1113b351117a5">signalChecker</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#a7699275299c785a24f995bead67dcf5e">CheckSignals</a>(StartProcess, cts.Token);</div>
+<div class="line"><span class="lineno">  302</span>                                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  303</span>                                    {</div>
+<div class="line"><span class="lineno">  304</span>                                        await processTask!;</div>
+<div class="line"><span class="lineno">  305</span>                                    }</div>
+<div class="line"><span class="lineno">  306</span>                                    <span class="keywordflow">finally</span></div>
+<div class="line"><span class="lineno">  307</span>                                    {</div>
+<div class="line"><span class="lineno">  308</span>                                        cts.Cancel();</div>
+<div class="line"><span class="lineno">  309</span>                                        await checkerTask;</div>
+<div class="line"><span class="lineno">  310</span>                                    }</div>
+<div class="line"><span class="lineno">  311</span>                                }</div>
+<div class="line"><span class="lineno">  312</span>                            }</div>
+<div class="line"><span class="lineno">  313</span>                            <span class="keywordflow">catch</span> (InvalidOperationException ex)</div>
+<div class="line"><span class="lineno">  314</span>                            {</div>
+<div class="line"><span class="lineno">  315</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error triggering timeout!&quot;</span>);</div>
+<div class="line"><span class="lineno">  316</span>                            }</div>
+<div class="line"><span class="lineno">  317</span>                            <span class="keywordflow">finally</span></div>
+<div class="line"><span class="lineno">  318</span>                            {</div>
+<div class="line"><span class="lineno">  319</span>                                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  320</span>                                {</div>
+<div class="line"><span class="lineno">  321</span>                                    <span class="keywordflow">if</span> (!process.HasExited)</div>
+<div class="line"><span class="lineno">  322</span>                                    {</div>
+<div class="line"><span class="lineno">  323</span>                                        killedHostProcess = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  324</span>                                        process.Kill();</div>
+<div class="line"><span class="lineno">  325</span>                                        process.WaitForExit();</div>
+<div class="line"><span class="lineno">  326</span>                                    }</div>
+<div class="line"><span class="lineno">  327</span>                                }</div>
+<div class="line"><span class="lineno">  328</span>                                <span class="keywordflow">catch</span> (InvalidOperationException ex2)</div>
+<div class="line"><span class="lineno">  329</span>                                {</div>
+<div class="line"><span class="lineno">  330</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(ex2, <span class="stringliteral">&quot;Error killing host process!&quot;</span>);</div>
+<div class="line"><span class="lineno">  331</span>                                }</div>
+<div class="line"><span class="lineno">  332</span> </div>
+<div class="line"><span class="lineno">  333</span>                                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  334</span>                                {</div>
+<div class="line"><span class="lineno">  335</span>                                    <span class="keywordflow">if</span> (File.Exists(updateDirectory))</div>
+<div class="line"><span class="lineno">  336</span>                                        File.Delete(updateDirectory);</div>
+<div class="line"><span class="lineno">  337</span>                                }</div>
+<div class="line"><span class="lineno">  338</span>                                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex2)</div>
+<div class="line"><span class="lineno">  339</span>                                {</div>
+<div class="line"><span class="lineno">  340</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(ex2, <span class="stringliteral">&quot;Error deleting comms file!&quot;</span>);</div>
+<div class="line"><span class="lineno">  341</span>                                }</div>
+<div class="line"><span class="lineno">  342</span> </div>
+<div class="line"><span class="lineno">  343</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Host exited!&quot;</span>);</div>
+<div class="line"><span class="lineno">  344</span>                            }</div>
+<div class="line"><span class="lineno">  345</span> </div>
+<div class="line"><span class="lineno">  346</span>                            <span class="keywordflow">if</span> (runConfigure)</div>
+<div class="line"><span class="lineno">  347</span>                            {</div>
+<div class="line"><span class="lineno">  348</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Exiting due to configure intent...&quot;</span>);</div>
+<div class="line"><span class="lineno">  349</span>                                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  350</span>                            }</div>
+<div class="line"><span class="lineno">  351</span> </div>
+<div class="line"><span class="lineno">  352</span>                            <span class="keywordflow">switch</span> ((<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_common.html#a839ae2909dd0bfbfc4d06a404f9b4fde">HostExitCode</a>)process.ExitCode)</div>
+<div class="line"><span class="lineno">  353</span>                            {</div>
+<div class="line"><span class="lineno">  354</span>                                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_common.html#a839ae2909dd0bfbfc4d06a404f9b4fde">HostExitCode</a>.CompleteExecution:</div>
+<div class="line"><span class="lineno">  355</span>                                    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  356</span>                                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_common.html#a839ae2909dd0bfbfc4d06a404f9b4fde">HostExitCode</a>.RestartRequested:</div>
+<div class="line"><span class="lineno">  357</span>                                    <span class="keywordflow">if</span> (!cancellationToken.IsCancellationRequested)</div>
+<div class="line"><span class="lineno">  358</span>                                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Watchdog will restart host...&quot;</span>); <span class="comment">// just a restart</span></div>
+<div class="line"><span class="lineno">  359</span>                                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  360</span>                                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(<span class="stringliteral">&quot;Host requested restart but watchdog shutdown is in progress!&quot;</span>);</div>
+<div class="line"><span class="lineno">  361</span>                                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  362</span>                                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_common.html#a839ae2909dd0bfbfc4d06a404f9b4fde">HostExitCode</a>.Error:</div>
+<div class="line"><span class="lineno">  363</span>                                    <span class="comment">// update path is now an exception document</span></div>
+<div class="line"><span class="lineno">  364</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(<span class="stringliteral">&quot;Host crashed, propagating exception dump...&quot;</span>);</div>
+<div class="line"><span class="lineno">  365</span> </div>
+<div class="line"><span class="lineno">  366</span>                                    var data = <span class="stringliteral">&quot;(NOT PRESENT)&quot;</span>;</div>
+<div class="line"><span class="lineno">  367</span>                                    <span class="keywordflow">if</span> (File.Exists(updateDirectory))</div>
+<div class="line"><span class="lineno">  368</span>                                        data = File.ReadAllText(updateDirectory);</div>
+<div class="line"><span class="lineno">  369</span> </div>
+<div class="line"><span class="lineno">  370</span>                                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  371</span>                                    {</div>
+<div class="line"><span class="lineno">  372</span>                                        File.Delete(updateDirectory);</div>
+<div class="line"><span class="lineno">  373</span>                                    }</div>
+<div class="line"><span class="lineno">  374</span>                                    <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> e)</div>
+<div class="line"><span class="lineno">  375</span>                                    {</div>
+<div class="line"><span class="lineno">  376</span>                                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(e, <span class="stringliteral">&quot;Unable to delete exception dump file at {updateDirectory}!&quot;</span>, updateDirectory);</div>
+<div class="line"><span class="lineno">  377</span>                                    }</div>
+<div class="line"><span class="lineno">  378</span> </div>
+<div class="line"><span class="lineno">  379</span><span class="preprocessor">#pragma warning disable CA2201 </span><span class="comment">// Do not raise reserved exception types</span></div>
+<div class="line"><span class="lineno">  380</span>                                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_exception.html">Exception</a>(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Host propagated exception: {0}&quot;</span>, data));</div>
+<div class="line"><span class="lineno">  381</span><span class="preprocessor">#pragma warning restore CA2201 </span><span class="comment">// Do not raise reserved exception types</span></div>
+<div class="line"><span class="lineno">  382</span>                                <span class="keywordflow">default</span>:</div>
+<div class="line"><span class="lineno">  383</span>                                    <span class="keywordflow">if</span> (killedHostProcess)</div>
+<div class="line"><span class="lineno">  384</span>                                    {</div>
+<div class="line"><span class="lineno">  385</span>                                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(<span class="stringliteral">&quot;Watchdog forced to kill host process!&quot;</span>);</div>
+<div class="line"><span class="lineno">  386</span>                                        cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><span class="lineno">  387</span>                                    }</div>
+<div class="line"><span class="lineno">  388</span> </div>
+<div class="line"><span class="lineno">  389</span><span class="preprocessor">#pragma warning disable CA2201 </span><span class="comment">// Do not raise reserved exception types</span></div>
+<div class="line"><span class="lineno">  390</span>                                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_exception.html">Exception</a>(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Host crashed with exit code {0}!&quot;</span>, process.ExitCode));</div>
+<div class="line"><span class="lineno">  391</span><span class="preprocessor">#pragma warning restore CA2201 </span><span class="comment">// Do not raise reserved exception types</span></div>
+<div class="line"><span class="lineno">  392</span>                            }</div>
+<div class="line"><span class="lineno">  393</span>                        }</div>
+<div class="line"><span class="lineno">  394</span> </div>
+<div class="line"><span class="lineno">  395</span>                        <span class="comment">// HEY YOU</span></div>
+<div class="line"><span class="lineno">  396</span>                        <span class="comment">// BE WARNED THAT IF YOU DEBUGGED THE HOST PROCESS THAT JUST LAUNCHED THE DEBUGGER WILL HOLD A LOCK ON THE DIRECTORY</span></div>
+<div class="line"><span class="lineno">  397</span>                        <span class="comment">// THIS MEANS THE FIRST DIRECTORY.MOVE WILL THROW</span></div>
+<div class="line"><span class="lineno">  398</span>                        <span class="keywordflow">if</span> (Directory.Exists(updateDirectory))</div>
+<div class="line"><span class="lineno">  399</span>                        {</div>
+<div class="line"><span class="lineno">  400</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Applying server update...&quot;</span>);</div>
+<div class="line"><span class="lineno">  401</span>                            <span class="keywordflow">if</span> (isWindows)</div>
+<div class="line"><span class="lineno">  402</span>                            {</div>
+<div class="line"><span class="lineno">  403</span>                                <span class="comment">// windows dick sucking resource unlocking</span></div>
+<div class="line"><span class="lineno">  404</span>                                GC.Collect(Int32.MaxValue, GCCollectionMode.Default, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  405</span>                                await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  406</span>                            }</div>
+<div class="line"><span class="lineno">  407</span> </div>
+<div class="line"><span class="lineno">  408</span>                            var tempPath = Path.Combine(assemblyStoragePath, Guid.NewGuid().ToString());</div>
+<div class="line"><span class="lineno">  409</span>                            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  410</span>                            {</div>
+<div class="line"><span class="lineno">  411</span>                                Directory.Move(defaultAssemblyPath, tempPath);</div>
+<div class="line"><span class="lineno">  412</span>                                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  413</span>                                {</div>
+<div class="line"><span class="lineno">  414</span>                                    Directory.Move(updateDirectory, defaultAssemblyPath);</div>
+<div class="line"><span class="lineno">  415</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Server update complete, deleting old server...&quot;</span>);</div>
+<div class="line"><span class="lineno">  416</span>                                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  417</span>                                    {</div>
+<div class="line"><span class="lineno">  418</span>                                        Directory.Delete(tempPath, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  419</span>                                    }</div>
+<div class="line"><span class="lineno">  420</span>                                    <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> e)</div>
+<div class="line"><span class="lineno">  421</span>                                    {</div>
+<div class="line"><span class="lineno">  422</span>                                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(e, <span class="stringliteral">&quot;Error deleting old server at {tempPath}!&quot;</span>, tempPath);</div>
+<div class="line"><span class="lineno">  423</span>                                    }</div>
+<div class="line"><span class="lineno">  424</span>                                }</div>
+<div class="line"><span class="lineno">  425</span>                                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> e)</div>
+<div class="line"><span class="lineno">  426</span>                                {</div>
+<div class="line"><span class="lineno">  427</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogError(e, <span class="stringliteral">&quot;Error moving updated server directory, attempting revert!&quot;</span>);</div>
+<div class="line"><span class="lineno">  428</span>                                    Directory.Delete(defaultAssemblyPath, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  429</span>                                    Directory.Move(tempPath, defaultAssemblyPath);</div>
+<div class="line"><span class="lineno">  430</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Revert successful!&quot;</span>);</div>
+<div class="line"><span class="lineno">  431</span>                                }</div>
+<div class="line"><span class="lineno">  432</span>                            }</div>
+<div class="line"><span class="lineno">  433</span>                            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> e)</div>
+<div class="line"><span class="lineno">  434</span>                            {</div>
+<div class="line"><span class="lineno">  435</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogWarning(e, <span class="stringliteral">&quot;Failed to move out active host assembly!&quot;</span>);</div>
+<div class="line"><span class="lineno">  436</span>                            }</div>
+<div class="line"><span class="lineno">  437</span>                        }</div>
+<div class="line"><span class="lineno">  438</span>                    }</div>
+<div class="line"><span class="lineno">  439</span>                }</div>
+<div class="line"><span class="lineno">  440</span>            }</div>
+<div class="line"><span class="lineno">  441</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><span class="lineno">  442</span>            {</div>
+<div class="line"><span class="lineno">  443</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Exiting due to cancellation...&quot;</span>);</div>
+<div class="line"><span class="lineno">  444</span>                <span class="keywordflow">if</span> (updateDirectory != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  445</span>                    <span class="keywordflow">if</span> (!Directory.Exists(updateDirectory))</div>
+<div class="line"><span class="lineno">  446</span>                        File.Delete(updateDirectory);</div>
+<div class="line"><span class="lineno">  447</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  448</span>                        Directory.Delete(updateDirectory, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  449</span>            }</div>
+<div class="line"><span class="lineno">  450</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
+<div class="line"><span class="lineno">  451</span>            {</div>
+<div class="line"><span class="lineno">  452</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogCritical(ex, <span class="stringliteral">&quot;Host watchdog error!&quot;</span>);</div>
+<div class="line"><span class="lineno">  453</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  454</span>            }</div>
+<div class="line"><span class="lineno">  455</span>            <span class="keywordflow">finally</span></div>
+<div class="line"><span class="lineno">  456</span>            {</div>
+<div class="line"><span class="lineno">  457</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>.LogInformation(<span class="stringliteral">&quot;Host watchdog exiting...&quot;</span>);</div>
+<div class="line"><span class="lineno">  458</span>            }</div>
+<div class="line"><span class="lineno">  459</span> </div>
+<div class="line"><span class="lineno">  460</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  461</span>        }</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker_html_a7699275299c785a24f995bead67dcf5e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#a7699275299c785a24f995bead67dcf5e">Tgstation.Server.Host.Watchdog.ISignalChecker.CheckSignals</a></div><div class="ttdeci">ValueTask CheckSignals(Func&lt; string?,(int Pid, Task ChildLifetime)&gt; startChildAndGetPid, CancellationToken cancellationToken)</div><div class="ttdoc">Relays signals received to the host process.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_common_html_a839ae2909dd0bfbfc4d06a404f9b4fde"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_common.html#a839ae2909dd0bfbfc4d06a404f9b4fde">Tgstation.Server.Host.Common.HostExitCode</a></div><div class="ttdeci">HostExitCode</div><div class="ttdoc">Represents the exit code of the Host program.</div><div class="ttdef"><b>Definition</b> <a href="_host_exit_code_8cs_source.html#l00006">HostExitCode.cs:7</a></div></div>
 <div class="ttc" id="anamespace_tgstation_html"><div class="ttname"><a href="namespace_tgstation.html">Tgstation</a></div><div class="ttdef"><b>Definition</b> <a href="_installation_extensions_8cs_source.html#l00001">InstallationExtensions.cs:2</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#a7699275299c785a24f995bead67dcf5e">Tgstation.Server.Host.Watchdog.ISignalChecker.CheckSignals()</a>, <a class="el" href="_watchdog_8cs_source.html#l00038">Tgstation.Server.Host.Watchdog.Watchdog.initialHostVersionTcs</a>, <a class="el" href="_watchdog_8cs_source.html#l00033">Tgstation.Server.Host.Watchdog.Watchdog.logger</a>, and <a class="el" href="_watchdog_8cs_source.html#l00028">Tgstation.Server.Host.Watchdog.Watchdog.signalChecker</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#a7699275299c785a24f995bead67dcf5e">Tgstation.Server.Host.Watchdog.ISignalChecker.CheckSignals()</a>, <a class="el" href="_bootstrap_settings_8cs_source.html#l00016">Tgstation.Server.Host.Watchdog.BootstrapSettings.FileMajorVersion</a>, <a class="el" href="_bootstrap_settings_8cs_source.html#l00026">Tgstation.Server.Host.Watchdog.BootstrapSettings.FileVersion</a>, <a class="el" href="_watchdog_8cs_source.html#l00041">Tgstation.Server.Host.Watchdog.Watchdog.initialHostVersionTcs</a>, <a class="el" href="_watchdog_8cs_source.html#l00036">Tgstation.Server.Host.Watchdog.Watchdog.logger</a>, <a class="el" href="_bootstrap_settings_8cs_source.html#l00036">Tgstation.Server.Host.Watchdog.BootstrapSettings.ServerUpdatePackageUrlFormatter</a>, <a class="el" href="_watchdog_8cs_source.html#l00031">Tgstation.Server.Host.Watchdog.Watchdog.signalChecker</a>, <a class="el" href="_bootstrap_settings_8cs_source.html#l00031">Tgstation.Server.Host.Watchdog.BootstrapSettings.TgsVersion</a>, and <a class="el" href="_bootstrap_settings_8cs_source.html#l00021">Tgstation.Server.Host.Watchdog.BootstrapSettings.VersionSubstitutionToken</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -616,9 +692,9 @@ Here is the call graph for this function:</div>
 
 <p>Backing TaskCompletionSource&lt;TResult&gt; for InitialHostVersion. </p>
 
-<p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00038">38</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00041">41</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_watchdog_8cs_source.html#l00056">Tgstation.Server.Host.Watchdog.Watchdog.RunAsync()</a>, and <a class="el" href="_watchdog_8cs_source.html#l00045">Tgstation.Server.Host.Watchdog.Watchdog.Watchdog()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_watchdog_8cs_source.html#l00059">Tgstation.Server.Host.Watchdog.Watchdog.RunAsync()</a>, and <a class="el" href="_watchdog_8cs_source.html#l00048">Tgstation.Server.Host.Watchdog.Watchdog.Watchdog()</a>.</p>
 
 </div>
 </div>
@@ -644,9 +720,9 @@ Here is the call graph for this function:</div>
 
 <p>The ILogger for the Watchdog. </p>
 
-<p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00033">33</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00036">36</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_watchdog_8cs_source.html#l00056">Tgstation.Server.Host.Watchdog.Watchdog.RunAsync()</a>, and <a class="el" href="_watchdog_8cs_source.html#l00045">Tgstation.Server.Host.Watchdog.Watchdog.Watchdog()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_watchdog_8cs_source.html#l00059">Tgstation.Server.Host.Watchdog.Watchdog.RunAsync()</a>, and <a class="el" href="_watchdog_8cs_source.html#l00048">Tgstation.Server.Host.Watchdog.Watchdog.Watchdog()</a>.</p>
 
 </div>
 </div>
@@ -672,9 +748,9 @@ Here is the call graph for this function:</div>
 
 <p>The ISignalChecker for the Watchdog. </p>
 
-<p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00028">28</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00031">31</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_watchdog_8cs_source.html#l00056">Tgstation.Server.Host.Watchdog.Watchdog.RunAsync()</a>, and <a class="el" href="_watchdog_8cs_source.html#l00045">Tgstation.Server.Host.Watchdog.Watchdog.Watchdog()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_watchdog_8cs_source.html#l00059">Tgstation.Server.Host.Watchdog.Watchdog.RunAsync()</a>, and <a class="el" href="_watchdog_8cs_source.html#l00048">Tgstation.Server.Host.Watchdog.Watchdog.Watchdog()</a>.</p>
 
 </div>
 </div>
@@ -703,7 +779,7 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#af99ee4a5ff309fe30b7e5c3c68ca458b">Tgstation.Server.Host.Watchdog.IWatchdog</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00023">23</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00026">26</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
 
 </div>
 </div>

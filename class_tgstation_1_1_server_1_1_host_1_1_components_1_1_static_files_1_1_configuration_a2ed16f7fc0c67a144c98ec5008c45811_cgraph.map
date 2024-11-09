@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.StaticFiles.Configuration.ExecuteEventScripts" name="Tgstation.Server.Host.Components.StaticFiles.Configuration.ExecuteEventScripts">
-<area shape="rect" id="Node000001" title="Execute a set of given scriptNames ." alt="" coords="5,5,249,61"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="297,13,486,54"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="249,31,281,31,281,36,249,36"/>
+<area shape="rect" id="Node000001" title="Execute a set of given scriptNames ." alt="" coords="5,34,249,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="310,5,499,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="249,43,294,37,294,43,250,48"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="297,70,512,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="250,75,282,79,281,84,249,80"/>
 </map>

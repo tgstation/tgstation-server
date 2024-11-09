@@ -299,9 +299,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:aa70355ebb8437fd170e4f75e826f1ad7" id="r_aa70355ebb8437fd170e4f75e826f1ad7"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7">Initialize</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aa70355ebb8437fd170e4f75e826f1ad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the InstanceManager.  <br /></td></tr>
 <tr class="separator:aa70355ebb8437fd170e4f75e826f1ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e875f6dd7bf0458e6d54e0dcf7bfe44" id="r_a3e875f6dd7bf0458e6d54e0dcf7bfe44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44">CheckSystemCompatibility</a> ()</td></tr>
-<tr class="memdesc:a3e875f6dd7bf0458e6d54e0dcf7bfe44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check we have a valid system and configuration.  <br /></td></tr>
-<tr class="separator:a3e875f6dd7bf0458e6d54e0dcf7bfe44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a799f1f7613771ef7c9d9f5ff55fb8b47" id="r_a799f1f7613771ef7c9d9f5ff55fb8b47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a799f1f7613771ef7c9d9f5ff55fb8b47">PreflightChecks</a> ()</td></tr>
+<tr class="memdesc:a799f1f7613771ef7c9d9f5ff55fb8b47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check we have a valid system and configuration.  <br /></td></tr>
+<tr class="separator:a799f1f7613771ef7c9d9f5ff55fb8b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae64238c09aa5b3301d05109ceee5d09e" id="r_ae64238c09aa5b3301d05109ceee5d09e"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ae64238c09aa5b3301d05109ceee5d09e">InitializeSwarm</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ae64238c09aa5b3301d05109ceee5d09e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the connection to the TGS swarm.  <br /></td></tr>
 <tr class="separator:ae64238c09aa5b3301d05109ceee5d09e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -579,94 +579,6 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3e875f6dd7bf0458e6d54e0dcf7bfe44" name="a3e875f6dd7bf0458e6d54e0dcf7bfe44"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e875f6dd7bf0458e6d54e0dcf7bfe44">&#9670;&#160;</a></span>CheckSystemCompatibility()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check we have a valid system and configuration. </p>
-
-<p class="definition">Definition at line <a class="el" href="_instance_manager_8cs_source.html#l00676">676</a> of file <a class="el" href="_instance_manager_8cs_source.html">InstanceManager.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  677</span>        {</div>
-<div class="line"><span class="lineno">  678</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a968fedca8d4cc5ff16c77c0cbc782bda">logger</a>.LogDebug(<span class="stringliteral">&quot;Running as user: {username}&quot;</span>, Environment.UserName);</div>
-<div class="line"><span class="lineno">  679</span> </div>
-<div class="line"><span class="lineno">  680</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aaa2d14e2052d1ad81104ec0e5afa218e">generalConfiguration</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee">CheckCompatibility</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a968fedca8d4cc5ff16c77c0cbc782bda">logger</a>);</div>
-<div class="line"><span class="lineno">  681</span> </div>
-<div class="line"><span class="lineno">  682</span>            <span class="keyword">using</span> (var systemIdentity = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a914147c0498a9b2482efe956486646fb">systemIdentityFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e">GetCurrent</a>())</div>
-<div class="line"><span class="lineno">  683</span>            {</div>
-<div class="line"><span class="lineno">  684</span>                <span class="keywordflow">if</span> (!systemIdentity.CanCreateSymlinks)</div>
-<div class="line"><span class="lineno">  685</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;The user running {Constants.CanonicalPackageName} cannot create symlinks! Please try running as an administrative user!&quot;</span>);</div>
-<div class="line"><span class="lineno">  686</span> </div>
-<div class="line"><span class="lineno">  687</span>                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a26a35317eec77d8eed96595fc85f7c4c">platformIdentifier</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">IsWindows</a> &amp;&amp; systemIdentity.IsSuperUser &amp;&amp; !<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a4f795602aaedbd15ead5c52c3592483d">internalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#a1f50fda278b5586a9bc01c4f50f83f77">UsingDocker</a>)</div>
-<div class="line"><span class="lineno">  688</span>                {</div>
-<div class="line"><span class="lineno">  689</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a968fedca8d4cc5ff16c77c0cbc782bda">logger</a>.LogWarning(<span class="stringliteral">&quot;TGS is being run as the root account. This is not recommended.&quot;</span>);</div>
-<div class="line"><span class="lineno">  690</span>                }</div>
-<div class="line"><span class="lineno">  691</span>            }</div>
-<div class="line"><span class="lineno">  692</span> </div>
-<div class="line"><span class="lineno">  693</span>            <span class="comment">// This runs before the real socket is opened, ensures we don&#39;t perform reattaches unless we&#39;re fairly certain the bind won&#39;t fail</span></div>
-<div class="line"><span class="lineno">  694</span>            <span class="comment">// If it does fail, DD will be killed.</span></div>
-<div class="line"><span class="lineno">  695</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html">SocketExtensions</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de">BindTest</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a26a35317eec77d8eed96595fc85f7c4c">platformIdentifier</a>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad5b7e13dc94565671f962eb9fe62fd82">serverPortProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html#af5e86a67c2cc59e14c762532275f0a2c">HttpApiPort</a>, <span class="keyword">true</span>, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  696</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a0dff52d3ac52e100397122e63e1337ee"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee">Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility</a></div><div class="ttdeci">void CheckCompatibility(ILogger logger)</div><div class="ttdoc">Validates the current ConfigVersion's compatibility and provides migration instructions.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00168">GeneralConfiguration.cs:168</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration_html_a1f50fda278b5586a9bc01c4f50f83f77"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#a1f50fda278b5586a9bc01c4f50f83f77">Tgstation.Server.Host.Configuration.InternalConfiguration.UsingDocker</a></div><div class="ttdeci">bool UsingDocker</div><div class="ttdoc">If the server is running inside of a Docker container.</div><div class="ttdef"><b>Definition</b> <a href="_internal_configuration_8cs_source.html#l00031">InternalConfiguration.cs:31</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html">Tgstation.Server.Host.Extensions.SocketExtensions</a></div><div class="ttdoc">Extension methods for the Socket class.</div><div class="ttdef"><b>Definition</b> <a href="_socket_extensions_8cs_source.html#l00012">SocketExtensions.cs:13</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_html_ad87cda4241401c1a92afb27242c2e0de"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de">Tgstation.Server.Host.Extensions.SocketExtensions.BindTest</a></div><div class="ttdeci">static void BindTest(IPlatformIdentifier platformIdentifier, ushort port, bool includeIPv6, bool udp)</div><div class="ttdoc">Attempt to exclusively bind to a given port .</div><div class="ttdef"><b>Definition</b> <a href="_socket_extensions_8cs_source.html#l00021">SocketExtensions.cs:21</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider_html_af5e86a67c2cc59e14c762532275f0a2c"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html#af5e86a67c2cc59e14c762532275f0a2c">Tgstation.Server.Host.Core.IServerPortProvider.HttpApiPort</a></div><div class="ttdeci">ushort HttpApiPort</div><div class="ttdoc">The port the server listens on.</div><div class="ttdef"><b>Definition</b> <a href="_i_server_port_provider_8cs_source.html#l00011">IServerPortProvider.cs:11</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory_html_a6052301d3f6ed6eb477f74a081e2187e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e">Tgstation.Server.Host.Security.ISystemIdentityFactory.GetCurrent</a></div><div class="ttdeci">ISystemIdentity GetCurrent()</div><div class="ttdoc">Retrieves a ISystemIdentity representing the user executing tgstation-server.</div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier_html_aa9bf3bd1082b7178f58cb1f36839550e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a></div><div class="ttdeci">bool IsWindows</div><div class="ttdoc">If the current platform is a Windows platform.</div><div class="ttdef"><b>Definition</b> <a href="_i_platform_identifier_8cs_source.html#l00014">IPlatformIdentifier.cs:14</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="_socket_extensions_8cs_source.html#l00021">Tgstation.Server.Host.Extensions.SocketExtensions.BindTest()</a>, <a class="el" href="_general_configuration_8cs_source.html#l00168">Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00126">Tgstation.Server.Host.Components.InstanceManager.generalConfiguration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e">Tgstation.Server.Host.Security.ISystemIdentityFactory.GetCurrent()</a>, <a class="el" href="_i_server_port_provider_8cs_source.html#l00011">Tgstation.Server.Host.Core.IServerPortProvider.HttpApiPort</a>, <a class="el" href="_instance_manager_8cs_source.html#l00136">Tgstation.Server.Host.Components.InstanceManager.internalConfiguration</a>, <a class="el" href="_i_platform_identifier_8cs_source.html#l00014">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a>, <a class="el" href="_instance_manager_8cs_source.html#l00106">Tgstation.Server.Host.Components.InstanceManager.logger</a>, <a class="el" href="_instance_manager_8cs_source.html#l00101">Tgstation.Server.Host.Components.InstanceManager.platformIdentifier</a>, <a class="el" href="_instance_manager_8cs_source.html#l00086">Tgstation.Server.Host.Components.InstanceManager.serverPortProvider</a>, <a class="el" href="_instance_manager_8cs_source.html#l00076">Tgstation.Server.Host.Components.InstanceManager.systemIdentityFactory</a>, and <a class="el" href="_internal_configuration_8cs_source.html#l00031">Tgstation.Server.Host.Configuration.InternalConfiguration.UsingDocker</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00599">Tgstation.Server.Host.Components.InstanceManager.Initialize()</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a3e875f6dd7bf0458e6d54e0dcf7bfe44_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a3e875f6dd7bf0458e6d54e0dcf7bfe44_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a3e875f6dd7bf0458e6d54e0dcf7bfe44_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a3e875f6dd7bf0458e6d54e0dcf7bfe44_cgraph">
-<area shape="rect" title="Check we have a valid system and configuration." alt="" coords="5,78,285,119"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="352,13,569,54"/>
-<area shape="poly" title=" " alt="" coords="246,75,343,55,344,60,247,80"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="333,78,588,119"/>
-<area shape="poly" title=" " alt="" coords="285,96,317,96,317,101,285,101"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="350,144,571,184"/>
-<area shape="poly" title=" " alt="" coords="247,117,344,137,343,142,246,122"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="636,5,875,61"/>
-<area shape="poly" title=" " alt="" coords="569,31,621,31,621,36,569,36"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a3e875f6dd7bf0458e6d54e0dcf7bfe44_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a3e875f6dd7bf0458e6d54e0dcf7bfe44_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a3e875f6dd7bf0458e6d54e0dcf7bfe44_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a3e875f6dd7bf0458e6d54e0dcf7bfe44_icgraph">
-<area shape="rect" title="Check we have a valid system and configuration." alt="" coords="554,5,833,46"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="280,5,506,46"/>
-<area shape="poly" title=" " alt="" coords="539,28,507,28,507,23,539,23"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="5,5,232,46"/>
-<area shape="poly" title=" " alt="" coords="264,28,232,28,232,23,264,23"/>
-</map>
-</div>
-
-</div>
-</div>
 <a id="a72f7ed3869c2397df900e5745be0befc" name="a72f7ed3869c2397df900e5745be0befc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a72f7ed3869c2397df900e5745be0befc">&#9670;&#160;</a></span>DisposeAsync()</h2>
 
@@ -844,7 +756,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  603</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a968fedca8d4cc5ff16c77c0cbc782bda">logger</a>.LogInformation(<span class="stringliteral">&quot;{versionString}&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa335c25ccb65f93242424c79396a29dc">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#abd6db0f6e1ea9273baeacaa66ae81fa3">VersionString</a>);</div>
 <div class="line"><span class="lineno">  604</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad650e598cfd489a215ab0b6dfcc13910">console</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#abcec01af471cee5fce210b9fbcb2fa74">SetTitle</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa335c25ccb65f93242424c79396a29dc">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#abd6db0f6e1ea9273baeacaa66ae81fa3">VersionString</a>);</div>
 <div class="line"><span class="lineno">  605</span> </div>
-<div class="line"><span class="lineno">  606</span>                <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44">CheckSystemCompatibility</a>();</div>
+<div class="line"><span class="lineno">  606</span>                <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a799f1f7613771ef7c9d9f5ff55fb8b47">PreflightChecks</a>();</div>
 <div class="line"><span class="lineno">  607</span> </div>
 <div class="line"><span class="lineno">  608</span>                <span class="comment">// To let the web server startup immediately before we do any intense work</span></div>
 <div class="line"><span class="lineno">  609</span>                await Task.Yield();</div>
@@ -912,8 +824,8 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  671</span>        }</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server_html_af98e4f47f1aa632ead02ed80695ce836"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836">Tgstation.Server.Api.Models.Internal.SwarmServer.Identifier</a></div><div class="ttdeci">string? Identifier</div><div class="ttdoc">The server's identifier.</div><div class="ttdef"><b>Definition</b> <a href="_swarm_server_8cs_source.html#l00026">SwarmServer.cs:26</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_html_a3e875f6dd7bf0458e6d54e0dcf7bfe44"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44">Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility</a></div><div class="ttdeci">void CheckSystemCompatibility()</div><div class="ttdoc">Check we have a valid system and configuration.</div><div class="ttdef"><b>Definition</b> <a href="_instance_manager_8cs_source.html#l00676">InstanceManager.cs:676</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_html_a4dc85f42ec73bd6fd72085969a7c4cb5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a4dc85f42ec73bd6fd72085969a7c4cb5">Tgstation.Server.Host.Components.InstanceManager.OnlineInstance</a></div><div class="ttdeci">async ValueTask OnlineInstance(Models.Instance metadata, CancellationToken cancellationToken)</div><div class="ttdoc">Online an IInstance.A ValueTask representing the running operation.</div><div class="ttdef"><b>Definition</b> <a href="_instance_manager_8cs_source.html#l00404">InstanceManager.cs:404</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_html_a799f1f7613771ef7c9d9f5ff55fb8b47"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a799f1f7613771ef7c9d9f5ff55fb8b47">Tgstation.Server.Host.Components.InstanceManager.PreflightChecks</a></div><div class="ttdeci">void PreflightChecks()</div><div class="ttdoc">Check we have a valid system and configuration.</div><div class="ttdef"><b>Definition</b> <a href="_instance_manager_8cs_source.html#l00676">InstanceManager.cs:676</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_html_ae64238c09aa5b3301d05109ceee5d09e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ae64238c09aa5b3301d05109ceee5d09e">Tgstation.Server.Host.Components.InstanceManager.InitializeSwarm</a></div><div class="ttdeci">async ValueTask InitializeSwarm(CancellationToken cancellationToken)</div><div class="ttdoc">Initializes the connection to the TGS swarm.</div><div class="ttdef"><b>Definition</b> <a href="_instance_manager_8cs_source.html#l00703">InstanceManager.cs:703</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control_html_adb01d302ec13ad32897ae83be130afd0"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#adb01d302ec13ad32897ae83be130afd0">Tgstation.Server.Host.Core.IServerControl.Die</a></div><div class="ttdeci">ValueTask Die(Exception? exception)</div><div class="ttdoc">Kill the server with a fatal exception.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory_html_a1da664d7237dbec5a6cb9ce04b79ccc1"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext</a></div><div class="ttdeci">ValueTask UseContext(Func&lt; IDatabaseContext, ValueTask &gt; operation)</div><div class="ttdoc">Run an operation  in the scope of an IDatabaseContext.</div></div>
@@ -923,7 +835,7 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_abd6db0f6e1ea9273baeacaa66ae81fa3"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#abd6db0f6e1ea9273baeacaa66ae81fa3">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionString</a></div><div class="ttdeci">string VersionString</div><div class="ttdoc">A more verbose version of Version.</div><div class="ttdef"><b>Definition</b> <a href="_i_assembly_information_provider_8cs_source.html#l00030">IAssemblyInformationProvider.cs:30</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.ConfigurationRights.List</a></div><div class="ttdeci">@ List</div><div class="ttdoc">User may list files if the Models.Instance allows it.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html#a23de62961f3d9eb3db05d4db8c409bac">Tgstation.Server.Host.Jobs.IJobService.Activate()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00061">Tgstation.Server.Host.Components.InstanceManager.assemblyInformationProvider</a>, <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00096">Tgstation.Server.Host.Components.InstanceManager.console</a>, <a class="el" href="_instance_manager_8cs_source.html#l00056">Tgstation.Server.Host.Components.InstanceManager.databaseContextFactory</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#adb01d302ec13ad32897ae83be130afd0">Tgstation.Server.Host.Core.IServerControl.Die()</a>, <a class="el" href="_swarm_server_8cs_source.html#l00026">Tgstation.Server.Api.Models.Internal.SwarmServer.Identifier</a>, <a class="el" href="_instance_manager_8cs_source.html#l00703">Tgstation.Server.Host.Components.InstanceManager.InitializeSwarm()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00046">Tgstation.Server.Host.Components.InstanceManager.instanceFactory</a>, <a class="el" href="_i_database_context_8cs_source.html#l00026">Tgstation.Server.Host.Database.IDatabaseContext.Instances</a>, <a class="el" href="_instance_manager_8cs_source.html#l00066">Tgstation.Server.Host.Components.InstanceManager.jobService</a>, <a class="el" href="_instance_manager_8cs_source.html#l00106">Tgstation.Server.Host.Components.InstanceManager.logger</a>, <a class="el" href="_instance_manager_8cs_source.html#l00404">Tgstation.Server.Host.Components.InstanceManager.OnlineInstance()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00141">Tgstation.Server.Host.Components.InstanceManager.readyTcs</a>, <a class="el" href="_instance_manager_8cs_source.html#l00071">Tgstation.Server.Host.Components.InstanceManager.serverControl</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#abcec01af471cee5fce210b9fbcb2fa74">Tgstation.Server.Host.IO.IConsole.SetTitle()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00131">Tgstation.Server.Host.Components.InstanceManager.swarmConfiguration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext()</a>, and <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00030">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionString</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html#a23de62961f3d9eb3db05d4db8c409bac">Tgstation.Server.Host.Jobs.IJobService.Activate()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00061">Tgstation.Server.Host.Components.InstanceManager.assemblyInformationProvider</a>, <a class="el" href="_instance_manager_8cs_source.html#l00096">Tgstation.Server.Host.Components.InstanceManager.console</a>, <a class="el" href="_instance_manager_8cs_source.html#l00056">Tgstation.Server.Host.Components.InstanceManager.databaseContextFactory</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#adb01d302ec13ad32897ae83be130afd0">Tgstation.Server.Host.Core.IServerControl.Die()</a>, <a class="el" href="_swarm_server_8cs_source.html#l00026">Tgstation.Server.Api.Models.Internal.SwarmServer.Identifier</a>, <a class="el" href="_instance_manager_8cs_source.html#l00703">Tgstation.Server.Host.Components.InstanceManager.InitializeSwarm()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00046">Tgstation.Server.Host.Components.InstanceManager.instanceFactory</a>, <a class="el" href="_i_database_context_8cs_source.html#l00026">Tgstation.Server.Host.Database.IDatabaseContext.Instances</a>, <a class="el" href="_instance_manager_8cs_source.html#l00066">Tgstation.Server.Host.Components.InstanceManager.jobService</a>, <a class="el" href="_instance_manager_8cs_source.html#l00106">Tgstation.Server.Host.Components.InstanceManager.logger</a>, <a class="el" href="_instance_manager_8cs_source.html#l00404">Tgstation.Server.Host.Components.InstanceManager.OnlineInstance()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.PreflightChecks()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00141">Tgstation.Server.Host.Components.InstanceManager.readyTcs</a>, <a class="el" href="_instance_manager_8cs_source.html#l00071">Tgstation.Server.Host.Components.InstanceManager.serverControl</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#abcec01af471cee5fce210b9fbcb2fa74">Tgstation.Server.Host.IO.IConsole.SetTitle()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00131">Tgstation.Server.Host.Components.InstanceManager.swarmConfiguration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext()</a>, and <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00030">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionString</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00454">Tgstation.Server.Host.Components.InstanceManager.StartAsync()</a>.</p>
 <div class="dynheader">
@@ -931,37 +843,37 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_aa70355ebb8437fd170e4f75e826f1ad7_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_aa70355ebb8437fd170e4f75e826f1ad7_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_aa70355ebb8437fd170e4f75e826f1ad7_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_aa70355ebb8437fd170e4f75e826f1ad7_cgraph">
-<area shape="rect" title="Initializes the InstanceManager." alt="" coords="5,274,232,315"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html#a23de62961f3d9eb3db05d4db8c409bac" title="Activate the IJobManager." alt="" coords="329,78,510,119"/>
-<area shape="poly" title=" " alt="" coords="132,272,190,202,231,163,278,130,313,114,315,119,281,134,235,167,194,205,136,276"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44" title="Check we have a valid system and configuration." alt="" coords="280,144,559,184"/>
-<area shape="poly" title=" " alt="" coords="146,271,206,233,279,195,300,187,302,192,281,200,208,237,149,276"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#adb01d302ec13ad32897ae83be130afd0" title="Kill the server with a fatal exception." alt="" coords="329,209,510,250"/>
-<area shape="poly" title=" " alt="" coords="215,271,313,249,314,255,216,276"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ae64238c09aa5b3301d05109ceee5d09e" title="Initializes the connection to the TGS swarm." alt="" coords="306,274,533,315"/>
-<area shape="poly" title=" " alt="" coords="232,292,291,292,291,297,232,297"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a4dc85f42ec73bd6fd72085969a7c4cb5" title="Online an IInstance.A ValueTask representing the running operation." alt="" coords="306,340,533,380"/>
-<area shape="poly" title=" " alt="" coords="216,313,308,333,307,338,215,318"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#abcec01af471cee5fce210b9fbcb2fa74" title="Sets a newTitle &#160;console window." alt="" coords="336,405,503,446"/>
-<area shape="poly" title=" " alt="" coords="149,313,208,352,281,389,321,403,320,408,279,394,206,356,146,318"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="300,470,539,511"/>
-<area shape="poly" title=" " alt="" coords="136,313,194,384,235,422,281,455,294,461,292,466,278,459,231,426,190,387,132,317"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="627,13,843,54"/>
-<area shape="poly" title=" " alt="" coords="534,141,557,128,573,113,581,97,589,81,605,64,615,58,618,63,609,69,593,84,585,100,577,117,561,133,537,145"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="607,78,862,119"/>
-<area shape="poly" title=" " alt="" coords="520,140,618,120,619,125,521,146"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="625,144,845,184"/>
-<area shape="poly" title=" " alt="" coords="560,161,609,161,609,167,560,167"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="910,5,1150,61"/>
-<area shape="poly" title=" " alt="" coords="843,31,895,31,895,36,843,36"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce" title="Create a Task that completes after a given timeSpan ." alt="" coords="645,209,825,250"/>
-<area shape="poly" title=" " alt="" coords="520,271,629,248,630,253,521,276"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html#ad07d54ac504afa080dab8b4e37115439" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="627,274,842,315"/>
-<area shape="poly" title=" " alt="" coords="533,292,612,292,612,297,533,297"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#aeae385f33c15060d54ff78260f30024a" title="Create an IInstance." alt="" coords="622,340,848,380"/>
-<area shape="poly" title=" " alt="" coords="533,357,606,357,606,363,533,363"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="640,405,829,446"/>
-<area shape="poly" title=" " alt="" coords="521,378,625,400,624,405,520,383"/>
+<area shape="rect" title="Initializes the InstanceManager." alt="" coords="5,201,232,242"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html#a23de62961f3d9eb3db05d4db8c409bac" title="Activate the IJobManager." alt="" coords="308,5,490,46"/>
+<area shape="poly" title=" " alt="" coords="132,199,191,129,232,90,278,57,293,49,295,54,281,61,235,94,195,133,137,203"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#adb01d302ec13ad32897ae83be130afd0" title="Kill the server with a fatal exception." alt="" coords="309,71,489,111"/>
+<area shape="poly" title=" " alt="" coords="147,199,206,160,279,122,298,114,300,119,281,127,209,165,150,203"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ae64238c09aa5b3301d05109ceee5d09e" title="Initializes the connection to the TGS swarm." alt="" coords="286,136,512,177"/>
+<area shape="poly" title=" " alt="" coords="208,198,293,178,294,183,209,203"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a4dc85f42ec73bd6fd72085969a7c4cb5" title="Online an IInstance.A ValueTask representing the running operation." alt="" coords="286,201,512,242"/>
+<area shape="poly" title=" " alt="" coords="232,219,270,219,270,224,232,224"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a799f1f7613771ef7c9d9f5ff55fb8b47" title="Check we have a valid system and configuration." alt="" coords="286,267,512,307"/>
+<area shape="poly" title=" " alt="" coords="209,240,294,260,293,265,208,245"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#abcec01af471cee5fce210b9fbcb2fa74" title="Sets a newTitle &#160;console window." alt="" coords="315,332,483,373"/>
+<area shape="poly" title=" " alt="" coords="150,240,209,279,281,317,301,325,299,330,279,321,206,283,147,245"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="280,397,518,438"/>
+<area shape="poly" title=" " alt="" coords="137,241,195,310,235,349,281,382,293,388,290,393,278,387,232,353,191,314,132,244"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce" title="Create a Task that completes after a given timeSpan ." alt="" coords="604,5,784,46"/>
+<area shape="poly" title=" " alt="" coords="494,133,516,121,532,106,540,90,548,73,564,57,588,44,591,49,568,61,552,76,544,92,536,109,520,125,497,138"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html#ad07d54ac504afa080dab8b4e37115439" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="586,71,801,111"/>
+<area shape="poly" title=" " alt="" coords="493,133,583,113,585,118,494,138"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#aeae385f33c15060d54ff78260f30024a" title="Create an IInstance." alt="" coords="581,136,807,177"/>
+<area shape="poly" title=" " alt="" coords="493,198,583,178,585,183,494,203"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="599,201,788,242"/>
+<area shape="poly" title=" " alt="" coords="512,219,583,219,583,224,512,224"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="586,267,802,307"/>
+<area shape="poly" title=" " alt="" coords="512,284,570,284,570,290,512,290"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="566,332,821,373"/>
+<area shape="poly" title=" " alt="" coords="494,305,585,325,583,331,493,311"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="584,397,804,438"/>
+<area shape="poly" title=" " alt="" coords="497,306,520,318,536,334,544,351,552,367,568,382,577,388,574,392,564,386,548,370,540,354,532,338,516,322,494,310"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="869,259,1109,315"/>
+<area shape="poly" title=" " alt="" coords="802,284,854,284,854,290,802,290"/>
 </map>
 </div>
 <div class="dynheader">
@@ -1473,6 +1385,94 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a799f1f7613771ef7c9d9f5ff55fb8b47" name="a799f1f7613771ef7c9d9f5ff55fb8b47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a799f1f7613771ef7c9d9f5ff55fb8b47">&#9670;&#160;</a></span>PreflightChecks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tgstation.Server.Host.Components.InstanceManager.PreflightChecks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check we have a valid system and configuration. </p>
+
+<p class="definition">Definition at line <a class="el" href="_instance_manager_8cs_source.html#l00676">676</a> of file <a class="el" href="_instance_manager_8cs_source.html">InstanceManager.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  677</span>        {</div>
+<div class="line"><span class="lineno">  678</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a968fedca8d4cc5ff16c77c0cbc782bda">logger</a>.LogDebug(<span class="stringliteral">&quot;Running as user: {username}&quot;</span>, Environment.UserName);</div>
+<div class="line"><span class="lineno">  679</span> </div>
+<div class="line"><span class="lineno">  680</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aaa2d14e2052d1ad81104ec0e5afa218e">generalConfiguration</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee">CheckCompatibility</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a968fedca8d4cc5ff16c77c0cbc782bda">logger</a>);</div>
+<div class="line"><span class="lineno">  681</span> </div>
+<div class="line"><span class="lineno">  682</span>            <span class="keyword">using</span> (var systemIdentity = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a914147c0498a9b2482efe956486646fb">systemIdentityFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e">GetCurrent</a>())</div>
+<div class="line"><span class="lineno">  683</span>            {</div>
+<div class="line"><span class="lineno">  684</span>                <span class="keywordflow">if</span> (!systemIdentity.CanCreateSymlinks)</div>
+<div class="line"><span class="lineno">  685</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;The user running {Constants.CanonicalPackageName} cannot create symlinks! Please try running as an administrative user!&quot;</span>);</div>
+<div class="line"><span class="lineno">  686</span> </div>
+<div class="line"><span class="lineno">  687</span>                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a26a35317eec77d8eed96595fc85f7c4c">platformIdentifier</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">IsWindows</a> &amp;&amp; systemIdentity.IsSuperUser &amp;&amp; !<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a4f795602aaedbd15ead5c52c3592483d">internalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#a1f50fda278b5586a9bc01c4f50f83f77">UsingDocker</a>)</div>
+<div class="line"><span class="lineno">  688</span>                {</div>
+<div class="line"><span class="lineno">  689</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a968fedca8d4cc5ff16c77c0cbc782bda">logger</a>.LogWarning(<span class="stringliteral">&quot;TGS is being run as the root account. This is not recommended.&quot;</span>);</div>
+<div class="line"><span class="lineno">  690</span>                }</div>
+<div class="line"><span class="lineno">  691</span>            }</div>
+<div class="line"><span class="lineno">  692</span> </div>
+<div class="line"><span class="lineno">  693</span>            <span class="comment">// This runs before the real socket is opened, ensures we don&#39;t perform reattaches unless we&#39;re fairly certain the bind won&#39;t fail</span></div>
+<div class="line"><span class="lineno">  694</span>            <span class="comment">// If it does fail, DD will be killed.</span></div>
+<div class="line"><span class="lineno">  695</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html">SocketExtensions</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de">BindTest</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a26a35317eec77d8eed96595fc85f7c4c">platformIdentifier</a>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad5b7e13dc94565671f962eb9fe62fd82">serverPortProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html#af5e86a67c2cc59e14c762532275f0a2c">HttpApiPort</a>, <span class="keyword">true</span>, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  696</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a0dff52d3ac52e100397122e63e1337ee"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee">Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility</a></div><div class="ttdeci">void CheckCompatibility(ILogger logger)</div><div class="ttdoc">Validates the current ConfigVersion's compatibility and provides migration instructions.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00176">GeneralConfiguration.cs:176</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration_html_a1f50fda278b5586a9bc01c4f50f83f77"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#a1f50fda278b5586a9bc01c4f50f83f77">Tgstation.Server.Host.Configuration.InternalConfiguration.UsingDocker</a></div><div class="ttdeci">bool UsingDocker</div><div class="ttdoc">If the server is running inside of a Docker container.</div><div class="ttdef"><b>Definition</b> <a href="_internal_configuration_8cs_source.html#l00031">InternalConfiguration.cs:31</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html">Tgstation.Server.Host.Extensions.SocketExtensions</a></div><div class="ttdoc">Extension methods for the Socket class.</div><div class="ttdef"><b>Definition</b> <a href="_socket_extensions_8cs_source.html#l00012">SocketExtensions.cs:13</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_html_ad87cda4241401c1a92afb27242c2e0de"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de">Tgstation.Server.Host.Extensions.SocketExtensions.BindTest</a></div><div class="ttdeci">static void BindTest(IPlatformIdentifier platformIdentifier, ushort port, bool includeIPv6, bool udp)</div><div class="ttdoc">Attempt to exclusively bind to a given port .</div><div class="ttdef"><b>Definition</b> <a href="_socket_extensions_8cs_source.html#l00021">SocketExtensions.cs:21</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider_html_af5e86a67c2cc59e14c762532275f0a2c"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html#af5e86a67c2cc59e14c762532275f0a2c">Tgstation.Server.Host.Core.IServerPortProvider.HttpApiPort</a></div><div class="ttdeci">ushort HttpApiPort</div><div class="ttdoc">The port the server listens on.</div><div class="ttdef"><b>Definition</b> <a href="_i_server_port_provider_8cs_source.html#l00011">IServerPortProvider.cs:11</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory_html_a6052301d3f6ed6eb477f74a081e2187e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e">Tgstation.Server.Host.Security.ISystemIdentityFactory.GetCurrent</a></div><div class="ttdeci">ISystemIdentity GetCurrent()</div><div class="ttdoc">Retrieves a ISystemIdentity representing the user executing tgstation-server.</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier_html_aa9bf3bd1082b7178f58cb1f36839550e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a></div><div class="ttdeci">bool IsWindows</div><div class="ttdoc">If the current platform is a Windows platform.</div><div class="ttdef"><b>Definition</b> <a href="_i_platform_identifier_8cs_source.html#l00014">IPlatformIdentifier.cs:14</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_socket_extensions_8cs_source.html#l00021">Tgstation.Server.Host.Extensions.SocketExtensions.BindTest()</a>, <a class="el" href="_general_configuration_8cs_source.html#l00176">Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00126">Tgstation.Server.Host.Components.InstanceManager.generalConfiguration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e">Tgstation.Server.Host.Security.ISystemIdentityFactory.GetCurrent()</a>, <a class="el" href="_i_server_port_provider_8cs_source.html#l00011">Tgstation.Server.Host.Core.IServerPortProvider.HttpApiPort</a>, <a class="el" href="_instance_manager_8cs_source.html#l00136">Tgstation.Server.Host.Components.InstanceManager.internalConfiguration</a>, <a class="el" href="_i_platform_identifier_8cs_source.html#l00014">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a>, <a class="el" href="_instance_manager_8cs_source.html#l00106">Tgstation.Server.Host.Components.InstanceManager.logger</a>, <a class="el" href="_instance_manager_8cs_source.html#l00101">Tgstation.Server.Host.Components.InstanceManager.platformIdentifier</a>, <a class="el" href="_instance_manager_8cs_source.html#l00086">Tgstation.Server.Host.Components.InstanceManager.serverPortProvider</a>, <a class="el" href="_instance_manager_8cs_source.html#l00076">Tgstation.Server.Host.Components.InstanceManager.systemIdentityFactory</a>, and <a class="el" href="_internal_configuration_8cs_source.html#l00031">Tgstation.Server.Host.Configuration.InternalConfiguration.UsingDocker</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00599">Tgstation.Server.Host.Components.InstanceManager.Initialize()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a799f1f7613771ef7c9d9f5ff55fb8b47_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a799f1f7613771ef7c9d9f5ff55fb8b47_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a799f1f7613771ef7c9d9f5ff55fb8b47_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a799f1f7613771ef7c9d9f5ff55fb8b47_cgraph">
+<area shape="rect" title="Check we have a valid system and configuration." alt="" coords="5,78,232,119"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="299,13,516,54"/>
+<area shape="poly" title=" " alt="" coords="211,75,299,55,300,60,212,80"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="280,78,535,119"/>
+<area shape="poly" title=" " alt="" coords="232,96,264,96,264,101,232,101"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="297,144,518,184"/>
+<area shape="poly" title=" " alt="" coords="212,117,300,137,299,142,211,122"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="583,5,822,61"/>
+<area shape="poly" title=" " alt="" coords="516,31,568,31,568,36,516,36"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a799f1f7613771ef7c9d9f5ff55fb8b47_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a799f1f7613771ef7c9d9f5ff55fb8b47_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a799f1f7613771ef7c9d9f5ff55fb8b47_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a799f1f7613771ef7c9d9f5ff55fb8b47_icgraph">
+<area shape="rect" title="Check we have a valid system and configuration." alt="" coords="554,5,780,46"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="280,5,506,46"/>
+<area shape="poly" title=" " alt="" coords="538,28,507,28,507,23,538,23"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="5,5,232,46"/>
+<area shape="poly" title=" " alt="" coords="264,28,232,28,232,23,264,23"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="ad5ab3803515d1f7387db7d7bbdc2a7e0" name="ad5ab3803515d1f7387db7d7bbdc2a7e0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad5ab3803515d1f7387db7d7bbdc2a7e0">&#9670;&#160;</a></span>ProcessBridgeRequest()</h2>
 
@@ -1660,39 +1660,39 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_aa2bcc92fca46ad404800304ce4bdd781_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_aa2bcc92fca46ad404800304ce4bdd781_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_aa2bcc92fca46ad404800304ce4bdd781_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_aa2bcc92fca46ad404800304ce4bdd781_cgraph">
-<area shape="rect" title=" " alt="" coords="5,274,232,315"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="280,274,506,315"/>
-<area shape="poly" title=" " alt="" coords="232,292,264,292,264,297,232,297"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html#a23de62961f3d9eb3db05d4db8c409bac" title="Activate the IJobManager." alt="" coords="603,78,784,119"/>
-<area shape="poly" title=" " alt="" coords="406,272,464,202,506,163,553,130,587,114,589,119,555,134,509,167,468,205,410,276"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44" title="Check we have a valid system and configuration." alt="" coords="554,144,833,184"/>
-<area shape="poly" title=" " alt="" coords="421,271,480,233,553,195,574,187,576,192,555,200,483,237,424,276"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#adb01d302ec13ad32897ae83be130afd0" title="Kill the server with a fatal exception." alt="" coords="604,209,784,250"/>
-<area shape="poly" title=" " alt="" coords="489,271,587,249,589,255,490,276"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ae64238c09aa5b3301d05109ceee5d09e" title="Initializes the connection to the TGS swarm." alt="" coords="581,274,807,315"/>
-<area shape="poly" title=" " alt="" coords="506,292,565,292,565,297,506,297"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a4dc85f42ec73bd6fd72085969a7c4cb5" title="Online an IInstance.A ValueTask representing the running operation." alt="" coords="581,340,807,380"/>
-<area shape="poly" title=" " alt="" coords="490,313,583,333,582,338,489,318"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#abcec01af471cee5fce210b9fbcb2fa74" title="Sets a newTitle &#160;console window." alt="" coords="610,405,777,446"/>
-<area shape="poly" title=" " alt="" coords="424,313,483,352,555,389,596,403,594,408,553,394,480,356,421,318"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="575,470,813,511"/>
-<area shape="poly" title=" " alt="" coords="410,313,468,384,509,422,555,455,568,461,566,466,553,459,506,426,464,387,406,317"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="901,13,1117,54"/>
-<area shape="poly" title=" " alt="" coords="809,141,832,128,847,113,855,97,863,81,880,64,889,58,892,63,883,69,868,84,860,100,851,117,835,133,811,145"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="881,78,1137,119"/>
-<area shape="poly" title=" " alt="" coords="795,140,892,120,893,125,796,146"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="899,144,1119,184"/>
-<area shape="poly" title=" " alt="" coords="834,161,883,161,883,167,834,167"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="1185,5,1424,61"/>
-<area shape="poly" title=" " alt="" coords="1118,31,1169,31,1169,36,1118,36"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce" title="Create a Task that completes after a given timeSpan ." alt="" coords="919,209,1099,250"/>
-<area shape="poly" title=" " alt="" coords="795,271,903,248,904,253,796,276"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html#ad07d54ac504afa080dab8b4e37115439" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="901,274,1117,315"/>
-<area shape="poly" title=" " alt="" coords="807,292,886,292,886,297,807,297"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#aeae385f33c15060d54ff78260f30024a" title="Create an IInstance." alt="" coords="896,340,1122,380"/>
-<area shape="poly" title=" " alt="" coords="807,357,880,357,880,363,807,363"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="914,405,1104,446"/>
-<area shape="poly" title=" " alt="" coords="796,378,900,400,899,405,795,383"/>
+<area shape="rect" title=" " alt="" coords="5,201,232,242"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="280,201,506,242"/>
+<area shape="poly" title=" " alt="" coords="232,219,264,219,264,224,232,224"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html#a23de62961f3d9eb3db05d4db8c409bac" title="Activate the IJobManager." alt="" coords="583,5,764,46"/>
+<area shape="poly" title=" " alt="" coords="407,199,465,129,506,90,553,57,567,49,569,54,555,61,510,94,469,133,411,203"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#adb01d302ec13ad32897ae83be130afd0" title="Kill the server with a fatal exception." alt="" coords="583,71,763,111"/>
+<area shape="poly" title=" " alt="" coords="421,199,481,160,553,122,572,114,574,119,555,127,483,165,424,203"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ae64238c09aa5b3301d05109ceee5d09e" title="Initializes the connection to the TGS swarm." alt="" coords="560,136,786,177"/>
+<area shape="poly" title=" " alt="" coords="483,198,567,178,569,183,484,203"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a4dc85f42ec73bd6fd72085969a7c4cb5" title="Online an IInstance.A ValueTask representing the running operation." alt="" coords="560,201,786,242"/>
+<area shape="poly" title=" " alt="" coords="506,219,545,219,545,224,506,224"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a799f1f7613771ef7c9d9f5ff55fb8b47" title="Check we have a valid system and configuration." alt="" coords="560,267,786,307"/>
+<area shape="poly" title=" " alt="" coords="484,240,569,260,567,265,483,245"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#abcec01af471cee5fce210b9fbcb2fa74" title="Sets a newTitle &#160;console window." alt="" coords="590,332,757,373"/>
+<area shape="poly" title=" " alt="" coords="424,240,483,279,555,317,576,325,574,330,553,321,481,283,421,245"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="554,397,792,438"/>
+<area shape="poly" title=" " alt="" coords="411,241,469,310,510,349,555,382,567,388,564,393,553,387,506,353,465,314,407,244"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce" title="Create a Task that completes after a given timeSpan ." alt="" coords="878,5,1058,46"/>
+<area shape="poly" title=" " alt="" coords="768,133,791,121,806,106,814,90,822,73,839,57,862,44,865,49,842,61,827,76,819,92,810,109,794,125,771,138"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html#ad07d54ac504afa080dab8b4e37115439" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="860,71,1076,111"/>
+<area shape="poly" title=" " alt="" coords="768,133,858,113,859,118,769,138"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#aeae385f33c15060d54ff78260f30024a" title="Create an IInstance." alt="" coords="855,136,1081,177"/>
+<area shape="poly" title=" " alt="" coords="768,198,858,178,859,183,769,203"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="873,201,1063,242"/>
+<area shape="poly" title=" " alt="" coords="787,219,858,219,858,224,787,224"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="860,267,1076,307"/>
+<area shape="poly" title=" " alt="" coords="787,284,844,284,844,290,787,290"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="840,332,1096,373"/>
+<area shape="poly" title=" " alt="" coords="769,305,859,325,858,331,768,311"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="858,397,1078,438"/>
+<area shape="poly" title=" " alt="" coords="771,306,794,318,810,334,819,351,827,367,842,382,851,388,848,392,839,386,822,370,814,354,806,338,791,322,768,310"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="1144,259,1383,315"/>
+<area shape="poly" title=" " alt="" coords="1077,284,1128,284,1128,290,1077,290"/>
 </map>
 </div>
 
@@ -1982,7 +1982,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_instance_manager_8cs_source.html#l00126">126</a> of file <a class="el" href="_instance_manager_8cs_source.html">InstanceManager.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00187">Tgstation.Server.Host.Components.InstanceManager.InstanceManager()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00187">Tgstation.Server.Host.Components.InstanceManager.InstanceManager()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.PreflightChecks()</a>.</p>
 
 </div>
 </div>
@@ -2094,7 +2094,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_instance_manager_8cs_source.html#l00136">136</a> of file <a class="el" href="_instance_manager_8cs_source.html">InstanceManager.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00187">Tgstation.Server.Host.Components.InstanceManager.InstanceManager()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00187">Tgstation.Server.Host.Components.InstanceManager.InstanceManager()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.PreflightChecks()</a>.</p>
 
 </div>
 </div>
@@ -2178,7 +2178,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_instance_manager_8cs_source.html#l00106">106</a> of file <a class="el" href="_instance_manager_8cs_source.html">InstanceManager.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00233">Tgstation.Server.Host.Components.InstanceManager.DisposeAsync()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00599">Tgstation.Server.Host.Components.InstanceManager.Initialize()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00187">Tgstation.Server.Host.Components.InstanceManager.InstanceManager()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00267">Tgstation.Server.Host.Components.InstanceManager.MoveInstance()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00338">Tgstation.Server.Host.Components.InstanceManager.OfflineInstance()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00404">Tgstation.Server.Host.Components.InstanceManager.OnlineInstance()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00517">Tgstation.Server.Host.Components.InstanceManager.ProcessBridgeRequest()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00562">Tgstation.Server.Host.Components.InstanceManager.RegisterHandler()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00462">Tgstation.Server.Host.Components.InstanceManager.StopAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00233">Tgstation.Server.Host.Components.InstanceManager.DisposeAsync()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00599">Tgstation.Server.Host.Components.InstanceManager.Initialize()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00187">Tgstation.Server.Host.Components.InstanceManager.InstanceManager()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00267">Tgstation.Server.Host.Components.InstanceManager.MoveInstance()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00338">Tgstation.Server.Host.Components.InstanceManager.OfflineInstance()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00404">Tgstation.Server.Host.Components.InstanceManager.OnlineInstance()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.PreflightChecks()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00517">Tgstation.Server.Host.Components.InstanceManager.ProcessBridgeRequest()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00562">Tgstation.Server.Host.Components.InstanceManager.RegisterHandler()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00462">Tgstation.Server.Host.Components.InstanceManager.StopAsync()</a>.</p>
 
 </div>
 </div>
@@ -2234,7 +2234,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_instance_manager_8cs_source.html#l00101">101</a> of file <a class="el" href="_instance_manager_8cs_source.html">InstanceManager.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00187">Tgstation.Server.Host.Components.InstanceManager.InstanceManager()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00187">Tgstation.Server.Host.Components.InstanceManager.InstanceManager()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.PreflightChecks()</a>.</p>
 
 </div>
 </div>
@@ -2318,7 +2318,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_instance_manager_8cs_source.html#l00086">86</a> of file <a class="el" href="_instance_manager_8cs_source.html">InstanceManager.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00187">Tgstation.Server.Host.Components.InstanceManager.InstanceManager()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00187">Tgstation.Server.Host.Components.InstanceManager.InstanceManager()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.PreflightChecks()</a>.</p>
 
 </div>
 </div>
@@ -2486,7 +2486,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_instance_manager_8cs_source.html#l00076">76</a> of file <a class="el" href="_instance_manager_8cs_source.html">InstanceManager.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00187">Tgstation.Server.Host.Components.InstanceManager.InstanceManager()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00187">Tgstation.Server.Host.Components.InstanceManager.InstanceManager()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.PreflightChecks()</a>.</p>
 
 </div>
 </div>

@@ -10,7 +10,7 @@
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1825,343,1743,351,1742,346,1824,337"/>
 <area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_fetch_options_extensions.html#aee0e1a7712aa907faf658940322b8478" title="Hydrate a given set of fetchOptions ." alt="" coords="1538,403,1754,444"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1896,356,1793,393,1748,405,1746,400,1792,388,1894,351"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#ac06e9789785574f8d657a29fdd183795" title="Installs the files for a given BYOND version ." alt="" coords="1515,469,1777,509"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#aaff0a1cd6da08efa4de8455503d48b72" title="Installs the files for a given BYOND version ." alt="" coords="1515,469,1777,509"/>
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1928,360,1868,411,1832,436,1793,458,1762,471,1760,466,1791,453,1829,432,1865,407,1924,356"/>
 <area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#aa7ae3c2d8155484289c5a820cc91e44a" title="Requires the current HEAD to be a tracked reference. Merges the reference to what it tracks on the or..." alt="" coords="1533,534,1759,575"/>
 <area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1940,362,1915,400,1882,444,1841,487,1794,523,1761,539,1758,534,1791,519,1837,483,1878,440,1911,397,1936,359"/>

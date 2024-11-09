@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.System.PosixProcessFeatures.GetPotentialGCorePaths" name="Tgstation.Server.Host.System.PosixProcessFeatures.GetPotentialGCorePaths">
+<area shape="rect" id="Node000001" title="Gets potential paths to the gcore executable." alt="" coords="281,5,508,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a41eeadd8f3fa1380151384ec76881d7f" title="Create a dump file for a given process .A ValueTask representing the running operation." alt="" coords="5,13,233,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="265,36,233,36,233,31,265,31"/>
+</map>
