@@ -47,8 +47,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  start-gate:
+    name: CI Start Gate
+    runs-on: ubuntu-latest
+    if: (!contains(github.event.head_commit.message, '[TGSRelease]'))
+    steps:
+      - name: GitHub Requires at Least One Step for a Job
+        run: exit 0
+
   build-releasenotes:
     name: Build ReleaseNotes for Other Jobs
+    needs: start-gate
     runs-on: ubuntu-latest
     steps:
       - name: Install Native Dependencies
@@ -83,6 +92,7 @@ jobs:
 
   code-scanning:
     name: Run CodeQL
+    needs: start-gate
     runs-on: ubuntu-latest
     permissions:
       security-events: write
@@ -134,6 +144,7 @@ jobs:
 
   dmapi-build:
     name: Build DMAPI
+    needs: start-gate
     strategy:
       fail-fast: false
       matrix:
@@ -222,6 +233,7 @@ jobs:
 
   opendream-build:
     name: Build DMAPI (OpenDream)
+    needs: start-gate
     strategy:
       fail-fast: false
       matrix:
@@ -278,6 +290,7 @@ jobs:
   efcore-version-match:
     name: Check Nuget Versions Match Tools
     runs-on: ubuntu-latest
+    needs: start-gate
     steps:
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -412,6 +425,7 @@ jobs:
   docker-build:
     name: Build Docker Image
     runs-on: ubuntu-latest
+    needs: start-gate
     env:
       TGS_TELEMETRY_KEY_FILE: tgs_telemetry_key.txt
     steps:
@@ -438,6 +452,7 @@ jobs:
 
   linux-unit-tests:
     name: Linux Tests
+    needs: start-gate
     strategy:
       fail-fast: false
       matrix:
@@ -510,6 +525,7 @@ jobs:
 
   windows-unit-tests:
     name: Windows Tests
+    needs: start-gate
     strategy:
       fail-fast: false
       matrix:
@@ -1428,6 +1444,7 @@ jobs:
   build-msi:
     name: Build Windows Installer .exe
     runs-on: windows-latest
+    needs: start-gate
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     steps:
@@ -1715,6 +1732,12 @@ jobs:
           body_path: release_notes.md
           commitish: ${{ github.event.head_commit.id }}
 
+      - name: Generate Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./swagger/tgs_api.json
+          github-token: ${{ steps.app-token-generation.outputs.token }}
+
       - name: Upload OpenApi Spec
         uses: actions/upload-release-asset@v1
         env:
@@ -1795,6 +1818,12 @@ jobs:
           commitish: ${{ github.event.head_commit.id }}
           prerelease: ${{ env.TGS_GRAPHQL_PRERELEASE }}
 
+      - name: Generate Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./schema/tgs_api.graphql
+          github-token: ${{ steps.app-token-generation.outputs.token }}
+
       - name: Upload GraphQL Schema
         uses: actions/upload-release-asset@v1
         env:
@@ -1866,6 +1895,12 @@ jobs:
           release_name: tgstation-server DMAPI v${{ env.TGS_DM_VERSION }}
           body_path: release_notes.md
           commitish: ${{ github.event.head_commit.id }}
+
+      - name: Generate Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./DMAPI.zip
+          github-token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Upload DMAPI Artifact
         uses: actions/upload-release-asset@v1
@@ -2132,7 +2167,19 @@ jobs:
           body_path: release_notes.md
           commitish: ${{ github.event.head_commit.id }}
 
-      - name: Upload Server Console Artifact
+      - name: Generate Server Console Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./ServerConsole.zip
+          github-token: ${{ steps.app-token-generation.outputs.token }}
+
+      - name: Upload Server Console Zip Artifact to Action
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-console-release
+          path: ./ServerConsole.zip
+
+      - name: Upload Server Console Artifact to Release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
@@ -2141,6 +2188,12 @@ jobs:
           asset_path: ./ServerConsole.zip
           asset_name: ServerConsole.zip
           asset_content_type: application/zip
+
+      - name: Generate Server Service Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./ServerService.zip
+          github-token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Upload Server Service Artifact
         uses: actions/upload-release-asset@v1
@@ -2152,6 +2205,12 @@ jobs:
           asset_name: ServerService.zip
           asset_content_type: application/zip
 
+      - name: Generate DMAPI Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./DMAPI.zip
+          github-token: ${{ steps.app-token-generation.outputs.token }}
+
       - name: Upload DMAPI Artifact
         uses: actions/upload-release-asset@v1
         env:
@@ -2161,6 +2220,12 @@ jobs:
           asset_path: ./DMAPI.zip
           asset_name: DMAPI.zip
           asset_content_type: application/zip
+
+      - name: Generate REST API Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./swagger/tgs_api.json
+          github-token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Upload REST API Artifact
         uses: actions/upload-release-asset@v1
@@ -2172,6 +2237,12 @@ jobs:
           asset_name: swagger.json
           asset_content_type: application/json
 
+      - name: Generate GraphQL API Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./schema/tgs-api.graphql
+          github-token: ${{ steps.app-token-generation.outputs.token }}
+
       - name: Upload GraphQL API Artifact
         uses: actions/upload-release-asset@v1
         env:
@@ -2181,6 +2252,12 @@ jobs:
           asset_path: ./schema/tgs-api.graphql
           asset_name: tgs-api.graphql
           asset_content_type: text/plain
+
+      - name: Generate Server Update Package Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./ServerUpdatePackage.zip
+          github-token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Upload Server Update Package Artifact
         uses: actions/upload-release-asset@v1
@@ -2192,7 +2269,13 @@ jobs:
           asset_name: ServerUpdatePackage.zip
           asset_content_type: application/zip
 
-      - name: Upload Debian Pacakaging Artifact
+      - name: Generate Debian Packaging Artifact Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./packaging-debian/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
+          github-token: ${{ steps.app-token-generation.outputs.token }}
+
+      - name: Upload Debian Packaging Artifact
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
@@ -2201,6 +2284,12 @@ jobs:
           asset_path: ./packaging-debian/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
           asset_name: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
           asset_content_type: application/x-tar
+
+      - name: Generate MariaDB .msi Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/mariadb.msi
+          github-token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Upload MariaDB .msi
         uses: actions/upload-release-asset@v1
@@ -2212,6 +2301,12 @@ jobs:
           asset_name: mariadb-${{ env.MARIADB_VERSION }}-winx64.msi
           asset_content_type: application/octet-stream
 
+      - name: Generate Installer .exe Attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./build/package/winget/tgstation-server-installer.exe
+          github-token: ${{ steps.app-token-generation.outputs.token }}
+
       - name: Upload Installer .exe
         uses: actions/upload-release-asset@v1
         env:
@@ -2221,6 +2316,58 @@ jobs:
           asset_path: ./build/package/winget/tgstation-server-installer.exe
           asset_name: tgstation-server-installer.exe
           asset_content_type: application/octet-stream
+
+  update-nix:
+    name: Update Nix SHA
+    needs: deploy-tgs
+    runs-on: ubuntu-latest
+    if: (!(cancelled() || failure())) && needs.deploy-tgs.result == 'success'
+    steps:
+      - name: Install Native Packages # Name checked in rerunFlakyTests.js
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xmlstarlet
+
+      - name: Setup Nix
+        uses: cachix/install-nix-action@v27
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Parse TGS version
+        run: echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
+
+      - name: Retrieve ServerConsole.zip Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: server-console-release
+          path: server-console-release
+
+      - name: Regenerate Nix Hash
+        run: |
+          nix hash path ./server-console-release > build/package/nix/ServerConsole.sha256
+          cat build/package/nix/ServerConsole.sha256
+
+      - name: Commit
+        run: |
+          git config --global push.default simple
+          git config user.name "tgstation-server-ci[bot]"
+          git config user.email "161980869+tgstation-server-ci[bot]@users.noreply.github.com"
+          git add build/package/nix/ServerConsole.sha256
+          git commit -m "Update nix SHA256 for [TGSRelease] v${{ env.TGS_VERSION }}"
+
+      - name: Re-tag
+        run: |
+          git tag -d tgstation-server-v${{ env.TGS_VERSION }}
+          git tag tgstation-server-v${{ env.TGS_VERSION }}
+
+      - name: Push Commit
+        run: git push
+
+      - name: Force Push Tags
+        run: git push -f --tags
 
   changelog-regen:
     name: Regenerate Changelog

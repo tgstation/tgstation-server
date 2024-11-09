@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -62,6 +64,39 @@ namespace Tgstation.Server.Host.System
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
+		/// <summary>
+		/// Gets potential paths to the gcore executable.
+		/// </summary>
+		/// <returns>The potential paths to the gcore executable.</returns>
+		static IEnumerable<string> GetPotentialGCorePaths()
+		{
+			var enviromentPath = Environment.GetEnvironmentVariable("PATH");
+			IEnumerable<string> enumerator;
+			if (enviromentPath == null)
+				enumerator = Enumerable.Empty<string>();
+			else
+			{
+				var paths = enviromentPath.Split(';');
+				enumerator = paths
+					.Select(x => x.Split(':'))
+					.SelectMany(x => x);
+			}
+
+			var exeName = "gcore";
+
+			enumerator = enumerator
+				.Concat(new List<string>(2)
+				{
+					"/usr/bin",
+					"/usr/share/bin",
+					"/bin",
+				});
+
+			enumerator = enumerator.Select(x => Path.Combine(x, exeName));
+
+			return enumerator;
+		}
+
 		/// <inheritdoc />
 		public void ResumeProcess(global::System.Diagnostics.Process process)
 		{
@@ -88,8 +123,15 @@ namespace Tgstation.Server.Host.System
 			ArgumentNullException.ThrowIfNull(process);
 			ArgumentNullException.ThrowIfNull(outputFile);
 
-			const string GCorePath = "/usr/bin/gcore";
-			if (!await ioManager.FileExists(GCorePath, cancellationToken))
+			string? gcorePath = null;
+			foreach (var path in GetPotentialGCorePaths())
+				if (await ioManager.FileExists(path, cancellationToken))
+				{
+					gcorePath = path;
+					break;
+				}
+
+			if (gcorePath == null)
 				throw new JobException(ErrorCode.MissingGCore);
 
 			int pid;
@@ -108,7 +150,7 @@ namespace Tgstation.Server.Host.System
 			string? output;
 			int exitCode;
 			await using (var gcoreProc = await lazyLoadedProcessExecutor.Value.LaunchProcess(
-				GCorePath,
+				gcorePath,
 				Environment.CurrentDirectory,
 				$"{(!minidump ? "-a " : String.Empty)}-o {outputFile} {process.Id}",
 				cancellationToken,

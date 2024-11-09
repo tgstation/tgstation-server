@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <!-- DO NOT ADD THE -windows SUFFIX, It makes the service require the desktop runtime instead of the ASP NET Core Hosting Bundle -->
     <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
+    <!-- Important that this is core and not host watchdog. Bootstrapping depends on it -->
     <Version>$(TgsCoreVersion)</Version>
     <!-- DO NOT ENABLE THIS, It makes the service require the desktop runtime instead of the ASP NET Core Hosting Bundle -->
     <UseWindowsForms>false</UseWindowsForms>

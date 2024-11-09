@@ -208,7 +208,23 @@ namespace Tgstation.Server.Host
 
 			async Task RunUpdate()
 			{
-				if (await updateExecutor.ExecuteUpdate(updatePath, criticalCancellationToken, criticalCancellationToken))
+				var updateExecutedSuccessfully = false;
+				try
+				{
+					updateExecutedSuccessfully = await updateExecutor.ExecuteUpdate(updatePath, criticalCancellationToken, criticalCancellationToken);
+				}
+				catch (OperationCanceledException ex)
+				{
+					logger.LogDebug(ex, "Update cancelled!");
+					UpdateInProgress = false;
+				}
+				catch (Exception ex)
+				{
+					logger.LogError(ex, "Update errored!");
+					UpdateInProgress = false;
+				}
+
+				if (updateExecutedSuccessfully)
 				{
 					logger.LogTrace("Update complete!");
 					await RestartImpl(newVersion, null, true, true);

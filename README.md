@@ -137,6 +137,31 @@ sudo dpkg --add-architecture i386 \
 
 The service will execute as the newly created user: `tgstation-server`. You should, ideally, store your instances somewhere under `/home/tgstation-server`.
 
+##### Nix Flake
+
+TGS supports being setup on Nix starting with version 6.12.0. Add the [flake](./build/package/nix/flake.nix) to your own system by adding the following code to your flake inputs.
+```nix
+    tgstation-server = {
+      url = "github:tgstation/tgstation-server/tgstation-server-v${version}?dir=build/package/nix";
+    };
+```
+
+Where `version` is the latest major TGS version you wish to use.
+
+Note that changing this version does not change the core version of TGS used after the first launch. Instead, have TGS self-update via its API.
+
+For maximum game server uptime, do NOT modify this version unless you are doing a major TGS version update in which case it is a requirement.
+
+Configure TGS by setting up its service definition:
+```nix
+  services.tgstation-server = {
+    enable = true;
+    production-appsettings = (builtins.readFile ./path/to/your/appsettings.Production.yml);
+  };
+```
+
+Refer to [tgstation-server.nix](./build/package/nix/tgstation-server.nix) for the full list of available configuration options.
+
 ##### Manual Setup
 
 The following dependencies are required.
@@ -242,6 +267,8 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 - `General:GitHubAccessToken`: Specify a classic GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
 
 - `General:SkipAddingByondFirewallException`: Set to `true` if you have Windows firewall disabled
+
+- `General:AdditionalEventScriptsDirectories`: An array of directories that are considered to contain EventScripts alongside instance directories. Working directory for executed scripts will remain the instance EventScripts directory.
 
 - `Session:HighPriorityLiveDreamDaemon`: Boolean controlling if live DreamDaemon instances get set to above normal priority processes.
 

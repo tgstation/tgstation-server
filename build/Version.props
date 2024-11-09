@@ -12,7 +12,7 @@
     <TgsClientVersion>19.3.0</TgsClientVersion>
     <TgsDmapiVersion>7.3.0</TgsDmapiVersion>
     <TgsInteropVersion>5.10.0</TgsInteropVersion>
-    <TgsHostWatchdogVersion>1.5.0</TgsHostWatchdogVersion>
+    <TgsHostWatchdogVersion>1.6.0</TgsHostWatchdogVersion>
     <TgsSwarmProtocolVersion>8.0.0</TgsSwarmProtocolVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>
     <TgsMigratorVersion>2.0.0</TgsMigratorVersion>
