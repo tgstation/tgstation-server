@@ -642,11 +642,10 @@ namespace Tgstation.Server.Host.Components.Repository
 				await deleteTask;
 			}
 
-			IRepository newRepo;
 			try
 			{
-				using var cloneReporter = progressReporter.CreateSection("Cloning New Repository", 0.8);
-				newRepo = await instance.RepositoryManager.CloneRepository(
+				using var cloneReporter = progressReporter.CreateSection("Cloning New Repository", 0.9);
+				using var newRepo = await instance.RepositoryManager.CloneRepository(
 					origin,
 					oldReference,
 					currentModel.AccessUser,
@@ -670,19 +669,6 @@ namespace Tgstation.Server.Host.Components.Repository
 				});
 
 				throw;
-			}
-
-			using (newRepo)
-			using (var checkoutReporter = progressReporter.CreateSection("Checking out previous Detached Commit", 0.1))
-			{
-				await newRepo.CheckoutObject(
-					oldSha,
-					currentModel.AccessUser,
-					currentModel.AccessToken,
-					false,
-					oldReference != null,
-					checkoutReporter,
-					cancellationToken);
 			}
 		}
 	}
