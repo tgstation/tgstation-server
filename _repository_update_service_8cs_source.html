@@ -676,51 +676,37 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>                await deleteTask;</div>
 <div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>            }</div>
 <div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span> </div>
-<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>            IRepository newRepo;</div>
-<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>            <span class="keywordflow">try</span></div>
-<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>            {</div>
-<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>                <span class="keyword">using </span>var cloneReporter = progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970">CreateSection</a>(<span class="stringliteral">&quot;Cloning New Repository&quot;</span>, 0.8);</div>
-<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>                newRepo = await instance.RepositoryManager.CloneRepository(</div>
-<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>                    origin,</div>
-<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>                    oldReference,</div>
-<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>                    currentModel.AccessUser,</div>
-<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>                    currentModel.AccessToken,</div>
-<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>                    cloneReporter,</div>
-<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>                    <span class="keyword">true</span>, <span class="comment">// TODO: Make configurable maybe...</span></div>
-<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>                    cancellationToken)</div>
-<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>                    ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<span class="stringliteral">&quot;A race condition occurred while recloning the repository. Somehow, it was fully cloned instantly after being deleted!&quot;</span>); <span class="comment">// I&#39;ll take lines of code that should never be hit for $10k</span></div>
-<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>            }</div>
-<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>)</div>
-<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>            {</div>
-<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>                logger.LogWarning(<span class="stringliteral">&quot;Reclone failed, clearing credentials!&quot;</span>);</div>
-<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span> </div>
-<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>                <span class="comment">// need to clear credentials here</span></div>
-<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>                await databaseContextFactory.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a0804dcd2b607f4e8c5b46c8c05f04926">UseContextTaskReturn</a>(context =&gt;</div>
-<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>                {</div>
-<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>                    context.RepositorySettings.Attach(currentModel);</div>
-<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>                    currentModel.AccessUser = <span class="keyword">null</span>;</div>
-<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>                    currentModel.AccessToken = <span class="keyword">null</span>;</div>
-<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>                    <span class="keywordflow">return</span> context.Save(CancellationToken.None); <span class="comment">// DCT: Must always run</span></div>
-<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>                });</div>
-<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span> </div>
-<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>            }</div>
-<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span> </div>
-<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>            <span class="keyword">using</span> (newRepo)</div>
-<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>            <span class="keyword">using</span> (var checkoutReporter = progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970">CreateSection</a>(<span class="stringliteral">&quot;Checking out previous Detached Commit&quot;</span>, 0.1))</div>
-<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>            {</div>
-<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>                await newRepo.CheckoutObject(</div>
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>                    oldSha,</div>
-<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>                    currentModel.AccessUser,</div>
-<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>                    currentModel.AccessToken,</div>
-<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>                    <span class="keyword">false</span>,</div>
-<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>                    oldReference != <span class="keyword">null</span>,</div>
-<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>                    checkoutReporter,</div>
-<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>                    cancellationToken);</div>
-<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>            }</div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>        }</div>
-<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>    }</div>
-<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>}</div>
+<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>            <span class="keywordflow">try</span></div>
+<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>            {</div>
+<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>                <span class="keyword">using </span>var cloneReporter = progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970">CreateSection</a>(<span class="stringliteral">&quot;Cloning New Repository&quot;</span>, 0.9);</div>
+<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>                <span class="keyword">using </span>var newRepo = await instance.RepositoryManager.CloneRepository(</div>
+<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>                    origin,</div>
+<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>                    oldReference,</div>
+<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>                    currentModel.AccessUser,</div>
+<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>                    currentModel.AccessToken,</div>
+<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>                    cloneReporter,</div>
+<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>                    <span class="keyword">true</span>, <span class="comment">// TODO: Make configurable maybe...</span></div>
+<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>                    cancellationToken)</div>
+<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>                    ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<span class="stringliteral">&quot;A race condition occurred while recloning the repository. Somehow, it was fully cloned instantly after being deleted!&quot;</span>); <span class="comment">// I&#39;ll take lines of code that should never be hit for $10k</span></div>
+<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>            }</div>
+<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>)</div>
+<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>            {</div>
+<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>                logger.LogWarning(<span class="stringliteral">&quot;Reclone failed, clearing credentials!&quot;</span>);</div>
+<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span> </div>
+<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>                <span class="comment">// need to clear credentials here</span></div>
+<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>                await databaseContextFactory.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a0804dcd2b607f4e8c5b46c8c05f04926">UseContextTaskReturn</a>(context =&gt;</div>
+<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>                {</div>
+<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>                    context.RepositorySettings.Attach(currentModel);</div>
+<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>                    currentModel.AccessUser = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>                    currentModel.AccessToken = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>                    <span class="keywordflow">return</span> context.Save(CancellationToken.None); <span class="comment">// DCT: Must always run</span></div>
+<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>                });</div>
+<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span> </div>
+<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>            }</div>
+<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>        }</div>
+<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>    }</div>
+<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>}</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_i_queryable_html"><div class="ttname"><a href="class_i_queryable.html">IQueryable</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id_html_ae31e478e1d338b37a14565df6fd58570"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Tgstation.Server.Api.Models.EntityId.Id</a></div><div class="ttdeci">virtual ? long Id</div><div class="ttdoc">The ID of the entity.</div><div class="ttdef"><b>Definition</b> <a href="_entity_id_8cs_source.html#l00013">EntityId.cs:13</a></div></div>
