@@ -51,7 +51,7 @@ let
     src = ./.;
 
     buildPhase = ''
-      curl -L https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v${version}/ServerConsole.zip -o ServerConsole.zip
+      curl -L https://file.house/b2eyKOJZ7ptxwqm8O24-9A==.zip -o ServerConsole.zip
     '';
 
     installPhase = ''
@@ -61,7 +61,7 @@ let
 
     outputHashAlgo = "sha256";
     outputHashMode = "recursive";
-    outputHash = (builtins.readFile ./ServerConsole.sha256);
+    outputHash = "sha256-mHlRHPSeZxyJPqN3KUmc0ftYNZgh81LauIu+fCSKPUI=";
   };
   rpath = lib.makeLibraryPath [ pkgs.stdenv_32bit.cc.cc.lib ];
 in
