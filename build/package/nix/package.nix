@@ -98,11 +98,11 @@ stdenv.mkDerivation {
     mkdir -p $out/bin
     unzip "${fixedOutput}/ServerConsole.zip" -d $out/bin
     rm -rf $out/bin/lib
-    makeWrapper ${pkgs.dotnetCorePackages.aspnetcore_8_0}/dotnet $out/bin/tgstation-server --suffix PATH : ${
+    makeWrapper ${pkgs.dotnetCorePackages.sdk_8_0}/dotnet $out/bin/tgstation-server --suffix PATH : ${
       lib.makeBinPath (
         with pkgs;
         [
-          dotnetCorePackages.aspnetcore_8_0
+          dotnetCorePackages.sdk_8_0
           gdb
         ]
       )
