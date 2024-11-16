@@ -144,7 +144,7 @@
     <!-- Usage: Rich logger builder -->
     <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
     <!-- Usage: Async logging plugin -->
-    <PackageReference Include="Serilog.Sinks.Async" Version="2.0.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
     <!-- Usage: Console logging plugin -->
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     <!-- Usage: Elasticsearch logging plugin -->
