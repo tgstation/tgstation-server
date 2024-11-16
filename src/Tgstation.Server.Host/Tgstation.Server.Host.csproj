@@ -98,7 +98,7 @@
     <!-- Usage: .env file parsing -->
     <PackageReference Include="DotEnv.Core" Version="3.1.0" />
     <!-- Usage: Text formatter for Elasticsearch logging plugin -->
-    <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.12.1" />
+    <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.12.2" />
     <!-- Usage: GitLab interop -->
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <!-- Usage: GraphQL API Engine -->
