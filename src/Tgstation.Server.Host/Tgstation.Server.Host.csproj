@@ -92,7 +92,7 @@
     <!-- Usage: 503'ing request pipeline until server is finished initializing -->
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.2.0" />
     <!-- Usage: IRC interop -->
-    <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.7" />
+    <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="1.0.0" />
     <!-- Usage: .env file parsing -->
     <PackageReference Include="DotEnv.Core" Version="3.1.0" />
     <!-- Usage: Text formatter for Elasticsearch logging plugin -->
