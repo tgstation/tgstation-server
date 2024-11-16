@@ -586,13 +586,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 				// these can also happen
 
 				if (!(new PlatformIdentifier().IsWindows
-					&& (job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: E_ACCESSDENIED: Access is denied.")
-					|| job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: E_HANDLE: The handle is invalid.")
-					|| job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: 3489660936: Unknown error (0xd0000008)")
-					|| job.ExceptionDetails.Contains("System.InvalidOperationException: No process is associated with this object.")
-					|| job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: 2147942424: The program issued a command but the command length is incorrect.")
-					|| job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: 2147942699: Only part of a ReadProcessMemory or WriteProcessMemory request was completed.")
-					|| job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: 3489660964: Unknown error (0xd0000024)"))))
+					&& (job.ExceptionDetails.Contains("Access is denied.")
+					|| job.ExceptionDetails.Contains("The handle is invalid.")
+					|| job.ExceptionDetails.Contains("Unknown error")
+					|| job.ExceptionDetails.Contains("No process is associated with this object.")
+					|| job.ExceptionDetails.Contains("The program issued a command but the command length is incorrect.")
+					|| job.ExceptionDetails.Contains("Only part of a ReadProcessMemory or WriteProcessMemory request was completed.")
+					|| job.ExceptionDetails.Contains("Unknown error"))))
 					break;
 
 				var restartJob = await instanceClient.DreamDaemon.Restart(cancellationToken);

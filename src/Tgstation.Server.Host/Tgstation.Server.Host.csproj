@@ -87,8 +87,6 @@
   </Target>
 
   <ItemGroup>
-    <!-- Usage: Concise throw statements for native Win32 errors -->
-    <PackageReference Include="BetterWin32Errors" Version="0.2.0" />
     <!-- Usage: Interop with BYOND's /world/Topic -->
     <PackageReference Include="Byond.TopicSender" Version="8.0.1" />
     <!-- Usage: 503'ing request pipeline until server is finished initializing -->
