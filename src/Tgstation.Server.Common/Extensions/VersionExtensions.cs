@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NETSTANDARD2_0_OR_GREATER
+using System;
 
 namespace Tgstation.Server.Common.Extensions
 {
@@ -24,3 +25,4 @@ namespace Tgstation.Server.Common.Extensions
 		}
 	}
 }
+#endif

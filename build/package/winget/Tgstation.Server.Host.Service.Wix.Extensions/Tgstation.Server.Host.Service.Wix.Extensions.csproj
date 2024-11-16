@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Tgstation.Server.Common\Tgstation.Server.Common.csproj" />
     <ProjectReference Include="..\..\..\..\src\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj">
       <Private>True</Private>
     </ProjectReference>

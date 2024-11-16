@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NETSTANDARD2_0_OR_GREATER
+using System;
 using System.Net.Http.Headers;
 
 namespace Tgstation.Server.Common.Http
@@ -39,3 +40,4 @@ namespace Tgstation.Server.Common.Http
 		}
 	}
 }
+#endif

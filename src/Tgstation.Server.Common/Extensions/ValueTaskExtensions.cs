@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NETSTANDARD2_0_OR_GREATER
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -155,3 +156,4 @@ namespace Tgstation.Server.Common.Extensions
 		public static ValueTask WhenAll(params ValueTask[] tasks) => WhenAll((IReadOnlyList<ValueTask>)tasks);
 	}
 }
+#endif

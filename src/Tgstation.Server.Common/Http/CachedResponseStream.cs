@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NETSTANDARD2_0_OR_GREATER
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -105,3 +106,4 @@ namespace Tgstation.Server.Common.Http
 		}
 	}
 }
+#endif
