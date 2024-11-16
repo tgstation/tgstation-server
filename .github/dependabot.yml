@@ -17,6 +17,7 @@ updates:
         patterns:
           - "Swashbuckle.*"
     open-pull-requests-limit: 100
+
   - package-ecosystem: github-actions
     directory: /
     target-branch: master
