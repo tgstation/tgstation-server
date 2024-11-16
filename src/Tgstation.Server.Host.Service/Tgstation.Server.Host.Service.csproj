@@ -29,7 +29,7 @@
     <!-- Usage: OS identification -->
     <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
     <!-- Usage: Windows Service Manager intergration -->
-    <PackageReference Include="System.ServiceProcess.ServiceController" Version="8.0.1" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
