@@ -1,5 +1,4 @@
-﻿#if NETSTANDARD2_0_OR_GREATER
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -50,4 +49,3 @@ namespace Tgstation.Server.Common.Http
 			=> httpClient.SendAsync(request, completionOption, cancellationToken);
 	}
 }
-#endif

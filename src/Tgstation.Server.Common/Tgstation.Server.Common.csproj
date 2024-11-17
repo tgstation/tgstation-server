@@ -2,7 +2,7 @@
   <Import Project="../../build/NugetCommon.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>$(TgsNugetNetFramework);net2.0</TargetFrameworks>
+    <TargetFrameworks>$(TgsNugetNetFramework)</TargetFrameworks>
     <Version>$(TgsCommonLibraryVersion)</Version>
     <Nullable>enable</Nullable>
     <Description>Common functions for tgstation-server.</Description>
@@ -10,7 +10,7 @@
     <PackageReleaseNotes>$(TGS_NUGET_RELEASE_NOTES_COMMON)</PackageReleaseNotes>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'net2.0'">
+  <ItemGroup>
     <!-- Usage: ValueTask netstandard backport  -->
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.0" />
   </ItemGroup>
@@ -24,11 +24,4 @@
     <Message Text="Cleaning icons..." Importance="high" />
     <Delete Files="../../artifacts/tgs.ico;../../artifacts/tgs.png" />
   </Target>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net2.022'">
-    <Compile Remove="Extensions\*.cs" />
-    <Compile Remove="Http\*.cs" />
-    <None Include="Extensions\*.cs" />
-    <None Include="Http\*.cs" />
-  </ItemGroup>
 </Project>

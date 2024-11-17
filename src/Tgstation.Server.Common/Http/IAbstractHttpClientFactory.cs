@@ -1,5 +1,4 @@
-﻿#if NETSTANDARD2_0_OR_GREATER
-namespace Tgstation.Server.Common.Http
+﻿namespace Tgstation.Server.Common.Http
 {
 	/// <summary>
 	/// Creates <see cref="IHttpClient"/>s.
@@ -13,4 +12,3 @@ namespace Tgstation.Server.Common.Http
 		IHttpClient CreateClient();
 	}
 }
-#endif

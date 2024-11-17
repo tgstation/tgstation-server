@@ -4,7 +4,6 @@
 	using System.IO;
 	using System.ServiceProcess;
 
-	using Tgstation.Server.Common;
 	using Tgstation.Server.Host.Common;
 
 	using WixToolset.Dtf.WindowsInstaller;
@@ -14,6 +13,12 @@
 	/// </summary>
 	public static class InstallationExtensions
 	{
+		/// <summary>
+		/// Package name
+		/// </summary>
+		/// <remarks>As much as I'd like to use Tgstation.Server.Common.Constants.CanonicalPackageName here, attempting to reference it makes VS go crazy with fake errors.</remarks>
+		const string CanonicalPackageName = "tgstation-server";
+
 		/// <summary>
 		/// Attempts to detach stop the existing tgstation-server service if it exists.
 		/// </summary>
@@ -30,18 +35,18 @@
 				session.Log("Begin DetachStopTgsServiceIfRunning");
 				ServiceController serviceController = null;
 
-				session.Log($"Searching for {Constants.CanonicalPackageName} service...");
+				session.Log($"Searching for {CanonicalPackageName} service...");
 				try
 				{
 					foreach (var controller in ServiceController.GetServices())
-						if (controller.ServiceName == Constants.CanonicalPackageName)
+						if (controller.ServiceName == CanonicalPackageName)
 							serviceController = controller;
 						else
 							controller.Dispose();
 
 					if (serviceController == null || serviceController.Status != ServiceControllerStatus.Running)
 					{
-						session.Log($"{Constants.CanonicalPackageName} service not found. Continuing.");
+						session.Log($"{CanonicalPackageName} service not found. Continuing.");
 						return ActionResult.Success;
 					}
 
@@ -49,16 +54,16 @@
 						PipeCommands.CommandDetachingShutdown)
 						.Value;
 
-					session.Log($"{Constants.CanonicalPackageName} service found. Sending command \"{PipeCommands.CommandDetachingShutdown}\" ({commandId})...");
+					session.Log($"{CanonicalPackageName} service found. Sending command \"{PipeCommands.CommandDetachingShutdown}\" ({commandId})...");
 
 					serviceController.ExecuteCommand(commandId);
 
-					session.Log($"Command sent. Waiting for {Constants.CanonicalPackageName} service to stop...");
+					session.Log($"Command sent. Waiting for {CanonicalPackageName} service to stop...");
 
 					serviceController.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMinutes(1));
 
 					var stopped = serviceController.Status == ServiceControllerStatus.Stopped;
-					session.Log($"{Constants.CanonicalPackageName} stopped {(stopped ? String.Empty : "un")}successfully.");
+					session.Log($"{CanonicalPackageName} stopped {(stopped ? String.Empty : "un")}successfully.");
 
 					return stopped
 						? ActionResult.Success
@@ -92,7 +97,7 @@
 				session.Log("Begin ApplyProductionAppsettingsIfNonExistant");
 				var programDataDirectory = Path.Combine(
 					Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-					Constants.CanonicalPackageName);
+					CanonicalPackageName);
 				var initialAppSettingsPath = Path.Combine(programDataDirectory, "appsettings.Initial.yml");
 				var productionAppSettingsPath = Path.Combine(programDataDirectory, "appsettings.Production.yml");
 
