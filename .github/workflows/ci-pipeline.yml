@@ -1538,6 +1538,10 @@ jobs:
           if (Test-Path -Path $log -PathType Leaf) {
             Get-Content $log
           }
+          $potentialMsiLog = [System.IO.Path]::GetFullPath("install_000_tgstation_server.msi.log")
+          if (Test-Path -Path $potentialMsiLog -PathType Leaf) {
+            Get-Content $potentialMsiLog
+          }
           $installCode = $procMain.ExitCode
           if($installCode -ne 0) {
             Write-Host "ERROR INSTALLER EXIT CODE $installCode"
