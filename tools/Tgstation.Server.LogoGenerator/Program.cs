@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 
 using Svg;
@@ -61,7 +62,9 @@ static Icon IconFromImage(Image img)
 	return new Icon(ms);
 }
 
-using var icon = IconFromImage(whiteBgBitmap);
+using var icon = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+	? IconFromImage(whiteBgBitmap)
+	: Icon.FromHandle(whiteBgBitmap.GetHicon());
 
 Directory.CreateDirectory("artifacts");
 await using var iconStream = new FileStream("artifacts/tgs.ico", FileMode.Create);
