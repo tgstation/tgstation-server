@@ -267,6 +267,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Shared.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Client.GraphQL", "src\Tgstation.Server.Client.GraphQL\Tgstation.Server.Client.GraphQL.csproj", "{8BF95E2D-FD27-470C-82B7-C21AC01BFBD7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nix", "nix", "{5130526C-A553-493B-A9B0-3DB452949886}"
+	ProjectSection(SolutionItems) = preProject
+		build\package\nix\flake.nix = build\package\nix\flake.nix
+		build\package\nix\package.nix = build\package\nix\package.nix
+		build\package\nix\ServerConsole.sha256 = build\package\nix\ServerConsole.sha256
+		build\package\nix\tgstation-server.nix = build\package\nix\tgstation-server.nix
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -586,6 +594,7 @@ Global
 		{69944039-65C2-40E1-9D86-0608FA0C2D70} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
 		{7F7FCFDF-271D-45C2-830C-BCCB19C57077} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
 		{EAB84FD0-5514-4254-B188-7D90ACB7284D} = {316141B0-CD21-4769-A013-D53DA9B9EC09}
+		{5130526C-A553-493B-A9B0-3DB452949886} = {2648A85F-61AE-428E-95E1-66D06C7A3768}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}
