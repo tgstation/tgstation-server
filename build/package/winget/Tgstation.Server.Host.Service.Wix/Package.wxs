@@ -48,6 +48,10 @@
         </DirectorySearch>
       </DirectorySearch>
     </Property>
+    
+    <ComponentGroup Id="ServiceHostWatchdogComponentGroup">
+      <Files Include="../../../../artifacts/Tgstation.Server.Host.Service/**" Directory="ApplicationDirectory" />
+    </ComponentGroup>
 
     <StandardDirectory Id="ProgramFiles6432Folder">
       <Directory Id="ApplicationDirectory" Name="!(bind.Property.ProductName)">

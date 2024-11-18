@@ -1276,7 +1276,7 @@ jobs:
           path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlite
 
       - name: Upload Coverage to CodeCov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           directory: ./code_coverage
           fail_ci_if_error: true
@@ -1537,6 +1537,10 @@ jobs:
           $procMain = Start-Process -FilePath $file "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
           if (Test-Path -Path $log -PathType Leaf) {
             Get-Content $log
+          }
+          $potentialMsiLog = [System.IO.Path]::GetFullPath("install_000_tgstation_server.msi.log")
+          if (Test-Path -Path $potentialMsiLog -PathType Leaf) {
+            Get-Content $potentialMsiLog
           }
           $installCode = $procMain.ExitCode
           if($installCode -ne 0) {

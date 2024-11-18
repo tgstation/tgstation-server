@@ -190,10 +190,9 @@ namespace Tgstation.Server.Host.Service
 			// Mimicing Tgstation.Server.Host.Service.Wix here, which is the source of truth for this data
 			installer.Context = new InstallContext(
 				Path.Combine(programDataDirectory, $"tgs-install-{Guid.NewGuid()}.log"),
-				new[]
-				{
+				[
 					$"assemblypath=\"{exePath}\"{(String.IsNullOrWhiteSpace(PassthroughArgs) ? String.Empty : $" -p=\"{PassthroughArgs}\"")}",
-				});
+				]);
 			installer.Description = $"{Server.Common.Constants.CanonicalPackageName} running as a Windows service.";
 			installer.DisplayName = Server.Common.Constants.CanonicalPackageName;
 			installer.StartType = ServiceStartMode.Automatic;
