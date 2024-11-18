@@ -231,102 +231,101 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>            <span class="comment">// Mimicing Tgstation.Server.Host.Service.Wix here, which is the source of truth for this data</span></div>
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>            installer.Context = <span class="keyword">new</span> InstallContext(</div>
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                Path.Combine(programDataDirectory, $<span class="stringliteral">&quot;tgs-install-{Guid.NewGuid()}.log&quot;</span>),</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>                <span class="keyword">new</span>[]</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>                {</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>                    $<span class="stringliteral">&quot;assemblypath=\&quot;{exePath}\&quot;{(String.IsNullOrWhiteSpace(PassthroughArgs) ? String.Empty : $&quot;</span> -p=\<span class="stringliteral">&quot;{PassthroughArgs}\&quot;&quot;</span>)}<span class="stringliteral">&quot;,</span></div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="stringliteral">                });</span></div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="stringliteral">            installer.Description = $&quot;</span>{Server.Common.Constants.CanonicalPackageName} running as a Windows service.<span class="stringliteral">&quot;;</span></div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="stringliteral">            installer.DisplayName = Server.Common.Constants.CanonicalPackageName;</span></div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="stringliteral">            installer.StartType = ServiceStartMode.Automatic;</span></div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="stringliteral">            installer.ServicesDependedOn = new string[] { &quot;</span>Tcpip<span class="stringliteral">&quot;, &quot;</span>Dhcp<span class="stringliteral">&quot;, &quot;</span>Dnscache<span class="stringliteral">&quot; };</span></div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="stringliteral">            installer.ServiceName = ServerService.Name;</span></div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="stringliteral">            installer.Parent = processInstaller;</span></div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="stringliteral"></span> </div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="stringliteral">            var state = new ListDictionary();</span></div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="stringliteral">            try</span></div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="stringliteral">            {</span></div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="stringliteral">                installer.Install(state);</span></div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="stringliteral"></span> </div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="stringliteral">                installer.Commit(state);</span></div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="stringliteral">            }</span></div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span><span class="stringliteral">            catch</span></div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="stringliteral">            {</span></div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="stringliteral">                installer.Rollback(state);</span></div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span><span class="stringliteral">                throw;</span></div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span><span class="stringliteral">            }</span></div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span><span class="stringliteral">        }</span></div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span><span class="stringliteral"></span> </div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        bool RunServiceInstall()</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        {</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>            // First check if the service already exists</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            bool serviceStopped = false;</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>            if (Force || !WindowsServiceHelpers.IsWindowsService())</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>                foreach (ServiceController sc in ServiceController.GetServices())</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>                    using (sc)</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>                    {</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                        var serviceName = sc.ServiceName;</div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>                        if (serviceName == ServerService.Name || serviceName == &quot;tgstation-server-4<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="stringliteral">                        {</span></div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span><span class="stringliteral">                            NativeMethods.DialogResult result = !Force</span></div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="stringliteral">                                ? NativeMethods.MessageBox(</span></div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="stringliteral">                                    default,</span></div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="stringliteral">                                    $&quot;</span>You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \<span class="stringliteral">&quot;No\&quot; will cancel this install.&quot;</span>,</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>                                    <span class="stringliteral">&quot;TGS Service&quot;</span>,</div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>                                    NativeMethods.MessageBoxButtons.YesNo)</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>                                : NativeMethods.DialogResult.Yes;</div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>                            <span class="keywordflow">if</span> (result != NativeMethods.DialogResult.Yes)</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>                                <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">// is this needed after exit?</span></div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span> </div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>                            <span class="comment">// Stop it first to give it some cleanup time</span></div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>                            RestartService(sc);</div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>                            <span class="comment">// And remove it</span></div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>                            InvokeSC(sc.ServiceName);</div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>                        }</div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>                    }</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>            InvokeSC(<span class="keyword">null</span>);</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span> </div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>            <span class="keywordflow">return</span> serviceStopped;</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>        }</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span> </div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        <span class="keywordtype">void</span> RestartService(ServiceController serviceController)</div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        {</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>            <span class="keywordflow">if</span> (serviceController.Status != ServiceControllerStatus.Running)</div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span> </div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>            var stop = !Detach;</div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>            <span class="keywordflow">if</span> (!stop)</div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>            {</div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>                var serviceControllerCommand = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5">GetServiceCommandId</a>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a5118c73a97fc1f6e3484c59c40ceec12">CommandDetachingShutdown</a>);</div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>                serviceController.ExecuteCommand(serviceControllerCommand!.Value);</div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>                serviceController.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>                <span class="keywordflow">if</span> (serviceController.Status != ServiceControllerStatus.Stopped)</div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>                    stop = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>            }</div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span> </div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>            <span class="keywordflow">if</span> (stop)</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>            {</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>                serviceController.Stop();</div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>                serviceController.WaitForStatus(ServiceControllerStatus.Stopped);</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>            }</div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>        }</div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>        async ValueTask RunConfigure(CancellationToken cancellationToken)</div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>        {</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>            <span class="keyword">using </span>var loggerFactory = LoggerFactory.Create(builder =&gt;</div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>            {</div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>                <span class="keywordflow">if</span> (!Silent)</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>                    builder.AddConsole();</div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>            });</div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span> </div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>            var watchdog = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html#ad1ffef58b23302061a59e4332c031e79">CreateWatchdog</a>(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_noop_signal_checker.html">NoopSignalChecker</a>(), loggerFactory);</div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>            await watchdog.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176">RunAsync</a>(<span class="keyword">true</span>, GetPassthroughArgs(), cancellationToken);</div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        }</div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>        <span class="keywordtype">string</span>[] GetPassthroughArgs() =&gt; PassthroughArgs?.Split(<span class="charliteral">&#39; &#39;</span>, StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty&lt;<span class="keywordtype">string</span>&gt;();</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    }</div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>}</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>                [</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>                    $<span class="stringliteral">&quot;assemblypath=\&quot;{exePath}\&quot;{(String.IsNullOrWhiteSpace(PassthroughArgs) ? String.Empty : $&quot;</span> -p=\<span class="stringliteral">&quot;{PassthroughArgs}\&quot;&quot;</span>)}<span class="stringliteral">&quot;,</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="stringliteral">                ]);</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="stringliteral">            installer.Description = $&quot;</span>{<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_server.html">Server</a>.Common.Constants.CanonicalPackageName} running as a Windows service.<span class="stringliteral">&quot;;</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="stringliteral">            installer.DisplayName = Server.Common.Constants.CanonicalPackageName;</span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="stringliteral">            installer.StartType = ServiceStartMode.Automatic;</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="stringliteral">            installer.ServicesDependedOn = new string[] { &quot;</span>Tcpip<span class="stringliteral">&quot;, &quot;</span>Dhcp<span class="stringliteral">&quot;, &quot;</span>Dnscache<span class="stringliteral">&quot; };</span></div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="stringliteral">            installer.ServiceName = ServerService.Name;</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="stringliteral">            installer.Parent = processInstaller;</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="stringliteral">            var state = new ListDictionary();</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="stringliteral">            try</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="stringliteral">            {</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="stringliteral">                installer.Install(state);</span></div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="stringliteral">                installer.Commit(state);</span></div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="stringliteral">            }</span></div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="stringliteral">            catch</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span><span class="stringliteral">            {</span></div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="stringliteral">                installer.Rollback(state);</span></div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="stringliteral">                throw;</span></div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span><span class="stringliteral">            }</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span><span class="stringliteral">        }</span></div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        bool RunServiceInstall()</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        {</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>            // First check if the service already exists</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>            bool serviceStopped = false;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            if (Force || !WindowsServiceHelpers.IsWindowsService())</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>                foreach (ServiceController sc in ServiceController.GetServices())</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>                    using (sc)</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>                    {</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>                        var serviceName = sc.ServiceName;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                        if (serviceName == ServerService.Name || serviceName == &quot;tgstation-server-4<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span><span class="stringliteral">                        {</span></div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="stringliteral">                            NativeMethods.DialogResult result = !Force</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span><span class="stringliteral">                                ? NativeMethods.MessageBox(</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="stringliteral">                                    default,</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="stringliteral">                                    $&quot;</span>You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \<span class="stringliteral">&quot;No\&quot; will cancel this install.&quot;</span>,</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>                                    <span class="stringliteral">&quot;TGS Service&quot;</span>,</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>                                    NativeMethods.MessageBoxButtons.YesNo)</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>                                : NativeMethods.DialogResult.Yes;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>                            <span class="keywordflow">if</span> (result != NativeMethods.DialogResult.Yes)</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>                                <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">// is this needed after exit?</span></div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>                            <span class="comment">// Stop it first to give it some cleanup time</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>                            RestartService(sc);</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span> </div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>                            <span class="comment">// And remove it</span></div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>                            InvokeSC(sc.ServiceName);</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>                        }</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>                    }</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>            InvokeSC(<span class="keyword">null</span>);</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span> </div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>            <span class="keywordflow">return</span> serviceStopped;</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        }</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>        <span class="keywordtype">void</span> RestartService(ServiceController serviceController)</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        {</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>            <span class="keywordflow">if</span> (serviceController.Status != ServiceControllerStatus.Running)</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span> </div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>            var stop = !Detach;</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>            <span class="keywordflow">if</span> (!stop)</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>            {</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>                var serviceControllerCommand = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5">GetServiceCommandId</a>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a5118c73a97fc1f6e3484c59c40ceec12">CommandDetachingShutdown</a>);</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>                serviceController.ExecuteCommand(serviceControllerCommand!.Value);</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>                serviceController.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>                <span class="keywordflow">if</span> (serviceController.Status != ServiceControllerStatus.Stopped)</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>                    stop = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>            }</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span> </div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>            <span class="keywordflow">if</span> (stop)</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>            {</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>                serviceController.Stop();</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>                serviceController.WaitForStatus(ServiceControllerStatus.Stopped);</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>            }</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>        }</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>        async ValueTask RunConfigure(CancellationToken cancellationToken)</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>        {</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>            <span class="keyword">using </span>var loggerFactory = LoggerFactory.Create(builder =&gt;</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>            {</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>                <span class="keywordflow">if</span> (!Silent)</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>                    builder.AddConsole();</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>            });</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span> </div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>            var watchdog = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html#ad1ffef58b23302061a59e4332c031e79">CreateWatchdog</a>(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_noop_signal_checker.html">NoopSignalChecker</a>(), loggerFactory);</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>            await watchdog.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176">RunAsync</a>(<span class="keyword">true</span>, GetPassthroughArgs(), cancellationToken);</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>        }</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span> </div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>        <span class="keywordtype">string</span>[] GetPassthroughArgs() =&gt; PassthroughArgs?.Split(<span class="charliteral">&#39; &#39;</span>, StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty&lt;<span class="keywordtype">string</span>&gt;();</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>    }</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>}</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">Tgstation.Server.Host.Common.PipeCommands</a></div><div class="ttdoc">Values able to be passed via the update file path.</div><div class="ttdef"><b>Definition</b> <a href="_pipe_commands_8cs_source.html#l00006">PipeCommands.cs:7</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands_html_a06c8d3400eeb8207d35f8f3bae86cfb5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5">Tgstation.Server.Host.Common.PipeCommands.GetServiceCommandId</a></div><div class="ttdeci">static ? int GetServiceCommandId(string command)</div><div class="ttdoc">Gets the int value of a given command .</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands_html_a5118c73a97fc1f6e3484c59c40ceec12"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a5118c73a97fc1f6e3484c59c40ceec12">Tgstation.Server.Host.Common.PipeCommands.CommandDetachingShutdown</a></div><div class="ttdeci">const string CommandDetachingShutdown</div><div class="ttdoc">Stops the server ASAP, detaching the watchdog for any running instances.</div><div class="ttdef"><b>Definition</b> <a href="_pipe_commands_8cs_source.html#l00021">PipeCommands.cs:21</a></div></div>

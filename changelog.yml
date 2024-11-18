@@ -183,8 +183,8 @@ Components:
       InteropApi: 5.10.0
       HostWatchdog: 1.6.0
       NugetCommon: 7.0.0
-      NugetApi: 16.3.0
-      NugetClient: 19.3.0
+      NugetApi: 17.0.0
+      NugetClient: 20.0.0
       WebControlPanel: 6.4.0
     Changes:
     - Descriptions:
@@ -220,6 +220,10 @@ Components:
       - Released artifacts are now attested.
       Author: Cyberboss
       PullRequest: 2000
+    - Descriptions:
+      - Fixed the colouring of the icon for TGS on Windows.
+      Author: Cyberboss
+      PullRequest: 2028
     Unreleased: true
   - Version: 6.11.5
     ComponentVersions:
