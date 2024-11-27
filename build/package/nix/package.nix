@@ -84,6 +84,7 @@ stdenv.mkDerivation {
     zlib
     gcc_multi
     glibc
+    bash
   ];
   nativeBuildInputs = with pkgs; [
     makeWrapper
@@ -104,6 +105,7 @@ stdenv.mkDerivation {
         [
           dotnetCorePackages.sdk_8_0
           gdb
+          bash
         ]
       )
     } --suffix LD_LIBRARY_PATH : ${
