@@ -109,6 +109,11 @@ in
         group = cfg.groupname;
         mode = "0640";
       };
+      "tgstation-server.d/EventScripts/README.txt" = {
+        text = "TGS event scripts placed here will be executed by all online instances";
+        group = cfg.groupname;
+        mode = "0640";
+      };
     };
 
     systemd.services.tgstation-server = {
