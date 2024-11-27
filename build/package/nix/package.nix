@@ -78,7 +78,7 @@ stdenv.mkDerivation {
   };
 
   buildInputs = with pkgs; [
-    dotnetCorePackages.aspnetcore_8_0
+    dotnetCorePackages.sdk_8_0
     gdb
     systemd
     zlib
