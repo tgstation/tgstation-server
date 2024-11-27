@@ -337,7 +337,8 @@ namespace Tgstation.Server.Host.Components.Engine
 
 				try
 				{
-					AddInstallationContainer(version, path, Task.CompletedTask);
+					var installation = await engineInstaller.CreateInstallation(version, path, Task.CompletedTask, cancellationToken);
+					AddInstallationContainer(installation);
 					logger.LogDebug("Added detected BYOND version {versionKey}...", version);
 				}
 				catch (Exception ex)
@@ -410,6 +411,13 @@ namespace Tgstation.Server.Host.Components.Engine
 			IEngineInstallation installation;
 			EngineExecutableLock installLock;
 			bool installedOrInstalling;
+
+			var potentialInstallation = await engineInstaller.CreateInstallation(
+				version,
+				ioManager.ResolvePath(version.ToString()),
+				ourTcs.Task,
+				cancellationToken);
+
 			lock (installedVersions)
 			{
 				if (customVersionStream != null)
@@ -429,10 +437,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					if (!allowInstallation)
 						throw new InvalidOperationException($"Engine version {version} not installed!");
 
-					installationContainer = AddInstallationContainer(
-						version,
-						ioManager.ResolvePath(version.ToString()),
-						ourTcs.Task);
+					installationContainer = AddInstallationContainer(potentialInstallation);
 				}
 				else
 					installationContainer = installationContainerNullable!;
@@ -616,18 +621,14 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// Create and add a new <see cref="IEngineInstallation"/> to <see cref="installedVersions"/>.
 		/// </summary>
-		/// <param name="version">The <see cref="Version"/> being added.</param>
-		/// <param name="installPath">The path to the installation.</param>
-		/// <param name="installationTask">The <see cref="ValueTask"/> representing the installation process.</param>
-		/// <returns>The new <see cref="IEngineInstallation"/>.</returns>
-		ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock> AddInstallationContainer(EngineVersion version, string installPath, Task installationTask)
+		/// <param name="installation">The <see cref="IEngineInstallation"/> being added.</param>
+		/// <returns>A new <see cref="ReferenceCountingContainer{TWrapped, TReference}"/> for the <see cref="IEngineInstallation"/>/<see cref="EngineExecutableLock"/>.</returns>
+		ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock> AddInstallationContainer(IEngineInstallation installation)
 		{
-			var installation = engineInstaller.CreateInstallation(version, installPath, installationTask);
-
 			var installationContainer = new ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock>(installation);
 
 			lock (installedVersions)
-				installedVersions.Add(version, installationContainer);
+				installedVersions.Add(installation.Version, installationContainer);
 
 			return installationContainer;
 		}

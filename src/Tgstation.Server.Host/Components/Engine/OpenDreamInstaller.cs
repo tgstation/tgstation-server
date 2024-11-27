@@ -118,14 +118,20 @@ namespace Tgstation.Server.Host.Components.Engine
 		public override Task CleanCache(CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
-		public override IEngineInstallation CreateInstallation(EngineVersion version, string path, Task installationTask)
+		public override async ValueTask<IEngineInstallation> CreateInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			GetExecutablePaths(path, out var serverExePath, out var compilerExePath);
+
+			var dotnetPath = await DotnetHelper.GetDotnetPath(platformIdentifier, IOManager, cancellationToken);
+			if (dotnetPath == null)
+				throw new JobException("Failed to find dotnet path!");
+
 			return new OpenDreamInstallation(
 				new ResolvingIOManager(IOManager, path),
 				asyncDelayer,
 				httpClientFactory,
+				dotnetPath,
 				serverExePath,
 				compilerExePath,
 				installationTask,
@@ -370,21 +376,19 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="compilerExePath">The path to the DMCompiler executable.</param>
 		protected void GetExecutablePaths(string installationPath, out string serverExePath, out string compilerExePath)
 		{
-			var exeExtension = platformIdentifier.IsWindows
-				? ".exe"
-				: String.Empty;
+			const string DllExtension = ".dll";
 
 			serverExePath = IOManager.ConcatPath(
 				installationPath,
 				BinDir,
 				ServerDir,
-				$"Robust.Server{exeExtension}");
+				$"Robust.Server{DllExtension}");
 
 			compilerExePath = IOManager.ConcatPath(
 				installationPath,
 				BinDir,
 				InstallationCompilerDirectory,
-				$"DMCompiler{exeExtension}");
+				$"DMCompiler{DllExtension}");
 		}
 	}
 }

@@ -17,8 +17,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="version">The <see cref="EngineVersion"/> of the installation.</param>
 		/// <param name="path">The path to the installation.</param>
 		/// <param name="installationTask">The <see cref="Task"/> representing the installation process for the installation.</param>
-		/// <returns>The <see cref="IEngineInstallation"/>.</returns>
-		IEngineInstallation CreateInstallation(EngineVersion version, string path, Task installationTask);
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IEngineInstallation"/>.</returns>
+		ValueTask<IEngineInstallation> CreateInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Download a given engine <paramref name="version"/>.

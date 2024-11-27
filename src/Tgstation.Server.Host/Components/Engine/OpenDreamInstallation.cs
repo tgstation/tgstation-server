@@ -61,29 +61,45 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly IAbstractHttpClientFactory httpClientFactory;
 
 		/// <summary>
+		/// Path to the Robust.Server.dll.
+		/// </summary>
+		readonly string serverDllPath;
+
+		/// <summary>
+		/// Path to the DMCompiler.dll.
+		/// </summary>
+		readonly string compilerDllPath;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenDreamInstallation"/> class.
 		/// </summary>
 		/// <param name="installationIOManager">The <see cref="IIOManager"/> for the <see cref="EngineInstallationBase"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
-		/// <param name="serverExePath">The value of <see cref="ServerExePath"/>.</param>
-		/// <param name="compilerExePath">The value of <see cref="CompilerExePath"/>.</param>
+		/// <param name="dotnetPath">The path to the dotnet executable.</param>
+		/// <param name="serverDllPath">The value of <see cref="serverDllPath"/>.</param>
+		/// <param name="compilerDllPath">The value of <see cref="compilerDllPath"/>.</param>
 		/// <param name="installationTask">The value of <see cref="InstallationTask"/>.</param>
 		/// <param name="version">The value of <see cref="Version"/>.</param>
 		public OpenDreamInstallation(
 			IIOManager installationIOManager,
 			IAsyncDelayer asyncDelayer,
 			IAbstractHttpClientFactory httpClientFactory,
-			string serverExePath,
-			string compilerExePath,
+			string dotnetPath,
+			string serverDllPath,
+			string compilerDllPath,
 			Task installationTask,
 			EngineVersion version)
 			: base(installationIOManager)
 		{
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-			ServerExePath = serverExePath ?? throw new ArgumentNullException(nameof(serverExePath));
-			CompilerExePath = compilerExePath ?? throw new ArgumentNullException(nameof(compilerExePath));
+
+			ServerExePath = dotnetPath ?? throw new ArgumentNullException(nameof(dotnetPath));
+			CompilerExePath = dotnetPath;
+
+			this.serverDllPath = serverDllPath ?? throw new ArgumentNullException(nameof(serverDllPath));
+			this.compilerDllPath = compilerDllPath ?? throw new ArgumentNullException(nameof(compilerDllPath));
 			InstallationTask = installationTask ?? throw new ArgumentNullException(nameof(installationTask));
 			Version = version ?? throw new ArgumentNullException(nameof(version));
 
@@ -107,7 +123,7 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			var parametersString = EncodeParameters(parameters, launchParameters);
 
-			var arguments = $"--cvar {(logFilePath != null ? $"log.path=\"{InstallationIOManager.GetDirectoryName(logFilePath)}\" --cvar log.format=\"{InstallationIOManager.GetFileName(logFilePath)}\"" : "log.enabled=false")} --cvar watchdog.token={accessIdentifier} --cvar log.runtimelog=false --cvar net.port={launchParameters.Port!.Value} --cvar opendream.topic_port={launchParameters.OpenDreamTopicPort!.Value} --cvar opendream.world_params=\"{parametersString}\" --cvar opendream.json_path=\"./{dmbProvider.DmbName}\"";
+			var arguments = $"{serverDllPath} --cvar {(logFilePath != null ? $"log.path=\"{InstallationIOManager.GetDirectoryName(logFilePath)}\" --cvar log.format=\"{InstallationIOManager.GetFileName(logFilePath)}\"" : "log.enabled=false")} --cvar watchdog.token={accessIdentifier} --cvar log.runtimelog=false --cvar net.port={launchParameters.Port!.Value} --cvar opendream.topic_port={launchParameters.OpenDreamTopicPort!.Value} --cvar opendream.world_params=\"{parametersString}\" --cvar opendream.json_path=\"./{dmbProvider.DmbName}\"";
 			return arguments;
 		}
 
@@ -119,7 +135,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			else
 				additionalArguments = $"{additionalArguments.Trim()} ";
 
-			return $"--suppress-unimplemented --notices-enabled {additionalArguments}\"{dmePath ?? throw new ArgumentNullException(nameof(dmePath))}\"";
+			return $"{compilerDllPath} --suppress-unimplemented --notices-enabled {additionalArguments}\"{dmePath ?? throw new ArgumentNullException(nameof(dmePath))}\"";
 		}
 
 		/// <inheritdoc />
