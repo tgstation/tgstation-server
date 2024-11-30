@@ -1,15 +1,17 @@
 <map id="Tgstation.Server.Host.Components.Engine.OpenDreamInstallation" name="Tgstation.Server.Host.Components.Engine.OpenDreamInstallation">
-<area shape="rect" id="Node000001" title="Implementation of IEngineInstallation for EngineType.OpenDream." alt="" coords="534,121,761,161"/>
+<area shape="rect" id="Node000001" title="Implementation of IEngineInstallation for EngineType.OpenDream." alt="" coords="534,150,761,191"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installation_base.html" title=" " alt="" coords="207,5,360,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="355,33,386,41,449,57,511,77,605,117,603,122,509,82,448,62,385,46,354,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="357,33,386,41,450,60,511,85,569,116,617,147,614,151,566,121,509,90,448,65,385,46,356,38"/>
 <area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation." alt="" coords="5,5,133,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="148,16,206,16,206,21,148,21"/>
 <area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="194,55,374,96"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="390,92,534,118,534,123,389,97"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="388,97,511,129,575,147,574,152,510,134,386,103"/>
 <area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="182,121,385,161"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="400,138,534,138,534,144,400,144"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="230,185,338,211"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="353,185,534,156,534,161,354,190"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="257,235,311,260"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="326,238,411,222,510,196,602,159,604,164,511,201,412,227,327,244"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="401,148,534,158,534,164,400,153"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="232,187,336,212"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="351,198,428,197,510,192,540,188,540,194,511,197,428,203,351,204"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="230,236,338,262"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="353,242,429,234,510,219,556,205,598,188,600,193,557,210,511,224,430,239,354,247"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="257,285,311,311"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="326,294,412,283,462,273,509,257,571,225,620,189,623,193,573,229,511,262,463,278,413,289,327,299"/>
 </map>

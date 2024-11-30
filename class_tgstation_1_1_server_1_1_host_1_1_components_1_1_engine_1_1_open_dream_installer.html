@@ -141,18 +141,19 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
   <br /></td></tr>
 <tr class="separator:a884d6ce2952b32f181be9b3dbd24b0eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a829f42c5be8479d3d41596800ed7c222" id="r_a829f42c5be8479d3d41596800ed7c222"><td class="memItemLeft" align="right" valign="top">override <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a829f42c5be8479d3d41596800ed7c222">CreateInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, Task installationTask)</td></tr>
-<tr class="memdesc:a829f42c5be8479d3d41596800ed7c222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a> for a given <em>version</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:ab39bc6db3353e20379b3a91dcd98c1c4" id="r_ab39bc6db3353e20379b3a91dcd98c1c4"><td class="memItemLeft" align="right" valign="top">override async ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ab39bc6db3353e20379b3a91dcd98c1c4">CreateInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, Task installationTask, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ab39bc6db3353e20379b3a91dcd98c1c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a> for a given <em>version</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion of the installation.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
     <tr><td class="paramname">installationTask</td><td>The Task representing the installation process for the installation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a>.</dd></dl>
   <br /></td></tr>
-<tr class="separator:a829f42c5be8479d3d41596800ed7c222"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ab39bc6db3353e20379b3a91dcd98c1c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80f999e3876ac5a4c9c92684df68ec12" id="r_a80f999e3876ac5a4c9c92684df68ec12"><td class="memItemLeft" align="right" valign="top">override async ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html">IEngineInstallationData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a80f999e3876ac5a4c9c92684df68ec12">DownloadVersion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> jobProgressReporter, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a80f999e3876ac5a4c9c92684df68ec12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given engine <em>version</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -203,18 +204,19 @@ Public Member Functions</h2></td></tr>
   <br /></td></tr>
 <tr class="separator:a6f10a0ab1cab0c11896820f45a5d72d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html">Tgstation.Server.Host.Components.Engine.EngineInstallerBase</a></td></tr>
-<tr class="memitem:a4aec92fb2d9ebbf321141de84b7a88f0 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base" id="r_a4aec92fb2d9ebbf321141de84b7a88f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a4aec92fb2d9ebbf321141de84b7a88f0">CreateInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, Task installationTask)</td></tr>
-<tr class="memdesc:a4aec92fb2d9ebbf321141de84b7a88f0 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a> for a given <em>version</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a0c64438ad11b15111023cced8146aa47 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base" id="r_a0c64438ad11b15111023cced8146aa47"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a0c64438ad11b15111023cced8146aa47">CreateInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, Task installationTask, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a0c64438ad11b15111023cced8146aa47 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a> for a given <em>version</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion of the installation.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
     <tr><td class="paramname">installationTask</td><td>The Task representing the installation process for the installation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a>.</dd></dl>
   <br /></td></tr>
-<tr class="separator:a4aec92fb2d9ebbf321141de84b7a88f0 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a0c64438ad11b15111023cced8146aa47 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fa2145f3b8c5b4f865a6ceccf470834 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base" id="r_a4fa2145f3b8c5b4f865a6ceccf470834"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a4fa2145f3b8c5b4f865a6ceccf470834">CleanCache</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a4fa2145f3b8c5b4f865a6ceccf470834 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to cleans the engine's cache folder for the system.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -487,14 +489,14 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a829f42c5be8479d3d41596800ed7c222" name="a829f42c5be8479d3d41596800ed7c222"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a829f42c5be8479d3d41596800ed7c222">&#9670;&#160;</a></span>CreateInstallation()</h2>
+<a id="ab39bc6db3353e20379b3a91dcd98c1c4" name="ab39bc6db3353e20379b3a91dcd98c1c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab39bc6db3353e20379b3a91dcd98c1c4">&#9670;&#160;</a></span>CreateInstallation()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">override <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a> Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.CreateInstallation </td>
+          <td class="memname">override async ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a> &gt; Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.CreateInstallation </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a>&#160;</td>
           <td class="paramname"><em>version</em>, </td>
@@ -509,7 +511,13 @@ Static Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Task&#160;</td>
-          <td class="paramname"><em>installationTask</em>&#160;</td>
+          <td class="paramname"><em>installationTask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -524,45 +532,57 @@ Static Private Attributes</h2></td></tr>
     <tr><td class="paramname">version</td><td>The EngineVersion of the installation.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
     <tr><td class="paramname">installationTask</td><td>The Task representing the installation process for the installation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a>.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a0dac565523ae59fd18a8ad6eb1dfb616">Tgstation.Server.Host.Components.Engine.IEngineInstaller</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a4c56e45c9dbd09180811ac5f5c6ffd70">Tgstation.Server.Host.Components.Engine.IEngineInstaller</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00121">121</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  122</span>        {</div>
 <div class="line"><span class="lineno">  123</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a>(version);</div>
 <div class="line"><span class="lineno">  124</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a04059bc8156f7b07e59b423dad178e45">GetExecutablePaths</a>(path, out var serverExePath, out var compilerExePath);</div>
-<div class="line"><span class="lineno">  125</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> OpenDreamInstallation(</div>
-<div class="line"><span class="lineno">  126</span>                <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html">ResolvingIOManager</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>, path),</div>
-<div class="line"><span class="lineno">  127</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ace6e95e23c23e41b461338ed5d622885">asyncDelayer</a>,</div>
-<div class="line"><span class="lineno">  128</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a1b2dc78356e4b5a202f559487269dc86">httpClientFactory</a>,</div>
-<div class="line"><span class="lineno">  129</span>                serverExePath,</div>
-<div class="line"><span class="lineno">  130</span>                compilerExePath,</div>
-<div class="line"><span class="lineno">  131</span>                installationTask,</div>
-<div class="line"><span class="lineno">  132</span>                version);</div>
-<div class="line"><span class="lineno">  133</span>        }</div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>            var dotnetPath = (await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper.html">DotnetHelper</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper.html#a6ce9bc97f5e0fe832f2a1a5653365b64">GetDotnetPath</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a53a42d7c33bf6c94453c8562d5b4cc20">platformIdentifier</a>, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>, cancellationToken))</div>
+<div class="line"><span class="lineno">  127</span>                ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<span class="stringliteral">&quot;Failed to find dotnet path!&quot;</span>);</div>
+<div class="line"><span class="lineno">  128</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> OpenDreamInstallation(</div>
+<div class="line"><span class="lineno">  129</span>                <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html">ResolvingIOManager</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>, path),</div>
+<div class="line"><span class="lineno">  130</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ace6e95e23c23e41b461338ed5d622885">asyncDelayer</a>,</div>
+<div class="line"><span class="lineno">  131</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a1b2dc78356e4b5a202f559487269dc86">httpClientFactory</a>,</div>
+<div class="line"><span class="lineno">  132</span>                dotnetPath,</div>
+<div class="line"><span class="lineno">  133</span>                serverExePath,</div>
+<div class="line"><span class="lineno">  134</span>                compilerExePath,</div>
+<div class="line"><span class="lineno">  135</span>                installationTask,</div>
+<div class="line"><span class="lineno">  136</span>                version);</div>
+<div class="line"><span class="lineno">  137</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base_html_a7e0a63f182a77bc1a099f3c7f8cd6849"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity</a></div><div class="ttdeci">void CheckVersionValidity(EngineVersion version)</div><div class="ttdoc">Check that a given version  is of type EngineType.Byond.</div><div class="ttdef"><b>Definition</b> <a href="_engine_installer_base_8cs_source.html#l00064">EngineInstallerBase.cs:64</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base_html_abaabd1bb99f94299281df83a9ab58203"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.IOManager</a></div><div class="ttdeci">IIOManager IOManager</div><div class="ttdoc">Gets the IIOManager for the EngineInstallerBase.</div><div class="ttdef"><b>Definition</b> <a href="_engine_installer_base_8cs_source.html#l00024">EngineInstallerBase.cs:24</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_html_a04059bc8156f7b07e59b423dad178e45"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a04059bc8156f7b07e59b423dad178e45">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetExecutablePaths</a></div><div class="ttdeci">void GetExecutablePaths(string installationPath, out string serverExePath, out string compilerExePath)</div><div class="ttdoc">Gets the paths to the server and client executables.</div><div class="ttdef"><b>Definition</b> <a href="_open_dream_installer_8cs_source.html#l00371">OpenDreamInstaller.cs:371</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_html_a04059bc8156f7b07e59b423dad178e45"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a04059bc8156f7b07e59b423dad178e45">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetExecutablePaths</a></div><div class="ttdeci">void GetExecutablePaths(string installationPath, out string serverExePath, out string compilerExePath)</div><div class="ttdoc">Gets the paths to the server and client executables.</div><div class="ttdef"><b>Definition</b> <a href="_open_dream_installer_8cs_source.html#l00375">OpenDreamInstaller.cs:375</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html">Tgstation.Server.Host.IO.ResolvingIOManager</a></div><div class="ttdoc">An IIOManager that resolve relative paths from another IIOManager to a subdirectory of that.</div><div class="ttdef"><b>Definition</b> <a href="_resolving_i_o_manager_8cs_source.html#l00009">ResolvingIOManager.cs:10</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">Tgstation.Server.Host.Jobs.JobException</a></div><div class="ttdoc">Operation exceptions thrown from the context of a Models.Job.</div><div class="ttdef"><b>Definition</b> <a href="_job_exception_8cs_source.html#l00010">JobException.cs:11</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper.html">Tgstation.Server.Host.System.DotnetHelper</a></div><div class="ttdoc">Helper methods for working with the dotnet executable.</div><div class="ttdef"><b>Definition</b> <a href="_tgstation_8_server_8_host_2_system_2_dotnet_helper_8cs_source.html#l00013">DotnetHelper.cs:14</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper_html_a6ce9bc97f5e0fe832f2a1a5653365b64"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper.html#a6ce9bc97f5e0fe832f2a1a5653365b64">Tgstation.Server.Host.System.DotnetHelper.GetDotnetPath</a></div><div class="ttdeci">static async ValueTask&lt; string?&gt; GetDotnetPath(IPlatformIdentifier platformIdentifier, IIOManager ioManager, CancellationToken cancellationToken)</div><div class="ttdoc">Locate a dotnet executable to use.</div><div class="ttdef"><b>Definition</b> <a href="_tgstation_8_server_8_host_2_system_2_dotnet_helper_8cs_source.html#l00022">DotnetHelper.cs:22</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_open_dream_installer_8cs_source.html#l00077">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.asyncDelayer</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00064">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity()</a>, <a class="el" href="_open_dream_installer_8cs_source.html#l00371">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetExecutablePaths()</a>, <a class="el" href="_open_dream_installer_8cs_source.html#l00082">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.httpClientFactory</a>, and <a class="el" href="_engine_installer_base_8cs_source.html#l00024">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.IOManager</a>.</p>
+<p class="reference">References <a class="el" href="_open_dream_installer_8cs_source.html#l00077">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.asyncDelayer</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00064">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity()</a>, <a class="el" href="_tgstation_8_server_8_host_2_system_2_dotnet_helper_8cs_source.html#l00022">Tgstation.Server.Host.System.DotnetHelper.GetDotnetPath()</a>, <a class="el" href="_open_dream_installer_8cs_source.html#l00375">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetExecutablePaths()</a>, <a class="el" href="_open_dream_installer_8cs_source.html#l00082">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.httpClientFactory</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00024">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.IOManager</a>, and <a class="el" href="_open_dream_installer_8cs_source.html#l00067">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.platformIdentifier</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_a829f42c5be8479d3d41596800ed7c222_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_a829f42c5be8479d3d41596800ed7c222_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_a829f42c5be8479d3d41596800ed7c222_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_a829f42c5be8479d3d41596800ed7c222_cgraph">
-<area shape="rect" title="Creates an IEngineInstallation for a given version .The IEngineInstallation." alt="" coords="5,49,288,90"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_ab39bc6db3353e20379b3a91dcd98c1c4_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_ab39bc6db3353e20379b3a91dcd98c1c4_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_ab39bc6db3353e20379b3a91dcd98c1c4_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_ab39bc6db3353e20379b3a91dcd98c1c4_cgraph">
+<area shape="rect" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in the IEngineInst..." alt="" coords="5,85,288,126"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="354,5,617,61"/>
-<area shape="poly" title=" " alt="" coords="288,52,339,46,339,51,288,57"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a04059bc8156f7b07e59b423dad178e45" title="Gets the paths to the server and client executables." alt="" coords="336,85,635,126"/>
-<area shape="poly" title=" " alt="" coords="288,82,320,85,320,90,288,87"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="683,85,850,126"/>
-<area shape="poly" title=" " alt="" coords="635,103,668,103,668,108,635,108"/>
+<area shape="poly" title=" " alt="" coords="245,82,338,62,339,67,246,87"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper.html#a6ce9bc97f5e0fe832f2a1a5653365b64" title="Locate a dotnet executable to use." alt="" coords="387,85,584,126"/>
+<area shape="poly" title=" " alt="" coords="288,103,371,103,371,108,288,108"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a04059bc8156f7b07e59b423dad178e45" title="Gets the paths to the server and client executables." alt="" coords="336,150,635,191"/>
+<area shape="poly" title=" " alt="" coords="256,123,362,144,361,149,255,129"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="683,85,850,126"/>
+<area shape="poly" title=" " alt="" coords="585,103,667,103,667,108,585,108"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="683,150,850,191"/>
+<area shape="poly" title=" " alt="" coords="635,168,668,168,668,173,635,173"/>
 </map>
 </div>
 
@@ -613,87 +633,86 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a1841dfb27438fbd4d70462cd137bcb42">Tgstation.Server.Host.Components.Engine.IEngineInstaller</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00136">136</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  137</span>        {</div>
-<div class="line"><span class="lineno">  138</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a>(version);</div>
-<div class="line"><span class="lineno">  139</span>            ArgumentNullException.ThrowIfNull(jobProgressReporter);</div>
-<div class="line"><span class="lineno">  140</span> </div>
-<div class="line"><span class="lineno">  141</span>            <span class="comment">// get a lock on a system wide OD repo</span></div>
-<div class="line"><span class="lineno">  142</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;Cloning OD repo...&quot;</span>);</div>
-<div class="line"><span class="lineno">  143</span> </div>
-<div class="line"><span class="lineno">  144</span>            var progressSection1 = jobProgressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970">CreateSection</a>(<span class="stringliteral">&quot;Updating OpenDream git repository&quot;</span>, 0.5f);</div>
-<div class="line"><span class="lineno">  145</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html">IRepository</a>? repo;</div>
-<div class="line"><span class="lineno">  146</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  147</span>            {</div>
-<div class="line"><span class="lineno">  148</span>                repo = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a689ce51fbfc5013f139fc01c5640351e">repositoryManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a0506fb30c8098ae3520612c13fcbac0c">CloneRepository</a>(</div>
-<div class="line"><span class="lineno">  149</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0ef3d8c9150a412f93499c0cce2d7808">OpenDreamGitUrl</a>,</div>
-<div class="line"><span class="lineno">  150</span>                    <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  151</span>                    <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  152</span>                    <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  153</span>                    progressSection1,</div>
-<div class="line"><span class="lineno">  154</span>                    <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  155</span>                    cancellationToken);</div>
-<div class="line"><span class="lineno">  156</span>            }</div>
-<div class="line"><span class="lineno">  157</span>            <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">  158</span>            {</div>
-<div class="line"><span class="lineno">  159</span>                progressSection1.Dispose();</div>
-<div class="line"><span class="lineno">  160</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  161</span>            }</div>
-<div class="line"><span class="lineno">  162</span> </div>
-<div class="line"><span class="lineno">  163</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  164</span>            {</div>
-<div class="line"><span class="lineno">  165</span>                <span class="keywordflow">if</span> (repo == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  166</span>                {</div>
-<div class="line"><span class="lineno">  167</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;OD repo seems to already exist, attempting load and fetch...&quot;</span>);</div>
-<div class="line"><span class="lineno">  168</span>                    repo = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a689ce51fbfc5013f139fc01c5640351e">repositoryManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a5e58009c7d92a55634a7ddd80ca60b1b">LoadRepository</a>(cancellationToken);</div>
-<div class="line"><span class="lineno">  169</span>                    <span class="keywordflow">if</span> (repo == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  170</span>                        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<span class="stringliteral">&quot;Can&#39;t load OpenDream repository! Please delete cache from disk!&quot;</span>);</div>
-<div class="line"><span class="lineno">  171</span> </div>
-<div class="line"><span class="lineno">  172</span>                    await repo!.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#adea5d05808bd1a5314dc619c6c2a6428">FetchOrigin</a>(</div>
-<div class="line"><span class="lineno">  173</span>                        progressSection1,</div>
-<div class="line"><span class="lineno">  174</span>                        <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  175</span>                        <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  176</span>                        <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  177</span>                        cancellationToken);</div>
-<div class="line"><span class="lineno">  178</span>                }</div>
-<div class="line"><span class="lineno">  179</span> </div>
-<div class="line"><span class="lineno">  180</span>                progressSection1.Dispose();</div>
-<div class="line"><span class="lineno">  181</span>                progressSection1 = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  182</span> </div>
-<div class="line"><span class="lineno">  183</span>                <span class="keyword">using</span> (var progressSection2 = jobProgressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970">CreateSection</a>(<span class="stringliteral">&quot;Checking out OpenDream version&quot;</span>, 0.5f))</div>
-<div class="line"><span class="lineno">  184</span>                {</div>
-<div class="line"><span class="lineno">  185</span>                    var committish = version.SourceSHA</div>
-<div class="line"><span class="lineno">  186</span>                        ?? $<span class="stringliteral">&quot;{GeneralConfiguration.OpenDreamGitTagPrefix}{version.Version!.Semver()}&quot;</span>;</div>
-<div class="line"><span class="lineno">  187</span> </div>
-<div class="line"><span class="lineno">  188</span>                    await repo.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ac1a99bf9d0bc659cc3989ba4318cdfcc">CheckoutObject</a>(</div>
-<div class="line"><span class="lineno">  189</span>                        committish,</div>
-<div class="line"><span class="lineno">  190</span>                        <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  191</span>                        <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  192</span>                        <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  193</span>                        <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  194</span>                        progressSection2,</div>
-<div class="line"><span class="lineno">  195</span>                        cancellationToken);</div>
-<div class="line"><span class="lineno">  196</span>                }</div>
-<div class="line"><span class="lineno">  197</span> </div>
-<div class="line"><span class="lineno">  198</span>                <span class="keywordflow">if</span> (!await repo.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ab8e15b3dd9fe05cabc167ad5e6b3cdcd">CommittishIsParent</a>(<span class="stringliteral">&quot;tgs-min-compat&quot;</span>, cancellationToken))</div>
-<div class="line"><span class="lineno">  199</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.OpenDreamTooOld);</div>
-<div class="line"><span class="lineno">  200</span> </div>
-<div class="line"><span class="lineno">  201</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> RepositoryEngineInstallationData(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>, repo, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ab740a3a0135eabb0fe6dd5647ba9f334">InstallationSourceSubDirectory</a>);</div>
-<div class="line"><span class="lineno">  202</span>            }</div>
-<div class="line"><span class="lineno">  203</span>            <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">  204</span>            {</div>
-<div class="line"><span class="lineno">  205</span>                repo?.Dispose();</div>
-<div class="line"><span class="lineno">  206</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  207</span>            }</div>
-<div class="line"><span class="lineno">  208</span>            <span class="keywordflow">finally</span></div>
-<div class="line"><span class="lineno">  209</span>            {</div>
-<div class="line"><span class="lineno">  210</span>                progressSection1?.Dispose();</div>
+<p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00140">140</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  141</span>        {</div>
+<div class="line"><span class="lineno">  142</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a>(version);</div>
+<div class="line"><span class="lineno">  143</span>            ArgumentNullException.ThrowIfNull(jobProgressReporter);</div>
+<div class="line"><span class="lineno">  144</span> </div>
+<div class="line"><span class="lineno">  145</span>            <span class="comment">// get a lock on a system wide OD repo</span></div>
+<div class="line"><span class="lineno">  146</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;Cloning OD repo...&quot;</span>);</div>
+<div class="line"><span class="lineno">  147</span> </div>
+<div class="line"><span class="lineno">  148</span>            var progressSection1 = jobProgressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970">CreateSection</a>(<span class="stringliteral">&quot;Updating OpenDream git repository&quot;</span>, 0.5f);</div>
+<div class="line"><span class="lineno">  149</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html">IRepository</a>? repo;</div>
+<div class="line"><span class="lineno">  150</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  151</span>            {</div>
+<div class="line"><span class="lineno">  152</span>                repo = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a689ce51fbfc5013f139fc01c5640351e">repositoryManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a0506fb30c8098ae3520612c13fcbac0c">CloneRepository</a>(</div>
+<div class="line"><span class="lineno">  153</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0ef3d8c9150a412f93499c0cce2d7808">OpenDreamGitUrl</a>,</div>
+<div class="line"><span class="lineno">  154</span>                    <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  155</span>                    <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  156</span>                    <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  157</span>                    progressSection1,</div>
+<div class="line"><span class="lineno">  158</span>                    <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  159</span>                    cancellationToken);</div>
+<div class="line"><span class="lineno">  160</span>            }</div>
+<div class="line"><span class="lineno">  161</span>            <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">  162</span>            {</div>
+<div class="line"><span class="lineno">  163</span>                progressSection1.Dispose();</div>
+<div class="line"><span class="lineno">  164</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  165</span>            }</div>
+<div class="line"><span class="lineno">  166</span> </div>
+<div class="line"><span class="lineno">  167</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  168</span>            {</div>
+<div class="line"><span class="lineno">  169</span>                <span class="keywordflow">if</span> (repo == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  170</span>                {</div>
+<div class="line"><span class="lineno">  171</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;OD repo seems to already exist, attempting load and fetch...&quot;</span>);</div>
+<div class="line"><span class="lineno">  172</span>                    repo = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a689ce51fbfc5013f139fc01c5640351e">repositoryManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a5e58009c7d92a55634a7ddd80ca60b1b">LoadRepository</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">  173</span>                    <span class="keywordflow">if</span> (repo == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  174</span>                        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<span class="stringliteral">&quot;Can&#39;t load OpenDream repository! Please delete cache from disk!&quot;</span>);</div>
+<div class="line"><span class="lineno">  175</span> </div>
+<div class="line"><span class="lineno">  176</span>                    await repo!.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#adea5d05808bd1a5314dc619c6c2a6428">FetchOrigin</a>(</div>
+<div class="line"><span class="lineno">  177</span>                        progressSection1,</div>
+<div class="line"><span class="lineno">  178</span>                        <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  179</span>                        <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  180</span>                        <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  181</span>                        cancellationToken);</div>
+<div class="line"><span class="lineno">  182</span>                }</div>
+<div class="line"><span class="lineno">  183</span> </div>
+<div class="line"><span class="lineno">  184</span>                progressSection1.Dispose();</div>
+<div class="line"><span class="lineno">  185</span>                progressSection1 = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  186</span> </div>
+<div class="line"><span class="lineno">  187</span>                <span class="keyword">using</span> (var progressSection2 = jobProgressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970">CreateSection</a>(<span class="stringliteral">&quot;Checking out OpenDream version&quot;</span>, 0.5f))</div>
+<div class="line"><span class="lineno">  188</span>                {</div>
+<div class="line"><span class="lineno">  189</span>                    var committish = version.SourceSHA</div>
+<div class="line"><span class="lineno">  190</span>                        ?? $<span class="stringliteral">&quot;{GeneralConfiguration.OpenDreamGitTagPrefix}{version.Version!.Semver()}&quot;</span>;</div>
+<div class="line"><span class="lineno">  191</span> </div>
+<div class="line"><span class="lineno">  192</span>                    await repo.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ac1a99bf9d0bc659cc3989ba4318cdfcc">CheckoutObject</a>(</div>
+<div class="line"><span class="lineno">  193</span>                        committish,</div>
+<div class="line"><span class="lineno">  194</span>                        <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  195</span>                        <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  196</span>                        <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  197</span>                        <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  198</span>                        progressSection2,</div>
+<div class="line"><span class="lineno">  199</span>                        cancellationToken);</div>
+<div class="line"><span class="lineno">  200</span>                }</div>
+<div class="line"><span class="lineno">  201</span> </div>
+<div class="line"><span class="lineno">  202</span>                <span class="keywordflow">if</span> (!await repo.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ab8e15b3dd9fe05cabc167ad5e6b3cdcd">CommittishIsParent</a>(<span class="stringliteral">&quot;tgs-min-compat&quot;</span>, cancellationToken))</div>
+<div class="line"><span class="lineno">  203</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.OpenDreamTooOld);</div>
+<div class="line"><span class="lineno">  204</span> </div>
+<div class="line"><span class="lineno">  205</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> RepositoryEngineInstallationData(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>, repo, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ab740a3a0135eabb0fe6dd5647ba9f334">InstallationSourceSubDirectory</a>);</div>
+<div class="line"><span class="lineno">  206</span>            }</div>
+<div class="line"><span class="lineno">  207</span>            <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">  208</span>            {</div>
+<div class="line"><span class="lineno">  209</span>                repo?.Dispose();</div>
+<div class="line"><span class="lineno">  210</span>                <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  211</span>            }</div>
-<div class="line"><span class="lineno">  212</span>        }</div>
+<div class="line"><span class="lineno">  212</span>            <span class="keywordflow">finally</span></div>
+<div class="line"><span class="lineno">  213</span>            {</div>
+<div class="line"><span class="lineno">  214</span>                progressSection1?.Dispose();</div>
+<div class="line"><span class="lineno">  215</span>            }</div>
+<div class="line"><span class="lineno">  216</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base_html_aed7c0130aacc5b088f420e6aa4a270b5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.Logger</a></div><div class="ttdeci">ILogger&lt; EngineInstallerBase &gt; Logger</div><div class="ttdoc">Gets the ILogger for the EngineInstallerBase.</div><div class="ttdef"><b>Definition</b> <a href="_engine_installer_base_8cs_source.html#l00029">EngineInstallerBase.cs:29</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_html_ab740a3a0135eabb0fe6dd5647ba9f334"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ab740a3a0135eabb0fe6dd5647ba9f334">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.InstallationSourceSubDirectory</a></div><div class="ttdeci">const string InstallationSourceSubDirectory</div><div class="ttdoc">The name of the subdirectory used for the RepositoryEngineInstallationData's copy.</div><div class="ttdef"><b>Definition</b> <a href="_open_dream_installer_8cs_source.html#l00044">OpenDreamInstaller.cs:44</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a0ef3d8c9150a412f93499c0cce2d7808"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0ef3d8c9150a412f93499c0cce2d7808">Tgstation.Server.Host.Configuration.GeneralConfiguration.OpenDreamGitUrl</a></div><div class="ttdeci">Uri OpenDreamGitUrl</div><div class="ttdoc">Location of a publically accessible OpenDream repository.</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00144">GeneralConfiguration.cs:144</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">Tgstation.Server.Host.Jobs.JobException</a></div><div class="ttdoc">Operation exceptions thrown from the context of a Models.Job.</div><div class="ttdef"><b>Definition</b> <a href="_job_exception_8cs_source.html#l00010">JobException.cs:11</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter_html_a32254a185da6e76e7fcd2d72a8032970"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970">Tgstation.Server.Host.Jobs.JobProgressReporter.CreateSection</a></div><div class="ttdeci">JobProgressReporter CreateSection(string? newStageName, double percentage)</div><div class="ttdoc">Create a subsection of the JobProgressReporter with its optional own stage name.</div><div class="ttdef"><b>Definition</b> <a href="_job_progress_reporter_8cs_source.html#l00176">JobProgressReporter.cs:176</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html">Tgstation.Server.Host.Components.Repository.IRepository</a></div><div class="ttdoc">Represents an on-disk git repository.</div><div class="ttdef"><b>Definition</b> <a href="_i_repository_8cs_source.html#l00013">IRepository.cs:14</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_html_ab8e15b3dd9fe05cabc167ad5e6b3cdcd"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ab8e15b3dd9fe05cabc167ad5e6b3cdcd">Tgstation.Server.Host.Components.Repository.IRepository.CommittishIsParent</a></div><div class="ttdeci">Task&lt; bool &gt; CommittishIsParent(string committish, CancellationToken cancellationToken)</div><div class="ttdoc">Check if a given committish  is a parent of the current Head.</div></div>
@@ -781,24 +800,22 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00371">371</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  372</span>        {</div>
-<div class="line"><span class="lineno">  373</span>            var exeExtension = platformIdentifier.IsWindows</div>
-<div class="line"><span class="lineno">  374</span>                ? <span class="stringliteral">&quot;.exe&quot;</span></div>
-<div class="line"><span class="lineno">  375</span>                : String.Empty;</div>
-<div class="line"><span class="lineno">  376</span> </div>
-<div class="line"><span class="lineno">  377</span>            serverExePath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">  378</span>                installationPath,</div>
-<div class="line"><span class="lineno">  379</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#afe6f3d0d05d29f34467dd175ebcc44b1">BinDir</a>,</div>
-<div class="line"><span class="lineno">  380</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a70964f9da29b7d51cf13b765b9fbaab0">ServerDir</a>,</div>
-<div class="line"><span class="lineno">  381</span>                $<span class="stringliteral">&quot;Robust.Server{exeExtension}&quot;</span>);</div>
-<div class="line"><span class="lineno">  382</span> </div>
-<div class="line"><span class="lineno">  383</span>            compilerExePath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">  384</span>                installationPath,</div>
-<div class="line"><span class="lineno">  385</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#afe6f3d0d05d29f34467dd175ebcc44b1">BinDir</a>,</div>
-<div class="line"><span class="lineno">  386</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ab0f7c17a43c34ce832c25ef30c7ea553">InstallationCompilerDirectory</a>,</div>
-<div class="line"><span class="lineno">  387</span>                $<span class="stringliteral">&quot;DMCompiler{exeExtension}&quot;</span>);</div>
-<div class="line"><span class="lineno">  388</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00375">375</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  376</span>        {</div>
+<div class="line"><span class="lineno">  377</span>            <span class="keyword">const</span> <span class="keywordtype">string</span> DllExtension = <span class="stringliteral">&quot;.dll&quot;</span>;</div>
+<div class="line"><span class="lineno">  378</span> </div>
+<div class="line"><span class="lineno">  379</span>            serverExePath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">  380</span>                installationPath,</div>
+<div class="line"><span class="lineno">  381</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#afe6f3d0d05d29f34467dd175ebcc44b1">BinDir</a>,</div>
+<div class="line"><span class="lineno">  382</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a70964f9da29b7d51cf13b765b9fbaab0">ServerDir</a>,</div>
+<div class="line"><span class="lineno">  383</span>                $<span class="stringliteral">&quot;Robust.Server{DllExtension}&quot;</span>);</div>
+<div class="line"><span class="lineno">  384</span> </div>
+<div class="line"><span class="lineno">  385</span>            compilerExePath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">  386</span>                installationPath,</div>
+<div class="line"><span class="lineno">  387</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#afe6f3d0d05d29f34467dd175ebcc44b1">BinDir</a>,</div>
+<div class="line"><span class="lineno">  388</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ab0f7c17a43c34ce832c25ef30c7ea553">InstallationCompilerDirectory</a>,</div>
+<div class="line"><span class="lineno">  389</span>                $<span class="stringliteral">&quot;DMCompiler{DllExtension}&quot;</span>);</div>
+<div class="line"><span class="lineno">  390</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_html_a70964f9da29b7d51cf13b765b9fbaab0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a70964f9da29b7d51cf13b765b9fbaab0">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.ServerDir</a></div><div class="ttdeci">const string ServerDir</div><div class="ttdoc">The OD server directory name.</div><div class="ttdef"><b>Definition</b> <a href="_open_dream_installer_8cs_source.html#l00034">OpenDreamInstaller.cs:34</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_html_ab0f7c17a43c34ce832c25ef30c7ea553"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ab0f7c17a43c34ce832c25ef30c7ea553">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.InstallationCompilerDirectory</a></div><div class="ttdeci">const string InstallationCompilerDirectory</div><div class="ttdoc">The name of the subdirectory in an installation's BinDir used to store the compiler binaries.</div><div class="ttdef"><b>Definition</b> <a href="_open_dream_installer_8cs_source.html#l00039">OpenDreamInstaller.cs:39</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_html_afe6f3d0d05d29f34467dd175ebcc44b1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#afe6f3d0d05d29f34467dd175ebcc44b1">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.BinDir</a></div><div class="ttdeci">const string BinDir</div><div class="ttdoc">The bin directory name.</div><div class="ttdef"><b>Definition</b> <a href="_open_dream_installer_8cs_source.html#l00029">OpenDreamInstaller.cs:29</a></div></div>
@@ -825,7 +842,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" title="Gets the paths to the server and client executables." alt="" coords="653,49,952,90"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#aafeac2268b4c3375e79162b461908e8f" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="335,5,593,61"/>
 <area shape="poly" title=" " alt="" coords="637,54,593,49,593,44,638,49"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a829f42c5be8479d3d41596800ed7c222" title="Creates an IEngineInstallation for a given version .The IEngineInstallation." alt="" coords="323,85,605,126"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ab39bc6db3353e20379b3a91dcd98c1c4" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in the IEngineInst..." alt="" coords="323,85,605,126"/>
 <area shape="poly" title=" " alt="" coords="638,89,606,93,605,87,637,84"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#abfd28aaba98525c2eed2f1ff7a670bc1" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="5,13,275,54"/>
 <area shape="poly" title=" " alt="" coords="319,36,275,36,275,31,319,31"/>
@@ -887,7 +904,7 @@ Here is the caller graph for this function:</div>
 
 <p>Reimplemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#aa4a3b3f9bf7f81d7a439681b35c508c6">Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00215">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.Install()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00219">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.Install()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -953,131 +970,129 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a96982c374c0d5d56779125fce7c933be">Tgstation.Server.Host.Components.Engine.IEngineInstaller</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00215">215</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  216</span>        {</div>
-<div class="line"><span class="lineno">  217</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a>(version);</div>
-<div class="line"><span class="lineno">  218</span>            ArgumentNullException.ThrowIfNull(installPath);</div>
-<div class="line"><span class="lineno">  219</span>            var sourcePath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(installPath, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ab740a3a0135eabb0fe6dd5647ba9f334">InstallationSourceSubDirectory</a>);</div>
-<div class="line"><span class="lineno">  220</span> </div>
-<div class="line"><span class="lineno">  221</span>            <span class="keywordflow">if</span> (!await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aeae08438da658a3c0afddbb7960e4faa">DirectoryExists</a>(sourcePath, cancellationToken))</div>
-<div class="line"><span class="lineno">  222</span>            {</div>
-<div class="line"><span class="lineno">  223</span>                <span class="comment">// a zip install that didn&#39;t come from us?</span></div>
-<div class="line"><span class="lineno">  224</span>                <span class="comment">// we want to use the bin dir, so put everything where we expect</span></div>
-<div class="line"><span class="lineno">  225</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogDebug(<span class="stringliteral">&quot;Correcting extraction location...&quot;</span>);</div>
-<div class="line"><span class="lineno">  226</span>                var dirsTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2">GetDirectories</a>(installPath, cancellationToken);</div>
-<div class="line"><span class="lineno">  227</span>                var filesTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3">GetFiles</a>(installPath, cancellationToken);</div>
-<div class="line"><span class="lineno">  228</span>                var dirCreateTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">CreateDirectory</a>(sourcePath, cancellationToken);</div>
-<div class="line"><span class="lineno">  229</span> </div>
-<div class="line"><span class="lineno">  230</span>                await Task.WhenAll(dirsTask, filesTask, dirCreateTask);</div>
-<div class="line"><span class="lineno">  231</span> </div>
-<div class="line"><span class="lineno">  232</span>                var dirsMoveTasks = dirsTask</div>
-<div class="line"><span class="lineno">  233</span>                    .Result</div>
-<div class="line"><span class="lineno">  234</span>                    .Select(</div>
-<div class="line"><span class="lineno">  235</span>                        dirPath =&gt; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37">MoveDirectory</a>(</div>
-<div class="line"><span class="lineno">  236</span>                            dirPath,</div>
-<div class="line"><span class="lineno">  237</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">  238</span>                                sourcePath,</div>
-<div class="line"><span class="lineno">  239</span>                                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">GetFileName</a>(dirPath)),</div>
-<div class="line"><span class="lineno">  240</span>                            cancellationToken));</div>
-<div class="line"><span class="lineno">  241</span>                var filesMoveTask = filesTask</div>
-<div class="line"><span class="lineno">  242</span>                    .Result</div>
-<div class="line"><span class="lineno">  243</span>                    .Select(</div>
-<div class="line"><span class="lineno">  244</span>                        filePath =&gt; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd">MoveFile</a>(</div>
-<div class="line"><span class="lineno">  245</span>                            filePath,</div>
-<div class="line"><span class="lineno">  246</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">  247</span>                                sourcePath,</div>
-<div class="line"><span class="lineno">  248</span>                                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">GetFileName</a>(filePath)),</div>
-<div class="line"><span class="lineno">  249</span>                            cancellationToken));</div>
-<div class="line"><span class="lineno">  250</span> </div>
-<div class="line"><span class="lineno">  251</span>                await Task.WhenAll(dirsMoveTasks.Concat(filesMoveTask));</div>
-<div class="line"><span class="lineno">  252</span>            }</div>
-<div class="line"><span class="lineno">  253</span> </div>
-<div class="line"><span class="lineno">  254</span>            var dotnetPath = (await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper.html">DotnetHelper</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper.html#a6ce9bc97f5e0fe832f2a1a5653365b64">GetDotnetPath</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a53a42d7c33bf6c94453c8562d5b4cc20">platformIdentifier</a>, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>, cancellationToken))</div>
-<div class="line"><span class="lineno">  255</span>                ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.OpenDreamCantFindDotnet);</div>
-<div class="line"><span class="lineno">  256</span>            <span class="keyword">const</span> <span class="keywordtype">string</span> DeployDir = <span class="stringliteral">&quot;tgs_deploy&quot;</span>;</div>
-<div class="line"><span class="lineno">  257</span>            <span class="keywordtype">int</span>? buildExitCode = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  258</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ae32865608a7386b98313efadfcf0a903">HandleExtremelyLongPathOperation</a>(</div>
-<div class="line"><span class="lineno">  259</span>                async shortenedPath =&gt;</div>
-<div class="line"><span class="lineno">  260</span>                {</div>
-<div class="line"><span class="lineno">  261</span>                    var shortenedDeployPath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(shortenedPath, DeployDir);</div>
-<div class="line"><span class="lineno">  262</span>                    await <span class="keyword">using </span>var buildProcess = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html">ProcessExecutor</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a060adda85e21f5414fa5d75c4608dcfb">LaunchProcess</a>(</div>
-<div class="line"><span class="lineno">  263</span>                        dotnetPath,</div>
-<div class="line"><span class="lineno">  264</span>                        shortenedPath,</div>
-<div class="line"><span class="lineno">  265</span>                        $<span class="stringliteral">&quot;run -c Release --project OpenDreamPackageTool -- --tgs -o {shortenedDeployPath}&quot;</span>,</div>
-<div class="line"><span class="lineno">  266</span>                        cancellationToken,</div>
-<div class="line"><span class="lineno">  267</span>                        <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  268</span>                        <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  269</span>                        !<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a05de9ae65e5cd442c9972ab36185ec7f">OpenDreamSuppressInstallOutput</a>,</div>
-<div class="line"><span class="lineno">  270</span>                        !<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a05de9ae65e5cd442c9972ab36185ec7f">OpenDreamSuppressInstallOutput</a>);</div>
-<div class="line"><span class="lineno">  271</span> </div>
-<div class="line"><span class="lineno">  272</span>                    <span class="keywordflow">if</span> (deploymentPipelineProcesses &amp;&amp; <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html">SessionConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html#abc505aa2ec768c997c7559c1ed223504">LowPriorityDeploymentProcesses</a>)</div>
-<div class="line"><span class="lineno">  273</span>                        buildProcess.AdjustPriority(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  274</span> </div>
-<div class="line"><span class="lineno">  275</span>                    <span class="keyword">using</span> (cancellationToken.Register(() =&gt; buildProcess.Terminate()))</div>
-<div class="line"><span class="lineno">  276</span>                        buildExitCode = await buildProcess.Lifetime;</div>
-<div class="line"><span class="lineno">  277</span> </div>
-<div class="line"><span class="lineno">  278</span>                    <span class="keywordtype">string</span>? output;</div>
-<div class="line"><span class="lineno">  279</span>                    <span class="keywordflow">if</span> (!<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a05de9ae65e5cd442c9972ab36185ec7f">OpenDreamSuppressInstallOutput</a>)</div>
-<div class="line"><span class="lineno">  280</span>                    {</div>
-<div class="line"><span class="lineno">  281</span>                        var buildOutputTask = buildProcess.GetCombinedOutput(cancellationToken);</div>
-<div class="line"><span class="lineno">  282</span>                        <span class="keywordflow">if</span> (!buildOutputTask.IsCompleted)</div>
-<div class="line"><span class="lineno">  283</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;OD build complete, waiting for output...&quot;</span>);</div>
-<div class="line"><span class="lineno">  284</span>                        output = await buildOutputTask;</div>
-<div class="line"><span class="lineno">  285</span>                    }</div>
-<div class="line"><span class="lineno">  286</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  287</span>                        output = <span class="stringliteral">&quot;&lt;Build output suppressed by configuration due to not being immediately available&gt;&quot;</span>;</div>
-<div class="line"><span class="lineno">  288</span> </div>
-<div class="line"><span class="lineno">  289</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogDebug(</div>
-<div class="line"><span class="lineno">  290</span>                        <span class="stringliteral">&quot;OpenDream build exited with code {exitCode}:{newLine}{output}&quot;</span>,</div>
-<div class="line"><span class="lineno">  291</span>                        buildExitCode,</div>
-<div class="line"><span class="lineno">  292</span>                        Environment.NewLine,</div>
-<div class="line"><span class="lineno">  293</span>                        output);</div>
-<div class="line"><span class="lineno">  294</span>                },</div>
-<div class="line"><span class="lineno">  295</span>                sourcePath,</div>
-<div class="line"><span class="lineno">  296</span>                cancellationToken);</div>
-<div class="line"><span class="lineno">  297</span> </div>
-<div class="line"><span class="lineno">  298</span>            <span class="keywordflow">if</span> (buildExitCode != 0)</div>
-<div class="line"><span class="lineno">  299</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<span class="stringliteral">&quot;OpenDream build failed!&quot;</span>);</div>
-<div class="line"><span class="lineno">  300</span> </div>
-<div class="line"><span class="lineno">  301</span>            var deployPath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(sourcePath, DeployDir);</div>
-<div class="line"><span class="lineno">  302</span>            async ValueTask MoveDirs()</div>
-<div class="line"><span class="lineno">  303</span>            {</div>
-<div class="line"><span class="lineno">  304</span>                var dirs = await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2">GetDirectories</a>(deployPath, cancellationToken);</div>
-<div class="line"><span class="lineno">  305</span>                await Task.WhenAll(</div>
-<div class="line"><span class="lineno">  306</span>                    dirs.Select(</div>
-<div class="line"><span class="lineno">  307</span>                        dir =&gt; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37">MoveDirectory</a>(</div>
-<div class="line"><span class="lineno">  308</span>                            dir,</div>
-<div class="line"><span class="lineno">  309</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">  310</span>                                installPath,</div>
-<div class="line"><span class="lineno">  311</span>                                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">GetFileName</a>(dir)),</div>
-<div class="line"><span class="lineno">  312</span>                            cancellationToken)));</div>
-<div class="line"><span class="lineno">  313</span>            }</div>
-<div class="line"><span class="lineno">  314</span> </div>
-<div class="line"><span class="lineno">  315</span>            async ValueTask MoveFiles()</div>
-<div class="line"><span class="lineno">  316</span>            {</div>
-<div class="line"><span class="lineno">  317</span>                var files = await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3">GetFiles</a>(deployPath, cancellationToken);</div>
-<div class="line"><span class="lineno">  318</span>                await Task.WhenAll(</div>
-<div class="line"><span class="lineno">  319</span>                    files.Select(</div>
-<div class="line"><span class="lineno">  320</span>                        file =&gt; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd">MoveFile</a>(</div>
-<div class="line"><span class="lineno">  321</span>                            file,</div>
-<div class="line"><span class="lineno">  322</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">  323</span>                                installPath,</div>
-<div class="line"><span class="lineno">  324</span>                                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">GetFileName</a>(file)),</div>
-<div class="line"><span class="lineno">  325</span>                            cancellationToken)));</div>
-<div class="line"><span class="lineno">  326</span>            }</div>
-<div class="line"><span class="lineno">  327</span> </div>
-<div class="line"><span class="lineno">  328</span>            var dirsMoveTask = MoveDirs();</div>
-<div class="line"><span class="lineno">  329</span>            var outputFilesMoveTask = MoveFiles();</div>
-<div class="line"><span class="lineno">  330</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html">ValueTaskExtensions</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3">WhenAll</a>(dirsMoveTask, outputFilesMoveTask);</div>
-<div class="line"><span class="lineno">  331</span>            await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(sourcePath, cancellationToken);</div>
-<div class="line"><span class="lineno">  332</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00219">219</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  220</span>        {</div>
+<div class="line"><span class="lineno">  221</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a>(version);</div>
+<div class="line"><span class="lineno">  222</span>            ArgumentNullException.ThrowIfNull(installPath);</div>
+<div class="line"><span class="lineno">  223</span>            var sourcePath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(installPath, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ab740a3a0135eabb0fe6dd5647ba9f334">InstallationSourceSubDirectory</a>);</div>
+<div class="line"><span class="lineno">  224</span> </div>
+<div class="line"><span class="lineno">  225</span>            <span class="keywordflow">if</span> (!await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aeae08438da658a3c0afddbb7960e4faa">DirectoryExists</a>(sourcePath, cancellationToken))</div>
+<div class="line"><span class="lineno">  226</span>            {</div>
+<div class="line"><span class="lineno">  227</span>                <span class="comment">// a zip install that didn&#39;t come from us?</span></div>
+<div class="line"><span class="lineno">  228</span>                <span class="comment">// we want to use the bin dir, so put everything where we expect</span></div>
+<div class="line"><span class="lineno">  229</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogDebug(<span class="stringliteral">&quot;Correcting extraction location...&quot;</span>);</div>
+<div class="line"><span class="lineno">  230</span>                var dirsTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2">GetDirectories</a>(installPath, cancellationToken);</div>
+<div class="line"><span class="lineno">  231</span>                var filesTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3">GetFiles</a>(installPath, cancellationToken);</div>
+<div class="line"><span class="lineno">  232</span>                var dirCreateTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">CreateDirectory</a>(sourcePath, cancellationToken);</div>
+<div class="line"><span class="lineno">  233</span> </div>
+<div class="line"><span class="lineno">  234</span>                await Task.WhenAll(dirsTask, filesTask, dirCreateTask);</div>
+<div class="line"><span class="lineno">  235</span> </div>
+<div class="line"><span class="lineno">  236</span>                var dirsMoveTasks = dirsTask</div>
+<div class="line"><span class="lineno">  237</span>                    .Result</div>
+<div class="line"><span class="lineno">  238</span>                    .Select(</div>
+<div class="line"><span class="lineno">  239</span>                        dirPath =&gt; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37">MoveDirectory</a>(</div>
+<div class="line"><span class="lineno">  240</span>                            dirPath,</div>
+<div class="line"><span class="lineno">  241</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">  242</span>                                sourcePath,</div>
+<div class="line"><span class="lineno">  243</span>                                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">GetFileName</a>(dirPath)),</div>
+<div class="line"><span class="lineno">  244</span>                            cancellationToken));</div>
+<div class="line"><span class="lineno">  245</span>                var filesMoveTask = filesTask</div>
+<div class="line"><span class="lineno">  246</span>                    .Result</div>
+<div class="line"><span class="lineno">  247</span>                    .Select(</div>
+<div class="line"><span class="lineno">  248</span>                        filePath =&gt; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd">MoveFile</a>(</div>
+<div class="line"><span class="lineno">  249</span>                            filePath,</div>
+<div class="line"><span class="lineno">  250</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">  251</span>                                sourcePath,</div>
+<div class="line"><span class="lineno">  252</span>                                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">GetFileName</a>(filePath)),</div>
+<div class="line"><span class="lineno">  253</span>                            cancellationToken));</div>
+<div class="line"><span class="lineno">  254</span> </div>
+<div class="line"><span class="lineno">  255</span>                await Task.WhenAll(dirsMoveTasks.Concat(filesMoveTask));</div>
+<div class="line"><span class="lineno">  256</span>            }</div>
+<div class="line"><span class="lineno">  257</span> </div>
+<div class="line"><span class="lineno">  258</span>            var dotnetPath = (await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper.html">DotnetHelper</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper.html#a6ce9bc97f5e0fe832f2a1a5653365b64">GetDotnetPath</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a53a42d7c33bf6c94453c8562d5b4cc20">platformIdentifier</a>, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>, cancellationToken))</div>
+<div class="line"><span class="lineno">  259</span>                ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.OpenDreamCantFindDotnet);</div>
+<div class="line"><span class="lineno">  260</span>            <span class="keyword">const</span> <span class="keywordtype">string</span> DeployDir = <span class="stringliteral">&quot;tgs_deploy&quot;</span>;</div>
+<div class="line"><span class="lineno">  261</span>            <span class="keywordtype">int</span>? buildExitCode = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  262</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ae32865608a7386b98313efadfcf0a903">HandleExtremelyLongPathOperation</a>(</div>
+<div class="line"><span class="lineno">  263</span>                async shortenedPath =&gt;</div>
+<div class="line"><span class="lineno">  264</span>                {</div>
+<div class="line"><span class="lineno">  265</span>                    var shortenedDeployPath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(shortenedPath, DeployDir);</div>
+<div class="line"><span class="lineno">  266</span>                    await <span class="keyword">using </span>var buildProcess = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html">ProcessExecutor</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a060adda85e21f5414fa5d75c4608dcfb">LaunchProcess</a>(</div>
+<div class="line"><span class="lineno">  267</span>                        dotnetPath,</div>
+<div class="line"><span class="lineno">  268</span>                        shortenedPath,</div>
+<div class="line"><span class="lineno">  269</span>                        $<span class="stringliteral">&quot;run -c Release --project OpenDreamPackageTool -- --tgs -o {shortenedDeployPath}&quot;</span>,</div>
+<div class="line"><span class="lineno">  270</span>                        cancellationToken,</div>
+<div class="line"><span class="lineno">  271</span>                        <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  272</span>                        <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  273</span>                        !<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a05de9ae65e5cd442c9972ab36185ec7f">OpenDreamSuppressInstallOutput</a>,</div>
+<div class="line"><span class="lineno">  274</span>                        !<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a05de9ae65e5cd442c9972ab36185ec7f">OpenDreamSuppressInstallOutput</a>);</div>
+<div class="line"><span class="lineno">  275</span> </div>
+<div class="line"><span class="lineno">  276</span>                    <span class="keywordflow">if</span> (deploymentPipelineProcesses &amp;&amp; <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html">SessionConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html#abc505aa2ec768c997c7559c1ed223504">LowPriorityDeploymentProcesses</a>)</div>
+<div class="line"><span class="lineno">  277</span>                        buildProcess.AdjustPriority(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  278</span> </div>
+<div class="line"><span class="lineno">  279</span>                    <span class="keyword">using</span> (cancellationToken.Register(() =&gt; buildProcess.Terminate()))</div>
+<div class="line"><span class="lineno">  280</span>                        buildExitCode = await buildProcess.Lifetime;</div>
+<div class="line"><span class="lineno">  281</span> </div>
+<div class="line"><span class="lineno">  282</span>                    <span class="keywordtype">string</span>? output;</div>
+<div class="line"><span class="lineno">  283</span>                    <span class="keywordflow">if</span> (!<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a05de9ae65e5cd442c9972ab36185ec7f">OpenDreamSuppressInstallOutput</a>)</div>
+<div class="line"><span class="lineno">  284</span>                    {</div>
+<div class="line"><span class="lineno">  285</span>                        var buildOutputTask = buildProcess.GetCombinedOutput(cancellationToken);</div>
+<div class="line"><span class="lineno">  286</span>                        <span class="keywordflow">if</span> (!buildOutputTask.IsCompleted)</div>
+<div class="line"><span class="lineno">  287</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;OD build complete, waiting for output...&quot;</span>);</div>
+<div class="line"><span class="lineno">  288</span>                        output = await buildOutputTask;</div>
+<div class="line"><span class="lineno">  289</span>                    }</div>
+<div class="line"><span class="lineno">  290</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  291</span>                        output = <span class="stringliteral">&quot;&lt;Build output suppressed by configuration due to not being immediately available&gt;&quot;</span>;</div>
+<div class="line"><span class="lineno">  292</span> </div>
+<div class="line"><span class="lineno">  293</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogDebug(</div>
+<div class="line"><span class="lineno">  294</span>                        <span class="stringliteral">&quot;OpenDream build exited with code {exitCode}:{newLine}{output}&quot;</span>,</div>
+<div class="line"><span class="lineno">  295</span>                        buildExitCode,</div>
+<div class="line"><span class="lineno">  296</span>                        Environment.NewLine,</div>
+<div class="line"><span class="lineno">  297</span>                        output);</div>
+<div class="line"><span class="lineno">  298</span>                },</div>
+<div class="line"><span class="lineno">  299</span>                sourcePath,</div>
+<div class="line"><span class="lineno">  300</span>                cancellationToken);</div>
+<div class="line"><span class="lineno">  301</span> </div>
+<div class="line"><span class="lineno">  302</span>            <span class="keywordflow">if</span> (buildExitCode != 0)</div>
+<div class="line"><span class="lineno">  303</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<span class="stringliteral">&quot;OpenDream build failed!&quot;</span>);</div>
+<div class="line"><span class="lineno">  304</span> </div>
+<div class="line"><span class="lineno">  305</span>            var deployPath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(sourcePath, DeployDir);</div>
+<div class="line"><span class="lineno">  306</span>            async ValueTask MoveDirs()</div>
+<div class="line"><span class="lineno">  307</span>            {</div>
+<div class="line"><span class="lineno">  308</span>                var dirs = await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2">GetDirectories</a>(deployPath, cancellationToken);</div>
+<div class="line"><span class="lineno">  309</span>                await Task.WhenAll(</div>
+<div class="line"><span class="lineno">  310</span>                    dirs.Select(</div>
+<div class="line"><span class="lineno">  311</span>                        dir =&gt; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37">MoveDirectory</a>(</div>
+<div class="line"><span class="lineno">  312</span>                            dir,</div>
+<div class="line"><span class="lineno">  313</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">  314</span>                                installPath,</div>
+<div class="line"><span class="lineno">  315</span>                                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">GetFileName</a>(dir)),</div>
+<div class="line"><span class="lineno">  316</span>                            cancellationToken)));</div>
+<div class="line"><span class="lineno">  317</span>            }</div>
+<div class="line"><span class="lineno">  318</span> </div>
+<div class="line"><span class="lineno">  319</span>            async ValueTask MoveFiles()</div>
+<div class="line"><span class="lineno">  320</span>            {</div>
+<div class="line"><span class="lineno">  321</span>                var files = await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3">GetFiles</a>(deployPath, cancellationToken);</div>
+<div class="line"><span class="lineno">  322</span>                await Task.WhenAll(</div>
+<div class="line"><span class="lineno">  323</span>                    files.Select(</div>
+<div class="line"><span class="lineno">  324</span>                        file =&gt; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd">MoveFile</a>(</div>
+<div class="line"><span class="lineno">  325</span>                            file,</div>
+<div class="line"><span class="lineno">  326</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">  327</span>                                installPath,</div>
+<div class="line"><span class="lineno">  328</span>                                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">GetFileName</a>(file)),</div>
+<div class="line"><span class="lineno">  329</span>                            cancellationToken)));</div>
+<div class="line"><span class="lineno">  330</span>            }</div>
+<div class="line"><span class="lineno">  331</span> </div>
+<div class="line"><span class="lineno">  332</span>            var dirsMoveTask = MoveDirs();</div>
+<div class="line"><span class="lineno">  333</span>            var outputFilesMoveTask = MoveFiles();</div>
+<div class="line"><span class="lineno">  334</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html">ValueTaskExtensions</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3">WhenAll</a>(dirsMoveTask, outputFilesMoveTask);</div>
+<div class="line"><span class="lineno">  335</span>            await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(sourcePath, cancellationToken);</div>
+<div class="line"><span class="lineno">  336</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html">Tgstation.Server.Common.Extensions.ValueTaskExtensions</a></div><div class="ttdoc">Extension methods for the ValueTask and ValueTask&lt;TResult&gt; classes.</div><div class="ttdef"><b>Definition</b> <a href="_value_task_extensions_8cs_source.html#l00011">ValueTaskExtensions.cs:12</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions_html_a58adbd94d764754bd3e6c566a5fe7fe3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3">Tgstation.Server.Common.Extensions.ValueTaskExtensions.WhenAll</a></div><div class="ttdeci">static async ValueTask WhenAll(IEnumerable&lt; ValueTask &gt; tasks)</div><div class="ttdoc">Fully await a given list of tasks .</div><div class="ttdef"><b>Definition</b> <a href="_value_task_extensions_8cs_source.html#l00099">ValueTaskExtensions.cs:99</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer_html_ae32865608a7386b98313efadfcf0a903"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ae32865608a7386b98313efadfcf0a903">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.HandleExtremelyLongPathOperation</a></div><div class="ttdeci">virtual ValueTask HandleExtremelyLongPathOperation(Func&lt; string, ValueTask &gt; shortenedPathOperation, string originalPath, CancellationToken cancellationToken)</div><div class="ttdoc">Perform an operation on a very long path.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a05de9ae65e5cd442c9972ab36185ec7f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a05de9ae65e5cd442c9972ab36185ec7f">Tgstation.Server.Host.Configuration.GeneralConfiguration.OpenDreamSuppressInstallOutput</a></div><div class="ttdeci">bool OpenDreamSuppressInstallOutput</div><div class="ttdoc">If the dotnet output of creating an OpenDream installation should be suppressed. Known to cause issue...</div><div class="ttdef"><b>Definition</b> <a href="_general_configuration_8cs_source.html#l00154">GeneralConfiguration.cs:154</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration_html_abc505aa2ec768c997c7559c1ed223504"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html#abc505aa2ec768c997c7559c1ed223504">Tgstation.Server.Host.Configuration.SessionConfiguration.LowPriorityDeploymentProcesses</a></div><div class="ttdeci">bool LowPriorityDeploymentProcesses</div><div class="ttdoc">If the deployment DreamMaker and DreamDaemon instances are set to be below normal priority processes.</div><div class="ttdef"><b>Definition</b> <a href="_session_configuration_8cs_source.html#l00026">SessionConfiguration.cs:26</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper.html">Tgstation.Server.Host.System.DotnetHelper</a></div><div class="ttdoc">Helper methods for working with the dotnet executable.</div><div class="ttdef"><b>Definition</b> <a href="_tgstation_8_server_8_host_2_system_2_dotnet_helper_8cs_source.html#l00013">DotnetHelper.cs:14</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper_html_a6ce9bc97f5e0fe832f2a1a5653365b64"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper.html#a6ce9bc97f5e0fe832f2a1a5653365b64">Tgstation.Server.Host.System.DotnetHelper.GetDotnetPath</a></div><div class="ttdeci">static async ValueTask&lt; string?&gt; GetDotnetPath(IPlatformIdentifier platformIdentifier, IIOManager ioManager, CancellationToken cancellationToken)</div><div class="ttdoc">Locate a dotnet executable to use.</div><div class="ttdef"><b>Definition</b> <a href="_tgstation_8_server_8_host_2_system_2_dotnet_helper_8cs_source.html#l00022">DotnetHelper.cs:22</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_a060adda85e21f5414fa5d75c4608dcfb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a060adda85e21f5414fa5d75c4608dcfb">Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess</a></div><div class="ttdeci">async ValueTask&lt; IProcess &gt; LaunchProcess(string fileName, string workingDirectory, string arguments, CancellationToken cancellationToken, IReadOnlyDictionary&lt; string, string &gt;? environment, string? fileRedirect, bool readStandardHandles, bool noShellExecute)</div><div class="ttdoc">Launch a IProcess.A ValueTask&lt;TResult&gt; resulting in the new IProcess.</div><div class="ttdef"><b>Definition</b> <a href="_process_executor_8cs_source.html#l00108">ProcessExecutor.cs:108</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a0749e071c50bd39000bb7db1d02fc2e3"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3">Tgstation.Server.Host.IO.IIOManager.GetFiles</a></div><div class="ttdeci">Task&lt; IReadOnlyList&lt; string &gt; &gt; GetFiles(string path, CancellationToken cancellationToken)</div><div class="ttdoc">Returns full file names in a given path .</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a0d6d5a54db205d2d1d45a927d57f5182"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">Tgstation.Server.Host.IO.IIOManager.GetFileName</a></div><div class="ttdeci">string GetFileName(string path)</div><div class="ttdoc">Gets the file name portion of a path .</div></div>
@@ -1181,14 +1196,14 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#aa44c85a3e90049f9347d2284654a3c73">Tgstation.Server.Host.Components.Engine.IEngineInstaller</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00343">343</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  344</span>        {</div>
-<div class="line"><span class="lineno">  345</span>            ArgumentNullException.ThrowIfNull(engineVersion);</div>
-<div class="line"><span class="lineno">  346</span>            ArgumentNullException.ThrowIfNull(fullDmbPath);</div>
-<div class="line"><span class="lineno">  347</span> </div>
-<div class="line"><span class="lineno">  348</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;TrustDmbPath is a no-op: {path}&quot;</span>, fullDmbPath);</div>
-<div class="line"><span class="lineno">  349</span>            <span class="keywordflow">return</span> ValueTask.CompletedTask;</div>
-<div class="line"><span class="lineno">  350</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00347">347</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  348</span>        {</div>
+<div class="line"><span class="lineno">  349</span>            ArgumentNullException.ThrowIfNull(engineVersion);</div>
+<div class="line"><span class="lineno">  350</span>            ArgumentNullException.ThrowIfNull(fullDmbPath);</div>
+<div class="line"><span class="lineno">  351</span> </div>
+<div class="line"><span class="lineno">  352</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;TrustDmbPath is a no-op: {path}&quot;</span>, fullDmbPath);</div>
+<div class="line"><span class="lineno">  353</span>            <span class="keywordflow">return</span> ValueTask.CompletedTask;</div>
+<div class="line"><span class="lineno">  354</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_engine_installer_base_8cs_source.html#l00029">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.Logger</a>.</p>
 
@@ -1239,12 +1254,12 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a3406d94bc2e99eacb6ca8f3e811efac6">Tgstation.Server.Host.Components.Engine.IEngineInstaller</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00335">335</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  336</span>        {</div>
-<div class="line"><span class="lineno">  337</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a>(version);</div>
-<div class="line"><span class="lineno">  338</span>            ArgumentNullException.ThrowIfNull(path);</div>
-<div class="line"><span class="lineno">  339</span>            <span class="keywordflow">return</span> ValueTask.CompletedTask;</div>
-<div class="line"><span class="lineno">  340</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00339">339</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  340</span>        {</div>
+<div class="line"><span class="lineno">  341</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a>(version);</div>
+<div class="line"><span class="lineno">  342</span>            ArgumentNullException.ThrowIfNull(path);</div>
+<div class="line"><span class="lineno">  343</span>            <span class="keywordflow">return</span> ValueTask.CompletedTask;</div>
+<div class="line"><span class="lineno">  344</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_engine_installer_base_8cs_source.html#l00064">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity()</a>.</p>
 <div class="dynheader">
@@ -1313,7 +1328,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00029">29</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00371">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetExecutablePaths()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00375">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetExecutablePaths()</a>.</p>
 
 </div>
 </div>
@@ -1369,7 +1384,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00039">39</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00371">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetExecutablePaths()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00375">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetExecutablePaths()</a>.</p>
 
 </div>
 </div>
@@ -1397,7 +1412,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00044">44</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00136">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.DownloadVersion()</a>, and <a class="el" href="_open_dream_installer_8cs_source.html#l00215">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.Install()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00140">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.DownloadVersion()</a>, and <a class="el" href="_open_dream_installer_8cs_source.html#l00219">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.Install()</a>.</p>
 
 </div>
 </div>
@@ -1425,7 +1440,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00067">67</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00215">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.Install()</a>, and <a class="el" href="_open_dream_installer_8cs_source.html#l00096">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.OpenDreamInstaller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00121">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.CreateInstallation()</a>, <a class="el" href="_open_dream_installer_8cs_source.html#l00219">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.Install()</a>, and <a class="el" href="_open_dream_installer_8cs_source.html#l00096">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.OpenDreamInstaller()</a>.</p>
 
 </div>
 </div>
@@ -1453,7 +1468,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00072">72</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00136">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.DownloadVersion()</a>, and <a class="el" href="_open_dream_installer_8cs_source.html#l00096">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.OpenDreamInstaller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00140">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.DownloadVersion()</a>, and <a class="el" href="_open_dream_installer_8cs_source.html#l00096">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.OpenDreamInstaller()</a>.</p>
 
 </div>
 </div>
@@ -1481,7 +1496,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_open_dream_installer_8cs_source.html#l00034">34</a> of file <a class="el" href="_open_dream_installer_8cs_source.html">OpenDreamInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00371">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetExecutablePaths()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_open_dream_installer_8cs_source.html#l00375">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetExecutablePaths()</a>.</p>
 
 </div>
 </div>

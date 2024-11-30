@@ -224,6 +224,10 @@ Components:
       - Fixed the colouring of the icon for TGS on Windows.
       Author: Cyberboss
       PullRequest: 2028
+    - Descriptions:
+      - For better compatibility with nix, OpenDream executables are no longer invoked directly. Instead the `dotnet` executable will be used on the `.dll`'s.
+      Author: Cyberboss
+      PullRequest: 2032
     Unreleased: true
   - Version: 6.11.5
     ComponentVersions:

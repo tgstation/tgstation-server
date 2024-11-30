@@ -76,7 +76,7 @@
 <area shape="poly" id="edge17_Node000016_Node000017" title=" " alt="" coords="612,1012,538,1012,538,1007,612,1007"/>
 <area shape="rect" id="Node000019" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#aafeac2268b4c3375e79162b461908e8f" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="630,1053,887,1109"/>
 <area shape="poly" id="edge19_Node000018_Node000019" title=" " alt="" coords="935,1084,888,1084,888,1079,935,1079"/>
-<area shape="rect" id="Node000021" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a829f42c5be8479d3d41596800ed7c222" title="Creates an IEngineInstallation for a given version .The IEngineInstallation." alt="" coords="618,1133,900,1174"/>
+<area shape="rect" id="Node000021" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ab39bc6db3353e20379b3a91dcd98c1c4" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in the IEngineInst..." alt="" coords="618,1133,900,1174"/>
 <area shape="poly" id="edge21_Node000018_Node000021" title=" " alt="" coords="987,1108,860,1135,858,1130,985,1103"/>
 <area shape="rect" id="Node000020" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#abfd28aaba98525c2eed2f1ff7a670bc1" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="288,1061,558,1102"/>
 <area shape="poly" id="edge20_Node000019_Node000020" title=" " alt="" coords="614,1084,558,1084,558,1079,614,1079"/>

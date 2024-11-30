@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.CreateInstallation" name="Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.CreateInstallation">
-<area shape="rect" id="Node000001" title="Creates an IEngineInstallation for a given version .The IEngineInstallation." alt="" coords="5,49,288,90"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="354,5,617,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="288,52,339,46,339,51,288,57"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a04059bc8156f7b07e59b423dad178e45" title="Gets the paths to the server and client executables." alt="" coords="336,85,635,126"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="288,82,320,85,320,90,288,87"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="683,85,850,126"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="635,103,668,103,668,108,635,108"/>
-</map>

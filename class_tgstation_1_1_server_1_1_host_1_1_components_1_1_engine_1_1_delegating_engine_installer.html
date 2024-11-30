@@ -123,18 +123,19 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
   <br /></td></tr>
 <tr class="separator:ae0f1bf9e2fa66b51910d2c99fd82e3d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2261a1236dcaa47602c9b6dbd3554f70" id="r_a2261a1236dcaa47602c9b6dbd3554f70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html#a2261a1236dcaa47602c9b6dbd3554f70">CreateInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, Task installationTask)</td></tr>
-<tr class="memdesc:a2261a1236dcaa47602c9b6dbd3554f70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a> for a given <em>version</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a7ba043fa2330fa6ac1ef550055401515" id="r_a7ba043fa2330fa6ac1ef550055401515"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html#a7ba043fa2330fa6ac1ef550055401515">CreateInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, Task installationTask, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a7ba043fa2330fa6ac1ef550055401515"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a> for a given <em>version</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion of the installation.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
     <tr><td class="paramname">installationTask</td><td>The Task representing the installation process for the installation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a>.</dd></dl>
   <br /></td></tr>
-<tr class="separator:a2261a1236dcaa47602c9b6dbd3554f70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a7ba043fa2330fa6ac1ef550055401515"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a747b57847efcd7a358f99dc585cb57ba" id="r_a747b57847efcd7a358f99dc585cb57ba"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html">IEngineInstallationData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html#a747b57847efcd7a358f99dc585cb57ba">DownloadVersion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> jobProgressReporter, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a747b57847efcd7a358f99dc585cb57ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given engine <em>version</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -266,14 +267,14 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a2261a1236dcaa47602c9b6dbd3554f70" name="a2261a1236dcaa47602c9b6dbd3554f70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2261a1236dcaa47602c9b6dbd3554f70">&#9670;&#160;</a></span>CreateInstallation()</h2>
+<a id="a7ba043fa2330fa6ac1ef550055401515" name="a7ba043fa2330fa6ac1ef550055401515"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ba043fa2330fa6ac1ef550055401515">&#9670;&#160;</a></span>CreateInstallation()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a> Tgstation.Server.Host.Components.Engine.DelegatingEngineInstaller.CreateInstallation </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a> &gt; Tgstation.Server.Host.Components.Engine.DelegatingEngineInstaller.CreateInstallation </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a>&#160;</td>
           <td class="paramname"><em>version</em>, </td>
@@ -288,7 +289,13 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Task&#160;</td>
-          <td class="paramname"><em>installationTask</em>&#160;</td>
+          <td class="paramname"><em>installationTask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -303,13 +310,14 @@ Private Attributes</h2></td></tr>
     <tr><td class="paramname">version</td><td>The EngineVersion of the installation.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
     <tr><td class="paramname">installationTask</td><td>The Task representing the installation process for the installation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a>.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a0dac565523ae59fd18a8ad6eb1dfb616">Tgstation.Server.Host.Components.Engine.IEngineInstaller</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a4c56e45c9dbd09180811ac5f5c6ffd70">Tgstation.Server.Host.Components.Engine.IEngineInstaller</a>.</p>
 
 </div>
 </div>

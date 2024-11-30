@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.System.DotnetHelper.GetDotnetPath" name="Tgstation.Server.Host.System.DotnetHelper.GetDotnetPath">
-<area shape="rect" id="Node000001" title="Locate a dotnet executable to use." alt="" coords="280,5,477,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="5,5,232,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,28,232,28,232,23,264,23"/>
+<area shape="rect" id="Node000001" title="Locate a dotnet executable to use." alt="" coords="336,39,533,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ab39bc6db3353e20379b3a91dcd98c1c4" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in the IEngineInst..." alt="" coords="5,5,288,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="320,48,288,45,289,39,320,43"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="33,71,260,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="321,74,260,81,260,76,320,69"/>
 </map>
