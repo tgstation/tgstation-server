@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -45,7 +45,6 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
-using Tgstation.Server.Host.Utils;
 using Tgstation.Server.Tests.Live.Instance;
 
 namespace Tgstation.Server.Tests.Live
@@ -94,7 +93,17 @@ namespace Tgstation.Server.Tests.Live
 						result.AddRange(System.Diagnostics.Process.GetProcessesByName("dd"));
 					break;
 				case EngineType.OpenDream:
-					result.AddRange(System.Diagnostics.Process.GetProcessesByName("Robust.Server"));
+					var potentialProcesses = System.Diagnostics.Process.GetProcessesByName("dotnet")
+						.Where(process =>
+						{
+							if (GetCommandLine(process).Contains("Robust.Server"))
+								return true;
+
+							process.Dispose();
+							return false;
+						});
+
+					result.AddRange(potentialProcesses);
 					break;
 				default:
 					Assert.Fail($"Unknown engine type: {engineType}");
