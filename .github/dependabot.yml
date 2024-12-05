@@ -12,6 +12,7 @@ updates:
         applies-to: version-updates
         patterns:
           - "HotChocolate.*"
+          - "StrawberryShake.Server"
       Swashbuckle:
         applies-to: version-updates
         patterns:
