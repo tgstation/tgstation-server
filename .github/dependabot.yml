@@ -12,10 +12,15 @@ updates:
         applies-to: version-updates
         patterns:
           - "HotChocolate.*"
+          - "StrawberryShake.Server"
       Swashbuckle:
         applies-to: version-updates
         patterns:
           - "Swashbuckle.*"
+      MSTest:
+        applies-to: version-updates
+        patterns:
+          - "MSTest.*"
     open-pull-requests-limit: 100
 
   - package-ecosystem: github-actions
