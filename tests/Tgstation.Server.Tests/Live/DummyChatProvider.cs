@@ -51,7 +51,7 @@ namespace Tgstation.Server.Tests.Live
 			// at time of writing, this is used exclusively for the reconnection interval which works in minutes
 			// shorten it to 3s
 			var mock = new Mock<IAsyncDelayer>();
-			mock.Setup(x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>())).Returns<TimeSpan, CancellationToken>((delay, cancellationToken) => Task.Delay(TimeSpan.FromSeconds(3), cancellationToken));
+			mock.Setup(x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>())).Returns<TimeSpan, CancellationToken>(async (delay, cancellationToken) => await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken));
 			return mock.Object;
 		}
 

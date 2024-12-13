@@ -14,10 +14,10 @@ namespace Tgstation.Server.Host.Common
 	public static class DotnetHelper
 	{
 		/// <summary>
-		/// Gets the path to the dotnet executable.
+		/// Gets potential paths to the dotnet executable.
 		/// </summary>
 		/// <param name="isWindows">If the current system is a Windows OS.</param>
-		/// <returns>The path to the dotnet executable.</returns>
+		/// <returns>An <see cref="IEnumerable{T}"/> of potential paths to the dotnet executable.</returns>
 		public static IEnumerable<string> GetPotentialDotnetPaths(bool isWindows)
 		{
 			var enviromentPath = Environment.GetEnvironmentVariable("PATH");

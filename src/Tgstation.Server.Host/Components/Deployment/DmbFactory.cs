@@ -532,7 +532,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						foreach (var lockManager in jobLockManagers.Values)
 							lockManager.LogLockStats(builder);
 
-					logger.LogDebug("Periodic deployment log states report (R.e. Issue #1779):{newLine}{report}", Environment.NewLine, builder); // TODO: Reduce to trace once #1779 is fixed
+					logger.LogTrace("Periodic deployment log states report:{newLine}{report}", Environment.NewLine, builder);
 
 					await asyncDelayer.Delay(TimeSpan.FromMinutes(10), cancellationToken);
 				}

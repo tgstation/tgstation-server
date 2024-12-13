@@ -1,7 +1,7 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal" xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx">
   <Bundle Name="tgstation-server" Manufacturer="/tg/station 13" Version="$(var.ProductVersion)" AboutUrl="https://github.com/tgstation/tgstation-server/blob/tgstation-server-v$(var.ProductVersion)/LICENSE" IconSourceFile="../../../../artifacts/tgs.ico" HelpUrl="https://github.com/tgstation/tgstation-server/discussions/categories/q-a" UpdateUrl="https://github.com/tgstation/tgstation-server/releases/latest" UpgradeCode="542535f4-49ad-45c4-9b96-6d8235ed8b87">
     <BootstrapperApplication>
-      <bal:WixStandardBootstrapperApplication LicenseUrl="https://github.com/tgstation/tgstation/tree/tgstation-server-v$(var.ProductVersion)" LocalizationFile="Theme.wxl" Theme="hyperlinkLicense" LogoFile="../../../../artifacts/tgs.ico" ShowVersion="yes" SuppressOptionsUI="yes" ThemeFile="Theme.xml" LaunchTarget="http://127.0.0.1:5000" />
+      <bal:WixStandardBootstrapperApplication LicenseUrl="https://github.com/tgstation/tgstation-server/tree/tgstation-server-v$(var.ProductVersion)" LocalizationFile="Theme.wxl" Theme="hyperlinkLicense" LogoFile="../../../../artifacts/tgs.ico" ShowVersion="yes" SuppressOptionsUI="yes" ThemeFile="Theme.xml" LaunchTarget="http://127.0.0.1:5000" />
     </BootstrapperApplication>
 
     <netfx:DotNetCoreSearch RuntimeType="aspnet" Platform="x64" MajorVersion="$(var.NetMajorVersion)" Variable="AspNetCorex64Status" />

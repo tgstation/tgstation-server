@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Security
 		readonly ILogger<SessionInvalidationTracker> logger;
 
 		/// <summary>
-		/// <see cref="ConcurrentDictionary{TKey, TValue}"/> of tracked <see cref="IAuthenticationContext.SessionId"/>s and <see cref="Models.User"/> <see cref="Api.Models.EntityId.Id"/>s to the <see cref="TaskCompletionSource{TResult}"/> for their <see cref="SessionInvalidationReason"/>s.
+		/// <see cref="ConcurrentDictionary{TKey, TValue}"/> of tracked <see cref="IAuthenticationContext.SessionId"/>s and <see cref="User"/> <see cref="Api.Models.EntityId.Id"/>s to the <see cref="TaskCompletionSource{TResult}"/> for their <see cref="SessionInvalidationReason"/>s.
 		/// </summary>
 		readonly ConcurrentDictionary<(string SessionId, long UserId), TaskCompletionSource<SessionInvalidationReason>> trackedSessions;
 
@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Security
 								var timeTillSessionExpiry = authenticationContext.SessionExpiry - DateTimeOffset.UtcNow;
 								if (timeTillSessionExpiry > TimeSpan.Zero)
 								{
-									var delayTask = asyncDelayer.Delay(timeTillSessionExpiry, applicationLifetime.ApplicationStopping);
+									var delayTask = asyncDelayer.Delay(timeTillSessionExpiry, applicationLifetime.ApplicationStopping).AsTask();
 
 									await Task.WhenAny(delayTask, otherCancellationReason);
 
@@ -122,7 +122,7 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public void UserModifiedInvalidateSessions(Models.User user)
+		public void UserModifiedInvalidateSessions(User user)
 		{
 			ArgumentNullException.ThrowIfNull(user);
 

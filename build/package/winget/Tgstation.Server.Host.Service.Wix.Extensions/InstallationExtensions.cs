@@ -16,7 +16,7 @@
 		/// <summary>
 		/// Package name
 		/// </summary>
-		/// <remarks>As much as I'd like to use Tgstation.Server.Common.Constants.CanonicalPackageName here, attempting to reference it makes Tgstation.Server.Migrator.Comms fail due to referencing the net2.0 version of that library. EVEN THOUGH IT'S A TRANSITIVE DEPENDENCY OF Tgstation.Server.Client!!!!! If that dead-ass tool has been removed, feel free to do this.</remarks>
+		/// <remarks>As much as I'd like to use Tgstation.Server.Common.Constants.CanonicalPackageName here, attempting to reference it makes VS go crazy with fake errors.</remarks>
 		const string CanonicalPackageName = "tgstation-server";
 
 		/// <summary>

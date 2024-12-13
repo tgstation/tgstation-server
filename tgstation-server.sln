@@ -197,13 +197,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Tests.Signals", "tests\Tgstation.Server.Host.Tests.Signals\Tgstation.Server.Host.Tests.Signals.csproj", "{5813CC33-B16C-485D-A74D-20204DDF6542}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Migrator", "tools\Tgstation.Server.Migrator\Tgstation.Server.Migrator.csproj", "{CE499888-B22B-457C-891E-0EA9DC317228}"
-	ProjectSection(ProjectDependencies) = postProject
-		{07ED0FD5-E46B-4841-931D-BA2B673E16B2} = {07ED0FD5-E46B-4841-931D-BA2B673E16B2}
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Migrator.Comms", "tools\Tgstation.Server.Migrator.Comms\Tgstation.Server.Migrator.Comms.csproj", "{07ED0FD5-E46B-4841-931D-BA2B673E16B2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Common", "src\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj", "{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Common", "src\Tgstation.Server.Common\Tgstation.Server.Common.csproj", "{70CD9A98-D31A-44A4-81D1-D02764CEEEFD}"
@@ -273,6 +266,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Shared.Tests", "tests\Tgstation.Server.Shared.Tests\Tgstation.Server.Shared.Tests.csproj", "{EAB84FD0-5514-4254-B188-7D90ACB7284D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Client.GraphQL", "src\Tgstation.Server.Client.GraphQL\Tgstation.Server.Client.GraphQL.csproj", "{8BF95E2D-FD27-470C-82B7-C21AC01BFBD7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nix", "nix", "{5130526C-A553-493B-A9B0-3DB452949886}"
+	ProjectSection(SolutionItems) = preProject
+		build\package\nix\flake.nix = build\package\nix\flake.nix
+		build\package\nix\package.nix = build\package\nix\package.nix
+		build\package\nix\ServerConsole.sha256 = build\package\nix\ServerConsole.sha256
+		build\package\nix\tgstation-server.nix = build\package\nix\tgstation-server.nix
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -448,30 +449,6 @@ Global
 		{5813CC33-B16C-485D-A74D-20204DDF6542}.ReleaseNoWindows|Any CPU.Build.0 = Release|Any CPU
 		{5813CC33-B16C-485D-A74D-20204DDF6542}.ReleaseNoWix|Any CPU.ActiveCfg = Release|Any CPU
 		{5813CC33-B16C-485D-A74D-20204DDF6542}.ReleaseNoWix|Any CPU.Build.0 = Release|Any CPU
-		{CE499888-B22B-457C-891E-0EA9DC317228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE499888-B22B-457C-891E-0EA9DC317228}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE499888-B22B-457C-891E-0EA9DC317228}.DebugNoWindows|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE499888-B22B-457C-891E-0EA9DC317228}.DebugNoWindows|Any CPU.Build.0 = Debug|Any CPU
-		{CE499888-B22B-457C-891E-0EA9DC317228}.DebugNoWix|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE499888-B22B-457C-891E-0EA9DC317228}.DebugNoWix|Any CPU.Build.0 = Debug|Any CPU
-		{CE499888-B22B-457C-891E-0EA9DC317228}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE499888-B22B-457C-891E-0EA9DC317228}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE499888-B22B-457C-891E-0EA9DC317228}.ReleaseNoWindows|Any CPU.ActiveCfg = Release|Any CPU
-		{CE499888-B22B-457C-891E-0EA9DC317228}.ReleaseNoWindows|Any CPU.Build.0 = Release|Any CPU
-		{CE499888-B22B-457C-891E-0EA9DC317228}.ReleaseNoWix|Any CPU.ActiveCfg = Release|Any CPU
-		{CE499888-B22B-457C-891E-0EA9DC317228}.ReleaseNoWix|Any CPU.Build.0 = Release|Any CPU
-		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.DebugNoWindows|Any CPU.ActiveCfg = Debug|Any CPU
-		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.DebugNoWindows|Any CPU.Build.0 = Debug|Any CPU
-		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.DebugNoWix|Any CPU.ActiveCfg = Debug|Any CPU
-		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.DebugNoWix|Any CPU.Build.0 = Debug|Any CPU
-		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.ReleaseNoWindows|Any CPU.ActiveCfg = Release|Any CPU
-		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.ReleaseNoWindows|Any CPU.Build.0 = Release|Any CPU
-		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.ReleaseNoWix|Any CPU.ActiveCfg = Release|Any CPU
-		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.ReleaseNoWix|Any CPU.Build.0 = Release|Any CPU
 		{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}.DebugNoWindows|Any CPU.ActiveCfg = Debug|Any CPU
@@ -605,8 +582,6 @@ Global
 		{103C61AB-67D6-46FE-AA47-CC633B88EE0F} = {82066812-6C73-4360-943B-B23F2F491261}
 		{CFFD7992-E73A-4D1F-9D7A-C817C07B7BEB} = {E82104F4-F5C4-4786-ACD4-B635166CDB21}
 		{5813CC33-B16C-485D-A74D-20204DDF6542} = {316141B0-CD21-4769-A013-D53DA9B9EC09}
-		{CE499888-B22B-457C-891E-0EA9DC317228} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
-		{07ED0FD5-E46B-4841-931D-BA2B673E16B2} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
 		{2648A85F-61AE-428E-95E1-66D06C7A3768} = {6FF654E6-3E2C-46D4-872D-D528F77D6973}
 		{457A1F89-6201-4430-BCC6-2F4438A54B9E} = {2648A85F-61AE-428E-95E1-66D06C7A3768}
 		{08E7C650-A447-4DE2-974E-ED123B50F8D6} = {457A1F89-6201-4430-BCC6-2F4438A54B9E}
@@ -619,6 +594,7 @@ Global
 		{69944039-65C2-40E1-9D86-0608FA0C2D70} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
 		{7F7FCFDF-271D-45C2-830C-BCCB19C57077} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
 		{EAB84FD0-5514-4254-B188-7D90ACB7284D} = {316141B0-CD21-4769-A013-D53DA9B9EC09}
+		{5130526C-A553-493B-A9B0-3DB452949886} = {2648A85F-61AE-428E-95E1-66D06C7A3768}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}

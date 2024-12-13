@@ -109,6 +109,8 @@ namespace Tgstation.Server.Tests
 				ChatBotLimit = 1,
 				ChatSettings = new List<Host.Models.ChatBot>(),
 				ConfigurationType = ConfigurationType.HostWrite,
+				AutoStartCron = String.Empty,
+				AutoStopCron = String.Empty,
 				DreamDaemonSettings = new Host.Models.DreamDaemonSettings
 				{
 					AllowWebClient = false,

@@ -4,6 +4,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
+    <!-- Important that this is core and not host watchdog. Bootstrapping depends on it -->
     <Version>$(TgsCoreVersion)</Version>
     <Nullable>enable</Nullable>
     <UseAppHost>false</UseAppHost>
@@ -12,9 +13,9 @@
 
   <ItemGroup>
     <!-- Usage: Identifying if we're running under SystemD -->
-    <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="9.0.0" />
     <!-- Usage: Console logging plugin -->
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -90,19 +89,39 @@ namespace Tgstation.Server.Host.Components
 		readonly Api.Models.Instance metadata;
 
 		/// <summary>
-		/// <see langword="lock"/> <see cref="object"/> for <see cref="timerCts"/> and <see cref="timerTask"/>.
+		/// <see langword="lock"/> <see cref="object"/> for <see cref="autoUpdateCts"/> and <see cref="autoUpdateTask"/>.
 		/// </summary>
 		readonly object timerLock;
 
 		/// <summary>
-		/// The auto update <see cref="Task"/>.
+		/// The auto-update <see cref="Task"/>.
 		/// </summary>
-		Task? timerTask;
+		Task? autoUpdateTask;
 
 		/// <summary>
-		/// <see cref="CancellationTokenSource"/> for <see cref="timerTask"/>.
+		/// <see cref="CancellationTokenSource"/> for <see cref="autoUpdateTask"/>.
 		/// </summary>
-		CancellationTokenSource? timerCts;
+		CancellationTokenSource? autoUpdateCts;
+
+		/// <summary>
+		/// The auto-start <see cref="Task"/>.
+		/// </summary>
+		Task? autoStartTask;
+
+		/// <summary>
+		/// <see cref="CancellationTokenSource"/> for <see cref="autoStartTask"/>.
+		/// </summary>
+		CancellationTokenSource? autoStartCts;
+
+		/// <summary>
+		/// The auto-stop <see cref="Task"/>.
+		/// </summary>
+		Task? autoStopTask;
+
+		/// <summary>
+		/// <see cref="CancellationTokenSource"/> for <see cref="autoStopTask"/>.
+		/// </summary>
+		CancellationTokenSource? autoStopCts;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Instance"/> class.
@@ -160,7 +179,9 @@ namespace Tgstation.Server.Host.Components
 			{
 				var chatDispose = Chat.DisposeAsync();
 				var watchdogDispose = Watchdog.DisposeAsync();
-				timerCts?.Dispose();
+				autoUpdateCts?.Dispose();
+				autoStartCts?.Dispose();
+				autoStopCts?.Dispose();
 				Configuration.Dispose();
 				dmbFactory.Dispose();
 				RepositoryManager.Dispose();
@@ -188,6 +209,8 @@ namespace Tgstation.Server.Host.Components
 			{
 				await Task.WhenAll(
 					ScheduleAutoUpdate(metadata.Require(x => x.AutoUpdateInterval), metadata.AutoUpdateCron).AsTask(),
+					ScheduleServerStart(null).AsTask(),
+					ScheduleServerStop(null).AsTask(),
 					Configuration.StartAsync(cancellationToken),
 					EngineManager.StartAsync(cancellationToken),
 					Chat.StartAsync(cancellationToken),
@@ -224,14 +247,14 @@ namespace Tgstation.Server.Host.Components
 
 			Task toWait;
 			lock (timerLock)
-				if (timerTask != null)
+				if (autoUpdateTask != null)
 				{
 					logger.LogTrace("Cancelling auto-update task");
-					timerCts!.Cancel();
-					timerCts.Dispose();
-					toWait = timerTask;
-					timerTask = null;
-					timerCts = null;
+					autoUpdateCts!.Cancel();
+					autoUpdateCts.Dispose();
+					toWait = autoUpdateTask;
+					autoUpdateTask = null;
+					autoUpdateCts = null;
 				}
 				else
 					toWait = Task.CompletedTask;
@@ -246,14 +269,95 @@ namespace Tgstation.Server.Host.Components
 			lock (timerLock)
 			{
 				// race condition, just quit
-				if (timerTask != null)
+				if (autoUpdateTask != null)
 				{
 					logger.LogWarning("Aborting auto-update scheduling change due to race condition!");
 					return;
 				}
 
-				timerCts = new CancellationTokenSource();
-				timerTask = TimerLoop(newInterval, newCron, timerCts.Token);
+				autoUpdateCts = new CancellationTokenSource();
+				autoUpdateTask = TimerLoop(AutoUpdateAction, "auto-update", newInterval, newCron, autoUpdateCts.Token);
+			}
+		}
+
+		/// <inheritdoc />
+		public async ValueTask ScheduleServerStart(string? newCron)
+		{
+			Task toWait;
+			lock (timerLock)
+				if (autoStartTask != null)
+				{
+					logger.LogTrace("Cancelling auto-start task");
+					autoStartCts!.Cancel();
+					autoStartCts.Dispose();
+					toWait = autoStartTask;
+					autoStartTask = null;
+					autoStartCts = null;
+				}
+				else
+					toWait = Task.CompletedTask;
+
+			await toWait;
+			if (String.IsNullOrWhiteSpace(newCron))
+			{
+				logger.LogTrace("Auto-start disabled. Not starting task.");
+				return;
+			}
+
+			lock (timerLock)
+			{
+				// race condition, just quit
+				if (autoStartTask != null)
+				{
+					logger.LogWarning("Aborting auto-start scheduling change due to race condition!");
+					return;
+				}
+
+				autoStartCts = new CancellationTokenSource();
+				autoStartTask = TimerLoop(Watchdog.Launch, "auto-start", 0, newCron, autoStartCts.Token);
+			}
+		}
+
+		/// <inheritdoc />
+		public async ValueTask ScheduleServerStop(string? newCron)
+		{
+			Task toWait;
+			lock (timerLock)
+				if (autoStopTask != null)
+				{
+					logger.LogTrace("Cancelling auto-stop task");
+					autoStopCts!.Cancel();
+					autoStopCts.Dispose();
+					toWait = autoStopTask;
+					autoStopTask = null;
+					autoStopCts = null;
+				}
+				else
+					toWait = Task.CompletedTask;
+
+			await toWait;
+			if (String.IsNullOrWhiteSpace(newCron))
+			{
+				logger.LogTrace("Auto-stop disabled. Not stoping task.");
+				return;
+			}
+
+			lock (timerLock)
+			{
+				// race condition, just quit
+				if (autoStopTask != null)
+				{
+					logger.LogWarning("Aborting auto-stop scheduling change due to race condition!");
+					return;
+				}
+
+				autoStopCts = new CancellationTokenSource();
+				autoStopTask = TimerLoop(
+					async cancellationToken => await Watchdog.Terminate(true, cancellationToken),
+					"auto-stop",
+					0,
+					newCron,
+					autoStopCts.Token);
 			}
 		}
 
@@ -486,14 +590,15 @@ namespace Tgstation.Server.Host.Components
 #pragma warning restore CA1502   // Cyclomatic complexity
 
 		/// <summary>
-		/// Pull the repository and compile for every set of given <paramref name="minutes"/>.
+		/// Runs a <paramref name="timerAction"/> every set of given <paramref name="minutes"/> or on a given <paramref name="cron"/> schedule.
 		/// </summary>
+		/// <param name="timerAction">The action to take when the timer elapses.</param>
+		/// <param name="description">A description of the <paramref name="timerAction"/>.</param>
 		/// <param name="minutes">How many minutes the operation should repeat. Does not include running time.</param>
 		/// <param name="cron">Alternative cron schedule.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-#pragma warning disable CA1502 // TODO: Decomplexify
-		async Task TimerLoop(uint minutes, string? cron, CancellationToken cancellationToken)
+		async Task TimerLoop(Func<CancellationToken, ValueTask> timerAction, string description, uint minutes, string? cron, CancellationToken cancellationToken)
 		{
 			logger.LogDebug("Entering auto-update loop");
 			while (true)
@@ -520,100 +625,86 @@ namespace Tgstation.Server.Host.Components
 						delay = TimeSpan.FromMinutes(minutes);
 					}
 
-					logger.LogInformation("Next auto-update will occur at {time}", DateTimeOffset.UtcNow + delay);
-
-					// https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.delay?view=net-8.0#system-threading-tasks-task-delay(system-timespan)
-					const uint DelayMinutesLimit = UInt32.MaxValue - 1;
-					Debug.Assert(DelayMinutesLimit == 4294967294, "Delay limit assertion failure!");
-
-					var maxDelayIterations = 0UL;
-					if (delay.TotalMilliseconds >= UInt32.MaxValue)
-					{
-						maxDelayIterations = (ulong)Math.Floor(delay.TotalMilliseconds / DelayMinutesLimit);
-						logger.LogDebug("Breaking interval into {iterationCount} iterations", maxDelayIterations + 1);
-						delay = TimeSpan.FromMilliseconds(delay.TotalMilliseconds - (maxDelayIterations * DelayMinutesLimit));
-					}
-
-					if (maxDelayIterations > 0)
-					{
-						var longDelayTimeSpan = TimeSpan.FromMilliseconds(DelayMinutesLimit);
-						for (var i = 0UL; i < maxDelayIterations; ++i)
-						{
-							logger.LogTrace("Long delay #{iteration}...", i + 1);
-							await asyncDelayer.Delay(longDelayTimeSpan, cancellationToken);
-						}
-
-						logger.LogTrace("Final delay iteration #{iteration}...", maxDelayIterations + 1);
-					}
+					logger.LogInformation("Next {desc} will occur at {time}", description, DateTimeOffset.UtcNow + delay);
 
 					await asyncDelayer.Delay(delay, cancellationToken);
-					logger.LogInformation("Beginning auto update...");
-					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, Enumerable.Empty<string>(), true, cancellationToken);
 
-					var repositoryUpdateJob = Job.Create(Api.Models.JobCode.RepositoryAutoUpdate, null, metadata, RepositoryRights.CancelPendingChanges);
-					await jobManager.RegisterOperation(
-						repositoryUpdateJob,
-						RepositoryAutoUpdateJob,
-						cancellationToken);
-
-					var repoUpdateJobResult = await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, cancellationToken);
-					if (repoUpdateJobResult == false)
-					{
-						logger.LogWarning("Aborting auto-update due to repository update error!");
-						continue;
-					}
-
-					Job compileProcessJob;
-					using (var repo = await RepositoryManager.LoadRepository(cancellationToken))
-					{
-						if (repo == null)
-							throw new JobException(Api.Models.ErrorCode.RepoMissing);
-
-						var deploySha = repo.Head;
-						if (deploySha == null)
-						{
-							logger.LogTrace("Aborting auto update, repository error!");
-							continue;
-						}
-
-						if (deploySha == (await LatestCompileJob())?.RevisionInformation.CommitSha)
-						{
-							logger.LogTrace("Aborting auto update, same revision as latest CompileJob");
-							continue;
-						}
-
-						// finally set up the job
-						compileProcessJob = Job.Create(Api.Models.JobCode.AutomaticDeployment, null, metadata, DreamMakerRights.CancelCompile);
-						await jobManager.RegisterOperation(
-							compileProcessJob,
-							(core, databaseContextFactory, job, progressReporter, jobCancellationToken) =>
-							{
-								if (core != this)
-									throw new InvalidOperationException(DifferentCoreExceptionMessage);
-								return DreamMaker.DeploymentProcess(
-									job,
-									databaseContextFactory,
-									progressReporter,
-									jobCancellationToken);
-							},
-							cancellationToken);
-					}
-
-					await jobManager.WaitForJobCompletion(compileProcessJob, null, default, cancellationToken);
+					await timerAction(cancellationToken);
 				}
 				catch (OperationCanceledException)
 				{
-					logger.LogDebug("Cancelled auto update loop!");
+					logger.LogDebug("Cancelled {desc} loop!", description);
 					break;
 				}
 				catch (Exception e)
 				{
-					logger.LogError(e, "Error in auto update loop!");
+					logger.LogError(e, "Error in {desc} loop!", description);
 					continue;
 				}
 
-			logger.LogTrace("Leaving auto update loop...");
+			logger.LogTrace("Leaving {desc} loop...", description);
 		}
-#pragma warning restore CA1502
+
+		/// <summary>
+		/// Pulls the repository and compiles.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask AutoUpdateAction(CancellationToken cancellationToken)
+		{
+			logger.LogInformation("Beginning auto update...");
+			await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, Enumerable.Empty<string>(), true, cancellationToken);
+
+			var repositoryUpdateJob = Job.Create(Api.Models.JobCode.RepositoryAutoUpdate, null, metadata, RepositoryRights.CancelPendingChanges);
+			await jobManager.RegisterOperation(
+				repositoryUpdateJob,
+				RepositoryAutoUpdateJob,
+				cancellationToken);
+
+			var repoUpdateJobResult = await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, cancellationToken);
+			if (repoUpdateJobResult == false)
+			{
+				logger.LogWarning("Aborting auto-update due to repository update error!");
+				return;
+			}
+
+			Job compileProcessJob;
+			using (var repo = await RepositoryManager.LoadRepository(cancellationToken))
+			{
+				if (repo == null)
+					throw new JobException(Api.Models.ErrorCode.RepoMissing);
+
+				var deploySha = repo.Head;
+				if (deploySha == null)
+				{
+					logger.LogTrace("Aborting auto update, repository error!");
+					return;
+				}
+
+				if (deploySha == (await LatestCompileJob())?.RevisionInformation.CommitSha)
+				{
+					logger.LogTrace("Aborting auto update, same revision as latest CompileJob");
+					return;
+				}
+
+				// finally set up the job
+				compileProcessJob = Job.Create(Api.Models.JobCode.AutomaticDeployment, null, metadata, DreamMakerRights.CancelCompile);
+				await jobManager.RegisterOperation(
+					compileProcessJob,
+					(core, databaseContextFactory, job, progressReporter, jobCancellationToken) =>
+					{
+						if (core != this)
+							throw new InvalidOperationException(DifferentCoreExceptionMessage);
+						return DreamMaker.DeploymentProcess(
+							job,
+							databaseContextFactory,
+							progressReporter,
+							jobCancellationToken);
+					},
+					cancellationToken);
+			}
+
+			await jobManager.WaitForJobCompletion(compileProcessJob, null, default, cancellationToken);
+		}
 	}
 }

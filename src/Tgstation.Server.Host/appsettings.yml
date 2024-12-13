@@ -19,6 +19,7 @@ General:
   OpenDreamGitUrl: https://github.com/OpenDreamProject/OpenDream # The repository to retrieve OpenDream from
   OpenDreamGitTagPrefix: v # The prefix to the OpenDream semver as tags appear in the git repository
   OpenDreamSuppressInstallOutput: false # Suppress the dotnet output of creating an OpenDream installation. Known to cause hangs in CI.
+  AdditionalEventScriptsDirectories: # An array of directories that are considered to contain EventScripts alongside instance directories. Working directory for exectued scripts will remain the instance EventScripts directory.
 Session:
   HighPriorityLiveDreamDaemon: false # If DreamDaemon instances should run as higher priority processes
   LowPriorityDeploymentProcesses: true # If TGS Deployments should run as lower priority processes
@@ -65,6 +66,7 @@ Security:
 #     ClientId: # OAuth client ID
 #     ClientSecret: # OAuth client secret
 #     ServerUrl: # Only used by Keycloak and InvisionCommunity. Server URL (Includes Keycloak realm)
+#     Gateway: # Can be one of `Disabled` disallowing gateway auth (default), `Enabled` allowing gateway auth, or `Only` allowing gateway auth and disabling OAuth logins with this provider
 #     UserInformationUrlOverride: # Not supported by GitHub. Overrides the URL TGS uses to retrieve a user's information
     GitHub: # https://github.com OAuth configuration
     Discord: # https://discord.com OAuth configuration

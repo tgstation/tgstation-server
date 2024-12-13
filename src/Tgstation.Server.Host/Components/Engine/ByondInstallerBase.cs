@@ -74,29 +74,30 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override IEngineInstallation CreateInstallation(EngineVersion version, string path, Task installationTask)
+		public override ValueTask<IEngineInstallation> CreateInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 
 			var installationIOManager = new ResolvingIOManager(IOManager, path);
 			var supportsMapThreads = version.Version >= MapThreadsVersion;
 
-			return new ByondInstallation(
-				installationIOManager,
-				installationTask,
-				version,
-				installationIOManager.ResolvePath(
-					installationIOManager.ConcatPath(
-						ByondBinPath,
-						GetDreamDaemonName(
-							version.Version!,
-							out var supportsCli))),
-				installationIOManager.ResolvePath(
-					installationIOManager.ConcatPath(
-						ByondBinPath,
-						DreamMakerName)),
-				supportsCli,
-				supportsMapThreads);
+			return ValueTask.FromResult<IEngineInstallation>(
+				new ByondInstallation(
+					installationIOManager,
+					installationTask,
+					version,
+					installationIOManager.ResolvePath(
+						installationIOManager.ConcatPath(
+							ByondBinPath,
+							GetDreamDaemonName(
+								version.Version!,
+								out var supportsCli))),
+					installationIOManager.ResolvePath(
+						installationIOManager.ConcatPath(
+							ByondBinPath,
+							DreamMakerName)),
+					supportsCli,
+					supportsMapThreads));
 		}
 
 		/// <inheritdoc />

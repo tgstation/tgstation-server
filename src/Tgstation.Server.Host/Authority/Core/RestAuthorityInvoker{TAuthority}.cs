@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Authority.Core
 			return failureResponse switch
 			{
 				HttpFailureResponse.BadRequest => controller.BadRequest(errorMessage),
-				HttpFailureResponse.Unauthorized => controller.Unauthorized(errorMessage),
+				HttpFailureResponse.Unauthorized => controller.Unauthorized(),
 				HttpFailureResponse.Forbidden => controller.Forbid(),
 				HttpFailureResponse.NotFound => controller.NotFound(errorMessage),
 				HttpFailureResponse.NotAcceptable => controller.StatusCode(HttpStatusCode.NotAcceptable, errorMessage),
@@ -65,6 +65,7 @@ namespace Tgstation.Server.Host.Authority.Core
 				HttpFailureResponse.FailedDependency => controller.StatusCode(HttpStatusCode.FailedDependency, errorMessage),
 				HttpFailureResponse.RateLimited => controller.StatusCode(HttpStatusCode.TooManyRequests, errorMessage),
 				HttpFailureResponse.NotImplemented => controller.StatusCode(HttpStatusCode.NotImplemented, errorMessage),
+				HttpFailureResponse.ServiceUnavailable => controller.StatusCode(HttpStatusCode.ServiceUnavailable, errorMessage),
 				_ => throw new InvalidOperationException($"Invalid {nameof(HttpFailureResponse)}: {failureResponse}"),
 			};
 		}

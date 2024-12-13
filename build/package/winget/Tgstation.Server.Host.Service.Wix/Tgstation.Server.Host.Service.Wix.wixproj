@@ -18,11 +18,6 @@
       <SuppressRegistry>true</SuppressRegistry>
       <SuppressRootDirectory>true</SuppressRootDirectory>
     </HarvestDirectory>
-    <HarvestDirectory Include="../../../../artifacts/Tgstation.Server.Host.Service">
-      <ComponentGroupName>ServiceHostWatchdogComponentGroup</ComponentGroupName>
-      <DirectoryRefId>ApplicationDirectory</DirectoryRefId>
-      <SuppressRootDirectory>true</SuppressRootDirectory>
-    </HarvestDirectory>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="WixToolset.Heat" Version="5.0.2" />

@@ -4,7 +4,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Tgstation.Server.Host.Database.Migrations
+namespace Tgstation.Server.Host.Database
 {
 	[DbContext(typeof(PostgresSqlDatabaseContext))]
 	partial class PostgresSqlDatabaseContextModelSnapshot : ModelSnapshot
@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "8.0.8")
+				.HasAnnotation("ProductVersion", "8.0.10")
 				.HasAnnotation("Relational:MaxIdentifierLength", 63);
 
 			NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -291,10 +291,20 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
+				b.Property<string>("AutoStartCron")
+					.IsRequired()
+					.HasMaxLength(1000)
+					.HasColumnType("character varying(1000)");
+
+				b.Property<string>("AutoStopCron")
+					.IsRequired()
+					.HasMaxLength(1000)
+					.HasColumnType("character varying(1000)");
+
 				b.Property<string>("AutoUpdateCron")
 					.IsRequired()
-					.HasMaxLength(10000)
-					.HasColumnType("character varying(10000)");
+					.HasMaxLength(1000)
+					.HasColumnType("character varying(1000)");
 
 				b.Property<long>("AutoUpdateInterval")
 					.HasColumnType("bigint");
@@ -448,7 +458,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<int>("Provider")
 					.HasColumnType("integer");
 
-				b.Property<long?>("UserId")
+				b.Property<long>("UserId")
 					.HasColumnType("bigint");
 
 				b.HasKey("Id");
@@ -903,7 +913,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.HasOne("Tgstation.Server.Host.Models.User", "User")
 					.WithMany("OAuthConnections")
 					.HasForeignKey("UserId")
-					.OnDelete(DeleteBehavior.Cascade);
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
 
 				b.Navigation("User");
 			});

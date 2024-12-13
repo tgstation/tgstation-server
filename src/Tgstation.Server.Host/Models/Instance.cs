@@ -76,6 +76,8 @@ namespace Tgstation.Server.Host.Models
 			Path = Path,
 			Online = Online,
 			ChatBotLimit = ChatBotLimit,
+			AutoStartCron = AutoStartCron,
+			AutoStopCron = AutoStopCron,
 		};
 	}
 }

@@ -59,5 +59,10 @@
 		/// HTTP 501.
 		/// </summary>
 		NotImplemented,
+
+		/// <summary>
+		/// HTTP 503.
+		/// </summary>
+		ServiceUnavailable,
 	}
 }

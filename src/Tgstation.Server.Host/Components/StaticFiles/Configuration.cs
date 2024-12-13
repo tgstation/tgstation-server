@@ -787,27 +787,48 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			// always execute in serial
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken, logger))
 			{
-				var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, platformIdentifier.ScriptFileExtension, false, cancellationToken);
-				var resolvedScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
+				var directories = generalConfiguration.AdditionalEventScriptsDirectories?.ToList() ?? new List<string>();
+				directories.Add(EventScriptsSubdirectory);
 
-				var scriptFiles = files
-					.Select(x => ioManager.GetFileName(x))
-					.Where(x => scriptNames.Any(
-						scriptName => x.StartsWith(scriptName, StringComparison.Ordinal)))
+				var allScripts = new List<string>();
+				var tasks = directories.Select<string, ValueTask>(
+					async scriptDirectory =>
+					{
+						var resolvedScriptsDir = ioManager.ResolvePath(scriptDirectory);
+						logger.LogTrace("Checking for scripts in {directory}...", scriptDirectory);
+						var files = await ioManager.GetFilesWithExtension(scriptDirectory, platformIdentifier.ScriptFileExtension, false, cancellationToken);
+
+						var scriptFiles = files
+							.Select(ioManager.GetFileName)
+							.Where(x => scriptNames.Any(
+								scriptName => x.StartsWith(scriptName, StringComparison.Ordinal)))
+							.Select(x =>
+							{
+								var fullScriptPath = ioManager.ConcatPath(resolvedScriptsDir, x);
+								logger.LogTrace("Found matching script: {scriptPath}", fullScriptPath);
+								return fullScriptPath;
+							});
+
+						lock (allScripts)
+							allScripts.AddRange(scriptFiles);
+					})
 					.ToList();
 
-				if (scriptFiles.Count == 0)
+				await ValueTaskExtensions.WhenAll(tasks);
+				if (allScripts.Count == 0)
 				{
 					logger.LogTrace("No event scripts starting with \"{scriptName}\" detected", String.Join("\" or \"", scriptNames));
 					return;
 				}
 
-				foreach (var scriptFile in scriptFiles)
+				var resolvedInstanceScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
+
+				foreach (var scriptFile in allScripts.OrderBy(ioManager.GetFileName))
 				{
 					logger.LogTrace("Running event script {scriptFile}...", scriptFile);
 					await using (var script = await processExecutor.LaunchProcess(
-						ioManager.ConcatPath(resolvedScriptsDir, scriptFile),
-						resolvedScriptsDir,
+						scriptFile,
+						resolvedInstanceScriptsDir,
 						String.Join(
 							' ',
 							parameters.Select(arg =>

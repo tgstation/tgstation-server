@@ -2,7 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Moq;
 
 namespace Tgstation.Server.Host.Utils.Tests
 {
@@ -12,7 +15,7 @@ namespace Tgstation.Server.Host.Utils.Tests
 		[TestMethod]
 		public async Task TestDelay()
 		{
-			var delayer = new AsyncDelayer();
+			var delayer = new AsyncDelayer(Mock.Of<ILogger<AsyncDelayer>>());
 			var startDelay = delayer.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
 			var checkDelay = Task.Delay(TimeSpan.FromSeconds(1) - TimeSpan.FromMilliseconds(100), CancellationToken.None);
 			await startDelay;
@@ -22,10 +25,10 @@ namespace Tgstation.Server.Host.Utils.Tests
 		[TestMethod]
 		public async Task TestCancel()
 		{
-			var delayer = new AsyncDelayer();
+			var delayer = new AsyncDelayer(Mock.Of<ILogger<AsyncDelayer>>());
 			using var cts = new CancellationTokenSource();
 			cts.Cancel();
-			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => delayer.Delay(TimeSpan.FromSeconds(1), cts.Token));
+			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => delayer.Delay(TimeSpan.FromSeconds(1), cts.Token).AsTask());
 		}
 	}
 }

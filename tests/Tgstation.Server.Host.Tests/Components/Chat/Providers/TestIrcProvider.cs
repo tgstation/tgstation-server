@@ -89,7 +89,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				Instance = new Models.Instance(),
 			};
 
-			await using var provider = new IrcProvider(mockJobManager, new AsyncDelayer(), loggerFactory.CreateLogger<IrcProvider>(), Mock.Of<IAssemblyInformationProvider>(), chatBot, new FileLoggingConfiguration());
+			await using var provider = new IrcProvider(mockJobManager, new AsyncDelayer(loggerFactory.CreateLogger<AsyncDelayer>()), loggerFactory.CreateLogger<IrcProvider>(), Mock.Of<IAssemblyInformationProvider>(), chatBot, new FileLoggingConfiguration());
 			Assert.IsFalse(provider.Connected);
 			await InvokeConnect(provider);
 			Assert.IsTrue(provider.Connected);

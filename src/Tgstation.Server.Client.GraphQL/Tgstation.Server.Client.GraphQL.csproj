@@ -9,8 +9,8 @@
 
   <ItemGroup>
     <!-- GraphQL connector and code generator -->
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
-    <PackageReference Include="StrawberryShake.Server" Version="13.9.14" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.0" />
+    <PackageReference Include="StrawberryShake.Server" Version="14.2.0" />
   </ItemGroup>
 
   <ItemGroup>
