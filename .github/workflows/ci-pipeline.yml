@@ -1677,6 +1677,9 @@ jobs:
     name: Deploy REST API
     needs: deployment-gate
     runs-on: windows-latest
+    permissions:
+      id-token: write
+      attestations: write
     if: contains(github.event.head_commit.message, '[RESTDeploy]')
     steps:
       - name: Setup dotnet
@@ -1720,6 +1723,11 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
+      - name: Generate Artifact Attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ./swagger/tgs_api.json
+
       - name: Generate Release Notes
         env:
           TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
@@ -1736,12 +1744,6 @@ jobs:
           body_path: release_notes.md
           commitish: ${{ github.event.head_commit.id }}
 
-      - name: Generate Artifact Attestation
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: ./swagger/tgs_api.json
-          github-token: ${{ steps.app-token-generation.outputs.token }}
-
       - name: Upload OpenApi Spec
         uses: actions/upload-release-asset@v1
         env:
@@ -1756,6 +1758,9 @@ jobs:
     name: Deploy GraphQL API
     needs: deployment-gate
     runs-on: windows-latest
+    permissions:
+      id-token: write
+      attestations: write
     if: contains(github.event.head_commit.message, '[GQLDeploy]')
     steps:
       - name: Setup dotnet
@@ -1805,6 +1810,11 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
+      - name: Generate Artifact Attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ./schema/tgs_api.graphql
+
       - name: Generate Release Notes
         env:
           TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
@@ -1822,12 +1832,6 @@ jobs:
           commitish: ${{ github.event.head_commit.id }}
           prerelease: ${{ env.TGS_GRAPHQL_PRERELEASE }}
 
-      - name: Generate Artifact Attestation
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: ./schema/tgs_api.graphql
-          github-token: ${{ steps.app-token-generation.outputs.token }}
-
       - name: Upload GraphQL Schema
         uses: actions/upload-release-asset@v1
         env:
@@ -1842,6 +1846,9 @@ jobs:
     name: Deploy DreamMaker API
     needs: deployment-gate
     runs-on: windows-latest
+    permissions:
+      id-token: write
+      attestations: write
     if: contains(github.event.head_commit.message, '[DMDeploy]')
     steps:
       - name: Setup dotnet
@@ -1884,6 +1891,11 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
+      - name: Generate Artifact Attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ./DMAPI.zip
+
       - name: Generate Release Notes
         env:
           TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
@@ -1899,12 +1911,6 @@ jobs:
           release_name: tgstation-server DMAPI v${{ env.TGS_DM_VERSION }}
           body_path: release_notes.md
           commitish: ${{ github.event.head_commit.id }}
-
-      - name: Generate Artifact Attestation
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: ./DMAPI.zip
-          github-token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Upload DMAPI Artifact
         uses: actions/upload-release-asset@v1
@@ -2197,6 +2203,11 @@ jobs:
         with:
           subject-path: ./build/package/winget/tgstation-server-installer.exe
 
+      - name: Generate Server Update Package Artifact Attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ./ServerUpdatePackage.zip
+
       - name: Generate App Token
         id: app-token-generation
         uses: actions/create-github-app-token@v1
@@ -2269,12 +2280,6 @@ jobs:
           asset_path: ./schema/tgs-api.graphql
           asset_name: tgs-api.graphql
           asset_content_type: text/plain
-
-      - name: Generate Server Update Package Artifact Attestation
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: ./ServerUpdatePackage.zip
-          github-token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Upload Server Update Package Artifact
         uses: actions/upload-release-asset@v1
@@ -2358,9 +2363,7 @@ jobs:
           git commit -m "Update nix SHA256 for [TGSRelease] v${{ env.TGS_VERSION }}"
 
       - name: Re-tag
-        run: |
-          git tag -d tgstation-server-v${{ env.TGS_VERSION }}
-          git tag tgstation-server-v${{ env.TGS_VERSION }}
+        run: git tag -a tgstation-server-v${{ env.TGS_VERSION }} -m tgstation-server-v${{ env.TGS_VERSION }}
 
       - name: Push Commit
         run: git push
