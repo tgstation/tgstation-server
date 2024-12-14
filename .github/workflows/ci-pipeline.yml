@@ -1737,7 +1737,7 @@ jobs:
           commitish: ${{ github.event.head_commit.id }}
 
       - name: Generate Artifact Attestation
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: ./swagger/tgs_api.json
           github-token: ${{ steps.app-token-generation.outputs.token }}
@@ -1823,7 +1823,7 @@ jobs:
           prerelease: ${{ env.TGS_GRAPHQL_PRERELEASE }}
 
       - name: Generate Artifact Attestation
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: ./schema/tgs_api.graphql
           github-token: ${{ steps.app-token-generation.outputs.token }}
@@ -1901,7 +1901,7 @@ jobs:
           commitish: ${{ github.event.head_commit.id }}
 
       - name: Generate Artifact Attestation
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: ./DMAPI.zip
           github-token: ${{ steps.app-token-generation.outputs.token }}
@@ -2158,42 +2158,42 @@ jobs:
           path: ./ServerConsole.zip
 
       - name: Generate Server Console Artifact Attestation
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: ./ServerConsole.zip
 
       - name: Generate Server Service Artifact Attestation
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: ./ServerService.zip
 
       - name: Generate DMAPI Artifact Attestation
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: ./DMAPI.zip
 
       - name: Generate REST API Artifact Attestation
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: ./swagger/tgs_api.json
 
       - name: Generate GraphQL API Artifact Attestation
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: ./schema/tgs-api.graphql
 
       - name: Generate Debian Packaging Artifact Attestation
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: ./packaging-debian/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
 
       - name: Generate MariaDB .msi Attestation
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: ./build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/mariadb.msi
 
       - name: Generate Installer .exe Attestation
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: ./build/package/winget/tgstation-server-installer.exe
 
@@ -2271,7 +2271,7 @@ jobs:
           asset_content_type: text/plain
 
       - name: Generate Server Update Package Artifact Attestation
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: ./ServerUpdatePackage.zip
           github-token: ${{ steps.app-token-generation.outputs.token }}
