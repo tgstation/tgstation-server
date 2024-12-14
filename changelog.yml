@@ -10,7 +10,6 @@ Components:
       - Added `General:AdditionalEventScriptsDirectories` array which can be used to specify EventScript directories that are used by all instances.
       Author: Cyberboss
       PullRequest: 2000
-    Unreleased: true
   - Version: 5.3.0
     Changes:
     - Descriptions:
@@ -174,8 +173,17 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.13.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.12.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.12.0
     ComponentVersions:
+      Core: 6.12.0
       HttpApi: 10.12.0
       GraphQLApi: 0.5.0
       DreamMakerApi: 7.3.0
@@ -185,7 +193,7 @@ Components:
       NugetCommon: 7.0.0
       NugetApi: 17.0.0
       NugetClient: 20.0.0
-      WebControlPanel: 6.4.0
+      WebControlPanel: 6.7.3
     Changes:
     - Descriptions:
       - Fixed being able to attempt a server update to major version 3.
@@ -228,11 +236,6 @@ Components:
       - For better compatibility with nix, OpenDream executables are no longer invoked directly. Instead the `dotnet` executable will be used on the `.dll`'s.
       Author: Cyberboss
       PullRequest: 2032
-    Unreleased: true
-  - Version: 6.11.5
-    ComponentVersions: {}
-    Changes: []
-    Unreleased: true
   - Version: 6.11.4
     ComponentVersions:
       HttpApi: 10.10.0
@@ -3998,7 +4001,6 @@ Components:
       - Added `autoStartCron` and `autoStopCron` to Instance model. Functions identically to `autoUpdateCron` but will instead launch and gracefully shutdown the server respectively. Added instance rights 2048 and 4096 to adjust these respectively.
       Author: Cyberboss
       PullRequest: 1998
-    Unreleased: true
   - Version: 10.11.0
     Changes:
     - Descriptions:
@@ -4006,7 +4008,6 @@ Components:
       - Added endpoint `/api/oauth_gateway`. `POST`ing here with the OAuth authentication scheme will respond with a JSON object containing an `accessCode` for that provider IF the server is configured to allow OAuth gateways.
       Author: Cyberboss
       PullRequest: 1997
-    Unreleased: true
   - Version: 10.10.0
     Changes:
     - Descriptions:
@@ -4554,21 +4555,18 @@ Components:
       - Added `oAuthGateway` mutation which accepts the OAuth authentication and will respond with a payload containing an `accessCode` for that provider IF the server is configured to allow OAuth gateways.
       Author: Cyberboss
       PullRequest: 1997
-    Unreleased: true
   - Version: 0.4.0
     Changes:
     - Descriptions:
       - The `forceFresh` argument in `UpdateInformation` fields is now optional.
       Author: Cyberboss
       PullRequest: 1990
-    Unreleased: true
   - Version: 0.3.0
     Changes:
     - Descriptions:
       - Added some queries/mutations related to server updating.
       Author: Cyberboss
       PullRequest: 1986
-    Unreleased: true
   - Version: 0.2.0
     Changes:
     - Descriptions:
@@ -4864,8 +4862,14 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
-  - Version: 16.3.0
+  - Version: 17.0.0
     Changes:
+    - Descriptions:
+      - Updated to API version 10.11.0.
+      - Added `OAuthGatewayResponse` model.
+      - Added `GatewayOnly` nullable boolean field to `OAuthProviderInfo`.
+      Author: Cyberboss
+      PullRequest: 1997
     - Descriptions:
       - Updated to API v10.12.0.
       - Added `Limits.CronStringLength`.
@@ -4874,15 +4878,6 @@ Components:
       - Added `InstanceManagerRights.SetAutoStart` and `InstanceManagerRights.SetAutoStop`.
       Author: Cyberboss
       PullRequest: 1998
-    Unreleased: true
-  - Version: 16.2.0
-    Changes:
-    - Descriptions:
-      - Updated to API version 10.11.0.
-      - Added `OAuthGatewayResponse` model.
-      - Added `GatewayOnly` nullable boolean field to `OAuthProviderInfo`.
-      Author: Cyberboss
-      PullRequest: 1997
     Unreleased: true
   - Version: 13.5.0
     Changes:
@@ -4968,17 +4963,14 @@ Components:
       Author: Cyberboss
       PullRequest: 1629
   NugetClient:
-  - Version: 19.3.0
-    Changes:
-    - Descriptions:
-      - Update API Library to v16.3.0
-      Author: Cyberboss
-      PullRequest: 1998
-    Unreleased: true
-  - Version: 19.2.0
+  - Version: 20.0.0
     Changes:
     - Descriptions:
       - Updated to API library version 16.2.0.
       Author: Cyberboss
       PullRequest: 1997
+    - Descriptions:
+      - Update API Library to v16.3.0
+      Author: Cyberboss
+      PullRequest: 1998
     Unreleased: true
