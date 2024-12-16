@@ -4862,23 +4862,6 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
-  - Version: 17.0.0
-    Changes:
-    - Descriptions:
-      - Updated to API version 10.11.0.
-      - Added `OAuthGatewayResponse` model.
-      - Added `GatewayOnly` nullable boolean field to `OAuthProviderInfo`.
-      Author: Cyberboss
-      PullRequest: 1997
-    - Descriptions:
-      - Updated to API v10.12.0.
-      - Added `Limits.CronStringLength`.
-      - Adjusted `StringLength` attribute on `Instance.AutoUpdateCron`.
-      - Added `Instance.AutoStartCron` and `Instance.AutoStopCron`.
-      - Added `InstanceManagerRights.SetAutoStart` and `InstanceManagerRights.SetAutoStop`.
-      Author: Cyberboss
-      PullRequest: 1998
-    Unreleased: true
   - Version: 13.5.0
     Changes:
     - Descriptions:
@@ -4962,15 +4945,4 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient:
-  - Version: 20.0.0
-    Changes:
-    - Descriptions:
-      - Updated to API library version 16.2.0.
-      Author: Cyberboss
-      PullRequest: 1997
-    - Descriptions:
-      - Update API Library to v16.3.0
-      Author: Cyberboss
-      PullRequest: 1998
-    Unreleased: true
+  NugetClient: []
