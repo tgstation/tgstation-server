@@ -39,4 +39,4 @@ jobs:
           git config user.name "tgstation-server-ci[bot]"
           git config user.email "161980869+tgstation-server-ci[bot]@users.noreply.github.com"
           git push "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/spacestation13/tgstation-server"
-          git push --tags "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/spacestation13/tgstation-server"
+          git push -f --tags "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/spacestation13/tgstation-server"

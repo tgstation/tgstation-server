@@ -50,7 +50,6 @@ jobs:
   start-gate:
     name: CI Start Gate
     runs-on: ubuntu-latest
-    if: (!contains(github.event.head_commit.message, '[TGSRelease]'))
     steps:
       - name: GitHub Requires at Least One Step for a Job
         run: exit 0
@@ -2337,8 +2336,16 @@ jobs:
         with:
           nix_path: nixpkgs=channel:nixos-unstable
 
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Generate App Token
+        id: app-token-generation
+        uses: actions/create-github-app-token@v1
+        with:
+          repositories: tgstation-ppa
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Clone
+        run: git clone -b master --single-branch "https://git@github.com/tgstation/tgstation-server" --depth 1 .
 
       - name: Parse TGS version
         run: echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
@@ -2360,16 +2367,16 @@ jobs:
           git config user.name "tgstation-server-ci[bot]"
           git config user.email "161980869+tgstation-server-ci[bot]@users.noreply.github.com"
           git add build/package/nix/ServerConsole.sha256
-          git commit -m "Update nix SHA256 for [TGSRelease] v${{ env.TGS_VERSION }}"
+          git commit -m "Update nix SHA256 for TGS v${{ env.TGS_VERSION }}"
 
       - name: Re-tag
         run: git tag -a tgstation-server-v${{ env.TGS_VERSION }} -m tgstation-server-v${{ env.TGS_VERSION }}
 
       - name: Push Commit
-        run: git push
+        run: git push "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/tgstation/tgstation-server"
 
       - name: Force Push Tags
-        run: git push -f --tags
+        run: git push -f --tags "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/tgstation/tgstation-server"
 
   changelog-regen:
     name: Regenerate Changelog
@@ -2516,8 +2523,8 @@ jobs:
         shell: powershell
         run: Sleep 600
 
-      - name: Ensure Latest Release is TGS Release
+      - name: Update Winget PR with automated message
         env:
-          TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }} # Has to be a user here
+          TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }} # Has to be the user that opened the PR
         shell: powershell
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
