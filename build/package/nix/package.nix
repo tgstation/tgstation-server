@@ -29,10 +29,11 @@ let
       xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion ./Version.props > $out/tgs_version.txt
     '';
   };
+  version = (builtins.readFile "${versionParse}/tgs_version.txt");
 
   fixedOutput = stdenv.mkDerivation {
     pname = "tgstation-server-release-server-console-zip";
-    version = (builtins.readFile "${versionParse}/tgs_version.txt");
+    inherit version;
 
     meta = with pkgs.lib; {
       description = "Host watchdog binaries for tgstation-server";
@@ -99,7 +100,7 @@ stdenv.mkDerivation {
     mkdir -p $out/bin
     unzip "${fixedOutput}/ServerConsole.zip" -d $out/bin
     rm -rf $out/bin/lib
-    makeWrapper ${pkgs.dotnetCorePackages.sdk_8_0}/dotnet $out/bin/tgstation-server --suffix PATH : ${
+    makeWrapper ${pkgs.dotnetCorePackages.sdk_8_0}/bin/dotnet $out/bin/tgstation-server --suffix PATH : ${
       lib.makeBinPath (
         with pkgs;
         [
