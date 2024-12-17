@@ -100,15 +100,15 @@
     <!-- Usage: GitLab interop -->
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <!-- Usage: GraphQL API Engine -->
-    <PackageReference Include="HotChocolate.AspNetCore" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="14.3.0" />
     <!-- Usage: GraphQL Authorization Plugin -->
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.3.0" />
     <!-- Usage: GraphQL IDatabaseContext support -->
-    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="14.3.0" />
     <!-- Usage: DataLoader source generation -->
-    <PackageReference Include="HotChocolate.Types.Analyzers" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.Types.Analyzers" Version="14.3.0" />
     <!-- Usage: GraphQL additional scalar type definitions -->
-    <PackageReference Include="HotChocolate.Types.Scalars" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.Types.Scalars" Version="14.3.0" />
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
