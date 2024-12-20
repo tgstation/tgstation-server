@@ -2370,7 +2370,9 @@ jobs:
           git commit -m "Update nix SHA256 for TGS v${{ env.TGS_VERSION }}"
 
       - name: Re-tag
-        run: git tag -a tgstation-server-v${{ env.TGS_VERSION }} -m tgstation-server-v${{ env.TGS_VERSION }}
+        run: |
+          git tag -d tgstation-server-v${{ env.TGS_VERSION }}
+          git tag -a tgstation-server-v${{ env.TGS_VERSION }} -m tgstation-server-v${{ env.TGS_VERSION }}
 
       - name: Push Commit
         run: git push "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/tgstation/tgstation-server"
