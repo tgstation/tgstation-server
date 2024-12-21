@@ -175,10 +175,10 @@ Components:
   Core:
   - Version: 6.13.0
     ComponentVersions:
-      Core: 6.12.0
+      Core: 6.12.2
       HttpApi: 10.12.0
       GraphQLApi: 0.5.0
-      DreamMakerApi: 7.3.0
+      DreamMakerApi: 7.3.1
       Configuration: 5.4.0
       InteropApi: 5.10.0
       HostWatchdog: 1.6.0
@@ -4625,6 +4625,13 @@ Components:
       Author: Cyberboss
       PullRequest: 1954
   DreamMakerApi:
+  - Version: 7.3.1
+    Changes:
+    - Descriptions:
+      - Added compatibility with SpacemanDMM's `redefined_proc` lint.
+      Author: Cyberboss
+      PullRequest: 2058
+    Unreleased: true
   - Version: 7.3.0
     Changes:
     - Descriptions:
