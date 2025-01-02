@@ -4,13 +4,8 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-using Tgstation.Server.Host.Database;
-
-#nullable disable
-
-namespace Tgstation.Server.Host.Migrations.SqliteDatabase
+namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(SqliteDatabaseContext))]
 	[Migration("20250102194845_SLNormalizeSqlite")]
