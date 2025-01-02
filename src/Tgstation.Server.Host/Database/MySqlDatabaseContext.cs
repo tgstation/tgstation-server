@@ -57,6 +57,7 @@ namespace Tgstation.Server.Host.Database
 				serverVersion,
 				mySqlOptions =>
 				{
+					mySqlOptions.TranslateParameterizedCollectionsToConstants();
 					mySqlOptions.EnableRetryOnFailure();
 					mySqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
 				});
