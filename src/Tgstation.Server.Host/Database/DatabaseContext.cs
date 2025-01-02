@@ -466,7 +466,7 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddAutoStartAndStop);
+		internal static readonly Type SLLatestMigration = typeof(SLNormalizeSqlite);
 
 		/// <summary>
 		/// Gets the name of the migration to run for migrating down to a given <paramref name="targetVersion"/> for the <paramref name="currentDatabaseType"/>.
@@ -482,6 +482,9 @@ namespace Tgstation.Server.Host.Database
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 
 			// !!! DON'T FORGET TO UPDATE THE SWARM PROTOCOL MAJOR VERSION !!!
+			if (targetVersion < new Version(6, 13, 0) && currentDatabaseType == DatabaseType.Sqlite)
+				targetMigration = nameof(SLAddAutoStartAndStop);
+
 			if (targetVersion < new Version(6, 12, 0))
 				targetMigration = currentDatabaseType switch
 				{
