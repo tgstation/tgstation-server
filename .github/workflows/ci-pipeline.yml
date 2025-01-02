@@ -148,7 +148,7 @@ jobs:
       fail-fast: false
       matrix:
         byond:
-          ["510.1346", "511.1385", "512.1488", "513.1542", "514.1589", "EDGE"]
+          ["510.1346", "511.1385", "512.1488", "513.1542", "514.1589", "515.1647", "EDGE"]
     runs-on: ubuntu-latest
     steps:
       - name: Install Native x86 libc Dependencies # Name checked in rerunFlakyTests.js
