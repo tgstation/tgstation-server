@@ -189,7 +189,18 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 6.12.3
-    ComponentVersions: {}
+    ComponentVersions:
+      Core: 6.12.2
+      HttpApi: 10.12.0
+      GraphQLApi: 0.5.0
+      DreamMakerApi: 7.3.0
+      Configuration: 5.4.0
+      InteropApi: 5.10.0
+      HostWatchdog: 1.6.0
+      NugetCommon: 7.0.0
+      NugetApi: 17.0.0
+      NugetClient: 20.0.0
+      WebControlPanel: 6.7.3
     Changes: []
     Unreleased: true
   - Version: 6.12.2
