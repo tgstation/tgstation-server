@@ -56,7 +56,11 @@ namespace Tgstation.Server.Host.Database
 			if (databaseConfiguration.DatabaseType != DatabaseType.Sqlite)
 				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(SqliteDatabaseContext)}!");
 
-			options.UseSqlite(databaseConfiguration.ConnectionString, sqliteOptions => sqliteOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));
+			options.UseSqlite(databaseConfiguration.ConnectionString, sqliteOptions =>
+			{
+				sqliteOptions.TranslateParameterizedCollectionsToConstants();
+				sqliteOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+			});
 		}
 
 		/// <inheritdoc />

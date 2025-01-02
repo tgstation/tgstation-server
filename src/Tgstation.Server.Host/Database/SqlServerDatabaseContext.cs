@@ -37,6 +37,7 @@ namespace Tgstation.Server.Host.Database
 				databaseConfiguration.ConnectionString,
 				sqlServerOptions =>
 				{
+					sqlServerOptions.TranslateParameterizedCollectionsToConstants();
 					sqlServerOptions.EnableRetryOnFailure();
 					sqlServerOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
 				});
