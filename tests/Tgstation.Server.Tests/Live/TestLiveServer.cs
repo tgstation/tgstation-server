@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -294,7 +294,7 @@ namespace Tgstation.Server.Tests.Live
 			}
 		}
 
-		[ClassCleanup]
+		[ClassCleanup(ClassCleanupBehavior.EndOfClass)]
 		public static void Cleanup()
 		{
 			CachingFileDownloader.Cleanup();
@@ -1751,7 +1751,7 @@ namespace Tgstation.Server.Tests.Live
 					}
 					catch (SocketException ex)
 					{
-						Assert.AreEqual(ex.SocketErrorCode, SocketError.AddressAlreadyInUse);
+						Assert.AreEqual(SocketError.AddressAlreadyInUse, ex.SocketErrorCode);
 					}
 					finally
 					{
@@ -1897,7 +1897,7 @@ namespace Tgstation.Server.Tests.Live
 					expectedCompileJobId = compileJob.Id.Value;
 					dd = await wdt.TellWorldToReboot(true, cancellationToken);
 
-					Assert.AreEqual(dd.ActiveCompileJob.Job.Id, expectedCompileJobId);
+					Assert.AreEqual(expectedCompileJobId, dd.ActiveCompileJob.Job.Id);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					expectedCompileJobId = dd.ActiveCompileJob.Id.Value;

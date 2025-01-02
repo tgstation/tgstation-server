@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Database.Design
 	{
 		/// <inheritdoc />
 		public MySqlDatabaseContext CreateDbContext(string[] args)
-			=> new MySqlDatabaseContext(
+			=> new(
 				DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<MySqlDatabaseContext>(
 					DatabaseType.MariaDB,
 					"Server=127.0.0.1;User Id=root;Password=zdxfOOTlQFnklwzytzCj;Database=TGS_Design"));
