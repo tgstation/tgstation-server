@@ -3,7 +3,7 @@
 
   <ItemGroup>
     <!-- Usage: Code coverage collection -->
-    <PackageReference Include="coverlet.collector" Version="6.0.2">
+    <PackageReference Include="coverlet.collector" Version="6.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -18,9 +18,9 @@
     <!-- Pinned: Be VERY careful about updating https://github.com/moq/moq/issues/1372 -->
     <PackageReference Include="Moq" Version="4.20.72" />
     <!-- Usage: MSTest execution -->
-    <PackageReference Include="MSTest.TestAdapter" Version="3.6.4" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.7.0" />
     <!-- Usage: MSTest asserts etc... -->
-    <PackageReference Include="MSTest.TestFramework" Version="3.6.4" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.7.0" />
   </ItemGroup>
 
 </Project>
