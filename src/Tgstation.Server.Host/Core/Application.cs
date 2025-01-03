@@ -298,7 +298,10 @@ namespace Tgstation.Server.Host.Core
 			services
 				.AddScoped<GraphQL.Subscriptions.ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
 				.AddGraphQLServer()
-				.AddAuthorization()
+				.AddAuthorization(
+					options => options.AddPolicy(
+						TgsAuthorizeAttribute.PolicyName,
+						builder => builder.RequireRole(TgsAuthorizeAttribute.UserEnabledRole)))
 				.ModifyOptions(options =>
 				{
 					options.EnsureAllNodesCanBeResolved = true;
