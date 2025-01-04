@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -530,12 +530,16 @@ Private Member Functions</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_tgs_graph_q_l_authorize_attribute_8cs_source.html#l00125">125</a> of file <a class="el" href="_tgs_graph_q_l_authorize_attribute_8cs_source.html">TgsGraphQLAuthorizeAttribute.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  126</span>        {</div>
 <div class="line"><span class="lineno">  127</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">var</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">listRoles</a> = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">roleNames</a>.ToList();</div>
-<div class="line"><span class="lineno">  128</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">listRoles</a>.Add(TgsAuthorizeAttribute.UserEnabledRole);</div>
-<div class="line"><span class="lineno">  129</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Roles</a> = [.. <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">listRoles</a>];</div>
-<div class="line"><span class="lineno">  130</span>            Apply = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ApplyPolicy</a>.Validation;</div>
-<div class="line"><span class="lineno">  131</span>        }</div>
+<div class="line"><span class="lineno">  128</span>            <span class="keywordflow">if</span> (<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">listRoles</a>.Count != 0)</div>
+<div class="line"><span class="lineno">  129</span>            {</div>
+<div class="line"><span class="lineno">  130</span>                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Roles</a> = [.. <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">listRoles</a>];</div>
+<div class="line"><span class="lineno">  131</span>            }</div>
+<div class="line"><span class="lineno">  132</span> </div>
+<div class="line"><span class="lineno">  133</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Policy</a> = TgsAuthorizeAttribute.PolicyName;</div>
+<div class="line"><span class="lineno">  134</span>            Apply = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ApplyPolicy</a>.Validation;</div>
+<div class="line"><span class="lineno">  135</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>, and <a class="el" href="_tgs_authorize_attribute_8cs_source.html#l00021">Tgstation.Server.Host.Security.TgsAuthorizeAttribute.UserEnabledRole</a>.</p>
+<p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>, and <a class="el" href="_tgs_authorize_attribute_8cs_source.html#l00021">Tgstation.Server.Host.Security.TgsAuthorizeAttribute.PolicyName</a>.</p>
 
 </div>
 </div>

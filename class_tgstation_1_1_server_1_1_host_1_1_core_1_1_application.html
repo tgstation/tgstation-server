@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -394,165 +394,165 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00530">530</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  541</span>        {</div>
-<div class="line"><span class="lineno">  542</span>            ArgumentNullException.ThrowIfNull(applicationBuilder);</div>
-<div class="line"><span class="lineno">  543</span>            ArgumentNullException.ThrowIfNull(serverControl);</div>
-<div class="line"><span class="lineno">  544</span> </div>
-<div class="line"><span class="lineno">  545</span>            this.tokenFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a>));</div>
-<div class="line"><span class="lineno">  546</span> </div>
-<div class="line"><span class="lineno">  547</span>            ArgumentNullException.ThrowIfNull(serverPortProvider);</div>
-<div class="line"><span class="lineno">  548</span>            ArgumentNullException.ThrowIfNull(assemblyInformationProvider);</div>
+<p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00533">533</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  544</span>        {</div>
+<div class="line"><span class="lineno">  545</span>            ArgumentNullException.ThrowIfNull(applicationBuilder);</div>
+<div class="line"><span class="lineno">  546</span>            ArgumentNullException.ThrowIfNull(serverControl);</div>
+<div class="line"><span class="lineno">  547</span> </div>
+<div class="line"><span class="lineno">  548</span>            this.tokenFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a>));</div>
 <div class="line"><span class="lineno">  549</span> </div>
-<div class="line"><span class="lineno">  550</span>            var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(controlPanelConfigurationOptions));</div>
-<div class="line"><span class="lineno">  551</span>            var generalConfiguration = generalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(generalConfigurationOptions));</div>
-<div class="line"><span class="lineno">  552</span>            var swarmConfiguration = swarmConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(swarmConfigurationOptions));</div>
-<div class="line"><span class="lineno">  553</span>            var internalConfiguration = internalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(internalConfigurationOptions));</div>
-<div class="line"><span class="lineno">  554</span> </div>
-<div class="line"><span class="lineno">  555</span>            ArgumentNullException.ThrowIfNull(logger);</div>
-<div class="line"><span class="lineno">  556</span> </div>
-<div class="line"><span class="lineno">  557</span>            logger.LogDebug(<span class="stringliteral">&quot;Content Root: {contentRoot}&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.ContentRootPath);</div>
-<div class="line"><span class="lineno">  558</span>            logger.LogTrace(<span class="stringliteral">&quot;Web Root: {webRoot}&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.WebRootPath);</div>
+<div class="line"><span class="lineno">  550</span>            ArgumentNullException.ThrowIfNull(serverPortProvider);</div>
+<div class="line"><span class="lineno">  551</span>            ArgumentNullException.ThrowIfNull(assemblyInformationProvider);</div>
+<div class="line"><span class="lineno">  552</span> </div>
+<div class="line"><span class="lineno">  553</span>            var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(controlPanelConfigurationOptions));</div>
+<div class="line"><span class="lineno">  554</span>            var generalConfiguration = generalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(generalConfigurationOptions));</div>
+<div class="line"><span class="lineno">  555</span>            var swarmConfiguration = swarmConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(swarmConfigurationOptions));</div>
+<div class="line"><span class="lineno">  556</span>            var internalConfiguration = internalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(internalConfigurationOptions));</div>
+<div class="line"><span class="lineno">  557</span> </div>
+<div class="line"><span class="lineno">  558</span>            ArgumentNullException.ThrowIfNull(logger);</div>
 <div class="line"><span class="lineno">  559</span> </div>
-<div class="line"><span class="lineno">  560</span>            <span class="comment">// setup the HTTP request pipeline</span></div>
-<div class="line"><span class="lineno">  561</span>            <span class="comment">// Add additional logging context to the request</span></div>
-<div class="line"><span class="lineno">  562</span>            applicationBuilder.UseAdditionalRequestLoggingContext(swarmConfiguration);</div>
-<div class="line"><span class="lineno">  563</span> </div>
-<div class="line"><span class="lineno">  564</span>            <span class="comment">// Wrap exceptions in a 500 (ErrorMessage) response</span></div>
-<div class="line"><span class="lineno">  565</span>            applicationBuilder.UseServerErrorHandling();</div>
+<div class="line"><span class="lineno">  560</span>            logger.LogDebug(<span class="stringliteral">&quot;Content Root: {contentRoot}&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.ContentRootPath);</div>
+<div class="line"><span class="lineno">  561</span>            logger.LogTrace(<span class="stringliteral">&quot;Web Root: {webRoot}&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.WebRootPath);</div>
+<div class="line"><span class="lineno">  562</span> </div>
+<div class="line"><span class="lineno">  563</span>            <span class="comment">// setup the HTTP request pipeline</span></div>
+<div class="line"><span class="lineno">  564</span>            <span class="comment">// Add additional logging context to the request</span></div>
+<div class="line"><span class="lineno">  565</span>            applicationBuilder.UseAdditionalRequestLoggingContext(swarmConfiguration);</div>
 <div class="line"><span class="lineno">  566</span> </div>
-<div class="line"><span class="lineno">  567</span>            <span class="comment">// Add the X-Powered-By response header</span></div>
-<div class="line"><span class="lineno">  568</span>            applicationBuilder.UseServerBranding(assemblyInformationProvider);</div>
+<div class="line"><span class="lineno">  567</span>            <span class="comment">// Wrap exceptions in a 500 (ErrorMessage) response</span></div>
+<div class="line"><span class="lineno">  568</span>            applicationBuilder.UseServerErrorHandling();</div>
 <div class="line"><span class="lineno">  569</span> </div>
-<div class="line"><span class="lineno">  570</span>            <span class="comment">// Add the X-Accel-Buffering response header</span></div>
-<div class="line"><span class="lineno">  571</span>            applicationBuilder.UseDisabledNginxProxyBuffering();</div>
+<div class="line"><span class="lineno">  570</span>            <span class="comment">// Add the X-Powered-By response header</span></div>
+<div class="line"><span class="lineno">  571</span>            applicationBuilder.UseServerBranding(assemblyInformationProvider);</div>
 <div class="line"><span class="lineno">  572</span> </div>
-<div class="line"><span class="lineno">  573</span>            <span class="comment">// suppress OperationCancelledExceptions, they are just aborted HTTP requests</span></div>
-<div class="line"><span class="lineno">  574</span>            applicationBuilder.UseCancelledRequestSuppression();</div>
+<div class="line"><span class="lineno">  573</span>            <span class="comment">// Add the X-Accel-Buffering response header</span></div>
+<div class="line"><span class="lineno">  574</span>            applicationBuilder.UseDisabledNginxProxyBuffering();</div>
 <div class="line"><span class="lineno">  575</span> </div>
-<div class="line"><span class="lineno">  576</span>            <span class="comment">// 503 requests made while the application is starting</span></div>
-<div class="line"><span class="lineno">  577</span>            applicationBuilder.UseAsyncInitialization&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html">IInstanceManager</a>&gt;(</div>
-<div class="line"><span class="lineno">  578</span>                (instanceManager, cancellationToken) =&gt; instanceManager.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a4ad311358f74779a6c1f2fcba4a30578">Ready</a>.WaitAsync(cancellationToken));</div>
-<div class="line"><span class="lineno">  579</span> </div>
-<div class="line"><span class="lineno">  580</span>            <span class="keywordflow">if</span> (generalConfiguration.HostApiDocumentation)</div>
-<div class="line"><span class="lineno">  581</span>            {</div>
-<div class="line"><span class="lineno">  582</span>                var siteDocPath = Routes.ApiRoot + $<span class="stringliteral">&quot;doc/{SwaggerConfiguration.DocumentName}.json&quot;</span>;</div>
-<div class="line"><span class="lineno">  583</span>                <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(controlPanelConfiguration.PublicPath))</div>
-<div class="line"><span class="lineno">  584</span>                    siteDocPath = controlPanelConfiguration.PublicPath.TrimEnd(<span class="charliteral">&#39;/&#39;</span>) + siteDocPath;</div>
-<div class="line"><span class="lineno">  585</span> </div>
-<div class="line"><span class="lineno">  586</span>                applicationBuilder.UseSwagger(options =&gt;</div>
-<div class="line"><span class="lineno">  587</span>                {</div>
-<div class="line"><span class="lineno">  588</span>                    options.RouteTemplate = Routes.ApiRoot + <span class="stringliteral">&quot;doc/{documentName}.{json|yaml}&quot;</span>;</div>
-<div class="line"><span class="lineno">  589</span>                });</div>
-<div class="line"><span class="lineno">  590</span>                applicationBuilder.UseSwaggerUI(options =&gt;</div>
-<div class="line"><span class="lineno">  591</span>                {</div>
-<div class="line"><span class="lineno">  592</span>                    options.RoutePrefix = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html">SwaggerConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a491cd42b9d11a659b718c70ebebb9014">DocumentationSiteRouteExtension</a>;</div>
-<div class="line"><span class="lineno">  593</span>                    options.SwaggerEndpoint(siteDocPath, <span class="stringliteral">&quot;TGS API&quot;</span>);</div>
-<div class="line"><span class="lineno">  594</span>                });</div>
-<div class="line"><span class="lineno">  595</span>                logger.LogTrace(<span class="stringliteral">&quot;Swagger API generation enabled&quot;</span>);</div>
-<div class="line"><span class="lineno">  596</span>            }</div>
-<div class="line"><span class="lineno">  597</span> </div>
-<div class="line"><span class="lineno">  598</span>            <span class="comment">// spa loading if necessary</span></div>
-<div class="line"><span class="lineno">  599</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
-<div class="line"><span class="lineno">  600</span>            {</div>
-<div class="line"><span class="lineno">  601</span>                logger.LogInformation(<span class="stringliteral">&quot;Web control panel enabled.&quot;</span>);</div>
-<div class="line"><span class="lineno">  602</span>                applicationBuilder.UseFileServer(<span class="keyword">new</span> FileServerOptions</div>
-<div class="line"><span class="lineno">  603</span>                {</div>
-<div class="line"><span class="lineno">  604</span>                    RequestPath = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html">ControlPanelController</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a31405e686cba6874931106edd1d3a661">ControlPanelRoute</a>,</div>
-<div class="line"><span class="lineno">  605</span>                    EnableDefaultFiles = <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  606</span>                    EnableDirectoryBrowsing = <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  607</span>                    RedirectToAppendTrailingSlash = <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  608</span>                });</div>
-<div class="line"><span class="lineno">  609</span>            }</div>
-<div class="line"><span class="lineno">  610</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  611</span><span class="preprocessor">#if NO_WEBPANEL</span></div>
-<div class="line"><span class="lineno">  612</span>                logger.LogDebug(<span class="stringliteral">&quot;Web control panel was not included in TGS build!&quot;</span>);</div>
-<div class="line"><span class="lineno">  613</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  614</span>                logger.LogTrace(<span class="stringliteral">&quot;Web control panel disabled!&quot;</span>);</div>
-<div class="line"><span class="lineno">  615</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  616</span> </div>
-<div class="line"><span class="lineno">  617</span>            <span class="comment">// Enable endpoint routing</span></div>
-<div class="line"><span class="lineno">  618</span>            applicationBuilder.UseRouting();</div>
+<div class="line"><span class="lineno">  576</span>            <span class="comment">// suppress OperationCancelledExceptions, they are just aborted HTTP requests</span></div>
+<div class="line"><span class="lineno">  577</span>            applicationBuilder.UseCancelledRequestSuppression();</div>
+<div class="line"><span class="lineno">  578</span> </div>
+<div class="line"><span class="lineno">  579</span>            <span class="comment">// 503 requests made while the application is starting</span></div>
+<div class="line"><span class="lineno">  580</span>            applicationBuilder.UseAsyncInitialization&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html">IInstanceManager</a>&gt;(</div>
+<div class="line"><span class="lineno">  581</span>                (instanceManager, cancellationToken) =&gt; instanceManager.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a4ad311358f74779a6c1f2fcba4a30578">Ready</a>.WaitAsync(cancellationToken));</div>
+<div class="line"><span class="lineno">  582</span> </div>
+<div class="line"><span class="lineno">  583</span>            <span class="keywordflow">if</span> (generalConfiguration.HostApiDocumentation)</div>
+<div class="line"><span class="lineno">  584</span>            {</div>
+<div class="line"><span class="lineno">  585</span>                var siteDocPath = Routes.ApiRoot + $<span class="stringliteral">&quot;doc/{SwaggerConfiguration.DocumentName}.json&quot;</span>;</div>
+<div class="line"><span class="lineno">  586</span>                <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(controlPanelConfiguration.PublicPath))</div>
+<div class="line"><span class="lineno">  587</span>                    siteDocPath = controlPanelConfiguration.PublicPath.TrimEnd(<span class="charliteral">&#39;/&#39;</span>) + siteDocPath;</div>
+<div class="line"><span class="lineno">  588</span> </div>
+<div class="line"><span class="lineno">  589</span>                applicationBuilder.UseSwagger(options =&gt;</div>
+<div class="line"><span class="lineno">  590</span>                {</div>
+<div class="line"><span class="lineno">  591</span>                    options.RouteTemplate = Routes.ApiRoot + <span class="stringliteral">&quot;doc/{documentName}.{json|yaml}&quot;</span>;</div>
+<div class="line"><span class="lineno">  592</span>                });</div>
+<div class="line"><span class="lineno">  593</span>                applicationBuilder.UseSwaggerUI(options =&gt;</div>
+<div class="line"><span class="lineno">  594</span>                {</div>
+<div class="line"><span class="lineno">  595</span>                    options.RoutePrefix = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html">SwaggerConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a491cd42b9d11a659b718c70ebebb9014">DocumentationSiteRouteExtension</a>;</div>
+<div class="line"><span class="lineno">  596</span>                    options.SwaggerEndpoint(siteDocPath, <span class="stringliteral">&quot;TGS API&quot;</span>);</div>
+<div class="line"><span class="lineno">  597</span>                });</div>
+<div class="line"><span class="lineno">  598</span>                logger.LogTrace(<span class="stringliteral">&quot;Swagger API generation enabled&quot;</span>);</div>
+<div class="line"><span class="lineno">  599</span>            }</div>
+<div class="line"><span class="lineno">  600</span> </div>
+<div class="line"><span class="lineno">  601</span>            <span class="comment">// spa loading if necessary</span></div>
+<div class="line"><span class="lineno">  602</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
+<div class="line"><span class="lineno">  603</span>            {</div>
+<div class="line"><span class="lineno">  604</span>                logger.LogInformation(<span class="stringliteral">&quot;Web control panel enabled.&quot;</span>);</div>
+<div class="line"><span class="lineno">  605</span>                applicationBuilder.UseFileServer(<span class="keyword">new</span> FileServerOptions</div>
+<div class="line"><span class="lineno">  606</span>                {</div>
+<div class="line"><span class="lineno">  607</span>                    RequestPath = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html">ControlPanelController</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a31405e686cba6874931106edd1d3a661">ControlPanelRoute</a>,</div>
+<div class="line"><span class="lineno">  608</span>                    EnableDefaultFiles = <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  609</span>                    EnableDirectoryBrowsing = <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  610</span>                    RedirectToAppendTrailingSlash = <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  611</span>                });</div>
+<div class="line"><span class="lineno">  612</span>            }</div>
+<div class="line"><span class="lineno">  613</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  614</span><span class="preprocessor">#if NO_WEBPANEL</span></div>
+<div class="line"><span class="lineno">  615</span>                logger.LogDebug(<span class="stringliteral">&quot;Web control panel was not included in TGS build!&quot;</span>);</div>
+<div class="line"><span class="lineno">  616</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  617</span>                logger.LogTrace(<span class="stringliteral">&quot;Web control panel disabled!&quot;</span>);</div>
+<div class="line"><span class="lineno">  618</span><span class="preprocessor">#endif</span></div>
 <div class="line"><span class="lineno">  619</span> </div>
-<div class="line"><span class="lineno">  620</span>            <span class="comment">// Set up CORS based on configuration if necessary</span></div>
-<div class="line"><span class="lineno">  621</span>            Action&lt;CorsPolicyBuilder&gt;? corsBuilder = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  622</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.AllowAnyOrigin)</div>
-<div class="line"><span class="lineno">  623</span>            {</div>
-<div class="line"><span class="lineno">  624</span>                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: *&quot;</span>);</div>
-<div class="line"><span class="lineno">  625</span>                corsBuilder = builder =&gt; builder.SetIsOriginAllowed(_ =&gt; <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  626</span>            }</div>
-<div class="line"><span class="lineno">  627</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (controlPanelConfiguration.AllowedOrigins?.Count &gt; 0)</div>
-<div class="line"><span class="lineno">  628</span>            {</div>
-<div class="line"><span class="lineno">  629</span>                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: {allowedOrigins}&quot;</span>, String.Join(<span class="charliteral">&#39;,&#39;</span>, controlPanelConfiguration.AllowedOrigins));</div>
-<div class="line"><span class="lineno">  630</span>                corsBuilder = builder =&gt; builder.WithOrigins([.. controlPanelConfiguration.AllowedOrigins]);</div>
-<div class="line"><span class="lineno">  631</span>            }</div>
-<div class="line"><span class="lineno">  632</span> </div>
-<div class="line"><span class="lineno">  633</span>            var originalBuilder = corsBuilder;</div>
-<div class="line"><span class="lineno">  634</span>            corsBuilder = builder =&gt;</div>
-<div class="line"><span class="lineno">  635</span>            {</div>
-<div class="line"><span class="lineno">  636</span>                builder</div>
-<div class="line"><span class="lineno">  637</span>                    .AllowAnyHeader()</div>
-<div class="line"><span class="lineno">  638</span>                    .AllowAnyMethod()</div>
-<div class="line"><span class="lineno">  639</span>                    .AllowCredentials()</div>
-<div class="line"><span class="lineno">  640</span>                    .SetPreflightMaxAge(TimeSpan.FromDays(1));</div>
-<div class="line"><span class="lineno">  641</span>                originalBuilder?.Invoke(builder);</div>
-<div class="line"><span class="lineno">  642</span>            };</div>
-<div class="line"><span class="lineno">  643</span>            applicationBuilder.UseCors(corsBuilder);</div>
-<div class="line"><span class="lineno">  644</span> </div>
-<div class="line"><span class="lineno">  645</span>            <span class="comment">// validate the API version</span></div>
-<div class="line"><span class="lineno">  646</span>            applicationBuilder.UseApiCompatibility();</div>
+<div class="line"><span class="lineno">  620</span>            <span class="comment">// Enable endpoint routing</span></div>
+<div class="line"><span class="lineno">  621</span>            applicationBuilder.UseRouting();</div>
+<div class="line"><span class="lineno">  622</span> </div>
+<div class="line"><span class="lineno">  623</span>            <span class="comment">// Set up CORS based on configuration if necessary</span></div>
+<div class="line"><span class="lineno">  624</span>            Action&lt;CorsPolicyBuilder&gt;? corsBuilder = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  625</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.AllowAnyOrigin)</div>
+<div class="line"><span class="lineno">  626</span>            {</div>
+<div class="line"><span class="lineno">  627</span>                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: *&quot;</span>);</div>
+<div class="line"><span class="lineno">  628</span>                corsBuilder = builder =&gt; builder.SetIsOriginAllowed(_ =&gt; <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  629</span>            }</div>
+<div class="line"><span class="lineno">  630</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (controlPanelConfiguration.AllowedOrigins?.Count &gt; 0)</div>
+<div class="line"><span class="lineno">  631</span>            {</div>
+<div class="line"><span class="lineno">  632</span>                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: {allowedOrigins}&quot;</span>, String.Join(<span class="charliteral">&#39;,&#39;</span>, controlPanelConfiguration.AllowedOrigins));</div>
+<div class="line"><span class="lineno">  633</span>                corsBuilder = builder =&gt; builder.WithOrigins([.. controlPanelConfiguration.AllowedOrigins]);</div>
+<div class="line"><span class="lineno">  634</span>            }</div>
+<div class="line"><span class="lineno">  635</span> </div>
+<div class="line"><span class="lineno">  636</span>            var originalBuilder = corsBuilder;</div>
+<div class="line"><span class="lineno">  637</span>            corsBuilder = builder =&gt;</div>
+<div class="line"><span class="lineno">  638</span>            {</div>
+<div class="line"><span class="lineno">  639</span>                builder</div>
+<div class="line"><span class="lineno">  640</span>                    .AllowAnyHeader()</div>
+<div class="line"><span class="lineno">  641</span>                    .AllowAnyMethod()</div>
+<div class="line"><span class="lineno">  642</span>                    .AllowCredentials()</div>
+<div class="line"><span class="lineno">  643</span>                    .SetPreflightMaxAge(TimeSpan.FromDays(1));</div>
+<div class="line"><span class="lineno">  644</span>                originalBuilder?.Invoke(builder);</div>
+<div class="line"><span class="lineno">  645</span>            };</div>
+<div class="line"><span class="lineno">  646</span>            applicationBuilder.UseCors(corsBuilder);</div>
 <div class="line"><span class="lineno">  647</span> </div>
-<div class="line"><span class="lineno">  648</span>            <span class="comment">// authenticate JWT tokens using our security pipeline if present, returns 401 if bad</span></div>
-<div class="line"><span class="lineno">  649</span>            applicationBuilder.UseAuthentication();</div>
+<div class="line"><span class="lineno">  648</span>            <span class="comment">// validate the API version</span></div>
+<div class="line"><span class="lineno">  649</span>            applicationBuilder.UseApiCompatibility();</div>
 <div class="line"><span class="lineno">  650</span> </div>
-<div class="line"><span class="lineno">  651</span>            <span class="comment">// enable authorization on endpoints</span></div>
-<div class="line"><span class="lineno">  652</span>            applicationBuilder.UseAuthorization();</div>
+<div class="line"><span class="lineno">  651</span>            <span class="comment">// authenticate JWT tokens using our security pipeline if present, returns 401 if bad</span></div>
+<div class="line"><span class="lineno">  652</span>            applicationBuilder.UseAuthentication();</div>
 <div class="line"><span class="lineno">  653</span> </div>
-<div class="line"><span class="lineno">  654</span>            <span class="comment">// suppress and log database exceptions</span></div>
-<div class="line"><span class="lineno">  655</span>            applicationBuilder.UseDbConflictHandling();</div>
+<div class="line"><span class="lineno">  654</span>            <span class="comment">// enable authorization on endpoints</span></div>
+<div class="line"><span class="lineno">  655</span>            applicationBuilder.UseAuthorization();</div>
 <div class="line"><span class="lineno">  656</span> </div>
-<div class="line"><span class="lineno">  657</span>            <span class="comment">// setup endpoints</span></div>
-<div class="line"><span class="lineno">  658</span>            applicationBuilder.UseEndpoints(endpoints =&gt;</div>
-<div class="line"><span class="lineno">  659</span>            {</div>
-<div class="line"><span class="lineno">  660</span>                <span class="comment">// access to the signalR jobs hub</span></div>
-<div class="line"><span class="lineno">  661</span>                endpoints.MapHub&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html">JobsHub</a>&gt;(</div>
-<div class="line"><span class="lineno">  662</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8f0fbf59b12bc939238a64bc4df9000d">JobsHub</a>,</div>
-<div class="line"><span class="lineno">  663</span>                    options =&gt;</div>
-<div class="line"><span class="lineno">  664</span>                    {</div>
-<div class="line"><span class="lineno">  665</span>                        options.Transports = HttpTransportType.ServerSentEvents;</div>
-<div class="line"><span class="lineno">  666</span>                        options.CloseOnAuthenticationExpiration = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  667</span>                    })</div>
-<div class="line"><span class="lineno">  668</span>                    .RequireAuthorization()</div>
-<div class="line"><span class="lineno">  669</span>                    .RequireCors(corsBuilder);</div>
-<div class="line"><span class="lineno">  670</span> </div>
-<div class="line"><span class="lineno">  671</span>                <span class="comment">// majority of handling is done in the controllers</span></div>
-<div class="line"><span class="lineno">  672</span>                endpoints.MapControllers();</div>
+<div class="line"><span class="lineno">  657</span>            <span class="comment">// suppress and log database exceptions</span></div>
+<div class="line"><span class="lineno">  658</span>            applicationBuilder.UseDbConflictHandling();</div>
+<div class="line"><span class="lineno">  659</span> </div>
+<div class="line"><span class="lineno">  660</span>            <span class="comment">// setup endpoints</span></div>
+<div class="line"><span class="lineno">  661</span>            applicationBuilder.UseEndpoints(endpoints =&gt;</div>
+<div class="line"><span class="lineno">  662</span>            {</div>
+<div class="line"><span class="lineno">  663</span>                <span class="comment">// access to the signalR jobs hub</span></div>
+<div class="line"><span class="lineno">  664</span>                endpoints.MapHub&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html">JobsHub</a>&gt;(</div>
+<div class="line"><span class="lineno">  665</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8f0fbf59b12bc939238a64bc4df9000d">JobsHub</a>,</div>
+<div class="line"><span class="lineno">  666</span>                    options =&gt;</div>
+<div class="line"><span class="lineno">  667</span>                    {</div>
+<div class="line"><span class="lineno">  668</span>                        options.Transports = HttpTransportType.ServerSentEvents;</div>
+<div class="line"><span class="lineno">  669</span>                        options.CloseOnAuthenticationExpiration = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  670</span>                    })</div>
+<div class="line"><span class="lineno">  671</span>                    .RequireAuthorization()</div>
+<div class="line"><span class="lineno">  672</span>                    .RequireCors(corsBuilder);</div>
 <div class="line"><span class="lineno">  673</span> </div>
-<div class="line"><span class="lineno">  674</span>                <span class="keywordflow">if</span> (internalConfiguration.EnableGraphQL)</div>
-<div class="line"><span class="lineno">  675</span>                {</div>
-<div class="line"><span class="lineno">  676</span>                    logger.LogWarning(<span class="stringliteral">&quot;Enabling GraphQL. This API is experimental and breaking changes may occur at any time!&quot;</span>);</div>
-<div class="line"><span class="lineno">  677</span>                    var gqlOptions = <span class="keyword">new</span> GraphQLServerOptions</div>
-<div class="line"><span class="lineno">  678</span>                    {</div>
-<div class="line"><span class="lineno">  679</span>                        EnableBatching = <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  680</span>                    };</div>
-<div class="line"><span class="lineno">  681</span> </div>
-<div class="line"><span class="lineno">  682</span>                    gqlOptions.Tool.Enable = generalConfiguration.HostApiDocumentation;</div>
-<div class="line"><span class="lineno">  683</span> </div>
-<div class="line"><span class="lineno">  684</span>                    endpoints</div>
-<div class="line"><span class="lineno">  685</span>                        .MapGraphQL(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a502122c533fa679ec8c34ddb89431fa6">GraphQL</a>)</div>
-<div class="line"><span class="lineno">  686</span>                        .WithOptions(gqlOptions);</div>
-<div class="line"><span class="lineno">  687</span>                }</div>
-<div class="line"><span class="lineno">  688</span>            });</div>
-<div class="line"><span class="lineno">  689</span> </div>
-<div class="line"><span class="lineno">  690</span>            <span class="comment">// 404 anything that gets this far</span></div>
-<div class="line"><span class="lineno">  691</span>            <span class="comment">// End of request pipeline setup</span></div>
-<div class="line"><span class="lineno">  692</span>            logger.LogTrace(<span class="stringliteral">&quot;Configuration version: {configVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>);</div>
-<div class="line"><span class="lineno">  693</span>            logger.LogTrace(<span class="stringliteral">&quot;DMAPI Interop version: {interopVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html">DMApiConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html#ac2e027490bca3307936efe1092da2cc9">InteropVersion</a>);</div>
-<div class="line"><span class="lineno">  694</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
-<div class="line"><span class="lineno">  695</span>                logger.LogTrace(<span class="stringliteral">&quot;Webpanel version: {webCPVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html">MasterVersionsAttribute</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a6c7f632f14b13b6701842c69eb01c4e5">RawWebpanelVersion</a>);</div>
-<div class="line"><span class="lineno">  696</span> </div>
-<div class="line"><span class="lineno">  697</span>            logger.LogDebug(<span class="stringliteral">&quot;Starting hosting on port {httpApiPort}...&quot;</span>, serverPortProvider.HttpApiPort);</div>
-<div class="line"><span class="lineno">  698</span>        }</div>
+<div class="line"><span class="lineno">  674</span>                <span class="comment">// majority of handling is done in the controllers</span></div>
+<div class="line"><span class="lineno">  675</span>                endpoints.MapControllers();</div>
+<div class="line"><span class="lineno">  676</span> </div>
+<div class="line"><span class="lineno">  677</span>                <span class="keywordflow">if</span> (internalConfiguration.EnableGraphQL)</div>
+<div class="line"><span class="lineno">  678</span>                {</div>
+<div class="line"><span class="lineno">  679</span>                    logger.LogWarning(<span class="stringliteral">&quot;Enabling GraphQL. This API is experimental and breaking changes may occur at any time!&quot;</span>);</div>
+<div class="line"><span class="lineno">  680</span>                    var gqlOptions = <span class="keyword">new</span> GraphQLServerOptions</div>
+<div class="line"><span class="lineno">  681</span>                    {</div>
+<div class="line"><span class="lineno">  682</span>                        EnableBatching = <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  683</span>                    };</div>
+<div class="line"><span class="lineno">  684</span> </div>
+<div class="line"><span class="lineno">  685</span>                    gqlOptions.Tool.Enable = generalConfiguration.HostApiDocumentation;</div>
+<div class="line"><span class="lineno">  686</span> </div>
+<div class="line"><span class="lineno">  687</span>                    endpoints</div>
+<div class="line"><span class="lineno">  688</span>                        .MapGraphQL(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a502122c533fa679ec8c34ddb89431fa6">GraphQL</a>)</div>
+<div class="line"><span class="lineno">  689</span>                        .WithOptions(gqlOptions);</div>
+<div class="line"><span class="lineno">  690</span>                }</div>
+<div class="line"><span class="lineno">  691</span>            });</div>
+<div class="line"><span class="lineno">  692</span> </div>
+<div class="line"><span class="lineno">  693</span>            <span class="comment">// 404 anything that gets this far</span></div>
+<div class="line"><span class="lineno">  694</span>            <span class="comment">// End of request pipeline setup</span></div>
+<div class="line"><span class="lineno">  695</span>            logger.LogTrace(<span class="stringliteral">&quot;Configuration version: {configVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>);</div>
+<div class="line"><span class="lineno">  696</span>            logger.LogTrace(<span class="stringliteral">&quot;DMAPI Interop version: {interopVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html">DMApiConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html#ac2e027490bca3307936efe1092da2cc9">InteropVersion</a>);</div>
+<div class="line"><span class="lineno">  697</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
+<div class="line"><span class="lineno">  698</span>                logger.LogTrace(<span class="stringliteral">&quot;Webpanel version: {webCPVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html">MasterVersionsAttribute</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a6c7f632f14b13b6701842c69eb01c4e5">RawWebpanelVersion</a>);</div>
+<div class="line"><span class="lineno">  699</span> </div>
+<div class="line"><span class="lineno">  700</span>            logger.LogDebug(<span class="stringliteral">&quot;Starting hosting on port {httpApiPort}...&quot;</span>, serverPortProvider.HttpApiPort);</div>
+<div class="line"><span class="lineno">  701</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Tgstation.Server.Api.Routes</a></div><div class="ttdoc">Routes to a server actions.</div><div class="ttdef"><b>Definition</b> <a href="_routes_8cs_source.html#l00008">Routes.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_a502122c533fa679ec8c34ddb89431fa6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a502122c533fa679ec8c34ddb89431fa6">Tgstation.Server.Api.Routes.GraphQL</a></div><div class="ttdeci">const string GraphQL</div><div class="ttdoc">The GraphQL route.</div><div class="ttdef"><b>Definition</b> <a href="_routes_8cs_source.html#l00018">Routes.cs:18</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_a8f0fbf59b12bc939238a64bc4df9000d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8f0fbf59b12bc939238a64bc4df9000d">Tgstation.Server.Api.Routes.JobsHub</a></div><div class="ttdeci">const string JobsHub</div><div class="ttdoc">The root route of all hubs.</div><div class="ttdef"><b>Definition</b> <a href="_routes_8cs_source.html#l00118">Routes.cs:118</a></div></div>
@@ -608,64 +608,64 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00708">708</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  709</span>        {</div>
-<div class="line"><span class="lineno">  710</span>            services.AddHttpContextAccessor();</div>
-<div class="line"><span class="lineno">  711</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html">IApiHeadersProvider</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_api_headers_provider.html">ApiHeadersProvider</a>&gt;();</div>
-<div class="line"><span class="lineno">  712</span>            services.AddScoped&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">AuthenticationContextFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  713</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html">ITokenValidator</a>&gt;(provider =&gt; provider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">AuthenticationContextFactory</a>&gt;());</div>
-<div class="line"><span class="lineno">  714</span> </div>
-<div class="line"><span class="lineno">  715</span>            <span class="comment">// what if you</span></div>
-<div class="line"><span class="lineno">  716</span>            <span class="comment">// wanted to just do this:</span></div>
-<div class="line"><span class="lineno">  717</span>            <span class="comment">// return provider.GetRequiredService&lt;AuthenticationContextFactory&gt;().CurrentAuthenticationContext</span></div>
-<div class="line"><span class="lineno">  718</span>            <span class="comment">// But M$ said</span></div>
-<div class="line"><span class="lineno">  719</span>            <span class="comment">// https://stackoverflow.com/questions/56792917/scoped-services-in-asp-net-core-with-signalr-hubs</span></div>
-<div class="line"><span class="lineno">  720</span>            services.AddScoped(provider =&gt; (provider</div>
-<div class="line"><span class="lineno">  721</span>                .GetRequiredService&lt;IHttpContextAccessor&gt;()</div>
-<div class="line"><span class="lineno">  722</span>                .HttpContext ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Unable to resolve {nameof(IAuthenticationContext)} due to no HttpContext being available!&quot;</span>))</div>
-<div class="line"><span class="lineno">  723</span>                .RequestServices</div>
-<div class="line"><span class="lineno">  724</span>                .GetRequiredService&lt;AuthenticationContextFactory&gt;()</div>
-<div class="line"><span class="lineno">  725</span>                .CurrentAuthenticationContext);</div>
-<div class="line"><span class="lineno">  726</span>            services.AddScoped&lt;<a class="code hl_class" href="class_i_claims_transformation.html">IClaimsTransformation</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html">AuthenticationContextClaimsTransformation</a>&gt;();</div>
-<div class="line"><span class="lineno">  727</span> </div>
-<div class="line"><span class="lineno">  728</span>            services</div>
-<div class="line"><span class="lineno">  729</span>                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)</div>
-<div class="line"><span class="lineno">  730</span>                .AddJwtBearer(jwtBearerOptions =&gt;</div>
-<div class="line"><span class="lineno">  731</span>                {</div>
-<div class="line"><span class="lineno">  732</span>                    <span class="comment">// this line isn&#39;t actually run until the first request is made</span></div>
-<div class="line"><span class="lineno">  733</span>                    <span class="comment">// at that point tokenFactory will be populated</span></div>
-<div class="line"><span class="lineno">  734</span>                    jwtBearerOptions.TokenValidationParameters = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a>?.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a46e66985719064cffa8b569830a3712f">ValidationParameters</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;tokenFactory not initialized!&quot;</span>);</div>
-<div class="line"><span class="lineno">  735</span>                    jwtBearerOptions.MapInboundClaims = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  736</span>                    jwtBearerOptions.Events = <span class="keyword">new</span> JwtBearerEvents</div>
-<div class="line"><span class="lineno">  737</span>                    {</div>
-<div class="line"><span class="lineno">  738</span>                        OnMessageReceived = context =&gt;</div>
-<div class="line"><span class="lineno">  739</span>                        {</div>
-<div class="line"><span class="lineno">  740</span>                            <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(context.Token))</div>
-<div class="line"><span class="lineno">  741</span>                            {</div>
-<div class="line"><span class="lineno">  742</span>                                var accessToken = context.Request.Query[<span class="stringliteral">&quot;access_token&quot;</span>];</div>
-<div class="line"><span class="lineno">  743</span>                                var path = context.HttpContext.Request.Path;</div>
-<div class="line"><span class="lineno">  744</span> </div>
-<div class="line"><span class="lineno">  745</span>                                <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(accessToken) &amp;&amp;</div>
-<div class="line"><span class="lineno">  746</span>                                    path.StartsWithSegments(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a592881a5c0b75edd77acb148c13b52b9">HubsRoot</a>, StringComparison.OrdinalIgnoreCase))</div>
-<div class="line"><span class="lineno">  747</span>                                {</div>
-<div class="line"><span class="lineno">  748</span>                                    context.Token = accessToken;</div>
-<div class="line"><span class="lineno">  749</span>                                }</div>
-<div class="line"><span class="lineno">  750</span>                            }</div>
-<div class="line"><span class="lineno">  751</span> </div>
-<div class="line"><span class="lineno">  752</span>                            <span class="keywordflow">return</span> Task.CompletedTask;</div>
-<div class="line"><span class="lineno">  753</span>                        },</div>
-<div class="line"><span class="lineno">  754</span>                        OnTokenValidated = context =&gt; context</div>
-<div class="line"><span class="lineno">  755</span>                            .HttpContext</div>
-<div class="line"><span class="lineno">  756</span>                            .RequestServices</div>
-<div class="line"><span class="lineno">  757</span>                            .GetRequiredService&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html">ITokenValidator</a>&gt;()</div>
-<div class="line"><span class="lineno">  758</span>                            .ValidateToken(</div>
-<div class="line"><span class="lineno">  759</span>                                context,</div>
-<div class="line"><span class="lineno">  760</span>                                context</div>
-<div class="line"><span class="lineno">  761</span>                                    .HttpContext</div>
-<div class="line"><span class="lineno">  762</span>                                    .RequestAborted),</div>
-<div class="line"><span class="lineno">  763</span>                    };</div>
-<div class="line"><span class="lineno">  764</span>                });</div>
-<div class="line"><span class="lineno">  765</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00711">711</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  712</span>        {</div>
+<div class="line"><span class="lineno">  713</span>            services.AddHttpContextAccessor();</div>
+<div class="line"><span class="lineno">  714</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html">IApiHeadersProvider</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_api_headers_provider.html">ApiHeadersProvider</a>&gt;();</div>
+<div class="line"><span class="lineno">  715</span>            services.AddScoped&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">AuthenticationContextFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  716</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html">ITokenValidator</a>&gt;(provider =&gt; provider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">AuthenticationContextFactory</a>&gt;());</div>
+<div class="line"><span class="lineno">  717</span> </div>
+<div class="line"><span class="lineno">  718</span>            <span class="comment">// what if you</span></div>
+<div class="line"><span class="lineno">  719</span>            <span class="comment">// wanted to just do this:</span></div>
+<div class="line"><span class="lineno">  720</span>            <span class="comment">// return provider.GetRequiredService&lt;AuthenticationContextFactory&gt;().CurrentAuthenticationContext</span></div>
+<div class="line"><span class="lineno">  721</span>            <span class="comment">// But M$ said</span></div>
+<div class="line"><span class="lineno">  722</span>            <span class="comment">// https://stackoverflow.com/questions/56792917/scoped-services-in-asp-net-core-with-signalr-hubs</span></div>
+<div class="line"><span class="lineno">  723</span>            services.AddScoped(provider =&gt; (provider</div>
+<div class="line"><span class="lineno">  724</span>                .GetRequiredService&lt;IHttpContextAccessor&gt;()</div>
+<div class="line"><span class="lineno">  725</span>                .HttpContext ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Unable to resolve {nameof(IAuthenticationContext)} due to no HttpContext being available!&quot;</span>))</div>
+<div class="line"><span class="lineno">  726</span>                .RequestServices</div>
+<div class="line"><span class="lineno">  727</span>                .GetRequiredService&lt;AuthenticationContextFactory&gt;()</div>
+<div class="line"><span class="lineno">  728</span>                .CurrentAuthenticationContext);</div>
+<div class="line"><span class="lineno">  729</span>            services.AddScoped&lt;<a class="code hl_class" href="class_i_claims_transformation.html">IClaimsTransformation</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html">AuthenticationContextClaimsTransformation</a>&gt;();</div>
+<div class="line"><span class="lineno">  730</span> </div>
+<div class="line"><span class="lineno">  731</span>            services</div>
+<div class="line"><span class="lineno">  732</span>                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)</div>
+<div class="line"><span class="lineno">  733</span>                .AddJwtBearer(jwtBearerOptions =&gt;</div>
+<div class="line"><span class="lineno">  734</span>                {</div>
+<div class="line"><span class="lineno">  735</span>                    <span class="comment">// this line isn&#39;t actually run until the first request is made</span></div>
+<div class="line"><span class="lineno">  736</span>                    <span class="comment">// at that point tokenFactory will be populated</span></div>
+<div class="line"><span class="lineno">  737</span>                    jwtBearerOptions.TokenValidationParameters = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a>?.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a46e66985719064cffa8b569830a3712f">ValidationParameters</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;tokenFactory not initialized!&quot;</span>);</div>
+<div class="line"><span class="lineno">  738</span>                    jwtBearerOptions.MapInboundClaims = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  739</span>                    jwtBearerOptions.Events = <span class="keyword">new</span> JwtBearerEvents</div>
+<div class="line"><span class="lineno">  740</span>                    {</div>
+<div class="line"><span class="lineno">  741</span>                        OnMessageReceived = context =&gt;</div>
+<div class="line"><span class="lineno">  742</span>                        {</div>
+<div class="line"><span class="lineno">  743</span>                            <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(context.Token))</div>
+<div class="line"><span class="lineno">  744</span>                            {</div>
+<div class="line"><span class="lineno">  745</span>                                var accessToken = context.Request.Query[<span class="stringliteral">&quot;access_token&quot;</span>];</div>
+<div class="line"><span class="lineno">  746</span>                                var path = context.HttpContext.Request.Path;</div>
+<div class="line"><span class="lineno">  747</span> </div>
+<div class="line"><span class="lineno">  748</span>                                <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(accessToken) &amp;&amp;</div>
+<div class="line"><span class="lineno">  749</span>                                    path.StartsWithSegments(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a592881a5c0b75edd77acb148c13b52b9">HubsRoot</a>, StringComparison.OrdinalIgnoreCase))</div>
+<div class="line"><span class="lineno">  750</span>                                {</div>
+<div class="line"><span class="lineno">  751</span>                                    context.Token = accessToken;</div>
+<div class="line"><span class="lineno">  752</span>                                }</div>
+<div class="line"><span class="lineno">  753</span>                            }</div>
+<div class="line"><span class="lineno">  754</span> </div>
+<div class="line"><span class="lineno">  755</span>                            <span class="keywordflow">return</span> Task.CompletedTask;</div>
+<div class="line"><span class="lineno">  756</span>                        },</div>
+<div class="line"><span class="lineno">  757</span>                        OnTokenValidated = context =&gt; context</div>
+<div class="line"><span class="lineno">  758</span>                            .HttpContext</div>
+<div class="line"><span class="lineno">  759</span>                            .RequestServices</div>
+<div class="line"><span class="lineno">  760</span>                            .GetRequiredService&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html">ITokenValidator</a>&gt;()</div>
+<div class="line"><span class="lineno">  761</span>                            .ValidateToken(</div>
+<div class="line"><span class="lineno">  762</span>                                context,</div>
+<div class="line"><span class="lineno">  763</span>                                context</div>
+<div class="line"><span class="lineno">  764</span>                                    .HttpContext</div>
+<div class="line"><span class="lineno">  765</span>                                    .RequestAborted),</div>
+<div class="line"><span class="lineno">  766</span>                    };</div>
+<div class="line"><span class="lineno">  767</span>                });</div>
+<div class="line"><span class="lineno">  768</span>        }</div>
 <div class="ttc" id="aclass_i_claims_transformation_html"><div class="ttname"><a href="class_i_claims_transformation.html">IClaimsTransformation</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_a592881a5c0b75edd77acb148c13b52b9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a592881a5c0b75edd77acb148c13b52b9">Tgstation.Server.Api.Routes.HubsRoot</a></div><div class="ttdeci">const string HubsRoot</div><div class="ttdoc">The root route of all hubs.</div><div class="ttdef"><b>Definition</b> <a href="_routes_8cs_source.html#l00023">Routes.cs:23</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html">Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation</a></div><div class="ttdoc">A IClaimsTransformation that maps Claims using an IAuthenticationContext.</div><div class="ttdef"><b>Definition</b> <a href="_authentication_context_claims_transformation_8cs_source.html#l00016">AuthenticationContextClaimsTransformation.cs:17</a></div></div>
@@ -932,221 +932,224 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  298</span>            services</div>
 <div class="line"><span class="lineno">  299</span>                .AddScoped&lt;GraphQL.Subscriptions.ITopicEventReceiver, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_subscriptions_1_1_shutdown_aware_topic_event_receiver.html">ShutdownAwareTopicEventReceiver</a>&gt;()</div>
 <div class="line"><span class="lineno">  300</span>                .AddGraphQLServer()</div>
-<div class="line"><span class="lineno">  301</span>                .AddAuthorization()</div>
-<div class="line"><span class="lineno">  302</span>                .ModifyOptions(options =&gt;</div>
-<div class="line"><span class="lineno">  303</span>                {</div>
-<div class="line"><span class="lineno">  304</span>                    options.EnsureAllNodesCanBeResolved = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  305</span>                    options.EnableFlagEnums = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  306</span>                })</div>
-<div class="line"><span class="lineno">  307</span>#<span class="keywordflow">if</span> DEBUG</div>
-<div class="line"><span class="lineno">  308</span>                .ModifyCostOptions(options =&gt;</div>
-<div class="line"><span class="lineno">  309</span>                {</div>
-<div class="line"><span class="lineno">  310</span>                    options.EnforceCostLimits = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  311</span>                })</div>
-<div class="line"><span class="lineno">  312</span>#endif</div>
-<div class="line"><span class="lineno">  313</span>                .AddMutationConventions()</div>
-<div class="line"><span class="lineno">  314</span>                .AddInMemorySubscriptions(</div>
-<div class="line"><span class="lineno">  315</span>                    <span class="keyword">new</span> SubscriptionOptions</div>
-<div class="line"><span class="lineno">  316</span>                    {</div>
-<div class="line"><span class="lineno">  317</span>                        TopicBufferCapacity = 1024, <span class="comment">// mainly so high for tests, not possible to DoS the server without authentication and some other access to generate messages</span></div>
-<div class="line"><span class="lineno">  318</span>                    })</div>
-<div class="line"><span class="lineno">  319</span>                .AddGlobalObjectIdentification()</div>
-<div class="line"><span class="lineno">  320</span>                .AddQueryFieldToMutationPayloads()</div>
-<div class="line"><span class="lineno">  321</span>                .ModifyOptions(options =&gt;</div>
-<div class="line"><span class="lineno">  322</span>                {</div>
-<div class="line"><span class="lineno">  323</span>                    options.EnableDefer = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  324</span>                })</div>
-<div class="line"><span class="lineno">  325</span>                .ModifyPagingOptions(pagingOptions =&gt;</div>
-<div class="line"><span class="lineno">  326</span>                {</div>
-<div class="line"><span class="lineno">  327</span>                    pagingOptions.IncludeTotalCount = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  328</span>                    pagingOptions.RequirePagingBoundaries = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  329</span>                    pagingOptions.DefaultPageSize = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html">ApiController</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#abbc50c770e93a741960b1c807deee194">DefaultPageSize</a>;</div>
-<div class="line"><span class="lineno">  330</span>                    pagingOptions.MaxPageSize = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html">ApiController</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a2287f9007dc7a59dd292ba27b66bfae2">MaximumPageSize</a>;</div>
-<div class="line"><span class="lineno">  331</span>                })</div>
-<div class="line"><span class="lineno">  332</span>                .AddFiltering()</div>
-<div class="line"><span class="lineno">  333</span>                .AddSorting()</div>
-<div class="line"><span class="lineno">  334</span>                .AddHostTypes()</div>
-<div class="line"><span class="lineno">  335</span>                .AddErrorFilter&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_error_message_filter.html">ErrorMessageFilter</a>&gt;()</div>
-<div class="line"><span class="lineno">  336</span>                .AddType&lt;StandaloneNode&gt;()</div>
-<div class="line"><span class="lineno">  337</span>                .AddType&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_local_gateway.html">LocalGateway</a>&gt;()</div>
-<div class="line"><span class="lineno">  338</span>                .AddType&lt;RemoteGateway&gt;()</div>
-<div class="line"><span class="lineno">  339</span>                .AddType&lt;GraphQL.Types.UserName&gt;()</div>
-<div class="line"><span class="lineno">  340</span>                .AddType&lt;UnsignedIntType&gt;()</div>
-<div class="line"><span class="lineno">  341</span>                .BindRuntimeType&lt;Version, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_semver_type.html">SemverType</a>&gt;()</div>
-<div class="line"><span class="lineno">  342</span>                .TryAddTypeInterceptor&lt;RightsTypeInterceptor&gt;()</div>
-<div class="line"><span class="lineno">  343</span>                .AddQueryType&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_query.html">Query</a>&gt;()</div>
-<div class="line"><span class="lineno">  344</span>                .AddMutationType&lt;Mutation&gt;()</div>
-<div class="line"><span class="lineno">  345</span>                .AddSubscriptionType&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_subscription.html">Subscription</a>&gt;();</div>
-<div class="line"><span class="lineno">  346</span> </div>
-<div class="line"><span class="lineno">  347</span>            <span class="keywordtype">void</span> AddTypedContext&lt;TContext&gt;()</div>
-<div class="line"><span class="lineno">  348</span>                where TContext : <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
-<div class="line"><span class="lineno">  349</span>            {</div>
-<div class="line"><span class="lineno">  350</span>                var configureAction = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.GetConfigureAction&lt;TContext&gt;();</div>
-<div class="line"><span class="lineno">  351</span> </div>
-<div class="line"><span class="lineno">  352</span>                services.AddDbContextPool&lt;TContext&gt;((serviceProvider, builder) =&gt;</div>
-<div class="line"><span class="lineno">  353</span>                {</div>
-<div class="line"><span class="lineno">  354</span>                    <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.IsDevelopment())</div>
-<div class="line"><span class="lineno">  355</span>                        builder.EnableSensitiveDataLogging();</div>
-<div class="line"><span class="lineno">  356</span> </div>
-<div class="line"><span class="lineno">  357</span>                    var databaseConfigOptions = serviceProvider.GetRequiredService&lt;IOptions&lt;DatabaseConfiguration&gt;&gt;();</div>
-<div class="line"><span class="lineno">  358</span>                    var databaseConfig = databaseConfigOptions.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;DatabaseConfiguration missing!&quot;</span>);</div>
-<div class="line"><span class="lineno">  359</span>                    configureAction(builder, databaseConfig);</div>
-<div class="line"><span class="lineno">  360</span>                });</div>
-<div class="line"><span class="lineno">  361</span>                services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a>&gt;(x =&gt; x.GetRequiredService&lt;TContext&gt;());</div>
-<div class="line"><span class="lineno">  362</span>            }</div>
-<div class="line"><span class="lineno">  363</span> </div>
-<div class="line"><span class="lineno">  364</span>            <span class="comment">// add the correct database context type</span></div>
-<div class="line"><span class="lineno">  365</span>            var dbType = postSetupServices.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html#a9563b31eb4a36767bccf9cf0f347669c">DatabaseConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">DatabaseType</a>;</div>
-<div class="line"><span class="lineno">  366</span>            <span class="keywordflow">switch</span> (dbType)</div>
-<div class="line"><span class="lineno">  367</span>            {</div>
-<div class="line"><span class="lineno">  368</span>                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MySql:</div>
-<div class="line"><span class="lineno">  369</span>                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MariaDB:</div>
-<div class="line"><span class="lineno">  370</span>                    AddTypedContext&lt;MySqlDatabaseContext&gt;();</div>
-<div class="line"><span class="lineno">  371</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  372</span>                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.SqlServer:</div>
-<div class="line"><span class="lineno">  373</span>                    AddTypedContext&lt;SqlServerDatabaseContext&gt;();</div>
+<div class="line"><span class="lineno">  301</span>                .AddAuthorization(</div>
+<div class="line"><span class="lineno">  302</span>                    options =&gt; options.AddPolicy(</div>
+<div class="line"><span class="lineno">  303</span>                        <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_authorize_attribute.html">TgsAuthorizeAttribute</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_authorize_attribute.html#a3397f48d58e70725b5139e4c490edf3e">PolicyName</a>,</div>
+<div class="line"><span class="lineno">  304</span>                        builder =&gt; builder.RequireRole(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_authorize_attribute.html">TgsAuthorizeAttribute</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_authorize_attribute.html#a3bb67563feadbde55152b173a8d28d05">UserEnabledRole</a>)))</div>
+<div class="line"><span class="lineno">  305</span>                .ModifyOptions(options =&gt;</div>
+<div class="line"><span class="lineno">  306</span>                {</div>
+<div class="line"><span class="lineno">  307</span>                    options.EnsureAllNodesCanBeResolved = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  308</span>                    options.EnableFlagEnums = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  309</span>                })</div>
+<div class="line"><span class="lineno">  310</span>#<span class="keywordflow">if</span> DEBUG</div>
+<div class="line"><span class="lineno">  311</span>                .ModifyCostOptions(options =&gt;</div>
+<div class="line"><span class="lineno">  312</span>                {</div>
+<div class="line"><span class="lineno">  313</span>                    options.EnforceCostLimits = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  314</span>                })</div>
+<div class="line"><span class="lineno">  315</span>#endif</div>
+<div class="line"><span class="lineno">  316</span>                .AddMutationConventions()</div>
+<div class="line"><span class="lineno">  317</span>                .AddInMemorySubscriptions(</div>
+<div class="line"><span class="lineno">  318</span>                    <span class="keyword">new</span> SubscriptionOptions</div>
+<div class="line"><span class="lineno">  319</span>                    {</div>
+<div class="line"><span class="lineno">  320</span>                        TopicBufferCapacity = 1024, <span class="comment">// mainly so high for tests, not possible to DoS the server without authentication and some other access to generate messages</span></div>
+<div class="line"><span class="lineno">  321</span>                    })</div>
+<div class="line"><span class="lineno">  322</span>                .AddGlobalObjectIdentification()</div>
+<div class="line"><span class="lineno">  323</span>                .AddQueryFieldToMutationPayloads()</div>
+<div class="line"><span class="lineno">  324</span>                .ModifyOptions(options =&gt;</div>
+<div class="line"><span class="lineno">  325</span>                {</div>
+<div class="line"><span class="lineno">  326</span>                    options.EnableDefer = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  327</span>                })</div>
+<div class="line"><span class="lineno">  328</span>                .ModifyPagingOptions(pagingOptions =&gt;</div>
+<div class="line"><span class="lineno">  329</span>                {</div>
+<div class="line"><span class="lineno">  330</span>                    pagingOptions.IncludeTotalCount = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  331</span>                    pagingOptions.RequirePagingBoundaries = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  332</span>                    pagingOptions.DefaultPageSize = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html">ApiController</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#abbc50c770e93a741960b1c807deee194">DefaultPageSize</a>;</div>
+<div class="line"><span class="lineno">  333</span>                    pagingOptions.MaxPageSize = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html">ApiController</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a2287f9007dc7a59dd292ba27b66bfae2">MaximumPageSize</a>;</div>
+<div class="line"><span class="lineno">  334</span>                })</div>
+<div class="line"><span class="lineno">  335</span>                .AddFiltering()</div>
+<div class="line"><span class="lineno">  336</span>                .AddSorting()</div>
+<div class="line"><span class="lineno">  337</span>                .AddHostTypes()</div>
+<div class="line"><span class="lineno">  338</span>                .AddErrorFilter&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_error_message_filter.html">ErrorMessageFilter</a>&gt;()</div>
+<div class="line"><span class="lineno">  339</span>                .AddType&lt;StandaloneNode&gt;()</div>
+<div class="line"><span class="lineno">  340</span>                .AddType&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_local_gateway.html">LocalGateway</a>&gt;()</div>
+<div class="line"><span class="lineno">  341</span>                .AddType&lt;RemoteGateway&gt;()</div>
+<div class="line"><span class="lineno">  342</span>                .AddType&lt;GraphQL.Types.UserName&gt;()</div>
+<div class="line"><span class="lineno">  343</span>                .AddType&lt;UnsignedIntType&gt;()</div>
+<div class="line"><span class="lineno">  344</span>                .BindRuntimeType&lt;Version, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_scalars_1_1_semver_type.html">SemverType</a>&gt;()</div>
+<div class="line"><span class="lineno">  345</span>                .TryAddTypeInterceptor&lt;RightsTypeInterceptor&gt;()</div>
+<div class="line"><span class="lineno">  346</span>                .AddQueryType&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_query.html">Query</a>&gt;()</div>
+<div class="line"><span class="lineno">  347</span>                .AddMutationType&lt;Mutation&gt;()</div>
+<div class="line"><span class="lineno">  348</span>                .AddSubscriptionType&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_subscription.html">Subscription</a>&gt;();</div>
+<div class="line"><span class="lineno">  349</span> </div>
+<div class="line"><span class="lineno">  350</span>            <span class="keywordtype">void</span> AddTypedContext&lt;TContext&gt;()</div>
+<div class="line"><span class="lineno">  351</span>                where TContext : <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
+<div class="line"><span class="lineno">  352</span>            {</div>
+<div class="line"><span class="lineno">  353</span>                var configureAction = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.GetConfigureAction&lt;TContext&gt;();</div>
+<div class="line"><span class="lineno">  354</span> </div>
+<div class="line"><span class="lineno">  355</span>                services.AddDbContextPool&lt;TContext&gt;((serviceProvider, builder) =&gt;</div>
+<div class="line"><span class="lineno">  356</span>                {</div>
+<div class="line"><span class="lineno">  357</span>                    <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.IsDevelopment())</div>
+<div class="line"><span class="lineno">  358</span>                        builder.EnableSensitiveDataLogging();</div>
+<div class="line"><span class="lineno">  359</span> </div>
+<div class="line"><span class="lineno">  360</span>                    var databaseConfigOptions = serviceProvider.GetRequiredService&lt;IOptions&lt;DatabaseConfiguration&gt;&gt;();</div>
+<div class="line"><span class="lineno">  361</span>                    var databaseConfig = databaseConfigOptions.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;DatabaseConfiguration missing!&quot;</span>);</div>
+<div class="line"><span class="lineno">  362</span>                    configureAction(builder, databaseConfig);</div>
+<div class="line"><span class="lineno">  363</span>                });</div>
+<div class="line"><span class="lineno">  364</span>                services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a>&gt;(x =&gt; x.GetRequiredService&lt;TContext&gt;());</div>
+<div class="line"><span class="lineno">  365</span>            }</div>
+<div class="line"><span class="lineno">  366</span> </div>
+<div class="line"><span class="lineno">  367</span>            <span class="comment">// add the correct database context type</span></div>
+<div class="line"><span class="lineno">  368</span>            var dbType = postSetupServices.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html#a9563b31eb4a36767bccf9cf0f347669c">DatabaseConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">DatabaseType</a>;</div>
+<div class="line"><span class="lineno">  369</span>            <span class="keywordflow">switch</span> (dbType)</div>
+<div class="line"><span class="lineno">  370</span>            {</div>
+<div class="line"><span class="lineno">  371</span>                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MySql:</div>
+<div class="line"><span class="lineno">  372</span>                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MariaDB:</div>
+<div class="line"><span class="lineno">  373</span>                    AddTypedContext&lt;MySqlDatabaseContext&gt;();</div>
 <div class="line"><span class="lineno">  374</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  375</span>                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.Sqlite:</div>
-<div class="line"><span class="lineno">  376</span>                    AddTypedContext&lt;SqliteDatabaseContext&gt;();</div>
+<div class="line"><span class="lineno">  375</span>                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.SqlServer:</div>
+<div class="line"><span class="lineno">  376</span>                    AddTypedContext&lt;SqlServerDatabaseContext&gt;();</div>
 <div class="line"><span class="lineno">  377</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  378</span>                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.PostgresSql:</div>
-<div class="line"><span class="lineno">  379</span>                    AddTypedContext&lt;PostgresSqlDatabaseContext&gt;();</div>
+<div class="line"><span class="lineno">  378</span>                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.Sqlite:</div>
+<div class="line"><span class="lineno">  379</span>                    AddTypedContext&lt;SqliteDatabaseContext&gt;();</div>
 <div class="line"><span class="lineno">  380</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  381</span>                <span class="keywordflow">default</span>:</div>
-<div class="line"><span class="lineno">  382</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Invalid {0}: {1}!&quot;</span>, nameof(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>), dbType));</div>
-<div class="line"><span class="lineno">  383</span>            }</div>
-<div class="line"><span class="lineno">  384</span> </div>
-<div class="line"><span class="lineno">  385</span>            <span class="comment">// configure other database services</span></div>
-<div class="line"><span class="lineno">  386</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html">IDatabaseContextFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html">DatabaseContextFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  387</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html">IDatabaseSeeder</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html">DatabaseSeeder</a>&gt;();</div>
-<div class="line"><span class="lineno">  388</span> </div>
-<div class="line"><span class="lineno">  389</span>            <span class="comment">// configure other security services</span></div>
-<div class="line"><span class="lineno">  390</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html">IOAuthProviders</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html">OAuthProviders</a>&gt;();</div>
-<div class="line"><span class="lineno">  391</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html">IIdentityCache</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html">IdentityCache</a>&gt;();</div>
-<div class="line"><span class="lineno">  392</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html">ICryptographySuite</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html">CryptographySuite</a>&gt;();</div>
-<div class="line"><span class="lineno">  393</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html">ITokenFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html">TokenFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  394</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_session_invalidation_tracker.html">ISessionInvalidationTracker</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker.html">SessionInvalidationTracker</a>&gt;();</div>
-<div class="line"><span class="lineno">  395</span>            services.AddSingleton&lt;IPasswordHasher&lt;Models.User&gt;, PasswordHasher&lt;Models.User&gt;&gt;();</div>
-<div class="line"><span class="lineno">  396</span> </div>
-<div class="line"><span class="lineno">  397</span>            <span class="comment">// configure platform specific services</span></div>
-<div class="line"><span class="lineno">  398</span>            <span class="keywordflow">if</span> (postSetupServices.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html#ae3c16b681516ee65f1270f13ea435086">PlatformIdentifier</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">IsWindows</a>)</div>
-<div class="line"><span class="lineno">  399</span>            {</div>
-<div class="line"><span class="lineno">  400</span>                AddWatchdog&lt;WindowsWatchdogFactory&gt;(services, postSetupServices);</div>
-<div class="line"><span class="lineno">  401</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html">ISystemIdentityFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html">WindowsSystemIdentityFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  402</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html">IFilesystemLinkFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_filesystem_link_factory.html">WindowsFilesystemLinkFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  403</span>                services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html">ByondInstallerBase</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html">WindowsByondInstaller</a>&gt;();</div>
-<div class="line"><span class="lineno">  404</span>                services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html">OpenDreamInstaller</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html">WindowsOpenDreamInstaller</a>&gt;();</div>
-<div class="line"><span class="lineno">  405</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html">IPostWriteHandler</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html">WindowsPostWriteHandler</a>&gt;();</div>
-<div class="line"><span class="lineno">  406</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html">IProcessFeatures</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html">WindowsProcessFeatures</a>&gt;();</div>
-<div class="line"><span class="lineno">  407</span> </div>
-<div class="line"><span class="lineno">  408</span>                services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html">WindowsNetworkPromptReaper</a>&gt;();</div>
-<div class="line"><span class="lineno">  409</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html">INetworkPromptReaper</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html">WindowsNetworkPromptReaper</a>&gt;());</div>
-<div class="line"><span class="lineno">  410</span>                services.AddSingleton&lt;<a class="code hl_class" href="class_i_hosted_service.html">IHostedService</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html">WindowsNetworkPromptReaper</a>&gt;());</div>
-<div class="line"><span class="lineno">  411</span>            }</div>
-<div class="line"><span class="lineno">  412</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  413</span>            {</div>
-<div class="line"><span class="lineno">  414</span>                AddWatchdog&lt;PosixWatchdogFactory&gt;(services, postSetupServices);</div>
-<div class="line"><span class="lineno">  415</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html">ISystemIdentityFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity_factory.html">PosixSystemIdentityFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  416</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html">IFilesystemLinkFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_filesystem_link_factory.html">PosixFilesystemLinkFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  417</span>                services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html">ByondInstallerBase</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html">PosixByondInstaller</a>&gt;();</div>
-<div class="line"><span class="lineno">  418</span>                services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html">OpenDreamInstaller</a>&gt;();</div>
-<div class="line"><span class="lineno">  419</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html">IPostWriteHandler</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_post_write_handler.html">PosixPostWriteHandler</a>&gt;();</div>
-<div class="line"><span class="lineno">  420</span> </div>
-<div class="line"><span class="lineno">  421</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html">IProcessFeatures</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html">PosixProcessFeatures</a>&gt;();</div>
-<div class="line"><span class="lineno">  422</span>                services.AddHostedService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html">PosixProcessFeatures</a>&gt;();</div>
+<div class="line"><span class="lineno">  381</span>                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.PostgresSql:</div>
+<div class="line"><span class="lineno">  382</span>                    AddTypedContext&lt;PostgresSqlDatabaseContext&gt;();</div>
+<div class="line"><span class="lineno">  383</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  384</span>                <span class="keywordflow">default</span>:</div>
+<div class="line"><span class="lineno">  385</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Invalid {0}: {1}!&quot;</span>, nameof(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>), dbType));</div>
+<div class="line"><span class="lineno">  386</span>            }</div>
+<div class="line"><span class="lineno">  387</span> </div>
+<div class="line"><span class="lineno">  388</span>            <span class="comment">// configure other database services</span></div>
+<div class="line"><span class="lineno">  389</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html">IDatabaseContextFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html">DatabaseContextFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  390</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html">IDatabaseSeeder</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html">DatabaseSeeder</a>&gt;();</div>
+<div class="line"><span class="lineno">  391</span> </div>
+<div class="line"><span class="lineno">  392</span>            <span class="comment">// configure other security services</span></div>
+<div class="line"><span class="lineno">  393</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html">IOAuthProviders</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html">OAuthProviders</a>&gt;();</div>
+<div class="line"><span class="lineno">  394</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html">IIdentityCache</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html">IdentityCache</a>&gt;();</div>
+<div class="line"><span class="lineno">  395</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html">ICryptographySuite</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html">CryptographySuite</a>&gt;();</div>
+<div class="line"><span class="lineno">  396</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html">ITokenFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html">TokenFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  397</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_session_invalidation_tracker.html">ISessionInvalidationTracker</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker.html">SessionInvalidationTracker</a>&gt;();</div>
+<div class="line"><span class="lineno">  398</span>            services.AddSingleton&lt;IPasswordHasher&lt;Models.User&gt;, PasswordHasher&lt;Models.User&gt;&gt;();</div>
+<div class="line"><span class="lineno">  399</span> </div>
+<div class="line"><span class="lineno">  400</span>            <span class="comment">// configure platform specific services</span></div>
+<div class="line"><span class="lineno">  401</span>            <span class="keywordflow">if</span> (postSetupServices.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html#ae3c16b681516ee65f1270f13ea435086">PlatformIdentifier</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">IsWindows</a>)</div>
+<div class="line"><span class="lineno">  402</span>            {</div>
+<div class="line"><span class="lineno">  403</span>                AddWatchdog&lt;WindowsWatchdogFactory&gt;(services, postSetupServices);</div>
+<div class="line"><span class="lineno">  404</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html">ISystemIdentityFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html">WindowsSystemIdentityFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  405</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html">IFilesystemLinkFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_filesystem_link_factory.html">WindowsFilesystemLinkFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  406</span>                services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html">ByondInstallerBase</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html">WindowsByondInstaller</a>&gt;();</div>
+<div class="line"><span class="lineno">  407</span>                services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html">OpenDreamInstaller</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html">WindowsOpenDreamInstaller</a>&gt;();</div>
+<div class="line"><span class="lineno">  408</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html">IPostWriteHandler</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html">WindowsPostWriteHandler</a>&gt;();</div>
+<div class="line"><span class="lineno">  409</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html">IProcessFeatures</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html">WindowsProcessFeatures</a>&gt;();</div>
+<div class="line"><span class="lineno">  410</span> </div>
+<div class="line"><span class="lineno">  411</span>                services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html">WindowsNetworkPromptReaper</a>&gt;();</div>
+<div class="line"><span class="lineno">  412</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html">INetworkPromptReaper</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html">WindowsNetworkPromptReaper</a>&gt;());</div>
+<div class="line"><span class="lineno">  413</span>                services.AddSingleton&lt;<a class="code hl_class" href="class_i_hosted_service.html">IHostedService</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html">WindowsNetworkPromptReaper</a>&gt;());</div>
+<div class="line"><span class="lineno">  414</span>            }</div>
+<div class="line"><span class="lineno">  415</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  416</span>            {</div>
+<div class="line"><span class="lineno">  417</span>                AddWatchdog&lt;PosixWatchdogFactory&gt;(services, postSetupServices);</div>
+<div class="line"><span class="lineno">  418</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html">ISystemIdentityFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity_factory.html">PosixSystemIdentityFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  419</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html">IFilesystemLinkFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_filesystem_link_factory.html">PosixFilesystemLinkFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  420</span>                services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html">ByondInstallerBase</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html">PosixByondInstaller</a>&gt;();</div>
+<div class="line"><span class="lineno">  421</span>                services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html">OpenDreamInstaller</a>&gt;();</div>
+<div class="line"><span class="lineno">  422</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html">IPostWriteHandler</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_post_write_handler.html">PosixPostWriteHandler</a>&gt;();</div>
 <div class="line"><span class="lineno">  423</span> </div>
-<div class="line"><span class="lineno">  424</span>                <span class="comment">// PosixProcessFeatures also needs a IProcessExecutor for gcore</span></div>
-<div class="line"><span class="lineno">  425</span>                services.AddSingleton(x =&gt; <span class="keyword">new</span> Lazy&lt;IProcessExecutor&gt;(() =&gt; x.GetRequiredService&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html">IProcessExecutor</a>&gt;(), <span class="keyword">true</span>));</div>
-<div class="line"><span class="lineno">  426</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html">INetworkPromptReaper</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_network_prompt_reaper.html">PosixNetworkPromptReaper</a>&gt;();</div>
-<div class="line"><span class="lineno">  427</span> </div>
-<div class="line"><span class="lineno">  428</span>                services.AddHostedService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html">PosixSignalHandler</a>&gt;();</div>
-<div class="line"><span class="lineno">  429</span>            }</div>
+<div class="line"><span class="lineno">  424</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html">IProcessFeatures</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html">PosixProcessFeatures</a>&gt;();</div>
+<div class="line"><span class="lineno">  425</span>                services.AddHostedService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html">PosixProcessFeatures</a>&gt;();</div>
+<div class="line"><span class="lineno">  426</span> </div>
+<div class="line"><span class="lineno">  427</span>                <span class="comment">// PosixProcessFeatures also needs a IProcessExecutor for gcore</span></div>
+<div class="line"><span class="lineno">  428</span>                services.AddSingleton(x =&gt; <span class="keyword">new</span> Lazy&lt;IProcessExecutor&gt;(() =&gt; x.GetRequiredService&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html">IProcessExecutor</a>&gt;(), <span class="keyword">true</span>));</div>
+<div class="line"><span class="lineno">  429</span>                services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html">INetworkPromptReaper</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_network_prompt_reaper.html">PosixNetworkPromptReaper</a>&gt;();</div>
 <div class="line"><span class="lineno">  430</span> </div>
-<div class="line"><span class="lineno">  431</span>            <span class="comment">// only global repo manager should be for the OD repo</span></div>
-<div class="line"><span class="lineno">  432</span>            <span class="comment">// god help me if we need more</span></div>
-<div class="line"><span class="lineno">  433</span>            var openDreamRepositoryDirectory = ioManager.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">  434</span>                ioManager.GetPathInLocalDirectory(assemblyInformationProvider),</div>
-<div class="line"><span class="lineno">  435</span>                <span class="stringliteral">&quot;OpenDreamRepository&quot;</span>);</div>
-<div class="line"><span class="lineno">  436</span>            services.AddSingleton(</div>
-<div class="line"><span class="lineno">  437</span>                services =&gt; services</div>
-<div class="line"><span class="lineno">  438</span>                    .GetRequiredService&lt;IRepositoryManagerFactory&gt;()</div>
-<div class="line"><span class="lineno">  439</span>                    .CreateRepositoryManager(</div>
-<div class="line"><span class="lineno">  440</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html">ResolvingIOManager</a>(</div>
-<div class="line"><span class="lineno">  441</span>                            services.GetRequiredService&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a>&gt;(),</div>
-<div class="line"><span class="lineno">  442</span>                            openDreamRepositoryDirectory),</div>
-<div class="line"><span class="lineno">  443</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_noop_event_consumer.html">NoopEventConsumer</a>()));</div>
-<div class="line"><span class="lineno">  444</span> </div>
-<div class="line"><span class="lineno">  445</span>            services.AddSingleton(</div>
-<div class="line"><span class="lineno">  446</span>                serviceProvider =&gt; <span class="keyword">new</span> Dictionary&lt;EngineType, IEngineInstaller&gt;</div>
-<div class="line"><span class="lineno">  447</span>                {</div>
-<div class="line"><span class="lineno">  448</span>                    { <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad8fb60934662752c4bbed899440208ea">EngineType</a>.Byond, serviceProvider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html">ByondInstallerBase</a>&gt;() },</div>
-<div class="line"><span class="lineno">  449</span>                    { <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad8fb60934662752c4bbed899440208ea">EngineType</a>.OpenDream, serviceProvider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html">OpenDreamInstaller</a>&gt;() },</div>
-<div class="line"><span class="lineno">  450</span>                }</div>
-<div class="line"><span class="lineno">  451</span>                .ToFrozenDictionary());</div>
-<div class="line"><span class="lineno">  452</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html">IEngineInstaller</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html">DelegatingEngineInstaller</a>&gt;();</div>
-<div class="line"><span class="lineno">  453</span> </div>
-<div class="line"><span class="lineno">  454</span>            <span class="keywordflow">if</span> (postSetupServices.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html#ac2c759d5d6d8f671c28356af69d53656">InternalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#ab57493826c9b76fcd8f0fc0fdaa3fdf7">UsingSystemD</a>)</div>
-<div class="line"><span class="lineno">  455</span>                services.AddHostedService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html">SystemDManager</a>&gt;();</div>
+<div class="line"><span class="lineno">  431</span>                services.AddHostedService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html">PosixSignalHandler</a>&gt;();</div>
+<div class="line"><span class="lineno">  432</span>            }</div>
+<div class="line"><span class="lineno">  433</span> </div>
+<div class="line"><span class="lineno">  434</span>            <span class="comment">// only global repo manager should be for the OD repo</span></div>
+<div class="line"><span class="lineno">  435</span>            <span class="comment">// god help me if we need more</span></div>
+<div class="line"><span class="lineno">  436</span>            var openDreamRepositoryDirectory = ioManager.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">  437</span>                ioManager.GetPathInLocalDirectory(assemblyInformationProvider),</div>
+<div class="line"><span class="lineno">  438</span>                <span class="stringliteral">&quot;OpenDreamRepository&quot;</span>);</div>
+<div class="line"><span class="lineno">  439</span>            services.AddSingleton(</div>
+<div class="line"><span class="lineno">  440</span>                services =&gt; services</div>
+<div class="line"><span class="lineno">  441</span>                    .GetRequiredService&lt;IRepositoryManagerFactory&gt;()</div>
+<div class="line"><span class="lineno">  442</span>                    .CreateRepositoryManager(</div>
+<div class="line"><span class="lineno">  443</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html">ResolvingIOManager</a>(</div>
+<div class="line"><span class="lineno">  444</span>                            services.GetRequiredService&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a>&gt;(),</div>
+<div class="line"><span class="lineno">  445</span>                            openDreamRepositoryDirectory),</div>
+<div class="line"><span class="lineno">  446</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_noop_event_consumer.html">NoopEventConsumer</a>()));</div>
+<div class="line"><span class="lineno">  447</span> </div>
+<div class="line"><span class="lineno">  448</span>            services.AddSingleton(</div>
+<div class="line"><span class="lineno">  449</span>                serviceProvider =&gt; <span class="keyword">new</span> Dictionary&lt;EngineType, IEngineInstaller&gt;</div>
+<div class="line"><span class="lineno">  450</span>                {</div>
+<div class="line"><span class="lineno">  451</span>                    { <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad8fb60934662752c4bbed899440208ea">EngineType</a>.Byond, serviceProvider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html">ByondInstallerBase</a>&gt;() },</div>
+<div class="line"><span class="lineno">  452</span>                    { <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad8fb60934662752c4bbed899440208ea">EngineType</a>.OpenDream, serviceProvider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html">OpenDreamInstaller</a>&gt;() },</div>
+<div class="line"><span class="lineno">  453</span>                }</div>
+<div class="line"><span class="lineno">  454</span>                .ToFrozenDictionary());</div>
+<div class="line"><span class="lineno">  455</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html">IEngineInstaller</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html">DelegatingEngineInstaller</a>&gt;();</div>
 <div class="line"><span class="lineno">  456</span> </div>
-<div class="line"><span class="lineno">  457</span>            <span class="comment">// configure file transfer services</span></div>
-<div class="line"><span class="lineno">  458</span>            services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html">FileTransferService</a>&gt;();</div>
-<div class="line"><span class="lineno">  459</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html">IFileTransferStreamHandler</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html">FileTransferService</a>&gt;());</div>
-<div class="line"><span class="lineno">  460</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html">IFileTransferTicketProvider</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html">FileTransferService</a>&gt;());</div>
-<div class="line"><span class="lineno">  461</span>            services.AddTransient&lt;<a class="code hl_class" href="class_i_action_result_executor.html">IActionResultExecutor&lt;LimitedStreamResult&gt;</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result_executor.html">LimitedStreamResultExecutor</a>&gt;();</div>
-<div class="line"><span class="lineno">  462</span> </div>
-<div class="line"><span class="lineno">  463</span>            <span class="comment">// configure swarm service</span></div>
-<div class="line"><span class="lineno">  464</span>            services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html">SwarmService</a>&gt;();</div>
-<div class="line"><span class="lineno">  465</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html">ISwarmService</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html">SwarmService</a>&gt;());</div>
-<div class="line"><span class="lineno">  466</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html">ISwarmOperations</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html">SwarmService</a>&gt;());</div>
-<div class="line"><span class="lineno">  467</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html">ISwarmServiceController</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html">SwarmService</a>&gt;());</div>
-<div class="line"><span class="lineno">  468</span> </div>
-<div class="line"><span class="lineno">  469</span>            <span class="comment">// configure component services</span></div>
-<div class="line"><span class="lineno">  470</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html">IPortAllocator</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_port_allocator.html">PortAllocator</a>&gt;();</div>
-<div class="line"><span class="lineno">  471</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html">IInstanceFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html">InstanceFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  472</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html">IGitRemoteFeaturesFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html">GitRemoteFeaturesFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  473</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html">ILibGit2RepositoryFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html">LibGit2RepositoryFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  474</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html">ILibGit2Commands</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_commands.html">LibGit2Commands</a>&gt;();</div>
-<div class="line"><span class="lineno">  475</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager_factory.html">IRepositoryManagerFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repostory_manager_factory.html">RepostoryManagerFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  476</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html">IRemoteDeploymentManagerFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html">RemoteDeploymentManagerFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  477</span>            services.AddChatProviderFactory();</div>
-<div class="line"><span class="lineno">  478</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html">IChatManagerFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_factory.html">ChatManagerFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  479</span>            services.AddSingleton&lt;IServerUpdater, ServerUpdater&gt;();</div>
-<div class="line"><span class="lineno">  480</span>            services.AddSingleton&lt;IServerUpdateInitiator, ServerUpdateInitiator&gt;();</div>
-<div class="line"><span class="lineno">  481</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html">IDotnetDumpService</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_dump_service.html">DotnetDumpService</a>&gt;();</div>
-<div class="line"><span class="lineno">  482</span> </div>
-<div class="line"><span class="lineno">  483</span>            <span class="comment">// configure authorities</span></div>
-<div class="line"><span class="lineno">  484</span>            services.AddScoped(typeof(<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_rest_authority_invoker.html">IRestAuthorityInvoker&lt;&gt;</a>), typeof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html">RestAuthorityInvoker&lt;&gt;</a>));</div>
-<div class="line"><span class="lineno">  485</span>            services.AddScoped(typeof(<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html">IGraphQLAuthorityInvoker&lt;&gt;</a>), typeof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_graph_q_l_authority_invoker.html">GraphQLAuthorityInvoker&lt;&gt;</a>));</div>
-<div class="line"><span class="lineno">  486</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_login_authority.html">ILoginAuthority</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html">LoginAuthority</a>&gt;();</div>
-<div class="line"><span class="lineno">  487</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_user_authority.html">IUserAuthority</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html">UserAuthority</a>&gt;();</div>
-<div class="line"><span class="lineno">  488</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_user_group_authority.html">IUserGroupAuthority</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_group_authority.html">UserGroupAuthority</a>&gt;();</div>
-<div class="line"><span class="lineno">  489</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_permission_set_authority.html">IPermissionSetAuthority</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_permission_set_authority.html">PermissionSetAuthority</a>&gt;();</div>
-<div class="line"><span class="lineno">  490</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_administration_authority.html">IAdministrationAuthority</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html">AdministrationAuthority</a>&gt;();</div>
-<div class="line"><span class="lineno">  491</span> </div>
-<div class="line"><span class="lineno">  492</span>            <span class="comment">// configure misc services</span></div>
-<div class="line"><span class="lineno">  493</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html">IProcessExecutor</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html">ProcessExecutor</a>&gt;();</div>
-<div class="line"><span class="lineno">  494</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html">ISynchronousIOManager</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html">SynchronousIOManager</a>&gt;();</div>
-<div class="line"><span class="lineno">  495</span>            services.AddSingleton&lt;IServerPortProvider, ServerPortProivder&gt;();</div>
-<div class="line"><span class="lineno">  496</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_topic_client_factory.html">ITopicClientFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_topic_client_factory.html">TopicClientFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  497</span>            services.AddHostedService&lt;CommandPipeManager&gt;();</div>
-<div class="line"><span class="lineno">  498</span>            services.AddHostedService&lt;VersionReportingService&gt;();</div>
-<div class="line"><span class="lineno">  499</span> </div>
-<div class="line"><span class="lineno">  500</span>            services.AddFileDownloader();</div>
-<div class="line"><span class="lineno">  501</span>            services.AddGitHub();</div>
+<div class="line"><span class="lineno">  457</span>            <span class="keywordflow">if</span> (postSetupServices.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html#ac2c759d5d6d8f671c28356af69d53656">InternalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#ab57493826c9b76fcd8f0fc0fdaa3fdf7">UsingSystemD</a>)</div>
+<div class="line"><span class="lineno">  458</span>                services.AddHostedService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html">SystemDManager</a>&gt;();</div>
+<div class="line"><span class="lineno">  459</span> </div>
+<div class="line"><span class="lineno">  460</span>            <span class="comment">// configure file transfer services</span></div>
+<div class="line"><span class="lineno">  461</span>            services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html">FileTransferService</a>&gt;();</div>
+<div class="line"><span class="lineno">  462</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html">IFileTransferStreamHandler</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html">FileTransferService</a>&gt;());</div>
+<div class="line"><span class="lineno">  463</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html">IFileTransferTicketProvider</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html">FileTransferService</a>&gt;());</div>
+<div class="line"><span class="lineno">  464</span>            services.AddTransient&lt;<a class="code hl_class" href="class_i_action_result_executor.html">IActionResultExecutor&lt;LimitedStreamResult&gt;</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result_executor.html">LimitedStreamResultExecutor</a>&gt;();</div>
+<div class="line"><span class="lineno">  465</span> </div>
+<div class="line"><span class="lineno">  466</span>            <span class="comment">// configure swarm service</span></div>
+<div class="line"><span class="lineno">  467</span>            services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html">SwarmService</a>&gt;();</div>
+<div class="line"><span class="lineno">  468</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html">ISwarmService</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html">SwarmService</a>&gt;());</div>
+<div class="line"><span class="lineno">  469</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html">ISwarmOperations</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html">SwarmService</a>&gt;());</div>
+<div class="line"><span class="lineno">  470</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html">ISwarmServiceController</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html">SwarmService</a>&gt;());</div>
+<div class="line"><span class="lineno">  471</span> </div>
+<div class="line"><span class="lineno">  472</span>            <span class="comment">// configure component services</span></div>
+<div class="line"><span class="lineno">  473</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html">IPortAllocator</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_port_allocator.html">PortAllocator</a>&gt;();</div>
+<div class="line"><span class="lineno">  474</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html">IInstanceFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html">InstanceFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  475</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html">IGitRemoteFeaturesFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html">GitRemoteFeaturesFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  476</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html">ILibGit2RepositoryFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html">LibGit2RepositoryFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  477</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html">ILibGit2Commands</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_commands.html">LibGit2Commands</a>&gt;();</div>
+<div class="line"><span class="lineno">  478</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager_factory.html">IRepositoryManagerFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repostory_manager_factory.html">RepostoryManagerFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  479</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html">IRemoteDeploymentManagerFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html">RemoteDeploymentManagerFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  480</span>            services.AddChatProviderFactory();</div>
+<div class="line"><span class="lineno">  481</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html">IChatManagerFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_factory.html">ChatManagerFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  482</span>            services.AddSingleton&lt;IServerUpdater, ServerUpdater&gt;();</div>
+<div class="line"><span class="lineno">  483</span>            services.AddSingleton&lt;IServerUpdateInitiator, ServerUpdateInitiator&gt;();</div>
+<div class="line"><span class="lineno">  484</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html">IDotnetDumpService</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_dump_service.html">DotnetDumpService</a>&gt;();</div>
+<div class="line"><span class="lineno">  485</span> </div>
+<div class="line"><span class="lineno">  486</span>            <span class="comment">// configure authorities</span></div>
+<div class="line"><span class="lineno">  487</span>            services.AddScoped(typeof(<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_rest_authority_invoker.html">IRestAuthorityInvoker&lt;&gt;</a>), typeof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html">RestAuthorityInvoker&lt;&gt;</a>));</div>
+<div class="line"><span class="lineno">  488</span>            services.AddScoped(typeof(<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html">IGraphQLAuthorityInvoker&lt;&gt;</a>), typeof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_graph_q_l_authority_invoker.html">GraphQLAuthorityInvoker&lt;&gt;</a>));</div>
+<div class="line"><span class="lineno">  489</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_login_authority.html">ILoginAuthority</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html">LoginAuthority</a>&gt;();</div>
+<div class="line"><span class="lineno">  490</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_user_authority.html">IUserAuthority</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html">UserAuthority</a>&gt;();</div>
+<div class="line"><span class="lineno">  491</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_user_group_authority.html">IUserGroupAuthority</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_group_authority.html">UserGroupAuthority</a>&gt;();</div>
+<div class="line"><span class="lineno">  492</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_permission_set_authority.html">IPermissionSetAuthority</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_permission_set_authority.html">PermissionSetAuthority</a>&gt;();</div>
+<div class="line"><span class="lineno">  493</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_administration_authority.html">IAdministrationAuthority</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html">AdministrationAuthority</a>&gt;();</div>
+<div class="line"><span class="lineno">  494</span> </div>
+<div class="line"><span class="lineno">  495</span>            <span class="comment">// configure misc services</span></div>
+<div class="line"><span class="lineno">  496</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html">IProcessExecutor</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html">ProcessExecutor</a>&gt;();</div>
+<div class="line"><span class="lineno">  497</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html">ISynchronousIOManager</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html">SynchronousIOManager</a>&gt;();</div>
+<div class="line"><span class="lineno">  498</span>            services.AddSingleton&lt;IServerPortProvider, ServerPortProivder&gt;();</div>
+<div class="line"><span class="lineno">  499</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_topic_client_factory.html">ITopicClientFactory</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_topic_client_factory.html">TopicClientFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  500</span>            services.AddHostedService&lt;CommandPipeManager&gt;();</div>
+<div class="line"><span class="lineno">  501</span>            services.AddHostedService&lt;VersionReportingService&gt;();</div>
 <div class="line"><span class="lineno">  502</span> </div>
-<div class="line"><span class="lineno">  503</span>            <span class="comment">// configure root services</span></div>
-<div class="line"><span class="lineno">  504</span>            services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html">JobService</a>&gt;();</div>
-<div class="line"><span class="lineno">  505</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html">IJobService</a>&gt;(provider =&gt; provider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html">JobService</a>&gt;());</div>
-<div class="line"><span class="lineno">  506</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater.html">IJobsHubUpdater</a>&gt;(provider =&gt; provider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html">JobService</a>&gt;());</div>
-<div class="line"><span class="lineno">  507</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html">IJobManager</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html">IJobService</a>&gt;());</div>
-<div class="line"><span class="lineno">  508</span>            services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html">JobsHubGroupMapper</a>&gt;();</div>
-<div class="line"><span class="lineno">  509</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html">IPermissionsUpdateNotifyee</a>&gt;(provider =&gt; provider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html">JobsHubGroupMapper</a>&gt;());</div>
-<div class="line"><span class="lineno">  510</span>            services.AddSingleton&lt;<a class="code hl_class" href="class_i_hosted_service.html">IHostedService</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html">JobsHubGroupMapper</a>&gt;()); <span class="comment">// bit of a hack, but we need this to load immediated</span></div>
-<div class="line"><span class="lineno">  511</span> </div>
-<div class="line"><span class="lineno">  512</span>            services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;();</div>
-<div class="line"><span class="lineno">  513</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html">IBridgeDispatcher</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;());</div>
-<div class="line"><span class="lineno">  514</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html">IInstanceManager</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;());</div>
-<div class="line"><span class="lineno">  515</span>        }</div>
+<div class="line"><span class="lineno">  503</span>            services.AddFileDownloader();</div>
+<div class="line"><span class="lineno">  504</span>            services.AddGitHub();</div>
+<div class="line"><span class="lineno">  505</span> </div>
+<div class="line"><span class="lineno">  506</span>            <span class="comment">// configure root services</span></div>
+<div class="line"><span class="lineno">  507</span>            services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html">JobService</a>&gt;();</div>
+<div class="line"><span class="lineno">  508</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html">IJobService</a>&gt;(provider =&gt; provider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html">JobService</a>&gt;());</div>
+<div class="line"><span class="lineno">  509</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater.html">IJobsHubUpdater</a>&gt;(provider =&gt; provider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html">JobService</a>&gt;());</div>
+<div class="line"><span class="lineno">  510</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html">IJobManager</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html">IJobService</a>&gt;());</div>
+<div class="line"><span class="lineno">  511</span>            services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html">JobsHubGroupMapper</a>&gt;();</div>
+<div class="line"><span class="lineno">  512</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html">IPermissionsUpdateNotifyee</a>&gt;(provider =&gt; provider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html">JobsHubGroupMapper</a>&gt;());</div>
+<div class="line"><span class="lineno">  513</span>            services.AddSingleton&lt;<a class="code hl_class" href="class_i_hosted_service.html">IHostedService</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html">JobsHubGroupMapper</a>&gt;()); <span class="comment">// bit of a hack, but we need this to load immediated</span></div>
+<div class="line"><span class="lineno">  514</span> </div>
+<div class="line"><span class="lineno">  515</span>            services.AddSingleton&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;();</div>
+<div class="line"><span class="lineno">  516</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html">IBridgeDispatcher</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;());</div>
+<div class="line"><span class="lineno">  517</span>            services.AddSingleton&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html">IInstanceManager</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;());</div>
+<div class="line"><span class="lineno">  518</span>        }</div>
 <div class="ttc" id="aclass_i_action_result_executor_html"><div class="ttname"><a href="class_i_action_result_executor.html">IActionResultExecutor</a></div></div>
 <div class="ttc" id="aclass_i_hosted_service_html"><div class="ttname"><a href="class_i_hosted_service.html">IHostedService</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">Tgstation.Server.Api.ApiHeaders</a></div><div class="ttdoc">Represents the header that must be present for every server request.</div><div class="ttdef"><b>Definition</b> <a href="_api_headers_8cs_source.html#l00024">ApiHeaders.cs:25</a></div></div>
@@ -1193,7 +1196,7 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_abbc50c770e93a741960b1c807deee194"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#abbc50c770e93a741960b1c807deee194">Tgstation.Server.Host.Controllers.ApiController.DefaultPageSize</a></div><div class="ttdeci">const ushort DefaultPageSize</div><div class="ttdoc">Default size of Paginated&lt;TModel&gt; results.</div><div class="ttdef"><b>Definition</b> <a href="_api_controller_8cs_source.html#l00041">ApiController.cs:41</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result_executor_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result_executor.html">Tgstation.Server.Host.Controllers.Results.LimitedStreamResultExecutor</a></div><div class="ttdoc">IActionResultExecutor&lt;TResult&gt; for LimitedStreamResults.</div><div class="ttdef"><b>Definition</b> <a href="_limited_stream_result_executor_8cs_source.html#l00015">LimitedStreamResultExecutor.cs:16</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a3ec60bfa2b57cd85cae110578270a60f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a3ec60bfa2b57cd85cae110578270a60f">Tgstation.Server.Host.Core.Application.ConfigureServices</a></div><div class="ttdeci">void ConfigureServices(IServiceCollection services, IAssemblyInformationProvider assemblyInformationProvider, IIOManager ioManager, IPostSetupServices postSetupServices)</div><div class="ttdoc">Configure the Application's services .</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00142">Application.cs:142</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a7518c1b2ec58feaa1dffc13c9caf48af"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a7518c1b2ec58feaa1dffc13c9caf48af">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline</a></div><div class="ttdeci">void ConfigureAuthenticationPipeline(IServiceCollection services)</div><div class="ttdoc">Configure the services  for the authentication pipeline.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00708">Application.cs:708</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a7518c1b2ec58feaa1dffc13c9caf48af"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a7518c1b2ec58feaa1dffc13c9caf48af">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline</a></div><div class="ttdeci">void ConfigureAuthenticationPipeline(IServiceCollection services)</div><div class="ttdoc">Configure the services  for the authentication pipeline.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00711">Application.cs:711</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html">Tgstation.Server.Host.Database.DatabaseContextFactory</a></div><div class="ttdef"><b>Definition</b> <a href="_database_context_factory_8cs_source.html#l00009">DatabaseContextFactory.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">Tgstation.Server.Host.Database.DatabaseContext</a></div><div class="ttdoc">Backend abstract implementation of IDatabaseContext.</div><div class="ttdef"><b>Definition</b> <a href="_database_context_8cs_source.html#l00024">DatabaseContext.cs:25</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html">Tgstation.Server.Host.Database.DatabaseSeeder</a></div><div class="ttdef"><b>Definition</b> <a href="_database_seeder_8cs_source.html#l00020">DatabaseSeeder.cs:21</a></div></div>
@@ -1217,6 +1220,9 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html">Tgstation.Server.Host.Security.OAuth.OAuthProviders</a></div><div class="ttdef"><b>Definition</b> <a href="_o_auth_providers_8cs_source.html#l00016">OAuthProviders.cs:17</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity_factory_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity_factory.html">Tgstation.Server.Host.Security.PosixSystemIdentityFactory</a></div><div class="ttdoc">ISystemIdentityFactory for posix systems.</div><div class="ttdef"><b>Definition</b> <a href="_posix_system_identity_factory_8cs_source.html#l00013">PosixSystemIdentityFactory.cs:14</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_session_invalidation_tracker.html">Tgstation.Server.Host.Security.SessionInvalidationTracker</a></div><div class="ttdef"><b>Definition</b> <a href="_session_invalidation_tracker_8cs_source.html#l00020">SessionInvalidationTracker.cs:21</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_authorize_attribute_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_authorize_attribute.html">Tgstation.Server.Host.Security.TgsAuthorizeAttribute</a></div><div class="ttdoc">Helper for using the AuthorizeAttribute with the Api.Rights system.</div><div class="ttdef"><b>Definition</b> <a href="_tgs_authorize_attribute_8cs_source.html#l00016">TgsAuthorizeAttribute.cs:17</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_authorize_attribute_html_a3397f48d58e70725b5139e4c490edf3e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_authorize_attribute.html#a3397f48d58e70725b5139e4c490edf3e">Tgstation.Server.Host.Security.TgsAuthorizeAttribute.PolicyName</a></div><div class="ttdeci">const string PolicyName</div><div class="ttdoc">Policy used to apply global requirement of UserEnabledRole.</div><div class="ttdef"><b>Definition</b> <a href="_tgs_authorize_attribute_8cs_source.html#l00021">TgsAuthorizeAttribute.cs:21</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_authorize_attribute_html_a3bb67563feadbde55152b173a8d28d05"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_authorize_attribute.html#a3bb67563feadbde55152b173a8d28d05">Tgstation.Server.Host.Security.TgsAuthorizeAttribute.UserEnabledRole</a></div><div class="ttdeci">const string UserEnabledRole</div><div class="ttdoc">Role used to indicate access to the server is allowed.</div><div class="ttdef"><b>Definition</b> <a href="_tgs_authorize_attribute_8cs_source.html#l00026">TgsAuthorizeAttribute.cs:26</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html">Tgstation.Server.Host.Security.TokenFactory</a></div><div class="ttdef"><b>Definition</b> <a href="_token_factory_8cs_source.html#l00020">TokenFactory.cs:21</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html">Tgstation.Server.Host.Security.WindowsSystemIdentityFactory</a></div><div class="ttdoc">ISystemIdentityFactory for windows systems. Uses long running tasks due to potential networked domain...</div><div class="ttdef"><b>Definition</b> <a href="_windows_system_identity_factory_8cs_source.html#l00022">WindowsSystemIdentityFactory.cs:23</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application_html_abecd5329f7937e822959734f3c5272d1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html#abecd5329f7937e822959734f3c5272d1">Tgstation.Server.Host.Setup.SetupApplication.Configuration</a></div><div class="ttdeci">IConfiguration Configuration</div><div class="ttdoc">The IConfiguration for the SetupApplication.</div><div class="ttdef"><b>Definition</b> <a href="_setup_application_8cs_source.html#l00025">SetupApplication.cs:25</a></div></div>
@@ -1294,7 +1300,7 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_ad8fb60934662752c4bbed899440208ea"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad8fb60934662752c4bbed899440208ea">Tgstation.Server.Api.Models.EngineType</a></div><div class="ttdeci">EngineType</div><div class="ttdoc">The type of engine the codebase is using.</div><div class="ttdef"><b>Definition</b> <a href="_engine_type_8cs_source.html#l00006">EngineType.cs:7</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_configuration_html_acda8f6ee23a9ee8ac298f7b4a7d5617c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">Tgstation.Server.Host.Configuration.DatabaseType</a></div><div class="ttdeci">DatabaseType</div><div class="ttdoc">Type of database to user.</div><div class="ttdef"><b>Definition</b> <a href="_database_type_8cs_source.html#l00006">DatabaseType.cs:7</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath()</a>, <a class="el" href="_setup_application_8cs_source.html#l00025">Tgstation.Server.Host.Setup.SetupApplication.Configuration</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00061">Tgstation.Server.Host.Utils.SwaggerConfiguration.Configure()</a>, <a class="el" href="_application_8cs_source.html#l00708">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline()</a>, <a class="el" href="_application_8cs_source.html#l00142">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00019">Tgstation.Server.Host.Setup.IPostSetupServices.DatabaseConfiguration</a>, <a class="el" href="_database_configuration_8cs_source.html#l00020">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a>, <a class="el" href="_api_controller_8cs_source.html#l00041">Tgstation.Server.Host.Controllers.ApiController.DefaultPageSize</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00030">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.Disable</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00034">Tgstation.Server.Host.Setup.IPostSetupServices.ElasticsearchConfiguration</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00029">Tgstation.Server.Host.Setup.IPostSetupServices.FileLoggingConfiguration</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00014">Tgstation.Server.Host.Setup.IPostSetupServices.GeneralConfiguration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8">Tgstation.Server.Host.IO.IIOManager.GetDirectoryName()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ab6635afaf199a1396a743f3b46eac786">Tgstation.Server.Host.IO.IIOManager.GetFileNameWithoutExtension()</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00056">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory()</a>, <a class="el" href="_general_configuration_8cs_source.html#l00128">Tgstation.Server.Host.Configuration.GeneralConfiguration.HostApiDocumentation</a>, <a class="el" href="_application_8cs_source.html#l00087">Tgstation.Server.Host.Core.Application.hostingEnvironment</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00039">Tgstation.Server.Host.Setup.IPostSetupServices.InternalConfiguration</a>, <a class="el" href="_i_platform_identifier_8cs_source.html#l00014">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00041">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.LogLevel</a>, <a class="el" href="_api_controller_8cs_source.html#l00046">Tgstation.Server.Host.Controllers.ApiController.MaximumPageSize</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00047">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.MicrosoftLogLevel</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00044">Tgstation.Server.Host.Setup.IPostSetupServices.PlatformIdentifier</a>, <a class="el" href="_general_configuration_8cs_source.html#l00113">Tgstation.Server.Host.Configuration.GeneralConfiguration.RestartTimeoutMinutes</a>, <a class="el" href="_serilog_context_helper_8cs_source.html#l00062">Tgstation.Server.Host.Utils.SerilogContextHelper.Template</a>, and <a class="el" href="_internal_configuration_8cs_source.html#l00026">Tgstation.Server.Host.Configuration.InternalConfiguration.UsingSystemD</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath()</a>, <a class="el" href="_setup_application_8cs_source.html#l00025">Tgstation.Server.Host.Setup.SetupApplication.Configuration</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00061">Tgstation.Server.Host.Utils.SwaggerConfiguration.Configure()</a>, <a class="el" href="_application_8cs_source.html#l00711">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline()</a>, <a class="el" href="_application_8cs_source.html#l00142">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00019">Tgstation.Server.Host.Setup.IPostSetupServices.DatabaseConfiguration</a>, <a class="el" href="_database_configuration_8cs_source.html#l00020">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a>, <a class="el" href="_api_controller_8cs_source.html#l00041">Tgstation.Server.Host.Controllers.ApiController.DefaultPageSize</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00030">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.Disable</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00034">Tgstation.Server.Host.Setup.IPostSetupServices.ElasticsearchConfiguration</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00029">Tgstation.Server.Host.Setup.IPostSetupServices.FileLoggingConfiguration</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00014">Tgstation.Server.Host.Setup.IPostSetupServices.GeneralConfiguration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8">Tgstation.Server.Host.IO.IIOManager.GetDirectoryName()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ab6635afaf199a1396a743f3b46eac786">Tgstation.Server.Host.IO.IIOManager.GetFileNameWithoutExtension()</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00056">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory()</a>, <a class="el" href="_general_configuration_8cs_source.html#l00128">Tgstation.Server.Host.Configuration.GeneralConfiguration.HostApiDocumentation</a>, <a class="el" href="_application_8cs_source.html#l00087">Tgstation.Server.Host.Core.Application.hostingEnvironment</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00039">Tgstation.Server.Host.Setup.IPostSetupServices.InternalConfiguration</a>, <a class="el" href="_i_platform_identifier_8cs_source.html#l00014">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00041">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.LogLevel</a>, <a class="el" href="_api_controller_8cs_source.html#l00046">Tgstation.Server.Host.Controllers.ApiController.MaximumPageSize</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00047">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.MicrosoftLogLevel</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00044">Tgstation.Server.Host.Setup.IPostSetupServices.PlatformIdentifier</a>, <a class="el" href="_tgs_authorize_attribute_8cs_source.html#l00021">Tgstation.Server.Host.Security.TgsAuthorizeAttribute.PolicyName</a>, <a class="el" href="_general_configuration_8cs_source.html#l00113">Tgstation.Server.Host.Configuration.GeneralConfiguration.RestartTimeoutMinutes</a>, <a class="el" href="_serilog_context_helper_8cs_source.html#l00062">Tgstation.Server.Host.Utils.SerilogContextHelper.Template</a>, <a class="el" href="_tgs_authorize_attribute_8cs_source.html#l00026">Tgstation.Server.Host.Security.TgsAuthorizeAttribute.UserEnabledRole</a>, and <a class="el" href="_internal_configuration_8cs_source.html#l00026">Tgstation.Server.Host.Configuration.InternalConfiguration.UsingSystemD</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00142">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>.</p>
 <div class="dynheader">
@@ -1411,7 +1417,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00087">87</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00127">Tgstation.Server.Host.Core.Application.Application()</a>, <a class="el" href="_application_8cs_source.html#l00530">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_application_8cs_source.html#l00142">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00127">Tgstation.Server.Host.Core.Application.Application()</a>, <a class="el" href="_application_8cs_source.html#l00533">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_application_8cs_source.html#l00142">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>.</p>
 
 </div>
 </div>
@@ -1439,7 +1445,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00092">92</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00530">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_application_8cs_source.html#l00708">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00533">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_application_8cs_source.html#l00711">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline()</a>.</p>
 
 </div>
 </div>
