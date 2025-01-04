@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -1942,7 +1942,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);
 
-					await using var repoTestObj = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
+					await using var repoTestObj = new RepositoryTest(instanceClient, instanceClient.Repository, instanceClient.Jobs);
 					var repoTest = repoTestObj.RunPostTest(cancellationToken);
 					await using var chatTestObj = new ChatTest(instanceClient.ChatBots, restAdminClient.Instances, instanceClient.Jobs, instance);
 					await chatTestObj.RunPostTest(cancellationToken);

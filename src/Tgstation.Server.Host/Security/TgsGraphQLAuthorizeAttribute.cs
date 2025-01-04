@@ -125,8 +125,12 @@ namespace Tgstation.Server.Host.Security
 		private TgsGraphQLAuthorizeAttribute(IEnumerable<string> roleNames)
 		{
 			var listRoles = roleNames.ToList();
-			listRoles.Add(TgsAuthorizeAttribute.UserEnabledRole);
-			Roles = [.. listRoles];
+			if (listRoles.Count != 0)
+			{
+				Roles = [.. listRoles];
+			}
+
+			Policy = TgsAuthorizeAttribute.PolicyName;
 			Apply = ApplyPolicy.Validation;
 		}
 	}
