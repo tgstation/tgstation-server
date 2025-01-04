@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 
@@ -15,11 +16,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 {
 	sealed class RepositoryTest : JobsRequiredTest
 	{
+		readonly IInstanceClient instanceClient;
 		readonly IRepositoryClient repositoryClient;
 
-		public RepositoryTest(IRepositoryClient repositoryClient, IJobsClient jobsClient)
+		public RepositoryTest(IInstanceClient instanceClient, IRepositoryClient repositoryClient, IJobsClient jobsClient)
 			: base(jobsClient)
 		{
+			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
 			this.repositoryClient = repositoryClient ?? throw new ArgumentNullException(nameof(repositoryClient));
 		}
 
@@ -141,6 +144,29 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var prNumber = 2;
 			await TestMergeTests(updated, prNumber, cancellationToken);
+
+			await RegressionTest2064(cancellationToken);
+		}
+
+		async ValueTask RegressionTest2064(CancellationToken cancellationToken)
+		{
+			var oldPerms = await instanceClient.PermissionSets.Read(cancellationToken);
+
+			var newPerms = await instanceClient.PermissionSets.Update(new InstancePermissionSetRequest
+			{
+				PermissionSetId = oldPerms.PermissionSetId,
+				RepositoryRights = RepositoryRights.SetSha,
+			}, cancellationToken);
+
+			Assert.AreEqual(RepositoryRights.SetSha, newPerms.RepositoryRights);
+
+			await ApiAssert.ThrowsException<InsufficientPermissionsException>(async () => await repositoryClient.Read(cancellationToken));
+
+			await instanceClient.PermissionSets.Update(new InstancePermissionSetRequest
+			{
+				PermissionSetId = oldPerms.PermissionSetId,
+				RepositoryRights = oldPerms.RepositoryRights,
+			}, cancellationToken);
 		}
 
 		async ValueTask RecloneTest(CancellationToken cancellationToken)

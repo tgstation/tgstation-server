@@ -16,9 +16,14 @@ namespace Tgstation.Server.Host.Security
 	sealed class TgsAuthorizeAttribute : AuthorizeAttribute
 	{
 		/// <summary>
+		/// Policy used to apply global requirement of <see cref="UserEnabledRole"/>.
+		/// </summary>
+		public const string PolicyName = "Policy.UserEnabled";
+
+		/// <summary>
 		/// Role used to indicate access to the server is allowed.
 		/// </summary>
-		public const string UserEnabledRole = "Core.UserEnabled";
+		public const string UserEnabledRole = "Role.UserEnabled";
 
 		/// <summary>
 		/// Gets the <see cref="Api.Rights.RightsType"/> associated with the <see cref="TgsAuthorizeAttribute"/> if any.
@@ -130,8 +135,12 @@ namespace Tgstation.Server.Host.Security
 		private TgsAuthorizeAttribute(IEnumerable<string> roles)
 		{
 			var listRoles = roles.ToList();
-			listRoles.Add(UserEnabledRole);
-			Roles = String.Join(",", listRoles);
+			if (listRoles.Count != 0)
+			{
+				Roles = String.Join(",", listRoles);
+			}
+
+			Policy = PolicyName;
 		}
 	}
 }
