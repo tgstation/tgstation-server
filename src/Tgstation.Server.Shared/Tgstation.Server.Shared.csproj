@@ -12,7 +12,7 @@
     <!-- Usage: JWT injection into HTTP pipeline -->
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
     <!-- Usage: GitHub.com interop -->
-    <PackageReference Include="Octokit" Version="13.0.1" />
+    <PackageReference Include="Octokit" Version="14.0.0" />
     <!-- Usage: YAML conversion of Version objects -->
     <PackageReference Include="YamlDotNet" Version="16.3.0" />
   </ItemGroup>
