@@ -112,7 +112,7 @@
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.12" />
     <!-- Usage: Using target JSON serializer for API -->
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="9.0.0" />
     <!-- Usage: Generating dumps of dotnet engine processes -->
