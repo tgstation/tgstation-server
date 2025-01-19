@@ -11,6 +11,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The ID of the <see cref="TestMergeApiBase"/>.
 		/// </summary>
+		/// <example>1</example>
 		public long Id { get; set; }
 
 		/// <summary>

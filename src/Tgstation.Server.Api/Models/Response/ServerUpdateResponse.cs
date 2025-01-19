@@ -12,6 +12,7 @@ namespace Tgstation.Server.Api.Models.Response
 		/// <summary>
 		/// The version of tgstation-server pending update.
 		/// </summary>
+		/// <example>6.12.3</example>
 		public Version NewVersion { get; }
 
 		/// <summary>

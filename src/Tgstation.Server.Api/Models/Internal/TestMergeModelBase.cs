@@ -11,18 +11,21 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The title of the test merge source.
 		/// </summary>
+		/// <example>Fixes and Breaks everything</example>
 		[Required]
 		public string? TitleAtMerge { get; set; }
 
 		/// <summary>
 		/// The body of the test merge source.
 		/// </summary>
+		/// <example># GitHub markdown\n\rI assume?</example>
 		[Required]
 		public string? BodyAtMerge { get; set; }
 
 		/// <summary>
 		/// The URL of the test merge source.
 		/// </summary>
+		/// <example>https://github.com/tgstation/tgstation/pull/31026</example>
 		[Required]
 #pragma warning disable CA1056 // Uri properties should not be strings
 		public string? Url { get; set; }
@@ -31,6 +34,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The author of the test merge source.
 		/// </summary>
+		/// <example>MrStonedOne</example>
 		[Required]
 		public string? Author { get; set; }
 
