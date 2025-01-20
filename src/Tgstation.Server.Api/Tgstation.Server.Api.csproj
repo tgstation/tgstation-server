@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <!-- Usage: HTTP constants reference -->
-    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.0" />
     <!-- Usage: Decoding the 'nbf' property of JWTs -->
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.3.1" />
     <!-- Usage: Data model annotating -->
