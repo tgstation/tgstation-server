@@ -156,7 +156,7 @@
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.1" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
-    <PackageReference Include="System.Management" Version="9.0.0" />
+    <PackageReference Include="System.Management" Version="9.0.1" />
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
     <PackageReference Include="System.Security.Permissions" Version="9.0.1" />
   </ItemGroup>
