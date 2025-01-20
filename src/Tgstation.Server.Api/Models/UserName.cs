@@ -6,6 +6,7 @@
 	public class UserName : NamedEntity
 	{
 		/// <inheritdoc />
+		/// <example>Admin</example>
 		[RequestOptions(FieldPresence.Optional)]
 		public override string? Name
 		{

@@ -20,6 +20,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// English description of the <see cref="Job"/>.
 		/// </summary>
 		/// <remarks>May not match the <see cref="System.ComponentModel.DescriptionAttribute"/> listed on the <see cref="Models.JobCode"/>.</remarks>
+		/// <example>Installing and configuring important objects.</example>
 		[Required]
 		public string? Description { get; set; }
 
@@ -50,6 +51,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// If the <see cref="Job"/> was cancelled.
 		/// </summary>
+		/// <example>false</example>
 		[Required]
 		public bool? Cancelled { get; set; }
 

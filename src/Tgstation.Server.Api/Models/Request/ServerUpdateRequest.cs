@@ -10,6 +10,7 @@ namespace Tgstation.Server.Api.Models.Request
 		/// <summary>
 		/// Changes the version of tgstation-server to the given version from the upstream repository.
 		/// </summary>
+		/// <example>6.12.3</example>
 		[RequestOptions(FieldPresence.Required)]
 		public Version? NewVersion { get; set; }
 

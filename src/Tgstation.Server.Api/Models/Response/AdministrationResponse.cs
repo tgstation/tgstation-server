@@ -12,6 +12,7 @@ namespace Tgstation.Server.Api.Models.Response
 		/// <summary>
 		/// The GitHub repository the server is built to receive updates from.
 		/// </summary>
+		/// <example>https://github.com/tgstation/tgstation</example>
 		public Uri? TrackedRepositoryUrl { get; set; }
 	}
 }

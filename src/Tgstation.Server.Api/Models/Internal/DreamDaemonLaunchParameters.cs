@@ -11,6 +11,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// If the BYOND web client can be used to connect to the game server. No-op for <see cref="EngineType.OpenDream"/>.
 		/// </summary>
+		/// <example>false</example>
 		[Required]
 		[ResponseOptions]
 		public bool? AllowWebClient { get; set; }
@@ -25,6 +26,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The <see cref="DreamDaemonVisibility"/> level of DreamDaemon. No-op for <see cref="EngineType.OpenDream"/>.
 		/// </summary>
+		/// <example>2</example>
 		[Required]
 		[ResponseOptions]
 		[EnumDataType(typeof(DreamDaemonVisibility))]
@@ -33,6 +35,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The <see cref="DreamDaemonSecurity"/> level of DreamDaemon. No-op for <see cref="EngineType.OpenDream"/>.
 		/// </summary>
+		/// <example>1</example>
 		[Required]
 		[ResponseOptions]
 		[EnumDataType(typeof(DreamDaemonSecurity))]
@@ -41,6 +44,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The port DreamDaemon uses. This should be publically accessible.
 		/// </summary>
+		/// <example>1337</example>
 		[Required]
 		[ResponseOptions]
 		[Range(1, UInt16.MaxValue)]
@@ -49,6 +53,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The port used by <see cref="EngineType.OpenDream"/> for its topic port.
 		/// </summary>
+		/// <example>2337</example>
 		[Required]
 		[ResponseOptions]
 		public ushort? OpenDreamTopicPort { get; set; }
@@ -56,6 +61,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The DreamDaemon startup timeout in seconds.
 		/// </summary>
+		/// <example>5</example>
 		[Required]
 		[ResponseOptions]
 		[Range(1, UInt32.MaxValue)]
@@ -64,6 +70,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The number of seconds between each watchdog health check. 0 disables.
 		/// </summary>
+		/// <example>5</example>
 		[Required]
 		[ResponseOptions]
 		public uint? HealthCheckSeconds { get; set; }
@@ -78,6 +85,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The timeout for sending and receiving BYOND topics in milliseconds.
 		/// </summary>
+		/// <example>500</example>
 		[Required]
 		[ResponseOptions]
 		[Range(1, UInt32.MaxValue)]

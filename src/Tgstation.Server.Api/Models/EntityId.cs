@@ -8,6 +8,7 @@
 		/// <summary>
 		/// The ID of the entity.
 		/// </summary>
+		/// <example>1</example>
 		[RequestOptions(FieldPresence.Required)]
 		[RequestOptions(FieldPresence.Ignored, PutOnly = true)]
 		public virtual long? Id { get; set; }

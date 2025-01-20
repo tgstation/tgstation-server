@@ -10,6 +10,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The latest available version of the Tgstation.Server.Host assembly from the upstream repository. If <see cref="Version.Major"/> is less than 4 the update cannot be applied due to API changes.
 		/// </summary>
+		/// <example>1.0.0</example>
 		public Version? LatestVersion { get; set; }
 
 		/// <summary>

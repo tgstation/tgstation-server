@@ -12,6 +12,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The .dme file used for compilation.
 		/// </summary>
+		/// <example>tgstation.dme</example>
 		[Required]
 		public string? DmeName { get; set; }
 
@@ -36,6 +37,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The DMAPI <see cref="Version"/>.
 		/// </summary>
+		/// <example>7.3.0</example>
 		[NotMapped]
 		[ResponseOptions]
 		public virtual Version? DMApiVersion { get; set; }

@@ -10,6 +10,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// An incrementing ID for representing current server execution.
 		/// </summary>
+		/// <example>1</example>
 		[ResponseOptions]
 		public long? SessionId { get; set; }
 
@@ -22,12 +23,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The last known count of connected players. Requires <see cref="DreamDaemonLaunchParameters.HealthCheckSeconds"/> to not be 0 and a game server interop version >= 5.10.0 to populate.
 		/// </summary>
+		/// <example>30</example>
 		[ResponseOptions]
 		public uint? ClientCount { get; set; }
 
 		/// <summary>
 		/// If the server is undergoing a soft reset. This may be automatically set by changes to other fields.
 		/// </summary>
+		/// <example>false</example>
 		[ResponseOptions]
 		public bool? SoftRestart { get; set; }
 

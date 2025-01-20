@@ -10,18 +10,21 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// If the <see cref="ChatChannel"/> is an admin channel.
 		/// </summary>
+		/// <example>false</example>
 		[Required]
 		public bool? IsAdminChannel { get; set; }
 
 		/// <summary>
 		/// If the <see cref="ChatChannel"/> is a watchdog channel.
 		/// </summary>
+		/// <example>false</example>
 		[Required]
 		public bool? IsWatchdogChannel { get; set; }
 
 		/// <summary>
 		/// If the <see cref="ChatChannel"/> is an updates channel.
 		/// </summary>
+		/// <example>false</example>
 		[Required]
 		public bool? IsUpdatesChannel { get; set; }
 
@@ -34,6 +37,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// A custom tag users can define to group channels together.
 		/// </summary>
+		/// <example>system-channel-only</example>
 		[ResponseOptions]
 		[StringLength(Limits.MaximumStringLength)]
 		public string? Tag { get; set; }

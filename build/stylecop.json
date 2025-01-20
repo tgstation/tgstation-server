@@ -5,7 +5,8 @@
       "documentPrivateElements": true,
       "documentPrivateFields": true,
       "excludeFromPunctuationCheck": [
-        "remarks"
+        "remarks",
+        "example"
       ]
     },
     "indentation": {

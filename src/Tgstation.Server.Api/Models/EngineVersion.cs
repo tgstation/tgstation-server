@@ -26,12 +26,14 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The <see cref="System.Version"/> of the engine. Currently only valid when <see cref="Engine"/> is <see cref="EngineType.Byond"/>.
 		/// </summary>
+		/// <example>516.1651.0</example>
 		[ResponseOptions]
 		public Version? Version { get; set; }
 
 		/// <summary>
 		/// The git commit SHA of the engine. Currently only valid when <see cref="Engine"/> is <see cref="EngineType.OpenDream"/>.
 		/// </summary>
+		/// <example>caa1e1f400c8b6a535e03cff28cf57f919e9378c</example>
 		[ResponseOptions]
 		[StringLength(Limits.MaximumCommitShaLength, MinimumLength = Limits.MaximumCommitShaLength)]
 		public string? SourceSHA { get; set; }

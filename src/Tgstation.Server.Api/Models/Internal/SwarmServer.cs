@@ -22,6 +22,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The server's identifier.
 		/// </summary>
+		/// <example>myserver-us-east</example>
 		[Required]
 		public string? Identifier { get; set; }
 

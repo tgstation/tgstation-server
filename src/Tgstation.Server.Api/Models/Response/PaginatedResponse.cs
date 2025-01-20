@@ -18,16 +18,19 @@ namespace Tgstation.Server.Api.Models.Response
 		/// <summary>
 		/// The total number of pages in the query.
 		/// </summary>
+		/// <example>5</example>
 		public int TotalPages { get; set; }
 
 		/// <summary>
 		/// The current size of pages in the query.
 		/// </summary>
+		/// <example>20</example>
 		public int PageSize { get; set; }
 
 		/// <summary>
 		/// The total items across all pages.
 		/// </summary>
+		/// <example>100</example>
 		public int TotalItems { get; set; }
 	}
 }
