@@ -124,6 +124,7 @@ in
 
     systemd.services.tgstation-server = {
       description = "tgstation-server";
+      reloadTriggers = cfg.production-appsettings;
       serviceConfig = {
         User = cfg.username;
         Type = "notify-reload";
