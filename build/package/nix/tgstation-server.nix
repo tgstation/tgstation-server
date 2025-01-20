@@ -91,6 +91,14 @@ in
           Extra PATH entries to add to the TGS process
         '';
       };
+
+      environmentFile = lib.mkOption {
+        type = lib.types.nullOr lib.types.path;
+        default = null;
+        description = ''
+         Environment file as defined in {manpage}`systemd.exec(5)`
+        '';
+      };
     };
   };
 
@@ -126,6 +134,7 @@ in
       description = "tgstation-server";
       reloadTriggers = cfg.production-appsettings;
       serviceConfig = {
+        EnvironmentFile = lib.mkIf (cfg.environmentFile != null) cfg.environmentFile;
         User = cfg.username;
         Type = "notify-reload";
         NotifyAccess = "all";
