@@ -132,7 +132,6 @@ in
 
     systemd.services.tgstation-server = {
       description = "tgstation-server";
-      reloadTriggers = cfg.production-appsettings;
       serviceConfig = {
         EnvironmentFile = lib.mkIf (cfg.environmentFile != null) cfg.environmentFile;
         User = cfg.username;
@@ -148,6 +147,10 @@ in
         WatchdogSignal = "SIGTERM";
         LogsDirectory = "tgstation-server";
       };
+      reloadTriggers = [
+        (lib.mkIf (cfg.environmentFile != null) [ cfg.environmentFile ])
+        "/etc/tgstation.server.d/appsettings.Production.yml"
+      ];
       wantedBy = [ "multi-user.target" ];
     };
   };
