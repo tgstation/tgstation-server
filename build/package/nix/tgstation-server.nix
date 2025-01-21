@@ -77,10 +77,10 @@ in
       };
 
       production-appsettings = lib.mkOption {
-        type = lib.types.lines;
+        type = lib.types.path;
         default = '''';
         description = ''
-          The contents of appsettings.Production.yml in the /etc/tgstation-server.d directory.
+          A formatted appsettings.Production.yml file.
         '';
       };
 
@@ -119,7 +119,7 @@ in
         mode = "0644";
       };
       "tgstation-server.d/appsettings.Production.yml" = {
-        text = cfg.production-appsettings;
+        source = cfg.production-appsettings;
         group = cfg.groupname;
         mode = "0640";
       };
