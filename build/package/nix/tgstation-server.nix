@@ -153,6 +153,13 @@ in
       ];
       restartIfChanged = false; # So that the TGS service doesn't just get restarted whenever it's updated, and boots players
       wantedBy = [ "multi-user.target" ];
+      after = [
+        "network.target"
+        "mysql.service"
+        "mariadb.service"
+        "postgresql.service"
+        "mssql-server.service"
+      ];
     };
   };
 }
