@@ -77,10 +77,10 @@ in
       };
 
       production-appsettings = lib.mkOption {
-        type = lib.types.lines;
+        type = lib.types.path;
         default = '''';
         description = ''
-          The contents of appsettings.Production.yml in the /etc/tgstation-server.d directory.
+          A formatted appsettings.Production.yml file.
         '';
       };
 
@@ -89,6 +89,14 @@ in
         default = "";
         description = ''
           Extra PATH entries to add to the TGS process
+        '';
+      };
+
+      environmentFile = lib.mkOption {
+        type = lib.types.nullOr lib.types.path;
+        default = null;
+        description = ''
+         Environment file as defined in {manpage}`systemd.exec(5)`
         '';
       };
     };
@@ -111,7 +119,7 @@ in
         mode = "0644";
       };
       "tgstation-server.d/appsettings.Production.yml" = {
-        text = cfg.production-appsettings;
+        source = cfg.production-appsettings;
         group = cfg.groupname;
         mode = "0640";
       };
@@ -125,6 +133,7 @@ in
     systemd.services.tgstation-server = {
       description = "tgstation-server";
       serviceConfig = {
+        EnvironmentFile = lib.mkIf (cfg.environmentFile != null) cfg.environmentFile;
         User = cfg.username;
         Type = "notify-reload";
         NotifyAccess = "all";
@@ -138,7 +147,19 @@ in
         WatchdogSignal = "SIGTERM";
         LogsDirectory = "tgstation-server";
       };
+      reloadTriggers = [
+        (lib.mkIf (cfg.environmentFile != null) [ cfg.environmentFile ])
+        "/etc/tgstation.server.d/appsettings.Production.yml"
+      ];
+      restartIfChanged = false; # So that the TGS service doesn't just get restarted whenever it's updated, and boots players
       wantedBy = [ "multi-user.target" ];
+      after = [
+        "network.target"
+        "mysql.service"
+        "mariadb.service"
+        "postgresql.service"
+        "mssql-server.service"
+      ];
     };
   };
 }
