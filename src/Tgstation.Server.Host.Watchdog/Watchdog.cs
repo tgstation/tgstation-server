@@ -258,6 +258,7 @@ namespace Tgstation.Server.Host.Watchdog
 							process.StartInfo.UseShellExecute = false; // runs in the same console
 
 							var killedHostProcess = false;
+							var createdShutdownFile = false;
 							try
 							{
 								Task? processTask = null;
@@ -279,6 +280,7 @@ namespace Tgstation.Server.Host.Watchdog
 									{
 										logger.LogInformation("Cancellation requested! Writing shutdown lock file...");
 										File.WriteAllBytes(updateDirectory, Array.Empty<byte>());
+										createdShutdownFile = true;
 									}
 									else
 										logger.LogWarning("Cancellation requested while update directory exists!");
@@ -330,15 +332,16 @@ namespace Tgstation.Server.Host.Watchdog
 									logger.LogWarning(ex2, "Error killing host process!");
 								}
 
-								try
-								{
-									if (File.Exists(updateDirectory))
-										File.Delete(updateDirectory);
-								}
-								catch (Exception ex2)
-								{
-									logger.LogWarning(ex2, "Error deleting comms file!");
-								}
+								if (createdShutdownFile)
+									try
+									{
+										if (File.Exists(updateDirectory))
+											File.Delete(updateDirectory);
+									}
+									catch (Exception ex2)
+									{
+										logger.LogWarning(ex2, "Error deleting comms file!");
+									}
 
 								logger.LogInformation("Host exited!");
 							}
