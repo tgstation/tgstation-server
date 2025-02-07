@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -516,6 +517,14 @@ namespace Tgstation.Server.Host.Components.Session
 					? logFilePath
 					: null);
 
+			// If this isnt a staging DD (From a Deployment), fire off events
+			if (!apiValidate)
+				await eventConsumer.HandleEvent(
+					EventType.DreamDaemonPreLaunch,
+					Enumerable.Empty<string?>(),
+					false,
+					cancellationToken);
+
 			var process = await processExecutor.LaunchProcess(
 				engineLock.ServerExePath,
 				dmbProvider.Directory,
@@ -539,7 +548,6 @@ namespace Tgstation.Server.Host.Components.Session
 				if (!engineLock.HasStandardOutput)
 					networkPromptReaper.RegisterProcess(process);
 
-				// If this isnt a staging DD (From a Deployment), fire off an event
 				if (!apiValidate)
 					await eventConsumer.HandleEvent(
 						EventType.DreamDaemonLaunch,
