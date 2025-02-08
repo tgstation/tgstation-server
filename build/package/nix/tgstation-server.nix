@@ -107,7 +107,7 @@ in
         description = ''
           Start the specified units when this unit is started.
         '';
-      }
+      };
     };
   };
 
