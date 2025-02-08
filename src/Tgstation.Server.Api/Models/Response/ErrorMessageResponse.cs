@@ -19,7 +19,7 @@ namespace Tgstation.Server.Api.Models.Response
 		/// <summary>
 		/// A human-readable description of the error.
 		/// </summary>
-		/// <example>Ooopsie, we did a fucky wucky!</example>
+		/// <example>Oopsie woopsie, we did a fucky wucky!</example>
 		public string? Message { get; set; }
 
 		/// <summary>
