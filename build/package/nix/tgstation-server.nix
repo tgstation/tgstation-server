@@ -1,6 +1,7 @@
 inputs@{
   config,
   lib,
+  systemdUtils,
   nixpkgs,
   pkgs,
   writeShellScriptBin,
@@ -99,6 +100,14 @@ in
          Environment file as defined in {manpage}`systemd.exec(5)`
         '';
       };
+
+      wants = lib.mkOption {
+        type = lib.types.listOf systemdUtils.lib.unitNameType;
+        default = [];
+        description = ''
+          Start the specified units when this unit is started.
+        '';
+      }
     };
   };
 
