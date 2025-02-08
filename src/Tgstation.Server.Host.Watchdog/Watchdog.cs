@@ -177,6 +177,10 @@ namespace Tgstation.Server.Host.Watchdog
 
 				var watchdogVersion = executingAssembly.GetName().Version?.Semver().ToString();
 
+				var serializerOptions = new JsonSerializerOptions
+				{
+					WriteIndented = true,
+				};
 				while (!cancellationToken.IsCancellationRequested)
 				{
 					if (!File.Exists(assemblyPath))
@@ -214,10 +218,7 @@ namespace Tgstation.Server.Host.Watchdog
 								bootstrapperSettingsFile,
 								JsonSerializer.Serialize(
 									bootstrapSettings,
-									new JsonSerializerOptions
-									{
-										WriteIndented = true,
-									}),
+									serializerOptions),
 								cancellationToken);
 						}
 					}
