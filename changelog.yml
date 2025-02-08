@@ -183,7 +183,7 @@ Components:
       InteropApi: 5.10.0
       HostWatchdog: 1.6.0
       NugetCommon: 7.0.0
-      NugetApi: 17.0.0
+      NugetApi: 17.0.1
       NugetClient: 20.0.0
       WebControlPanel: 6.7.3
     Changes: []
@@ -4080,6 +4080,13 @@ Components:
       - Added `autoStartCron` and `autoStopCron` to Instance model. Functions identically to `autoUpdateCron` but will instead launch and gracefully shutdown the server respectively. Added instance rights 2048 and 4096 to adjust these respectively.
       Author: Cyberboss
       PullRequest: 1998
+    - Descriptions:
+      - Flatten class names.
+      - Add dummy "example" data.
+      - Add some basic description to the authentication methods.
+      Author: LetterN
+      PullRequest: 2087
+    Unreleased: true
   - Version: 10.11.0
     Changes:
     - Descriptions:
