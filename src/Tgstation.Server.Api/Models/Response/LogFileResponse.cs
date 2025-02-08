@@ -10,6 +10,7 @@ namespace Tgstation.Server.Api.Models.Response
 		/// <summary>
 		/// The name of the log file.
 		/// </summary>
+		/// <example>tgs-20250118.log</example>
 		public string? Name { get; set; }
 
 		/// <summary>

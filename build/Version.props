@@ -8,7 +8,7 @@
     <TgsRestVersion>10.12.0</TgsRestVersion>
     <TgsGraphQLVersion>0.5.0</TgsGraphQLVersion>
     <TgsCommonLibraryVersion>7.0.0</TgsCommonLibraryVersion>
-    <TgsApiLibraryVersion>17.0.0</TgsApiLibraryVersion>
+    <TgsApiLibraryVersion>17.0.1</TgsApiLibraryVersion>
     <TgsClientVersion>20.0.0</TgsClientVersion>
     <TgsDmapiVersion>7.3.1</TgsDmapiVersion>
     <TgsInteropVersion>5.10.0</TgsInteropVersion>
