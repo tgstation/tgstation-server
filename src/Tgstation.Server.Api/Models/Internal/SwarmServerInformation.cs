@@ -10,6 +10,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// If the <see cref="SwarmServerResponse"/> is the controller.
 		/// </summary>
+		/// <example>false</example>
 		public bool Controller { get; set; }
 
 		/// <summary>

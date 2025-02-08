@@ -11,16 +11,19 @@ namespace Tgstation.Server.Api.Models.Response
 		/// <summary>
 		/// The version of the host.
 		/// </summary>
+		/// <example>6.12.3</example>
 		public Version? Version { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api"/> version of the host.
 		/// </summary>
+		/// <example>10.12.0</example>
 		public Version? ApiVersion { get; set; }
 
 		/// <summary>
 		/// The DMAPI interop version the server uses.
 		/// </summary>
+		/// <example>7.3.0</example>
 		public Version? DMApiVersion { get; set; }
 
 		/// <summary>
@@ -36,6 +39,7 @@ namespace Tgstation.Server.Api.Models.Response
 		/// <summary>
 		/// If there is a server update in progress.
 		/// </summary>
+		/// <example>false</example>
 		public bool UpdateInProgress { get; set; }
 
 		/// <summary>
