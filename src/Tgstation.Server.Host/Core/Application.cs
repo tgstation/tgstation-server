@@ -527,6 +527,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use.</param>
+		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="DatabaseConfiguration"/> to use.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SwarmConfiguration"/> to use.</param>
 		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="InternalConfiguration"/> to use.</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/>.</param>
@@ -538,6 +539,7 @@ namespace Tgstation.Server.Host.Core
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<DatabaseConfiguration> databaseConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			IOptions<InternalConfiguration> internalConfigurationOptions,
 			ILogger<Application> logger)
@@ -552,11 +554,13 @@ namespace Tgstation.Server.Host.Core
 
 			var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 			var generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			var databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
 			var swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			var internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
 
 			ArgumentNullException.ThrowIfNull(logger);
 
+			logger.LogDebug("Database provider: {provider}", databaseConfiguration.DatabaseType);
 			logger.LogDebug("Content Root: {contentRoot}", hostingEnvironment.ContentRootPath);
 			logger.LogTrace("Web Root: {webRoot}", hostingEnvironment.WebRootPath);
 

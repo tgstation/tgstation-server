@@ -244,7 +244,7 @@ namespace Tgstation.Server.Api
 			else
 			{
 				var auth = authorization.First();
-				var splits = new List<string>(auth.Split(' '));
+				var splits = new List<string>(auth?.Split(' ') ?? Enumerable.Empty<string>());
 				var scheme = splits.First();
 				if (String.IsNullOrWhiteSpace(scheme))
 					AddError(HeaderErrorTypes.AuthorizationInvalid, "Missing authentication scheme!");

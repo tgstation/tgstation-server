@@ -38,7 +38,7 @@ namespace Tgstation.Server.Host.GraphQL
 				return error;
 
 			var errorBuilder = ErrorBuilder.FromError(error)
-				.RemoveException()
+				.SetException(null)
 				.ClearExtensions();
 
 			const string ErrorCodeFieldName = "errorCode";
