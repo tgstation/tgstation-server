@@ -26,5 +26,6 @@ var searchData=
   ['dreamdaemon_23',['DreamDaemon',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20a82a60e2400e19cffe6b38b295e10d4c8',1,'Tgstation::Server::Api::Rights']]],
   ['dreamdaemonlaunch_24',['DreamDaemonLaunch',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7a2cf6b69f295b39ecc0e7fd906bde6e19',1,'Tgstation::Server::Host::Components::Events']]],
   ['dreamdaemonpagerrunning_25',['DreamDaemonPagerRunning',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a5b055f488d0df6ec7e2d18a72eaac53a',1,'Tgstation::Server::Api::Models']]],
-  ['dreammaker_26',['DreamMaker',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20af179dcd47770d7cc1eb149ee1a0d06af',1,'Tgstation::Server::Api::Rights']]]
+  ['dreamdaemonprelaunch_26',['DreamDaemonPreLaunch',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7a4799272c67fbb7757097b425360c79ef',1,'Tgstation::Server::Host::Components::Events']]],
+  ['dreammaker_27',['DreamMaker',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20af179dcd47770d7cc1eb149ee1a0d06af',1,'Tgstation::Server::Api::Rights']]]
 ];

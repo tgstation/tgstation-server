@@ -485,7 +485,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  244</span>            <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  245</span>            {</div>
 <div class="line"><span class="lineno">  246</span>                var auth = authorization.First();</div>
-<div class="line"><span class="lineno">  247</span>                var splits = <span class="keyword">new</span> List&lt;string&gt;(auth.Split(<span class="charliteral">&#39; &#39;</span>));</div>
+<div class="line"><span class="lineno">  247</span>                var splits = <span class="keyword">new</span> List&lt;string&gt;(auth?.Split(<span class="charliteral">&#39; &#39;</span>) ?? Enumerable.Empty&lt;<span class="keywordtype">string</span>&gt;());</div>
 <div class="line"><span class="lineno">  248</span>                var scheme = splits.First();</div>
 <div class="line"><span class="lineno">  249</span>                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(scheme))</div>
 <div class="line"><span class="lineno">  250</span>                    AddError(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api.html#a622da263c0ca2e2060d2daf329c2c2bc">HeaderErrorTypes</a>.AuthorizationInvalid, <span class="stringliteral">&quot;Missing authentication scheme!&quot;</span>);</div>

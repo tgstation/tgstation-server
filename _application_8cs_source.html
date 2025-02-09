@@ -580,244 +580,247 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>        }</div>
 </div>
 <div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span> </div>
-<div class="foldopen" id="foldopen00533" data-start="{" data-end="}">
-<div class="line"><a id="l00533" name="l00533"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#ae682a557e90d363305bb3ce39e290341">  533</a></span>        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#ae682a557e90d363305bb3ce39e290341">Configure</a>(</div>
-<div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span>            IApplicationBuilder applicationBuilder,</div>
-<div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html">IServerControl</a> serverControl,</div>
-<div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html">ITokenFactory</a> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a>,</div>
-<div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html">IServerPortProvider</a> serverPortProvider,</div>
-<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html">IAssemblyInformationProvider</a> assemblyInformationProvider,</div>
-<div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>            IOptions&lt;ControlPanelConfiguration&gt; controlPanelConfigurationOptions,</div>
-<div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span>            IOptions&lt;GeneralConfiguration&gt; generalConfigurationOptions,</div>
-<div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span>            IOptions&lt;SwarmConfiguration&gt; swarmConfigurationOptions,</div>
-<div class="line"><a id="l00542" name="l00542"></a><span class="lineno">  542</span>            IOptions&lt;InternalConfiguration&gt; internalConfigurationOptions,</div>
-<div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span>            ILogger&lt;Application&gt; logger)</div>
-<div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span>        {</div>
-<div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span>            ArgumentNullException.ThrowIfNull(applicationBuilder);</div>
-<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span>            ArgumentNullException.ThrowIfNull(serverControl);</div>
-<div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span> </div>
-<div class="line"><a id="l00548" name="l00548"></a><span class="lineno">  548</span>            this.tokenFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a>));</div>
+<div class="foldopen" id="foldopen00534" data-start="{" data-end="}">
+<div class="line"><a id="l00534" name="l00534"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#aec111c5d85d5cbf4c16dc1e3f612a08e">  534</a></span>        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#aec111c5d85d5cbf4c16dc1e3f612a08e">Configure</a>(</div>
+<div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span>            IApplicationBuilder applicationBuilder,</div>
+<div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html">IServerControl</a> serverControl,</div>
+<div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html">ITokenFactory</a> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a>,</div>
+<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html">IServerPortProvider</a> serverPortProvider,</div>
+<div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html">IAssemblyInformationProvider</a> assemblyInformationProvider,</div>
+<div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span>            IOptions&lt;ControlPanelConfiguration&gt; controlPanelConfigurationOptions,</div>
+<div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span>            IOptions&lt;GeneralConfiguration&gt; generalConfigurationOptions,</div>
+<div class="line"><a id="l00542" name="l00542"></a><span class="lineno">  542</span>            IOptions&lt;DatabaseConfiguration&gt; databaseConfigurationOptions,</div>
+<div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span>            IOptions&lt;SwarmConfiguration&gt; swarmConfigurationOptions,</div>
+<div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span>            IOptions&lt;InternalConfiguration&gt; internalConfigurationOptions,</div>
+<div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span>            ILogger&lt;Application&gt; logger)</div>
+<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span>        {</div>
+<div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span>            ArgumentNullException.ThrowIfNull(applicationBuilder);</div>
+<div class="line"><a id="l00548" name="l00548"></a><span class="lineno">  548</span>            ArgumentNullException.ThrowIfNull(serverControl);</div>
 <div class="line"><a id="l00549" name="l00549"></a><span class="lineno">  549</span> </div>
-<div class="line"><a id="l00550" name="l00550"></a><span class="lineno">  550</span>            ArgumentNullException.ThrowIfNull(serverPortProvider);</div>
-<div class="line"><a id="l00551" name="l00551"></a><span class="lineno">  551</span>            ArgumentNullException.ThrowIfNull(assemblyInformationProvider);</div>
-<div class="line"><a id="l00552" name="l00552"></a><span class="lineno">  552</span> </div>
-<div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span>            var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(controlPanelConfigurationOptions));</div>
-<div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span>            var generalConfiguration = generalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(generalConfigurationOptions));</div>
-<div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>            var swarmConfiguration = swarmConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(swarmConfigurationOptions));</div>
-<div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>            var internalConfiguration = internalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(internalConfigurationOptions));</div>
-<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span> </div>
-<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>            ArgumentNullException.ThrowIfNull(logger);</div>
-<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span> </div>
-<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>            logger.LogDebug(<span class="stringliteral">&quot;Content Root: {contentRoot}&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.ContentRootPath);</div>
-<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>            logger.LogTrace(<span class="stringliteral">&quot;Web Root: {webRoot}&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.WebRootPath);</div>
+<div class="line"><a id="l00550" name="l00550"></a><span class="lineno">  550</span>            this.tokenFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a>));</div>
+<div class="line"><a id="l00551" name="l00551"></a><span class="lineno">  551</span> </div>
+<div class="line"><a id="l00552" name="l00552"></a><span class="lineno">  552</span>            ArgumentNullException.ThrowIfNull(serverPortProvider);</div>
+<div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span>            ArgumentNullException.ThrowIfNull(assemblyInformationProvider);</div>
+<div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span> </div>
+<div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>            var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(controlPanelConfigurationOptions));</div>
+<div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>            var generalConfiguration = generalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(generalConfigurationOptions));</div>
+<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>            var databaseConfiguration = databaseConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(databaseConfigurationOptions));</div>
+<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>            var swarmConfiguration = swarmConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(swarmConfigurationOptions));</div>
+<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>            var internalConfiguration = internalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(internalConfigurationOptions));</div>
+<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span> </div>
+<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>            ArgumentNullException.ThrowIfNull(logger);</div>
 <div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span> </div>
-<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>            <span class="comment">// setup the HTTP request pipeline</span></div>
-<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>            <span class="comment">// Add additional logging context to the request</span></div>
-<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>            applicationBuilder.UseAdditionalRequestLoggingContext(swarmConfiguration);</div>
+<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>            logger.LogDebug(<span class="stringliteral">&quot;Database provider: {provider}&quot;</span>, databaseConfiguration.DatabaseType);</div>
+<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>            logger.LogDebug(<span class="stringliteral">&quot;Content Root: {contentRoot}&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.ContentRootPath);</div>
+<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>            logger.LogTrace(<span class="stringliteral">&quot;Web Root: {webRoot}&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.WebRootPath);</div>
 <div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span> </div>
-<div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>            <span class="comment">// Wrap exceptions in a 500 (ErrorMessage) response</span></div>
-<div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>            applicationBuilder.UseServerErrorHandling();</div>
-<div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span> </div>
-<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>            <span class="comment">// Add the X-Powered-By response header</span></div>
-<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>            applicationBuilder.UseServerBranding(assemblyInformationProvider);</div>
-<div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span> </div>
-<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>            <span class="comment">// Add the X-Accel-Buffering response header</span></div>
-<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>            applicationBuilder.UseDisabledNginxProxyBuffering();</div>
-<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span> </div>
-<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>            <span class="comment">// suppress OperationCancelledExceptions, they are just aborted HTTP requests</span></div>
-<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>            applicationBuilder.UseCancelledRequestSuppression();</div>
-<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span> </div>
-<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>            <span class="comment">// 503 requests made while the application is starting</span></div>
-<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>            applicationBuilder.UseAsyncInitialization&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html">IInstanceManager</a>&gt;(</div>
-<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>                (instanceManager, cancellationToken) =&gt; instanceManager.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a4ad311358f74779a6c1f2fcba4a30578">Ready</a>.WaitAsync(cancellationToken));</div>
+<div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>            <span class="comment">// setup the HTTP request pipeline</span></div>
+<div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>            <span class="comment">// Add additional logging context to the request</span></div>
+<div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span>            applicationBuilder.UseAdditionalRequestLoggingContext(swarmConfiguration);</div>
+<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span> </div>
+<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>            <span class="comment">// Wrap exceptions in a 500 (ErrorMessage) response</span></div>
+<div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span>            applicationBuilder.UseServerErrorHandling();</div>
+<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span> </div>
+<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>            <span class="comment">// Add the X-Powered-By response header</span></div>
+<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>            applicationBuilder.UseServerBranding(assemblyInformationProvider);</div>
+<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span> </div>
+<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>            <span class="comment">// Add the X-Accel-Buffering response header</span></div>
+<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>            applicationBuilder.UseDisabledNginxProxyBuffering();</div>
+<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span> </div>
+<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>            <span class="comment">// suppress OperationCancelledExceptions, they are just aborted HTTP requests</span></div>
+<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>            applicationBuilder.UseCancelledRequestSuppression();</div>
 <div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span> </div>
-<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span>            <span class="keywordflow">if</span> (generalConfiguration.HostApiDocumentation)</div>
-<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>            {</div>
-<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span>                var siteDocPath = Routes.ApiRoot + $<span class="stringliteral">&quot;doc/{SwaggerConfiguration.DocumentName}.json&quot;</span>;</div>
-<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span>                <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(controlPanelConfiguration.PublicPath))</div>
-<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span>                    siteDocPath = controlPanelConfiguration.PublicPath.TrimEnd(<span class="charliteral">&#39;/&#39;</span>) + siteDocPath;</div>
-<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span> </div>
-<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>                applicationBuilder.UseSwagger(options =&gt;</div>
-<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>                {</div>
-<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>                    options.RouteTemplate = Routes.ApiRoot + <span class="stringliteral">&quot;doc/{documentName}.{json|yaml}&quot;</span>;</div>
-<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>                });</div>
-<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>                applicationBuilder.UseSwaggerUI(options =&gt;</div>
+<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span>            <span class="comment">// 503 requests made while the application is starting</span></div>
+<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>            applicationBuilder.UseAsyncInitialization&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html">IInstanceManager</a>&gt;(</div>
+<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span>                (instanceManager, cancellationToken) =&gt; instanceManager.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a4ad311358f74779a6c1f2fcba4a30578">Ready</a>.WaitAsync(cancellationToken));</div>
+<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span> </div>
+<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span>            <span class="keywordflow">if</span> (generalConfiguration.HostApiDocumentation)</div>
+<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>            {</div>
+<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>                var siteDocPath = Routes.ApiRoot + $<span class="stringliteral">&quot;doc/{SwaggerConfiguration.DocumentName}.json&quot;</span>;</div>
+<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>                <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(controlPanelConfiguration.PublicPath))</div>
+<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>                    siteDocPath = controlPanelConfiguration.PublicPath.TrimEnd(<span class="charliteral">&#39;/&#39;</span>) + siteDocPath;</div>
+<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span> </div>
+<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>                applicationBuilder.UseSwagger(options =&gt;</div>
 <div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>                {</div>
-<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>                    options.RoutePrefix = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html">SwaggerConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a491cd42b9d11a659b718c70ebebb9014">DocumentationSiteRouteExtension</a>;</div>
-<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>                    options.SwaggerEndpoint(siteDocPath, <span class="stringliteral">&quot;TGS API&quot;</span>);</div>
-<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>                });</div>
-<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>                logger.LogTrace(<span class="stringliteral">&quot;Swagger API generation enabled&quot;</span>);</div>
-<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>            }</div>
-<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span> </div>
-<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>            <span class="comment">// spa loading if necessary</span></div>
-<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
-<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>            {</div>
-<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>                logger.LogInformation(<span class="stringliteral">&quot;Web control panel enabled.&quot;</span>);</div>
-<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>                applicationBuilder.UseFileServer(<span class="keyword">new</span> FileServerOptions</div>
-<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>                {</div>
-<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>                    RequestPath = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html">ControlPanelController</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a31405e686cba6874931106edd1d3a661">ControlPanelRoute</a>,</div>
-<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>                    EnableDefaultFiles = <span class="keyword">true</span>,</div>
-<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>                    EnableDirectoryBrowsing = <span class="keyword">false</span>,</div>
-<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>                    RedirectToAppendTrailingSlash = <span class="keyword">false</span>,</div>
-<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>                });</div>
-<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span>            }</div>
-<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>            <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span><span class="preprocessor">#if NO_WEBPANEL</span></div>
-<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>                logger.LogDebug(<span class="stringliteral">&quot;Web control panel was not included in TGS build!&quot;</span>);</div>
-<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>                logger.LogTrace(<span class="stringliteral">&quot;Web control panel disabled!&quot;</span>);</div>
-<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span> </div>
-<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>            <span class="comment">// Enable endpoint routing</span></div>
-<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>            applicationBuilder.UseRouting();</div>
-<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span> </div>
-<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>            <span class="comment">// Set up CORS based on configuration if necessary</span></div>
-<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>            Action&lt;CorsPolicyBuilder&gt;? corsBuilder = <span class="keyword">null</span>;</div>
-<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.AllowAnyOrigin)</div>
-<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span>            {</div>
-<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: *&quot;</span>);</div>
-<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>                corsBuilder = builder =&gt; builder.SetIsOriginAllowed(_ =&gt; <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>            }</div>
-<div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (controlPanelConfiguration.AllowedOrigins?.Count &gt; 0)</div>
-<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span>            {</div>
-<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: {allowedOrigins}&quot;</span>, String.Join(<span class="charliteral">&#39;,&#39;</span>, controlPanelConfiguration.AllowedOrigins));</div>
-<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>                corsBuilder = builder =&gt; builder.WithOrigins([.. controlPanelConfiguration.AllowedOrigins]);</div>
-<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>            }</div>
-<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span> </div>
-<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>            var originalBuilder = corsBuilder;</div>
-<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>            corsBuilder = builder =&gt;</div>
-<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>            {</div>
-<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>                builder</div>
-<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>                    .AllowAnyHeader()</div>
-<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>                    .AllowAnyMethod()</div>
-<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>                    .AllowCredentials()</div>
-<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>                    .SetPreflightMaxAge(TimeSpan.FromDays(1));</div>
-<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>                originalBuilder?.Invoke(builder);</div>
-<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>            };</div>
-<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>            applicationBuilder.UseCors(corsBuilder);</div>
-<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span> </div>
-<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>            <span class="comment">// validate the API version</span></div>
-<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>            applicationBuilder.UseApiCompatibility();</div>
-<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span> </div>
-<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>            <span class="comment">// authenticate JWT tokens using our security pipeline if present, returns 401 if bad</span></div>
-<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>            applicationBuilder.UseAuthentication();</div>
-<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span> </div>
-<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>            <span class="comment">// enable authorization on endpoints</span></div>
-<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>            applicationBuilder.UseAuthorization();</div>
-<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span> </div>
-<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>            <span class="comment">// suppress and log database exceptions</span></div>
-<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>            applicationBuilder.UseDbConflictHandling();</div>
-<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span> </div>
-<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>            <span class="comment">// setup endpoints</span></div>
-<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>            applicationBuilder.UseEndpoints(endpoints =&gt;</div>
-<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>            {</div>
-<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>                <span class="comment">// access to the signalR jobs hub</span></div>
-<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>                endpoints.MapHub&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html">JobsHub</a>&gt;(</div>
-<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8f0fbf59b12bc939238a64bc4df9000d">JobsHub</a>,</div>
-<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>                    options =&gt;</div>
-<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>                    {</div>
-<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>                        options.Transports = HttpTransportType.ServerSentEvents;</div>
-<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>                        options.CloseOnAuthenticationExpiration = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>                    })</div>
-<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>                    .RequireAuthorization()</div>
-<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>                    .RequireCors(corsBuilder);</div>
-<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span> </div>
-<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>                <span class="comment">// majority of handling is done in the controllers</span></div>
-<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>                endpoints.MapControllers();</div>
-<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span> </div>
-<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>                <span class="keywordflow">if</span> (internalConfiguration.EnableGraphQL)</div>
-<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>                {</div>
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>                    logger.LogWarning(<span class="stringliteral">&quot;Enabling GraphQL. This API is experimental and breaking changes may occur at any time!&quot;</span>);</div>
-<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>                    var gqlOptions = <span class="keyword">new</span> GraphQLServerOptions</div>
-<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>                    {</div>
-<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>                        EnableBatching = <span class="keyword">true</span>,</div>
-<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>                    };</div>
-<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span> </div>
-<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>                    gqlOptions.Tool.Enable = generalConfiguration.HostApiDocumentation;</div>
-<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span> </div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>                    endpoints</div>
-<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>                        .MapGraphQL(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a502122c533fa679ec8c34ddb89431fa6">GraphQL</a>)</div>
-<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>                        .WithOptions(gqlOptions);</div>
-<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>                }</div>
-<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>            });</div>
-<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span> </div>
-<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>            <span class="comment">// 404 anything that gets this far</span></div>
-<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>            <span class="comment">// End of request pipeline setup</span></div>
-<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>            logger.LogTrace(<span class="stringliteral">&quot;Configuration version: {configVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>);</div>
-<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>            logger.LogTrace(<span class="stringliteral">&quot;DMAPI Interop version: {interopVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html">DMApiConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html#ac2e027490bca3307936efe1092da2cc9">InteropVersion</a>);</div>
-<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
-<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>                logger.LogTrace(<span class="stringliteral">&quot;Webpanel version: {webCPVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html">MasterVersionsAttribute</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a6c7f632f14b13b6701842c69eb01c4e5">RawWebpanelVersion</a>);</div>
-<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span> </div>
-<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>            logger.LogDebug(<span class="stringliteral">&quot;Starting hosting on port {httpApiPort}...&quot;</span>, serverPortProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html#af5e86a67c2cc59e14c762532275f0a2c">HttpApiPort</a>);</div>
-<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>        }</div>
+<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>                    options.RouteTemplate = Routes.ApiRoot + <span class="stringliteral">&quot;doc/{documentName}.{json|yaml}&quot;</span>;</div>
+<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>                });</div>
+<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>                applicationBuilder.UseSwaggerUI(options =&gt;</div>
+<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>                {</div>
+<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>                    options.RoutePrefix = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html">SwaggerConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a491cd42b9d11a659b718c70ebebb9014">DocumentationSiteRouteExtension</a>;</div>
+<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>                    options.SwaggerEndpoint(siteDocPath, <span class="stringliteral">&quot;TGS API&quot;</span>);</div>
+<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>                });</div>
+<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>                logger.LogTrace(<span class="stringliteral">&quot;Swagger API generation enabled&quot;</span>);</div>
+<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>            }</div>
+<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span> </div>
+<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>            <span class="comment">// spa loading if necessary</span></div>
+<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
+<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>            {</div>
+<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>                logger.LogInformation(<span class="stringliteral">&quot;Web control panel enabled.&quot;</span>);</div>
+<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>                applicationBuilder.UseFileServer(<span class="keyword">new</span> FileServerOptions</div>
+<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>                {</div>
+<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>                    RequestPath = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html">ControlPanelController</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a31405e686cba6874931106edd1d3a661">ControlPanelRoute</a>,</div>
+<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span>                    EnableDefaultFiles = <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>                    EnableDirectoryBrowsing = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span>                    RedirectToAppendTrailingSlash = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>                });</div>
+<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>            }</div>
+<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>            <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span><span class="preprocessor">#if NO_WEBPANEL</span></div>
+<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>                logger.LogDebug(<span class="stringliteral">&quot;Web control panel was not included in TGS build!&quot;</span>);</div>
+<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>                logger.LogTrace(<span class="stringliteral">&quot;Web control panel disabled!&quot;</span>);</div>
+<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span> </div>
+<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>            <span class="comment">// Enable endpoint routing</span></div>
+<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>            applicationBuilder.UseRouting();</div>
+<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span> </div>
+<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>            <span class="comment">// Set up CORS based on configuration if necessary</span></div>
+<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>            Action&lt;CorsPolicyBuilder&gt;? corsBuilder = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.AllowAnyOrigin)</div>
+<div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span>            {</div>
+<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span>                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: *&quot;</span>);</div>
+<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>                corsBuilder = builder =&gt; builder.SetIsOriginAllowed(_ =&gt; <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>            }</div>
+<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (controlPanelConfiguration.AllowedOrigins?.Count &gt; 0)</div>
+<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>            {</div>
+<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: {allowedOrigins}&quot;</span>, String.Join(<span class="charliteral">&#39;,&#39;</span>, controlPanelConfiguration.AllowedOrigins));</div>
+<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>                corsBuilder = builder =&gt; builder.WithOrigins([.. controlPanelConfiguration.AllowedOrigins]);</div>
+<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>            }</div>
+<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span> </div>
+<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>            var originalBuilder = corsBuilder;</div>
+<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>            corsBuilder = builder =&gt;</div>
+<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>            {</div>
+<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>                builder</div>
+<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>                    .AllowAnyHeader()</div>
+<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>                    .AllowAnyMethod()</div>
+<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>                    .AllowCredentials()</div>
+<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>                    .SetPreflightMaxAge(TimeSpan.FromDays(1));</div>
+<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>                originalBuilder?.Invoke(builder);</div>
+<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>            };</div>
+<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>            applicationBuilder.UseCors(corsBuilder);</div>
+<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span> </div>
+<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>            <span class="comment">// validate the API version</span></div>
+<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>            applicationBuilder.UseApiCompatibility();</div>
+<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span> </div>
+<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>            <span class="comment">// authenticate JWT tokens using our security pipeline if present, returns 401 if bad</span></div>
+<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>            applicationBuilder.UseAuthentication();</div>
+<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span> </div>
+<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>            <span class="comment">// enable authorization on endpoints</span></div>
+<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>            applicationBuilder.UseAuthorization();</div>
+<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span> </div>
+<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>            <span class="comment">// suppress and log database exceptions</span></div>
+<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>            applicationBuilder.UseDbConflictHandling();</div>
+<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span> </div>
+<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>            <span class="comment">// setup endpoints</span></div>
+<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>            applicationBuilder.UseEndpoints(endpoints =&gt;</div>
+<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>            {</div>
+<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>                <span class="comment">// access to the signalR jobs hub</span></div>
+<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>                endpoints.MapHub&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html">JobsHub</a>&gt;(</div>
+<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8f0fbf59b12bc939238a64bc4df9000d">JobsHub</a>,</div>
+<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>                    options =&gt;</div>
+<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>                    {</div>
+<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>                        options.Transports = HttpTransportType.ServerSentEvents;</div>
+<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>                        options.CloseOnAuthenticationExpiration = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>                    })</div>
+<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>                    .RequireAuthorization()</div>
+<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>                    .RequireCors(corsBuilder);</div>
+<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span> </div>
+<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>                <span class="comment">// majority of handling is done in the controllers</span></div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>                endpoints.MapControllers();</div>
+<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span> </div>
+<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>                <span class="keywordflow">if</span> (internalConfiguration.EnableGraphQL)</div>
+<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>                {</div>
+<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>                    logger.LogWarning(<span class="stringliteral">&quot;Enabling GraphQL. This API is experimental and breaking changes may occur at any time!&quot;</span>);</div>
+<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>                    var gqlOptions = <span class="keyword">new</span> GraphQLServerOptions</div>
+<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>                    {</div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>                        EnableBatching = <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>                    };</div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span> </div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>                    gqlOptions.Tool.Enable = generalConfiguration.HostApiDocumentation;</div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span> </div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>                    endpoints</div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>                        .MapGraphQL(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a502122c533fa679ec8c34ddb89431fa6">GraphQL</a>)</div>
+<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>                        .WithOptions(gqlOptions);</div>
+<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>                }</div>
+<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>            });</div>
+<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span> </div>
+<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>            <span class="comment">// 404 anything that gets this far</span></div>
+<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>            <span class="comment">// End of request pipeline setup</span></div>
+<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>            logger.LogTrace(<span class="stringliteral">&quot;Configuration version: {configVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>);</div>
+<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>            logger.LogTrace(<span class="stringliteral">&quot;DMAPI Interop version: {interopVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html">DMApiConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html#ac2e027490bca3307936efe1092da2cc9">InteropVersion</a>);</div>
+<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
+<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>                logger.LogTrace(<span class="stringliteral">&quot;Webpanel version: {webCPVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html">MasterVersionsAttribute</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a6c7f632f14b13b6701842c69eb01c4e5">RawWebpanelVersion</a>);</div>
+<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span> </div>
+<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>            logger.LogDebug(<span class="stringliteral">&quot;Starting hosting on port {httpApiPort}...&quot;</span>, serverPortProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html#af5e86a67c2cc59e14c762532275f0a2c">HttpApiPort</a>);</div>
+<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>        }</div>
 </div>
-<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span> </div>
-<div class="line"><a id="l00704" name="l00704"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a1d6e849d4a69fe90f23f60aaeb2bc960">  704</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a1d6e849d4a69fe90f23f60aaeb2bc960">ConfigureHostedService</a>(IServiceCollection services)</div>
-<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>            =&gt; services.AddSingleton&lt;<a class="code hl_class" href="class_i_hosted_service.html">IHostedService</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;());</div>
 <div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span> </div>
-<div class="foldopen" id="foldopen00711" data-start="{" data-end="}">
-<div class="line"><a id="l00711" name="l00711"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a7518c1b2ec58feaa1dffc13c9caf48af">  711</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a7518c1b2ec58feaa1dffc13c9caf48af">ConfigureAuthenticationPipeline</a>(IServiceCollection services)</div>
-<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>        {</div>
-<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>            services.AddHttpContextAccessor();</div>
-<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html">IApiHeadersProvider</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_api_headers_provider.html">ApiHeadersProvider</a>&gt;();</div>
-<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>            services.AddScoped&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">AuthenticationContextFactory</a>&gt;();</div>
-<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html">ITokenValidator</a>&gt;(provider =&gt; provider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">AuthenticationContextFactory</a>&gt;());</div>
-<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span> </div>
-<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>            <span class="comment">// what if you</span></div>
-<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>            <span class="comment">// wanted to just do this:</span></div>
-<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>            <span class="comment">// return provider.GetRequiredService&lt;AuthenticationContextFactory&gt;().CurrentAuthenticationContext</span></div>
-<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>            <span class="comment">// But M$ said</span></div>
-<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>            <span class="comment">// https://stackoverflow.com/questions/56792917/scoped-services-in-asp-net-core-with-signalr-hubs</span></div>
-<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>            services.AddScoped(provider =&gt; (provider</div>
-<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>                .GetRequiredService&lt;IHttpContextAccessor&gt;()</div>
-<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>                .HttpContext ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Unable to resolve {nameof(IAuthenticationContext)} due to no HttpContext being available!&quot;</span>))</div>
-<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>                .RequestServices</div>
-<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>                .GetRequiredService&lt;AuthenticationContextFactory&gt;()</div>
-<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>                .CurrentAuthenticationContext);</div>
-<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>            services.AddScoped&lt;<a class="code hl_class" href="class_i_claims_transformation.html">IClaimsTransformation</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html">AuthenticationContextClaimsTransformation</a>&gt;();</div>
-<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span> </div>
-<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>            services</div>
-<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)</div>
-<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>                .AddJwtBearer(jwtBearerOptions =&gt;</div>
-<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>                {</div>
-<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>                    <span class="comment">// this line isn&#39;t actually run until the first request is made</span></div>
-<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>                    <span class="comment">// at that point tokenFactory will be populated</span></div>
-<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>                    jwtBearerOptions.TokenValidationParameters = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a>?.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a46e66985719064cffa8b569830a3712f">ValidationParameters</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;tokenFactory not initialized!&quot;</span>);</div>
-<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>                    jwtBearerOptions.MapInboundClaims = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>                    jwtBearerOptions.Events = <span class="keyword">new</span> JwtBearerEvents</div>
-<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>                    {</div>
-<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>                        OnMessageReceived = context =&gt;</div>
-<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>                        {</div>
-<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>                            <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(context.Token))</div>
-<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>                            {</div>
-<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span>                                var accessToken = context.Request.Query[<span class="stringliteral">&quot;access_token&quot;</span>];</div>
-<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span>                                var path = context.HttpContext.Request.Path;</div>
-<div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span> </div>
-<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>                                <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(accessToken) &amp;&amp;</div>
-<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span>                                    path.StartsWithSegments(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a592881a5c0b75edd77acb148c13b52b9">HubsRoot</a>, StringComparison.OrdinalIgnoreCase))</div>
-<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span>                                {</div>
-<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span>                                    context.Token = accessToken;</div>
-<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span>                                }</div>
-<div class="line"><a id="l00753" name="l00753"></a><span class="lineno">  753</span>                            }</div>
-<div class="line"><a id="l00754" name="l00754"></a><span class="lineno">  754</span> </div>
-<div class="line"><a id="l00755" name="l00755"></a><span class="lineno">  755</span>                            <span class="keywordflow">return</span> Task.CompletedTask;</div>
-<div class="line"><a id="l00756" name="l00756"></a><span class="lineno">  756</span>                        },</div>
-<div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span>                        OnTokenValidated = context =&gt; context</div>
-<div class="line"><a id="l00758" name="l00758"></a><span class="lineno">  758</span>                            .HttpContext</div>
-<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span>                            .RequestServices</div>
-<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span>                            .GetRequiredService&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html">ITokenValidator</a>&gt;()</div>
-<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>                            .ValidateToken(</div>
-<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span>                                context,</div>
-<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>                                context</div>
-<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>                                    .HttpContext</div>
-<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>                                    .RequestAborted),</div>
-<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>                    };</div>
-<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>                });</div>
-<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span>        }</div>
+<div class="line"><a id="l00708" name="l00708"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a1d6e849d4a69fe90f23f60aaeb2bc960">  708</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a1d6e849d4a69fe90f23f60aaeb2bc960">ConfigureHostedService</a>(IServiceCollection services)</div>
+<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>            =&gt; services.AddSingleton&lt;<a class="code hl_class" href="class_i_hosted_service.html">IHostedService</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;());</div>
+<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span> </div>
+<div class="foldopen" id="foldopen00715" data-start="{" data-end="}">
+<div class="line"><a id="l00715" name="l00715"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a7518c1b2ec58feaa1dffc13c9caf48af">  715</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a7518c1b2ec58feaa1dffc13c9caf48af">ConfigureAuthenticationPipeline</a>(IServiceCollection services)</div>
+<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>        {</div>
+<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>            services.AddHttpContextAccessor();</div>
+<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html">IApiHeadersProvider</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_api_headers_provider.html">ApiHeadersProvider</a>&gt;();</div>
+<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>            services.AddScoped&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">AuthenticationContextFactory</a>&gt;();</div>
+<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html">ITokenValidator</a>&gt;(provider =&gt; provider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">AuthenticationContextFactory</a>&gt;());</div>
+<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span> </div>
+<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>            <span class="comment">// what if you</span></div>
+<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>            <span class="comment">// wanted to just do this:</span></div>
+<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>            <span class="comment">// return provider.GetRequiredService&lt;AuthenticationContextFactory&gt;().CurrentAuthenticationContext</span></div>
+<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>            <span class="comment">// But M$ said</span></div>
+<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>            <span class="comment">// https://stackoverflow.com/questions/56792917/scoped-services-in-asp-net-core-with-signalr-hubs</span></div>
+<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>            services.AddScoped(provider =&gt; (provider</div>
+<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>                .GetRequiredService&lt;IHttpContextAccessor&gt;()</div>
+<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>                .HttpContext ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Unable to resolve {nameof(IAuthenticationContext)} due to no HttpContext being available!&quot;</span>))</div>
+<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>                .RequestServices</div>
+<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>                .GetRequiredService&lt;AuthenticationContextFactory&gt;()</div>
+<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>                .CurrentAuthenticationContext);</div>
+<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>            services.AddScoped&lt;<a class="code hl_class" href="class_i_claims_transformation.html">IClaimsTransformation</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html">AuthenticationContextClaimsTransformation</a>&gt;();</div>
+<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span> </div>
+<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>            services</div>
+<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)</div>
+<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>                .AddJwtBearer(jwtBearerOptions =&gt;</div>
+<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>                {</div>
+<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>                    <span class="comment">// this line isn&#39;t actually run until the first request is made</span></div>
+<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>                    <span class="comment">// at that point tokenFactory will be populated</span></div>
+<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>                    jwtBearerOptions.TokenValidationParameters = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a>?.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a46e66985719064cffa8b569830a3712f">ValidationParameters</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;tokenFactory not initialized!&quot;</span>);</div>
+<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>                    jwtBearerOptions.MapInboundClaims = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>                    jwtBearerOptions.Events = <span class="keyword">new</span> JwtBearerEvents</div>
+<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>                    {</div>
+<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span>                        OnMessageReceived = context =&gt;</div>
+<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span>                        {</div>
+<div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span>                            <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(context.Token))</div>
+<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>                            {</div>
+<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span>                                var accessToken = context.Request.Query[<span class="stringliteral">&quot;access_token&quot;</span>];</div>
+<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span>                                var path = context.HttpContext.Request.Path;</div>
+<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span> </div>
+<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span>                                <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(accessToken) &amp;&amp;</div>
+<div class="line"><a id="l00753" name="l00753"></a><span class="lineno">  753</span>                                    path.StartsWithSegments(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a592881a5c0b75edd77acb148c13b52b9">HubsRoot</a>, StringComparison.OrdinalIgnoreCase))</div>
+<div class="line"><a id="l00754" name="l00754"></a><span class="lineno">  754</span>                                {</div>
+<div class="line"><a id="l00755" name="l00755"></a><span class="lineno">  755</span>                                    context.Token = accessToken;</div>
+<div class="line"><a id="l00756" name="l00756"></a><span class="lineno">  756</span>                                }</div>
+<div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span>                            }</div>
+<div class="line"><a id="l00758" name="l00758"></a><span class="lineno">  758</span> </div>
+<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span>                            <span class="keywordflow">return</span> Task.CompletedTask;</div>
+<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span>                        },</div>
+<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>                        OnTokenValidated = context =&gt; context</div>
+<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span>                            .HttpContext</div>
+<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>                            .RequestServices</div>
+<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>                            .GetRequiredService&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html">ITokenValidator</a>&gt;()</div>
+<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>                            .ValidateToken(</div>
+<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>                                context,</div>
+<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>                                context</div>
+<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span>                                    .HttpContext</div>
+<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>                                    .RequestAborted),</div>
+<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>                    };</div>
+<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>                });</div>
+<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>        }</div>
 </div>
-<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>    }</div>
+<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span>    }</div>
 </div>
-<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>}</div>
+<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span>}</div>
 </div>
 <div class="ttc" id="aclass_i_action_result_executor_html"><div class="ttname"><a href="class_i_action_result_executor.html">IActionResultExecutor</a></div></div>
 <div class="ttc" id="aclass_i_claims_transformation_html"><div class="ttname"><a href="class_i_claims_transformation.html">IClaimsTransformation</a></div></div>
@@ -879,10 +882,10 @@ $(document).ready(function() { init_codefold(0); });
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a3c750651b93228ec3e2776977545cec2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a3c750651b93228ec3e2776977545cec2">Tgstation.Server.Host.Core.Application.AddWatchdog&lt; TSystemWatchdogFactory &gt;</a></div><div class="ttdeci">static void AddWatchdog&lt; TSystemWatchdogFactory &gt;(IServiceCollection services, IPostSetupServices postSetupServices)</div><div class="ttdoc">Adds the IWatchdogFactory implementation.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00113">Application.cs:113</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a3ec60bfa2b57cd85cae110578270a60f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a3ec60bfa2b57cd85cae110578270a60f">Tgstation.Server.Host.Core.Application.ConfigureServices</a></div><div class="ttdeci">void ConfigureServices(IServiceCollection services, IAssemblyInformationProvider assemblyInformationProvider, IIOManager ioManager, IPostSetupServices postSetupServices)</div><div class="ttdoc">Configure the Application's services .</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00142">Application.cs:142</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a6720ad4775ff4751c0d2e00b36f0c31f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a6720ad4775ff4751c0d2e00b36f0c31f">Tgstation.Server.Host.Core.Application.CreateDefaultServerFactory</a></div><div class="ttdeci">static IServerFactory CreateDefaultServerFactory()</div><div class="ttdoc">Create the default IServerFactory.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00098">Application.cs:98</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a7518c1b2ec58feaa1dffc13c9caf48af"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a7518c1b2ec58feaa1dffc13c9caf48af">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline</a></div><div class="ttdeci">void ConfigureAuthenticationPipeline(IServiceCollection services)</div><div class="ttdoc">Configure the services  for the authentication pipeline.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00711">Application.cs:711</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a7518c1b2ec58feaa1dffc13c9caf48af"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a7518c1b2ec58feaa1dffc13c9caf48af">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline</a></div><div class="ttdeci">void ConfigureAuthenticationPipeline(IServiceCollection services)</div><div class="ttdoc">Configure the services  for the authentication pipeline.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00715">Application.cs:715</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a99f8743ed7f409fd904fdc236bb4010c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">Tgstation.Server.Host.Core.Application.tokenFactory</a></div><div class="ttdeci">ITokenFactory? tokenFactory</div><div class="ttdoc">The ITokenFactory for the Application.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00092">Application.cs:92</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_abc6f8677db1baf9744162670d4a02a6c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#abc6f8677db1baf9744162670d4a02a6c">Tgstation.Server.Host.Core.Application.Application</a></div><div class="ttdeci">Application(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)</div><div class="ttdoc">Initializes a new instance of the Application class.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00127">Application.cs:127</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_ae682a557e90d363305bb3ce39e290341"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#ae682a557e90d363305bb3ce39e290341">Tgstation.Server.Host.Core.Application.Configure</a></div><div class="ttdeci">void Configure(IApplicationBuilder applicationBuilder, IServerControl serverControl, ITokenFactory tokenFactory, IServerPortProvider serverPortProvider, IAssemblyInformationProvider assemblyInformationProvider, IOptions&lt; ControlPanelConfiguration &gt; controlPanelConfigurationOptions, IOptions&lt; GeneralConfiguration &gt; generalConfigurationOptions, IOptions&lt; SwarmConfiguration &gt; swarmConfigurationOptions, IOptions&lt; InternalConfiguration &gt; internalConfigurationOptions, ILogger&lt; Application &gt; logger)</div><div class="ttdoc">Configure the Application.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00533">Application.cs:533</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_aec111c5d85d5cbf4c16dc1e3f612a08e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#aec111c5d85d5cbf4c16dc1e3f612a08e">Tgstation.Server.Host.Core.Application.Configure</a></div><div class="ttdeci">void Configure(IApplicationBuilder applicationBuilder, IServerControl serverControl, ITokenFactory tokenFactory, IServerPortProvider serverPortProvider, IAssemblyInformationProvider assemblyInformationProvider, IOptions&lt; ControlPanelConfiguration &gt; controlPanelConfigurationOptions, IOptions&lt; GeneralConfiguration &gt; generalConfigurationOptions, IOptions&lt; DatabaseConfiguration &gt; databaseConfigurationOptions, IOptions&lt; SwarmConfiguration &gt; swarmConfigurationOptions, IOptions&lt; InternalConfiguration &gt; internalConfigurationOptions, ILogger&lt; Application &gt; logger)</div><div class="ttdoc">Configure the Application.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00534">Application.cs:534</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_affdb9aca40d21e4d92078d3da87483d1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">Tgstation.Server.Host.Core.Application.hostingEnvironment</a></div><div class="ttdeci">readonly IWebHostEnvironment hostingEnvironment</div><div class="ttdoc">The IWebHostEnvironment for the Application.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00087">Application.cs:87</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_command_pipe_manager_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_command_pipe_manager.html">Tgstation.Server.Host.Core.CommandPipeManager</a></div><div class="ttdoc">Reads from the command pipe opened by the host watchdog.</div><div class="ttdef"><b>Definition</b> <a href="_command_pipe_manager_8cs_source.html#l00021">CommandPipeManager.cs:22</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_port_proivder_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_port_proivder.html">Tgstation.Server.Host.Core.ServerPortProivder</a></div><div class="ttdef"><b>Definition</b> <a href="_server_port_proivder_8cs_source.html#l00013">ServerPortProivder.cs:14</a></div></div>

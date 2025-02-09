@@ -187,7 +187,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   38</span>                <span class="keywordflow">return</span> error;</div>
 <div class="line"><span class="lineno">   39</span> </div>
 <div class="line"><span class="lineno">   40</span>            var errorBuilder = ErrorBuilder.FromError(error)</div>
-<div class="line"><span class="lineno">   41</span>                .RemoveException()</div>
+<div class="line"><span class="lineno">   41</span>                .SetException(<span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">   42</span>                .ClearExtensions();</div>
 <div class="line"><span class="lineno">   43</span> </div>
 <div class="line"><span class="lineno">   44</span>            <span class="keyword">const</span> <span class="keywordtype">string</span> ErrorCodeFieldName = <span class="stringliteral">&quot;errorCode&quot;</span>;</div>

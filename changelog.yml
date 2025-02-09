@@ -175,8 +175,7 @@ Components:
   Core:
   - Version: 6.13.0
     ComponentVersions:
-      Core: 6.12.3
-      HttpApi: 10.12.0
+      HttpApi: 10.12.1
       GraphQLApi: 0.5.0
       DreamMakerApi: 7.3.1
       Configuration: 5.4.0
@@ -186,7 +185,13 @@ Components:
       NugetApi: 17.0.1
       NugetClient: 20.0.0
       WebControlPanel: 6.7.3
-    Changes: []
+    Changes:
+    - Descriptions:
+      - Added `DreamDaemonPreLaunch` event.
+      - Database provider in use is now logged at startup.
+      - 'Nix: Added wants configuration option to service.'
+      Author: Cyberboss
+      PullRequest: 2105
     Unreleased: true
   - Version: 6.12.4
     ComponentVersions:
@@ -3797,6 +3802,13 @@ Components:
       Author: Cyberboss
       PullRequest: 956
   HostWatchdog:
+  - Version: 1.6.0
+    Changes:
+    - Descriptions:
+      - Fixed exception propagation from core server not working.
+      Author: Cyberboss
+      PullRequest: 2105
+    Unreleased: true
   - Version: 1.4.0
     Changes:
     - Descriptions:
