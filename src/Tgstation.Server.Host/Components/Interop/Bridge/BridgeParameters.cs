@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		public ushort? TopicPort { get; set; }
 
 		/// <summary>
-		/// The <see cref="Bridge.CustomEventInvocation"/> being triggered.
+		/// The <see cref="CustomEventInvocation"/> being triggered.
 		/// </summary>
 		public CustomEventInvocation? EventInvocation { get; set; }
 
