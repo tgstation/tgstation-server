@@ -16,6 +16,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The time interval in minutes the chat bot attempts to reconnect if <see cref="Enabled"/> and disconnected. Must not be zero.
 		/// </summary>
+		/// <example>60</example>
 		[Required]
 		[Range(1, UInt32.MaxValue)]
 		public uint? ReconnectionInterval { get; set; }
@@ -23,6 +24,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The maximum number of <see cref="ChatChannel"/>s the <see cref="ChatBotSettings"/> may contain.
 		/// </summary>
+		/// <example>5</example>
 		[Required]
 		public ushort? ChannelLimit { get; set; }
 

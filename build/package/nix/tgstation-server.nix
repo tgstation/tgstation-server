@@ -1,6 +1,7 @@
 inputs@{
   config,
   lib,
+  systemdUtils,
   nixpkgs,
   pkgs,
   writeShellScriptBin,
@@ -53,7 +54,7 @@ in
       };
 
       username = lib.mkOption {
-        type = lib.types.str;
+        type = lib.types.nonEmptyStr;
         default = "tgstation-server";
         description = ''
           The name of the user used to execute tgstation-server.
@@ -61,7 +62,7 @@ in
       };
 
       groupname = lib.mkOption {
-        type = lib.types.str;
+        type = lib.types.nonEmptyStr;
         default = "tgstation-server";
         description = ''
           The name of group the user used to execute tgstation-server will belong to.
@@ -69,7 +70,7 @@ in
       };
 
       home-directory = lib.mkOption {
-        type = lib.types.str;
+        type = lib.types.nonEmptyStr;
         default = "/home/tgstation-server";
         description = ''
           The home directory of TGS. Should be persistent.
@@ -97,6 +98,14 @@ in
         default = null;
         description = ''
          Environment file as defined in {manpage}`systemd.exec(5)`
+        '';
+      };
+
+      wants = lib.mkOption {
+        type = lib.types.listOf systemdUtils.lib.unitNameType;
+        default = [];
+        description = ''
+          Start the specified units when this unit is started.
         '';
       };
     };

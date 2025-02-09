@@ -100,21 +100,21 @@
     <!-- Usage: GitLab interop -->
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <!-- Usage: GraphQL API Engine -->
-    <PackageReference Include="HotChocolate.AspNetCore" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="15.0.3" />
     <!-- Usage: GraphQL Authorization Plugin -->
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.0.3" />
     <!-- Usage: GraphQL IDatabaseContext support -->
-    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="15.0.3" />
     <!-- Usage: DataLoader source generation -->
-    <PackageReference Include="HotChocolate.Types.Analyzers" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.Types.Analyzers" Version="15.0.3" />
     <!-- Usage: GraphQL additional scalar type definitions -->
-    <PackageReference Include="HotChocolate.Types.Scalars" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.Types.Scalars" Version="15.0.3" />
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.12" />
     <!-- Usage: Using target JSON serializer for API -->
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="9.0.1" />
     <!-- Usage: Generating dumps of dotnet engine processes -->
     <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.553101" />
     <!-- Usage: Database ORM -->
@@ -154,11 +154,11 @@
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="7.2.0" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.0" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.1" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
-    <PackageReference Include="System.Management" Version="9.0.0" />
+    <PackageReference Include="System.Management" Version="9.0.1" />
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
-    <PackageReference Include="System.Security.Permissions" Version="9.0.0" />
+    <PackageReference Include="System.Security.Permissions" Version="9.0.1" />
   </ItemGroup>
 
   <ItemGroup>
