@@ -1171,14 +1171,26 @@ namespace Tgstation.Server.Host.Components.Session
 			{
 				try
 				{
-					await eventTask.Value;
+					Exception? exception;
+					try
+					{
+						await eventTask.Value;
+						exception = null;
+					}
+					catch (Exception ex)
+					{
+						exception = ex;
+					}
 
 					if (notifyCompletion.Value)
 						await SendCommand(
 							new TopicParameters(eventId),
 							cancellationToken);
-					else
+					else if (exception == null)
 						Logger.LogTrace("Finished custom event {eventId}, not sending notification.", eventId);
+
+					if (exception != null)
+						throw exception;
 				}
 				catch (OperationCanceledException ex)
 				{
