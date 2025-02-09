@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Core.Tests
 			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, mockServerPortProvider.Object, mockAssemblyInformationProvider, mockControlPanelOptions.Object, mockGeneralOptions.Object, null, null, null, null));
 
 			var mockDatabaseOptions = new Mock<IOptions<DatabaseConfiguration>>();
-			mockGeneralOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration()).Verifiable();
+			mockDatabaseOptions.SetupGet(x => x.Value).Returns(new DatabaseConfiguration()).Verifiable();
 			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, mockServerPortProvider.Object, mockAssemblyInformationProvider, mockControlPanelOptions.Object, mockGeneralOptions.Object, mockDatabaseOptions.Object, null, null, null));
 
 			var mockSwarmOptions = new Mock<IOptions<SwarmConfiguration>>();
