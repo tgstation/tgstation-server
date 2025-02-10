@@ -192,27 +192,10 @@ Components:
       - 'Nix: Added wants configuration option to service.'
       Author: Cyberboss
       PullRequest: 2105
-    Unreleased: true
-  - Version: 6.12.4
-    ComponentVersions:
-      HttpApi: 10.12.0
-      GraphQLApi: 0.5.0
-      DreamMakerApi: 7.3.0
-      Configuration: 5.4.0
-      InteropApi: 5.10.0
-      HostWatchdog: 1.6.0
-      NugetCommon: 7.0.0
-      NugetApi: 17.0.0
-      NugetClient: 20.0.0
-      WebControlPanel: 6.7.3
-    Changes:
     - Descriptions:
-      - 'Nix: Source our configuration file directly as a path instead of using a string to define it.'
-      - 'Nix: Set `reloadTriggers` in the configured systemd service unit to reload when the TGS configuration is changed.'
-      - "Nix: Set `restartIfChanged` so we don't keep restarting `tgstation-server.service` whenever it gets touched in the slightest."
-      - 'Nix: Set `after` to depend on relevant DBs TGS uses.'
-      Author: Lorwp
-      PullRequest: 2095
+      - If a DM triggered TGS event script errors, the completion notification will now still be sent, unblocking the DMAPI call.
+      Author: Cyberboss
+      PullRequest: 2108
     Unreleased: true
   - Version: 6.12.3
     ComponentVersions:

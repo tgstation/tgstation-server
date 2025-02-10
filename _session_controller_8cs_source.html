@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.12.3</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.13.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -1100,46 +1100,58 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l01171" name="l01171"></a><span class="lineno"> 1171</span>            {</div>
 <div class="line"><a id="l01172" name="l01172"></a><span class="lineno"> 1172</span>                <span class="keywordflow">try</span></div>
 <div class="line"><a id="l01173" name="l01173"></a><span class="lineno"> 1173</span>                {</div>
-<div class="line"><a id="l01174" name="l01174"></a><span class="lineno"> 1174</span>                    await eventTask.Value;</div>
-<div class="line"><a id="l01175" name="l01175"></a><span class="lineno"> 1175</span> </div>
-<div class="line"><a id="l01176" name="l01176"></a><span class="lineno"> 1176</span>                    <span class="keywordflow">if</span> (notifyCompletion.Value)</div>
-<div class="line"><a id="l01177" name="l01177"></a><span class="lineno"> 1177</span>                        await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a013461712a40946a3ac6590529df9e2e">SendCommand</a>(</div>
-<div class="line"><a id="l01178" name="l01178"></a><span class="lineno"> 1178</span>                            <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html">TopicParameters</a>(eventId),</div>
-<div class="line"><a id="l01179" name="l01179"></a><span class="lineno"> 1179</span>                            cancellationToken);</div>
-<div class="line"><a id="l01180" name="l01180"></a><span class="lineno"> 1180</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l01181" name="l01181"></a><span class="lineno"> 1181</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html#a54fb17d53678e521d05e82984e545994">Logger</a>.LogTrace(<span class="stringliteral">&quot;Finished custom event {eventId}, not sending notification.&quot;</span>, eventId);</div>
-<div class="line"><a id="l01182" name="l01182"></a><span class="lineno"> 1182</span>                }</div>
-<div class="line"><a id="l01183" name="l01183"></a><span class="lineno"> 1183</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><a id="l01184" name="l01184"></a><span class="lineno"> 1184</span>                {</div>
-<div class="line"><a id="l01185" name="l01185"></a><span class="lineno"> 1185</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html#a54fb17d53678e521d05e82984e545994">Logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Custom event invocation {eventId} aborted!&quot;</span>, eventId);</div>
-<div class="line"><a id="l01186" name="l01186"></a><span class="lineno"> 1186</span>                }</div>
-<div class="line"><a id="l01187" name="l01187"></a><span class="lineno"> 1187</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
-<div class="line"><a id="l01188" name="l01188"></a><span class="lineno"> 1188</span>                {</div>
-<div class="line"><a id="l01189" name="l01189"></a><span class="lineno"> 1189</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html#a54fb17d53678e521d05e82984e545994">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Custom event invocation {eventId} errored!&quot;</span>, eventId);</div>
-<div class="line"><a id="l01190" name="l01190"></a><span class="lineno"> 1190</span>                }</div>
-<div class="line"><a id="l01191" name="l01191"></a><span class="lineno"> 1191</span>            }</div>
-<div class="line"><a id="l01192" name="l01192"></a><span class="lineno"> 1192</span> </div>
-<div class="line"><a id="l01193" name="l01193"></a><span class="lineno"> 1193</span>            <span class="keywordflow">if</span> (!eventTask.HasValue)</div>
-<div class="line"><a id="l01194" name="l01194"></a><span class="lineno"> 1194</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a610c434225f1b0c912e2d845e0429eb5">BridgeError</a>(<span class="stringliteral">&quot;Event refused to execute due to matching a TGS event!&quot;</span>);</div>
-<div class="line"><a id="l01195" name="l01195"></a><span class="lineno"> 1195</span> </div>
-<div class="line"><a id="l01196" name="l01196"></a><span class="lineno"> 1196</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a8bb5da745f4bab0fcb37b75a3a63a1fb">sessionDurationCts</a>)</div>
-<div class="line"><a id="l01197" name="l01197"></a><span class="lineno"> 1197</span>            {</div>
-<div class="line"><a id="l01198" name="l01198"></a><span class="lineno"> 1198</span>                var previousEventProcessingTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ad1e58dc52007518b81e4c6884c4c1641">customEventProcessingTask</a>;</div>
-<div class="line"><a id="l01199" name="l01199"></a><span class="lineno"> 1199</span>                var eventProcessingTask = ProcessEvent();</div>
-<div class="line"><a id="l01200" name="l01200"></a><span class="lineno"> 1200</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ad1e58dc52007518b81e4c6884c4c1641">customEventProcessingTask</a> = Task.WhenAll(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ad1e58dc52007518b81e4c6884c4c1641">customEventProcessingTask</a>, eventProcessingTask);</div>
-<div class="line"><a id="l01201" name="l01201"></a><span class="lineno"> 1201</span>            }</div>
-<div class="line"><a id="l01202" name="l01202"></a><span class="lineno"> 1202</span> </div>
-<div class="line"><a id="l01203" name="l01203"></a><span class="lineno"> 1203</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_response.html">BridgeResponse</a></div>
-<div class="line"><a id="l01204" name="l01204"></a><span class="lineno"> 1204</span>            {</div>
-<div class="line"><a id="l01205" name="l01205"></a><span class="lineno"> 1205</span>                EventId = notifyCompletion.Value</div>
-<div class="line"><a id="l01206" name="l01206"></a><span class="lineno"> 1206</span>                    ? eventId.ToString()</div>
-<div class="line"><a id="l01207" name="l01207"></a><span class="lineno"> 1207</span>                    : <span class="keyword">null</span>,</div>
-<div class="line"><a id="l01208" name="l01208"></a><span class="lineno"> 1208</span>            };</div>
-<div class="line"><a id="l01209" name="l01209"></a><span class="lineno"> 1209</span>        }</div>
+<div class="line"><a id="l01174" name="l01174"></a><span class="lineno"> 1174</span>                    <a class="code hl_class" href="class_exception.html">Exception</a>? exception;</div>
+<div class="line"><a id="l01175" name="l01175"></a><span class="lineno"> 1175</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><a id="l01176" name="l01176"></a><span class="lineno"> 1176</span>                    {</div>
+<div class="line"><a id="l01177" name="l01177"></a><span class="lineno"> 1177</span>                        await eventTask.Value;</div>
+<div class="line"><a id="l01178" name="l01178"></a><span class="lineno"> 1178</span>                        exception = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l01179" name="l01179"></a><span class="lineno"> 1179</span>                    }</div>
+<div class="line"><a id="l01180" name="l01180"></a><span class="lineno"> 1180</span>                    <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
+<div class="line"><a id="l01181" name="l01181"></a><span class="lineno"> 1181</span>                    {</div>
+<div class="line"><a id="l01182" name="l01182"></a><span class="lineno"> 1182</span>                        exception = ex;</div>
+<div class="line"><a id="l01183" name="l01183"></a><span class="lineno"> 1183</span>                    }</div>
+<div class="line"><a id="l01184" name="l01184"></a><span class="lineno"> 1184</span> </div>
+<div class="line"><a id="l01185" name="l01185"></a><span class="lineno"> 1185</span>                    <span class="keywordflow">if</span> (notifyCompletion.Value)</div>
+<div class="line"><a id="l01186" name="l01186"></a><span class="lineno"> 1186</span>                        await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a013461712a40946a3ac6590529df9e2e">SendCommand</a>(</div>
+<div class="line"><a id="l01187" name="l01187"></a><span class="lineno"> 1187</span>                            <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html">TopicParameters</a>(eventId),</div>
+<div class="line"><a id="l01188" name="l01188"></a><span class="lineno"> 1188</span>                            cancellationToken);</div>
+<div class="line"><a id="l01189" name="l01189"></a><span class="lineno"> 1189</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (exception == <span class="keyword">null</span>)</div>
+<div class="line"><a id="l01190" name="l01190"></a><span class="lineno"> 1190</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html#a54fb17d53678e521d05e82984e545994">Logger</a>.LogTrace(<span class="stringliteral">&quot;Finished custom event {eventId}, not sending notification.&quot;</span>, eventId);</div>
+<div class="line"><a id="l01191" name="l01191"></a><span class="lineno"> 1191</span> </div>
+<div class="line"><a id="l01192" name="l01192"></a><span class="lineno"> 1192</span>                    <span class="keywordflow">if</span> (exception != <span class="keyword">null</span>)</div>
+<div class="line"><a id="l01193" name="l01193"></a><span class="lineno"> 1193</span>                        <span class="keywordflow">throw</span> exception;</div>
+<div class="line"><a id="l01194" name="l01194"></a><span class="lineno"> 1194</span>                }</div>
+<div class="line"><a id="l01195" name="l01195"></a><span class="lineno"> 1195</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><a id="l01196" name="l01196"></a><span class="lineno"> 1196</span>                {</div>
+<div class="line"><a id="l01197" name="l01197"></a><span class="lineno"> 1197</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html#a54fb17d53678e521d05e82984e545994">Logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Custom event invocation {eventId} aborted!&quot;</span>, eventId);</div>
+<div class="line"><a id="l01198" name="l01198"></a><span class="lineno"> 1198</span>                }</div>
+<div class="line"><a id="l01199" name="l01199"></a><span class="lineno"> 1199</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
+<div class="line"><a id="l01200" name="l01200"></a><span class="lineno"> 1200</span>                {</div>
+<div class="line"><a id="l01201" name="l01201"></a><span class="lineno"> 1201</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html#a54fb17d53678e521d05e82984e545994">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Custom event invocation {eventId} errored!&quot;</span>, eventId);</div>
+<div class="line"><a id="l01202" name="l01202"></a><span class="lineno"> 1202</span>                }</div>
+<div class="line"><a id="l01203" name="l01203"></a><span class="lineno"> 1203</span>            }</div>
+<div class="line"><a id="l01204" name="l01204"></a><span class="lineno"> 1204</span> </div>
+<div class="line"><a id="l01205" name="l01205"></a><span class="lineno"> 1205</span>            <span class="keywordflow">if</span> (!eventTask.HasValue)</div>
+<div class="line"><a id="l01206" name="l01206"></a><span class="lineno"> 1206</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a610c434225f1b0c912e2d845e0429eb5">BridgeError</a>(<span class="stringliteral">&quot;Event refused to execute due to matching a TGS event!&quot;</span>);</div>
+<div class="line"><a id="l01207" name="l01207"></a><span class="lineno"> 1207</span> </div>
+<div class="line"><a id="l01208" name="l01208"></a><span class="lineno"> 1208</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a8bb5da745f4bab0fcb37b75a3a63a1fb">sessionDurationCts</a>)</div>
+<div class="line"><a id="l01209" name="l01209"></a><span class="lineno"> 1209</span>            {</div>
+<div class="line"><a id="l01210" name="l01210"></a><span class="lineno"> 1210</span>                var previousEventProcessingTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ad1e58dc52007518b81e4c6884c4c1641">customEventProcessingTask</a>;</div>
+<div class="line"><a id="l01211" name="l01211"></a><span class="lineno"> 1211</span>                var eventProcessingTask = ProcessEvent();</div>
+<div class="line"><a id="l01212" name="l01212"></a><span class="lineno"> 1212</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ad1e58dc52007518b81e4c6884c4c1641">customEventProcessingTask</a> = Task.WhenAll(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ad1e58dc52007518b81e4c6884c4c1641">customEventProcessingTask</a>, eventProcessingTask);</div>
+<div class="line"><a id="l01213" name="l01213"></a><span class="lineno"> 1213</span>            }</div>
+<div class="line"><a id="l01214" name="l01214"></a><span class="lineno"> 1214</span> </div>
+<div class="line"><a id="l01215" name="l01215"></a><span class="lineno"> 1215</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_response.html">BridgeResponse</a></div>
+<div class="line"><a id="l01216" name="l01216"></a><span class="lineno"> 1216</span>            {</div>
+<div class="line"><a id="l01217" name="l01217"></a><span class="lineno"> 1217</span>                EventId = notifyCompletion.Value</div>
+<div class="line"><a id="l01218" name="l01218"></a><span class="lineno"> 1218</span>                    ? eventId.ToString()</div>
+<div class="line"><a id="l01219" name="l01219"></a><span class="lineno"> 1219</span>                    : <span class="keyword">null</span>,</div>
+<div class="line"><a id="l01220" name="l01220"></a><span class="lineno"> 1220</span>            };</div>
+<div class="line"><a id="l01221" name="l01221"></a><span class="lineno"> 1221</span>        }</div>
 </div>
-<div class="line"><a id="l01210" name="l01210"></a><span class="lineno"> 1210</span>    }</div>
+<div class="line"><a id="l01222" name="l01222"></a><span class="lineno"> 1222</span>    }</div>
 </div>
-<div class="line"><a id="l01211" name="l01211"></a><span class="lineno"> 1211</span>}</div>
+<div class="line"><a id="l01223" name="l01223"></a><span class="lineno"> 1223</span>}</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_i_async_disposable_html"><div class="ttname"><a href="class_i_async_disposable.html">IAsyncDisposable</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">Tgstation.Server.Api.Models.EngineVersion</a></div><div class="ttdoc">Information about an engine installation.</div><div class="ttdef"><b>Definition</b> <a href="_engine_version_8cs_source.html#l00013">EngineVersion.cs:14</a></div></div>
@@ -1151,7 +1163,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html">Tgstation.Server.Host.Components.Interop.Bridge.BridgeParameters</a></div><div class="ttdoc">Parameters for a bridge request.</div><div class="ttdef"><b>Definition</b> <a href="_bridge_parameters_8cs_source.html#l00012">BridgeParameters.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters_html_a1d4ee9b9e14b762f89c37089f5e95adc"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html#a1d4ee9b9e14b762f89c37089f5e95adc">Tgstation.Server.Host.Components.Interop.Bridge.BridgeParameters.CommandType</a></div><div class="ttdeci">BridgeCommandType? CommandType</div><div class="ttdoc">The BridgeCommandType.</div><div class="ttdef"><b>Definition</b> <a href="_bridge_parameters_8cs_source.html#l00017">BridgeParameters.cs:17</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters_html_a20e2adcf9e1d4d8c0ecad8049fab4827"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html#a20e2adcf9e1d4d8c0ecad8049fab4827">Tgstation.Server.Host.Components.Interop.Bridge.BridgeParameters.ChatMessage</a></div><div class="ttdeci">ChatMessage? ChatMessage</div><div class="ttdoc">The Interop.ChatMessage for BridgeCommandType.ChatSend requests.</div><div class="ttdef"><b>Definition</b> <a href="_bridge_parameters_8cs_source.html#l00042">BridgeParameters.cs:42</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters_html_a26d99a79b6536592921ce3e1b0eaa115"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html#a26d99a79b6536592921ce3e1b0eaa115">Tgstation.Server.Host.Components.Interop.Bridge.BridgeParameters.EventInvocation</a></div><div class="ttdeci">CustomEventInvocation? EventInvocation</div><div class="ttdoc">The Bridge.CustomEventInvocation being triggered.</div><div class="ttdef"><b>Definition</b> <a href="_bridge_parameters_8cs_source.html#l00057">BridgeParameters.cs:57</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters_html_a26d99a79b6536592921ce3e1b0eaa115"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html#a26d99a79b6536592921ce3e1b0eaa115">Tgstation.Server.Host.Components.Interop.Bridge.BridgeParameters.EventInvocation</a></div><div class="ttdeci">CustomEventInvocation? EventInvocation</div><div class="ttdoc">The CustomEventInvocation being triggered.</div><div class="ttdef"><b>Definition</b> <a href="_bridge_parameters_8cs_source.html#l00057">BridgeParameters.cs:57</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters_html_aaea85c0dab32f8876a4c90c5691ad27e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html#aaea85c0dab32f8876a4c90c5691ad27e">Tgstation.Server.Host.Components.Interop.Bridge.BridgeParameters.TopicPort</a></div><div class="ttdeci">ushort? TopicPort</div><div class="ttdoc">The port that should be used to send world topics, if not the default.</div><div class="ttdef"><b>Definition</b> <a href="_bridge_parameters_8cs_source.html#l00052">BridgeParameters.cs:52</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters_html_ac4a844b6eae5fa0b3faee17a1ae13087"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html#ac4a844b6eae5fa0b3faee17a1ae13087">Tgstation.Server.Host.Components.Interop.Bridge.BridgeParameters.MinimumSecurityLevel</a></div><div class="ttdeci">DreamDaemonSecurity? MinimumSecurityLevel</div><div class="ttdoc">The minimum required DreamDaemonSecurity level for BridgeCommandType.Startup requests.</div><div class="ttdef"><b>Definition</b> <a href="_bridge_parameters_8cs_source.html#l00037">BridgeParameters.cs:37</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters_html_acf097a2e3402887b1ec84ffeb986df7c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html#acf097a2e3402887b1ec84ffeb986df7c">Tgstation.Server.Host.Components.Interop.Bridge.BridgeParameters.Chunk</a></div><div class="ttdeci">ChunkData? Chunk</div><div class="ttdoc">The ChunkData for BridgeCommandType.Chunk requests.</div><div class="ttdef"><b>Definition</b> <a href="_bridge_parameters_8cs_source.html#l00047">BridgeParameters.cs:47</a></div></div>
