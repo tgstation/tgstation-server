@@ -178,8 +178,22 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 6.13.1
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.12.1
+      GraphQLApi: 0.5.0
+      DreamMakerApi: 7.3.1
+      Configuration: 5.4.0
+      InteropApi: 5.10.0
+      HostWatchdog: 1.6.0
+      NugetCommon: 7.0.0
+      NugetApi: 17.0.1
+      NugetClient: 20.0.0
+      WebControlPanel: 6.7.3
+    Changes:
+    - Descriptions:
+      - 'nix: bump up sha256 of fixed deviation'
+      Author: Lorwp
+      PullRequest: 2109
     Unreleased: true
   - Version: 6.13.0
     ComponentVersions:
