@@ -173,6 +173,14 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.14.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.13.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.13.0
     ComponentVersions:
       HttpApi: 10.12.1
@@ -196,7 +204,6 @@ Components:
       - If a DM triggered TGS event script errors, the completion notification will now still be sent, unblocking the DMAPI call.
       Author: Cyberboss
       PullRequest: 2108
-    Unreleased: true
   - Version: 6.12.3
     ComponentVersions:
       HttpApi: 10.12.0
@@ -3791,7 +3798,6 @@ Components:
       - Fixed exception propagation from core server not working.
       Author: Cyberboss
       PullRequest: 2105
-    Unreleased: true
   - Version: 1.4.0
     Changes:
     - Descriptions:
@@ -4081,7 +4087,6 @@ Components:
       - Add some basic description to the authentication methods.
       Author: LetterN
       PullRequest: 2087
-    Unreleased: true
   - Version: 10.11.0
     Changes:
     - Descriptions:
@@ -4667,7 +4672,6 @@ Components:
       - Added compatibility with SpacemanDMM's `redefined_proc` lint.
       Author: Cyberboss
       PullRequest: 2058
-    Unreleased: true
   - Version: 7.3.0
     Changes:
     - Descriptions:
