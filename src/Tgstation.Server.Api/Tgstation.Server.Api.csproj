@@ -31,7 +31,7 @@
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.4.0" />
     <!-- Usage: Data model annotating -->
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="System.Text.Encodings.Web" Version="9.0.1" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="9.0.2" />
   </ItemGroup>
 
   <ItemGroup>
