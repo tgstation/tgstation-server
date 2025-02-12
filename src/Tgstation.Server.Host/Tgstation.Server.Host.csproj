@@ -116,7 +116,7 @@
     <!-- Usage: Using target JSON serializer for API -->
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="9.0.1" />
     <!-- Usage: Generating dumps of dotnet engine processes -->
-    <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.553101" />
+    <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.607501" />
     <!-- Usage: Database ORM -->
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
     <!-- Usage: Automatic migration generation using command line -->
