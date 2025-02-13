@@ -147,7 +147,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			}
 			catch (Exception ex) when (ex is not OperationCanceledException)
 			{
-				Logger.LogWarning(ex, "Error posting GitHub comment!");
+				Logger.LogWarning(ex, "Error posting GitLab comment!");
 			}
 		}
 
