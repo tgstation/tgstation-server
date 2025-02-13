@@ -89,6 +89,18 @@ namespace Tgstation.Server.Tests.Live
 			return Task.CompletedTask;
 		}
 
+		public Task AppendCommentOnIssue(string repoOwner, string repoName, string comment, IssueComment issueComment, CancellationToken cancellationToken)
+		{
+			logger.LogTrace("AppendCommentOnIssue");
+			return Task.CompletedTask;
+		}
+
+		public ValueTask<IssueComment> GetExistingCommentOnIssue(string repoOwner, string repoName, string header, int issueNumber, CancellationToken cancellationToken)
+		{
+			logger.LogTrace("GetExistingCommentOnIssue");
+			return ValueTask.FromResult<IssueComment>(null);
+		}
+
 		public ValueTask<long> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("CreateDeployment");

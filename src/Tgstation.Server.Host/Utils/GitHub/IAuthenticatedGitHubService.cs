@@ -22,6 +22,28 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		Task CommentOnIssue(string repoOwner, string repoName, string comment, int issueNumber, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Append a comment on an existing <paramref name="issueComment"/>.
+		/// </summary>
+		/// <param name="repoOwner">The owner of the target repository.</param>
+		/// <param name="repoName">The name of the target repository.</param>
+		/// <param name="comment">The text of the comment.</param>
+		/// <param name="issueComment">The <see cref="IssueComment"/> to amend.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task AppendCommentOnIssue(string repoOwner, string repoName, string comment, IssueComment issueComment, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Gets an <see cref="IssueComment"/> for a particular <paramref name="issueNumber"/> with the provided <paramref name="header"/> if it exists.
+		/// </summary>
+		/// <param name="repoOwner">The owner of the target repository.</param>
+		/// <param name="repoName">The name of the target repository.</param>
+		/// <param name="header">The starting text of the comment to search for.</param>
+		/// <param name="issueNumber">The number of the issue to comment on.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> of an existing comment if its currently under 250k characters, otherwise the <see cref="IssueComment"/> will be null.</returns>
+		ValueTask<IssueComment?> GetExistingCommentOnIssue(string repoOwner, string repoName, string header, int issueNumber, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Create a <paramref name="newDeployment"/> on a target repostiory.
 		/// </summary>
 		/// <param name="newDeployment">The <see cref="NewDeployment"/>.</param>

@@ -133,7 +133,12 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					repositorySettings,
 					repoOwner,
 					repoName,
-					"#### Test Merge Removed",
+					FormatTestMergeRemoval(
+						repositorySettings,
+						compileJob,
+						removedTestMerge,
+						repoOwner,
+						repoName),
 					removedTestMerge.Number,
 					cancellationToken);
 				tasks.Add(removeCommentTask);
@@ -252,6 +257,22 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			string remoteRepositoryOwner,
 			string remoteRepositoryName,
 			bool updated);
+
+		/// <summary>
+		/// Formats a comment for a given <paramref name="testMerge"/> removal.
+		/// </summary>
+		/// <param name="repositorySettings">The <see cref="RepositorySettings"/> to use.</param>
+		/// <param name="compileJob">The test merge's <see cref="CompileJob"/>.</param>
+		/// <param name="testMerge">The <see cref="TestMerge"/>.</param>
+		/// <param name="remoteRepositoryOwner">The <see cref="Api.Models.Internal.IGitRemoteInformation.RemoteRepositoryOwner"/>.</param>
+		/// <param name="remoteRepositoryName">The <see cref="Api.Models.Internal.IGitRemoteInformation.RemoteRepositoryName"/>.</param>
+		/// <returns>A formatted <see cref="string"/> for posting a informative comment about the <paramref name="testMerge"/> removal.</returns>
+		protected abstract string FormatTestMergeRemoval(
+			RepositorySettings repositorySettings,
+			CompileJob compileJob,
+			TestMerge testMerge,
+			string remoteRepositoryOwner,
+			string remoteRepositoryName);
 
 		/// <summary>
 		/// Create a comment of a given <paramref name="testMergeNumber"/>'s source.

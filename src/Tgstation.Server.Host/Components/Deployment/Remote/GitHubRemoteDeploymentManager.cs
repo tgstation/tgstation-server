@@ -282,7 +282,16 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			try
 			{
-				await gitHubService.CommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, comment, testMergeNumber, cancellationToken);
+				const string header = "<!-- test_merge_tgs_bot -->\n## Test merge deployment history:\n\n";
+				var existingComment = await gitHubService.GetExistingCommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, header, testMergeNumber, cancellationToken);
+				if (existingComment != null)
+				{
+					await gitHubService.AppendCommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, comment, existingComment, cancellationToken);
+				}
+				else
+				{
+					await gitHubService.CommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, header + comment, testMergeNumber, cancellationToken);
+				}
 			}
 			catch (Exception ex) when (ex is not OperationCanceledException)
 			{
@@ -299,30 +308,43 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			string remoteRepositoryName,
 			bool updated) => String.Format(
 			CultureInfo.InvariantCulture,
-			"#### Test Merge {4}{0}{0}<details><summary>Details</summary>{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}{8}{0}</details>",
-			Environment.NewLine,
+			"<details><summary>Test Merge {4} @ {8}:</summary>{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}{0}</details>{0}",
+			Environment.NewLine, // 0
 			repositorySettings.ShowTestMergeCommitters!.Value
 				? String.Format(
 					CultureInfo.InvariantCulture,
 					"{0}{0}##### Merged By{0}{1}",
 					Environment.NewLine,
 					testMerge.MergedBy!.Name)
-				: String.Empty,
-			testMerge.TargetCommitSha,
-			testMerge.Comment != null
+				: String.Empty, // 1
+			testMerge.TargetCommitSha, // 2
+			String.IsNullOrEmpty(testMerge.Comment)
 				? String.Format(
 					CultureInfo.InvariantCulture,
 					"{0}{0}##### Comment{0}{1}",
 					Environment.NewLine,
 					testMerge.Comment)
-				: String.Empty,
-			updated ? "Updated" : "Deployed",
-			Metadata.Name,
-			compileJob.RevisionInformation.OriginCommitSha,
-			compileJob.RevisionInformation.CommitSha,
+				: String.Empty, // 3
+			updated ? "Updated" : "Deployed", // 4
 			compileJob.GitHubDeploymentId.HasValue
-				? $"{Environment.NewLine}[GitHub Deployments](https://github.com/{remoteRepositoryOwner}/{remoteRepositoryName}/deployments/activity_log?environment=TGS%3A+{Metadata.Name!.Replace(" ", "+", StringComparison.Ordinal)})"
-				: String.Empty);
+				? $"{Environment.NewLine}[{Metadata.Name}](https://github.com/{remoteRepositoryOwner}/{remoteRepositoryName}/deployments/activity_log?environment=TGS%3A+{Metadata.Name!.Replace(" ", "+", StringComparison.Ordinal)})"
+				: Metadata.Name, // 5
+			compileJob.RevisionInformation.OriginCommitSha, // 6
+			compileJob.RevisionInformation.CommitSha, // 7
+			compileJob.Job.StoppedAt); // 8
+
+		/// <inheritdoc />
+		protected override string FormatTestMergeRemoval(
+			RepositorySettings repositorySettings,
+			CompileJob compileJob,
+			TestMerge testMerge,
+			string remoteRepositoryOwner,
+			string remoteRepositoryName) => String.Format(
+			CultureInfo.InvariantCulture,
+			"<details><summary>Test Merge Removed @ {2}:</summary>{0}{0}##### Server Instance{0}{1}{0}</details>{0}",
+			Environment.NewLine, // 0
+			Metadata.Name, // 1
+			compileJob.Job.StoppedAt); // 2
 
 		/// <summary>
 		/// Update the deployment for a given <paramref name="compileJob"/>.
