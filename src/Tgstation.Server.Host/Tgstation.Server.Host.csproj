@@ -97,7 +97,6 @@
     <PackageReference Include="DotEnv.Core" Version="3.1.0" />
     <!-- Usage: Text formatter for Elasticsearch logging plugin -->
     <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.12.3" />
-    <!-- Usage: GitLab interop -->
     <!-- Usage: GraphQL API Engine -->
     <PackageReference Include="HotChocolate.AspNetCore" Version="15.0.3" />
     <!-- Usage: GraphQL Authorization Plugin -->
