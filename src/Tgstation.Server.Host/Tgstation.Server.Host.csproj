@@ -164,6 +164,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
     <ProjectReference Include="..\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj" />
+    <ProjectReference Include="..\Tgstation.Server.Host.Utils.GitLab.GraphQL\Tgstation.Server.Host.Utils.GitLab.GraphQL.csproj" />
     <ProjectReference Include="..\Tgstation.Server.Shared\Tgstation.Server.Shared.csproj" />
   </ItemGroup>
 

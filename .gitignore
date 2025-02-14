@@ -21,6 +21,8 @@ artifacts/
 /src/Tgstation.Server.Host/wwwroot
 /src/Tgstation.Server.Host/--applicationName
 /src/Tgstation.Server.Host/ClientApp
+/src/Tgstation.Server.Host.Utils.GitLab.GraphQL/node_modules
+/src/Tgstation.Server.Host.Utils.GitLab.GraphQL/schema.graphql
 /tools/Tgstation.Server.ReleaseNotes/release_notes.md
 launchSettings.json
 release_notes.md

@@ -1,0 +1,12 @@
+query GetMergeRequests($project: ID!, $numbers: [String!]!) {
+    project(fullPath: $project) {
+        mergeRequests(iids: $numbers) {
+            nodes {
+                state
+                mergeCommitSha
+                closedAt
+                iid
+            }
+        }
+    }
+}
