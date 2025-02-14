@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../build/SrcCommon.props" />
 
   <PropertyGroup>
@@ -33,7 +33,12 @@
   </Target>
 
   <ItemGroup>
-    <GraphQL Remove="gql\queries\GetMergeRequests.graphql" />
+    <GraphQL Remove="GQL\Mutations\CreateNote.graphql" />
+    <GraphQL Remove="GQL\Mutations\ModifyNote.graphql" />
+    <GraphQL Remove="GQL\Queries\GetCurrentUser.graphql" />
+    <GraphQL Remove="GQL\Queries\GetMergeRequest.graphql" />
+    <GraphQL Remove="GQL\Queries\GetMergeRequestNotes.graphql" />
+    <GraphQL Remove="GQL\Queries\GetMergeRequests.graphql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +47,7 @@
 
   <ItemGroup>
     <Folder Include="GQL\Queries\" />
+    <Folder Include="GQL\Mutations\" />
   </ItemGroup>
 
 </Project>

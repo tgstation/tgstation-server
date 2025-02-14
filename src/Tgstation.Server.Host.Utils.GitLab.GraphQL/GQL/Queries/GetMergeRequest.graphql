@@ -1,0 +1,13 @@
+query GetMergeRequest($project: ID!, $number: String!) {
+    project(fullPath: $project) {
+        mergeRequest(iid: $number) {
+            author { username }
+            description
+            title
+            diffHeadSha
+            webUrl
+            iid
+            id
+        }
+    }
+}

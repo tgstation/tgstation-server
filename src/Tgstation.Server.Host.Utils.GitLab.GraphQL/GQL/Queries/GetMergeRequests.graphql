@@ -3,9 +3,10 @@ query GetMergeRequests($project: ID!, $numbers: [String!]!) {
         mergeRequests(iids: $numbers) {
             nodes {
                 state
-                mergeCommitSha
+                diffHeadSha
                 closedAt
                 iid
+                id
             }
         }
     }

@@ -1,0 +1,20 @@
+{
+  "projects": [
+    {
+      "schema": [
+        "src/Tgstation.Server.Client.GraphQL/schema.graphql"
+      ],
+      "documents": [
+        "src/Tgstation.Server.Client.GraphQL/**/*.graphql"
+      ]
+    },
+    {
+      "schema": [
+        "src/Tgstation.Server.Host.Utils.GitLab.GraphQL/schema.graphql"
+      ],
+      "documents": [
+        "src/Tgstation.Server.Host.Utils.GitLab.GraphQL/**/*.graphql"
+      ]
+    }
+  ]
+}

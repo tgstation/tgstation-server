@@ -6,9 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using GitLabApiClient;
-using GitLabApiClient.Models.Notes.Requests;
-
 using Microsoft.Extensions.Logging;
 
 using StrawberryShake;
@@ -92,10 +89,10 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				if (mergeRequest.State != MergeRequestState.Merged)
 					return;
 
-				var mergeCommitSha = mergeRequest.MergeCommitSha;
-				if (mergeCommitSha == null)
+				var diffHeadSha = mergeRequest.DiffHeadSha;
+				if (diffHeadSha == null)
 				{
-					Logger.LogWarning("MergeRequest #{id} had no MergeCommitSha!", mergeRequest.Iid);
+					Logger.LogWarning("MergeRequest #{id} had no DiffHeadSha!", mergeRequest.Iid);
 					return;
 				}
 
@@ -119,7 +116,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				}
 
 				// We don't just assume, actually check the repo contains the merge commit.
-				if (await repository.CommittishIsParent(mergeCommitSha, cancellationToken))
+				if (await repository.CommittishIsParent(diffHeadSha, cancellationToken))
 					newList.Remove(
 						newList.First(
 							potential => potential.Number == number));
@@ -163,19 +160,65 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			int testMergeNumber,
 			CancellationToken cancellationToken)
 		{
-			var client = repositorySettings.AccessToken != null
-				? new GitLabClient(GitLabRemoteFeatures.GitLabUrl, repositorySettings.AccessToken)
-				: new GitLabClient(GitLabRemoteFeatures.GitLabUrl);
-
+			await using var client = await GraphQLGitLabClientFactory.CreateClient(repositorySettings.AccessToken);
 			try
 			{
-				await client
-					.MergeRequests
-					.CreateNoteAsync(
-						$"{remoteRepositoryOwner}/{remoteRepositoryName}",
-						testMergeNumber,
-						new CreateMergeRequestNoteRequest(comment))
-					.WaitAsync(cancellationToken);
+				string header = String.Format(CultureInfo.InvariantCulture, "<!-- test_merge_tgs_bot -->{0}## Test merge deployment history:{0}{0}", Environment.NewLine);
+
+				// Try to find an existing note
+				var notesQueryResult = await client.GraphQL.GetMergeRequestNotes.ExecuteAsync(
+					$"{remoteRepositoryOwner}/{remoteRepositoryName}",
+					testMergeNumber.ToString(CultureInfo.InvariantCulture),
+					cancellationToken);
+
+				notesQueryResult.EnsureNoErrors();
+
+				var mergeRequest = notesQueryResult.Data?.Project?.MergeRequest;
+				if (mergeRequest == null)
+				{
+					Logger.LogWarning("GitLab GetMergeRequestNotes mergeRequest returned null!");
+					return;
+				}
+
+				var comments = mergeRequest.Notes?.Nodes;
+				IGetMergeRequestNotes_Project_MergeRequest_Notes_Nodes? existingComment = null;
+				if (comments != null)
+				{
+					for (int i = comments.Count - 1; i > -1; i--)
+					{
+						var currentComment = comments[i];
+						if (currentComment?.Author?.Username == repositorySettings.AccessUser && (currentComment?.Body?.StartsWith(header) ?? false))
+						{
+							if (currentComment.Body.Length > 987856)
+							{ // Limit should be 999,999 so we'll leave a 12,143 buffer
+								break;
+							}
+
+							existingComment = currentComment;
+							break;
+						}
+					}
+				}
+
+				// Either amend or create the note
+				if (existingComment != null)
+				{
+					var noteModificationResult = await client.GraphQL.ModifyNote.ExecuteAsync(
+						existingComment.Id,
+						existingComment.Body + comment,
+						cancellationToken);
+
+					notesQueryResult.EnsureNoErrors();
+				}
+				else
+				{
+					var noteCreationResult = await client.GraphQL.CreateNote.ExecuteAsync(
+						mergeRequest.Id,
+						header + comment,
+						cancellationToken);
+
+					noteCreationResult.EnsureNoErrors();
+				}
 			}
 			catch (Exception ex) when (ex is not OperationCanceledException)
 			{
