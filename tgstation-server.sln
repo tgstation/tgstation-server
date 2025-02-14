@@ -275,6 +275,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nix", "nix", "{5130526C-A55
 		build\package\nix\tgstation-server.nix = build\package\nix\tgstation-server.nix
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Host.Utils.GitLab.GraphQL", "src\Tgstation.Server.Host.Utils.GitLab.GraphQL\Tgstation.Server.Host.Utils.GitLab.GraphQL.csproj", "{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -557,6 +559,18 @@ Global
 		{8BF95E2D-FD27-470C-82B7-C21AC01BFBD7}.ReleaseNoWindows|Any CPU.Build.0 = Release|Any CPU
 		{8BF95E2D-FD27-470C-82B7-C21AC01BFBD7}.ReleaseNoWix|Any CPU.ActiveCfg = Release|Any CPU
 		{8BF95E2D-FD27-470C-82B7-C21AC01BFBD7}.ReleaseNoWix|Any CPU.Build.0 = Release|Any CPU
+		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.DebugNoWindows|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.DebugNoWindows|Any CPU.Build.0 = Debug|Any CPU
+		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.DebugNoWix|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.DebugNoWix|Any CPU.Build.0 = Debug|Any CPU
+		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.ReleaseNoWindows|Any CPU.ActiveCfg = Release|Any CPU
+		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.ReleaseNoWindows|Any CPU.Build.0 = Release|Any CPU
+		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.ReleaseNoWix|Any CPU.ActiveCfg = Release|Any CPU
+		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.ReleaseNoWix|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

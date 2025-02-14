@@ -7,12 +7,15 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using GitLabApiClient;
-using GitLabApiClient.Models.MergeRequests.Responses;
 using GitLabApiClient.Models.Notes.Requests;
+
 using Microsoft.Extensions.Logging;
+
+using StrawberryShake;
 
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.Utils.GitLab.GraphQL;
 
 namespace Tgstation.Server.Host.Components.Deployment.Remote
 {
@@ -52,49 +55,78 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				return Array.Empty<TestMerge>();
 			}
 
-			var client = repositorySettings.AccessToken != null
-				? new GitLabClient(GitLabRemoteFeatures.GitLabUrl, repositorySettings.AccessToken)
-				: new GitLabClient(GitLabRemoteFeatures.GitLabUrl);
+			var newList = revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList();
 
-			var tasks = revisionInformation
-				.ActiveTestMerges
-				.Select(x => client
-					.MergeRequests
-					.GetAsync(
-						$"{repository.RemoteRepositoryOwner}/{repository.RemoteRepositoryName}",
-						x.TestMerge.Number)
-					.WaitAsync(cancellationToken));
+			await using var client = await GraphQLGitLabClientFactory.CreateClient(repositorySettings.AccessToken);
+			IOperationResult<IGetMergeRequestsResult> operationResult;
 			try
 			{
-				await Task.WhenAll(tasks);
+				operationResult = await client.GraphQL.GetMergeRequests.ExecuteAsync(
+					$"{repository.RemoteRepositoryOwner}/{repository.RemoteRepositoryName}",
+					revisionInformation.ActiveTestMerges.Select(revInfoTestMerge => revInfoTestMerge.TestMerge.Number.ToString(CultureInfo.InvariantCulture)).ToList(),
+					cancellationToken);
+
+				operationResult.EnsureNoErrors();
 			}
 			catch (Exception ex) when (ex is not OperationCanceledException)
 			{
 				Logger.LogWarning(ex, "Merge requests update check failed!");
+				return newList;
 			}
 
-			var newList = revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList();
-
-			MergeRequest? lastMerged = null;
-			async ValueTask CheckRemoveMR(Task<MergeRequest> task)
+			var data = operationResult.Data?.Project?.MergeRequests?.Nodes;
+			if (data == null)
 			{
-				var mergeRequest = await task;
+				Logger.LogWarning("GitLab MergeRequests check returned null!");
+				return newList;
+			}
+
+			async ValueTask CheckRemoveMR(IGetMergeRequests_Project_MergeRequests_Nodes? mergeRequest)
+			{
+				if (mergeRequest == null)
+				{
+					Logger.LogWarning("GitLab MergeRequest node was null!");
+					return;
+				}
+
 				if (mergeRequest.State != MergeRequestState.Merged)
 					return;
 
-				// We don't just assume, actually check the repo contains the merge commit.
-				if (await repository.CommittishIsParent(mergeRequest.MergeCommitSha, cancellationToken))
+				var mergeCommitSha = mergeRequest.MergeCommitSha;
+				if (mergeCommitSha == null)
 				{
-					if (lastMerged == null || lastMerged.ClosedAt < mergeRequest.ClosedAt)
-						lastMerged = mergeRequest;
+					Logger.LogWarning("MergeRequest #{id} had no MergeCommitSha!", mergeRequest.Iid);
+					return;
+				}
+
+				var closedAtStr = mergeRequest.ClosedAt;
+				if (closedAtStr == null)
+				{
+					Logger.LogWarning("MergeRequest #{id} had no ClosedAt!", mergeRequest.Iid);
+					return;
+				}
+
+				if (!DateTimeOffset.TryParseExact(closedAtStr, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTimeOffset closedAt))
+				{
+					Logger.LogWarning("MergeRequest #{id} had invalid ClosedAt: {closedAt}", mergeRequest.Iid, closedAtStr);
+					return;
+				}
+
+				if (!Int64.TryParse(mergeRequest.Iid, out long number))
+				{
+					Logger.LogWarning("MergeRequest #{id} is non-numeric!", mergeRequest.Iid);
+					return;
+				}
+
+				// We don't just assume, actually check the repo contains the merge commit.
+				if (await repository.CommittishIsParent(mergeCommitSha, cancellationToken))
 					newList.Remove(
 						newList.First(
-							potential => potential.Number == mergeRequest.Id));
-				}
+							potential => potential.Number == number));
 			}
 
-			foreach (var prTask in tasks)
-				await CheckRemoveMR(prTask);
+			foreach (var mergeRequest in data)
+				await CheckRemoveMR(mergeRequest);
 
 			return newList;
 		}
