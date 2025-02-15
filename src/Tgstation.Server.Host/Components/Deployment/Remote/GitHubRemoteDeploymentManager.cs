@@ -319,19 +319,19 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				: String.Empty, // 1
 			testMerge.TargetCommitSha, // 2
 			String.IsNullOrEmpty(testMerge.Comment)
-				? String.Format(
+				? String.Empty
+				: String.Format(
 					CultureInfo.InvariantCulture,
 					"{0}{0}##### Comment{0}{1}",
 					Environment.NewLine,
-					testMerge.Comment)
-				: String.Empty, // 3
+					testMerge.Comment), // 3
 			updated ? "Updated" : "Deployed", // 4
 			compileJob.GitHubDeploymentId.HasValue
 				? $"{Environment.NewLine}[{Metadata.Name}](https://github.com/{remoteRepositoryOwner}/{remoteRepositoryName}/deployments/activity_log?environment=TGS%3A+{Metadata.Name!.Replace(" ", "+", StringComparison.Ordinal)})"
 				: Metadata.Name, // 5
 			compileJob.RevisionInformation.OriginCommitSha, // 6
 			compileJob.RevisionInformation.CommitSha, // 7
-			compileJob.Job.StoppedAt); // 8
+			compileJob.Job.StartedAt); // 8
 
 		/// <inheritdoc />
 		protected override string FormatTestMergeRemoval(
@@ -344,7 +344,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			"<details><summary>Test Merge Removed @ {2}:</summary>{0}{0}##### Server Instance{0}{1}{0}</details>{0}",
 			Environment.NewLine, // 0
 			Metadata.Name, // 1
-			compileJob.Job.StoppedAt); // 2
+			compileJob.Job.StartedAt); // 2
 
 		/// <summary>
 		/// Update the deployment for a given <paramref name="compileJob"/>.

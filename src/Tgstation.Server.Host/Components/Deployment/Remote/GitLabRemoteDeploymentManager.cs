@@ -238,12 +238,12 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			"<details><summary>Test Merge {4} @ {8}</summary>{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Merge Request: {2}{0}Server: {7}{3}</details>{0}",
 			Environment.NewLine, // 0
 			repositorySettings.ShowTestMergeCommitters!.Value
-				? String.Format(
+				? String.Empty
+				: String.Format(
 					CultureInfo.InvariantCulture,
 					"{0}{0}##### Merged By{0}{1}",
 					Environment.NewLine,
-					testMerge.MergedBy!.Name)
-				: String.Empty, // 1
+					testMerge.MergedBy!.Name), // 1
 			testMerge.TargetCommitSha, // 2
 			String.IsNullOrEmpty(testMerge.Comment)
 				? String.Format(
@@ -256,7 +256,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			Metadata.Name, // 5
 			compileJob.RevisionInformation.OriginCommitSha, // 6
 			compileJob.RevisionInformation.CommitSha, // 7
-			compileJob.Job.StoppedAt); // 8
+			compileJob.Job.StartedAt); // 8
 
 		/// <inheritdoc />
 		protected override string FormatTestMergeRemoval(
@@ -269,6 +269,6 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			"<details><summary>Test Merge Removed @ {2}:</summary>{0}{0}##### Server Instance{0}{1}{0}</details>{0}",
 			Environment.NewLine, // 0
 			Metadata.Name, // 1
-			compileJob.Job.StoppedAt); // 2
+			compileJob.Job.StartedAt); // 2
 	}
 }
