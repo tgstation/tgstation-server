@@ -238,20 +238,20 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			"<details><summary>Test Merge {4} @ {8}</summary>{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Merge Request: {2}{0}Server: {7}{3}</details>{0}",
 			Environment.NewLine, // 0
 			repositorySettings.ShowTestMergeCommitters!.Value
-				? String.Empty
-				: String.Format(
+				? String.Format(
 					CultureInfo.InvariantCulture,
 					"{0}{0}##### Merged By{0}{1}",
 					Environment.NewLine,
-					testMerge.MergedBy!.Name), // 1
+					testMerge.MergedBy!.Name)
+				: String.Empty, // 1
 			testMerge.TargetCommitSha, // 2
 			String.IsNullOrEmpty(testMerge.Comment)
-				? String.Format(
+				? String.Empty
+				: String.Format(
 					CultureInfo.InvariantCulture,
 					"{0}{0}##### Comment{0}{1}",
 					Environment.NewLine,
-					testMerge.Comment)
-				: String.Empty, // 3
+					testMerge.Comment), // 3
 			updated ? "Updated" : "Deployed", // 4
 			Metadata.Name, // 5
 			compileJob.RevisionInformation.OriginCommitSha, // 6
