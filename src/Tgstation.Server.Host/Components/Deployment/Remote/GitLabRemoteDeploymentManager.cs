@@ -89,10 +89,10 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				if (mergeRequest.State != MergeRequestState.Merged)
 					return;
 
-				var diffHeadSha = mergeRequest.DiffHeadSha;
-				if (diffHeadSha == null)
+				var mergeCommitSha = mergeRequest.MergeCommitSha;
+				if (mergeCommitSha == null)
 				{
-					Logger.LogWarning("MergeRequest #{id} had no DiffHeadSha!", mergeRequest.Iid);
+					Logger.LogWarning("MergeRequest #{id} had no MergeCommitSha!", mergeRequest.Iid);
 					return;
 				}
 
@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				}
 
 				// We don't just assume, actually check the repo contains the merge commit.
-				if (await repository.CommittishIsParent(diffHeadSha, cancellationToken))
+				if (await repository.CommittishIsParent(mergeCommitSha, cancellationToken))
 					newList.Remove(
 						newList.First(
 							potential => potential.Number == number));

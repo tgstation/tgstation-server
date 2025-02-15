@@ -5,6 +5,7 @@ query GetMergeRequest($project: ID!, $number: String!) {
             description
             title
             diffHeadSha
+            mergeCommitSha
             webUrl
             iid
             id
