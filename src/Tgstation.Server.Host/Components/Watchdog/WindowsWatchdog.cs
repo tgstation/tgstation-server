@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Prometheus;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
@@ -35,6 +37,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="metricFactory">The <see cref="IMetricFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="gameIOManager">The <see cref="IIOManager"/> pointing to the game directory for the <see cref="AdvancedWatchdog"/>..</param>
 		/// <param name="linkFactory">The <see cref="IFilesystemLinkFactory"/> for the <see cref="AdvancedWatchdog"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
@@ -52,6 +55,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
+			IMetricFactory metricFactory,
 			IIOManager gameIOManager,
 			IFilesystemLinkFactory linkFactory,
 			ILogger<WindowsWatchdog> logger,
@@ -69,6 +73,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				  diagnosticsIOManager,
 				  eventConsumer,
 				  remoteDeploymentManagerFactory,
+				  metricFactory,
 				  gameIOManager,
 				  linkFactory,
 				  logger,
