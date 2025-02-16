@@ -13,6 +13,7 @@
     <ProjectReference Include="..\..\src\Tgstation.Server.Client.GraphQL\Tgstation.Server.Client.GraphQL.csproj" />
     <ProjectReference Include="..\..\src\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj" />
     <ProjectReference Include="..\..\src\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
+    <ProjectReference Include="..\Tgstation.Server.Host.Tests\Tgstation.Server.Host.Tests.csproj" />
   </ItemGroup>
 
   <ItemGroup>

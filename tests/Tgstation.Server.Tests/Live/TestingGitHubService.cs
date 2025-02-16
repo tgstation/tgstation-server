@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,7 +39,7 @@ namespace Tgstation.Server.Tests.Live
 				GitHubAccessToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")
 			});
 
-			var gitHubClientFactory = new GitHubClientFactory(new AssemblyInformationProvider(), Mock.Of<ILogger<GitHubClientFactory>>(), mockOptions.Object);
+			var gitHubClientFactory = new GitHubClientFactory(new AssemblyInformationProvider(), Mock.Of<IHttpMessageHandlerFactory>(), Mock.Of<ILogger<GitHubClientFactory>>(), mockOptions.Object);
 			RealClient = gitHubClientFactory.CreateClient(CancellationToken.None).GetAwaiter().GetResult();
 		}
 
