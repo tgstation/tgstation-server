@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// If the <see cref="Process"/> was disposed.
 		/// </summary>
-		volatile int disposed;
+		int disposed;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Process"/> class.
