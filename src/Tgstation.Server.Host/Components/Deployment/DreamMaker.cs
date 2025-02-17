@@ -326,7 +326,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						likelyPushedTestMergeCommit,
 						cancellationToken);
 
-				var activeCompileJob = await compileJobConsumer.LatestCompileJob();
+				var oldCompileJob = await compileJobConsumer.LatestCompileJob();
 				try
 				{
 					await databaseContextFactory.UseContext(
@@ -374,7 +374,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				var commentsTask = remoteDeploymentManager!.PostDeploymentComments(
 					compileJob,
-					activeCompileJob?.RevisionInformation,
+					oldCompileJob?.RevisionInformation,
 					repositorySettings,
 					repoOwner,
 					repoName,
@@ -478,8 +478,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 			try
 			{
 				using var engineLock = await engineManager.UseExecutables(null, null, cancellationToken);
+				var oldCompileJob = await compileJobConsumer.LatestCompileJob();
 				currentChatCallback = chatManager.QueueDeploymentMessage(
 					revisionInformation,
+					oldCompileJob?.RevisionInformation,
 					engineLock.Version,
 					DateTimeOffset.UtcNow + estimatedDuration,
 					repository.RemoteRepositoryOwner,

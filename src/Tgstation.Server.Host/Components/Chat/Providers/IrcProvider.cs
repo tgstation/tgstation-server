@@ -17,6 +17,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
@@ -217,6 +218,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async ValueTask<Func<string?, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
+			Models.RevisionInformation? previousRevisionInformation,
 			EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string? gitHubOwner,
@@ -229,6 +231,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			ArgumentNullException.ThrowIfNull(engineVersion);
 			ArgumentNullException.ThrowIfNull(gitHubOwner);
 			ArgumentNullException.ThrowIfNull(gitHubRepo);
+
+			previousRevisionInformation ??= new Models.RevisionInformation();
+			previousRevisionInformation.ActiveTestMerges ??= new List<RevInfoTestMerge>();
 
 			var commitInsert = revisionInformation.CommitSha![..7];
 			string remoteCommitInsert;
@@ -252,9 +257,26 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							.Select(x => x.TestMerge)
 							.Select(x =>
 							{
+								var status = string.Empty;
+								if (!previousRevisionInformation.ActiveTestMerges.Any(y => y.TestMerge.Number == x.Number))
+								{
+									status = "Added";
+								}
+								else if (revisionInformation.ActiveTestMerges!.Any(y => y.TestMerge.Number == x.Number && y.TestMerge.TargetCommitSha != x.TargetCommitSha))
+								{
+									status = "Updated";
+								}
+
 								var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.TargetCommitSha![..7]);
 								if (x.Comment != null)
-									result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
+								{
+									result += String.Format(CultureInfo.InvariantCulture, " ({1} - {0})", x.Comment, status);
+								}
+								else if (!string.IsNullOrEmpty(status))
+								{
+									result += String.Format(CultureInfo.InvariantCulture, " ({0})", status);
+								}
+
 								return result;
 							})));
 
