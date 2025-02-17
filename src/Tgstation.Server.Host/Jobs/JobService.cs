@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+using Prometheus;
+
 using Serilog.Context;
 
 using Tgstation.Server.Api.Extensions;
@@ -68,6 +70,16 @@ namespace Tgstation.Server.Host.Jobs
 		readonly TaskCompletionSource<IInstanceCoreProvider> activationTcs;
 
 		/// <summary>
+		/// Total number of jobs processed.
+		/// </summary>
+		readonly Counter processedJobs;
+
+		/// <summary>
+		/// Jobs currently running.
+		/// </summary>
+		readonly Gauge runningJobs;
+
+		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for various operations.
 		/// </summary>
 		readonly object synchronizationLock;
@@ -87,18 +99,24 @@ namespace Tgstation.Server.Host.Jobs
 		/// </summary>
 		/// <param name="hub">The value of <see cref="hub"/>.</param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
+		/// <param name="metricFactory">The <see cref="IMetricFactory"/> to use.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public JobService(
 			IConnectionMappedHubContext<JobsHub, IJobsHub> hub,
 			IDatabaseContextFactory databaseContextFactory,
+			IMetricFactory metricFactory,
 			ILoggerFactory loggerFactory,
 			ILogger<JobService> logger)
 		{
 			this.hub = hub ?? throw new ArgumentNullException(nameof(hub));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
+			ArgumentNullException.ThrowIfNull(metricFactory);
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			runningJobs = metricFactory.CreateGauge("tgs_jobs_running", "The number of TGS jobs running across all instances");
+			processedJobs = metricFactory.CreateCounter("tgs_jobs_processed", "The number of TGS jobs that have run previously");
 
 			jobs = new Dictionary<long, JobHandler>();
 			hubUpdateActions = new Dictionary<long, Action>();
@@ -363,6 +381,7 @@ namespace Tgstation.Server.Host.Jobs
 		{
 			var jid = job.Require(x => x.Id);
 			using (LogContext.PushProperty(SerilogContextHelper.JobIdContextProperty, jid))
+			using (runningJobs.TrackInProgress())
 				try
 				{
 					void LogException(Exception ex) => logger.LogDebug(ex, "Job {jobId} exited with error!", jid);
@@ -553,6 +572,8 @@ namespace Tgstation.Server.Host.Jobs
 						jobs.Remove(jid);
 						handler.Dispose();
 					}
+
+					processedJobs.Inc();
 				}
 		}
 	}

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Prometheus;
+
 using Serilog.Context;
 
 using Tgstation.Server.Api.Models;
@@ -124,6 +126,21 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly SemaphoreSlim controllerDisposeSemaphore;
 
 		/// <summary>
+		/// The <see cref="Status"/> as a metric.
+		/// </summary>
+		readonly Gauge watchdogStatusMetric;
+
+		/// <summary>
+		/// Active session CPU usage as a metric.
+		/// </summary>
+		readonly Gauge cpuUsageMetric;
+
+		/// <summary>
+		/// <see cref="MemoryUsage"/> as a metric.
+		/// </summary>
+		readonly Gauge ramUsageMetric;
+
+		/// <summary>
 		/// The <see cref="IEventConsumer"/> that is not the <see cref="WatchdogBase"/>.
 		/// </summary>
 		readonly IEventConsumer eventConsumer;
@@ -201,6 +218,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="diagnosticsIOManager">The value of <see cref="diagnosticsIOManager"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="EventConsumer"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
+		/// <param name="metricFactory">The <see cref="IMetricFactory"/> used to create metrics.</param>
 		/// <param name="gameIOManager">The value of <see cref="GameIOManager"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified.</param>
@@ -217,6 +235,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
+			IMetricFactory metricFactory,
 			IIOManager gameIOManager,
 			ILogger<WatchdogBase> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
@@ -232,6 +251,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.diagnosticsIOManager = diagnosticsIOManager ?? throw new ArgumentNullException(nameof(diagnosticsIOManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
+			ArgumentNullException.ThrowIfNull(metricFactory);
 			GameIOManager = gameIOManager ?? throw new ArgumentNullException(nameof(gameIOManager));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ActiveLaunchParameters = initialLaunchParameters ?? throw new ArgumentNullException(nameof(initialLaunchParameters));
@@ -239,6 +259,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.autoStart = autoStart;
 
 			ArgumentNullException.ThrowIfNull(serverControl);
+
+			watchdogStatusMetric = metricFactory.CreateGauge(
+				"tgs_watchdog_status",
+				$"TGS Watchdog status: {(int)WatchdogStatus.Offline} = Offline, {(int)WatchdogStatus.Online} = Online, {(int)WatchdogStatus.Restoring} = Restoring, {(int)WatchdogStatus.DelayedRestart} = Delayed Restart");
+			cpuUsageMetric = metricFactory.CreateGauge("tgs_game_cpu_usage", "Estimated total CPU usage time for the game process from 0-1");
+			ramUsageMetric = metricFactory.CreateGauge("tgs_game_ram_usage", "Total used bytes of private memory for the game process");
 
 			chat.RegisterCommandHandler(this);
 
@@ -272,6 +298,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			await DisposeAndNullControllersImpl();
 			controllerDisposeSemaphore.Dispose();
 			monitorCts?.Dispose();
+
 			disposed = true;
 		}
 
@@ -499,6 +526,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				cancellationToken);
 
 			return response != null && response.ErrorMessage == null;
+		}
+
+		/// <inheritdoc />
+		public void RunMetricsScrape()
+		{
+			watchdogStatusMetric.Set((int)Status);
+			var controller = GetActiveController();
+			ramUsageMetric.Set(controller?.MemoryUsage ?? 0);
+			cpuUsageMetric.Set(controller?.MeasureProcessorTimeDelta() ?? 0);
 		}
 
 		/// <inheritdoc />
