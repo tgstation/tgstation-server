@@ -227,8 +227,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			ArgumentNullException.ThrowIfNull(revisionInformation);
 			ArgumentNullException.ThrowIfNull(engineVersion);
-			ArgumentNullException.ThrowIfNull(gitHubOwner);
-			ArgumentNullException.ThrowIfNull(gitHubRepo);
 
 			var commitInsert = revisionInformation.CommitSha![..7];
 			string remoteCommitInsert;
