@@ -88,9 +88,29 @@ namespace Tgstation.Server.Host.System
 		readonly Task<string?>? readTask;
 
 		/// <summary>
+		/// <see langword="lock"/> object for measuring processor time usage.
+		/// </summary>
+		readonly object processTimeMeasureLock;
+
+		/// <summary>
+		/// The last time <see cref="MeasureProcessorTimeDelta"/> was called.
+		/// </summary>
+		DateTimeOffset lastProcessorMeasureTime;
+
+		/// <summary>
+		/// The last value of <see cref="global::System.Diagnostics.Process.TotalProcessorTime"/>.
+		/// </summary>
+		TimeSpan lastProcessorUsageTime;
+
+		/// <summary>
+		/// The last valid return value of <see cref="MeasureProcessorTimeDelta"/>.
+		/// </summary>
+		double lastProcessorUsageEstimation;
+
+		/// <summary>
 		/// If the <see cref="Process"/> was disposed.
 		/// </summary>
-		volatile int disposed;
+		int disposed;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Process"/> class.
@@ -123,6 +143,8 @@ namespace Tgstation.Server.Host.System
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
+			processTimeMeasureLock = new object();
+
 			Lifetime = WrapLifetimeTask();
 
 			if (preExisting)
@@ -146,6 +168,8 @@ namespace Tgstation.Server.Host.System
 				CancellationToken.None, // DCT: None available
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current);
+
+			MeasureProcessorTimeDelta();
 
 			logger.LogTrace("Created process ID: {pid}", Id);
 		}
@@ -265,6 +289,34 @@ namespace Tgstation.Server.Host.System
 
 			logger.LogTrace("Dumping PID {pid} to {dumpFilePath}...", Id, outputFile);
 			return processFeatures.CreateDump(handle, outputFile, minidump, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		public double MeasureProcessorTimeDelta()
+		{
+			lock (processTimeMeasureLock)
+			{
+				try
+				{
+					var now = DateTimeOffset.UtcNow;
+					var newTime = handle.TotalProcessorTime;
+
+					var timeDelta = now - lastProcessorMeasureTime;
+					var newUsage = newTime - lastProcessorUsageTime;
+
+					lastProcessorMeasureTime = now;
+					lastProcessorUsageTime = newTime;
+
+					if (timeDelta != TimeSpan.Zero)
+						lastProcessorUsageEstimation = newUsage / (Environment.ProcessorCount * timeDelta);
+				}
+				catch (Exception ex)
+				{
+					logger.LogWarning(ex, "Error measuring processor time delta!");
+				}
+
+				return lastProcessorUsageEstimation;
+			}
 		}
 
 		/// <summary>

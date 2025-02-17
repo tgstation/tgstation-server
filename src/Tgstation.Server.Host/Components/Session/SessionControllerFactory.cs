@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Prometheus;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Extensions;
@@ -128,6 +130,16 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly SessionConfiguration sessionConfiguration;
 
 		/// <summary>
+		/// The number of sessions launched.
+		/// </summary>
+		readonly Counter sessionsLaunched;
+
+		/// <summary>
+		/// The time the current session was launched.
+		/// </summary>
+		readonly Gauge lastSessionLaunch;
+
+		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly Api.Models.Instance instance;
@@ -185,6 +197,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
+		/// <param name="metricFactory">The <see cref="IMetricFactory"/> used to create metrics.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
@@ -204,6 +217,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IEventConsumer eventConsumer,
 			IAsyncDelayer asyncDelayer,
 			IDotnetDumpService dotnetDumpService,
+			IMetricFactory metricFactory,
 			ILoggerFactory loggerFactory,
 			ILogger<SessionControllerFactory> logger,
 			SessionConfiguration sessionConfiguration,
@@ -224,10 +238,14 @@ namespace Tgstation.Server.Host.Components.Session
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
+			ArgumentNullException.ThrowIfNull(metricFactory);
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
+
+			sessionsLaunched = metricFactory.CreateCounter("tgs_sessions_launched", "The number of game server processes created");
+			lastSessionLaunch = metricFactory.CreateGauge("tgs_session_start_time", "The UTC unix timestamp the most recent session was started");
 		}
 
 		/// <inheritdoc />
@@ -367,6 +385,12 @@ namespace Tgstation.Server.Host.Components.Session
 							launchParameters.StartupTimeout,
 							false,
 							apiValidate);
+
+						if (!apiValidate)
+						{
+							sessionsLaunched.Inc();
+							lastSessionLaunch.SetToCurrentTimeUtc();
+						}
 
 						return sessionController;
 					}

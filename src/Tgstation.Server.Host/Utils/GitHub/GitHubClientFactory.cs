@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 using Octokit;
+using Octokit.Internal;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
@@ -39,6 +41,11 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
+		/// The <see cref="IHttpMessageHandlerFactory"/> for the <see cref="GitHubClientFactory"/>.
+		/// </summary>
+		readonly IHttpMessageHandlerFactory httpMessageHandlerFactory;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="GitHubClientFactory"/>.
 		/// </summary>
 		readonly ILogger<GitHubClientFactory> logger;
@@ -62,14 +69,17 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// Initializes a new instance of the <see cref="GitHubClientFactory"/> class.
 		/// </summary>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="httpMessageHandlerFactory">The value of <see cref="httpMessageHandlerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		public GitHubClientFactory(
 			IAssemblyInformationProvider assemblyInformationProvider,
+			IHttpMessageHandlerFactory httpMessageHandlerFactory,
 			ILogger<GitHubClientFactory> logger,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			this.httpMessageHandlerFactory = httpMessageHandlerFactory ?? throw new ArgumentNullException(nameof(httpMessageHandlerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 
@@ -315,10 +325,33 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		GitHubClient CreateUnauthenticatedClient()
 		{
 			var product = assemblyInformationProvider.ProductInfoHeaderValue.Product!;
-			return new GitHubClient(
-				new ProductHeaderValue(
-					product.Name,
-					product.Version));
+#pragma warning disable CA2000 // Dispose objects before losing scope
+			var handler = httpMessageHandlerFactory.CreateHandler();
+			try
+			{
+				var clientAdapter = new HttpClientAdapter(() => handler);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+				handler = null;
+				try
+				{
+					return new GitHubClient(
+						new Connection(
+							new ProductHeaderValue(
+								product.Name,
+								product.Version),
+							clientAdapter));
+				}
+				catch
+				{
+					clientAdapter.Dispose();
+					throw;
+				}
+			}
+			catch
+			{
+				handler?.Dispose();
+				throw;
+			}
 		}
 	}
 }

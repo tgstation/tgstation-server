@@ -30,6 +30,8 @@ using Microsoft.Extensions.Options;
 
 using Newtonsoft.Json;
 
+using Prometheus;
+
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
@@ -294,6 +296,21 @@ namespace Tgstation.Server.Host.Core
 			services.AddHttpClient();
 			services.AddSingleton<IAbstractHttpClientFactory, AbstractHttpClientFactory>();
 
+			// configure metrics
+			var prometheusPort = postSetupServices.GeneralConfiguration.PrometheusPort;
+
+			services.AddSingleton<IMetricFactory>(_ => Metrics.DefaultFactory);
+			services.AddSingleton<ICollectorRegistry>(_ => Metrics.DefaultRegistry);
+
+			if (prometheusPort.HasValue && prometheusPort != postSetupServices.GeneralConfiguration.ApiPort)
+				services.AddMetricServer(options => options.Port = prometheusPort.Value);
+
+			services.UseHttpClientMetrics();
+
+			var healthChecksBuilder = services
+				.AddHealthChecks()
+				.ForwardToPrometheus();
+
 			// configure graphql
 			services
 				.AddScoped<GraphQL.Subscriptions.ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
@@ -362,6 +379,9 @@ namespace Tgstation.Server.Host.Core
 					configureAction(builder, databaseConfig);
 				});
 				services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<TContext>());
+
+				healthChecksBuilder
+					.AddDbContextCheck<TContext>();
 			}
 
 			// add the correct database context type
@@ -571,6 +591,9 @@ namespace Tgstation.Server.Host.Core
 			// Wrap exceptions in a 500 (ErrorMessage) response
 			applicationBuilder.UseServerErrorHandling();
 
+			// metrics capture
+			applicationBuilder.UseHttpMetrics();
+
 			// Add the X-Powered-By response header
 			applicationBuilder.UseServerBranding(assemblyInformationProvider);
 
@@ -692,6 +715,19 @@ namespace Tgstation.Server.Host.Core
 						.MapGraphQL(Routes.GraphQL)
 						.WithOptions(gqlOptions);
 				}
+
+				if (generalConfiguration.PrometheusPort.HasValue)
+					if (generalConfiguration.PrometheusPort == generalConfiguration.ApiPort)
+					{
+						endpoints.MapMetrics();
+						logger.LogDebug("Prometheus being hosted alongside server");
+					}
+					else
+						logger.LogDebug("Prometheus being hosted on port {prometheusPort}", generalConfiguration.PrometheusPort);
+				else
+					logger.LogTrace("Prometheus disabled");
+
+				endpoints.MapHealthChecks("/health");
 			});
 
 			// 404 anything that gets this far
