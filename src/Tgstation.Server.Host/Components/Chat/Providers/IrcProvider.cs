@@ -268,9 +268,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 								}
 
 								var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.TargetCommitSha![..7]);
+
 								if (x.Comment != null)
 								{
-									result += String.Format(CultureInfo.InvariantCulture, " ({1} - {0})", x.Comment, status);
+									if (!string.IsNullOrEmpty(status))
+									{
+										result += String.Format(CultureInfo.InvariantCulture, " ({1} - {0})", x.Comment, status);
+									}
+									else
+									{
+										result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
+									}
 								}
 								else if (!string.IsNullOrEmpty(status))
 								{
