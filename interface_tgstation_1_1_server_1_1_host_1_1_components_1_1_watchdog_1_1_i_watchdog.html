@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.13.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -154,6 +154,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a191672b4ebeab3e9c7e1488e9d414e66" id="r_a191672b4ebeab3e9c7e1488e9d414e66"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#a191672b4ebeab3e9c7e1488e9d414e66">Broadcast</a> (string message, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a191672b4ebeab3e9c7e1488e9d414e66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a broadcast <em>message</em>  to the DMAPI.  <br /></td></tr>
 <tr class="separator:a191672b4ebeab3e9c7e1488e9d414e66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0c1a76b793f3ba9117596748cc9fa48" id="r_aa0c1a76b793f3ba9117596748cc9fa48"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#aa0c1a76b793f3ba9117596748cc9fa48">RunMetricsScrape</a> ()</td></tr>
+<tr class="memdesc:aa0c1a76b793f3ba9117596748cc9fa48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback to update transient metrics.  <br /></td></tr>
+<tr class="separator:aa0c1a76b793f3ba9117596748cc9fa48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html">Tgstation.Server.Host.Components.Events.IEventConsumer</a></td></tr>
 <tr class="memitem:a564f82eb43566dabd77e37191b4e3d37 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer" id="r_a564f82eb43566dabd77e37191b4e3d37"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a> eventType, IEnumerable&lt; string?&gt; parameters, bool deploymentPipeline, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a564f82eb43566dabd77e37191b4e3d37 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em> .  <br /></td></tr>
@@ -422,6 +425,27 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a805a90319a8bdf4862ce9879f125b853">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
+
+</div>
+</div>
+<a id="aa0c1a76b793f3ba9117596748cc9fa48" name="aa0c1a76b793f3ba9117596748cc9fa48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0c1a76b793f3ba9117596748cc9fa48">&#9670;&#160;</a></span>RunMetricsScrape()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tgstation.Server.Host.Components.Watchdog.IWatchdog.RunMetricsScrape </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback to update transient metrics. </p>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a6a2e749fc1edf5072d89efa7c62e17ec">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
 
 </div>
 </div>

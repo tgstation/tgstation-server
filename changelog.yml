@@ -1,5 +1,12 @@
 Components:
   Configuration:
+  - Version: 5.5.0
+    Changes:
+    - Descriptions:
+      - Added `General:PrometheusPort` for setting the port Prometheus metrics are hosted on.
+      Author: Cyberboss
+      PullRequest: 2133
+    Unreleased: true
   - Version: 5.4.0
     Changes:
     - Descriptions:
@@ -175,11 +182,11 @@ Components:
   Core:
   - Version: 6.14.0
     ComponentVersions:
-      Core: 6.13.0
+      Core: 6.14.0
       HttpApi: 10.12.1
       GraphQLApi: 0.5.0
       DreamMakerApi: 7.3.1
-      Configuration: 5.4.0
+      Configuration: 5.5.0
       InteropApi: 5.10.0
       HostWatchdog: 1.6.0
       NugetCommon: 7.0.0

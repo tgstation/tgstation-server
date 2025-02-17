@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.RunMetricsScrape" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.RunMetricsScrape">
+<area shape="rect" id="Node000001" title="Callback to update transient metrics." alt="" coords="5,5,286,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0dfb6c0c3c1c717e3d56b939ce0df4ec" title="Get the active ISessionController." alt="" coords="334,5,620,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="286,23,318,23,318,28,286,28"/>
+</map>

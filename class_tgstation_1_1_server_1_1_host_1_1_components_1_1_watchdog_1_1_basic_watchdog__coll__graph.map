@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog" name="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog">
-<area shape="rect" id="Node000001" title="A IWatchdog that manages one server." alt="" coords="1050,793,1277,834"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="876,449,985,475"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="951,486,1151,791,1146,794,947,489"/>
+<area shape="rect" id="Node000001" title="A IWatchdog that manages one server." alt="" coords="1050,843,1277,883"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="876,474,985,500"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="950,512,1152,841,1147,844,946,515"/>
 <area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="438,129,521,155"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="536,129,604,124,683,126,724,133,765,144,803,161,838,184,866,213,889,248,905,286,917,326,929,398,932,448,927,449,924,399,912,327,900,288,884,251,862,217,834,188,800,165,763,149,723,138,683,131,604,129,537,134"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="536,137,614,137,703,142,783,154,815,163,838,176,869,209,893,249,910,292,922,336,932,418,933,474,927,474,927,418,916,337,905,294,888,251,865,212,834,180,813,168,782,159,702,147,614,143,536,143"/>
 <area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="166,158,301,184"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="316,159,437,144,438,149,317,164"/>
 <area shape="rect" id="Node000005" href="$class_i_hosted_service.html" title=" " alt="" coords="5,158,117,184"/>
@@ -15,36 +15,38 @@
 <area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="173,109,294,135"/>
 <area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="310,125,437,136,437,141,309,130"/>
 <area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="392,178,567,204"/>
-<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="582,185,654,185,729,189,793,199,819,207,838,217,864,242,885,272,901,305,913,339,927,402,931,448,926,449,921,403,908,340,896,307,880,275,860,245,834,221,817,212,792,204,728,194,654,190,582,190"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="559,173,624,167,698,169,735,175,771,185,806,199,838,220,866,247,888,281,904,317,916,355,929,424,932,474,926,474,923,425,911,356,899,319,883,283,862,251,834,224,803,204,770,190,734,180,697,174,624,172,559,178"/>
 <area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="423,228,536,253"/>
-<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="550,222,616,213,691,212,729,217,767,225,804,238,838,257,861,277,880,301,908,356,923,409,930,448,925,449,918,410,903,358,876,304,857,280,834,261,802,243,766,230,728,222,690,218,616,218,551,227"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="550,222,616,215,691,215,730,220,768,229,804,243,838,262,862,285,882,312,898,342,910,372,925,431,931,473,926,474,920,432,905,374,893,344,878,315,858,288,834,266,802,247,766,234,729,225,691,220,616,220,551,228"/>
 <area shape="rect" id="Node000011" title=" " alt="" coords="459,277,500,303"/>
-<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="515,281,579,273,662,272,707,276,752,285,796,298,837,318,872,347,898,383,916,419,927,447,922,449,911,421,893,386,868,351,835,323,794,303,751,290,706,282,662,278,579,279,515,286"/>
+<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="515,285,591,282,685,282,775,289,811,296,837,307,859,325,877,345,904,392,921,438,929,473,924,474,916,440,899,395,872,348,855,328,835,312,810,301,774,294,685,287,591,287,515,290"/>
 <area shape="rect" id="Node000012" title=" " alt="" coords="397,326,562,352"/>
-<area shape="poly" id="edge11_Node000002_Node000012" title=" " alt="" coords="577,346,723,365,789,377,837,391,883,418,917,446,914,450,880,422,835,396,788,383,722,370,576,351"/>
-<area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="366,376,593,417"/>
-<area shape="poly" id="edge12_Node000002_Node000013" title=" " alt="" coords="609,407,836,439,876,447,875,452,836,444,608,413"/>
-<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="389,441,570,482"/>
-<area shape="poly" id="edge13_Node000002_Node000014" title=" " alt="" coords="585,459,876,459,876,464,585,464"/>
-<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="389,507,570,547"/>
-<area shape="poly" id="edge14_Node000002_Node000015" title=" " alt="" coords="585,514,705,499,836,479,875,472,876,477,836,485,706,504,586,519"/>
-<area shape="rect" id="Node000016" href="$class_i_disposable.html" title=" " alt="" coords="189,514,278,540"/>
-<area shape="poly" id="edge15_Node000015_Node000016" title=" " alt="" coords="294,524,389,524,389,530,294,530"/>
-<area shape="rect" id="Node000017" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="396,572,563,613"/>
-<area shape="poly" id="edge16_Node000002_Node000017" title=" " alt="" coords="578,585,638,579,703,568,771,552,835,529,880,502,914,473,918,477,883,506,837,534,772,557,705,573,639,584,579,591"/>
-<area shape="rect" id="Node000018" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="351,637,608,692"/>
-<area shape="poly" id="edge17_Node000002_Node000018" title=" " alt="" coords="623,662,677,656,731,644,785,626,834,600,867,571,892,536,910,501,922,474,927,476,915,504,897,539,871,575,838,604,787,631,733,649,677,661,624,668"/>
-<area shape="rect" id="Node000019" title=" " alt="" coords="457,906,502,932"/>
-<area shape="poly" id="edge24_Node000001_Node000019" title=" " alt="" coords="517,918,632,920,735,926,779,927,836,920,914,903,990,880,1115,832,1117,837,992,885,915,908,836,926,779,932,734,932,632,926,517,923"/>
-<area shape="poly" id="edge18_Node000002_Node000019" title=" " alt="" coords="517,918,595,921,689,919,777,908,811,899,834,886,856,855,874,808,890,749,902,685,918,559,926,475,931,475,924,560,907,686,895,750,880,810,861,858,838,890,813,904,778,914,690,924,595,926,517,924"/>
-<area shape="rect" id="Node000020" title=" " alt="" coords="401,717,558,743"/>
-<area shape="poly" id="edge19_Node000002_Node000020" title=" " alt="" coords="573,739,636,740,705,734,773,716,805,701,834,683,858,660,877,633,893,604,904,574,919,516,925,475,931,475,925,517,909,575,897,606,882,636,862,664,838,687,808,706,775,721,706,739,637,746,573,745"/>
-<area shape="rect" id="Node000021" title=" " alt="" coords="391,766,568,792"/>
-<area shape="poly" id="edge20_Node000002_Node000021" title=" " alt="" coords="583,784,655,787,729,786,793,778,817,771,834,761,865,730,888,693,905,652,916,610,927,530,927,475,933,475,932,531,922,611,910,654,893,696,869,734,838,765,819,776,794,783,729,791,655,792,583,790"/>
-<area shape="rect" id="Node000022" title=" " alt="" coords="454,816,505,841"/>
-<area shape="poly" id="edge21_Node000002_Node000022" title=" " alt="" coords="520,829,598,834,691,835,778,828,811,820,834,808,853,784,870,746,897,647,915,545,925,475,930,475,921,546,902,648,875,748,858,787,838,812,813,825,779,833,691,840,597,839,520,835"/>
-<area shape="rect" id="Node000023" title=" " alt="" coords="421,30,538,56"/>
-<area shape="poly" id="edge22_Node000002_Node000023" title=" " alt="" coords="553,25,620,18,695,19,734,25,771,36,806,52,838,74,859,103,877,146,892,199,904,258,922,371,931,448,925,449,917,371,899,259,887,201,872,148,854,106,834,78,803,57,769,41,733,31,695,25,620,23,553,30"/>
-<area shape="rect" id="Node000024" title=" " alt="" coords="460,80,499,105"/>
-<area shape="poly" id="edge23_Node000002_Node000024" title=" " alt="" coords="514,89,591,91,687,97,777,111,813,121,838,136,856,159,872,195,900,287,919,382,930,448,925,449,914,383,895,289,867,197,851,162,834,140,811,126,776,116,686,102,591,96,514,95"/>
+<area shape="poly" id="edge11_Node000002_Node000012" title=" " alt="" coords="577,337,724,344,790,354,837,369,868,391,893,420,925,472,921,475,889,423,865,395,835,373,789,359,724,350,577,342"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="424,376,535,401"/>
+<area shape="poly" id="edge12_Node000002_Node000013" title=" " alt="" coords="550,399,632,413,735,425,780,431,837,444,904,471,902,476,835,450,779,436,735,430,632,419,549,404"/>
+<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="366,425,593,466"/>
+<area shape="poly" id="edge13_Node000002_Node000014" title=" " alt="" coords="608,457,632,459,876,480,875,486,632,465,608,462"/>
+<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="389,491,570,531"/>
+<area shape="poly" id="edge14_Node000002_Node000015" title=" " alt="" coords="586,513,706,513,836,505,876,498,877,503,836,510,706,518,586,518"/>
+<area shape="rect" id="Node000016" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="389,556,570,597"/>
+<area shape="poly" id="edge15_Node000002_Node000016" title=" " alt="" coords="585,572,706,561,772,550,835,534,875,517,908,498,911,503,877,522,837,539,773,556,707,567,585,578"/>
+<area shape="rect" id="Node000017" href="$class_i_disposable.html" title=" " alt="" coords="189,564,278,589"/>
+<area shape="poly" id="edge16_Node000016_Node000017" title=" " alt="" coords="294,574,389,574,389,579,294,579"/>
+<area shape="rect" id="Node000018" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="396,621,563,662"/>
+<area shape="poly" id="edge17_Node000002_Node000018" title=" " alt="" coords="579,643,639,641,705,632,772,616,835,590,863,570,887,545,920,499,924,502,891,549,866,574,837,595,774,621,706,638,639,646,579,649"/>
+<area shape="rect" id="Node000019" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="351,686,608,742"/>
+<area shape="poly" id="edge18_Node000002_Node000019" title=" " alt="" coords="623,721,677,717,732,707,786,689,834,662,854,645,872,625,898,579,915,534,924,500,929,501,920,535,903,581,876,628,858,649,838,667,788,694,734,712,678,722,624,726"/>
+<area shape="rect" id="Node000020" title=" " alt="" coords="457,956,502,981"/>
+<area shape="poly" id="edge25_Node000001_Node000020" title=" " alt="" coords="517,967,632,970,735,976,779,976,836,970,914,953,990,929,1115,881,1117,886,992,934,915,958,836,975,779,981,734,981,632,975,517,972"/>
+<area shape="poly" id="edge19_Node000002_Node000020" title=" " alt="" coords="517,968,595,971,690,970,778,960,811,951,834,938,857,905,876,855,892,792,904,723,919,589,926,500,931,501,925,590,909,724,897,793,881,856,862,908,838,942,813,956,779,965,690,975,595,976,517,973"/>
+<area shape="rect" id="Node000021" title=" " alt="" coords="401,766,558,792"/>
+<area shape="poly" id="edge20_Node000002_Node000021" title=" " alt="" coords="568,792,632,796,703,792,738,785,772,775,805,760,834,741,861,715,882,684,898,650,909,614,922,548,926,500,932,501,928,548,914,615,903,652,886,687,865,719,838,745,807,765,774,780,739,790,703,797,632,801,568,797"/>
+<area shape="rect" id="Node000022" title=" " alt="" coords="391,816,568,841"/>
+<area shape="poly" id="edge21_Node000002_Node000022" title=" " alt="" coords="583,836,655,840,729,840,793,833,817,826,834,817,852,795,869,759,896,665,915,568,925,500,930,501,920,569,901,667,874,761,857,798,838,821,819,831,794,838,729,845,655,846,582,841"/>
+<area shape="rect" id="Node000023" title=" " alt="" coords="454,865,505,891"/>
+<area shape="poly" id="edge22_Node000002_Node000023" title=" " alt="" coords="520,879,598,885,691,887,778,881,811,873,834,861,854,835,872,794,887,743,899,686,917,575,925,500,931,500,922,576,904,687,892,744,877,796,859,838,838,865,813,878,779,886,691,893,597,890,520,884"/>
+<area shape="rect" id="Node000024" title=" " alt="" coords="421,30,538,56"/>
+<area shape="poly" id="edge23_Node000002_Node000024" title=" " alt="" coords="553,25,620,18,696,20,734,26,771,37,806,53,838,76,860,106,878,153,894,209,906,272,923,392,931,473,926,474,918,393,901,272,888,211,873,154,855,109,834,80,804,58,770,42,733,31,695,25,620,23,553,30"/>
+<area shape="rect" id="Node000025" title=" " alt="" coords="460,80,499,105"/>
+<area shape="poly" id="edge24_Node000002_Node000025" title=" " alt="" coords="514,90,591,92,687,99,777,114,813,125,838,140,857,165,874,204,901,302,920,403,930,473,925,474,915,404,896,304,869,206,852,168,834,144,811,130,776,119,686,104,591,97,514,95"/>
 </map>

@@ -26,7 +26,7 @@
 <area shape="poly" id="edge9_Node000005_Node000009" title=" " alt="" coords="383,110,263,62,223,49,224,44,265,56,385,105"/>
 <area shape="poly" id="edge7_Node000007_Node000004" title=" " alt="" coords="279,202,621,162,622,167,279,207"/>
 <area shape="poly" id="edge14_Node000011_Node000010" title=" " alt="" coords="951,67,882,65,882,59,952,62"/>
-<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#acb48f966670f07a01c89a708fc82411a" title="Initializes a new instance of the AdvancedWatchdog class." alt="" coords="940,360,1258,401"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#aed0b060732502326a34a514347e1b9ba" title="Initializes a new instance of the AdvancedWatchdog class." alt="" coords="940,360,1258,401"/>
 <area shape="poly" id="edge16_Node000012_Node000013" title=" " alt="" coords="1330,335,1258,351,1205,362,1204,357,1257,346,1329,330"/>
 <area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a748bef1e44dcaf8fee7f3bee9a52d25c" title="Handler for MonitorActivationReason.NewDmbAvailable.A ValueTask representing the running operation." alt="" coords="964,281,1234,336"/>
 <area shape="poly" id="edge17_Node000012_Node000014" title=" " alt="" coords="1295,311,1234,311,1234,306,1295,306"/>

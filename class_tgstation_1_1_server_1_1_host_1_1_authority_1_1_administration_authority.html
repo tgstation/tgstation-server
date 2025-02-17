@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.13.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -407,11 +407,11 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  125</span>                    {</div>
 <div class="line"><span class="lineno">  126</span>                        LatestVersion = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">greatestVersion</a>,</div>
 <div class="line"><span class="lineno">  127</span>                        TrackedRepositoryUrl = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">repoUrl</a>,</div>
-<div class="line"><span class="lineno">  128</span>                        GeneratedAt = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">DateTimeOffset</a>.UtcNow,</div>
+<div class="line"><span class="lineno">  128</span>                        GeneratedAt = DateTimeOffset.UtcNow,</div>
 <div class="line"><span class="lineno">  129</span>                    };</div>
 <div class="line"><span class="lineno">  130</span>                }</div>
 <div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">var</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ttl</a> = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">TimeSpan</a>.FromMinutes(30);</div>
+<div class="line"><span class="lineno">  132</span>                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">var</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ttl</a> = TimeSpan.FromMinutes(30);</div>
 <div class="line"><span class="lineno">  133</span>                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Task&lt;AdministrationResponse&gt;</a> task;</div>
 <div class="line"><span class="lineno">  134</span>                <span class="keywordflow">if</span> (<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">forceFresh</a> || !<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#a76edb8f5a8368099db717c2c52e06a85">cacheService</a>.TryGetValue(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#ad86858696ed6306d4e0060b019397d6f">ReadCacheKey</a>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">out</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">var</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rawCacheObject</a>))</div>
 <div class="line"><span class="lineno">  135</span>                {</div>

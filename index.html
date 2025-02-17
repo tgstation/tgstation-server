@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.13.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -249,7 +249,8 @@ Manual Configuration</h4>
 <p>Create an <code>appsettings.Production.yml</code> file next to <code>appsettings.yml</code>. This will override the default settings in <code>appsettings.yml</code> with your production settings. There are a few keys meant to be changed by hosts. The configuration is only read after server statup. To reload it you must restart TGS. This can be done while your game servers are running by using the Administrative restart function (as opposed to an OS service restart). Note these are all case-sensitive:</p>
 <ul>
 <li><code>General:ConfigVersion</code>: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version.</li>
-<li><code>General:MinimumPasswordLength</code>: Minimum password length requirement for database users</li>
+<li><code>General:MinimumPasswordLength</code>: Minimum password length requirement for database users.</li>
+<li><code>General:PrometheusPort</code>: Port Prometheus metrics are published on under /metrics. This can be set to the same value as the <code>ApiPort</code>, just note that accessing it does not require authentication.</li>
 <li><code>General:ValidInstancePaths</code>: Array meant to limit the directories in which instances may be created.</li>
 <li><code>General:UserLimit</code>: Maximum number of users that may be created</li>
 <li><code>General:InstanceLimit</code>: Maximum number of instances that may be created</li>

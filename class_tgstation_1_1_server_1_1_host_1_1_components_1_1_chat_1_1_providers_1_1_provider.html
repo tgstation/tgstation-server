@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.13.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -194,7 +194,7 @@ Note that private messages will come in the form of <a class="el" href="class_tg
   <table class="params">
     <tr><td class="paramname">revisionInformation</td><td>The RevisionInformation of the deployment.</td></tr>
     <tr><td class="paramname">engineVersion</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html" title="Information about an engine installation.">Api.Models.EngineVersion</a> of the deployment.</td></tr>
-    <tr><td class="paramname">estimatedCompletionTime</td><td>The optional <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">DateTimeOffset</a> the deployment is expected to be completed at.</td></tr>
+    <tr><td class="paramname">estimatedCompletionTime</td><td>The optional DateTimeOffset the deployment is expected to be completed at.</td></tr>
     <tr><td class="paramname">gitHubOwner</td><td>The repository GitHub owner, if any.</td></tr>
     <tr><td class="paramname">gitHubRepo</td><td>The repository GitHub name, if any.</td></tr>
     <tr><td class="paramname">channelId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48" title="The Providers.IProvider channel Id.">ChannelRepresentation.RealId</a> to send to.</td></tr>
@@ -960,7 +960,7 @@ Note that private messages will come in the form of <a class="el" href="class_tg
 <div class="line"><span class="lineno">  284</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  285</span>                {</div>
 <div class="line"><span class="lineno">  286</span>                    <span class="keywordflow">if</span> (!<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">connectNow</a>)</div>
-<div class="line"><span class="lineno">  287</span>                        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html">AsyncDelayer</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html#a5255a8616967ddacc72efca3bc7b0dcd">Delay</a>(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">TimeSpan</a>.FromMinutes(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">reconnectInterval</a>), <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">cancellationToken</a>);</div>
+<div class="line"><span class="lineno">  287</span>                        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html">AsyncDelayer</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html#a5255a8616967ddacc72efca3bc7b0dcd">Delay</a>(TimeSpan.FromMinutes(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">reconnectInterval</a>), <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">cancellationToken</a>);</div>
 <div class="line"><span class="lineno">  288</span>                    <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  289</span>                        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">connectNow</a> = <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">  290</span>                    <span class="keywordflow">if</span> (!<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a6dde4ca79096c66ea97177886fa9ee5e">Connected</a>)</div>
@@ -1197,7 +1197,7 @@ Here is the caller graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">revisionInformation</td><td>The RevisionInformation of the deployment.</td></tr>
     <tr><td class="paramname">engineVersion</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html" title="Information about an engine installation.">Api.Models.EngineVersion</a> of the deployment.</td></tr>
-    <tr><td class="paramname">estimatedCompletionTime</td><td>The optional <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">DateTimeOffset</a> the deployment is expected to be completed at.</td></tr>
+    <tr><td class="paramname">estimatedCompletionTime</td><td>The optional DateTimeOffset the deployment is expected to be completed at.</td></tr>
     <tr><td class="paramname">gitHubOwner</td><td>The repository GitHub owner, if any.</td></tr>
     <tr><td class="paramname">gitHubRepo</td><td>The repository GitHub name, if any.</td></tr>
     <tr><td class="paramname">channelId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48" title="The Providers.IProvider channel Id.">ChannelRepresentation.RealId</a> to send to.</td></tr>

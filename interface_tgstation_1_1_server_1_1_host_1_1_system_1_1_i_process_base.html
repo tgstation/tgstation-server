@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.13.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -103,6 +103,9 @@ Inheritance diagram for Tgstation.Server.Host.System.IProcessBase:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:acde8726f2293aebddb4d977c4a3af6dd" id="r_acde8726f2293aebddb4d977c4a3af6dd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#acde8726f2293aebddb4d977c4a3af6dd">MeasureProcessorTimeDelta</a> ()</td></tr>
+<tr class="memdesc:acde8726f2293aebddb4d977c4a3af6dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the estimated CPU usage fraction of the process based on the last time this was called.  <br /></td></tr>
+<tr class="separator:acde8726f2293aebddb4d977c4a3af6dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d860a501568835fac115772ee87902d" id="r_a9d860a501568835fac115772ee87902d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a9d860a501568835fac115772ee87902d">AdjustPriority</a> (bool higher)</td></tr>
 <tr class="memdesc:a9d860a501568835fac115772ee87902d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set's the owned global::System.Diagnostics.Process.PriorityClass to a non-normal value.  <br /></td></tr>
 <tr class="separator:a9d860a501568835fac115772ee87902d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -220,6 +223,28 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="acde8726f2293aebddb4d977c4a3af6dd" name="acde8726f2293aebddb4d977c4a3af6dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acde8726f2293aebddb4d977c4a3af6dd">&#9670;&#160;</a></span>MeasureProcessorTimeDelta()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Tgstation.Server.Host.System.IProcessBase.MeasureProcessorTimeDelta </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the estimated CPU usage fraction of the process based on the last time this was called. </p>
+<dl class="section return"><dt>Returns</dt><dd>The CPU's estimated usage as a value between 0 and 1.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a7b2300feff8f530d8c21c420510a9caa">Tgstation.Server.Host.Components.Session.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a3cb8a821042236bfba494f767d643c85">Tgstation.Server.Host.System.Process</a>.</p>
+
+</div>
+</div>
 <a id="a9d13aba422f359f49df8647f32599ad0" name="a9d13aba422f359f49df8647f32599ad0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9d13aba422f359f49df8647f32599ad0">&#9670;&#160;</a></span>ResumeProcess()</h2>
 
@@ -319,7 +344,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_i_process_base_8cs_source.html#l00020">20</a> of file <a class="el" href="_i_process_base_8cs_source.html">IProcessBase.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   20</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_session_controller_8cs_source.html#l00531">Tgstation.Server.Host.Components.Session.SessionController.GetLaunchResult()</a>, <a class="el" href="_session_controller_8cs_source.html#l00604">Tgstation.Server.Host.Components.Session.SessionController.PostValidationShutdown()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00101">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.RegisterProcess()</a>, <a class="el" href="_session_controller_8cs_source.html#l00275">Tgstation.Server.Host.Components.Session.SessionController.SessionController()</a>, <a class="el" href="_engine_installation_base_8cs_source.html#l00091">Tgstation.Server.Host.Components.Engine.EngineInstallationBase.StopServerProcess()</a>, and <a class="el" href="_open_dream_installation_8cs_source.html#l00142">Tgstation.Server.Host.Components.Engine.OpenDreamInstallation.StopServerProcess()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_controller_8cs_source.html#l00535">Tgstation.Server.Host.Components.Session.SessionController.GetLaunchResult()</a>, <a class="el" href="_session_controller_8cs_source.html#l00608">Tgstation.Server.Host.Components.Session.SessionController.PostValidationShutdown()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00101">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.RegisterProcess()</a>, <a class="el" href="_session_controller_8cs_source.html#l00275">Tgstation.Server.Host.Components.Session.SessionController.SessionController()</a>, <a class="el" href="_engine_installation_base_8cs_source.html#l00091">Tgstation.Server.Host.Components.Engine.EngineInstallationBase.StopServerProcess()</a>, and <a class="el" href="_open_dream_installation_8cs_source.html#l00142">Tgstation.Server.Host.Components.Engine.OpenDreamInstallation.StopServerProcess()</a>.</p>
 
 </div>
 </div>
