@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Utils.GitLab.GraphQL
 					}
 				});
 
-			ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
+			var serviceProvider = serviceCollection.BuildServiceProvider();
 			try
 			{
 				return new GraphQLGitLabClient(serviceProvider);

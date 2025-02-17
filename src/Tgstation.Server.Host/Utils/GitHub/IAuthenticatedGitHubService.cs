@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		Task AppendCommentOnIssue(string repoOwner, string repoName, string comment, IssueComment issueComment, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Gets an <see cref="IssueComment"/> for a particular <paramref name="issueNumber"/> with the provided <paramref name="header"/> if it exists.
+		/// Gets an <see cref="IssueComment"/> for a particular <paramref name="issueNumber"/> with the provided <paramref name="header"/> if it exists and is not too large.
 		/// </summary>
 		/// <param name="repoOwner">The owner of the target repository.</param>
 		/// <param name="repoName">The name of the target repository.</param>
