@@ -455,6 +455,40 @@ namespace Tgstation.Server.Tests.Live
 			}
 		}
 
+		static async Task TestHealthChecks(IRestServerClient serverClient, CancellationToken cancellationToken)
+		{
+			var url = serverClient.Url;
+			// check that 400s are returned appropriately
+			using var httpClient = new HttpClient();
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + "health"))
+			{
+				request.Headers.Accept.Clear();
+				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
+				using var response = await httpClient.SendAsync(request, cancellationToken);
+				response.EnsureSuccessStatusCode();
+
+				var text = await response.Content.ReadAsStringAsync(cancellationToken);
+				Assert.AreEqual("Healthy", text.Trim());
+			}
+		}
+
+		static async Task TestPrometheusMetrics(IRestServerClient serverClient, CancellationToken cancellationToken)
+		{
+			var url = serverClient.Url;
+			// check that 400s are returned appropriately
+			using var httpClient = new HttpClient();
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + "metrics"))
+			{
+				request.Headers.Accept.Clear();
+				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
+				using var response = await httpClient.SendAsync(request, cancellationToken);
+				response.EnsureSuccessStatusCode();
+
+				var text = await response.Content.ReadAsStringAsync(cancellationToken);
+				Assert.IsTrue(text.Contains("tgs_jobs_running"));
+			}
+		}
+
 		static async Task TestGraphQLLogin(IRestServerClientFactory clientFactory, IRestServerClient restClient, CancellationToken cancellationToken)
 		{
 			if (!MultiServerClient.UseGraphQL)
@@ -483,6 +517,8 @@ namespace Tgstation.Server.Tests.Live
 				TestServerInformation(clientFactory, serverClient, cancellationToken),
 				TestInvalidTransfers(serverClient, cancellationToken),
 				RegressionTestForLeakedPasswordHashesBug(serverClient, cancellationToken),
-				TestSignalRUsage(clientFactory, serverClient, cancellationToken));
+				TestSignalRUsage(clientFactory, serverClient, cancellationToken),
+				TestHealthChecks(serverClient, cancellationToken),
+				TestPrometheusMetrics(serverClient, cancellationToken));
 	}
 }
