@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Send the message for a deployment.
 		/// </summary>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/> of the deployment.</param>
-		/// <param name="previousRevisionInformation">The optional <see cref="RevisionInformation"/> of the previous deployment.</param>
+		/// <param name="previousRevisionInformation">The <see cref="RevisionInformation"/> of the previous deployment if any.</param>
 		/// <param name="engineVersion">The <see cref="Api.Models.EngineVersion"/> of the deployment.</param>
 		/// <param name="estimatedCompletionTime">The optional <see cref="DateTimeOffset"/> the deployment is expected to be completed at.</param>
 		/// <param name="gitHubOwner">The repository GitHub owner, if any.</param>
