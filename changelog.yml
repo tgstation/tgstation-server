@@ -215,6 +215,10 @@ Components:
       - 'nix: bump up sha256 of fixed deviation'
       Author: Lorwp
       PullRequest: 2109
+    - Descriptions:
+      - Fixed IRC provider not being able to send update messages for non-GitHub repositories.
+      Author: Cyberboss
+      PullRequest: 2136
     Unreleased: true
   - Version: 6.13.0
     ComponentVersions:
