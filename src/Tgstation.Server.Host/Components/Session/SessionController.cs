@@ -519,6 +519,10 @@ namespace Tgstation.Server.Host.Components.Session
 			return process.CreateDump(outputFile, minidump, cancellationToken);
 		}
 
+		/// <inheritdoc />
+		public double MeasureProcessorTimeDelta()
+			=> process.MeasureProcessorTimeDelta();
+
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> for <see cref="LaunchResult"/>.
 		/// </summary>

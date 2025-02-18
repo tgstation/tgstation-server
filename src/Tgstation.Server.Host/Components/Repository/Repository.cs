@@ -199,7 +199,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			var commitMessage = String.Format(
 				CultureInfo.InvariantCulture,
-				"TGS Test Merge (#{0}){1}{2}",
+				"TGS Test Merge (PR {0}){1}{2}",
 				testMergeParameters.Number,
 				testMergeParameters.Comment != null
 					? Environment.NewLine
