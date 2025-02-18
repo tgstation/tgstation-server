@@ -1,4 +1,6 @@
-﻿using Tgstation.Server.Api.Models.Internal;
+﻿using Prometheus;
+
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Deployment.Remote;
@@ -24,6 +26,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> pointing to the Diagnostics directory for the <see cref="IWatchdog"/>.</param>
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="IWatchdog"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="IWatchdog"/>.</param>
+		/// <param name="metricFactory">The <see cref="IMetricFactory"/> used to create metrics.</param>
 		/// <param name="instance">The <see cref="Instance"/> for the <see cref="IWatchdog"/>.</param>
 		/// <param name="settings">The initial <see cref="DreamDaemonSettings"/> for the <see cref="IWatchdog"/>.</param>
 		/// <returns>A new <see cref="IWatchdog"/>.</returns>
@@ -36,6 +39,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
+			IMetricFactory metricFactory,
 			Api.Models.Instance instance,
 			DreamDaemonSettings settings);
 	}

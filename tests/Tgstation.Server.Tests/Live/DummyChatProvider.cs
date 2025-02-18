@@ -116,8 +116,6 @@ namespace Tgstation.Server.Tests.Live
 		{
 			ArgumentNullException.ThrowIfNull(revisionInformation);
 			ArgumentNullException.ThrowIfNull(engineVersion);
-			ArgumentNullException.ThrowIfNull(gitHubOwner);
-			ArgumentNullException.ThrowIfNull(gitHubRepo);
 
 			Assert.IsTrue(knownChannels.ContainsKey(channelId));
 

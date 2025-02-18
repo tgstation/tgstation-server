@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
@@ -15,6 +16,7 @@ using Octokit;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Tests;
 
 namespace Tgstation.Server.Host.Utils.GitHub.Tests
 {
@@ -42,9 +44,10 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 		[TestMethod]
 		public void TestContructionThrows()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new GitHubClientFactory(null, null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new GitHubClientFactory(Mock.Of<IAssemblyInformationProvider>(), null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new GitHubClientFactory(Mock.Of<IAssemblyInformationProvider>(), Mock.Of<ILogger<GitHubClientFactory>>(), null));
+			Assert.ThrowsException<ArgumentNullException>(() => new GitHubClientFactory(null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new GitHubClientFactory(Mock.Of<IAssemblyInformationProvider>(), null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new GitHubClientFactory(Mock.Of<IAssemblyInformationProvider>(), Mock.Of<IHttpMessageHandlerFactory>(), null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new GitHubClientFactory(Mock.Of<IAssemblyInformationProvider>(), Mock.Of<IHttpMessageHandlerFactory>(), Mock.Of<ILogger<GitHubClientFactory>>(), null));
 		}
 
 		[TestMethod]
@@ -58,7 +61,7 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 			var gc = new GeneralConfiguration();
 			Assert.IsNull(gc.GitHubAccessToken);
 			mockOptions.SetupGet(x => x.Value).Returns(gc);
-			var factory = new GitHubClientFactory(mockApp.Object, loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
+			var factory = new GitHubClientFactory(mockApp.Object, new BasicHttpMessageHandlerFactory(), loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
 
 			var client = await factory.CreateClient(CancellationToken.None);
 			Assert.IsNotNull(client);
@@ -84,7 +87,7 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 
 			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
 			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
-			var factory = new GitHubClientFactory(mockApp.Object, loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
+			var factory = new GitHubClientFactory(mockApp.Object, new BasicHttpMessageHandlerFactory(), loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
 
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateClient(null, CancellationToken.None).AsTask());
 
@@ -106,7 +109,7 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 
 			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
 			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
-			var factory = new GitHubClientFactory(mockApp.Object, loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
+			var factory = new GitHubClientFactory(mockApp.Object, new BasicHttpMessageHandlerFactory(), loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
 
 			var appID = Environment.GetEnvironmentVariable("TGS_TEST_APP_ID");
 			var privateKey = Environment.GetEnvironmentVariable("TGS_TEST_APP_PRIVATE_KEY");
@@ -144,7 +147,7 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 
 			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
 			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
-			var factory = new GitHubClientFactory(mockApp.Object, loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
+			var factory = new GitHubClientFactory(mockApp.Object, new BasicHttpMessageHandlerFactory(), loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
 
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateClient(null, CancellationToken.None).AsTask());
 
@@ -192,7 +195,7 @@ vTdVAoGBAI/jjUMdjkY43zhe3w2piwT0fhGfqm9ikdAB9IcgcptuS0ML0ZaWV/eO
 
 			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
 			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
-			var factory = new GitHubClientFactory(mockApp.Object, loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
+			var factory = new GitHubClientFactory(mockApp.Object, new BasicHttpMessageHandlerFactory(), loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
 
 			var client1 = await factory.CreateClient(CancellationToken.None);
 			var client2 = await factory.CreateClient("asdf", CancellationToken.None);
