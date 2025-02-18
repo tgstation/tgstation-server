@@ -3,6 +3,8 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using Prometheus;
+
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -77,6 +79,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerfactory,
+			IMetricFactory metricFactory,
 			Api.Models.Instance instance,
 			DreamDaemonSettings settings)
 			=> new BasicWatchdog(
@@ -90,6 +93,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				diagnosticsIOManager,
 				eventConsumer,
 				remoteDeploymentManagerfactory,
+				metricFactory,
 				gameIOManager,
 				LoggerFactory.CreateLogger<BasicWatchdog>(),
 				settings,

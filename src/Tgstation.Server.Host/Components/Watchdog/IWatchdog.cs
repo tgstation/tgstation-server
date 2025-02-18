@@ -117,5 +117,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the broadcast succeeded., <see langword="false"/> otherwise.</returns>
 		ValueTask<bool> Broadcast(string message, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Callback to update transient metrics.
+		/// </summary>
+		void RunMetricsScrape();
 	}
 }

@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using Prometheus;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common;
 using Tgstation.Server.Common.Extensions;
@@ -151,6 +153,11 @@ namespace Tgstation.Server.Host.Components
 		readonly CancellationTokenSource shutdownCancellationTokenSource;
 
 		/// <summary>
+		/// The count of online instances.
+		/// </summary>
+		readonly Gauge onlineInstances;
+
+		/// <summary>
 		/// The original <see cref="IConsole.Title"/> of <see cref="console"/>.
 		/// </summary>
 		readonly string? originalConsoleTitle;
@@ -180,6 +187,8 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="swarmServiceController">The value of <see cref="swarmServiceController"/>.</param>
 		/// <param name="console">The value of <see cref="console"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
+		/// <param name="metricFactory">The <see cref="IMetricFactory"/> used to create metrics.</param>
+		/// <param name="collectorRegistry">The <see cref="ICollectorRegistry"/> to use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="internalConfiguration"/>.</param>
@@ -197,6 +206,8 @@ namespace Tgstation.Server.Host.Components
 			ISwarmServiceController swarmServiceController,
 			IConsole console,
 			IPlatformIdentifier platformIdentifier,
+			IMetricFactory metricFactory,
+			ICollectorRegistry collectorRegistry,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			IOptions<InternalConfiguration> internalConfigurationOptions,
@@ -214,6 +225,8 @@ namespace Tgstation.Server.Host.Components
 			this.swarmServiceController = swarmServiceController ?? throw new ArgumentNullException(nameof(swarmServiceController));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+			ArgumentNullException.ThrowIfNull(metricFactory);
+			ArgumentNullException.ThrowIfNull(collectorRegistry);
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
@@ -221,12 +234,21 @@ namespace Tgstation.Server.Host.Components
 
 			originalConsoleTitle = console.Title;
 
+			onlineInstances = metricFactory.CreateGauge("tgs_online_instances", "The total number of instances online");
+
 			instances = new Dictionary<long, ReferenceCountingContainer<IInstance, InstanceWrapper>>();
 			bridgeHandlers = new Dictionary<string, IBridgeHandler>();
 			readyTcs = new TaskCompletionSource();
 			instanceStateChangeSemaphore = new SemaphoreSlim(1);
 			startupCancellationTokenSource = new CancellationTokenSource();
 			shutdownCancellationTokenSource = new CancellationTokenSource();
+
+			collectorRegistry.AddBeforeCollectCallback(async cancellationToken =>
+			{
+				using (await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken))
+					foreach (var container in instances.Values)
+						container.Instance.Watchdog.RunMetricsScrape();
+			});
 		}
 
 		/// <inheritdoc />
@@ -396,6 +418,7 @@ namespace Tgstation.Server.Host.Components
 				finally
 				{
 					await container.Instance.DisposeAsync();
+					onlineInstances.Dec();
 				}
 			}
 		}
@@ -426,6 +449,8 @@ namespace Tgstation.Server.Host.Components
 						instances.Add(
 							instanceId,
 							new ReferenceCountingContainer<IInstance, InstanceWrapper>(instance));
+
+					onlineInstances.Inc();
 				}
 				catch (Exception ex)
 				{

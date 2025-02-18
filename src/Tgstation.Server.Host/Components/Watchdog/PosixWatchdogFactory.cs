@@ -4,6 +4,8 @@ using System.Runtime.Versioning;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using Prometheus;
+
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -60,6 +62,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
+			IMetricFactory metricFactory,
 			Api.Models.Instance instance,
 			DreamDaemonSettings settings)
 			=> new PosixWatchdog(
@@ -73,6 +76,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				diagnosticsIOManager,
 				eventConsumer,
 				remoteDeploymentManagerFactory,
+				metricFactory,
 				gameIOManager,
 				LinkFactory,
 				LoggerFactory.CreateLogger<PosixWatchdog>(),

@@ -25,6 +25,12 @@ namespace Tgstation.Server.Host.System
 		long? MemoryUsage { get; }
 
 		/// <summary>
+		/// Gets the estimated CPU usage fraction of the process based on the last time this was called.
+		/// </summary>
+		/// <returns>The CPU's estimated usage as a value between 0 and 1.</returns>
+		double MeasureProcessorTimeDelta();
+
+		/// <summary>
 		/// Set's the owned <see cref="global::System.Diagnostics.Process.PriorityClass"/> to a non-normal value.
 		/// </summary>
 		/// <param name="higher">If <see langword="true"/> will be set to <see cref="global::System.Diagnostics.ProcessPriorityClass.AboveNormal"/> otherwise, will be set to <see cref="global::System.Diagnostics.ProcessPriorityClass.BelowNormal"/>.</param>

@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
+using Prometheus;
 
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
@@ -141,6 +145,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IDotnetDumpService dotnetDumpService;
 
 		/// <summary>
+		/// The <see cref="IMetricFactory"/> for the <see cref="InstanceFactory"/>.
+		/// </summary>
+		readonly IMetricFactory metricFactory;
+
+		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -183,6 +192,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
+		/// <param name="metricFactory">The value of <see cref="metricFactory"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
 		public InstanceFactory(
@@ -208,6 +218,7 @@ namespace Tgstation.Server.Host.Components
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			IAsyncDelayer asyncDelayer,
 			IDotnetDumpService dotnetDumpService,
+			IMetricFactory metricFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SessionConfiguration> sessionConfigurationOptions)
 		{
@@ -233,6 +244,7 @@ namespace Tgstation.Server.Host.Components
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
+			this.metricFactory = metricFactory ?? throw new ArgumentNullException(nameof(metricFactory));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 		}
@@ -263,6 +275,13 @@ namespace Tgstation.Server.Host.Components
 			var gameIoManager = CreateGameIOManager(instanceIoManager);
 			var diagnosticsIOManager = new ResolvingIOManager(instanceIoManager, "Diagnostics");
 			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
+
+			var metricFactory = this.metricFactory.WithLabels(
+				new Dictionary<string, string>
+				{
+					{ "instance_name", metadata.Name! },
+					{ "instance_id", metadata.Id!.Value.ToString(CultureInfo.InvariantCulture) },
+				});
 
 			var configuration = new StaticFiles.Configuration(
 				configurationIoManager,
@@ -323,6 +342,7 @@ namespace Tgstation.Server.Host.Components
 							eventConsumer,
 							asyncDelayer,
 							dotnetDumpService,
+							metricFactory,
 							loggerFactory,
 							loggerFactory.CreateLogger<SessionControllerFactory>(),
 							sessionConfiguration,
@@ -337,6 +357,7 @@ namespace Tgstation.Server.Host.Components
 							diagnosticsIOManager,
 							configuration, // watchdog doesn't need itself as an event consumer
 							remoteDeploymentManagerFactory,
+							metricFactory,
 							metadata,
 							metadata.DreamDaemonSettings!);
 						try
@@ -357,6 +378,7 @@ namespace Tgstation.Server.Host.Components
 								repoManager,
 								remoteDeploymentManagerFactory,
 								asyncDelayer,
+								metricFactory,
 								loggerFactory.CreateLogger<DreamMaker>(),
 								sessionConfiguration,
 								metadata);

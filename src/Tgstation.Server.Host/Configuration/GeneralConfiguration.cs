@@ -92,6 +92,11 @@ namespace Tgstation.Server.Host.Configuration
 		public ushort ApiPort { get; set; }
 
 		/// <summary>
+		/// The port Prometheus metrics are published on, if any.
+		/// </summary>
+		public ushort? PrometheusPort { get; set; }
+
+		/// <summary>
 		/// A classic GitHub personal access token to use for bypassing rate limits on requests. Requires no scopes.
 		/// </summary>
 		public string? GitHubAccessToken { get; set; }

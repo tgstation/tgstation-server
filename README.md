@@ -256,7 +256,9 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `General:ConfigVersion`: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version.
 
-- `General:MinimumPasswordLength`: Minimum password length requirement for database users
+- `General:MinimumPasswordLength`: Minimum password length requirement for database users.
+
+- `General:PrometheusPort`: Port Prometheus metrics are published on under /metrics. This can be set to the same value as the `ApiPort`, just note that accessing it does not require authentication.
 
 - `General:ValidInstancePaths`: Array meant to limit the directories in which instances may be created.
 

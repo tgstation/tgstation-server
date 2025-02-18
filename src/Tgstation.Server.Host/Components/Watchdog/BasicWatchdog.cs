@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Prometheus;
+
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -53,6 +55,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="diagnosticsIOManager">The 'Diagnostics' <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="metricFactory">The <see cref="IMetricFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="gameIOManager">The 'Game' <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
@@ -69,6 +72,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
+			IMetricFactory metricFactory,
 			IIOManager gameIOManager,
 			ILogger<BasicWatchdog> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
@@ -85,6 +89,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				 diagnosticsIOManager,
 				 eventConsumer,
 				 remoteDeploymentManagerFactory,
+				 metricFactory,
 				 gameIOManager,
 				 logger,
 				 initialLaunchParameters,
