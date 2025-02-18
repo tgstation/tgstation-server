@@ -182,7 +182,6 @@ Components:
   Core:
   - Version: 6.14.0
     ComponentVersions:
-      Core: 6.14.0
       HttpApi: 10.12.1
       GraphQLApi: 0.5.0
       DreamMakerApi: 7.3.1
@@ -193,7 +192,11 @@ Components:
       NugetApi: 17.0.1
       NugetClient: 20.0.0
       WebControlPanel: 6.7.3
-    Changes: []
+    Changes:
+    - Descriptions:
+      - 'Commits pushed now do not include # so the commit is not autolinked with the PR.'
+      Author: Drulikar
+      PullRequest: 2132
     Unreleased: true
   - Version: 6.13.1
     ComponentVersions:
