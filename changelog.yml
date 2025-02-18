@@ -6,7 +6,6 @@ Components:
       - Added `General:PrometheusPort` for setting the port Prometheus metrics are hosted on.
       Author: Cyberboss
       PullRequest: 2133
-    Unreleased: true
   - Version: 5.4.0
     Changes:
     - Descriptions:
@@ -180,8 +179,17 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.15.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.14.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.14.0
     ComponentVersions:
+      Core: 6.14.0
       HttpApi: 10.12.1
       GraphQLApi: 0.5.0
       DreamMakerApi: 7.3.1
@@ -197,29 +205,6 @@ Components:
       - 'Commits pushed now do not include # so the commit is not autolinked with the PR.'
       Author: Drulikar
       PullRequest: 2132
-    Unreleased: true
-  - Version: 6.13.1
-    ComponentVersions:
-      HttpApi: 10.12.1
-      GraphQLApi: 0.5.0
-      DreamMakerApi: 7.3.1
-      Configuration: 5.4.0
-      InteropApi: 5.10.0
-      HostWatchdog: 1.6.0
-      NugetCommon: 7.0.0
-      NugetApi: 17.0.1
-      NugetClient: 20.0.0
-      WebControlPanel: 6.7.3
-    Changes:
-    - Descriptions:
-      - 'nix: bump up sha256 of fixed deviation'
-      Author: Lorwp
-      PullRequest: 2109
-    - Descriptions:
-      - Fixed IRC provider not being able to send update messages for non-GitHub repositories.
-      Author: Cyberboss
-      PullRequest: 2136
-    Unreleased: true
   - Version: 6.13.0
     ComponentVersions:
       HttpApi: 10.12.1
