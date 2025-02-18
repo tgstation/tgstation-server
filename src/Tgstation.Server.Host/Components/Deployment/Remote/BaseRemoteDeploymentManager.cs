@@ -19,6 +19,11 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 	abstract class BaseRemoteDeploymentManager : IRemoteDeploymentManager
 	{
 		/// <summary>
+		/// The header comment that begins every deployment message comment/note.
+		/// </summary>
+		public const string DeploymentMsgHeaderStart = "<!-- tgs_test_merge_comment -->";
+
+		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="BaseRemoteDeploymentManager"/>.
 		/// </summary>
 		protected Api.Models.Instance Metadata { get; }

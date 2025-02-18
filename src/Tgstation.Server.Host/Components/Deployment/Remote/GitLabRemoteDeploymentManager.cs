@@ -163,8 +163,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			await using var client = await GraphQLGitLabClientFactory.CreateClient(repositorySettings.AccessToken);
 			try
 			{
-				string headerStart = "<!-- test_merge_tgs_bot -->";
-				string header = String.Format(CultureInfo.InvariantCulture, "{1}{0}## Test merge deployment history:{0}{0}", Environment.NewLine, headerStart);
+				string header = String.Format(CultureInfo.InvariantCulture, "{1}{0}## Test merge deployment history:{0}{0}", Environment.NewLine, DeploymentMsgHeaderStart);
 
 				// Try to find an existing note
 				var notesQueryResult = await client.GraphQL.GetMergeRequestNotes.ExecuteAsync(
@@ -188,7 +187,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					for (int i = comments.Count - 1; i > -1; i--)
 					{
 						var currentComment = comments[i];
-						if (currentComment?.Author?.Username == repositorySettings.AccessUser && (currentComment?.Body?.StartsWith(headerStart) ?? false))
+						if (currentComment?.Author?.Username == repositorySettings.AccessUser && (currentComment?.Body?.StartsWith(DeploymentMsgHeaderStart) ?? false))
 						{
 							if (currentComment.Body.Length > 987856)
 							{ // Limit should be 999,999 so we'll leave a 12,143 buffer

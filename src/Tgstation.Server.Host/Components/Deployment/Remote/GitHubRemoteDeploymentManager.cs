@@ -282,10 +282,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			try
 			{
-				string headerStart = "<!-- test_merge_tgs_bot -->";
-				string header = String.Format(CultureInfo.InvariantCulture, "{1}{0}## Test merge deployment history:{0}{0}", Environment.NewLine, headerStart);
+				string header = String.Format(CultureInfo.InvariantCulture, "{1}{0}## Test merge deployment history:{0}{0}", Environment.NewLine, DeploymentMsgHeaderStart);
 
-				var existingComment = await gitHubService.GetExistingCommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, headerStart, testMergeNumber, cancellationToken);
+				var existingComment = await gitHubService.GetExistingCommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, DeploymentMsgHeaderStart, testMergeNumber, cancellationToken);
 				if (existingComment != null)
 				{
 					await gitHubService.AppendCommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, comment, existingComment, cancellationToken);

@@ -33,15 +33,6 @@
   </Target>
 
   <ItemGroup>
-    <GraphQL Remove="GQL\Mutations\CreateNote.graphql" />
-    <GraphQL Remove="GQL\Mutations\ModifyNote.graphql" />
-    <GraphQL Remove="GQL\Queries\GetCurrentUser.graphql" />
-    <GraphQL Remove="GQL\Queries\GetMergeRequest.graphql" />
-    <GraphQL Remove="GQL\Queries\GetMergeRequestNotes.graphql" />
-    <GraphQL Remove="GQL\Queries\GetMergeRequests.graphql" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="StrawberryShake.Server" Version="15.0.3" />
   </ItemGroup>
 
