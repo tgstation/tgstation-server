@@ -939,37 +939,28 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (gitHubOwner == null || gitHubRepo == null)
 				return fields;
 
-			previousRevisionInformation ??= new Models.RevisionInformation();
-			previousRevisionInformation.ActiveTestMerges ??= new List<RevInfoTestMerge>();
+			var previousTestMerges = (IEnumerable<RevInfoTestMerge>?)previousRevisionInformation?.ActiveTestMerges ?? Enumerable.Empty<RevInfoTestMerge>();
+			var currentTestMerges = (IEnumerable<RevInfoTestMerge>?)revisionInformation.ActiveTestMerges ?? Enumerable.Empty<RevInfoTestMerge>();
 
-			revisionInformation.ActiveTestMerges ??= new List<RevInfoTestMerge>();
-
-			var addedTestMerges = revisionInformation
-				.ActiveTestMerges
+			// determine what TMs were changed and how
+			var addedTestMerges = currentTestMerges
 				.Select(x => x.TestMerge)
-				.Where(x => !previousRevisionInformation
-					.ActiveTestMerges
+				.Where(x => !previousTestMerges
 					.Any(y => y.TestMerge.Number == x.Number))
 				.ToList();
-			var removedTestMerges = previousRevisionInformation
-				.ActiveTestMerges
+			var removedTestMerges = previousTestMerges
 				.Select(x => x.TestMerge)
-				.Where(x => !revisionInformation
-					.ActiveTestMerges
+				.Where(x => !currentTestMerges
 					.Any(y => y.TestMerge.Number == x.Number))
 				.ToList();
-			var updatedTestMerges = revisionInformation
-				.ActiveTestMerges
+			var updatedTestMerges = currentTestMerges
 				.Select(x => x.TestMerge)
-				.Where(x => previousRevisionInformation
-					.ActiveTestMerges
+				.Where(x => previousTestMerges
 					.Any(y => y.TestMerge.Number == x.Number && y.TestMerge.TargetCommitSha != x.TargetCommitSha))
 				.ToList();
-			var unchangedTestMerges = revisionInformation
-				.ActiveTestMerges
+			var unchangedTestMerges = currentTestMerges
 				.Select(x => x.TestMerge)
-				.Where(x => previousRevisionInformation
-					.ActiveTestMerges
+				.Where(x => previousTestMerges
 					.Any(y => y.TestMerge.Number == x.Number && y.TestMerge.TargetCommitSha == x.TargetCommitSha))
 				.ToList();
 
@@ -1008,7 +999,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					false)));
 
 			if (removedTestMerges.Count != 0)
-			{
 				fields.Add(
 				new EmbedField(
 					"Removed:",
@@ -1016,7 +1006,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						Environment.NewLine,
 						removedTestMerges
 							.Select(x => $"- #{x.Number} [{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_"))));
-			}
 
 			return fields;
 		}
