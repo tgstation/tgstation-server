@@ -31,3 +31,4 @@ changelog.yml
 *.sqlite3
 packaging/
 yarn-error.log*
+.graphqlrc.json
