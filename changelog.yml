@@ -184,8 +184,23 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 6.14.1
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.12.1
+      GraphQLApi: 0.5.0
+      DreamMakerApi: 7.3.1
+      Configuration: 5.5.0
+      InteropApi: 5.10.0
+      HostWatchdog: 1.6.0
+      NugetCommon: 7.0.0
+      NugetApi: 17.0.1
+      NugetClient: 20.0.0
+      WebControlPanel: 6.7.3
+    Changes:
+    - Descriptions:
+      - 'Docker: Fixed bad health check command.'
+      - Fixed an issue where GitHub app tokens would be cached beyond their expiry period.
+      Author: Cyberboss
+      PullRequest: 2139
     Unreleased: true
   - Version: 6.14.0
     ComponentVersions:
