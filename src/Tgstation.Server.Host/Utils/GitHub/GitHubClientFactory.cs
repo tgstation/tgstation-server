@@ -31,6 +31,11 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		const uint ClientCacheHours = 1;
 
 		/// <summary>
+		/// Minutes before tokens expire before not using them.
+		/// </summary>
+		const uint AppTokenExpiryGraceMinutes = 15;
+
+		/// <summary>
 		/// The <see cref="clientCache"/> <see cref="KeyValuePair{TKey, TValue}.Key"/> used in place of <see langword="null"/> when accessing a configuration-based client with no token set in <see cref="GeneralConfiguration.GitHubAccessToken"/>.
 		/// </summary>
 		const string DefaultCacheKey = "~!@TGS_DEFAULT_GITHUB_CLIENT_CACHE_KEY@!~";
@@ -56,9 +61,9 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
-		/// Cache of created <see cref="GitHubClient"/>s and last used times, keyed by access token.
+		/// Cache of created <see cref="GitHubClient"/>s and last used/expiry times, keyed by access token.
 		/// </summary>
-		readonly Dictionary<string, (GitHubClient Client, DateTimeOffset LastUsed)> clientCache;
+		readonly Dictionary<string, (GitHubClient Client, DateTimeOffset LastUsed, DateTimeOffset? Expiry)> clientCache;
 
 		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> used to guard access to <see cref="clientCache"/>.
@@ -83,7 +88,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 
-			clientCache = new Dictionary<string, (GitHubClient, DateTimeOffset)>();
+			clientCache = new Dictionary<string, (GitHubClient, DateTimeOffset, DateTimeOffset?)>();
 			clientCacheSemaphore = new SemaphoreSlim(1, 1);
 		}
 
@@ -137,13 +142,20 @@ namespace Tgstation.Server.Host.Utils.GitHub
 				else
 					cacheKey = accessString;
 
-				cacheHit = clientCache.TryGetValue(cacheKey, out var tuple);
-
 				var now = DateTimeOffset.UtcNow;
-				if (!cacheHit)
+				cacheHit = clientCache.TryGetValue(cacheKey, out var tuple);
+				var tokenValid = cacheHit && (!tuple.Expiry.HasValue || tuple.Expiry.Value <= now);
+				if (!tokenValid)
 				{
+					if (cacheHit)
+					{
+						logger.LogDebug("Previously cached GitHub token has expired!");
+						clientCache.Remove(cacheKey);
+					}
+
 					logger.LogTrace("Creating new GitHubClient...");
 
+					DateTimeOffset? expiry = null;
 					if (accessString != null)
 					{
 						if (accessString.StartsWith(RepositorySettings.TgsAppPrivateKeyPrefix))
@@ -177,6 +189,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 								var installToken = await client.GitHubApps.CreateInstallationToken(installation.Id);
 
 								client.Credentials = new Credentials(installToken.Token);
+								expiry = installToken.ExpiresAt.AddMinutes(-AppTokenExpiryGraceMinutes);
 							}
 							catch (Exception ex)
 							{
@@ -193,7 +206,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					else
 						client = CreateUnauthenticatedClient();
 
-					clientCache.Add(cacheKey, (Client: client, LastUsed: now));
+					clientCache.Add(cacheKey, (Client: client, LastUsed: now, Expiry: expiry));
 					lastUsed = null;
 				}
 				else
@@ -213,7 +226,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 						continue; // save the hash lookup
 
 					tuple = clientCache[key];
-					if (tuple.LastUsed <= purgeAfter)
+					if (tuple.LastUsed <= purgeAfter || (tuple.Expiry.HasValue && tuple.Expiry.Value <= now))
 					{
 						clientCache.Remove(key);
 						++purgeCount;
