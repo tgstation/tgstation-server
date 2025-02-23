@@ -183,6 +183,10 @@ Components:
     ComponentVersions: {}
     Changes: []
     Unreleased: true
+  - Version: 6.14.2
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.14.1
     ComponentVersions:
       HttpApi: 10.12.1
@@ -201,7 +205,6 @@ Components:
       - Fixed an issue where GitHub app tokens would be cached beyond their expiry period.
       Author: Cyberboss
       PullRequest: 2139
-    Unreleased: true
   - Version: 6.14.0
     ComponentVersions:
       Core: 6.14.0
