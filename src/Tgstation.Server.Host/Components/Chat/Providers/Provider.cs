@@ -199,6 +199,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public abstract ValueTask<Func<string?, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			RevisionInformation revisionInformation,
+			RevisionInformation? previousRevisionInformation,
 			Api.Models.EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string? gitHubOwner,
