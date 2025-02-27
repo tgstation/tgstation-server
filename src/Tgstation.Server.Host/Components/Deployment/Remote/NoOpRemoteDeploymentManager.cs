@@ -66,6 +66,15 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			=> String.Empty;
 
 		/// <inheritdoc />
+		protected override string FormatTestMergeRemoval(
+			Models.RepositorySettings repositorySettings,
+			Models.CompileJob compileJob,
+			TestMerge testMerge,
+			string remoteRepositoryOwner,
+			string remoteRepositoryName)
+			=> String.Empty;
+
+		/// <inheritdoc />
 		protected override ValueTask MarkInactiveImpl(Models.CompileJob compileJob, CancellationToken cancellationToken) => ValueTask.CompletedTask;
 
 		/// <inheritdoc />

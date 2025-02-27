@@ -7,11 +7,11 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-using GitLabApiClient;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
+using StrawberryShake;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -27,6 +27,7 @@ using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
 using Tgstation.Server.Host.Utils.GitHub;
+using Tgstation.Server.Host.Utils.GitLab.GraphQL;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -585,70 +586,84 @@ namespace Tgstation.Server.Host.Controllers
 			switch (remoteFeatures.RemoteGitProvider!.Value)
 			{
 				case RemoteGitProvider.GitHub:
-					var gitHubClient = await gitHubClientFactory.CreateClientForRepository(
+					{
+						var gitHubClient = await gitHubClientFactory.CreateClientForRepository(
 						model.AccessToken,
 						new RepositoryIdentifier(
 							remoteFeatures.RemoteRepositoryOwner!,
 							remoteFeatures.RemoteRepositoryName!),
 						cancellationToken);
-					if (gitHubClient == null)
-					{
-						return this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
+						if (gitHubClient == null)
 						{
-							AdditionalData = "GitHub authentication failed!",
-						});
-					}
-
-					try
-					{
-						string username;
-						if (!model.AccessToken.StartsWith(Api.Models.RepositorySettings.TgsAppPrivateKeyPrefix))
-						{
-							var user = await gitHubClient.User.Current();
-							username = user.Login;
-						}
-						else
-						{
-							// we literally need to app auth again to get the damn bot username
-							var appClient = gitHubClientFactory.CreateAppClient(model.AccessToken)!;
-							var app = await appClient.GitHubApps.GetCurrent();
-							username = app.Name;
+							return this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
+							{
+								AdditionalData = "GitHub authentication failed!",
+							});
 						}
 
-						if (username != model.AccessUser)
-							return Conflict(new ErrorMessageResponse(ErrorCode.RepoTokenUsernameMismatch));
-					}
-					catch (Exception ex)
-					{
-						return this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
+						try
 						{
-							AdditionalData = $"GitHub Authentication Failure: {ex.Message}",
-						});
+							string username;
+							if (!model.AccessToken.StartsWith(Api.Models.RepositorySettings.TgsAppPrivateKeyPrefix))
+							{
+								var user = await gitHubClient.User.Current();
+								username = user.Login;
+							}
+							else
+							{
+								// we literally need to app auth again to get the damn bot username
+								var appClient = gitHubClientFactory.CreateAppClient(model.AccessToken)!;
+								var app = await appClient.GitHubApps.GetCurrent();
+								username = app.Name;
+							}
+
+							if (username != model.AccessUser)
+								return Conflict(new ErrorMessageResponse(ErrorCode.RepoTokenUsernameMismatch));
+						}
+						catch (Exception ex)
+						{
+							return this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
+							{
+								AdditionalData = $"GitHub Authentication Failure: {ex.Message}",
+							});
+						}
+
+						break;
 					}
 
-					break;
 				case RemoteGitProvider.GitLab:
-					// need to abstract this eventually
-					var gitLabClient = new GitLabClient(GitLabRemoteFeatures.GitLabUrl, model.AccessToken);
-					try
 					{
-						var user = await gitLabClient.Users.GetCurrentSessionAsync();
-						if (user.Username != model.AccessUser)
-							return Conflict(new ErrorMessageResponse(ErrorCode.RepoTokenUsernameMismatch));
-					}
-					catch (Exception ex)
-					{
-						return this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
+						// need to abstract this eventually
+						await using var gitLabClient = await GraphQLGitLabClientFactory.CreateClient(model.AccessToken);
+						try
 						{
-							AdditionalData = $"GitLab Authentication Failure: {ex.Message}",
-						});
+							var operationResult = await gitLabClient.GraphQL.GetCurrentUser.ExecuteAsync(cancellationToken);
+
+							operationResult.EnsureNoErrors();
+
+							var user = operationResult.Data?.CurrentUser;
+							if (user == null || user.Username != model.AccessUser)
+							{
+								return Conflict(new ErrorMessageResponse(ErrorCode.RepoTokenUsernameMismatch));
+							}
+						}
+						catch (Exception ex)
+						{
+							return this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
+							{
+								AdditionalData = $"GitLab Authentication Failure: {ex.Message}",
+							});
+						}
+
+						break;
 					}
 
-					break;
 				case RemoteGitProvider.Unknown:
 				default:
-					Logger.LogWarning("RemoteGitProvider is {provider}, no auth check implemented!", remoteFeatures.RemoteGitProvider.Value);
-					break;
+					{
+						Logger.LogWarning("RemoteGitProvider is {provider}, no auth check implemented!", remoteFeatures.RemoteGitProvider.Value);
+						break;
+					}
 			}
 
 			return null;

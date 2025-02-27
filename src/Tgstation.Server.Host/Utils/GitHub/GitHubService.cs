@@ -164,6 +164,73 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		}
 
 		/// <inheritdoc />
+		public Task AppendCommentOnIssue(string repoOwner, string repoName, string comment, IssueComment issueComment, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(repoOwner);
+
+			ArgumentNullException.ThrowIfNull(repoName);
+
+			ArgumentNullException.ThrowIfNull(comment);
+
+			ArgumentNullException.ThrowIfNull(issueComment);
+
+			logger.LogTrace("AppendCommentOnIssue");
+
+			return gitHubClient
+				.Issue
+				.Comment
+				.Update(
+					repoOwner,
+					repoName,
+					issueComment.Id,
+					issueComment.Body + comment)
+				.WaitAsync(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		public async ValueTask<IssueComment?> GetExistingCommentOnIssue(string repoOwner, string repoName, string header, int issueNumber, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(repoOwner);
+
+			ArgumentNullException.ThrowIfNull(repoName);
+
+			ArgumentNullException.ThrowIfNull(header);
+
+			logger.LogTrace("GetExistingCommentOnIssue");
+
+			var comments = await gitHubClient
+				.Issue
+				.Comment
+				.GetAllForIssue(
+					repoOwner,
+					repoName,
+					issueNumber)
+				.WaitAsync(cancellationToken);
+			if (comments == null)
+			{
+				return null;
+			}
+
+			long userId = await GetCurrentUserId(cancellationToken);
+
+			for (int i = comments.Count - 1; i > -1; i--)
+			{
+				var currentComment = comments[i];
+				if (currentComment.User?.Id == userId && (currentComment.Body?.StartsWith(header) ?? false))
+				{
+					if (currentComment.Body.Length > 250000)
+					{ // Limit should be 262,143 so we'll leave a 12,143 buffer
+						return null;
+					}
+
+					return currentComment;
+				}
+			}
+
+			return null;
+		}
+
+		/// <inheritdoc />
 		public async ValueTask<long> GetRepositoryId(string repoOwner, string repoName, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(repoOwner);
