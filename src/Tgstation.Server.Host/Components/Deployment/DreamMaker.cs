@@ -340,9 +340,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 					repositorySettings!.PushTestMergeCommits!.Value
 					&& repositorySettings.AccessToken != null
 					&& repositorySettings.AccessUser != null;
+				var oldCompileJob = await compileJobConsumer.LatestCompileJob();
 				using (repo)
 					compileJob = await Compile(
 						job,
+						oldCompileJob,
 						revInfo!,
 						dreamMakerSettings!,
 						ddSettings!,
@@ -353,7 +355,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 						likelyPushedTestMergeCommit,
 						cancellationToken);
 
-				var activeCompileJob = await compileJobConsumer.LatestCompileJob();
 				try
 				{
 					await databaseContextFactory.UseContext(
@@ -402,7 +403,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				var commentsTask = remoteDeploymentManager!.PostDeploymentComments(
 					compileJob,
-					activeCompileJob?.RevisionInformation,
+					oldCompileJob?.RevisionInformation,
 					repositorySettings,
 					repoOwner,
 					repoName,
@@ -479,6 +480,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Run the compile implementation.
 		/// </summary>
 		/// <param name="job">The currently running <see cref="Job"/>.</param>
+		/// <param name="oldCompileJob">The optional <see cref="CompileJob"/> of the previous deployment.</param>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/>.</param>
 		/// <param name="dreamMakerSettings">The <see cref="Api.Models.Internal.DreamMakerSettings"/>.</param>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/>.</param>
@@ -491,6 +493,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the completed <see cref="CompileJob"/>.</returns>
 		async ValueTask<Models.CompileJob> Compile(
 			Models.Job job,
+			Models.CompileJob? oldCompileJob,
 			Models.RevisionInformation revisionInformation,
 			Api.Models.Internal.DreamMakerSettings dreamMakerSettings,
 			DreamDaemonLaunchParameters launchParameters,
@@ -512,6 +515,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				using var engineLock = await engineManager.UseExecutables(null, null, cancellationToken);
 				currentChatCallback = chatManager.QueueDeploymentMessage(
 					revisionInformation,
+					oldCompileJob?.RevisionInformation,
 					engineLock.Version,
 					DateTimeOffset.UtcNow + estimatedDuration,
 					repository.RemoteRepositoryOwner,

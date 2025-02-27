@@ -303,6 +303,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async ValueTask<Func<string?, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
+			Models.RevisionInformation? previousRevisionInformation,
 			EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string? gitHubOwner,
@@ -316,7 +317,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			localCommitPushed |= revisionInformation.CommitSha == revisionInformation.OriginCommitSha;
 
-			var fields = BuildUpdateEmbedFields(revisionInformation, engineVersion, gitHubOwner, gitHubRepo, localCommitPushed);
+			var fields = BuildUpdateEmbedFields(revisionInformation, previousRevisionInformation, engineVersion, gitHubOwner, gitHubRepo, localCommitPushed);
 			Optional<IEmbedAuthor> author = new EmbedAuthor(assemblyInformationProvider.VersionPrefix)
 			{
 				Url = "https://github.com/tgstation/tgstation-server",
@@ -900,6 +901,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Create a <see cref="List{T}"/> of <see cref="IEmbedField"/>s for a discord update embed.
 		/// </summary>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/> of the deployment.</param>
+		/// <param name="previousRevisionInformation">The optional <see cref="RevisionInformation"/> of the previous deployment.</param>
 		/// <param name="engineVersion">The <see cref="EngineVersion"/> of the deployment.</param>
 		/// <param name="gitHubOwner">The repository GitHub owner, if any.</param>
 		/// <param name="gitHubRepo">The repository GitHub name, if any.</param>
@@ -907,6 +909,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <returns>A new <see cref="List{T}"/> of <see cref="IEmbedField"/>s to use.</returns>
 		List<IEmbedField> BuildUpdateEmbedFields(
 			Models.RevisionInformation revisionInformation,
+			Models.RevisionInformation? previousRevisionInformation,
 			EngineVersion engineVersion,
 			string? gitHubOwner,
 			string? gitHubRepo,
@@ -936,6 +939,31 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (gitHubOwner == null || gitHubRepo == null)
 				return fields;
 
+			var previousTestMerges = (IEnumerable<RevInfoTestMerge>?)previousRevisionInformation?.ActiveTestMerges ?? Enumerable.Empty<RevInfoTestMerge>();
+			var currentTestMerges = (IEnumerable<RevInfoTestMerge>?)revisionInformation.ActiveTestMerges ?? Enumerable.Empty<RevInfoTestMerge>();
+
+			// determine what TMs were changed and how
+			var addedTestMerges = currentTestMerges
+				.Select(x => x.TestMerge)
+				.Where(x => !previousTestMerges
+					.Any(y => y.TestMerge.Number == x.Number))
+				.ToList();
+			var removedTestMerges = previousTestMerges
+				.Select(x => x.TestMerge)
+				.Where(x => !currentTestMerges
+					.Any(y => y.TestMerge.Number == x.Number))
+				.ToList();
+			var updatedTestMerges = currentTestMerges
+				.Select(x => x.TestMerge)
+				.Where(x => previousTestMerges
+					.Any(y => y.TestMerge.Number == x.Number && y.TestMerge.TargetCommitSha != x.TargetCommitSha))
+				.ToList();
+			var unchangedTestMerges = currentTestMerges
+				.Select(x => x.TestMerge)
+				.Where(x => previousTestMerges
+					.Any(y => y.TestMerge.Number == x.Number && y.TestMerge.TargetCommitSha == x.TargetCommitSha))
+				.ToList();
+
 			fields.Add(
 				new EmbedField(
 					"Local Commit",
@@ -952,12 +980,32 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						: revisionOriginSha[..7],
 					true));
 
-			fields.AddRange((revisionInformation.ActiveTestMerges ?? Enumerable.Empty<RevInfoTestMerge>())
-				.Select(x => x.TestMerge)
+			fields.AddRange(addedTestMerges
+				.Select(x => new EmbedField(
+					$"#{x.Number} (Added)",
+					$"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: [{x.TargetCommitSha![..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{x.TargetCommitSha}){(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}",
+					false)));
+
+			fields.AddRange(updatedTestMerges
+				.Select(x => new EmbedField(
+					$"#{x.Number} (Updated)",
+					$"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: [{x.TargetCommitSha![..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{x.TargetCommitSha}){(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}",
+					false)));
+
+			fields.AddRange(unchangedTestMerges
 				.Select(x => new EmbedField(
 					$"#{x.Number}",
 					$"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: [{x.TargetCommitSha![..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{x.TargetCommitSha}){(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}",
 					false)));
+
+			if (removedTestMerges.Count != 0)
+				fields.Add(
+				new EmbedField(
+					"Removed:",
+					String.Join(
+						Environment.NewLine,
+						removedTestMerges
+							.Select(x => $"- #{x.Number} [{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_"))));
 
 			return fields;
 		}

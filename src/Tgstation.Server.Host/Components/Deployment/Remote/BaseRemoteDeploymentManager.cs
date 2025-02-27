@@ -66,36 +66,28 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			if (repositorySettings.AccessToken == null)
 				return;
 
-			var deployedRevisionInformation = compileJob.RevisionInformation;
-			if ((previousRevisionInformation != null && previousRevisionInformation.CommitSha == deployedRevisionInformation.CommitSha)
+			var revisionInformation = compileJob.RevisionInformation;
+			if ((previousRevisionInformation != null && previousRevisionInformation.CommitSha == revisionInformation.CommitSha)
 				|| !repositorySettings.PostTestMergeComment!.Value)
 				return;
 
-			previousRevisionInformation ??= new RevisionInformation();
-			previousRevisionInformation.ActiveTestMerges ??= new List<RevInfoTestMerge>();
+			var previousTestMerges = (IEnumerable<RevInfoTestMerge>?)previousRevisionInformation?.ActiveTestMerges ?? Enumerable.Empty<RevInfoTestMerge>();
+			var currentTestMerges = (IEnumerable<RevInfoTestMerge>?)revisionInformation.ActiveTestMerges ?? Enumerable.Empty<RevInfoTestMerge>();
 
-			deployedRevisionInformation.ActiveTestMerges ??= new List<RevInfoTestMerge>();
-
-			// added prs
-			var addedTestMerges = deployedRevisionInformation
-				.ActiveTestMerges
+			// determine what TMs were changed and how
+			var addedTestMerges = currentTestMerges
 				.Select(x => x.TestMerge)
-				.Where(x => !previousRevisionInformation
-					.ActiveTestMerges
+				.Where(x => !previousTestMerges
 					.Any(y => y.TestMerge.Number == x.Number))
 				.ToList();
-			var removedTestMerges = previousRevisionInformation
-				.ActiveTestMerges
+			var removedTestMerges = previousTestMerges
 				.Select(x => x.TestMerge)
-				.Where(x => !deployedRevisionInformation
-					.ActiveTestMerges
+				.Where(x => !currentTestMerges
 					.Any(y => y.TestMerge.Number == x.Number))
 				.ToList();
-			var updatedTestMerges = deployedRevisionInformation
-				.ActiveTestMerges
+			var updatedTestMerges = currentTestMerges
 				.Select(x => x.TestMerge)
-				.Where(x => previousRevisionInformation
-					.ActiveTestMerges
+				.Where(x => previousTestMerges
 					.Any(y => y.TestMerge.Number == x.Number))
 				.ToList();
 
