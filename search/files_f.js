@@ -2,7 +2,7 @@ var searchData=
 [
   ['oauthconfiguration_2ecs_0',['OAuthConfiguration.cs',['../_o_auth_configuration_8cs.html',1,'']]],
   ['oauthconfigurationbase_2ecs_1',['OAuthConfigurationBase.cs',['../_o_auth_configuration_base_8cs.html',1,'']]],
-  ['oauthconnection_2ecs_2',['oauthconnection.cs',['../_tgstation_8_server_8_host_2_graph_q_l_2_types_2_o_auth_2_o_auth_connection_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_o_auth_connection_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_o_auth_connection_8cs.html',1,'(Global Namespace)']]],
+  ['oauthconnection_2ecs_2',['oauthconnection.cs',['../_tgstation_8_server_8_host_2_models_2_o_auth_connection_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_graph_q_l_2_types_2_o_auth_2_o_auth_connection_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_o_auth_connection_8cs.html',1,'(Global Namespace)']]],
   ['oauthgatewayloginresult_2ecs_3',['OAuthGatewayLoginResult.cs',['../_o_auth_gateway_login_result_8cs.html',1,'']]],
   ['oauthgatewayresponse_2ecs_4',['OAuthGatewayResponse.cs',['../_o_auth_gateway_response_8cs.html',1,'']]],
   ['oauthgatewaystatus_2ecs_5',['OAuthGatewayStatus.cs',['../_o_auth_gateway_status_8cs.html',1,'']]],

@@ -37,7 +37,7 @@ var searchData=
   ['resultextensions_2ecs_34',['ResultExtensions.cs',['../_result_extensions_8cs.html',1,'']]],
   ['revinfotestmerge_2ecs_35',['RevInfoTestMerge.cs',['../_rev_info_test_merge_8cs.html',1,'']]],
   ['revisioncommand_2ecs_36',['RevisionCommand.cs',['../_revision_command_8cs.html',1,'']]],
-  ['revisioninformation_2ecs_37',['revisioninformation.cs',['../_tgstation_8_server_8_host_2_models_2_revision_information_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_revision_information_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs.html',1,'(Global Namespace)']]],
+  ['revisioninformation_2ecs_37',['revisioninformation.cs',['../_tgstation_8_server_8_api_2_models_2_revision_information_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_revision_information_8cs.html',1,'(Global Namespace)']]],
   ['rightshelper_2ecs_38',['RightsHelper.cs',['../_rights_helper_8cs.html',1,'']]],
   ['rightstype_2ecs_39',['RightsType.cs',['../_rights_type_8cs.html',1,'']]],
   ['rightstypeinterceptor_2ecs_40',['RightsTypeInterceptor.cs',['../_rights_type_interceptor_8cs.html',1,'']]],
