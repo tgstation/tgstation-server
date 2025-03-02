@@ -57,13 +57,6 @@ namespace Tgstation.Server.Host.Security.OAuth
 						loggerFactory.CreateLogger<DiscordOAuthValidator>(),
 						discordConfig));
 
-			if (securityConfiguration.OAuth.TryGetValue(OAuthProvider.TGForums, out var tgConfig))
-				validatorsBuilder.Add(
-					new TGForumsOAuthValidator(
-						httpClientFactory,
-						loggerFactory.CreateLogger<TGForumsOAuthValidator>(),
-						tgConfig));
-
 			if (securityConfiguration.OAuth.TryGetValue(OAuthProvider.Keycloak, out var keyCloakConfig))
 				validatorsBuilder.Add(
 					new KeycloakOAuthValidator(

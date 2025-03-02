@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Tgstation.Server.Api.Models
@@ -20,8 +22,9 @@ namespace Tgstation.Server.Api.Models
 		Discord,
 
 		/// <summary>
-		/// https://tgstation13.org.
+		/// Pre-hostening https://tgstation13.org. No longer supported.
 		/// </summary>
+		[Obsolete("tgstation13.org no longer has a custom OAuth solution", true)]
 		TGForums,
 
 		/// <summary>

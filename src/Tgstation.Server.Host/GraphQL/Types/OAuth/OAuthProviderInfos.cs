@@ -58,7 +58,6 @@ namespace Tgstation.Server.Host.GraphQL.Types.OAuth
 
 			Discord = TryBuild(OAuthProvider.Discord, info => new BasicOAuthProviderInfo(info));
 			GitHub = TryBuild(OAuthProvider.GitHub, info => new RedirectOAuthProviderInfo(info));
-			TGForums = TryBuild(OAuthProvider.TGForums, info => new RedirectOAuthProviderInfo(info));
 			Keycloak = TryBuild(OAuthProvider.Keycloak, info => new FullOAuthProviderInfo(info));
 			InvisionCommunity = TryBuild(OAuthProvider.InvisionCommunity, info => new FullOAuthProviderInfo(info));
 		}
