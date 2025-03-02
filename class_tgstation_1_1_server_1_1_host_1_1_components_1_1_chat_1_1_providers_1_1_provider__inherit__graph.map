@@ -1,9 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.Provider" name="Tgstation.Server.Host.Components.Chat.Providers.Provider">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,153,232,193"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html" title="IProvider for internet relay chat." alt="" coords="5,241,232,282"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="121,209,121,241,116,241,116,209"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="82,79,155,105"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,120,121,152,116,152,116,120"/>
-<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="56,5,181,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="121,46,121,79,116,79,116,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="300,39,526,79"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html" title="IProvider for the Discord app." alt="" coords="574,5,801,46"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="542,41,573,37,574,42,542,46"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html" title="IProvider for internet relay chat." alt="" coords="574,71,801,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="542,71,574,75,573,80,542,77"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="179,46,252,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="268,56,299,56,299,62,268,62"/>
+<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="5,46,131,72"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="146,56,178,56,178,62,146,62"/>
 </map>

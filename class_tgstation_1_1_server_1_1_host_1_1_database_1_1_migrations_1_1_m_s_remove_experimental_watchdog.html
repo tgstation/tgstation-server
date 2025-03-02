@@ -955,9 +955,9 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   62</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Id</a> = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;bigint&quot;</span>, nullable: <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">   63</span>                        .Annotation(<span class="stringliteral">&quot;SqlServer:Identity&quot;</span>, <span class="stringliteral">&quot;1, 1&quot;</span>),</div>
 <div class="line"><span class="lineno">   64</span>                    AlphaId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;bigint&quot;</span>, nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   65</span>                    AlphaIsActive = table.Column&lt;<span class="keywordtype">bool</span>&gt;(type: <span class="stringliteral">&quot;bit&quot;</span>, nullable: false),</div>
+<div class="line"><span class="lineno">   65</span>                    AlphaIsActive = table.Column&lt;<span class="keywordtype">bool</span>&gt;(type: <span class="stringliteral">&quot;bit&quot;</span>, nullable: <a class="code hl_variable" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers.html#af4b5f6ad734602f75d059267687ca3dd">false</a>),</div>
 <div class="line"><span class="lineno">   66</span>                    BravoId = table.Column&lt;long&gt;(type: <span class="stringliteral">&quot;bigint&quot;</span>, nullable: true),</div>
-<div class="line"><span class="lineno">   67</span>                    InstanceId = table.Column&lt;long&gt;(type: <span class="stringliteral">&quot;bigint&quot;</span>, nullable: false),</div>
+<div class="line"><span class="lineno">   67</span>                    InstanceId = table.Column&lt;long&gt;(type: <span class="stringliteral">&quot;bigint&quot;</span>, nullable: <a class="code hl_variable" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers.html#af4b5f6ad734602f75d059267687ca3dd">false</a>),</div>
 <div class="line"><span class="lineno">   68</span>                },</div>
 <div class="line"><span class="lineno">   69</span>                constraints: table =&gt;</div>
 <div class="line"><span class="lineno">   70</span>                {</div>
@@ -999,6 +999,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  106</span>                unique: true);</div>
 <div class="line"><span class="lineno">  107</span>        }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_authority_html_a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_authority.html#a6055c0b2bf09442f677be3ed1eb725d5a490aa6e856ccf208a054389e47ce0d06">Tgstation.Server.Host.Authority.PermissionSetLookupType.Id</a></div><div class="ttdeci">@ Id</div><div class="ttdoc">Lookup the Api.Models.EntityId.Id of the Models.PermissionSet.</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_html_af4b5f6ad734602f75d059267687ca3dd"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers.html#af4b5f6ad734602f75d059267687ca3dd">Tgstation.Server.Host.Components.Chat.Providers.false</a></div><div class="ttdeci">false</div><div class="ttdef"><b>Definition</b> <a href="_discord_provider_8cs_source.html#l00999">DiscordProvider.cs:998</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>

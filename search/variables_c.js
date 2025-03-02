@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['mappedchannels_0',['mappedChannels',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#affabd2c8c6dccbfc92ab509c9405b88b',1,'Tgstation::Server::Host::Components::Chat::ChatManager']]],
+  ['mappedchannels_0',['mappedchannels',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a044ae95d278a4ed4a6a02449e24e8146',1,'Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.mappedChannels'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#affabd2c8c6dccbfc92ab509c9405b88b',1,'Tgstation.Server.Host.Components.Chat.ChatManager.mappedChannels']]],
   ['mapthreadsversion_1',['MapThreadsVersion',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a4cd417253999a2cf3e192fe581e7686b',1,'Tgstation::Server::Host::Components::Engine::ByondInstallerBase']]],
   ['maxhubupdatespersecond_2',['MaxHubUpdatesPerSecond',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a3a93028520373dfb2a085925e707e2ab',1,'Tgstation::Server::Host::Jobs::JobService']]],
   ['maximumbridgerequestlength_3',['MaximumBridgeRequestLength',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html#a278b2438bc45c0fef89bde236fdff508',1,'Tgstation::Server::Host::Components::Interop::DMApiConstants']]],

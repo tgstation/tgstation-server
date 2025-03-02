@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['zipstream_0',['zipStream',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_zip_stream_engine_installation_data.html#a885d3fa59c30c6f38266a01f07b11526',1,'Tgstation::Server::Host::Components::Engine::ZipStreamEngineInstallationData']]],
-  ['zipstreamengineinstallationdata_1',['zipstreamengineinstallationdata',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_zip_stream_engine_installation_data.html',1,'Tgstation.Server.Host.Components.Engine.ZipStreamEngineInstallationData'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_zip_stream_engine_installation_data.html#ae0a6b9f87afe7c9fceb906f74b920ed7',1,'Tgstation.Server.Host.Components.Engine.ZipStreamEngineInstallationData.ZipStreamEngineInstallationData()']]],
-  ['zipstreamengineinstallationdata_2ecs_2',['ZipStreamEngineInstallationData.cs',['../_zip_stream_engine_installation_data_8cs.html',1,'']]],
-  ['ziptodirectory_3',['ziptodirectory',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a62a703e04375abfc93020af28fd6b0ef',1,'Tgstation.Server.Host.IO.DefaultIOManager.ZipToDirectory()'],['../interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a97cec04d5bb18549ae09bc89bf2d016f',1,'Tgstation.Server.Host.IO.IIOManager.ZipToDirectory()']]]
+  ['yes_0',['Yes',['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_native_methods.html#addfc53022edd4546197d083468595314a93cba07454f06a4a960172bbd6e2a435',1,'Tgstation::Server::Host::Service::NativeMethods']]],
+  ['yesno_1',['YesNo',['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_native_methods.html#a487436200e6ebf3d76e3c88bd6c46696ab65ffbcb4dcfb93ecdc257d6e4ba42c4',1,'Tgstation::Server::Host::Service::NativeMethods']]]
 ];

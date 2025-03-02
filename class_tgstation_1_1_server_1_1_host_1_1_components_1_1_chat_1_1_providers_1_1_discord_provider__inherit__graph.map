@@ -1,0 +1,15 @@
+<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider">
+<area shape="rect" id="Node000001" title="IProvider for the Discord app." alt="" coords="36,226,263,267"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="51,153,120,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,189,136,224,131,228,103,192"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="31,79,105,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="77,119,85,152,80,153,72,120"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,131,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="71,46,71,79,65,79,65,46"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="162,153,300,178"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="209,191,171,228,168,224,206,187"/>
+<area shape="rect" id="Node000006" href="$class_i_responder.html" title=" " alt="" coords="129,79,333,105"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="233,120,233,152,228,152,228,120"/>
+<area shape="rect" id="Node000007" href="$class_i_responder.html" title=" " alt="" coords="357,79,507,105"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="384,113,266,155,264,150,383,108"/>
+</map>

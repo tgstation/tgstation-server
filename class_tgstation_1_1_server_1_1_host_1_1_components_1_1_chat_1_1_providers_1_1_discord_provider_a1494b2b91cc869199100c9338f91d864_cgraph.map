@@ -1,0 +1,12 @@
+<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendMessage" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendMessage">
+<area shape="rect" id="Node000001" title="Send a message to the IProvider.A ValueTask representing the running operation." alt="" coords="5,84,240,139"/>
+<area shape="rect" id="Node000002" href="$_discord_provider_8cs.html#a6faaab8be32021a7d88c1d1ac62162c8" title="Convert a ChatEmbed to an IEmbed parameters." alt="" coords="366,5,473,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,81,287,41,351,26,352,31,288,46,185,85"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a6a6dd225ccb27e30c2cc06562b035ebe" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="288,55,551,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="240,95,272,91,272,96,240,100"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ab92d4920074cec3e48fa204af595a498" title="Get all text IChannels accessible to and supported by the bot." alt="" coords="299,120,540,175"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="240,123,284,128,283,134,240,128"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="599,153,814,209"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="172,137,226,164,288,185,364,197,441,201,516,200,583,195,584,200,516,205,441,206,363,202,287,190,224,169,169,142"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="540,159,584,164,583,169,540,164"/>
+</map>

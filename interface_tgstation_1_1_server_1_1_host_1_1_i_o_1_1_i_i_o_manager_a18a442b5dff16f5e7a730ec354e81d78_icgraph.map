@@ -75,7 +75,7 @@
 <area shape="poly" id="edge31_Node000028_Node000029" title=" " alt="" coords="1541,1006,1504,1021,1490,1031,1481,1042,1472,1054,1456,1065,1417,1081,1415,1076,1454,1060,1468,1050,1477,1039,1486,1027,1502,1016,1539,1001"/>
 <area shape="rect" id="Node000030" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="1201,1010,1416,1051"/>
 <area shape="poly" id="edge32_Node000028_Node000030" title=" " alt="" coords="1539,1004,1417,1020,1416,1014,1539,999"/>
-<area shape="rect" id="Node000034" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad489ef5c91d097ff3366d5bc63d8277e" title="Run the compile implementation." alt="" coords="1195,1158,1422,1199"/>
+<area shape="rect" id="Node000034" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a06dba3c351744dea4044270664675ed9" title="Run the compile implementation." alt="" coords="1195,1158,1422,1199"/>
 <area shape="poly" id="edge36_Node000033_Node000034" title=" " alt="" coords="1516,1191,1422,1187,1422,1181,1516,1186"/>
 <area shape="rect" id="Node000035" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title="Create and a compile job and insert it into the database. Meant to be called by a IJobManager...." alt="" coords="828,952,1114,992"/>
 <area shape="poly" id="edge37_Node000034_Node000035" title=" " alt="" coords="1216,1155,1160,1130,1110,1097,1062,1060,991,995,994,991,1066,1056,1113,1093,1163,1125,1218,1150"/>

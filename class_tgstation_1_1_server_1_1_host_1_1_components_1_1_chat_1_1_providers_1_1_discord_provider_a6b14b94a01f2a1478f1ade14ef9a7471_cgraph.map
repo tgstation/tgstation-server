@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendUpdateMessage" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendUpdateMessage">
+<area shape="rect" id="Node000001" title="Send the message for a deployment.A ValueTask&lt;TResult&gt; resulting in a Func&lt;T1, T2,..." alt="" coords="5,41,240,97"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#aa0b4853705d24be3e16314bf050f9e7c" title="Create a List&lt;T&gt; of IEmbedFields for a discord update embed." alt="" coords="323,5,556,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="240,53,307,45,308,51,240,59"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a838ad29e96221a58a71b29358c086c0c" title="Get the prefix for messages about deployments." alt="" coords="288,85,591,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="240,80,272,83,272,89,240,85"/>
+</map>

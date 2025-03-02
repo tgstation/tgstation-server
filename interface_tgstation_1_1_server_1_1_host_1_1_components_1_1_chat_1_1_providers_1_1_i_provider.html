@@ -89,13 +89,15 @@ Inheritance diagram for Tgstation.Server.Host.Components.Chat.Providers.IProvide
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider__inherit__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_components_8_chat_8_providers_8_i_provider_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_components_8_chat_8_providers_8_i_provider_inherit__map" id="a_tgstation_8_server_8_host_8_components_8_chat_8_providers_8_i_provider_inherit__map">
-<area shape="rect" title="For interacting with a chat service." alt="" coords="5,79,232,120"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="5,168,232,208"/>
-<area shape="poly" title=" " alt="" coords="121,135,121,167,116,167,116,135"/>
-<area shape="rect" href="class_i_async_disposable.html" title=" " alt="" coords="56,5,181,31"/>
-<area shape="poly" title=" " alt="" coords="121,46,121,79,116,79,116,46"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html" title="IProvider for internet relay chat." alt="" coords="5,256,232,297"/>
-<area shape="poly" title=" " alt="" coords="121,224,121,256,116,256,116,224"/>
+<area shape="rect" title="For interacting with a chat service." alt="" coords="179,39,405,79"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="453,39,679,79"/>
+<area shape="poly" title=" " alt="" coords="421,56,452,56,452,62,421,62"/>
+<area shape="rect" href="class_i_async_disposable.html" title=" " alt="" coords="5,46,131,72"/>
+<area shape="poly" title=" " alt="" coords="146,56,178,56,178,62,146,62"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html" title="IProvider for the Discord app." alt="" coords="727,5,954,46"/>
+<area shape="poly" title=" " alt="" coords="695,41,726,37,727,42,695,46"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html" title="IProvider for internet relay chat." alt="" coords="727,71,954,111"/>
+<area shape="poly" title=" " alt="" coords="695,71,727,75,726,80,695,77"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -129,9 +131,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8f13abd1df7147c47d6d1a8e4577b9e6" id="r_a8f13abd1df7147c47d6d1a8e4577b9e6"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a8f13abd1df7147c47d6d1a8e4577b9e6">SetReconnectInterval</a> (uint reconnectInterval, bool connectNow)</td></tr>
 <tr class="memdesc:a8f13abd1df7147c47d6d1a8e4577b9e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the interval at which the provider starts jobs to try to reconnect.  <br /></td></tr>
 <tr class="separator:a8f13abd1df7147c47d6d1a8e4577b9e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedec823a8cbd8ca1961d0b001a8b6e16" id="r_aedec823a8cbd8ca1961d0b001a8b6e16"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; Func&lt; string?, string, ValueTask&lt; Func&lt; bool, ValueTask &gt; &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#aedec823a8cbd8ca1961d0b001a8b6e16">SendUpdateMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revisionInformation, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">Api.Models.EngineVersion</a> engineVersion, DateTimeOffset? estimatedCompletionTime, string? gitHubOwner, string? gitHubRepo, ulong channelId, bool localCommitPushed, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aedec823a8cbd8ca1961d0b001a8b6e16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the message for a deployment.  <br /></td></tr>
-<tr class="separator:aedec823a8cbd8ca1961d0b001a8b6e16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30727f02429224226c107a9ce9ad504e" id="r_a30727f02429224226c107a9ce9ad504e"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; Func&lt; string?, string, ValueTask&lt; Func&lt; bool, ValueTask &gt; &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a30727f02429224226c107a9ce9ad504e">SendUpdateMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revisionInformation, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a>? previousRevisionInformation, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">Api.Models.EngineVersion</a> engineVersion, DateTimeOffset? estimatedCompletionTime, string? gitHubOwner, string? gitHubRepo, ulong channelId, bool localCommitPushed, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a30727f02429224226c107a9ce9ad504e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the message for a deployment.  <br /></td></tr>
+<tr class="separator:a30727f02429224226c107a9ce9ad504e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -323,12 +325,12 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#aba0049859728d558ecee46cefed5f930">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afa4587386a66e83ac397b0f847204300">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a1494b2b91cc869199100c9338f91d864">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#aba0049859728d558ecee46cefed5f930">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afa4587386a66e83ac397b0f847204300">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
 </div>
 </div>
-<a id="aedec823a8cbd8ca1961d0b001a8b6e16" name="aedec823a8cbd8ca1961d0b001a8b6e16"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aedec823a8cbd8ca1961d0b001a8b6e16">&#9670;&#160;</a></span>SendUpdateMessage()</h2>
+<a id="a30727f02429224226c107a9ce9ad504e" name="a30727f02429224226c107a9ce9ad504e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30727f02429224226c107a9ce9ad504e">&#9670;&#160;</a></span>SendUpdateMessage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -338,6 +340,12 @@ Properties</h2></td></tr>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a>&#160;</td>
           <td class="paramname"><em>revisionInformation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a>?&#160;</td>
+          <td class="paramname"><em>previousRevisionInformation</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -393,6 +401,7 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">revisionInformation</td><td>The RevisionInformation of the deployment.</td></tr>
+    <tr><td class="paramname">previousRevisionInformation</td><td>The RevisionInformation of the previous deployment if any.</td></tr>
     <tr><td class="paramname">engineVersion</td><td>The Api.Models.EngineVersion of the deployment.</td></tr>
     <tr><td class="paramname">estimatedCompletionTime</td><td>The optional DateTimeOffset the deployment is expected to be completed at.</td></tr>
     <tr><td class="paramname">gitHubOwner</td><td>The repository GitHub owner, if any.</td></tr>
@@ -405,7 +414,7 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a Func&lt;T1, T2, TResult&gt; to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any. Returns another callback which should be called to mark the deployment as active.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a22ba2f5d6507771c3d4ddfe1d3661fcd">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#af105a2807ff7f2f93f1521dd1e34239a">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a6b14b94a01f2a1478f1ade14ef9a7471">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#ab72edbeedce165d60ce0f2235ea9e3e6">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ae237c1790c63a95df1e2660912afcefe">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
 </div>
 </div>
@@ -472,12 +481,12 @@ Properties</h2></td></tr>
 
 <p>The string that indicates the IProvider was mentioned. </p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a2724c59c69f5edcb6ccd6549a6ce71d6">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ad62420e154aa53138bc79855474727ad">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#af40c0ea392de9986a4705d403674f61c">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a2724c59c69f5edcb6ccd6549a6ce71d6">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ad62420e154aa53138bc79855474727ad">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_i_provider_8cs_source.html#l00030">30</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   30</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00686">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00688">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
 
 </div>
 </div>
@@ -503,12 +512,12 @@ Properties</h2></td></tr>
 
 <p>If the IProvider is currently connected. </p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#aa22564e0346747e2c00dfcab7a48141c">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a6dde4ca79096c66ea97177886fa9ee5e">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ac2744da20824177724b971eb20a6d5a0">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#aa22564e0346747e2c00dfcab7a48141c">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a6dde4ca79096c66ea97177886fa9ee5e">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_i_provider_8cs_source.html#l00020">20</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   20</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00686">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00688">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
 
 </div>
 </div>

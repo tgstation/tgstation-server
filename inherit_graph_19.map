@@ -1,7 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_i_retry_policy.html" title=" " alt="" coords="5,49,96,75"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client_token_refresh_retry_policy.html" title="A IRetryPolicy that attempts to refresh a given apiClient&#39;s token on the first disconnect." alt="" coords="144,5,363,46"/>
-<area shape="poly" id="edge281_Node000000_Node000001" title=" " alt="" coords="111,48,143,43,144,48,112,54"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_infinite_thirty_second_max_retry_policy.html" title="A IRetryPolicy that returns seconds in powers of 2, maxing out at 30s." alt="" coords="159,70,348,126"/>
-<area shape="poly" id="edge282_Node000000_Node000002" title=" " alt="" coords="112,70,159,78,158,83,111,75"/>
+<area shape="rect" id="Node000000" href="$class_i_yaml_type_converter.html" title=" " alt="" coords="5,13,145,39"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_shared_1_1_version_converter.html" title="JsonConverter and IYamlTypeConverter for serializing global::System.Versions in semver format." alt="" coords="219,5,383,46"/>
+<area shape="poly" id="edge285_Node000000_Node000001" title=" " alt="" coords="160,23,219,23,219,28,160,28"/>
+<area shape="rect" id="Node000002" href="$class_json_converter.html" title=" " alt="" coords="22,70,128,96"/>
+<area shape="poly" id="edge287_Node000002_Node000001" title=" " alt="" coords="142,63,218,44,219,49,144,68"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_bool_converter.html" title="JsonConverter for decoding bools returned by BYOND." alt="" coords="193,71,409,111"/>
+<area shape="poly" id="edge286_Node000002_Node000003" title=" " alt="" coords="143,83,192,84,192,90,143,88"/>
 </map>

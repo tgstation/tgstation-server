@@ -1,7 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html" title="Handles changing file modes/permissions after writing." alt="" coords="5,39,173,79"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_post_write_handler.html" title="IPostWriteHandler for POSIX systems." alt="" coords="225,5,393,46"/>
-<area shape="poly" id="edge649_Node000000_Node000001" title=" " alt="" coords="187,41,224,36,225,41,188,47"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html" title="IPostWriteHandler for Windows systems." alt="" coords="221,71,397,111"/>
-<area shape="poly" id="edge650_Node000000_Node000002" title=" " alt="" coords="188,71,221,76,220,81,188,76"/>
+<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html" title="For accessing the disk in a synchronous manner." alt="" coords="5,5,173,46"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html" title=" " alt="" coords="221,5,388,46"/>
+<area shape="poly" id="edge653_Node000000_Node000001" title=" " alt="" coords="188,23,220,23,220,28,188,28"/>
 </map>

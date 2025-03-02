@@ -4,7 +4,7 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,321,356,228,487,172,621,122,648,113,649,118,623,127,489,177,358,233,162,326"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a143fbc68ad876ca7e7ce4145d97d9278" title="Gradually triggers a given progressReporter &#160;over a given estimatedDuration ." alt="" coords="302,51,552,91"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="131,322,190,243,232,195,278,152,321,121,364,96,367,101,323,126,281,156,236,199,194,246,135,326"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#aa2527a9fe8d1392b909018d6ed745fed" title="Send the message for a deployment to configured deployment channels." alt="" coords="280,291,574,331"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#af57dca6c1e1af2dc810e731ce106c719" title="Send the message for a deployment to configured deployment channels." alt="" coords="280,291,574,331"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="232,329,264,326,264,331,232,335"/>
 <area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2394e942cf255412fe358bef742b580c" title="Executes and populate a given job ." alt="" coords="297,356,557,397"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="232,353,281,359,281,364,232,359"/>

@@ -134,9 +134,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a103e061814fc6760410734c7a83f9a83" id="r_a103e061814fc6760410734c7a83f9a83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a103e061814fc6760410734c7a83f9a83">QueueWatchdogMessage</a> (string message)</td></tr>
 <tr class="memdesc:a103e061814fc6760410734c7a83f9a83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue a chat <em>message</em>  to configured watchdog channels.  <br /></td></tr>
 <tr class="separator:a103e061814fc6760410734c7a83f9a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2527a9fe8d1392b909018d6ed745fed" id="r_aa2527a9fe8d1392b909018d6ed745fed"><td class="memItemLeft" align="right" valign="top">Func&lt; string?, string, Action&lt; bool &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#aa2527a9fe8d1392b909018d6ed745fed">QueueDeploymentMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revisionInformation, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">Api.Models.EngineVersion</a> engineVersion, DateTimeOffset? estimatedCompletionTime, string? gitHubOwner, string? gitHubRepo, bool localCommitPushed)</td></tr>
-<tr class="memdesc:aa2527a9fe8d1392b909018d6ed745fed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the message for a deployment to configured deployment channels.  <br /></td></tr>
-<tr class="separator:aa2527a9fe8d1392b909018d6ed745fed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af57dca6c1e1af2dc810e731ce106c719" id="r_af57dca6c1e1af2dc810e731ce106c719"><td class="memItemLeft" align="right" valign="top">Func&lt; string?, string, Action&lt; bool &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#af57dca6c1e1af2dc810e731ce106c719">QueueDeploymentMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revisionInformation, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a>? previousRevisionInformation, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">Api.Models.EngineVersion</a> engineVersion, DateTimeOffset? estimatedCompletionTime, string? gitHubOwner, string? gitHubRepo, bool localCommitPushed)</td></tr>
+<tr class="memdesc:af57dca6c1e1af2dc810e731ce106c719"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the message for a deployment to configured deployment channels.  <br /></td></tr>
+<tr class="separator:af57dca6c1e1af2dc810e731ce106c719"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b3b4e9ab7d03bd8020ee9dfa9bebbbe" id="r_a5b3b4e9ab7d03bd8020ee9dfa9bebbbe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html">IChatTrackingContext</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a5b3b4e9ab7d03bd8020ee9dfa9bebbbe">CreateTrackingContext</a> ()</td></tr>
 <tr class="memdesc:a5b3b4e9ab7d03bd8020ee9dfa9bebbbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start tracking Commands.CustomCommands and ChannelRepresentations.  <br /></td></tr>
 <tr class="separator:a5b3b4e9ab7d03bd8020ee9dfa9bebbbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -313,8 +313,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="aa2527a9fe8d1392b909018d6ed745fed" name="aa2527a9fe8d1392b909018d6ed745fed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2527a9fe8d1392b909018d6ed745fed">&#9670;&#160;</a></span>QueueDeploymentMessage()</h2>
+<a id="af57dca6c1e1af2dc810e731ce106c719" name="af57dca6c1e1af2dc810e731ce106c719"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af57dca6c1e1af2dc810e731ce106c719">&#9670;&#160;</a></span>QueueDeploymentMessage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -324,6 +324,12 @@ Here is the caller graph for this function:</div>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a>&#160;</td>
           <td class="paramname"><em>revisionInformation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a>?&#160;</td>
+          <td class="paramname"><em>previousRevisionInformation</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -367,6 +373,7 @@ Here is the caller graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">revisionInformation</td><td>The RevisionInformation of the deployment.</td></tr>
+    <tr><td class="paramname">previousRevisionInformation</td><td>The optional RevisionInformation of the previous deployment.</td></tr>
     <tr><td class="paramname">engineVersion</td><td>The Api.Models.EngineVersion of the deployment.</td></tr>
     <tr><td class="paramname">estimatedCompletionTime</td><td>The optional DateTimeOffset the deployment is expected to be completed at.</td></tr>
     <tr><td class="paramname">gitHubOwner</td><td>The repository GitHub owner, if any.</td></tr>
@@ -377,16 +384,16 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Func&lt;T1, T2, TResult&gt; to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any. Returns an Action to call to mark the deployment as active/inactive. Parameter: If the deployment is being activated or inactivated.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a839513417b1975157b687614bc220721">Tgstation.Server.Host.Components.Chat.ChatManager</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#af41ce2b0c652e320dfeedb42d3d93d3d">Tgstation.Server.Host.Components.Chat.ChatManager</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00492">Tgstation.Server.Host.Components.Deployment.DreamMaker.Compile()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00497">Tgstation.Server.Host.Components.Deployment.DreamMaker.Compile()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_aa2527a9fe8d1392b909018d6ed745fed_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_aa2527a9fe8d1392b909018d6ed745fed_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_aa2527a9fe8d1392b909018d6ed745fed_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_aa2527a9fe8d1392b909018d6ed745fed_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_af57dca6c1e1af2dc810e731ce106c719_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_af57dca6c1e1af2dc810e731ce106c719_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_af57dca6c1e1af2dc810e731ce106c719_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_af57dca6c1e1af2dc810e731ce106c719_icgraph">
 <area shape="rect" title="Send the message for a deployment to configured deployment channels." alt="" coords="1436,39,1730,79"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad489ef5c91d097ff3366d5bc63d8277e" title="Run the compile implementation." alt="" coords="1162,39,1388,79"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a06dba3c351744dea4044270664675ed9" title="Run the compile implementation." alt="" coords="1162,39,1388,79"/>
 <area shape="poly" title=" " alt="" coords="1420,62,1388,62,1388,56,1420,56"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title="Create and a compile job and insert it into the database. Meant to be called by a IJobManager...." alt="" coords="828,39,1114,79"/>
 <area shape="poly" title=" " alt="" coords="1146,62,1114,62,1114,56,1146,56"/>
