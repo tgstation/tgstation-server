@@ -2322,9 +2322,9 @@ jobs:
 
   update-nix:
     name: Update Nix SHA
-    needs: deploy-tgs
+    needs: changelog-regen
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure())) && needs.deploy-tgs.result == 'success'
+    if: (!(cancelled() || failure())) && needs.changelog-regen.result == 'success'
     steps:
       - name: Install Native Packages # Name checked in rerunFlakyTests.js
         run: |

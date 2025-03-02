@@ -79,6 +79,6 @@ COPY --from=build /repo/build/tgs.docker.sh tgs.sh
 
 VOLUME ["/config_data", "/tgs_logs", "/app/lib"]
 
-HEALTHCHECK CMD --curl --fail http://localhost:5000/health || exit
+HEALTHCHECK --start-interval=60s CMD curl --fail http://localhost:5000/health || exit
 
 ENTRYPOINT ["./tgs.sh"]
