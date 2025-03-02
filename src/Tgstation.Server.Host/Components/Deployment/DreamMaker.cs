@@ -336,12 +336,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 						}
 					});
 
-				var likelyPushedTestMergeCommit =
-					repositorySettings!.PushTestMergeCommits!.Value
-					&& repositorySettings.AccessToken != null
-					&& repositorySettings.AccessUser != null;
-				var oldCompileJob = await compileJobConsumer.LatestCompileJob();
+				Models.CompileJob? oldCompileJob;
 				using (repo)
+				{
+					var likelyPushedTestMergeCommit =
+						repositorySettings!.PushTestMergeCommits!.Value
+						&& repositorySettings.AccessToken != null
+						&& repositorySettings.AccessUser != null;
+					oldCompileJob = await compileJobConsumer.LatestCompileJob();
 					compileJob = await Compile(
 						job,
 						oldCompileJob,
@@ -354,6 +356,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						averageSpan,
 						likelyPushedTestMergeCommit,
 						cancellationToken);
+				}
 
 				try
 				{
