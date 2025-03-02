@@ -1,0 +1,12 @@
+mutation CreateNote($id: NoteableID!, $body: String!) {
+  createNote(input: { noteableId: $id, body: $body }) {
+    note {
+      id
+      body
+      discussion {
+        id
+      }
+    }
+    errors
+  }
+}
