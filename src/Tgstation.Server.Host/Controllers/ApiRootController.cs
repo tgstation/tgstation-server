@@ -71,6 +71,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
+		/// The <see cref="SecurityConfiguration"/> for the <see cref="ApiRootController"/>.
+		/// </summary>
+		readonly SecurityConfiguration securityConfiguration;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ApiRootController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
@@ -81,6 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="swarmService">The value of <see cref="swarmService"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="securityConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the value of <see cref="securityConfiguration"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="loginAuthority">The value of <see cref="loginAuthority"/>.</param>
@@ -93,6 +99,7 @@ namespace Tgstation.Server.Host.Controllers
 			ISwarmService swarmService,
 			IServerControl serverControl,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsSnapshot<SecurityConfiguration> securityConfigurationOptions,
 			ILogger<ApiRootController> logger,
 			IApiHeadersProvider apiHeadersProvider,
 			IRestAuthorityInvoker<ILoginAuthority> loginAuthority)
@@ -109,6 +116,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.swarmService = swarmService ?? throw new ArgumentNullException(nameof(swarmService));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 			this.loginAuthority = loginAuthority ?? throw new ArgumentNullException(nameof(loginAuthority));
 		}
 
@@ -162,6 +170,7 @@ namespace Tgstation.Server.Host.Controllers
 					?.Select(swarmServerInfo => new SwarmServerResponse(swarmServerInfo))
 					.ToList(),
 				OAuthProviderInfos = oAuthProviders.ProviderInfos(),
+				OidcProviderInfos = securityConfiguration.OidcProviderInfos().ToList(),
 				UpdateInProgress = serverControl.UpdateInProgress,
 			});
 		}

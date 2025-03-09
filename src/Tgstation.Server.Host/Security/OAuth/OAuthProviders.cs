@@ -57,14 +57,18 @@ namespace Tgstation.Server.Host.Security.OAuth
 						loggerFactory.CreateLogger<DiscordOAuthValidator>(),
 						discordConfig));
 
+#pragma warning disable CS0618 // Type or member is obsolete
 			if (securityConfiguration.OAuth.TryGetValue(OAuthProvider.Keycloak, out var keyCloakConfig))
+#pragma warning restore CS0618 // Type or member is obsolete
 				validatorsBuilder.Add(
 					new KeycloakOAuthValidator(
 						httpClientFactory,
 						loggerFactory.CreateLogger<KeycloakOAuthValidator>(),
 						keyCloakConfig));
 
+#pragma warning disable CS0618 // Type or member is obsolete
 			if (securityConfiguration.OAuth.TryGetValue(OAuthProvider.InvisionCommunity, out var invisionConfig))
+#pragma warning restore CS0618 // Type or member is obsolete
 				validatorsBuilder.Add(
 					new InvisionCommunityOAuthValidator(
 						httpClientFactory,

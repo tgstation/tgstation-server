@@ -101,7 +101,7 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public string CreateToken(User user, bool oAuth)
+		public string CreateToken(User user, bool serviceLogin)
 		{
 			ArgumentNullException.ThrowIfNull(user);
 
@@ -121,7 +121,7 @@ namespace Tgstation.Server.Host.Security
 			else
 				notBefore = now;
 
-			var expiry = now.AddMinutes(oAuth
+			var expiry = now.AddMinutes(serviceLogin
 				? securityConfiguration.OAuthTokenExpiryMinutes
 				: securityConfiguration.TokenExpiryMinutes);
 

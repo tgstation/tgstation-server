@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Database
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "8.0.10")
+				.HasAnnotation("ProductVersion", "8.0.13")
 				.HasAnnotation("Relational:MaxIdentifierLength", 63);
 
 			NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -471,6 +471,37 @@ namespace Tgstation.Server.Host.Database
 				b.ToTable("OAuthConnections");
 			});
 
+			modelBuilder.Entity("Tgstation.Server.Host.Models.OidcConnection", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint");
+
+				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+				b.Property<string>("ExternalUserId")
+					.IsRequired()
+					.HasMaxLength(100)
+					.HasColumnType("character varying(100)");
+
+				b.Property<string>("SchemeKey")
+					.IsRequired()
+					.HasMaxLength(100)
+					.HasColumnType("character varying(100)");
+
+				b.Property<long>("UserId")
+					.HasColumnType("bigint");
+
+				b.HasKey("Id");
+
+				b.HasIndex("UserId");
+
+				b.HasIndex("SchemeKey", "ExternalUserId")
+					.IsUnique();
+
+				b.ToTable("OidcConnections");
+			});
+
 			modelBuilder.Entity("Tgstation.Server.Host.Models.PermissionSet", b =>
 			{
 				b.Property<long?>("Id")
@@ -919,6 +950,17 @@ namespace Tgstation.Server.Host.Database
 				b.Navigation("User");
 			});
 
+			modelBuilder.Entity("Tgstation.Server.Host.Models.OidcConnection", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.User", "User")
+					.WithMany("OidcConnections")
+					.HasForeignKey("UserId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+
+				b.Navigation("User");
+			});
+
 			modelBuilder.Entity("Tgstation.Server.Host.Models.PermissionSet", b =>
 			{
 				b.HasOne("Tgstation.Server.Host.Models.UserGroup", "Group")
@@ -1074,6 +1116,8 @@ namespace Tgstation.Server.Host.Database
 				b.Navigation("CreatedUsers");
 
 				b.Navigation("OAuthConnections");
+
+				b.Navigation("OidcConnections");
 
 				b.Navigation("PermissionSet");
 

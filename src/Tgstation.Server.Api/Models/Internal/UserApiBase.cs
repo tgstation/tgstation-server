@@ -11,6 +11,11 @@ namespace Tgstation.Server.Api.Models.Internal
 		public ICollection<OAuthConnection>? OAuthConnections { get; set; }
 
 		/// <summary>
+		/// List of <see cref="OidcConnection"/>s associated with the user.
+		/// </summary>
+		public ICollection<OidcConnection>? OidcConnections { get; set; }
+
+		/// <summary>
 		/// The <see cref="Models.PermissionSet"/> directly associated with the user.
 		/// </summary>
 		[ResponseOptions]

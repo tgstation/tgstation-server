@@ -584,7 +584,7 @@ namespace Tgstation.Server.Api.Models
 		/// Attempted to set <see cref="Internal.UserApiBase.OAuthConnections"/> for the admin user.
 		/// </summary>
 		[Description("The admin user cannot use OAuth connections!")]
-		AdminUserCannotOAuth,
+		AdminUserCannotHaveServiceConnection,
 
 		/// <summary>
 		/// Attempted to login with a disabled OAuth provider.

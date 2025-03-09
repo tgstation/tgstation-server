@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -87,5 +88,23 @@ namespace Tgstation.Server.Host.Configuration
 		/// Backing field for <see cref="OAuth"/>.
 		/// </summary>
 		IDictionary<OAuthProvider, OAuthConfiguration>? oAuth;
+
+		/// <summary>
+		/// OIDC provider settings keyed by scheme name.
+		/// </summary>
+		public IDictionary<string, OidcConfiguration>? OpenIDConnect { get; set; }
+
+		/// <summary>
+		/// Get the <see cref="OidcProviderInfo"/>s from the <see cref="SecurityConfiguration"/>.
+		/// </summary>
+		/// <returns>An <see cref="IEnumerable{T}"/> of <see cref="OidcProviderInfo"/>s.</returns>
+		public IEnumerable<OidcProviderInfo> OidcProviderInfos()
+			=> OpenIDConnect?.Select(oidcConfig => new OidcProviderInfo
+			{
+				SchemeKey = oidcConfig.Key,
+				FriendlyName = oidcConfig.Value.FriendlyName ?? oidcConfig.Key,
+				ThemeColour = oidcConfig.Value.ThemeColour,
+				ThemeIconUrl = oidcConfig.Value.ThemeIconUrl,
+			}) ?? Enumerable.Empty<OidcProviderInfo>();
 	}
 }

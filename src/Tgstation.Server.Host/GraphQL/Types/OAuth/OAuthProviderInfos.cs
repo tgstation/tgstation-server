@@ -21,21 +21,6 @@ namespace Tgstation.Server.Host.GraphQL.Types.OAuth
 		public RedirectOAuthProviderInfo? GitHub { get; }
 
 		/// <summary>
-		/// https://tgstation13.org.
-		/// </summary>
-		public RedirectOAuthProviderInfo? TGForums { get; }
-
-		/// <summary>
-		/// https://www.keycloak.org.
-		/// </summary>
-		public FullOAuthProviderInfo? Keycloak { get; }
-
-		/// <summary>
-		/// https://invisioncommunity.com.
-		/// </summary>
-		public FullOAuthProviderInfo? InvisionCommunity { get; }
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="OAuthProviderInfos"/> class.
 		/// </summary>
 		/// <param name="oAuthProviders">The <see cref="IOAuthProviders"/> to get data from.</param>
@@ -58,8 +43,6 @@ namespace Tgstation.Server.Host.GraphQL.Types.OAuth
 
 			Discord = TryBuild(OAuthProvider.Discord, info => new BasicOAuthProviderInfo(info));
 			GitHub = TryBuild(OAuthProvider.GitHub, info => new RedirectOAuthProviderInfo(info));
-			Keycloak = TryBuild(OAuthProvider.Keycloak, info => new FullOAuthProviderInfo(info));
-			InvisionCommunity = TryBuild(OAuthProvider.InvisionCommunity, info => new FullOAuthProviderInfo(info));
 		}
 	}
 }

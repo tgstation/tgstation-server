@@ -99,6 +99,11 @@ namespace Tgstation.Server.Host.Database
 		public DbSet<OAuthConnection> OAuthConnections { get; set; }
 
 		/// <summary>
+		/// The <see cref="OidcConnection"/>s in the <see cref="DatabaseContext"/>.
+		/// </summary>
+		public DbSet<OidcConnection> OidcConnections { get; set; }
+
+		/// <summary>
 		/// The <see cref="PermissionSet"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<PermissionSet> PermissionSets { get; set; }
@@ -152,6 +157,9 @@ namespace Tgstation.Server.Host.Database
 
 		/// <inheritdoc />
 		IDatabaseCollection<OAuthConnection> IDatabaseContext.OAuthConnections => oAuthConnections;
+
+		/// <inheritdoc />
+		IDatabaseCollection<OidcConnection> IDatabaseContext.OidcConnections => oidcConnections;
 
 		/// <inheritdoc />
 		IDatabaseCollection<UserGroup> IDatabaseContext.Groups => groups;
@@ -240,6 +248,11 @@ namespace Tgstation.Server.Host.Database
 		readonly IDatabaseCollection<OAuthConnection> oAuthConnections;
 
 		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.OidcConnections"/>.
+		/// </summary>
+		readonly IDatabaseCollection<OidcConnection> oidcConnections;
+
+		/// <summary>
 		/// Backing field for <see cref="IDatabaseContext.Groups"/>.
 		/// </summary>
 		readonly IDatabaseCollection<UserGroup> groups;
@@ -288,6 +301,7 @@ namespace Tgstation.Server.Host.Database
 			jobsCollection = new DatabaseCollection<Job>(Jobs!);
 			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations!);
 			oAuthConnections = new DatabaseCollection<OAuthConnection>(OAuthConnections!);
+			oidcConnections = new DatabaseCollection<OidcConnection>(OidcConnections!);
 			groups = new DatabaseCollection<UserGroup>(Groups!);
 			permissionSets = new DatabaseCollection<PermissionSet>(PermissionSets!);
 		}
@@ -387,8 +401,10 @@ namespace Tgstation.Server.Host.Database
 			userModel.HasIndex(x => x.SystemIdentifier).IsUnique();
 			userModel.HasMany(x => x.TestMerges).WithOne(x => x.MergedBy).OnDelete(DeleteBehavior.Restrict);
 			userModel.HasMany(x => x.OAuthConnections).WithOne(x => x.User).OnDelete(DeleteBehavior.Cascade);
+			userModel.HasMany(x => x.OidcConnections).WithOne(x => x.User).OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<OAuthConnection>().HasIndex(x => new { x.Provider, x.ExternalUserId }).IsUnique();
+			modelBuilder.Entity<OidcConnection>().HasIndex(x => new { x.SchemeKey, x.ExternalUserId }).IsUnique();
 
 			var groupsModel = modelBuilder.Entity<UserGroup>();
 			groupsModel.HasIndex(x => x.Name).IsUnique();

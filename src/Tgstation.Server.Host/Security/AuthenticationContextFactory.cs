@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -64,6 +63,30 @@ namespace Tgstation.Server.Host.Security
 		int initialized;
 
 		/// <summary>
+		/// Parse a <see cref="DateTimeOffset"/> out of a <see cref="Claim"/> in a given <paramref name="principal"/>.
+		/// </summary>
+		/// <param name="principal">The <see cref="ClaimsPrincipal"/> containing claims.</param>
+		/// <param name="key">The <see cref="Claim"/> name to parse from.</param>
+		/// <returns>The parsed <see cref="DateTimeOffset"/>.</returns>
+		static DateTimeOffset ParseTime(ClaimsPrincipal principal, string key)
+		{
+			var claim = principal.FindFirst(key);
+			if (claim == default)
+				throw new InvalidOperationException($"Missing '{key}' claim!");
+
+			try
+			{
+				return new DateTimeOffset(
+					EpochTime.DateTime(
+						Int64.Parse(claim.Value, CultureInfo.InvariantCulture)));
+			}
+			catch (Exception ex)
+			{
+				throw new InvalidOperationException($"Failed to parse '{key}'!", ex);
+			}
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthenticationContextFactory"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/>.</param>
@@ -94,7 +117,7 @@ namespace Tgstation.Server.Host.Security
 
 		/// <inheritdoc />
 		#pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task ValidateToken(TokenValidatedContext tokenValidatedContext, CancellationToken cancellationToken)
+		public async Task ValidateTgsToken(Microsoft.AspNetCore.Authentication.JwtBearer.TokenValidatedContext tokenValidatedContext, CancellationToken cancellationToken)
 		#pragma warning restore CA1506
 		{
 			ArgumentNullException.ThrowIfNull(tokenValidatedContext);
@@ -121,26 +144,8 @@ namespace Tgstation.Server.Host.Security
 				throw new InvalidOperationException("Failed to parse user ID!", e);
 			}
 
-			DateTimeOffset ParseTime(string key)
-			{
-				var claim = principal.FindFirst(key);
-				if (claim == default)
-					throw new InvalidOperationException($"Missing '{key}' claim!");
-
-				try
-				{
-					return new DateTimeOffset(
-						EpochTime.DateTime(
-							Int64.Parse(claim.Value, CultureInfo.InvariantCulture)));
-				}
-				catch (Exception ex)
-				{
-					throw new InvalidOperationException($"Failed to parse '{key}'!", ex);
-				}
-			}
-
-			var notBefore = ParseTime(JwtRegisteredClaimNames.Nbf);
-			var expires = ParseTime(JwtRegisteredClaimNames.Exp);
+			var notBefore = ParseTime(principal, JwtRegisteredClaimNames.Nbf);
+			var expires = ParseTime(principal, JwtRegisteredClaimNames.Exp);
 
 			var user = await databaseContext
 				.Users
@@ -201,6 +206,43 @@ namespace Tgstation.Server.Host.Security
 				systemIdentity?.Dispose();
 				throw;
 			}
+		}
+
+		/// <inheritdoc />
+		public async Task ValidateOidcToken(Microsoft.AspNetCore.Authentication.OpenIdConnect.TokenValidatedContext tokenValidatedContext, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(tokenValidatedContext);
+
+			var principal = new ClaimsPrincipal(new ClaimsIdentity(tokenValidatedContext.SecurityToken.Claims));
+
+			var userIdClaim = principal.FindFirst(JwtRegisteredClaimNames.Sub);
+			if (userIdClaim == default)
+				throw new InvalidOperationException($"Missing '{JwtRegisteredClaimNames.Sub}' claim!");
+
+			var userId = userIdClaim.Value;
+			var scheme = tokenValidatedContext.Scheme.Name;
+			var deprefixedScheme = scheme.Substring(ApiHeaders.OpenIDConnectAuthenticationSchemePrefix.Length);
+			var connection = await databaseContext
+				.OidcConnections
+				.AsQueryable()
+				.Where(oidcConnection => oidcConnection.ExternalUserId == userId && oidcConnection.SchemeKey == deprefixedScheme)
+				.Include(oidcConnection => oidcConnection.User)
+					.ThenInclude(user => user!.PermissionSet)
+				.FirstOrDefaultAsync(cancellationToken);
+			if (connection == default)
+			{
+				tokenValidatedContext.Fail($"Unable to find user with OidcConnection for {deprefixedScheme}/{userId}!");
+				return;
+			}
+
+			var expires = ParseTime(principal, JwtRegisteredClaimNames.Exp);
+
+			currentAuthenticationContext.Initialize(
+				connection.User!,
+				expires,
+				Guid.NewGuid().ToString(),
+				null,
+				null);
 		}
 	}
 }

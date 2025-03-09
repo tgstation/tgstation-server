@@ -6,7 +6,7 @@ mutation SetFullPermsOnUserGroup($id: ID!) {
         administrationRights: {
           canChangeVersion: true
           canDownloadLogs: true
-          canEditOwnOAuthConnections: true
+          canEditOwnServiceConnections: true
           canEditOwnPassword: true
           canReadUsers: true
           canWriteUsers: true
@@ -36,7 +36,7 @@ mutation SetFullPermsOnUserGroup($id: ID!) {
         administrationRights {
           canChangeVersion
           canDownloadLogs
-          canEditOwnOAuthConnections
+          canEditOwnServiceConnections
           canEditOwnPassword
           canReadUsers
           canRestartHost

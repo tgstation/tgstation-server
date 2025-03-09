@@ -54,6 +54,11 @@ namespace Tgstation.Server.Api
 		public const string OAuthAuthenticationScheme = "OAuth";
 
 		/// <summary>
+		/// The OIDC authentication header scheme.
+		/// </summary>
+		public const string OpenIDConnectAuthenticationSchemePrefix = "OpenIdConnect.";
+
+		/// <summary>
 		/// Added to <see cref="MediaTypeNames.Application"/> in netstandard2.1. Can't use because of lack of .NET Framework support.
 		/// </summary>
 		public const string ApplicationJsonMime = "application/json";
@@ -102,6 +107,11 @@ namespace Tgstation.Server.Api
 		/// The client's <see cref="TokenResponse"/>.
 		/// </summary>
 		public TokenResponse? Token { get; }
+
+		/// <summary>
+		/// The parsed <see cref="AuthenticationHeaderValue"/> if any.
+		/// </summary>
+		public AuthenticationHeaderValue? AuthenticationHeader { get; }
 
 		/// <summary>
 		/// The client's username.
@@ -252,6 +262,7 @@ namespace Tgstation.Server.Api
 				{
 					splits.RemoveAt(0);
 					var parameter = String.Concat(splits);
+					AuthenticationHeader = new AuthenticationHeaderValue(scheme, parameter);
 					if (String.IsNullOrEmpty(parameter))
 						AddError(HeaderErrorTypes.AuthorizationInvalid, "Missing authentication parameter!");
 					else
@@ -320,7 +331,8 @@ namespace Tgstation.Server.Api
 								Password = String.Concat(basicAuthSplits.Skip(1));
 								break;
 							default:
-								AddError(HeaderErrorTypes.AuthorizationInvalid, "Invalid authentication scheme!");
+								if (!scheme.StartsWith(OpenIDConnectAuthenticationSchemePrefix))
+									AddError(HeaderErrorTypes.AuthorizationInvalid, "Invalid authentication scheme!");
 								break;
 						}
 					}
