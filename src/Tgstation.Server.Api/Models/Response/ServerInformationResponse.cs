@@ -42,6 +42,11 @@ namespace Tgstation.Server.Api.Models.Response
 		public List<OidcProviderInfo>? OidcProviderInfos { get; set; }
 
 		/// <summary>
+		/// If only OIDC logins and registration is allowed.
+		/// </summary>
+		public bool OidcStrictMode { get; set; }
+
+		/// <summary>
 		/// If there is a server update in progress.
 		/// </summary>
 		/// <example>false</example>

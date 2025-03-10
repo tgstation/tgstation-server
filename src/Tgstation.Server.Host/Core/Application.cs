@@ -870,35 +870,8 @@ namespace Tgstation.Server.Host.Core
 							options.ClientId = config.ClientId;
 							options.ClientSecret = config.ClientSecret;
 
-							options.Scope.Add(OpenIdConnectScope.OpenId);
-							options.Scope.Add(OpenIdConnectScope.OfflineAccess);
-
-#if DEBUG
-							options.RequireHttpsMetadata = false;
-#endif
-
-							options.SaveTokens = true;
-							options.ResponseType = OpenIdConnectResponseType.Code;
-							options.MapInboundClaims = false;
-
-							options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-
-							var basePath = $"/oidc/{configName}/";
-							options.CallbackPath = new PathString(basePath + "signin-callback");
-							options.SignedOutCallbackPath = new PathString(basePath + "signout-callback");
-							options.RemoteSignOutPath = new PathString(basePath + "signout");
-
 							options.Events = new OpenIdConnectEvents
 							{
-								OnTokenValidated = context => context
-									.HttpContext
-									.RequestServices
-									.GetRequiredService<ITokenValidator>()
-									.ValidateOidcToken(
-										context,
-										context
-											.HttpContext
-											.RequestAborted),
 								OnRemoteFailure = context =>
 								{
 									context.HandleResponse();
@@ -919,6 +892,52 @@ namespace Tgstation.Server.Host.Core
 									return Task.CompletedTask;
 								},
 							};
+
+							Task CompleteAuth(RemoteAuthenticationContext<OpenIdConnectOptions> context)
+								=> context
+										.HttpContext
+										.RequestServices
+										.GetRequiredService<ITokenValidator>()
+										.ValidateOidcToken(
+											context,
+											configName,
+											context
+												.HttpContext
+												.RequestAborted);
+
+							if (securityConfiguration.OidcStrictMode)
+							{
+								options.GetClaimsFromUserInfoEndpoint = true;
+								options.ClaimActions.MapUniqueJsonKey(AuthenticationContextFactory.TgsGroupIdClaimName, AuthenticationContextFactory.TgsGroupIdClaimName);
+								options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+								{
+									NameClaimType = config.UsernameClaim,
+									RoleClaimType = "roles",
+								};
+
+								options.Scope.Add(OpenIdConnectScope.Profile);
+								options.Events.OnUserInformationReceived = CompleteAuth;
+							}
+							else
+								options.Events.OnTokenValidated = CompleteAuth;
+
+							options.Scope.Add(OpenIdConnectScope.OpenId);
+							options.Scope.Add(OpenIdConnectScope.OfflineAccess);
+
+#if DEBUG
+							options.RequireHttpsMetadata = false;
+#endif
+
+							options.SaveTokens = true;
+							options.ResponseType = OpenIdConnectResponseType.Code;
+							options.MapInboundClaims = false;
+
+							options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
+							var basePath = $"/oidc/{configName}/";
+							options.CallbackPath = new PathString(basePath + "signin-callback");
+							options.SignedOutCallbackPath = new PathString(basePath + "signout-callback");
+							options.RemoteSignOutPath = new PathString(basePath + "signout");
 						});
 			}
 		}

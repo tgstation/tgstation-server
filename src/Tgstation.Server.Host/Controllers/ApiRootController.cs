@@ -172,6 +172,7 @@ namespace Tgstation.Server.Host.Controllers
 				OAuthProviderInfos = oAuthProviders.ProviderInfos(),
 				OidcProviderInfos = securityConfiguration.OidcProviderInfos().ToList(),
 				UpdateInProgress = serverControl.UpdateInProgress,
+				OidcStrictMode = securityConfiguration.OidcStrictMode,
 			});
 		}
 

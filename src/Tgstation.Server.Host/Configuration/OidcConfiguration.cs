@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Microsoft.IdentityModel.JsonWebTokens;
+
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
@@ -41,5 +43,10 @@ namespace Tgstation.Server.Host.Configuration
 		/// Image URL that should be used to theme this OIDC provider.
 		/// </summary>
 		public Uri? ThemeIconUrl { get; set; }
+
+		/// <summary>
+		/// The name of the claim used to set the user's name.
+		/// </summary>
+		public string UsernameClaim { get; set; } = JwtRegisteredClaimNames.PreferredUsername;
 	}
 }
