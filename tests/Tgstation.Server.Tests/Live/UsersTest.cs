@@ -288,7 +288,7 @@ namespace Tgstation.Server.Tests.Live
 							sampleOAuthConnections,
 							cancellationToken),
 						data => data.UpdateUser,
-						Client.GraphQL.ErrorCode.AdminUserCannotOAuth,
+						Client.GraphQL.ErrorCode.AdminUserCannotHaveServiceConnection,
 						cancellationToken);
 
 					var testUserResult = await client.RunMutationEnsureNoErrors(

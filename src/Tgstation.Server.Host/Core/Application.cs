@@ -131,7 +131,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="schemeKey">The scheme key for the <see cref="OidcConfiguration"/>.</param>
 		/// <returns>The authentication scheme name.</returns>
 		static string GetOidcScheme(string schemeKey)
-			=> ApiHeaders.OpenIDConnectAuthenticationSchemePrefix + schemeKey;
+			=> AuthenticationContextFactory.OpenIDConnectAuthenticationSchemePrefix + schemeKey;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Application"/> class.

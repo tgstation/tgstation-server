@@ -24,10 +24,6 @@ namespace Tgstation.Server.Host.Core.Tests
 	public sealed class TestApplication
 	{
 		[TestMethod]
-		public void TestApiDefinedOidcSchemeMatchesMicrosofts()
-			=> Assert.AreEqual($"{OpenIdConnectDefaults.AuthenticationScheme}.", ApiHeaders.OpenIDConnectAuthenticationSchemePrefix);
-
-		[TestMethod]
 		public void TestMethodThrows()
 		{
 			Assert.ThrowsException<ArgumentNullException>(() => new Application(null, null));

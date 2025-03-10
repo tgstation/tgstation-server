@@ -77,6 +77,11 @@ namespace Tgstation.Server.Host.Authority
 		readonly IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions;
 
 		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="SecurityConfiguration"/> for the <see cref="UserAuthority"/>.
+		/// </summary>
+		readonly IOptions<SecurityConfiguration> securityConfigurationOptions;
+
+		/// <summary>
 		/// Implements the <see cref="usersDataLoader"/>.
 		/// </summary>
 		/// <param name="ids">The <see cref="IReadOnlyList{T}"/> of <see cref="User"/> <see cref="EntityId.Id"/>s to load.</param>
@@ -186,6 +191,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="sessionInvalidationTracker">The value of <see cref="sessionInvalidationTracker"/>.</param>
 		/// <param name="topicEventSender">The value of <see cref="topicEventSender"/>.</param>
 		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="securityConfigurationOptions">The value of <see cref="securityConfigurationOptions"/>.</param>
 		public UserAuthority(
 			IAuthenticationContext authenticationContext,
 			IDatabaseContext databaseContext,
@@ -198,7 +204,8 @@ namespace Tgstation.Server.Host.Authority
 			ICryptographySuite cryptographySuite,
 			ISessionInvalidationTracker sessionInvalidationTracker,
 			ITopicEventSender topicEventSender,
-			IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions)
+			IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<SecurityConfiguration> securityConfigurationOptions)
 			: base(
 				  authenticationContext,
 				  databaseContext,
@@ -213,6 +220,7 @@ namespace Tgstation.Server.Host.Authority
 			this.sessionInvalidationTracker = sessionInvalidationTracker ?? throw new ArgumentNullException(nameof(sessionInvalidationTracker));
 			this.topicEventSender = topicEventSender ?? throw new ArgumentNullException(nameof(topicEventSender));
 			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.securityConfigurationOptions = securityConfigurationOptions ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 		}
 
 		/// <summary>
@@ -478,6 +486,9 @@ namespace Tgstation.Server.Host.Authority
 				&& (model.OAuthConnections.Count != originalUser.OAuthConnections!.Count
 				|| !model.OAuthConnections.All(x => originalUser.OAuthConnections.Any(y => y.Provider == x.Provider && y.ExternalUserId == x.ExternalUserId))))
 			{
+				if (securityConfigurationOptions.Value.OidcStrictMode)
+					return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+
 				if (originalUser.CanonicalName == User.CanonicalizeName(DefaultCredentials.AdminUserName))
 					return BadRequest<User>(ErrorCode.AdminUserCannotHaveServiceConnection);
 
@@ -497,6 +508,9 @@ namespace Tgstation.Server.Host.Authority
 				&& (model.OidcConnections.Count != originalUser.OidcConnections!.Count
 				|| !model.OidcConnections.All(x => originalUser.OidcConnections.Any(y => y.SchemeKey == x.SchemeKey && y.ExternalUserId == x.ExternalUserId))))
 			{
+				if (securityConfigurationOptions.Value.OidcStrictMode)
+					return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+
 				if (originalUser.CanonicalName == User.CanonicalizeName(DefaultCredentials.AdminUserName))
 					return BadRequest<User>(ErrorCode.AdminUserCannotHaveServiceConnection);
 
@@ -514,6 +528,9 @@ namespace Tgstation.Server.Host.Authority
 
 			if (model.Group != null)
 			{
+				if (securityConfigurationOptions.Value.OidcStrictMode)
+					return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+
 				originalUser.Group = await DatabaseContext
 					.Groups
 					.AsQueryable()
@@ -534,6 +551,9 @@ namespace Tgstation.Server.Host.Authority
 			}
 			else if (model.PermissionSet != null)
 			{
+				if (securityConfigurationOptions.Value.OidcStrictMode)
+					return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+
 				if (originalUser.PermissionSet == null)
 				{
 					Logger.LogTrace("Creating new permission set...");
@@ -555,6 +575,9 @@ namespace Tgstation.Server.Host.Authority
 
 			if (model.Enabled.HasValue)
 			{
+				if (securityConfigurationOptions.Value.OidcStrictMode)
+					return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+
 				invalidateSessions = originalUser.Require(x => x.Enabled) && !model.Enabled.Value;
 				originalUser.Enabled = model.Enabled.Value;
 			}

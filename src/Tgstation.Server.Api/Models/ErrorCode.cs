@@ -669,5 +669,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("GraphQL swarm remote gateways not implemented!")]
 		RemoteGatewaysNotImplemented,
+
+		/// <summary>
+		/// Attempted to edit a user security property which is locked down due to the server being in <see cref="Response.ServerInformationResponse.OidcStrictMode"/>.
+		/// </summary>
+		[Description("One or more of the fields requested to be updated cannot be due to the server being in OIDC strict mode.")]
+		BadUserEditDueToOidcStrictMode,
 	}
 }

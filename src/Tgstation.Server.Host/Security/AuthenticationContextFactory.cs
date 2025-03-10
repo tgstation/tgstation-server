@@ -28,6 +28,11 @@ namespace Tgstation.Server.Host.Security
 	sealed class AuthenticationContextFactory : ITokenValidator, IDisposable
 	{
 		/// <summary>
+		/// Internal scheme prefix for OIDC schemes.
+		/// </summary>
+		public const string OpenIDConnectAuthenticationSchemePrefix = $"{OpenIdConnectDefaults.AuthenticationScheme}.";
+
+		/// <summary>
 		/// Claim name used to set user groups in OIDC strict mode.
 		/// </summary>
 		public const string TgsGroupIdClaimName = "tgstation-server-group-id";
@@ -242,7 +247,7 @@ namespace Tgstation.Server.Host.Security
 
 			var userId = userIdClaim.Value;
 			var scheme = tokenValidatedContext.Scheme.Name;
-			var deprefixedScheme = scheme.Substring(ApiHeaders.OpenIDConnectAuthenticationSchemePrefix.Length);
+			var deprefixedScheme = scheme.Substring(OpenIDConnectAuthenticationSchemePrefix.Length);
 			var connection = await databaseContext
 				.OidcConnections
 				.AsQueryable()
@@ -296,6 +301,12 @@ namespace Tgstation.Server.Host.Security
 						return;
 					}
 
+					if (username.Contains(':'))
+					{
+						tokenValidatedContext.Fail("Cannot create users with the ':' in their name!");
+						return;
+					}
+
 					if (group == null)
 					{
 						tokenValidatedContext.Fail(
@@ -311,7 +322,6 @@ namespace Tgstation.Server.Host.Security
 							dbUser => new User
 							{
 								Id = dbUser.Id!.Value,
-								Name = dbUser.Name,
 							},
 							cancellationToken);
 
@@ -320,9 +330,9 @@ namespace Tgstation.Server.Host.Security
 						CreatedAt = DateTimeOffset.UtcNow,
 						CanonicalName = User.CanonicalizeName(username),
 						Name = username,
-						CreatedBy = tgsUser,
+						CreatedById = tgsUser.Id,
 						Enabled = true,
-						Group = group,
+						GroupId = group.Id,
 						OidcConnections = new List<OidcConnection>
 						{
 							new OidcConnection
