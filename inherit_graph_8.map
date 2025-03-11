@@ -1,7 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="Node000000" href="$class_file_result_executor_base.html" title=" " alt="" coords="5,5,165,31"/>
 <area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result_executor.html" title="IActionResultExecutor&lt;TResult&gt; for LimitedStreamResults." alt="" coords="213,23,453,64"/>
-<area shape="poly" id="edge264_Node000000_Node000001" title=" " alt="" coords="181,25,212,29,212,34,180,31"/>
+<area shape="poly" id="edge266_Node000000_Node000001" title=" " alt="" coords="181,25,212,29,212,34,180,31"/>
 <area shape="rect" id="Node000002" href="$class_i_action_result_executor.html" title=" " alt="" coords="10,55,160,80"/>
-<area shape="poly" id="edge265_Node000002_Node000001" title=" " alt="" coords="175,56,212,53,212,58,175,61"/>
+<area shape="poly" id="edge267_Node000002_Node000001" title=" " alt="" coords="175,56,212,53,212,58,175,61"/>
 </map>

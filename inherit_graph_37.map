@@ -1,11 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="5,71,192,111"/>
 <area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server_information.html" title="Represents information about a running SwarmServer." alt="" coords="248,5,460,46"/>
-<area shape="poly" id="edge518_Node000000_Node000001" title=" " alt="" coords="195,64,271,44,272,49,196,69"/>
+<area shape="poly" id="edge520_Node000000_Node000001" title=" " alt="" coords="195,64,271,44,272,49,196,69"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="240,71,468,111"/>
-<area shape="poly" id="edge520_Node000000_Node000003" title=" " alt="" coords="207,88,239,88,239,94,207,94"/>
+<area shape="poly" id="edge522_Node000000_Node000003" title=" " alt="" coords="207,88,239,88,239,94,207,94"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_request.html" title="A request to register with a swarm controller." alt="" coords="257,136,451,177"/>
-<area shape="poly" id="edge521_Node000000_Node000004" title=" " alt="" coords="196,113,272,133,271,138,195,118"/>
+<area shape="poly" id="edge523_Node000000_Node000004" title=" " alt="" coords="196,113,272,133,271,138,195,118"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html" title=" " alt="" coords="516,5,735,46"/>
-<area shape="poly" id="edge519_Node000001_Node000002" title=" " alt="" coords="475,23,515,23,515,28,475,28"/>
+<area shape="poly" id="edge521_Node000001_Node000002" title=" " alt="" coords="475,23,515,23,515,28,475,28"/>
 </map>

@@ -14,20 +14,22 @@
 <area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="161,273,270,316,295,325,294,330,268,322,159,278"/>
 <area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6d2ca4edeaf1bebf658305727ced5f45" title="Validates the Api.Models.RepositorySettings.AccessToken of a given model &#160;if it is set." alt="" coords="269,397,521,438"/>
 <area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="135,274,192,328,230,357,270,382,285,389,283,394,267,387,227,361,189,332,131,278"/>
-<area shape="rect" id="Node000016" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a9e5262a00e199825c5f7e2f25d6d76f0" title="Run a given action &#160;with the relevant IInstance." alt="" coords="279,462,511,518"/>
-<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="128,275,150,312,182,358,222,406,270,448,277,452,274,456,267,452,219,410,177,362,145,315,123,277"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="598,37,788,78"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="496,77,582,67,583,73,497,82"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="603,103,784,143"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="497,99,587,109,587,114,496,104"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="599,245,787,286"/>
-<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="481,329,520,317,568,295,589,288,590,293,570,300,522,321,482,334"/>
-<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aa5d1848316036724f9d9cf073539b879" title="Create an App (not installation) authenticated IGitHubClient." alt="" coords="580,310,807,366"/>
-<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="474,394,520,382,573,368,574,373,522,387,475,399"/>
-<area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a3a92711bc701286ce65bd637c0f9dc7b" title="Creates a GitHub client that will only be used for a given repositoryIdentifier ." alt="" coords="580,390,807,446"/>
-<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="522,415,564,415,564,420,522,420"/>
-<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ac68dccad767316b6c071ca0687bf3b9f" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="569,470,817,526"/>
-<area shape="poly" id="edge13_Node000011_Node000014" title=" " alt="" coords="480,436,522,447,578,463,577,468,520,452,478,441"/>
-<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="586,549,801,590"/>
-<area shape="poly" id="edge14_Node000011_Node000015" title=" " alt="" coords="505,436,523,448,541,470,548,493,554,515,571,536,575,539,572,543,567,540,549,517,542,494,536,472,519,452,502,441"/>
+<area shape="rect" id="Node000017" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a9e5262a00e199825c5f7e2f25d6d76f0" title="Run a given action &#160;with the relevant IInstance." alt="" coords="279,462,511,518"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="128,275,150,312,182,358,222,406,270,448,277,452,274,456,267,452,219,410,177,362,145,315,123,277"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="598,20,788,61"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="496,71,582,56,583,62,497,76"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="603,85,784,126"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="496,93,587,98,587,103,496,99"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="599,205,787,246"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="492,331,519,317,534,302,543,287,551,271,567,256,583,247,586,251,571,260,555,274,547,290,539,306,523,321,494,336"/>
+<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aa5d1848316036724f9d9cf073539b879" title="Create an App (not installation) authenticated IGitHubClient." alt="" coords="580,270,807,326"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="493,394,520,382,534,371,543,360,552,348,568,335,577,330,579,335,570,340,556,351,547,363,538,375,522,387,495,399"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_lab_1_1_graph_q_l_1_1_graph_q_l_git_lab_client_factory.html#af0bb372de6dc07fd7411964ce47335cb" title="Sets up a IGraphQLGitLabClient." alt="" coords="571,350,815,406"/>
+<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="521,398,555,393,556,399,522,403"/>
+<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a3a92711bc701286ce65bd637c0f9dc7b" title="Creates a GitHub client that will only be used for a given repositoryIdentifier ." alt="" coords="580,430,807,486"/>
+<area shape="poly" id="edge13_Node000011_Node000014" title=" " alt="" coords="522,432,564,438,563,443,521,437"/>
+<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ac68dccad767316b6c071ca0687bf3b9f" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="569,510,817,566"/>
+<area shape="poly" id="edge14_Node000011_Node000015" title=" " alt="" coords="499,436,522,447,538,459,547,472,556,484,571,495,579,500,576,505,567,500,552,487,543,475,534,463,520,452,496,441"/>
+<area shape="rect" id="Node000016" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="586,589,801,630"/>
+<area shape="poly" id="edge15_Node000011_Node000016" title=" " alt="" coords="507,436,523,448,536,464,544,480,548,513,551,546,558,561,571,576,575,579,571,583,567,580,554,564,546,547,542,514,539,482,532,467,519,452,504,441"/>
 </map>

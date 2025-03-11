@@ -1,7 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager" name="Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager">
-<area shape="rect" id="Node000001" title="Base class for implementing IRemoteDeploymentManagers." alt="" coords="65,109,348,165"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html" title="Creates and updates remote deployments." alt="" coords="5,13,194,39"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,48,182,107,178,110,120,52"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="218,5,410,46"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="286,59,235,110,231,107,283,55"/>
+<area shape="rect" id="Node000001" title="Base class for implementing IRemoteDeploymentManagers." alt="" coords="412,40,695,95"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html" title="Creates and updates remote deployments." alt="" coords="7,5,196,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,26,388,45,412,48,411,53,387,50,211,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="57,55,146,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,65,411,65,411,70,161,70"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,105,198,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="213,108,411,83,412,88,213,113"/>
 </map>

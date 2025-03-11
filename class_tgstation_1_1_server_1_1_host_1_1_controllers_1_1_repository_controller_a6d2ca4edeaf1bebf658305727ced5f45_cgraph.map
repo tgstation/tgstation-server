@@ -1,11 +1,13 @@
 <map id="Tgstation.Server.Host.Controllers.RepositoryController.ValidateCredentials" name="Tgstation.Server.Host.Controllers.RepositoryController.ValidateCredentials">
-<area shape="rect" id="Node000001" title="Validates the Api.Models.RepositorySettings.AccessToken of a given model &#160;if it is set." alt="" coords="5,133,258,174"/>
+<area shape="rect" id="Node000001" title="Validates the Api.Models.RepositorySettings.AccessToken of a given model &#160;if it is set." alt="" coords="5,173,258,214"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aa5d1848316036724f9d9cf073539b879" title="Create an App (not installation) authenticated IGitHubClient." alt="" coords="316,5,544,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,130,305,71,322,64,324,69,307,76,176,135"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a3a92711bc701286ce65bd637c0f9dc7b" title="Creates a GitHub client that will only be used for a given repositoryIdentifier ." alt="" coords="316,85,544,141"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="258,134,300,128,301,133,259,139"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ac68dccad767316b6c071ca0687bf3b9f" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="306,165,554,221"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="259,167,291,172,290,177,258,173"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="322,245,538,286"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="174,172,235,201,307,231,327,237,325,243,305,236,233,206,171,176"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,170,221,121,304,71,317,65,319,70,307,76,224,126,159,174"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_lab_1_1_graph_q_l_1_1_graph_q_l_git_lab_client_factory.html#af0bb372de6dc07fd7411964ce47335cb" title="Sets up a IGraphQLGitLabClient." alt="" coords="308,85,552,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,170,308,143,309,148,211,175"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a3a92711bc701286ce65bd637c0f9dc7b" title="Creates a GitHub client that will only be used for a given repositoryIdentifier ." alt="" coords="316,165,544,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="258,191,300,191,300,196,258,196"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ac68dccad767316b6c071ca0687bf3b9f" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="306,245,554,301"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="211,212,309,238,308,243,209,217"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="322,325,538,366"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="159,212,223,261,264,288,307,311,321,317,319,322,305,316,261,293,220,266,155,216"/>
 </map>

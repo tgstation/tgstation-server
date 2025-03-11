@@ -1,7 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html" title="For creating filesystem symbolic links." alt="" coords="5,39,173,79"/>
 <area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_filesystem_link_factory.html" title="IFilesystemLinkFactory for POSIX systems." alt="" coords="231,5,416,46"/>
-<area shape="poly" id="edge647_Node000000_Node000001" title=" " alt="" coords="188,42,230,36,231,41,189,48"/>
+<area shape="poly" id="edge649_Node000000_Node000001" title=" " alt="" coords="188,42,230,36,231,41,189,48"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_filesystem_link_factory.html" title="IFilesystemLinkFactory for windows systems." alt="" coords="221,71,426,111"/>
-<area shape="poly" id="edge648_Node000000_Node000002" title=" " alt="" coords="189,70,221,74,220,80,188,75"/>
+<area shape="poly" id="edge650_Node000000_Node000002" title=" " alt="" coords="189,70,221,74,220,80,188,75"/>
 </map>

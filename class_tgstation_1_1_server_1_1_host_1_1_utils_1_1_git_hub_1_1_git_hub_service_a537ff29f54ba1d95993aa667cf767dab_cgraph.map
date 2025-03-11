@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Utils.GitHub.GitHubService.GetExistingCommentOnIssue" name="Tgstation.Server.Host.Utils.GitHub.GitHubService.GetExistingCommentOnIssue">
+<area shape="rect" id="Node000001" title="Gets an IssueComment for a particular issueNumber &#160;with the provided header &#160;if it exists and is not ..." alt="" coords="5,5,225,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#afd09beca60e74c80e9e6452510aa16b2" title="Get the current user&#39;s ID.A ValueTask&lt;TResult&gt; resulting in the current user&#39;s ID." alt="" coords="273,5,489,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,31,257,31,257,36,225,36"/>
+</map>

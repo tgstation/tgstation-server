@@ -1,11 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html" title="Creates and updates remote deployments." alt="" coords="5,85,263,141"/>
 <area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html" title="Base class for implementing IRemoteDeploymentManagers." alt="" coords="311,85,594,141"/>
-<area shape="poly" id="edge591_Node000000_Node000001" title=" " alt="" coords="278,111,311,111,311,116,278,116"/>
+<area shape="poly" id="edge593_Node000000_Node000001" title=" " alt="" coords="278,111,311,111,311,116,278,116"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html" title="IRemoteDeploymentManager for GitHub.com." alt="" coords="642,5,936,61"/>
-<area shape="poly" id="edge592_Node000001_Node000002" title=" " alt="" coords="587,79,668,59,670,64,588,84"/>
+<area shape="poly" id="edge594_Node000001_Node000002" title=" " alt="" coords="587,79,668,59,670,64,588,84"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_lab_remote_deployment_manager.html" title="IRemoteDeploymentManager for GitLab.com." alt="" coords="643,85,935,141"/>
-<area shape="poly" id="edge593_Node000001_Node000003" title=" " alt="" coords="610,111,642,111,642,116,610,116"/>
+<area shape="poly" id="edge595_Node000001_Node000003" title=" " alt="" coords="610,111,642,111,642,116,610,116"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_no_op_remote_deployment_manager.html" title="No&#45;op implementation of IRemoteDeploymentManager." alt="" coords="646,165,933,221"/>
-<area shape="poly" id="edge594_Node000001_Node000004" title=" " alt="" coords="588,143,670,162,668,167,587,148"/>
+<area shape="poly" id="edge596_Node000001_Node000004" title=" " alt="" coords="588,143,670,162,668,167,587,148"/>
 </map>

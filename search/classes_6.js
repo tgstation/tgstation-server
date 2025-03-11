@@ -15,6 +15,8 @@ var searchData=
   ['gitremotefeaturesbase_12',['GitRemoteFeaturesBase',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html',1,'Tgstation::Server::Host::Components::Repository']]],
   ['gitremotefeaturesfactory_13',['GitRemoteFeaturesFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html',1,'Tgstation::Server::Host::Components::Repository']]],
   ['graphqlauthorityinvoker_14',['GraphQLAuthorityInvoker',['../class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_graph_q_l_authority_invoker.html',1,'Tgstation::Server::Host::Authority::Core']]],
-  ['graphqlserverclient_15',['GraphQLServerClient',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html',1,'Tgstation::Server::Client::GraphQL']]],
-  ['graphqlserverclientfactory_16',['GraphQLServerClientFactory',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html',1,'Tgstation::Server::Client::GraphQL']]]
+  ['graphqlgitlabclient_15',['GraphQLGitLabClient',['../class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_lab_1_1_graph_q_l_1_1_graph_q_l_git_lab_client.html',1,'Tgstation::Server::Host::Utils::GitLab::GraphQL']]],
+  ['graphqlgitlabclientfactory_16',['GraphQLGitLabClientFactory',['../class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_lab_1_1_graph_q_l_1_1_graph_q_l_git_lab_client_factory.html',1,'Tgstation::Server::Host::Utils::GitLab::GraphQL']]],
+  ['graphqlserverclient_17',['GraphQLServerClient',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client.html',1,'Tgstation::Server::Client::GraphQL']]],
+  ['graphqlserverclientfactory_18',['GraphQLServerClientFactory',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_graph_q_l_server_client_factory.html',1,'Tgstation::Server::Client::GraphQL']]]
 ];

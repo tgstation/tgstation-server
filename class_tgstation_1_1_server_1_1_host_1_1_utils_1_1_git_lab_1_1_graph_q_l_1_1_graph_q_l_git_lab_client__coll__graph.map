@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Utils.GitLab.GraphQL.GraphQLGitLabClient" name="Tgstation.Server.Host.Utils.GitLab.GraphQL.GraphQLGitLabClient">
+<area shape="rect" id="Node000001" title=" " alt="" coords="94,169,339,210"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_lab_1_1_graph_q_l_1_1_i_graph_q_l_git_lab_client.html" title="Wrapper for using a GitLab IGraphQLClient." alt="" coords="5,80,156,106"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,113,190,166,187,171,109,117"/>
+<area shape="rect" id="Node000003" href="$class_i_async_disposable.html" title=" " alt="" coords="18,5,143,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="83,46,83,80,78,80,78,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="180,80,344,106"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="252,121,228,170,224,167,247,119"/>
+</map>

@@ -111,6 +111,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae02758afd50df9fb00d4ebdd2639d620" id="r_ae02758afd50df9fb00d4ebdd2639d620"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#ae02758afd50df9fb00d4ebdd2639d620">CommentOnIssue</a> (string repoOwner, string repoName, string comment, int issueNumber, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ae02758afd50df9fb00d4ebdd2639d620"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a comment on a given <em>issueNumber</em> .  <br /></td></tr>
 <tr class="separator:ae02758afd50df9fb00d4ebdd2639d620"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaad1f9eb1e08c50fd324fa4459ccf547" id="r_aaad1f9eb1e08c50fd324fa4459ccf547"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#aaad1f9eb1e08c50fd324fa4459ccf547">AppendCommentOnIssue</a> (string repoOwner, string repoName, string comment, IssueComment issueComment, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aaad1f9eb1e08c50fd324fa4459ccf547"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append a comment on an existing <em>issueComment</em> .  <br /></td></tr>
+<tr class="separator:aaad1f9eb1e08c50fd324fa4459ccf547"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cb610efbe9a15c8c7524dc16a46d7bb" id="r_a0cb610efbe9a15c8c7524dc16a46d7bb"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; IssueComment?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a0cb610efbe9a15c8c7524dc16a46d7bb">GetExistingCommentOnIssue</a> (string repoOwner, string repoName, string header, int issueNumber, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a0cb610efbe9a15c8c7524dc16a46d7bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets an IssueComment for a particular <em>issueNumber</em>  with the provided <em>header</em>  if it exists and is not too large.  <br /></td></tr>
+<tr class="separator:a0cb610efbe9a15c8c7524dc16a46d7bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ec88b25682381d11b7d39a4414383e0" id="r_a6ec88b25682381d11b7d39a4414383e0"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; long &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a6ec88b25682381d11b7d39a4414383e0">CreateDeployment</a> (NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a6ec88b25682381d11b7d39a4414383e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <em>newDeployment</em>  on a target repostiory.  <br /></td></tr>
 <tr class="separator:a6ec88b25682381d11b7d39a4414383e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,6 +154,67 @@ Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_i_authenticated_git_hub_service_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_authenticated_git_hub_service_8cs_source.html">IAuthenticatedGitHubService.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="aaad1f9eb1e08c50fd324fa4459ccf547" name="aaad1f9eb1e08c50fd324fa4459ccf547"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaad1f9eb1e08c50fd324fa4459ccf547">&#9670;&#160;</a></span>AppendCommentOnIssue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Tgstation.Server.Host.Utils.GitHub.IAuthenticatedGitHubService.AppendCommentOnIssue </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>repoOwner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>repoName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>comment</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IssueComment&#160;</td>
+          <td class="paramname"><em>issueComment</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Append a comment on an existing <em>issueComment</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">repoOwner</td><td>The owner of the target repository.</td></tr>
+    <tr><td class="paramname">repoName</td><td>The name of the target repository.</td></tr>
+    <tr><td class="paramname">comment</td><td>The text of the comment.</td></tr>
+    <tr><td class="paramname">issueComment</td><td>The IssueComment to amend.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a7933ae690e72a46df158a6a9dea86752">Tgstation.Server.Host.Utils.GitHub.GitHubService</a>.</p>
+
+</div>
+</div>
 <a id="ae02758afd50df9fb00d4ebdd2639d620" name="ae02758afd50df9fb00d4ebdd2639d620"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae02758afd50df9fb00d4ebdd2639d620">&#9670;&#160;</a></span>CommentOnIssue()</h2>
 
@@ -399,6 +466,67 @@ Here is the caller graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="332,36,300,36,300,31,332,31"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="a0cb610efbe9a15c8c7524dc16a46d7bb" name="a0cb610efbe9a15c8c7524dc16a46d7bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cb610efbe9a15c8c7524dc16a46d7bb">&#9670;&#160;</a></span>GetExistingCommentOnIssue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask&lt; IssueComment?&gt; Tgstation.Server.Host.Utils.GitHub.IAuthenticatedGitHubService.GetExistingCommentOnIssue </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>repoOwner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>repoName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>header</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>issueNumber</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets an IssueComment for a particular <em>issueNumber</em>  with the provided <em>header</em>  if it exists and is not too large. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">repoOwner</td><td>The owner of the target repository.</td></tr>
+    <tr><td class="paramname">repoName</td><td>The name of the target repository.</td></tr>
+    <tr><td class="paramname">header</td><td>The starting text of the comment to search for.</td></tr>
+    <tr><td class="paramname">issueNumber</td><td>The number of the issue to comment on.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; of an existing comment if its currently under 250k characters, otherwise the IssueComment will be null.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a537ff29f54ba1d95993aa667cf767dab">Tgstation.Server.Host.Utils.GitHub.GitHubService</a>.</p>
 
 </div>
 </div>

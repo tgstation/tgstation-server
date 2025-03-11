@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Deployment.Remote.GitLabRemoteDeploymentManager.RemoveMergedTestMerges" name="Tgstation.Server.Host.Components.Deployment.Remote.GitLabRemoteDeploymentManager.RemoveMergedTestMerges">
-<area shape="rect" id="Node000001" title="Get the updated list of TestMerges for an origin merge.A ValueTask&lt;TResult&gt; resulting in the IReadOnl..." alt="" coords="5,5,298,61"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ab8e15b3dd9fe05cabc167ad5e6b3cdcd" title="Check if a given committish &#160;is a parent of the current Head." alt="" coords="346,13,614,54"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,31,330,31,330,36,298,36"/>
+<area shape="rect" id="Node000001" title="Get the updated list of TestMerges for an origin merge.A ValueTask&lt;TResult&gt; resulting in the IReadOnl..." alt="" coords="5,34,298,90"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ab8e15b3dd9fe05cabc167ad5e6b3cdcd" title="Check if a given committish &#160;is a parent of the current Head." alt="" coords="346,5,614,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,43,330,39,331,45,298,48"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_lab_1_1_graph_q_l_1_1_graph_q_l_git_lab_client_factory.html#af0bb372de6dc07fd7411964ce47335cb" title="Sets up a IGraphQLGitLabClient." alt="" coords="358,70,602,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="298,75,343,80,342,85,298,80"/>
 </map>

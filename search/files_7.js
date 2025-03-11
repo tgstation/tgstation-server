@@ -15,6 +15,8 @@ var searchData=
   ['gitremotefeaturesbase_2ecs_12',['GitRemoteFeaturesBase.cs',['../_git_remote_features_base_8cs.html',1,'']]],
   ['gitremotefeaturesfactory_2ecs_13',['GitRemoteFeaturesFactory.cs',['../_git_remote_features_factory_8cs.html',1,'']]],
   ['graphqlauthorityinvoker_7btauthority_7d_2ecs_14',['GraphQLAuthorityInvoker{TAuthority}.cs',['../_graph_q_l_authority_invoker_02_t_authority_03_8cs.html',1,'']]],
-  ['graphqlserverclient_2ecs_15',['GraphQLServerClient.cs',['../_graph_q_l_server_client_8cs.html',1,'']]],
-  ['graphqlserverclientfactory_2ecs_16',['GraphQLServerClientFactory.cs',['../_graph_q_l_server_client_factory_8cs.html',1,'']]]
+  ['graphqlgitlabclient_2ecs_15',['GraphQLGitLabClient.cs',['../_graph_q_l_git_lab_client_8cs.html',1,'']]],
+  ['graphqlgitlabclientfactory_2ecs_16',['GraphQLGitLabClientFactory.cs',['../_graph_q_l_git_lab_client_factory_8cs.html',1,'']]],
+  ['graphqlserverclient_2ecs_17',['GraphQLServerClient.cs',['../_graph_q_l_server_client_8cs.html',1,'']]],
+  ['graphqlserverclientfactory_2ecs_18',['GraphQLServerClientFactory.cs',['../_graph_q_l_server_client_factory_8cs.html',1,'']]]
 ];

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Deployment.Remote.GitLabRemoteDeploymentManager.CommentOnTestMergeSource" name="Tgstation.Server.Host.Components.Deployment.Remote.GitLabRemoteDeploymentManager.CommentOnTestMergeSource">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,298,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_lab_1_1_graph_q_l_1_1_graph_q_l_git_lab_client_factory.html#af0bb372de6dc07fd7411964ce47335cb" title="Sets up a IGraphQLGitLabClient." alt="" coords="346,5,590,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,31,330,31,330,36,298,36"/>
+</map>

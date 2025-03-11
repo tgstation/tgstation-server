@@ -73,7 +73,9 @@ var searchData=
   ['tgstation_3a_3aserver_3a_3ahost_3a_3atransfer_70',['Transfer',['../namespace_tgstation_1_1_server_1_1_host_1_1_transfer.html',1,'Tgstation::Server::Host']]],
   ['tgstation_3a_3aserver_3a_3ahost_3a_3autils_71',['Utils',['../namespace_tgstation_1_1_server_1_1_host_1_1_utils.html',1,'Tgstation::Server::Host']]],
   ['tgstation_3a_3aserver_3a_3ahost_3a_3autils_3a_3agithub_72',['GitHub',['../namespace_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub.html',1,'Tgstation::Server::Host::Utils']]],
-  ['tgstation_3a_3aserver_3a_3ahost_3a_3autils_3a_3asignalr_73',['SignalR',['../namespace_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r.html',1,'Tgstation::Server::Host::Utils']]],
-  ['tgstation_3a_3aserver_3a_3ahost_3a_3awatchdog_74',['Watchdog',['../namespace_tgstation_1_1_server_1_1_host_1_1_watchdog.html',1,'Tgstation::Server::Host']]],
-  ['tgstation_3a_3aserver_3a_3ashared_75',['Shared',['../namespace_tgstation_1_1_server_1_1_shared.html',1,'Tgstation::Server']]]
+  ['tgstation_3a_3aserver_3a_3ahost_3a_3autils_3a_3agitlab_73',['GitLab',['../namespace_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_lab.html',1,'Tgstation::Server::Host::Utils']]],
+  ['tgstation_3a_3aserver_3a_3ahost_3a_3autils_3a_3agitlab_3a_3agraphql_74',['GraphQL',['../namespace_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_lab_1_1_graph_q_l.html',1,'Tgstation::Server::Host::Utils::GitLab']]],
+  ['tgstation_3a_3aserver_3a_3ahost_3a_3autils_3a_3asignalr_75',['SignalR',['../namespace_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r.html',1,'Tgstation::Server::Host::Utils']]],
+  ['tgstation_3a_3aserver_3a_3ahost_3a_3awatchdog_76',['Watchdog',['../namespace_tgstation_1_1_server_1_1_host_1_1_watchdog.html',1,'Tgstation::Server::Host']]],
+  ['tgstation_3a_3aserver_3a_3ashared_77',['Shared',['../namespace_tgstation_1_1_server_1_1_shared.html',1,'Tgstation::Server']]]
 ];
