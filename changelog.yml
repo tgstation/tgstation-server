@@ -193,6 +193,11 @@ Components:
       WebControlPanel: 6.7.3
     Changes:
     - Descriptions:
+      - Transitioned GitLab API to GraphQL due to incomplete implementation (namely for MR notes) in the abandoned API.
+      - The option "Post comment when test merge is deployed" will now be consolidated into one message (until it approaches comment limit). In other words, rather than a new message each deployment, an existing message (if it exists) will be edited with a new line. The content of the message has also been altered.
+      Author: Drulikar
+      PullRequest: 2131
+    - Descriptions:
       - Discord and IRC chatbot now will indicate either Added or Updated next to TM entries (this also changes sorting) in deployment messages
       - Discord chatbot now will list removed TMs in deployment messages
       Author: Drulikar
