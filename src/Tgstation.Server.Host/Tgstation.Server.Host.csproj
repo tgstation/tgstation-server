@@ -156,7 +156,7 @@
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="7.3.1" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.2" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.3" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
     <PackageReference Include="System.Management" Version="9.0.2" />
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
