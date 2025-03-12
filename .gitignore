@@ -23,6 +23,7 @@ artifacts/
 /src/Tgstation.Server.Host/ClientApp
 /src/Tgstation.Server.Host.Utils.GitLab.GraphQL/node_modules
 /src/Tgstation.Server.Host.Utils.GitLab.GraphQL/schema.graphql
+/src/Tgstation.Server.Host.Utils.GitLab.GraphQL/yarn.lock
 /tools/Tgstation.Server.ReleaseNotes/release_notes.md
 launchSettings.json
 release_notes.md
