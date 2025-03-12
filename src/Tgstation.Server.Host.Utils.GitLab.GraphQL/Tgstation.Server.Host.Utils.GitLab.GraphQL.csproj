@@ -9,7 +9,13 @@
 
   <Target Name="InstallApollo" Inputs="package.json;yarn.lock" Outputs="node_modules/.bin/apollo">
     <Message Text="Installing Apollo..." Importance="high" />
-    <Exec Command="yarn install --immutable --ignore-engines" />
+    <Exec Command="yarn" />
+  </Target>
+
+  <Target Name="CleanApollo" AfterTargets="Clean">
+    <RemoveDir Directories="node_modules" />
+    <RemoveDir Directories=".yarn" />
+    <Delete Files="yarn.lock" />
   </Target>
 
   <Target Name="GetApi" DependsOnTargets="InstallApollo" Inputs="node_modules/.bin/apollo" Outputs="../../artifacts/gitlab-api.graphql">
