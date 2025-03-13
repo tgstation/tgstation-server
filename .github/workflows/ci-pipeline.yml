@@ -38,7 +38,7 @@ env:
   OD_MIN_COMPAT_DOTNET_VERSION: 7
   OD_DOTNET_VERSION: 9
   TGS_DOTNET_QUALITY: ga
-  TGS_WEBPANEL_NODE_VERSION: 20.x
+  TGS_NODE_VERSION: 20.x
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
 
@@ -108,6 +108,11 @@ jobs:
         with:
           dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
           dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+      - name: Setup Node.JS
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.TGS_NODE_VERSION }}
 
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -475,7 +480,7 @@ jobs:
       - name: Setup Node.JS
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
+          node-version: ${{ env.TGS_NODE_VERSION }}
 
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -542,7 +547,7 @@ jobs:
       - name: Setup Node.JS
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
+          node-version: ${{ env.TGS_NODE_VERSION }}
 
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -624,7 +629,7 @@ jobs:
       - name: Setup Node.JS
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
+          node-version: ${{ env.TGS_NODE_VERSION }}
 
       - name: Set TGS_TEST_DUMP_API_SPEC
         if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
@@ -882,7 +887,7 @@ jobs:
       - name: Setup Node.JS
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
+          node-version: ${{ env.TGS_NODE_VERSION }}
 
       - name: Set Sqlite Connection Info
         if: ${{ matrix.database-type == 'Sqlite' }}
@@ -1461,7 +1466,7 @@ jobs:
       - name: Setup Node.JS
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
+          node-version: ${{ env.TGS_NODE_VERSION }}
 
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -2031,7 +2036,7 @@ jobs:
       - name: Setup Node.JS
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
+          node-version: ${{ env.TGS_NODE_VERSION }}
 
       - name: Checkout
         uses: actions/checkout@v4
