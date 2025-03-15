@@ -110,9 +110,9 @@
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.14" />
     <!-- Usage: Using target JSON serializer for API -->
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="9.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="9.0.3" />
     <!-- Usage: Generating dumps of dotnet engine processes -->
     <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.607501" />
     <!-- Usage: Database ORM -->
@@ -156,11 +156,11 @@
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="7.3.1" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.2" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.3" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
-    <PackageReference Include="System.Management" Version="9.0.2" />
+    <PackageReference Include="System.Management" Version="9.0.3" />
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
-    <PackageReference Include="System.Security.Permissions" Version="9.0.2" />
+    <PackageReference Include="System.Security.Permissions" Version="9.0.3" />
   </ItemGroup>
 
   <ItemGroup>
