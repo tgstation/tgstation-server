@@ -15,7 +15,6 @@
   <Target Name="CleanApollo" AfterTargets="Clean">
     <RemoveDir Directories="node_modules" />
     <RemoveDir Directories=".yarn" />
-    <Delete Files="yarn.lock" />
   </Target>
 
   <Target Name="GetApi" DependsOnTargets="InstallApollo" Inputs="node_modules/.bin/apollo" Outputs="../../artifacts/gitlab-api.graphql">
