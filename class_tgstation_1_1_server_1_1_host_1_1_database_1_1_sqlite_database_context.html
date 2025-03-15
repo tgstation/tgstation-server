@@ -429,8 +429,12 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   56</span>            <span class="keywordflow">if</span> (databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">DatabaseType</a> != <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.Sqlite)</div>
 <div class="line"><span class="lineno">   57</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid DatabaseType for {nameof(SqliteDatabaseContext)}!&quot;</span>);</div>
 <div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>            options.UseSqlite(databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a6593df0b9e6bf3bef6cbec64bd2ac80f">ConnectionString</a>, sqliteOptions =&gt; sqliteOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));</div>
-<div class="line"><span class="lineno">   60</span>        }</div>
+<div class="line"><span class="lineno">   59</span>            options.UseSqlite(databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a6593df0b9e6bf3bef6cbec64bd2ac80f">ConnectionString</a>, sqliteOptions =&gt;</div>
+<div class="line"><span class="lineno">   60</span>            {</div>
+<div class="line"><span class="lineno">   61</span>                sqliteOptions.TranslateParameterizedCollectionsToConstants();</div>
+<div class="line"><span class="lineno">   62</span>                sqliteOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);</div>
+<div class="line"><span class="lineno">   63</span>            });</div>
+<div class="line"><span class="lineno">   64</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a6593df0b9e6bf3bef6cbec64bd2ac80f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a6593df0b9e6bf3bef6cbec64bd2ac80f">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ConnectionString</a></div><div class="ttdeci">string? ConnectionString</div><div class="ttdoc">The connection string for the database.</div><div class="ttdef"><b>Definition</b> <a href="_database_configuration_8cs_source.html#l00030">DatabaseConfiguration.cs:30</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_adab83eaad53afabdb2f7b43c23ece38a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a></div><div class="ttdeci">DatabaseType DatabaseType</div><div class="ttdoc">The Configuration.DatabaseType to create.</div><div class="ttdef"><b>Definition</b> <a href="_database_configuration_8cs_source.html#l00020">DatabaseConfiguration.cs:20</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_configuration_html_acda8f6ee23a9ee8ac298f7b4a7d5617c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">Tgstation.Server.Host.Configuration.DatabaseType</a></div><div class="ttdeci">DatabaseType</div><div class="ttdoc">Type of database to user.</div><div class="ttdef"><b>Definition</b> <a href="_database_type_8cs_source.html#l00006">DatabaseType.cs:7</a></div></div>
@@ -465,36 +469,33 @@ Additional Inherited Members</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_sqlite_database_context_8cs_source.html#l00063">63</a> of file <a class="el" href="_sqlite_database_context_8cs_source.html">SqliteDatabaseContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   64</span>        {</div>
-<div class="line"><span class="lineno">   65</span>            base.OnModelCreating(modelBuilder);</div>
-<div class="line"><span class="lineno">   66</span> </div>
-<div class="line"><span class="lineno">   67</span>            <span class="comment">// Shamelessly stolen from https://blog.dangl.me/archive/handling-datetimeoffset-in-sqlite-with-entity-framework-core/</span></div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>            <span class="comment">// SQLite does not have proper support for DateTimeOffset via Entity Framework Core, see the limitations</span></div>
-<div class="line"><span class="lineno">   70</span>            <span class="comment">// here: https://docs.microsoft.com/en-us/ef/core/providers/sqlite/limitations#query-limitations</span></div>
-<div class="line"><span class="lineno">   71</span>            <span class="comment">// To work around this, when the Sqlite database provider is used, all model properties of type DateTimeOffset</span></div>
-<div class="line"><span class="lineno">   72</span>            <span class="comment">// use the DateTimeOffsetToBinaryConverter</span></div>
-<div class="line"><span class="lineno">   73</span>            <span class="comment">// Based on: https://github.com/aspnet/EntityFrameworkCore/issues/10784#issuecomment-415769754</span></div>
-<div class="line"><span class="lineno">   74</span>            <span class="comment">// This only supports millisecond precision, but should be sufficient for most use cases.</span></div>
-<div class="line"><span class="lineno">   75</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html#a18fc2241fd4df60b76e023ef73e7e944">designTime</a>)</div>
-<div class="line"><span class="lineno">   76</span>                <span class="keywordflow">foreach</span> (var entityType <span class="keywordflow">in</span> modelBuilder.Model.GetEntityTypes())</div>
-<div class="line"><span class="lineno">   77</span>                {</div>
-<div class="line"><span class="lineno">   78</span>                    var properties = entityType</div>
-<div class="line"><span class="lineno">   79</span>                        .ClrType</div>
-<div class="line"><span class="lineno">   80</span>                        .GetProperties()</div>
-<div class="line"><span class="lineno">   81</span>                        .Where(p =&gt; p.PropertyType == typeof(DateTimeOffset) || p.PropertyType == typeof(DateTimeOffset?));</div>
-<div class="line"><span class="lineno">   82</span>                    <span class="keywordflow">foreach</span> (var property <span class="keywordflow">in</span> properties)</div>
-<div class="line"><span class="lineno">   83</span>                        modelBuilder</div>
-<div class="line"><span class="lineno">   84</span>                            .Entity(entityType.Name)</div>
-<div class="line"><span class="lineno">   85</span>                            .Property(property.Name)</div>
-<div class="line"><span class="lineno">   86</span>                            .HasConversion(<span class="keyword">new</span> DateTimeOffsetToBinaryConverter());</div>
-<div class="line"><span class="lineno">   87</span>                }</div>
-<div class="line"><span class="lineno">   88</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context_html_a18fc2241fd4df60b76e023ef73e7e944"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html#a18fc2241fd4df60b76e023ef73e7e944">Tgstation.Server.Host.Database.SqliteDatabaseContext.designTime</a></div><div class="ttdeci">readonly bool designTime</div><div class="ttdoc">If the database context is running in design time mode.</div><div class="ttdef"><b>Definition</b> <a href="_sqlite_database_context_8cs_source.html#l00019">SqliteDatabaseContext.cs:19</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_sqlite_database_context_8cs_source.html#l00067">67</a> of file <a class="el" href="_sqlite_database_context_8cs_source.html">SqliteDatabaseContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   68</span>        {</div>
+<div class="line"><span class="lineno">   69</span>            base.OnModelCreating(modelBuilder);</div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span>            <span class="comment">// Shamelessly stolen from https://blog.dangl.me/archive/handling-datetimeoffset-in-sqlite-with-entity-framework-core/</span></div>
+<div class="line"><span class="lineno">   72</span> </div>
+<div class="line"><span class="lineno">   73</span>            <span class="comment">// SQLite does not have proper support for DateTimeOffset via Entity Framework Core, see the limitations</span></div>
+<div class="line"><span class="lineno">   74</span>            <span class="comment">// here: https://docs.microsoft.com/en-us/ef/core/providers/sqlite/limitations#query-limitations</span></div>
+<div class="line"><span class="lineno">   75</span>            <span class="comment">// To work around this, when the Sqlite database provider is used, all model properties of type DateTimeOffset</span></div>
+<div class="line"><span class="lineno">   76</span>            <span class="comment">// use the DateTimeOffsetToBinaryConverter</span></div>
+<div class="line"><span class="lineno">   77</span>            <span class="comment">// Based on: https://github.com/aspnet/EntityFrameworkCore/issues/10784#issuecomment-415769754</span></div>
+<div class="line"><span class="lineno">   78</span>            <span class="comment">// This only supports millisecond precision, but should be sufficient for most use cases.</span></div>
+<div class="line"><span class="lineno">   79</span>            <span class="keywordflow">foreach</span> (var entityType <span class="keywordflow">in</span> modelBuilder.Model.GetEntityTypes())</div>
+<div class="line"><span class="lineno">   80</span>            {</div>
+<div class="line"><span class="lineno">   81</span>                var properties = entityType</div>
+<div class="line"><span class="lineno">   82</span>                    .ClrType</div>
+<div class="line"><span class="lineno">   83</span>                    .GetProperties()</div>
+<div class="line"><span class="lineno">   84</span>                    .Where(p =&gt; p.PropertyType == typeof(DateTimeOffset) || p.PropertyType == typeof(DateTimeOffset?));</div>
+<div class="line"><span class="lineno">   85</span>                <span class="keywordflow">foreach</span> (var property <span class="keywordflow">in</span> properties)</div>
+<div class="line"><span class="lineno">   86</span>                    modelBuilder</div>
+<div class="line"><span class="lineno">   87</span>                        .Entity(entityType.Name)</div>
+<div class="line"><span class="lineno">   88</span>                        .Property(property.Name)</div>
+<div class="line"><span class="lineno">   89</span>                            .HasConversion(<span class="keyword">new</span> DateTimeOffsetToBinaryConverter())</div>
+<div class="line"><span class="lineno">   90</span>                            .HasColumnType(<span class="stringliteral">&quot;TEXT&quot;</span>); <span class="comment">// Dominion: This is for purely legacy reasons</span></div>
+<div class="line"><span class="lineno">   91</span>            }</div>
+<div class="line"><span class="lineno">   92</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_sqlite_database_context_8cs_source.html#l00019">Tgstation.Server.Host.Database.SqliteDatabaseContext.designTime</a>.</p>
-
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -521,8 +522,6 @@ Additional Inherited Members</h2></td></tr>
 <p>If the database context is running in design time mode. </p>
 
 <p class="definition">Definition at line <a class="el" href="_sqlite_database_context_8cs_source.html#l00019">19</a> of file <a class="el" href="_sqlite_database_context_8cs_source.html">SqliteDatabaseContext.cs</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_sqlite_database_context_8cs_source.html#l00063">Tgstation.Server.Host.Database.SqliteDatabaseContext.OnModelCreating()</a>.</p>
 
 </div>
 </div>

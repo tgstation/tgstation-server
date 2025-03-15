@@ -113,14 +113,15 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a6593df0b9e6bf3bef6cbec64bd2ac80f">ConnectionString</a>,</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                sqlServerOptions =&gt;</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                {</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                    sqlServerOptions.EnableRetryOnFailure();</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                    sqlServerOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                });</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        }</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                    sqlServerOptions.TranslateParameterizedCollectionsToConstants();</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                    sqlServerOptions.EnableRetryOnFailure();</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                    sqlServerOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                });</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        }</div>
 </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    }</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
 </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>}</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>}</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">Tgstation.Server.Host.Configuration.DatabaseConfiguration</a></div><div class="ttdoc">Configuration options for the Database.DatabaseContext.</div><div class="ttdef"><b>Definition</b> <a href="_database_configuration_8cs_source.html#l00009">DatabaseConfiguration.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a6593df0b9e6bf3bef6cbec64bd2ac80f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a6593df0b9e6bf3bef6cbec64bd2ac80f">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ConnectionString</a></div><div class="ttdeci">string? ConnectionString</div><div class="ttdoc">The connection string for the database.</div><div class="ttdef"><b>Definition</b> <a href="_database_configuration_8cs_source.html#l00030">DatabaseConfiguration.cs:30</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_adab83eaad53afabdb2f7b43c23ece38a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a></div><div class="ttdeci">DatabaseType DatabaseType</div><div class="ttdoc">The Configuration.DatabaseType to create.</div><div class="ttdef"><b>Definition</b> <a href="_database_configuration_8cs_source.html#l00020">DatabaseConfiguration.cs:20</a></div></div>

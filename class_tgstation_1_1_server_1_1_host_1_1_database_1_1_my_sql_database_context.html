@@ -440,10 +440,11 @@ Properties</h2></td></tr>
 <div class="line"><span class="lineno">   57</span>                serverVersion,</div>
 <div class="line"><span class="lineno">   58</span>                mySqlOptions =&gt;</div>
 <div class="line"><span class="lineno">   59</span>                {</div>
-<div class="line"><span class="lineno">   60</span>                    mySqlOptions.EnableRetryOnFailure();</div>
-<div class="line"><span class="lineno">   61</span>                    mySqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);</div>
-<div class="line"><span class="lineno">   62</span>                });</div>
-<div class="line"><span class="lineno">   63</span>        }</div>
+<div class="line"><span class="lineno">   60</span>                    mySqlOptions.TranslateParameterizedCollectionsToConstants();</div>
+<div class="line"><span class="lineno">   61</span>                    mySqlOptions.EnableRetryOnFailure();</div>
+<div class="line"><span class="lineno">   62</span>                    mySqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);</div>
+<div class="line"><span class="lineno">   63</span>                });</div>
+<div class="line"><span class="lineno">   64</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a46921a1ab5cbb409448d254f94fe3b54"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a46921a1ab5cbb409448d254f94fe3b54">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ServerVersion</a></div><div class="ttdeci">string? ServerVersion</div><div class="ttdoc">The string form of the global::System.Version of the target server.</div><div class="ttdef"><b>Definition</b> <a href="_database_configuration_8cs_source.html#l00040">DatabaseConfiguration.cs:40</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a6593df0b9e6bf3bef6cbec64bd2ac80f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a6593df0b9e6bf3bef6cbec64bd2ac80f">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ConnectionString</a></div><div class="ttdeci">string? ConnectionString</div><div class="ttdoc">The connection string for the database.</div><div class="ttdef"><b>Definition</b> <a href="_database_configuration_8cs_source.html#l00030">DatabaseConfiguration.cs:30</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_adab83eaad53afabdb2f7b43c23ece38a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a></div><div class="ttdeci">DatabaseType DatabaseType</div><div class="ttdoc">The Configuration.DatabaseType to create.</div><div class="ttdef"><b>Definition</b> <a href="_database_configuration_8cs_source.html#l00020">DatabaseConfiguration.cs:20</a></div></div>
@@ -480,47 +481,47 @@ Properties</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_my_sql_database_context_8cs_source.html#l00066">66</a> of file <a class="el" href="_my_sql_database_context_8cs_source.html">MySqlDatabaseContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   67</span>        {</div>
-<div class="line"><span class="lineno">   68</span>            base.OnModelCreating(modelBuilder);</div>
-<div class="line"><span class="lineno">   69</span> </div>
-<div class="line"><span class="lineno">   70</span>            <span class="comment">// Added to prevent a column type change after upgrading Pomelo.Mysql</span></div>
-<div class="line"><span class="lineno">   71</span>            <span class="comment">// Related: https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/issues/1606</span></div>
-<div class="line"><span class="lineno">   72</span>            modelBuilder</div>
-<div class="line"><span class="lineno">   73</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">ChatBot</a>&gt;(x =&gt; x.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html#acdc14bc7df5569305c8a5af42e61f1da">ConnectionString</a>)</div>
-<div class="line"><span class="lineno">   74</span>                .MapMySqlTextField&lt;ChatChannel&gt;(x =&gt; x.Tag)</div>
-<div class="line"><span class="lineno">   75</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">ChatChannel</a>&gt;(x =&gt; x.IrcChannel)</div>
-<div class="line"><span class="lineno">   76</span>                .MapMySqlTextField&lt;CompileJob&gt;(x =&gt; x.EngineVersion)</div>
-<div class="line"><span class="lineno">   77</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>&gt;(x =&gt; x.DmeName)</div>
-<div class="line"><span class="lineno">   78</span>                .MapMySqlTextField&lt;CompileJob&gt;(x =&gt; x.Output)</div>
-<div class="line"><span class="lineno">   79</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>&gt;(x =&gt; x.RepositoryOrigin)</div>
-<div class="line"><span class="lineno">   80</span>                .MapMySqlTextField&lt;DreamDaemonSettings&gt;(x =&gt; x.AdditionalParameters)</div>
-<div class="line"><span class="lineno">   81</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html">DreamMakerSettings</a>&gt;(x =&gt; x.ProjectName)</div>
-<div class="line"><span class="lineno">   82</span>                .MapMySqlTextField&lt;Instance&gt;(x =&gt; x.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html#a7e2f2eeddbc6315acbcfa00c54762183">Name</a>)</div>
-<div class="line"><span class="lineno">   83</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Instance</a>&gt;(x =&gt; x.Path)</div>
-<div class="line"><span class="lineno">   84</span>                .MapMySqlTextField&lt;Instance&gt;(x =&gt; x.SwarmIdentifer)</div>
-<div class="line"><span class="lineno">   85</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a>&gt;(x =&gt; x.Description)</div>
-<div class="line"><span class="lineno">   86</span>                .MapMySqlTextField&lt;Job&gt;(x =&gt; x.ExceptionDetails)</div>
-<div class="line"><span class="lineno">   87</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_o_auth_connection.html">OAuthConnection</a>&gt;(x =&gt; x.ExternalUserId)</div>
-<div class="line"><span class="lineno">   88</span>                .MapMySqlTextField&lt;ReattachInformation&gt;(x =&gt; x.AccessIdentifier)</div>
-<div class="line"><span class="lineno">   89</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_repository_settings.html">RepositorySettings</a>&gt;(x =&gt; x.AccessToken)</div>
-<div class="line"><span class="lineno">   90</span>                .MapMySqlTextField&lt;RepositorySettings&gt;(x =&gt; x.AccessUser)</div>
-<div class="line"><span class="lineno">   91</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_repository_settings.html">RepositorySettings</a>&gt;(x =&gt; x.CommitterEmail)</div>
-<div class="line"><span class="lineno">   92</span>                .MapMySqlTextField&lt;RepositorySettings&gt;(x =&gt; x.CommitterName)</div>
-<div class="line"><span class="lineno">   93</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">RevisionInformation</a>&gt;(x =&gt; x.CommitSha)</div>
-<div class="line"><span class="lineno">   94</span>                .MapMySqlTextField&lt;RevisionInformation&gt;(x =&gt; x.OriginCommitSha)</div>
-<div class="line"><span class="lineno">   95</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">TestMerge</a>&gt;(x =&gt; x.Author)</div>
-<div class="line"><span class="lineno">   96</span>                .MapMySqlTextField&lt;TestMerge&gt;(x =&gt; x.BodyAtMerge)</div>
-<div class="line"><span class="lineno">   97</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">TestMerge</a>&gt;(x =&gt; x.Comment)</div>
-<div class="line"><span class="lineno">   98</span>                .MapMySqlTextField&lt;TestMerge&gt;(x =&gt; x.TargetCommitSha)</div>
-<div class="line"><span class="lineno">   99</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">TestMerge</a>&gt;(x =&gt; x.TitleAtMerge)</div>
-<div class="line"><span class="lineno">  100</span>                .MapMySqlTextField&lt;TestMerge&gt;(x =&gt; x.Url)</div>
-<div class="line"><span class="lineno">  101</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>&gt;(x =&gt; x.CanonicalName)</div>
-<div class="line"><span class="lineno">  102</span>                .MapMySqlTextField&lt;User&gt;(x =&gt; x.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html#a7e2f2eeddbc6315acbcfa00c54762183">Name</a>)</div>
-<div class="line"><span class="lineno">  103</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>&gt;(x =&gt; x.PasswordHash)</div>
-<div class="line"><span class="lineno">  104</span>                .MapMySqlTextField&lt;User&gt;(x =&gt; x.SystemIdentifier)</div>
-<div class="line"><span class="lineno">  105</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html">UserGroup</a>&gt;(x =&gt; x.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html#a7e2f2eeddbc6315acbcfa00c54762183">Name</a>);</div>
-<div class="line"><span class="lineno">  106</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_my_sql_database_context_8cs_source.html#l00067">67</a> of file <a class="el" href="_my_sql_database_context_8cs_source.html">MySqlDatabaseContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   68</span>        {</div>
+<div class="line"><span class="lineno">   69</span>            base.OnModelCreating(modelBuilder);</div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span>            <span class="comment">// Added to prevent a column type change after upgrading Pomelo.Mysql</span></div>
+<div class="line"><span class="lineno">   72</span>            <span class="comment">// Related: https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/issues/1606</span></div>
+<div class="line"><span class="lineno">   73</span>            modelBuilder</div>
+<div class="line"><span class="lineno">   74</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">ChatBot</a>&gt;(x =&gt; x.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html#acdc14bc7df5569305c8a5af42e61f1da">ConnectionString</a>)</div>
+<div class="line"><span class="lineno">   75</span>                .MapMySqlTextField&lt;ChatChannel&gt;(x =&gt; x.Tag)</div>
+<div class="line"><span class="lineno">   76</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">ChatChannel</a>&gt;(x =&gt; x.IrcChannel)</div>
+<div class="line"><span class="lineno">   77</span>                .MapMySqlTextField&lt;CompileJob&gt;(x =&gt; x.EngineVersion)</div>
+<div class="line"><span class="lineno">   78</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>&gt;(x =&gt; x.DmeName)</div>
+<div class="line"><span class="lineno">   79</span>                .MapMySqlTextField&lt;CompileJob&gt;(x =&gt; x.Output)</div>
+<div class="line"><span class="lineno">   80</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>&gt;(x =&gt; x.RepositoryOrigin)</div>
+<div class="line"><span class="lineno">   81</span>                .MapMySqlTextField&lt;DreamDaemonSettings&gt;(x =&gt; x.AdditionalParameters)</div>
+<div class="line"><span class="lineno">   82</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html">DreamMakerSettings</a>&gt;(x =&gt; x.ProjectName)</div>
+<div class="line"><span class="lineno">   83</span>                .MapMySqlTextField&lt;Instance&gt;(x =&gt; x.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html#a7e2f2eeddbc6315acbcfa00c54762183">Name</a>)</div>
+<div class="line"><span class="lineno">   84</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Instance</a>&gt;(x =&gt; x.Path)</div>
+<div class="line"><span class="lineno">   85</span>                .MapMySqlTextField&lt;Instance&gt;(x =&gt; x.SwarmIdentifer)</div>
+<div class="line"><span class="lineno">   86</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a>&gt;(x =&gt; x.Description)</div>
+<div class="line"><span class="lineno">   87</span>                .MapMySqlTextField&lt;Job&gt;(x =&gt; x.ExceptionDetails)</div>
+<div class="line"><span class="lineno">   88</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_o_auth_connection.html">OAuthConnection</a>&gt;(x =&gt; x.ExternalUserId)</div>
+<div class="line"><span class="lineno">   89</span>                .MapMySqlTextField&lt;ReattachInformation&gt;(x =&gt; x.AccessIdentifier)</div>
+<div class="line"><span class="lineno">   90</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_repository_settings.html">RepositorySettings</a>&gt;(x =&gt; x.AccessToken)</div>
+<div class="line"><span class="lineno">   91</span>                .MapMySqlTextField&lt;RepositorySettings&gt;(x =&gt; x.AccessUser)</div>
+<div class="line"><span class="lineno">   92</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_repository_settings.html">RepositorySettings</a>&gt;(x =&gt; x.CommitterEmail)</div>
+<div class="line"><span class="lineno">   93</span>                .MapMySqlTextField&lt;RepositorySettings&gt;(x =&gt; x.CommitterName)</div>
+<div class="line"><span class="lineno">   94</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">RevisionInformation</a>&gt;(x =&gt; x.CommitSha)</div>
+<div class="line"><span class="lineno">   95</span>                .MapMySqlTextField&lt;RevisionInformation&gt;(x =&gt; x.OriginCommitSha)</div>
+<div class="line"><span class="lineno">   96</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">TestMerge</a>&gt;(x =&gt; x.Author)</div>
+<div class="line"><span class="lineno">   97</span>                .MapMySqlTextField&lt;TestMerge&gt;(x =&gt; x.BodyAtMerge)</div>
+<div class="line"><span class="lineno">   98</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">TestMerge</a>&gt;(x =&gt; x.Comment)</div>
+<div class="line"><span class="lineno">   99</span>                .MapMySqlTextField&lt;TestMerge&gt;(x =&gt; x.TargetCommitSha)</div>
+<div class="line"><span class="lineno">  100</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">TestMerge</a>&gt;(x =&gt; x.TitleAtMerge)</div>
+<div class="line"><span class="lineno">  101</span>                .MapMySqlTextField&lt;TestMerge&gt;(x =&gt; x.Url)</div>
+<div class="line"><span class="lineno">  102</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>&gt;(x =&gt; x.CanonicalName)</div>
+<div class="line"><span class="lineno">  103</span>                .MapMySqlTextField&lt;User&gt;(x =&gt; x.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html#a7e2f2eeddbc6315acbcfa00c54762183">Name</a>)</div>
+<div class="line"><span class="lineno">  104</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>&gt;(x =&gt; x.PasswordHash)</div>
+<div class="line"><span class="lineno">  105</span>                .MapMySqlTextField&lt;User&gt;(x =&gt; x.SystemIdentifier)</div>
+<div class="line"><span class="lineno">  106</span>                .MapMySqlTextField&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html">UserGroup</a>&gt;(x =&gt; x.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html#a7e2f2eeddbc6315acbcfa00c54762183">Name</a>);</div>
+<div class="line"><span class="lineno">  107</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings_html_acdc14bc7df5569305c8a5af42e61f1da"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html#acdc14bc7df5569305c8a5af42e61f1da">Tgstation.Server.Api.Models.Internal.ChatBotSettings.ConnectionString</a></div><div class="ttdeci">string? ConnectionString</div><div class="ttdoc">The information used to connect to the Provider.</div><div class="ttdef"><b>Definition</b> <a href="_chat_bot_settings_8cs_source.html#l00046">ChatBotSettings.cs:46</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity_html_a7e2f2eeddbc6315acbcfa00c54762183"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html#a7e2f2eeddbc6315acbcfa00c54762183">Tgstation.Server.Api.Models.NamedEntity.Name</a></div><div class="ttdeci">virtual ? string Name</div><div class="ttdoc">The name of the entity represented by the NamedEntity.</div><div class="ttdef"><b>Definition</b> <a href="_tgstation_8_server_8_api_2_models_2_named_entity_8cs_source.html#l00017">NamedEntity.cs:17</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">Tgstation.Server.Host.Models.ChatBot</a></div><div class="ttdef"><b>Definition</b> <a href="_chat_bot_8cs_source.html#l00011">ChatBot.cs:12</a></div></div>
