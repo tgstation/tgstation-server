@@ -41,6 +41,7 @@ namespace Tgstation.Server.Host.Database
 			AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 			options.UseNpgsql(databaseConfiguration.ConnectionString, options =>
 			{
+				options.TranslateParameterizedCollectionsToConstants();
 				options.EnableRetryOnFailure();
 				options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
 
