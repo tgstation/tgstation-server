@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 
-using GitLabApiClient;
 using Microsoft.Extensions.Logging;
 
+using StrawberryShake;
+
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Utils.GitLab.GraphQL;
 
 namespace Tgstation.Server.Host.Components.Repository
 {
@@ -45,30 +48,25 @@ namespace Tgstation.Server.Host.Components.Repository
 			RepositorySettings repositorySettings,
 			CancellationToken cancellationToken)
 		{
-			var client = repositorySettings.AccessToken != null
-				? new GitLabClient(GitLabUrl, repositorySettings.AccessToken)
-				: new GitLabClient(GitLabUrl);
-
+			await using var client = await GraphQLGitLabClientFactory.CreateClient(repositorySettings.AccessToken);
 			try
 			{
-				var mr = await client
-					.MergeRequests
-					.GetAsync($"{RemoteRepositoryOwner}/{RemoteRepositoryName}", parameters.Number)
-					.WaitAsync(cancellationToken);
+				var operationResult = await client.GraphQL.GetMergeRequest.ExecuteAsync(
+					$"{RemoteRepositoryOwner}/{RemoteRepositoryName}",
+					parameters.Number.ToString(CultureInfo.InvariantCulture),
+					cancellationToken);
 
-				var revisionToUse = parameters.TargetCommitSha == null
-					|| mr.Sha.StartsWith(parameters.TargetCommitSha, StringComparison.OrdinalIgnoreCase)
-					? mr.Sha
-					: parameters.TargetCommitSha;
+				operationResult.EnsureNoErrors();
+				var mr = operationResult.Data?.Project?.MergeRequest ?? throw new InvalidOperationException("GitLab MergeRequest check returned null!");
 
 				return new Models.TestMerge
 				{
-					Author = mr.Author.Username,
+					Author = mr.Author?.Username,
 					BodyAtMerge = mr.Description,
 					TitleAtMerge = mr.Title,
 					Comment = parameters.Comment,
 					Number = parameters.Number,
-					TargetCommitSha = mr.Sha,
+					TargetCommitSha = mr.DiffHeadSha,
 					Url = mr.WebUrl,
 				};
 			}
