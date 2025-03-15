@@ -114,6 +114,9 @@ jobs:
         with:
           node-version: ${{ env.TGS_NODE_VERSION }}
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Checkout (Branch)
         uses: actions/checkout@v4
         if: github.event_name == 'push' || github.event_name == 'schedule'
