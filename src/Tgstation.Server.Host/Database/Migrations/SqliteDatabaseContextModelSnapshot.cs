@@ -4,7 +4,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Tgstation.Server.Host.Database.Migrations
+namespace Tgstation.Server.Host.Database
 {
 	[DbContext(typeof(SqliteDatabaseContext))]
 	partial class SqliteDatabaseContextModelSnapshot : ModelSnapshot
@@ -12,15 +12,16 @@ namespace Tgstation.Server.Host.Database.Migrations
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
-			modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
+			modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
-				b.Property<ushort>("ChannelLimit")
+				b.Property<ushort?>("ChannelLimit")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.Property<string>("ConnectionString")
@@ -42,7 +43,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<int>("Provider")
 					.HasColumnType("INTEGER");
 
-				b.Property<uint>("ReconnectionInterval")
+				b.Property<uint?>("ReconnectionInterval")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.HasKey("Id");
@@ -69,16 +71,20 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(100)
 					.HasColumnType("TEXT");
 
-				b.Property<bool>("IsAdminChannel")
+				b.Property<bool?>("IsAdminChannel")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("IsSystemChannel")
+				b.Property<bool?>("IsSystemChannel")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("IsUpdatesChannel")
+				b.Property<bool?>("IsUpdatesChannel")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("IsWatchdogChannel")
+				b.Property<bool?>("IsWatchdogChannel")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.Property<string>("Tag")
@@ -98,7 +104,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.CompileJob", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
@@ -111,7 +117,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<int?>("DMApiPatchVersion")
 					.HasColumnType("INTEGER");
 
-				b.Property<Guid>("DirectoryName")
+				b.Property<Guid?>("DirectoryName")
+					.IsRequired()
 					.HasColumnType("TEXT");
 
 				b.Property<string>("DmeName")
@@ -167,46 +174,58 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(10000)
 					.HasColumnType("TEXT");
 
-				b.Property<bool>("AllowWebClient")
+				b.Property<bool?>("AllowWebClient")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("AutoStart")
+				b.Property<bool?>("AutoStart")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("DumpOnHealthCheckRestart")
+				b.Property<bool?>("DumpOnHealthCheckRestart")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<uint>("HealthCheckSeconds")
+				b.Property<uint?>("HealthCheckSeconds")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("LogOutput")
+				b.Property<bool?>("LogOutput")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<uint>("MapThreads")
+				b.Property<uint?>("MapThreads")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("Minidumps")
+				b.Property<bool?>("Minidumps")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<ushort>("OpenDreamTopicPort")
+				b.Property<ushort?>("OpenDreamTopicPort")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<ushort>("Port")
+				b.Property<ushort?>("Port")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.Property<int>("SecurityLevel")
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("StartProfiler")
+				b.Property<bool?>("StartProfiler")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<uint>("StartupTimeout")
+				b.Property<uint?>("StartupTimeout")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<uint>("TopicRequestTimeout")
+				b.Property<uint?>("TopicRequestTimeout")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.Property<int>("Visibility")
@@ -226,7 +245,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
-				b.Property<ushort>("ApiValidationPort")
+				b.Property<ushort?>("ApiValidationPort")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.Property<int>("ApiValidationSecurityLevel")
@@ -246,7 +266,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(10000)
 					.HasColumnType("TEXT");
 
-				b.Property<TimeSpan>("Timeout")
+				b.Property<TimeSpan?>("Timeout")
+					.IsRequired()
 					.HasColumnType("TEXT");
 
 				b.HasKey("Id");
@@ -259,7 +280,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.Instance", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
@@ -278,10 +299,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(1000)
 					.HasColumnType("TEXT");
 
-				b.Property<uint>("AutoUpdateInterval")
+				b.Property<uint?>("AutoUpdateInterval")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<ushort>("ChatBotLimit")
+				b.Property<ushort?>("ChatBotLimit")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.Property<int>("ConfigurationType")
@@ -292,7 +315,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(100)
 					.HasColumnType("TEXT");
 
-				b.Property<bool>("Online")
+				b.Property<bool?>("Online")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.Property<string>("Path")
@@ -355,7 +379,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.Job", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
@@ -365,7 +389,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<ulong?>("CancelRightsType")
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("Cancelled")
+				b.Property<bool?>("Cancelled")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.Property<long?>("CancelledById")
@@ -387,7 +412,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<byte>("JobCode")
 					.HasColumnType("INTEGER");
 
-				b.Property<DateTimeOffset>("StartedAt")
+				b.Property<DateTimeOffset?>("StartedAt")
+					.IsRequired()
 					.HasColumnType("TEXT");
 
 				b.Property<long>("StartedById")
@@ -436,7 +462,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.PermissionSet", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
@@ -465,7 +491,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
@@ -520,10 +546,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(10000)
 					.HasColumnType("TEXT");
 
-				b.Property<bool>("AutoUpdatesKeepTestMerges")
+				b.Property<bool?>("AutoUpdatesKeepTestMerges")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("AutoUpdatesSynchronize")
+				b.Property<bool?>("AutoUpdatesSynchronize")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.Property<string>("CommitterEmail")
@@ -536,22 +564,27 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(10000)
 					.HasColumnType("TEXT");
 
-				b.Property<bool>("CreateGitHubDeployments")
+				b.Property<bool?>("CreateGitHubDeployments")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("PostTestMergeComment")
+				b.Property<bool?>("PostTestMergeComment")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("PushTestMergeCommits")
+				b.Property<bool?>("PushTestMergeCommits")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("ShowTestMergeCommitters")
+				b.Property<bool?>("ShowTestMergeCommitters")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("UpdateSubmodules")
+				b.Property<bool?>("UpdateSubmodules")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.HasKey("Id");
@@ -640,7 +673,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<int>("Number")
 					.HasColumnType("INTEGER");
 
-				b.Property<long>("PrimaryRevisionInformationId")
+				b.Property<long?>("PrimaryRevisionInformationId")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.Property<string>("TargetCommitSha")
@@ -668,7 +702,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
@@ -677,13 +711,15 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(100)
 					.HasColumnType("TEXT");
 
-				b.Property<DateTimeOffset>("CreatedAt")
+				b.Property<DateTimeOffset?>("CreatedAt")
+					.IsRequired()
 					.HasColumnType("TEXT");
 
 				b.Property<long?>("CreatedById")
 					.HasColumnType("INTEGER");
 
-				b.Property<bool>("Enabled")
+				b.Property<bool?>("Enabled")
+					.IsRequired()
 					.HasColumnType("INTEGER");
 
 				b.Property<long?>("GroupId")
@@ -721,7 +757,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.UserGroup", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
