@@ -332,6 +332,12 @@ namespace Tgstation.Server.Host.Authority
 			(string? UserID, string AccessCode)? oauthResult;
 			try
 			{
+				// minor special case here until its removal
+#pragma warning disable CS0618 // Type or member is obsolete
+				if (oAuthProvider == OAuthProvider.TGForums)
+#pragma warning restore CS0618 // Type or member is obsolete
+					return (Unauthorized<TResult>(), null);
+
 				var validator = oAuthProviders
 					.GetValidator(oAuthProvider, forLogin);
 

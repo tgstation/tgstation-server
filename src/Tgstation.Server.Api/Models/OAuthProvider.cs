@@ -24,7 +24,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Pre-hostening https://tgstation13.org. No longer supported.
 		/// </summary>
-		[Obsolete("tgstation13.org no longer has a custom OAuth solution. This option will be removed in a future TGS version.", true)]
+		[Obsolete("tgstation13.org no longer has a custom OAuth solution. This option will be removed in a future TGS version.")]
 		TGForums,
 
 		/// <summary>
