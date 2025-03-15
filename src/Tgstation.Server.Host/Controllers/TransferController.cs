@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -62,7 +63,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the method.</returns>
 		/// <response code="200">Started streaming download successfully.</response>
 		/// <response code="410">The <paramref name="ticket"/> was no longer or was never valid.</response>
-		[TgsAuthorize]
+		[Authorize(Policy = TransferConstants.AuthorizationPolicy)]
 		[HttpGet]
 		[ProducesResponseType(200, Type = typeof(LimitedStreamResult))]
 		[ProducesResponseType(410, Type = typeof(ErrorMessageResponse))]

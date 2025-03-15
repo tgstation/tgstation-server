@@ -39,6 +39,11 @@ namespace Tgstation.Server.Host.Setup
 		InternalConfiguration InternalConfiguration { get; }
 
 		/// <summary>
+		/// The <see cref="Configuration.SwarmConfiguration"/>.
+		/// </summary>
+		SwarmConfiguration SwarmConfiguration { get; }
+
+		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/>.
 		/// </summary>
 		IPlatformIdentifier PlatformIdentifier { get; }

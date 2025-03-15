@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
+using Google.Protobuf;
+
+using Grpc.Net.Client;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
-using Newtonsoft.Json;
 
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Response;
@@ -26,6 +26,7 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Swarm.Grpc;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
@@ -48,7 +49,7 @@ namespace Tgstation.Server.Host.Swarm
 					return true;
 
 				lock (swarmServers)
-					return swarmServers.Count - 1 >= swarmConfiguration.UpdateRequiredNodeCount;
+					return swarmServers.Count - 1 >= swarmConfigurationOptions.CurrentValue.UpdateRequiredNodeCount;
 			}
 		}
 
@@ -56,7 +57,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// If the swarm system is enabled.
 		/// </summary>
 		[MemberNotNullWhen(true, nameof(serverHealthCheckTask), nameof(forceHealthCheckTcs), nameof(serverHealthCheckCancellationTokenSource), nameof(swarmServers))]
-		bool SwarmMode => swarmConfiguration.PrivateKey != null;
+		bool SwarmMode => swarmConfigurationOptions.CurrentValue.PrivateKey != null;
 
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="SwarmService"/>.
@@ -99,14 +100,19 @@ namespace Tgstation.Server.Host.Swarm
 		readonly ITokenFactory tokenFactory;
 
 		/// <summary>
+		/// The <see cref="IGrpcChannelFactory"/> for the <see cref="SwarmService"/>.
+		/// </summary>
+		readonly IGrpcChannelFactory grpcChannelFactory;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SwarmService"/>.
 		/// </summary>
 		readonly ILogger<SwarmService> logger;
 
 		/// <summary>
-		/// The <see cref="SwarmConfiguration"/> for the <see cref="SwarmService"/>.
+		/// The <see cref="IOptionsMonitor{TOptions}"/> for the <see cref="SwarmConfiguration"/>.
 		/// </summary>
-		readonly SwarmConfiguration swarmConfiguration;
+		readonly IOptionsMonitor<SwarmConfiguration> swarmConfigurationOptions;
 
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for <see cref="serverHealthCheckTask"/>.
@@ -119,9 +125,14 @@ namespace Tgstation.Server.Host.Swarm
 		readonly List<SwarmServerInformation>? swarmServers;
 
 		/// <summary>
-		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="SwarmServer.Identifier"/>s to registration <see cref="Guid"/>s and when they were created.
+		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Api.Models.Internal.SwarmServer.Identifier"/>s to registration <see cref="Guid"/>s and when they were created.
 		/// </summary>
 		readonly Dictionary<string, (Guid RegistrationId, DateTimeOffset RegisteredAt)>? registrationIdsAndTimes;
+
+		/// <summary>
+		/// <see cref="Dictionary{TKey, TValue}"/> of non-controller <see cref="Api.Models.Internal.SwarmServer.Identifier"/>s to <see cref="GrpcChannel"/>s connecting to them.
+		/// </summary>
+		readonly Dictionary<string, GrpcChannel> nodeGrpcChannels;
 
 		/// <summary>
 		/// If the current server is the swarm controller.
@@ -137,6 +148,11 @@ namespace Tgstation.Server.Host.Swarm
 		/// A <see cref="TaskCompletionSource"/> that is used to force a health check.
 		/// </summary>
 		volatile TaskCompletionSource? forceHealthCheckTcs;
+
+		/// <summary>
+		/// The <see cref="GrpcChannel"/> for communication with the swarm controller.
+		/// </summary>
+		GrpcChannel? controllerGrpcChannel;
 
 		/// <summary>
 		/// The <see cref="Task"/> for the <see cref="HealthCheckLoop(CancellationToken)"/>.
@@ -169,7 +185,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="transferService">The value of <see cref="transferService"/>.</param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/>.</param>
-		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
+		/// <param name="grpcChannelFactory">The value of <see cref="grpcChannelFactory"/>.</param>
+		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfigurationOptions"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public SwarmService(
 			IDatabaseContextFactory databaseContextFactory,
@@ -180,7 +197,8 @@ namespace Tgstation.Server.Host.Swarm
 			IServerUpdater serverUpdater,
 			IFileTransferTicketProvider transferService,
 			ITokenFactory tokenFactory,
-			IOptions<SwarmConfiguration> swarmConfigurationOptions,
+			IGrpcChannelFactory grpcChannelFactory,
+			IOptionsMonitor<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<SwarmService> logger)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -191,18 +209,21 @@ namespace Tgstation.Server.Host.Swarm
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 			this.transferService = transferService ?? throw new ArgumentNullException(nameof(transferService));
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
-			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
+			this.grpcChannelFactory = grpcChannelFactory ?? throw new ArgumentNullException(nameof(grpcChannelFactory));
+			this.swarmConfigurationOptions = swarmConfigurationOptions ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
+			nodeGrpcChannels = new Dictionary<string, GrpcChannel>();
 			if (SwarmMode)
 			{
-				if (swarmConfiguration.Address == null)
+				var currentSwarmOptions = swarmConfigurationOptions.CurrentValue;
+				if (currentSwarmOptions.Address == null)
 					throw new InvalidOperationException("Swarm configuration missing Address!");
 
-				if (String.IsNullOrWhiteSpace(swarmConfiguration.Identifier))
+				if (string.IsNullOrWhiteSpace(currentSwarmOptions.Identifier))
 					throw new InvalidOperationException("Swarm configuration missing Identifier!");
 
-				swarmController = swarmConfiguration.ControllerAddress == null;
+				swarmController = currentSwarmOptions.ControllerAddress == null;
 				if (swarmController)
 					registrationIdsAndTimes = new();
 
@@ -213,10 +234,10 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					new()
 					{
-						Address = swarmConfiguration.Address,
-						PublicAddress = swarmConfiguration.PublicAddress,
+						Address = currentSwarmOptions.Address,
+						PublicAddress = currentSwarmOptions.PublicAddress,
 						Controller = swarmController,
-						Identifier = swarmConfiguration.Identifier,
+						Identifier = currentSwarmOptions.Identifier,
 					},
 				};
 			}
@@ -225,7 +246,14 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => serverHealthCheckCancellationTokenSource?.Dispose();
+		public void Dispose()
+		{
+			serverHealthCheckCancellationTokenSource?.Dispose();
+			foreach (var kvp in nodeGrpcChannels)
+				kvp.Value.Dispose();
+
+			controllerGrpcChannel?.Dispose();
+		}
 
 		/// <inheritdoc />
 		public async ValueTask AbortUpdate()
@@ -276,16 +304,18 @@ namespace Tgstation.Server.Host.Swarm
 			{
 				// let the controller know we're ready
 				logger.LogTrace("Sending ready-commit to swarm controller...");
-				using var commitReadyRequest = PrepareSwarmRequest(
-					null,
-					HttpMethod.Post,
-					SwarmConstants.UpdateRoute,
-					null);
+
+				var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(
+					GetChannelForNode(null, out var registration));
 
 				try
 				{
-					using var commitReadyResponse = await httpClient.SendAsync(commitReadyRequest, HttpCompletionOption.ResponseContentRead, cancellationToken);
-					commitReadyResponse.EnsureSuccessStatusCode();
+					await client.CommitUpdateAsync(
+						new CommitUpdateRequest
+						{
+							Registration = registration,
+						},
+						cancellationToken: cancellationToken);
 				}
 				catch (Exception ex)
 				{
@@ -330,18 +360,17 @@ namespace Tgstation.Server.Host.Swarm
 			logger.LogDebug("Sending remote commit message to nodes...");
 			async ValueTask SendRemoteCommitUpdate(SwarmServerInformation swarmServer)
 			{
-				using var request = PrepareSwarmRequest(
-					swarmServer,
-					HttpMethod.Post,
-					SwarmConstants.UpdateRoute,
-					null);
+				var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(
+					GetChannelForNode(swarmServer, out var registration));
 
 				try
 				{
-					// I know using the cancellationToken after this point doesn't seem very sane
-					// It's the token for Ctrl+C on server's console though, so we must respect it
-					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
-					response.EnsureSuccessStatusCode();
+					await client.CommitUpdateAsync(
+						new CommitUpdateRequest
+						{
+							Registration = registration,
+						},
+						cancellationToken: cancellationToken);
 				}
 				catch (Exception ex)
 				{
@@ -381,15 +410,15 @@ namespace Tgstation.Server.Host.Swarm
 			logger.LogTrace("Begin PrepareUpdate...");
 			return PrepareUpdateImpl(
 				fileStreamProvider,
-				new SwarmUpdateRequest
+				new PrepareUpdateRequest
 				{
-					UpdateVersion = version,
+					UpdateVersion = new GrpcVersion(version),
 				},
 				cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<bool> PrepareUpdateFromController(SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
+		public async ValueTask<bool> PrepareUpdateFromController(PrepareUpdateRequest updateRequest, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(updateRequest);
 
@@ -405,21 +434,22 @@ namespace Tgstation.Server.Host.Swarm
 		/// <inheritdoc />
 		public async ValueTask<SwarmRegistrationResult> Initialize(CancellationToken cancellationToken)
 		{
+			var currentSwarmConfiguration = swarmConfigurationOptions.CurrentValue;
 			if (SwarmMode)
 				logger.LogInformation(
 					"Swarm mode enabled: {nodeType} {nodeId}",
 					swarmController
 						? "Controller"
 						: "Node",
-					swarmConfiguration.Identifier);
+					currentSwarmConfiguration.Identifier);
 			else
 				logger.LogTrace("Swarm mode disabled");
 
 			SwarmRegistrationResult result;
 			if (swarmController)
 			{
-				if (swarmConfiguration.UpdateRequiredNodeCount > 0)
-					logger.LogInformation("Expecting connections from {expectedNodeCount} nodes", swarmConfiguration.UpdateRequiredNodeCount);
+				if (currentSwarmConfiguration.UpdateRequiredNodeCount > 0)
+					logger.LogInformation("Expecting connections from {expectedNodeCount} nodes", currentSwarmConfiguration.UpdateRequiredNodeCount);
 
 				await databaseContextFactory.UseContext(
 					databaseContext => databaseSeeder.Initialize(databaseContext, cancellationToken));
@@ -442,17 +472,17 @@ namespace Tgstation.Server.Host.Swarm
 
 			async ValueTask SendUnregistrationRequest(SwarmServerInformation? swarmServer)
 			{
-				using var httpClient = httpClientFactory.CreateClient();
-				using var request = PrepareSwarmRequest(
-					swarmServer,
-					HttpMethod.Delete,
-					SwarmConstants.RegisterRoute,
-					null);
+				var channel = GetChannelForNode(swarmServer, out var registration);
+				var client = new GrpcSwarmControllerService.GrpcSwarmControllerServiceClient(channel);
 
 				try
 				{
-					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
-					response.EnsureSuccessStatusCode();
+					await client.UnregisterNodeAsync(
+						new UnregisterNodeRequest
+						{
+							Registration = registration,
+						},
+						cancellationToken: cancellationToken);
 				}
 				catch (Exception ex)
 				{
@@ -535,11 +565,12 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public bool ValidateRegistration(Guid registrationId)
+		public bool ValidateRegistration(SwarmRegistration registration)
 		{
 			if (!SwarmMode)
 				throw new InvalidOperationException("Swarm mode not enabled!");
 
+			var registrationId = registration.ToGuid();
 			if (swarmController)
 				lock (swarmServers)
 					return registrationIdsAndTimes!.Values.Any(x => x.RegistrationId == registrationId);
@@ -552,7 +583,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<SwarmRegistrationResponse?> RegisterNode(SwarmServer node, Guid registrationId, CancellationToken cancellationToken)
+		public async ValueTask<RegisterNodeResponse> RegisterNode(Api.Models.Internal.SwarmServer node, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(node);
 
@@ -572,30 +603,15 @@ namespace Tgstation.Server.Host.Swarm
 
 			await AbortUpdate();
 
-			SwarmRegistrationResponse CreateResponse() => new()
-			{
-				TokenSigningKeyBase64 = Convert.ToBase64String(tokenFactory.SigningKeyBytes),
-			};
-
 			var registrationIdsAndTimes = this.registrationIdsAndTimes!;
+			Guid registrationId;
 			lock (swarmServers)
 			{
-				if (registrationIdsAndTimes.Any(x => x.Value.RegistrationId == registrationId))
+				do
 				{
-					var preExistingRegistrationKvp = registrationIdsAndTimes.FirstOrDefault(x => x.Value.RegistrationId == registrationId);
-					if (preExistingRegistrationKvp.Key == node.Identifier)
-					{
-						logger.LogWarning("Node {nodeId} has already registered!", node.Identifier);
-						return CreateResponse();
-					}
-
-					logger.LogWarning(
-						"Registration ID collision! Node {nodeId} tried to register with {otherNodeId}'s registration ID: {registrationId}",
-						node.Identifier,
-						preExistingRegistrationKvp.Key,
-						registrationId);
-					return null;
+					registrationId = Guid.NewGuid();
 				}
+				while (registrationIdsAndTimes.Any(x => x.Value.RegistrationId == registrationId));
 
 				if (registrationIdsAndTimes.TryGetValue(node.Identifier, out var oldRegistration))
 				{
@@ -616,12 +632,20 @@ namespace Tgstation.Server.Host.Swarm
 
 			logger.LogInformation("Registered node {nodeId} ({nodeIP}) with ID {registrationId}", node.Identifier, node.Address, registrationId);
 			MarkServersDirty();
-			return CreateResponse();
+			return new()
+			{
+				Registration = new SwarmRegistration
+				{
+					Id = registrationId.ToString(),
+				},
+				TokenSigningKey = ByteString.CopyFrom(tokenFactory.SigningKeyBytes),
+			};
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<bool> RemoteCommitReceived(Guid registrationId, CancellationToken cancellationToken)
+		public async ValueTask<bool> RemoteCommitReceived(SwarmRegistration registration, CancellationToken cancellationToken)
 		{
+			var registrationId = registration.ToGuid();
 			var localUpdateOperation = updateOperation;
 			if (!swarmController)
 			{
@@ -669,11 +693,12 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public async ValueTask UnregisterNode(Guid registrationId, CancellationToken cancellationToken)
+		public async ValueTask UnregisterNode(SwarmRegistration registration, CancellationToken cancellationToken)
 		{
 			if (!SwarmMode)
 				throw new InvalidOperationException("Swarm mode not enabled!");
 
+			var registrationId = registration.ToGuid();
 			logger.LogTrace("UnregisterNode {registrationId}", registrationId);
 			await AbortUpdate();
 
@@ -713,17 +738,18 @@ namespace Tgstation.Server.Host.Swarm
 			using var httpClient = httpClientFactory.CreateClient();
 			async ValueTask SendRemoteAbort(SwarmServerInformation swarmServer)
 			{
-				using var request = PrepareSwarmRequest(
-					swarmServer,
-					HttpMethod.Delete,
-					SwarmConstants.UpdateRoute,
-					null);
+				var channel = GetChannelForNode(swarmServer, out var registration);
+				var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(channel);
 
 				try
 				{
 					// DCT: Intentionally should not be cancelled
-					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, CancellationToken.None);
-					response.EnsureSuccessStatusCode();
+					await client.AbortUpdateAsync(
+						new AbortUpdateRequest
+						{
+							Registration = registration,
+						},
+						cancellationToken: CancellationToken.None);
 				}
 				catch (Exception ex)
 				{
@@ -739,7 +765,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (!swarmController)
 				return SendRemoteAbort(new SwarmServerInformation
 				{
-					Address = swarmConfiguration.ControllerAddress,
+					Address = swarmConfigurationOptions.CurrentValue.ControllerAddress,
 				});
 
 			lock (swarmServers!)
@@ -761,11 +787,9 @@ namespace Tgstation.Server.Host.Swarm
 			var httpClient = httpClientFactory.CreateClient();
 			try
 			{
-				var request = PrepareSwarmRequest(
-					sourceNode,
+				var request = new HttpRequestMessage(
 					HttpMethod.Get,
-					$"{SwarmConstants.UpdateRoute}?ticket={HttpUtility.UrlEncode(ticket.FileTicket)}",
-					null);
+					$"{Api.Routes.Transfer}?ticket={HttpUtility.UrlEncode(ticket.FileTicket)}");
 
 				try
 				{
@@ -789,12 +813,12 @@ namespace Tgstation.Server.Host.Swarm
 		/// Implementation of <see cref="PrepareUpdate(ISeekableFileStreamProvider, Version, CancellationToken)"/>,.
 		/// </summary>
 		/// <param name="initiatorProvider">The <see cref="ISeekableFileStreamProvider"/> containing the update package if this is the initiating server, <see langword="null"/> otherwise.</param>
-		/// <param name="updateRequest">The <see cref="SwarmUpdateRequest"/>. Must always have <see cref="SwarmUpdateRequest.UpdateVersion"/> populated. If <paramref name="initiatorProvider"/> is <see langword="null"/>, it must be fully populated.</param>
+		/// <param name="updateRequest">The <see cref="PrepareUpdateRequest"/>. Must always have <see cref="PrepareUpdateRequest.UpdateVersion"/> populated. If <paramref name="initiatorProvider"/> is <see langword="null"/>, it must be fully populated.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="SwarmPrepareResult"/>.</returns>
-		async ValueTask<SwarmPrepareResult> PrepareUpdateImpl(ISeekableFileStreamProvider? initiatorProvider, SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
+		async ValueTask<SwarmPrepareResult> PrepareUpdateImpl(ISeekableFileStreamProvider? initiatorProvider, PrepareUpdateRequest updateRequest, CancellationToken cancellationToken)
 		{
-			var version = updateRequest.UpdateVersion!;
+			var version = updateRequest.UpdateVersion.ToVersion();
 			if (!SwarmMode)
 			{
 				// we still need an active update operation for the TargetVersion
@@ -816,7 +840,7 @@ namespace Tgstation.Server.Host.Swarm
 					currentNodes = swarmServers
 						.Select(node =>
 						{
-							if (node.Identifier == updateRequest.SourceNode)
+							if (node.Identifier == updateRequest.SourceNodeIdentifier)
 								sourceNode = node;
 
 							return node;
@@ -849,25 +873,24 @@ namespace Tgstation.Server.Host.Swarm
 					var downloadTickets = await CreateDownloadTickets(initiatorProvider!, currentNodes, cancellationToken); // condition of initiator
 
 					logger.LogInformation("Forwarding update request to swarm controller...");
-					using var httpClient = httpClientFactory.CreateClient();
-					using var request = PrepareSwarmRequest(
-						null,
-						HttpMethod.Put,
-						SwarmConstants.UpdateRoute,
-						new SwarmUpdateRequest
-						{
-							UpdateVersion = version,
-							SourceNode = swarmConfiguration.Identifier,
-							DownloadTickets = downloadTickets,
-						});
+
+					var channel = GetChannelForNode(null, out var registration);
+					var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(channel);
 
 					// File transfer service will hold the necessary streams
-					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
-					if (response.IsSuccessStatusCode)
-						return SwarmPrepareResult.SuccessHoldProviderUntilCommit;
+					var request = new PrepareUpdateRequest
+					{
+						Registration = registration,
+						UpdateVersion = new GrpcVersion(version),
+						SourceNodeIdentifier = swarmConfigurationOptions.CurrentValue.Identifier,
+					};
 
-					shouldAbort = true;
-					return SwarmPrepareResult.Failure;
+					request.DownloadTicketsByNodeIdentifier.Add(downloadTickets.ToDictionary(x => x.Key, x => new DownloadTicket(x.Value)));
+					var response = await client.PrepareUpdateAsync(
+						request,
+						cancellationToken: cancellationToken);
+
+					return SwarmPrepareResult.SuccessHoldProviderUntilCommit;
 				}
 
 				if (!initiator)
@@ -881,18 +904,18 @@ namespace Tgstation.Server.Host.Swarm
 								? LogLevel.Error
 								: LogLevel.Warning,
 							"Missing local node entry for update source node: {sourceNode}",
-							updateRequest.SourceNode);
+							updateRequest.SourceNodeIdentifier);
 						shouldAbort = true;
 						return SwarmPrepareResult.Failure;
 					}
 
-					if (updateRequest.DownloadTickets == null)
+					if (updateRequest.DownloadTicketsByNodeIdentifier == null)
 					{
 						logger.LogError("Missing download tickets in update request!");
 						return SwarmPrepareResult.Failure;
 					}
 
-					if (!updateRequest.DownloadTickets.TryGetValue(swarmConfiguration.Identifier!, out var ticket))
+					if (!updateRequest.DownloadTicketsByNodeIdentifier.TryGetValue(swarmConfigurationOptions.CurrentValue.Identifier!, out var ticket))
 					{
 						logger.Log(
 							swarmController
@@ -904,7 +927,7 @@ namespace Tgstation.Server.Host.Swarm
 					}
 
 					ServerUpdateResult updateApplyResult;
-					var downloaderStream = CreateUpdateStreamProvider(sourceNode, ticket);
+					var downloaderStream = CreateUpdateStreamProvider(sourceNode, ticket.ToFileTicketResponse());
 					try
 					{
 						updateApplyResult = await serverUpdater.BeginUpdate(
@@ -957,13 +980,13 @@ namespace Tgstation.Server.Host.Swarm
 		/// Send a given <paramref name="updateRequest"/> out to nodes from the swarm controller.
 		/// </summary>
 		/// <param name="initiatorProvider">The <see cref="ISeekableFileStreamProvider"/> containing the update package if this is the initiating server, <see langword="null"/> otherwise.</param>
-		/// <param name="updateRequest">The <see cref="SwarmUpdateRequest"/>. Must always have <see cref="SwarmUpdateRequest.UpdateVersion"/> populated. If <paramref name="initiatorProvider"/> is <see langword="null"/>, it must be fully populated.</param>
+		/// <param name="updateRequest">The <see cref="PrepareUpdateRequest"/>. Must always have <see cref="PrepareUpdateRequest.UpdateVersion"/> populated. If <paramref name="initiatorProvider"/> is <see langword="null"/>, it must be fully populated.</param>
 		/// <param name="currentUpdateOperation">The current <see cref="SwarmUpdateOperation"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="SwarmPrepareResult"/>.</returns>
 		async ValueTask<SwarmPrepareResult> ControllerDistributedPrepareUpdate(
 			ISeekableFileStreamProvider? initiatorProvider,
-			SwarmUpdateRequest updateRequest,
+			PrepareUpdateRequest updateRequest,
 			SwarmUpdateOperation currentUpdateOperation,
 			CancellationToken cancellationToken)
 		{
@@ -972,11 +995,12 @@ namespace Tgstation.Server.Host.Swarm
 			{
 				logger.LogInformation("Sending remote prepare to nodes...");
 
-				if (currentUpdateOperation.InvolvedServers.Count - 1 < swarmConfiguration.UpdateRequiredNodeCount)
+				var currentSwarmConfiguration = swarmConfigurationOptions.CurrentValue;
+				if (currentUpdateOperation.InvolvedServers.Count - 1 < currentSwarmConfiguration.UpdateRequiredNodeCount)
 				{
 					logger.LogWarning(
 						"Aborting update, controller expects to be in sync with {requiredNodeCount} nodes but currently only has {currentNodeCount}!",
-						swarmConfiguration.UpdateRequiredNodeCount,
+						currentSwarmConfiguration.UpdateRequiredNodeCount,
 						currentUpdateOperation.InvolvedServers.Count - 1);
 					abortUpdate = true;
 					return SwarmPrepareResult.Failure;
@@ -994,11 +1018,11 @@ namespace Tgstation.Server.Host.Swarm
 				}
 
 				// The initiator node obviously doesn't create a ticket for itself
-				else if (!weAreInitiator && updateRequest.DownloadTickets!.Count != currentUpdateOperation.InvolvedServers.Count - 1)
+				else if (!weAreInitiator && updateRequest.DownloadTicketsByNodeIdentifier!.Count != currentUpdateOperation.InvolvedServers.Count - 1)
 				{
 					logger.LogWarning(
 						"Aborting update, {receivedTickets} download tickets were provided but there are {nodesToUpdate} nodes in the swarm that require the package!",
-						updateRequest.DownloadTickets.Count,
+						updateRequest.DownloadTicketsByNodeIdentifier.Count,
 						currentUpdateOperation.InvolvedServers.Count);
 					abortUpdate = true;
 					return SwarmPrepareResult.Failure;
@@ -1006,11 +1030,11 @@ namespace Tgstation.Server.Host.Swarm
 
 				var downloadTicketDictionary = weAreInitiator
 					? await CreateDownloadTickets(initiatorProvider!, currentUpdateOperation.InvolvedServers, cancellationToken)
-					: updateRequest.DownloadTickets!;
+					: updateRequest.DownloadTicketsByNodeIdentifier.ToDictionary(x => x.Key, x => x.Value.ToFileTicketResponse());
 
 				var sourceNode = weAreInitiator
-					? swarmConfiguration.Identifier
-					: updateRequest.SourceNode;
+					? currentSwarmConfiguration.Identifier
+					: updateRequest.SourceNodeIdentifier;
 
 				using var httpClient = httpClientFactory.CreateClient();
 				using var transferSemaphore = new SemaphoreSlim(1);
@@ -1022,7 +1046,7 @@ namespace Tgstation.Server.Host.Swarm
 					.Select(node =>
 					{
 						// only send the necessary ticket to each node from the controller
-						Dictionary<string, FileTicketResponse>? localTicketDictionary;
+						Dictionary<string, DownloadTicket>? localTicketDictionary;
 						var nodeId = node.Identifier!;
 						if (nodeId == sourceNode)
 							localTicketDictionary = null;
@@ -1033,17 +1057,18 @@ namespace Tgstation.Server.Host.Swarm
 							return null;
 						}
 						else
-							localTicketDictionary = new Dictionary<string, FileTicketResponse>
+							localTicketDictionary = new Dictionary<string, DownloadTicket>
 							{
-								{ nodeId, ticket },
+								{ nodeId, new DownloadTicket(ticket) },
 							};
 
-						var request = new SwarmUpdateRequest
+						var request = new PrepareUpdateRequest
 						{
 							UpdateVersion = updateRequest.UpdateVersion,
-							SourceNode = sourceNode,
-							DownloadTickets = localTicketDictionary,
+							SourceNodeIdentifier = sourceNode,
 						};
+
+						request.DownloadTicketsByNodeIdentifier.Add(localTicketDictionary);
 
 						return Tuple.Create(node, request);
 					})
@@ -1058,14 +1083,21 @@ namespace Tgstation.Server.Host.Swarm
 						var node = tuple!.Item1;
 						var body = tuple.Item2;
 
-						using var request = PrepareSwarmRequest(
-							node,
-							HttpMethod.Put,
-							SwarmConstants.UpdateRoute,
-							body);
+						var channel = GetChannelForNode(node, out var registration);
+						var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(channel);
 
-						using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
-						return response.IsSuccessStatusCode;
+						try
+						{
+							await client.PrepareUpdateAsync(
+								body,
+								cancellationToken: cancellationToken);
+							return true;
+						}
+						catch (Exception ex)
+						{
+							logger.LogWarning(ex, "Prepare update call for node {node} failed", node.Identifier);
+							return false;
+						}
 					})
 					.ToList();
 
@@ -1102,7 +1134,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="initiatorProvider">The <see cref="ISeekableFileStreamProvider"/> containing the server update package.</param>
 		/// <param name="involvedServers">An <see cref="IEnumerable{T}"/> of the involved <see cref="SwarmServerInformation"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="Dictionary{TKey, TValue}"/> of unique <see cref="FileTicketResponse"/>s keyed by their <see cref="SwarmServer.Identifier"/>.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="Dictionary{TKey, TValue}"/> of unique <see cref="FileTicketResponse"/>s keyed by their <see cref="Api.Models.Internal.SwarmServer.Identifier"/>.</returns>
 		async ValueTask<Dictionary<string, FileTicketResponse>> CreateDownloadTickets(
 			ISeekableFileStreamProvider initiatorProvider,
 			IReadOnlyCollection<SwarmServerInformation> involvedServers,
@@ -1120,7 +1152,7 @@ namespace Tgstation.Server.Host.Swarm
 				false);
 
 			var serversRequiringTickets = involvedServers
-				.Where(node => node.Identifier != swarmConfiguration.Identifier)
+				.Where(node => node.Identifier != swarmConfigurationOptions.CurrentValue.Identifier)
 				.ToList();
 
 			logger.LogTrace("Creating {n} download tickets for other nodes...", serversRequiringTickets.Count);
@@ -1151,16 +1183,17 @@ namespace Tgstation.Server.Host.Swarm
 			var registrationIdsAndTimes = this.registrationIdsAndTimes!;
 			async ValueTask HealthRequestForServer(SwarmServerInformation swarmServer)
 			{
-				using var request = PrepareSwarmRequest(
-					swarmServer,
-					HttpMethod.Get,
-					String.Empty,
-					null);
+				var channel = GetChannelForNode(swarmServer, out var registration);
+				var client = new GrpcSwarmNodeService.GrpcSwarmNodeServiceClient(channel);
 
 				try
 				{
-					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
-					response.EnsureSuccessStatusCode();
+					await client.HealthCheckAsync(
+						new HealthCheckRequest
+						{
+							Registration = registration,
+						},
+						cancellationToken: cancellationToken);
 					return;
 				}
 				catch (Exception ex) when (ex is not OperationCanceledException)
@@ -1225,13 +1258,15 @@ namespace Tgstation.Server.Host.Swarm
 			if (controllerRegistration.HasValue)
 				try
 				{
-					using var request = PrepareSwarmRequest(
-						null,
-						HttpMethod.Get,
-						String.Empty,
-						null);
-					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
-					response.EnsureSuccessStatusCode();
+					var channel = GetChannelForNode(null, out var registration);
+					var client = new GrpcSwarmNodeService.GrpcSwarmNodeServiceClient(channel);
+
+					await client.HealthCheckAsync(
+						new HealthCheckRequest
+						{
+							Registration = registration,
+						},
+						cancellationToken: cancellationToken);
 					logger.LogTrace("Controller health check successful");
 					return;
 				}
@@ -1277,80 +1312,41 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="SwarmRegistrationResult"/>.</returns>
 		async ValueTask<SwarmRegistrationResult> RegisterWithController(CancellationToken cancellationToken)
 		{
-			logger.LogInformation("Attempting to register with swarm controller at {controllerAddress}...", swarmConfiguration.ControllerAddress);
-			var requestedRegistrationId = Guid.NewGuid();
+			var currentSwarmConfiguration = swarmConfigurationOptions.CurrentValue;
+			logger.LogInformation("Attempting to register with swarm controller at {controllerAddress}...", currentSwarmConfiguration.ControllerAddress);
 
-			using var httpClient = httpClientFactory.CreateClient();
-			using var registrationRequest = PrepareSwarmRequest(
-				null,
-				HttpMethod.Post,
-				SwarmConstants.RegisterRoute,
-				new SwarmRegistrationRequest(Version.Parse(MasterVersionsAttribute.Instance.RawSwarmProtocolVersion))
-				{
-					Identifier = swarmConfiguration.Identifier,
-					Address = swarmConfiguration.Address,
-					PublicAddress = swarmConfiguration.PublicAddress,
-				},
-				requestedRegistrationId);
-
+			var channel = GetChannelForNode(null, out _);
+			var client = new GrpcSwarmControllerService.GrpcSwarmControllerServiceClient(channel);
 			try
 			{
-				using var response = await httpClient.SendAsync(registrationRequest, HttpCompletionOption.ResponseContentRead, cancellationToken);
-				if (response.IsSuccessStatusCode)
+				try
 				{
-					try
-					{
-						var json = await response.Content.ReadAsStringAsync(cancellationToken);
-						if (json == null)
+					var response = await client.RegisterNodeAsync(
+						new RegisterNodeRequest
 						{
-							logger.LogDebug("Error reading registration response content stream! Text was null!");
-							return SwarmRegistrationResult.PayloadFailure;
-						}
+							RegisteringNode = new Grpc.SwarmServer
+							{
+								Address = currentSwarmConfiguration.Address!.ToString(),
+								PublicAddress = currentSwarmConfiguration.PublicAddress!.ToString(),
+								Identifier = currentSwarmConfiguration.Identifier,
+							},
+							SwarmProtocolVersion = new GrpcVersion(
+								Version.Parse(
+									MasterVersionsAttribute.Instance.RawSwarmProtocolVersion)),
+						},
+						cancellationToken: cancellationToken);
 
-						var registrationResponse = JsonConvert.DeserializeObject<SwarmRegistrationResponse>(json);
-						if (registrationResponse == null)
-						{
-							logger.LogDebug("Error reading registration response content stream! Payload was null!");
-							return SwarmRegistrationResult.PayloadFailure;
-						}
+					var registrationId = response.Registration.ToGuid();
+					tokenFactory.SigningKeyBytes = response.TokenSigningKey.ToByteArray();
 
-						if (registrationResponse.TokenSigningKeyBase64 == null)
-						{
-							logger.LogDebug("Error reading registration response content stream! SigningKey was null!");
-							return SwarmRegistrationResult.PayloadFailure;
-						}
-
-						tokenFactory.SigningKeyBytes = Convert.FromBase64String(registrationResponse.TokenSigningKeyBase64);
-					}
-					catch (Exception ex)
-					{
-						logger.LogDebug(ex, "Error reading registration response content stream!");
-						return SwarmRegistrationResult.PayloadFailure;
-					}
-
-					logger.LogInformation("Sucessfully registered with ID {registrationId}", requestedRegistrationId);
-					controllerRegistration = requestedRegistrationId;
+					logger.LogInformation("Sucessfully registered with ID {registrationId}", registrationId);
+					controllerRegistration = registrationId;
 					lastControllerHealthCheck = DateTimeOffset.UtcNow;
 					return SwarmRegistrationResult.Success;
 				}
-
-				logger.LogWarning("Unable to register with swarm: HTTP {statusCode}!", response.StatusCode);
-
-				if (response.StatusCode == HttpStatusCode.Unauthorized)
-					return SwarmRegistrationResult.Unauthorized;
-
-				if (response.StatusCode == HttpStatusCode.UpgradeRequired)
-					return SwarmRegistrationResult.VersionMismatch;
-
-				try
-				{
-					var responseData = await response.Content.ReadAsStringAsync(cancellationToken);
-					if (!String.IsNullOrWhiteSpace(responseData))
-						logger.LogDebug("Response:{newLine}{responseData}", Environment.NewLine, responseData);
-				}
 				catch (Exception ex)
 				{
-					logger.LogDebug(ex, "Error reading registration response content stream!");
+					logger.LogWarning(ex, "Unable to register with swarm!");
 				}
 			}
 			catch (Exception ex)
@@ -1386,19 +1382,28 @@ namespace Tgstation.Server.Host.Swarm
 			using var httpClient = httpClientFactory.CreateClient();
 			async ValueTask UpdateRequestForServer(SwarmServerInformation swarmServer)
 			{
-				using var request = PrepareSwarmRequest(
-					swarmServer,
-					HttpMethod.Post,
-					String.Empty,
-					new SwarmServersUpdateRequest
-					{
-						SwarmServers = currentSwarmServers,
-					});
-
+				var channel = GetChannelForNode(swarmServer, out var registration);
+				var client = new GrpcSwarmNodeService.GrpcSwarmNodeServiceClient(channel);
 				try
 				{
-					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
-					response.EnsureSuccessStatusCode();
+					var request = new UpdateNodeListRequest
+					{
+						Registration = registration,
+					};
+					request.NodeList.AddRange(currentSwarmServers.Select(swarmServer => new NodeInformation
+					{
+						Controller = swarmServer.Controller,
+						SwarmServer = new Grpc.SwarmServer
+						{
+							Address = swarmServer.Address!.ToString(),
+							PublicAddress = swarmServer.PublicAddress!.ToString(),
+							Identifier = swarmServer.Identifier,
+						},
+					}));
+
+					await client.UpdateNodeListAsync(
+						request,
+						cancellationToken: cancellationToken);
 				}
 				catch (Exception ex) when (ex is not OperationCanceledException)
 				{
@@ -1417,69 +1422,6 @@ namespace Tgstation.Server.Host.Swarm
 					.Where(x => !x.Controller)
 					.Select(UpdateRequestForServer)
 					.ToList());
-		}
-
-		/// <summary>
-		/// Prepares a <see cref="HttpRequestMessage"/> for swarm communication.
-		/// </summary>
-		/// <param name="swarmServer">The <see cref="SwarmServerInformation"/> the message is for. Must have <see cref="SwarmServer.Address"/> and <see cref="SwarmServer.Identifier"/> set. If <see langword="null"/>, will be sent to swarm controller.</param>
-		/// <param name="httpMethod">The <see cref="HttpMethod"/>.</param>
-		/// <param name="route">The route on <see cref="SwarmConstants.ControllerRoute"/> to use.</param>
-		/// <param name="body">The body <see cref="object"/> if any.</param>
-		/// <param name="registrationIdOverride">An optional override to the <see cref="SwarmConstants.RegistrationIdHeader"/>.</param>
-		/// <returns>A new <see cref="HttpRequestMessage"/>.</returns>
-		HttpRequestMessage PrepareSwarmRequest(
-			SwarmServerInformation? swarmServer,
-			HttpMethod httpMethod,
-			string route,
-			object? body,
-			Guid? registrationIdOverride = null)
-		{
-			swarmServer ??= new SwarmServerInformation
-			{
-				Address = swarmConfiguration.ControllerAddress,
-			};
-
-			var fullRoute = $"{SwarmConstants.ControllerRoute}/{route}";
-			logger.LogTrace(
-				"{method} {route} to swarm server {nodeIdOrAddress}",
-				httpMethod,
-				fullRoute,
-				swarmServer.Identifier ?? swarmServer.Address!.ToString());
-
-			var request = new HttpRequestMessage(
-				httpMethod,
-				swarmServer.Address + fullRoute[1..]);
-			try
-			{
-				request.Headers.Accept.Clear();
-				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
-
-				request.Headers.Add(SwarmConstants.ApiKeyHeader, swarmConfiguration.PrivateKey);
-				if (registrationIdOverride.HasValue)
-					request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationIdOverride.Value.ToString());
-				else if (swarmController)
-				{
-					lock (swarmServers!)
-						if (registrationIdsAndTimes!.TryGetValue(swarmServer.Identifier!, out var registrationIdAndTime))
-							request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationIdAndTime.RegistrationId.ToString());
-				}
-				else if (controllerRegistration.HasValue)
-					request.Headers.Add(SwarmConstants.RegistrationIdHeader, controllerRegistration.Value.ToString());
-
-				if (body != null)
-					request.Content = new StringContent(
-						JsonConvert.SerializeObject(body, SwarmConstants.SerializerSettings),
-						Encoding.UTF8,
-						MediaTypeNames.Application.Json);
-
-				return request;
-			}
-			catch
-			{
-				request.Dispose();
-				throw;
-			}
 		}
 
 		/// <summary>
@@ -1567,10 +1509,10 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <summary>
-		/// Gets the <see cref="SwarmServer.Identifier"/> from a given <paramref name="registrationId"/>.
+		/// Gets the <see cref="Api.Models.Internal.SwarmServer.Identifier"/> from a given <paramref name="registrationId"/>.
 		/// </summary>
 		/// <param name="registrationId">The registration <see cref="Guid"/>.</param>
-		/// <returns>The registered <see cref="SwarmServer.Identifier"/> or <see langword="null"/> if it does not exist.</returns>
+		/// <returns>The registered <see cref="Api.Models.Internal.SwarmServer.Identifier"/> or <see langword="null"/> if it does not exist.</returns>
 		string? NodeIdentifierFromRegistration(Guid registrationId)
 		{
 			if (!swarmController)
@@ -1587,6 +1529,62 @@ namespace Tgstation.Server.Host.Swarm
 				}
 
 				return registrationIdsAndTimes.First(x => x.Value.RegistrationId == registrationId).Key;
+			}
+		}
+
+		/// <summary>
+		/// Get the <see cref="GrpcChannel"/> and <see cref="SwarmRegistration"/> for a given <paramref name="swarmServer"/>.
+		/// </summary>
+		/// <param name="swarmServer">The optional <see cref="Api.Models.Internal.SwarmServer"/> to connect to. If <see langword="null"/> the <see cref="SwarmConfiguration.ControllerAddress"/> will be used.</param>
+		/// <param name="swarmRegistration">The <see cref="SwarmRegistration"/> for the <paramref name="swarmServer"/>, if any.</param>
+		/// <returns>The <see cref="GrpcChannel"/> to use for calling the target <paramref name="swarmServer"/>.</returns>
+		private GrpcChannel GetChannelForNode(Api.Models.Internal.SwarmServer? swarmServer, out SwarmRegistration? swarmRegistration)
+		{
+			string CreateSwarmAuthorizationHeader() => $"{SwarmConstants.AuthenticationSchemeAndPolicy} {swarmConfigurationOptions.CurrentValue.PrivateKey}";
+
+			lock (nodeGrpcChannels)
+			{
+				GrpcChannel? channel;
+				if (swarmServer == null)
+				{
+					if (controllerGrpcChannel == null)
+					{
+						var controllerAddress = swarmConfigurationOptions.CurrentValue.ControllerAddress;
+						if (controllerAddress == null)
+							throw new InvalidOperationException("Controller address was null!");
+
+						controllerGrpcChannel = grpcChannelFactory.CreateChannel(controllerAddress, CreateSwarmAuthorizationHeader);
+					}
+
+					if (controllerRegistration.HasValue)
+						swarmRegistration = new SwarmRegistration
+						{
+							Id = controllerRegistration.Value.ToString(),
+						};
+					else
+						swarmRegistration = null;
+
+					channel = controllerGrpcChannel;
+				}
+				else
+				{
+					lock (swarmServers!)
+						if (registrationIdsAndTimes!.TryGetValue(swarmServer.Identifier!, out var registrationIdAndTime))
+							swarmRegistration = new SwarmRegistration
+							{
+								Id = registrationIdAndTime.RegistrationId.ToString(),
+							};
+						else
+							swarmRegistration = null;
+
+					if (!nodeGrpcChannels.TryGetValue(swarmServer.Identifier!, out channel))
+						{
+							channel = grpcChannelFactory.CreateChannel(swarmServer.Address!, CreateSwarmAuthorizationHeader);
+							nodeGrpcChannels.Add(swarmServer.Identifier!, channel);
+						}
+				}
+
+				return channel;
 			}
 		}
 	}

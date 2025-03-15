@@ -70,6 +70,7 @@ using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.OAuth;
 using Tgstation.Server.Host.Setup;
 using Tgstation.Server.Host.Swarm;
+using Tgstation.Server.Host.Swarm.Grpc;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
@@ -154,7 +155,6 @@ namespace Tgstation.Server.Host.Core
 			// configure configuration
 			services.UseStandardConfig<UpdatesConfiguration>(Configuration);
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
-			services.UseStandardConfig<SwarmConfiguration>(Configuration);
 			services.UseStandardConfig<SessionConfiguration>(Configuration);
 			services.UseStandardConfig<TelemetryConfiguration>(Configuration);
 
@@ -489,6 +489,9 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ISwarmOperations>(x => x.GetRequiredService<SwarmService>());
 			services.AddSingleton<ISwarmServiceController>(x => x.GetRequiredService<SwarmService>());
 
+			if (postSetupServices.SwarmConfiguration.PrivateKey != null)
+				services.AddGrpc();
+
 			// configure component services
 			services.AddSingleton<IPortAllocator, PortAllocator>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
@@ -517,6 +520,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
+			services.AddSingleton<IGrpcChannelFactory, GrpcChannelFactory>();
 			services.AddHostedService<CommandPipeManager>();
 			services.AddHostedService<VersionReportingService>();
 
@@ -697,6 +701,16 @@ namespace Tgstation.Server.Host.Core
 					})
 					.RequireAuthorization()
 					.RequireCors(corsBuilder);
+
+				if (swarmConfiguration.PrivateKey != null)
+				{
+					endpoints.MapGrpcService<SwarmSharedService>();
+
+					if (swarmConfiguration.ControllerAddress != null)
+						endpoints.MapGrpcService<SwarmNodeService>();
+					else
+						endpoints.MapGrpcService<SwarmControllerService>();
+				}
 
 				// majority of handling is done in the controllers
 				endpoints.MapControllers();
