@@ -105,6 +105,7 @@ namespace Tgstation.Server.Tests.Live
 
 		public override ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			RevisionInformation revisionInformation,
+			RevisionInformation previousRevisionInformation,
 			Api.Models.EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
@@ -115,8 +116,6 @@ namespace Tgstation.Server.Tests.Live
 		{
 			ArgumentNullException.ThrowIfNull(revisionInformation);
 			ArgumentNullException.ThrowIfNull(engineVersion);
-			ArgumentNullException.ThrowIfNull(gitHubOwner);
-			ArgumentNullException.ThrowIfNull(gitHubRepo);
 
 			Assert.IsTrue(knownChannels.ContainsKey(channelId));
 

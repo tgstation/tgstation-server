@@ -13,16 +13,19 @@ namespace Tgstation.Server.Api.Models.Response
 		/// <summary>
 		/// The version of the API the server is using.
 		/// </summary>
+		/// <example>9.3.0</example>
 		public Version? ServerApiVersion { get; set; }
 
 		/// <summary>
-		/// A human readable description of the error.
+		/// A human-readable description of the error.
 		/// </summary>
+		/// <example>Oopsie woopsie, we did a fucky wucky!</example>
 		public string? Message { get; set; }
 
 		/// <summary>
 		/// Additional data associated with the error message.
 		/// </summary>
+		/// <example>Error at thing.app.dependency.class.function in line 32</example>
 		[ResponseOptions]
 		public string? AdditionalData { get; set; }
 

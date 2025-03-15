@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <Import Project="../../build/SrcCommon.props" />
 
   <PropertyGroup>
@@ -97,26 +97,24 @@
     <PackageReference Include="DotEnv.Core" Version="3.1.0" />
     <!-- Usage: Text formatter for Elasticsearch logging plugin -->
     <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.12.3" />
-    <!-- Usage: GitLab interop -->
-    <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <!-- Usage: GraphQL API Engine -->
-    <PackageReference Include="HotChocolate.AspNetCore" Version="14.3.0" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="15.0.3" />
     <!-- Usage: GraphQL Authorization Plugin -->
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.3.0" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.0.3" />
     <!-- Usage: GraphQL IDatabaseContext support -->
-    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="14.3.0" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="15.0.3" />
     <!-- Usage: DataLoader source generation -->
-    <PackageReference Include="HotChocolate.Types.Analyzers" Version="14.3.0" />
+    <PackageReference Include="HotChocolate.Types.Analyzers" Version="15.0.3" />
     <!-- Usage: GraphQL additional scalar type definitions -->
-    <PackageReference Include="HotChocolate.Types.Scalars" Version="14.3.0" />
+    <PackageReference Include="HotChocolate.Types.Scalars" Version="15.0.3" />
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.13" />
     <!-- Usage: Using target JSON serializer for API -->
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="9.0.2" />
     <!-- Usage: Generating dumps of dotnet engine processes -->
-    <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.553101" />
+    <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.607501" />
     <!-- Usage: Database ORM -->
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <!-- Usage: Automatic migration generation using command line -->
@@ -127,6 +125,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
     <!-- Usage: MSSQL ORM plugin -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+    <!-- Usage: Database connectivity health check -->
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="9.0.0" />
     <!-- Usage: POSIX support for syscalls, signals, and symlinks -->
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <!-- Usage: Cron string parsing -->
@@ -137,8 +137,10 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-preview.2.efcore.9.0.0" />
+    <!-- Usage: Publishing Prometheus metrics -->
+    <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" Version="8.2.1" />
     <!-- Usage: Discord interop -->
-    <PackageReference Include="Remora.Discord" Version="2024.3.0" />
+    <PackageReference Include="Remora.Discord" Version="2025.1.0" />
     <!-- Usage: Rich logger builder -->
     <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.0" />
     <!-- Usage: Async logging plugin -->
@@ -150,20 +152,21 @@
     <!-- Usage: File logging plugin -->
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
     <!-- Usage: OpenAPI spec generator -->
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="7.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="7.3.1" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.0" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.2" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
-    <PackageReference Include="System.Management" Version="9.0.0" />
+    <PackageReference Include="System.Management" Version="9.0.2" />
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
-    <PackageReference Include="System.Security.Permissions" Version="9.0.0" />
+    <PackageReference Include="System.Security.Permissions" Version="9.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
     <ProjectReference Include="..\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj" />
+    <ProjectReference Include="..\Tgstation.Server.Host.Utils.GitLab.GraphQL\Tgstation.Server.Host.Utils.GitLab.GraphQL.csproj" />
     <ProjectReference Include="..\Tgstation.Server.Shared\Tgstation.Server.Shared.csproj" />
   </ItemGroup>
 

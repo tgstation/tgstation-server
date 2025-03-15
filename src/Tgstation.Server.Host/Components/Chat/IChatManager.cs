@@ -61,6 +61,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// Send the message for a deployment to configured deployment channels.
 		/// </summary>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/> of the deployment.</param>
+		/// <param name="previousRevisionInformation">The optional <see cref="RevisionInformation"/> of the previous deployment.</param>
 		/// <param name="engineVersion">The <see cref="Api.Models.EngineVersion"/> of the deployment.</param>
 		/// <param name="estimatedCompletionTime">The optional <see cref="DateTimeOffset"/> the deployment is expected to be completed at.</param>
 		/// <param name="gitHubOwner">The repository GitHub owner, if any.</param>
@@ -69,6 +70,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <returns>A <see cref="Func{T1, T2, TResult}"/> to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any. Returns an <see cref="Action"/> to call to mark the deployment as active/inactive. Parameter: If the deployment is being activated or inactivated.</returns>
 		Func<string?, string, Action<bool>> QueueDeploymentMessage(
 			Models.RevisionInformation revisionInformation,
+			Models.RevisionInformation? previousRevisionInformation,
 			Api.Models.EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string? gitHubOwner,

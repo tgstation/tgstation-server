@@ -173,5 +173,11 @@
 		/// </summary>
 		[EventScript("EngineInstallComplete")]
 		EngineInstallComplete,
+
+		/// <summary>
+		/// Before game server process is created. No parameters.
+		/// </summary>
+		[EventScript("DreamDaemonPreLaunch")]
+		DreamDaemonPreLaunch,
 	}
 }

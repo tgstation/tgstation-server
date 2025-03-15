@@ -30,6 +30,8 @@ using Microsoft.Extensions.Options;
 
 using Newtonsoft.Json;
 
+using Prometheus;
+
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
@@ -294,11 +296,29 @@ namespace Tgstation.Server.Host.Core
 			services.AddHttpClient();
 			services.AddSingleton<IAbstractHttpClientFactory, AbstractHttpClientFactory>();
 
+			// configure metrics
+			var prometheusPort = postSetupServices.GeneralConfiguration.PrometheusPort;
+
+			services.AddSingleton<IMetricFactory>(_ => Metrics.DefaultFactory);
+			services.AddSingleton<ICollectorRegistry>(_ => Metrics.DefaultRegistry);
+
+			if (prometheusPort.HasValue && prometheusPort != postSetupServices.GeneralConfiguration.ApiPort)
+				services.AddMetricServer(options => options.Port = prometheusPort.Value);
+
+			services.UseHttpClientMetrics();
+
+			var healthChecksBuilder = services
+				.AddHealthChecks()
+				.ForwardToPrometheus();
+
 			// configure graphql
 			services
 				.AddScoped<GraphQL.Subscriptions.ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
 				.AddGraphQLServer()
-				.AddAuthorization()
+				.AddAuthorization(
+					options => options.AddPolicy(
+						TgsAuthorizeAttribute.PolicyName,
+						builder => builder.RequireRole(TgsAuthorizeAttribute.UserEnabledRole)))
 				.ModifyOptions(options =>
 				{
 					options.EnsureAllNodesCanBeResolved = true;
@@ -359,6 +379,9 @@ namespace Tgstation.Server.Host.Core
 					configureAction(builder, databaseConfig);
 				});
 				services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<TContext>());
+
+				healthChecksBuilder
+					.AddDbContextCheck<TContext>();
 			}
 
 			// add the correct database context type
@@ -524,6 +547,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use.</param>
+		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="DatabaseConfiguration"/> to use.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SwarmConfiguration"/> to use.</param>
 		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="InternalConfiguration"/> to use.</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/>.</param>
@@ -535,6 +559,7 @@ namespace Tgstation.Server.Host.Core
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<DatabaseConfiguration> databaseConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			IOptions<InternalConfiguration> internalConfigurationOptions,
 			ILogger<Application> logger)
@@ -549,11 +574,13 @@ namespace Tgstation.Server.Host.Core
 
 			var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 			var generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			var databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
 			var swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			var internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
 
 			ArgumentNullException.ThrowIfNull(logger);
 
+			logger.LogDebug("Database provider: {provider}", databaseConfiguration.DatabaseType);
 			logger.LogDebug("Content Root: {contentRoot}", hostingEnvironment.ContentRootPath);
 			logger.LogTrace("Web Root: {webRoot}", hostingEnvironment.WebRootPath);
 
@@ -563,6 +590,9 @@ namespace Tgstation.Server.Host.Core
 
 			// Wrap exceptions in a 500 (ErrorMessage) response
 			applicationBuilder.UseServerErrorHandling();
+
+			// metrics capture
+			applicationBuilder.UseHttpMetrics();
 
 			// Add the X-Powered-By response header
 			applicationBuilder.UseServerBranding(assemblyInformationProvider);
@@ -685,6 +715,19 @@ namespace Tgstation.Server.Host.Core
 						.MapGraphQL(Routes.GraphQL)
 						.WithOptions(gqlOptions);
 				}
+
+				if (generalConfiguration.PrometheusPort.HasValue)
+					if (generalConfiguration.PrometheusPort == generalConfiguration.ApiPort)
+					{
+						endpoints.MapMetrics();
+						logger.LogDebug("Prometheus being hosted alongside server");
+					}
+					else
+						logger.LogDebug("Prometheus being hosted on port {prometheusPort}", generalConfiguration.PrometheusPort);
+				else
+					logger.LogTrace("Prometheus disabled");
+
+				endpoints.MapHealthChecks("/health");
 			});
 
 			// 404 anything that gets this far

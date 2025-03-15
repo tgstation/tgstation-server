@@ -8,6 +8,7 @@
 		/// <summary>
 		/// The <see cref="EntityId.Id"/> of the <see cref="Instance"/>.
 		/// </summary>
+		/// <example>1</example>
 		public long? InstanceId { get; set; }
 
 		/// <summary>
@@ -24,12 +25,14 @@
 		/// <summary>
 		/// Optional progress between 0 and 100 inclusive.
 		/// </summary>
+		/// <example>25</example>
 		[ResponseOptions]
 		public int? Progress { get; set; }
 
 		/// <summary>
-		/// Optional description of the job's current .
+		/// Optional description of the job's current progress.
 		/// </summary>
+		/// <example>Doing something important</example>
 		[ResponseOptions]
 		public string? Stage { get; set; }
 	}

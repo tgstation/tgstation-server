@@ -17,6 +17,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
@@ -217,6 +218,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async ValueTask<Func<string?, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
+			Models.RevisionInformation? previousRevisionInformation,
 			EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string? gitHubOwner,
@@ -227,8 +229,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			ArgumentNullException.ThrowIfNull(revisionInformation);
 			ArgumentNullException.ThrowIfNull(engineVersion);
-			ArgumentNullException.ThrowIfNull(gitHubOwner);
-			ArgumentNullException.ThrowIfNull(gitHubRepo);
+
+			var previousTestMerges = (IEnumerable<RevInfoTestMerge>?)previousRevisionInformation?.ActiveTestMerges ?? Enumerable.Empty<RevInfoTestMerge>();
+			var currentTestMerges = (IEnumerable<RevInfoTestMerge>?)revisionInformation.ActiveTestMerges ?? Enumerable.Empty<RevInfoTestMerge>();
 
 			var commitInsert = revisionInformation.CommitSha![..7];
 			string remoteCommitInsert;
@@ -240,21 +243,35 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			else
 				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha![..7]);
 
-			var testmergeInsert = (revisionInformation.ActiveTestMerges?.Count ?? 0) == 0
+			var testmergeInsert = !currentTestMerges.Any()
 				? String.Empty
 				: String.Format(
 					CultureInfo.InvariantCulture,
 					" (Test Merges: {0})",
 					String.Join(
 						", ",
-						revisionInformation
-							.ActiveTestMerges!
+						currentTestMerges
 							.Select(x => x.TestMerge)
 							.Select(x =>
 							{
-								var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.TargetCommitSha![..7]);
-								if (x.Comment != null)
-									result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
+								var status = string.Empty;
+								if (!previousTestMerges.Any(y => y.TestMerge.Number == x.Number))
+									status = "Added";
+								else if (previousTestMerges.Any(y => y.TestMerge.Number == x.Number && y.TestMerge.TargetCommitSha != x.TargetCommitSha))
+									status = "Updated";
+
+								var result = $"#{x.Number} at {x.TargetCommitSha![..7]}";
+
+								if (!string.IsNullOrEmpty(x.Comment))
+								{
+									if (!string.IsNullOrEmpty(status))
+										result += $" ({status} - {x.Comment})";
+									else
+										result += $" ({x.Comment})";
+								}
+								else if (!string.IsNullOrEmpty(status))
+									result += $" ({status})";
+
 								return result;
 							})));
 

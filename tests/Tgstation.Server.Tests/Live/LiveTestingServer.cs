@@ -156,6 +156,7 @@ namespace Tgstation.Server.Tests.Live
 				$"Security:TokenExpiryMinutes=120", // timeouts are useless for us
 				$"General:OpenDreamSuppressInstallOutput={TestingUtils.RunningInGitHubActions}",
 				"Telemetry:DisableVersionReporting=true",
+				$"General:PrometheusPort={port}"
 			};
 
 			if (MultiServerClient.UseGraphQL)

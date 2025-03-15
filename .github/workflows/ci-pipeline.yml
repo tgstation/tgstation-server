@@ -36,7 +36,7 @@ on:
 env:
   TGS_DOTNET_VERSION: 8
   OD_MIN_COMPAT_DOTNET_VERSION: 7
-  OD_DOTNET_VERSION: 8
+  OD_DOTNET_VERSION: 9
   TGS_DOTNET_QUALITY: ga
   TGS_WEBPANEL_NODE_VERSION: 20.x
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
@@ -2322,9 +2322,9 @@ jobs:
 
   update-nix:
     name: Update Nix SHA
-    needs: deploy-tgs
+    needs: changelog-regen
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure())) && needs.deploy-tgs.result == 'success'
+    if: (!(cancelled() || failure())) && needs.changelog-regen.result == 'success'
     steps:
       - name: Install Native Packages # Name checked in rerunFlakyTests.js
         run: |
@@ -2345,7 +2345,7 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Clone
-        run: git clone -b master --single-branch "https://git@github.com/tgstation/tgstation-server" --depth 1 .
+        run: git clone -b master --single-branch "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/tgstation/tgstation-server" --depth 1 .
 
       - name: Parse TGS version
         run: echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
@@ -2378,7 +2378,7 @@ jobs:
         run: git push "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/tgstation/tgstation-server"
 
       - name: Force Push Tags
-        run: git push -f --tags "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/tgstation/tgstation-server"
+        run: git push -f origin tag tgstation-server-v${{ env.TGS_VERSION }}
 
   changelog-regen:
     name: Regenerate Changelog

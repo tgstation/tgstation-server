@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+using Prometheus;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Extensions;
@@ -106,6 +108,21 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly Api.Models.Instance metadata;
 
 		/// <summary>
+		/// The number of attempted deployments.
+		/// </summary>
+		readonly Counter attemptedDeployments;
+
+		/// <summary>
+		/// The number of successful deployments.
+		/// </summary>
+		readonly Counter successfulDeployments;
+
+		/// <summary>
+		/// The number of failed deployments.
+		/// </summary>
+		readonly Counter failedDeployments;
+
+		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for <see cref="deploying"/>.
 		/// </summary>
 		readonly object deploymentLock;
@@ -149,6 +166,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
+		/// <param name="metricFactory">The <see cref="IMetricFactory"/> to use.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
@@ -164,6 +182,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			IRepositoryManager repositoryManager,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			IAsyncDelayer asyncDelayer,
+			IMetricFactory metricFactory,
 			ILogger<DreamMaker> logger,
 			SessionConfiguration sessionConfiguration,
 			Api.Models.Instance metadata)
@@ -177,11 +196,16 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
-			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			ArgumentNullException.ThrowIfNull(metricFactory);
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
+
+			successfulDeployments = metricFactory.CreateCounter("tgs_successful_deployments", "The number of deployments that have completed successfully");
+			failedDeployments = metricFactory.CreateCounter("tgs_failed_deployments", "The number of deployments that have failed");
+			attemptedDeployments = metricFactory.CreateCounter("tgs_total_deployments", "The number of deployments that have been attempted");
 
 			deploymentLock = new object();
 		}
@@ -205,9 +229,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 				deploying = true;
 			}
 
+			attemptedDeployments.Inc();
+
 			currentChatCallback = null;
 			currentDreamMakerOutput = null;
 			Models.CompileJob? compileJob = null;
+			bool success = false;
 			try
 			{
 				string? repoOwner = null;
@@ -309,13 +336,17 @@ namespace Tgstation.Server.Host.Components.Deployment
 						}
 					});
 
-				var likelyPushedTestMergeCommit =
-					repositorySettings!.PushTestMergeCommits!.Value
-					&& repositorySettings.AccessToken != null
-					&& repositorySettings.AccessUser != null;
+				Models.CompileJob? oldCompileJob;
 				using (repo)
+				{
+					var likelyPushedTestMergeCommit =
+						repositorySettings!.PushTestMergeCommits!.Value
+						&& repositorySettings.AccessToken != null
+						&& repositorySettings.AccessUser != null;
+					oldCompileJob = await compileJobConsumer.LatestCompileJob();
 					compileJob = await Compile(
 						job,
+						oldCompileJob,
 						revInfo!,
 						dreamMakerSettings!,
 						ddSettings!,
@@ -325,8 +356,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 						averageSpan,
 						likelyPushedTestMergeCommit,
 						cancellationToken);
+				}
 
-				var activeCompileJob = await compileJobConsumer.LatestCompileJob();
 				try
 				{
 					await databaseContextFactory.UseContext(
@@ -351,6 +382,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							{
 								var chatNotificationAction = currentChatCallback!(null, compileJob.Output!);
 								await compileJobConsumer.LoadCompileJob(compileJob, chatNotificationAction, cancellationToken);
+								success = true;
 							}
 							catch
 							{
@@ -374,7 +406,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				var commentsTask = remoteDeploymentManager!.PostDeploymentComments(
 					compileJob,
-					activeCompileJob?.RevisionInformation,
+					oldCompileJob?.RevisionInformation,
 					repositorySettings,
 					repoOwner,
 					repoName,
@@ -406,6 +438,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 			finally
 			{
 				deploying = false;
+				if (success)
+					successfulDeployments.Inc();
+				else
+					failedDeployments.Inc();
 			}
 		}
 #pragma warning restore CA1506
@@ -447,6 +483,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Run the compile implementation.
 		/// </summary>
 		/// <param name="job">The currently running <see cref="Job"/>.</param>
+		/// <param name="oldCompileJob">The optional <see cref="CompileJob"/> of the previous deployment.</param>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/>.</param>
 		/// <param name="dreamMakerSettings">The <see cref="Api.Models.Internal.DreamMakerSettings"/>.</param>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/>.</param>
@@ -459,6 +496,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the completed <see cref="CompileJob"/>.</returns>
 		async ValueTask<Models.CompileJob> Compile(
 			Models.Job job,
+			Models.CompileJob? oldCompileJob,
 			Models.RevisionInformation revisionInformation,
 			Api.Models.Internal.DreamMakerSettings dreamMakerSettings,
 			DreamDaemonLaunchParameters launchParameters,
@@ -480,6 +518,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				using var engineLock = await engineManager.UseExecutables(null, null, cancellationToken);
 				currentChatCallback = chatManager.QueueDeploymentMessage(
 					revisionInformation,
+					oldCompileJob?.RevisionInformation,
 					engineLock.Version,
 					DateTimeOffset.UtcNow + estimatedDuration,
 					repository.RemoteRepositoryOwner,

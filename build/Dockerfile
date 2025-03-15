@@ -58,11 +58,12 @@ RUN export TGS_TELEMETRY_KEY_FILE="../../${TGS_TELEMETRY_KEY_FILE}" \
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim
 
-#needed for byond
+#needed for byond, curl for healthchecks
 RUN apt-get update \
 	&& apt-get install -y \
 		gcc-multilib \
 		gdb \
+		curl \
 	&& rm -rf /var/lib/apt/lists/*
 
 EXPOSE 5000
@@ -77,5 +78,7 @@ COPY --from=build /app .
 COPY --from=build /repo/build/tgs.docker.sh tgs.sh
 
 VOLUME ["/config_data", "/tgs_logs", "/app/lib"]
+
+HEALTHCHECK --start-interval=60s CMD curl --fail http://localhost:5000/health || exit
 
 ENTRYPOINT ["./tgs.sh"]

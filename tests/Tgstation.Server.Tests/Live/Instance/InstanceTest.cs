@@ -48,7 +48,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await using var engineTest = new EngineTest(instanceClient.Engine, instanceClient.Jobs, fileDownloader, instanceClient.Metadata, testVersion.Engine.Value);
 			await using var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Jobs, instanceClient.Metadata);
 			var configTest = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata);
-			await using var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
+			await using var repoTest = new RepositoryTest(instanceClient, instanceClient.Repository, instanceClient.Jobs);
 			await using var dmTest = new DeploymentTest(instanceClient, instanceClient.Jobs, dmPort, ddPort, lowPrioDeployment, testVersion);
 
 			var byondTask = engineTest.Run(cancellationToken, out var firstInstall);
