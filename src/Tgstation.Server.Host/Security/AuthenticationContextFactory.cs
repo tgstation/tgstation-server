@@ -301,7 +301,7 @@ namespace Tgstation.Server.Host.Security
 						return;
 					}
 
-					if (username.Contains(':'))
+					if (username.Contains(':', StringComparison.Ordinal))
 					{
 						tokenValidatedContext.Fail("Cannot create users with the ':' in their name!");
 						return;
