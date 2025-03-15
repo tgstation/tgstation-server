@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -283,9 +283,16 @@ Manual Configuration</h4>
 <li><code>Swarm:PublicAddress</code>: Should be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.</li>
 <li><code>Swarm:Identifier</code>: Must be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.</li>
 <li><code>Swarm:UpdateRequiredNodeCount</code>: Should be set to the total number of servers in your swarm minus 1. Prevents updates from occurring unless the non-controller server count in the swarm is greater than or equal to this value.</li>
-<li><code>Security:OAuth:&lt;Provider Name&gt;</code>: Sets the OAuth client ID and secret for a given <code>&lt;Provider Name&gt;</code>. The currently supported providers are <code>Keycloak</code>, <code>GitHub</code>, <code>Discord</code>, <code>InvisionCommunity</code> and <code>TGForums</code>. Setting these fields to <code>null</code> disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry: <div class="fragment"><div class="line">Security:</div>
+<li><code>Telemetry:DisableVersionReporting</code>: Prevents you installation and the version you're using from being reported on the source repository's deployments list</li>
+<li><code>Telemetry:ServerFriendlyName</code>: Prevents anonymous TGS version usage statistics from being sent to be displayed on the repository.</li>
+<li><code>Telemetry:VersionReportingRepositoryId</code>: The repository telemetry is sent to. For security reasons, this is not the main TGS repo. See the <a href="https://github.com/tgstation/tgstation-server-deployments">tgstation-server-deployments</a> repository for more information.</li>
+</ul>
+<h4><a class="anchor" id="autotoc_md17"></a>
+OAuth Configuration</h4>
+<ul>
+<li><code>Security:OAuth:&lt;Provider Name&gt;</code>: Sets the OAuth client ID and secret for a given <code>&lt;Provider Name&gt;</code>. The currently supported providers are <code>GitHub</code>, <code>Discord</code>, <code>InvisionCommunity</code> and <code>TGForums</code>. Setting these fields to <code>null</code> disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry: <div class="fragment"><div class="line">Security:</div>
 <div class="line">  OAuth:</div>
-<div class="line">    Keycloak:</div>
+<div class="line">    InvisionCommunity:</div>
 <div class="line">      ClientId: &quot;...&quot;</div>
 <div class="line">      ClientSecret: &quot;...&quot;</div>
 <div class="line">      RedirectUrl: &quot;...&quot;</div>
@@ -294,42 +301,50 @@ Manual Configuration</h4>
 <div class="line">      UserInformationUrlOverride: &quot;...&quot; # For power users, leave out of configuration for most cases. Not supported by GitHub provider.</div>
 </div><!-- fragment --> The following providers use the <code>RedirectUrl</code> setting:</li>
 <li>GitHub</li>
-<li>TGForums</li>
-<li>Keycloak</li>
 <li>InvisionCommunity</li>
 </ul>
 <p>The following providers use the <code>ServerUrl</code> setting:</p>
 <ul>
-<li>Keycloak</li>
 <li>InvisionCommunity</li>
 </ul>
 <p>Gateway auth simply allows the users to authenticate with the service using the configuration you provide and have their impersonation token passed back to the client. An example of this is using GitHub gateway auth to allow clients to enumerate pull requests without getting rate limited.</p>
+<h4><a class="anchor" id="autotoc_md18"></a>
+OpenID Connect Configuration</h4>
 <ul>
-<li><code>Telemetry:DisableVersionReporting</code>: Prevents you installation and the version you're using from being reported on the source repository's deployments list</li>
-<li><code>Telemetry:ServerFriendlyName</code>: Prevents anonymous TGS version usage statistics from being sent to be displayed on the repository.</li>
-<li><code>Telemetry:VersionReportingRepositoryId</code>: The repository telemetry is sent to. For security reasons, this is not the main TGS repo. See the <a href="https://github.com/tgstation/tgstation-server-deployments">tgstation-server-deployments</a> repository for more information.</li>
+<li><code>Security:Oidc:&lt;Scheme Key&gt;</code>: Sets up an OpenID Connect Provider with given "Scheme Key". Sample entry: <div class="fragment"><div class="line">Security:</div>
+<div class="line">  Oidc:</div>
+<div class="line">    Example:</div>
+<div class="line">      Authority: &quot;...&quot; # This is the root of the URL containing the &quot;/.well-known/openid-configuration&quot; endpoint</div>
+<div class="line">      ClientId: &quot;...&quot;</div>
+<div class="line">      ClientSecret: &quot;...&quot;</div>
+<div class="line">      FriendlyName: &quot;Example Provider&quot; # Friendly name is how this provider is displayed in UIs</div>
+<div class="line">      ThemeColour: &quot;#ff0000&quot; # (Optional) Hex color code indicating the color used to theme UI elements relating to this provider</div>
+<div class="line">      ThemeIconUrl: &quot;...&quot; # (Optional) Public URL of an image that can be used to theme UI elements relating to this provider</div>
+<div class="line">      UsernameClaim: &quot;preferred_username&quot; # (Optional) Name of claim used to set TGS usernames upon registration. By default &quot;preferred_username&quot; is used. Only applies when using OidcStrictMode.</div>
+</div><!-- fragment --></li>
+<li><code>Security:OidcStrictMode</code>: Boolean flag that, when <code>true</code>, disables password and OAuth logins, password changes, individual permission set assignment, and enables user registration using OpenID Connect providers. The claim name <code>tgstation-server-group-id</code> is used to dictate what TGS group users are registered to.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md17"></a>
+<h3><a class="anchor" id="autotoc_md19"></a>
 Database Configuration</h3>
 <p>If using a MariaDB/MySQL server, our client library <a href="https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql#1-recommended-server-charset">recommends you set 'utf8mb4' as your default charset</a> disregard at your own risk.</p>
 <p>The user created for the application will need the privilege to create databases on the first run, do not create the database for it. Once the initial set of migrations is run, the create right may be revoked. The user should maintain DDL rights though for applying future migrations</p>
 <p>Note that the ratio of application installations to databases is 1:1. Do not attempt to share a database amongst multiple TGS installations.</p>
-<h3><a class="anchor" id="autotoc_md18"></a>
+<h3><a class="anchor" id="autotoc_md20"></a>
 Starting</h3>
 <p>For the Windows service version start the <code>tgstation-server</code> service. If it fails to start, check the Windows event log under Windows/Application for entries from tgstation-server for errors.</p>
 <p>For the console version run <code>dotnet Tgstation.Server.Host.Console.dll</code> in the installation directory. The <code>tgs.bat</code> and <code>tgs.sh</code> shell scripts are shortcuts for this. If on Windows, you must do this as admin to give the server permission to install the required DirectX dependency for certain 512 BYOND versions as well as create symlinks.</p>
 <p>For the docker version run <code>docker start &lt;your container name&gt;</code></p>
 <p>Test your server is running by visiting the local port in your browser. You should receive a 401 Unauthorized response (You may need to view the developer console). Otherwise an error page will be present.</p>
-<h3><a class="anchor" id="autotoc_md19"></a>
+<h3><a class="anchor" id="autotoc_md21"></a>
 Stopping</h3>
 <p>Normally stopping TGS will terminate DreamDaemon processes. If you need a graceful detach, send command <code>130</code> to the Windows service or signal <code>SIGUSR2</code> to the Linux dotnet process. Detaching with the Windows console runner is currently not officially supported.</p>
 <p>For the Windows service version stop the <code>tgstation-server</code> service.</p>
 <p>For the SystemD managed service, use <code>systemctl stop tgstation-server</code>. DO NOT USE <code>systemctl kill</code> as this can create orphaned processes while leaving TGS running.</p>
 <p>For the console version press <code>Ctrl+C</code> or send a SIGQUIT to the ORIGINAL dotnet process.</p>
 <p>For the docker version run <code>docker stop &lt;your container name&gt;</code>.</p>
-<h3><a class="anchor" id="autotoc_md20"></a>
+<h3><a class="anchor" id="autotoc_md22"></a>
 Updating the Game</h3>
-<h2><a class="anchor" id="autotoc_md21"></a>
+<h2><a class="anchor" id="autotoc_md23"></a>
 Integrating</h2>
 <p>tgstation-server provides the DMAPI which can be be integrated into any BYOND codebase for heavily enhanced functionality. The integration process is a fairly simple set of code changes.</p>
 <ol type="1">
@@ -338,7 +353,7 @@ Integrating</h2>
 <li>Follow the instructions in <code>tgs.dm</code> to integrate the API with your codebase.</li>
 </ol>
 <p>The DMAPI is fully backwards compatible and should function with any tgstation-server version to date. Updates can be performed in the same manner. Using the <code>TGS_EXTERNAL_CONFIGURATION</code> is recommended in order to make the process as easy as replacing <code>tgs.dm</code> and the <code>tgs</code> folder with a newer version</p>
-<h3><a class="anchor" id="autotoc_md22"></a>
+<h3><a class="anchor" id="autotoc_md24"></a>
 Example</h3>
 <p>Here is a bare minimum example project that implements the essential code changes for integrating the DMAPI</p>
 <p>Before <code>tgs.dm</code>: </p><div class="fragment"><div class="line">//Remember, every codebase is different, you probably have better methods for these defines than the ones given here</div>
@@ -375,14 +390,14 @@ Example</h3>
 <div class="line">/client/Del()</div>
 <div class="line">    ..()</div>
 <div class="line">    --global.client_count</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md23"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md25"></a>
 Remote Access</h3>
 <p>tgstation-server is an <a href="https://docs.microsoft.com/en-us/aspnet/core/">ASP.Net Core</a> app based on the Kestrel web server. This section is meant to serve as a general use case overview, but the entire Kestrel configuration can be modified to your liking with the configuration YAML. See <a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel">the official documentation</a> for details.</p>
 <p>Exposing the builtin Kestrel server to the internet directly over HTTP is highly not reccommended due to the lack of security. The recommended way to expose tgstation-server to the internet is to host it through a reverse proxy with HTTPS support. Here are some step by step examples to achieve this for major web servers.</p>
 <p>System administrators will most likely have their own configuration plans, but here are some basic guides for beginners.</p>
 <p>Once complete, test that your configuration worked by visiting your proxy site from a browser on a different computer. You should receive a 401 Unauthorized response.</p>
 <p><em>NOTE: Your reverse proxy setup may interfere with SSE (Server-Sent Events) which is used for real-time job updates. If you find this to be the case, please open an issue describing what you did to fix it as there may be a way for us to bypass the need for a workaround from our end.</em></p>
-<h4><a class="anchor" id="autotoc_md24"></a>
+<h4><a class="anchor" id="autotoc_md26"></a>
 IIS (Reccommended for Windows)</h4>
 <ol type="1">
 <li>Acquire an HTTPS certificate. The easiet free way for Windows is <a href="https://github.com/PKISharp/win-acme">win-acme</a> (requires you to set up the website first)</li>
@@ -414,7 +429,7 @@ IIS (Reccommended for Windows)</h4>
 <ol type="1">
 <li>In the window that appears set the <code>Inbound Rules</code> textbox to the URL of your tgstation-server i.e. <code>localhost:5000</code>. Ensure <code>Enable SSL Offloading</code> is checked, then click <code>OK</code></li>
 </ol>
-<h4><a class="anchor" id="autotoc_md25"></a>
+<h4><a class="anchor" id="autotoc_md27"></a>
 Caddy (Reccommended for Linux, or those unfamilar with configuring NGINX or Apache)</h4>
 <ol type="1">
 <li>Setup a basic website configuration. Instructions on how to do so are out of scope.</li>
@@ -425,7 +440,7 @@ Caddy (Reccommended for Linux, or those unfamilar with configuring NGINX or Apac
 <li>For this setup, your configuration's <code>ControlPanel:PublicPath</code> needs to be blank. If you have a path in <code>PublicPath</code>, it needs to be in "reverse_proxy PublicPathHere localhost:5000".</li>
 </ol>
 <p>See <a href="https://caddyserver.com/docs/caddyfile/directives/reverse_proxy">https://caddyserver.com/docs/caddyfile/directives/reverse_proxy</a></p>
-<h4><a class="anchor" id="autotoc_md26"></a>
+<h4><a class="anchor" id="autotoc_md28"></a>
 NGINX (Reccommended for Linux)</h4>
 <ol type="1">
 <li>Setup a basic website configuration. Instructions on how to do so are out of scope.</li>
@@ -437,7 +452,7 @@ NGINX (Reccommended for Linux)</h4>
 </div><!-- fragment --></li>
 </ol>
 <p>See <a href="https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/">https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/</a></p>
-<h4><a class="anchor" id="autotoc_md27"></a>
+<h4><a class="anchor" id="autotoc_md29"></a>
 Apache</h4>
 <ol type="1">
 <li>Ensure the <code>mod_proxy</code> extension is installed.</li>
@@ -460,11 +475,11 @@ Apache</h4>
 <div class="line">    ProxyPassReverse / http://127.0.0.1:8080/</div>
 <div class="line">&lt;/VirtualHost&gt;</div>
 <div class="line">&lt;/IfModule&gt;</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md28"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md30"></a>
 Swarmed Servers</h3>
 <p>Multiple tgstation-servers can be linked together in a swarm. The main benefit of this is allowing for users, groups, and permissions to be shared across the servers. Servers in a swarm must connect to the same database, use the same tgstation-server version, and have their own unique names.</p>
 <p>In a swarm, one server is designated the 'controller'. This is the server other 'node's in the swarm communicate with and coordinates group updates. Issuing an update command to one server in a swarm will update them all to the specified version.</p>
-<h4><a class="anchor" id="autotoc_md29"></a>
+<h4><a class="anchor" id="autotoc_md31"></a>
 Swarm Server Instances</h4>
 <p>Instances can be either part of a swarm or not. Once in the database they cannot switch between these states. In order to brin a non-swarmed instance into a swarmed server or vice-versa follow these steps.</p>
 <ol type="1">
@@ -476,50 +491,50 @@ Swarm Server Instances</h4>
 <ol type="1">
 <li>Reattach the instance after starting the server again.</li>
 </ol>
-<h2><a class="anchor" id="autotoc_md30"></a>
+<h2><a class="anchor" id="autotoc_md32"></a>
 Usage</h2>
 <p>tgstation-server is controlled via a RESTful HTTP json API. Documentation on this API can be found <a href="https://tgstation.github.io/tgstation-server/api.html">here</a>. This section serves to document the concepts of the server. The API is versioned separately from the release version. A specification for it can be found in the api-vX.X.X git releases/tags.</p>
-<h3><a class="anchor" id="autotoc_md31"></a>
+<h3><a class="anchor" id="autotoc_md33"></a>
 Updating TGS</h3>
 <p>TGS can self update without stopping your DreamDaemon servers. Releases made to this repository are bound by a contract that allows changes of the runtime assemblies without stopping your servers. Database migrations are automatically applied as well. Reverting to lower versions works but only works so far back in time, do so at your own risk (check changes made to <code>/src/Tgstation.Server.Host/Models/Migrations</code>).</p>
 <p>Major version updates may require additional action on the part of the user (apart from the configuration changes).</p>
-<h4><a class="anchor" id="autotoc_md32"></a>
+<h4><a class="anchor" id="autotoc_md34"></a>
 Linux Notes</h4>
 <p>If TGS was installed via a package manager, using the TGS self updater will cause the version to change without notifying said package manager. This is not necessarily a problem if you're okay with the deviation.</p>
 <p>To avoid this, use the package manager to update TGS. It is just as seamless as the self-updater.</p>
-<p><a class="anchor" id="autotoc_md33"></a> </p><h5>apt</h5>
+<p><a class="anchor" id="autotoc_md35"></a> </p><h5>apt</h5>
 <div class="fragment"><div class="line">sudo apt update &amp;&amp; sudo apt upgrade -y</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md34"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md36"></a>
 Notifications</h4>
 <p>If a server update is available, it will be indicated in the response from the GET /Administration endpoint and shown as a green exclamation mark in the webpanel navbar. For more active notifications, you can subscribe to <a href="https://github.com/tgstation/tgstation-server/discussions/1322">this GitHub discussion</a>.</p>
-<h3><a class="anchor" id="autotoc_md35"></a>
+<h3><a class="anchor" id="autotoc_md37"></a>
 Users</h3>
 <p>All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found <a href="src/Tgstation.Server.Api/DefaultCredentials.cs">here</a>. It is recommended to disable this user ASAP as it is used to create Jobs that are started by the server itself. If access to all users is lost, the default user can be reset using the <code>Database:ResetAdminPassword</code> configuration setting.</p>
 <p>Users can be enabled/disabled and have a very granular set of rights associated to them that determine the actions they are allowed to take (i.e. Modify the user list or create instances). Users can be <em>database based</em> or <em>system based</em>. Database users are your standard web users with a username and password. System users, on the otherhand, are authenticated with the host OS. These users cannot have their password or names changed by TGS as they are managed by the system (and in reverse, login tokens don't expire when their password changes). The benefit to having these users is it allows the use of system ACLs for static file control. More on that later.</p>
-<h3><a class="anchor" id="autotoc_md36"></a>
+<h3><a class="anchor" id="autotoc_md38"></a>
 Instances</h3>
 <p>A TGS deployment is made up with a set of instances, which each represent a production BYOND server. As many instances as desired can be created. Be aware, however, due to the nature of BYOND, this will quickly result in system resource exhaustion.</p>
 <p>An instance is stored in a single folder anywhere on a system and is made up of several components: The source code git repository, the BYOND installations, the compiler, the watchdog, chat bots, and static file management systems.</p>
-<p><a class="anchor" id="autotoc_md37"></a> </p><h5>Instance Users</h5>
+<p><a class="anchor" id="autotoc_md39"></a> </p><h5>Instance Users</h5>
 <p>All users with access to an instance have an InstanceUser object associated with the two that defines more rights specific to that instance (i.e. Deploy code, modify bots, edit other InstanceUsers).</p>
-<h4><a class="anchor" id="autotoc_md38"></a>
+<h4><a class="anchor" id="autotoc_md40"></a>
 Repository</h4>
 <p>The <code>Repository</code> folder is a git repository containing the code of the game you wish to host. It can be cloned from any public or private remote repository and has capabilities to affect changes back to it. All the standard benefits of git are utilized (i.e. check out any revision or reference).</p>
 <p>Additional features become available if the remote repository is hosted on <a href="https://github.com/">https://github.com/</a>. Namely the Test Merge feature, which allows you to take a pull request opened on the repository and compile it into a game deployment for testing. Information about test merges is available in game via the DMAPI and via the main API as well. These require a valid personal access token with <code>repo</code> scope or an installed GitHub App with the following permissions: <code>contents: write</code>, <code>pull_requests: write</code>, and <code>deployments: write</code>.</p>
 <p>Manual operations on the repository while an instance is running may lead to git data corruption. Thankfully, it's simple enough to delete and reclone the repository via the API.</p>
-<h4><a class="anchor" id="autotoc_md39"></a>
+<h4><a class="anchor" id="autotoc_md41"></a>
 Byond</h4>
 <p>The <code>Byond</code> folder contains installations of <a href="https://www.byond.com/">BYOND</a> or <a href="https://github.com/OpenDreamProject/OpenDream">OpenDream</a> versions. The version which is used by your game code can be changed on a whim (Note that only versions &gt;= 511.1385 have been thouroughly tested. Lower versions should work but if one doesn't function, please open an issue report) and the server will take care of installing it.</p>
-<p><a class="anchor" id="autotoc_md40"></a> </p><h5>Environment Variables</h5>
+<p><a class="anchor" id="autotoc_md42"></a> </p><h5>Environment Variables</h5>
 <p>You can specify additional environment variables to launch your server/compiler with by adding <code>server.env</code>/<code>compiler.env</code> to your engine installation directory (i.e. <code>&lt;instance&gt;/Byond/515.1530/server.env</code>). These are <a href="https://hexdocs.pm/dotenvy/dotenv-file-format.html">.env</a> files.</p>
-<h4><a class="anchor" id="autotoc_md41"></a>
+<h4><a class="anchor" id="autotoc_md43"></a>
 Compiler</h4>
 <p>The compiler deploys code from the <code>Repository</code> folder to the <code>Game</code> folder and compiles it either by autodetecting the <code>.dme</code> or having it set by configuration. Several other step are also run such as validating the DMAPI version and creating symlinks for static files are done at this point. The compiler also applies server side code modifications and duplicates compiled code for the watchdog as well (See following section).</p>
-<h4><a class="anchor" id="autotoc_md42"></a>
+<h4><a class="anchor" id="autotoc_md44"></a>
 Watchdog</h4>
 <p>The watchdog is responsible for starting and keeping your server running. It functions by launching two servers which are hot-swapped on <code>/world/Reboot</code>s and during crashes to prevent downtime. This hot swapping feature is also what allows TGS to deploy updates to live servers without bringing them down.</p>
 <p>DreamDaemon can be finicky and will crash with several high load games or bad DM code. The watchdog has several failure prevention methods to keep at least one server running while these issues are sorted out.</p>
-<h4><a class="anchor" id="autotoc_md43"></a>
+<h4><a class="anchor" id="autotoc_md45"></a>
 Chat Bots</h4>
 <p>TGS supports creating infinite chat bots for notifying staff or players of things like code deployments and uptime in. Currently the following providers are supported</p>
 <ul>
@@ -531,7 +546,7 @@ Chat Bots</h4>
 </ul>
 <p>More can be added by providing a new implementation of the <a href="src/Tgstation.Server.Host/Components/Chat/Providers/IProvider.cs">IProvider</a> interface</p>
 <p>Bots have a set of built-in commands that can be triggered via <code>!tgs</code>, mentioning, or private messaging them. Along with these, custom commands can be defined using the DMAPI by creating a subtype of the <code>/datum/tgs_chat_command</code> type (See <code>tgs.dm</code> for details). Invocation for custom commands can be restricted to certain channels.</p>
-<h4><a class="anchor" id="autotoc_md44"></a>
+<h4><a class="anchor" id="autotoc_md46"></a>
 Static Files</h4>
 <p>All files in game code deployments are considered transient by default, meaning when new code is deployed, changes will be lost. Static files allow you to specify which files and folders stick around throughout all deployments.</p>
 <p>The <code>StaticFiles</code> folder contains 3 root folders which cannot be deleted and operate under special rules</p><ul>
@@ -541,15 +556,15 @@ Static Files</h4>
 </ul>
 <p>These files can be modified either in host mode or system user mode. In host mode, TGS itself is responsible for reading and writing the files. In system user mode read and write actions are performed using the system account of the logged on User, enabling the use of ACLs to control access to files. Database users will not be able to use the static file system if this mode is configured for an instance.</p>
 <p>This folder may be freely modified manually just beware this may cause in-progress deployments to error if done on Windows systems.</p>
-<h4><a class="anchor" id="autotoc_md45"></a>
+<h4><a class="anchor" id="autotoc_md47"></a>
 CodeModifications</h4>
 <p>When a deployment is made by the compiler, all the contents of this folder are copied over the repository contents. Then one of two code change modes are selected based on the prescense of certain files.</p>
 <p>If <code>&lt;target dme&gt;.dme</code> is present, that .dme will be used instead of the repository's <code>.dme</code></p>
 <p>Otherwise the files <code>HeadInclude.dm</code> and <code>TailInclude.dm</code> are searched for and added as include lines to the top and bottom of the target <code>.dme</code> repsectively if they exist. These files can contain any valid DreamMaker code (Including <code>#include</code>ing other <code>.dm</code> files!) allowing you to modify the a repository's code on a per instance basis</p>
-<h4><a class="anchor" id="autotoc_md46"></a>
+<h4><a class="anchor" id="autotoc_md48"></a>
 EventScripts</h4>
 <p>This folder can contain anything. But, when certain events occur in the instance, TGS will look here for <code>.bat</code> or <code>.sh</code> files with the same name and run those with corresponding arguments. List of supported events can be found <a href="src/Tgstation.Server.Host/Components/Events/EventType.cs">here</a>.</p>
-<h4><a class="anchor" id="autotoc_md47"></a>
+<h4><a class="anchor" id="autotoc_md49"></a>
 GameStaticFiles</h4>
 <p>Any files and folders contained in this root level of this folder will be symbolically linked to all deployments at the time they are created. This allows persistent game data (BYOND <code>.sav</code>s or code configuration files for example) to persist across all deployments. This folder contains a .tgsignore file which can be used to prevent symlinks from being generated by entering the names of files and folders (1 per line).</p>
 <p>This functionality has the following prerequisites:</p>
@@ -571,7 +586,7 @@ GameStaticFiles</h4>
 <li>You are using the basic watchdog.</li>
 <li>Your world runs with the <code>Trusted</code> security level.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md48"></a>
+<h3><a class="anchor" id="autotoc_md50"></a>
 Clients</h3>
 <p>Here are tools for interacting with the TGS web API</p>
 <ul>
@@ -581,7 +596,7 @@ Clients</h3>
 <li><a href="https://www.nuget.org/packages/Tgstation.Server.Api">Tgstation.Server.Api</a>: A nuget .NET Standard 2.0 library containing API definitions for tgstation-server. Feature complete.</li>
 </ul>
 <p>Contact project maintainers to get your client added to this list</p>
-<h2><a class="anchor" id="autotoc_md49"></a>
+<h2><a class="anchor" id="autotoc_md51"></a>
 Backup/Restore</h2>
 <p>Note that tgstation-server is NOT a backup solution, the onus is on the server runners.</p>
 <p>The <code>Repository</code> folder should be backed up on the remote server, do not rely on the instance copy to store changes.</p>
@@ -590,15 +605,15 @@ Backup/Restore</h2>
 <p>The database should be fully backed up.</p>
 <p>To restore an installation from backups, first restore the instance <code>Configuration</code> folder in its new home. Then restore the database, modifying the <code>Path</code> column in the <code>Instances</code> table where necessary to point to the new instances. Then start the server pointed at the new database.</p>
 <p>Should you end up with a lost database for some reason or want to reattach a detached instance you can reattach an existing folder by creating an empty file named <code>TGS4_ALLOW_INSTANCE_ATTACH</code> inside it (This is automatically created when detaching instances). Then create a new instance with that path, this will bypass the empty folder check. Note that this will not restore things such as user permissions, server config options, or deployment metadata. Those must be reconfigured manually.</p>
-<h2><a class="anchor" id="autotoc_md50"></a>
+<h2><a class="anchor" id="autotoc_md52"></a>
 Troubleshooting</h2>
 <p>Feel free to ask for help <a href="https://github.com/tgstation/tgstation-server/discussions">on the discussions page</a>.</p>
-<h2><a class="anchor" id="autotoc_md51"></a>
+<h2><a class="anchor" id="autotoc_md53"></a>
 Contributing</h2>
 <ul>
 <li>See CONTRIBUTING.md</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md52"></a>
+<h2><a class="anchor" id="autotoc_md54"></a>
 Licensing</h2>
 <ul>
 <li>The DMAPI for the project is licensed under the MIT license.</li>

@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -93,17 +93,15 @@ Inheritance diagram for Tgstation.Server.Host.Security.OAuth.GenericOAuthValidat
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator__inherit__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_security_8_o_auth_8_generic_o_auth_validator_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_security_8_o_auth_8_generic_o_auth_validator_inherit__map" id="a_tgstation_8_server_8_host_8_security_8_o_auth_8_generic_o_auth_validator_inherit__map">
-<area shape="rect" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="167,104,367,145"/>
+<area shape="rect" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="167,71,367,111"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html" title="OAuth validator for Discord." alt="" coords="445,5,645,46"/>
-<area shape="poly" title=" " alt="" coords="322,95,414,56,454,44,456,49,416,62,324,100"/>
+<area shape="poly" title=" " alt="" coords="370,64,455,44,456,49,372,69"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_invision_community_o_auth_validator.html" title="OAuth validator for Invision Community (selfhosted)." alt="" coords="415,71,674,111"/>
-<area shape="poly" title=" " alt="" coords="382,108,414,104,415,109,383,113"/>
+<area shape="poly" title=" " alt="" coords="383,88,414,88,414,94,383,94"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_keycloak_o_auth_validator.html" title="OAuth validator for Keycloak." alt="" coords="444,136,646,177"/>
-<area shape="poly" title=" " alt="" coords="383,135,444,142,443,147,382,140"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html" title="IOAuthValidator for /tg/ forums." alt="" coords="439,201,650,242"/>
-<area shape="poly" title=" " alt="" coords="326,149,416,186,456,198,454,203,414,191,324,154"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,112,119,137"/>
-<area shape="poly" title=" " alt="" coords="134,122,166,122,166,127,134,127"/>
+<area shape="poly" title=" " alt="" coords="372,113,456,133,455,138,370,118"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,78,119,104"/>
+<area shape="poly" title=" " alt="" coords="134,88,166,88,166,94,134,94"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -137,7 +135,7 @@ Public Member Functions</h2></td></tr>
   <br /></td></tr>
 <tr class="separator:a7a7d27dd1f064d23a181e033567b41bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31d538da6326be9a2eaad2563dd29fdf" id="r_a31d538da6326be9a2eaad2563dd29fdf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html">OAuthProviderInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a31d538da6326be9a2eaad2563dd29fdf">GetProviderInfo</a> ()</td></tr>
-<tr class="memdesc:a31d538da6326be9a2eaad2563dd29fdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS.">OAuthProvider</a> of validator.<dl class="section return"><dt>Returns</dt><dd>The client ID of the validator on success, <code>null</code> on failure.</dd></dl>
+<tr class="memdesc:a31d538da6326be9a2eaad2563dd29fdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth2.0 providers supported by TGS that do not support OIDC.">OAuthProvider</a> of validator.<dl class="section return"><dt>Returns</dt><dd>The client ID of the validator on success, <code>null</code> on failure.</dd></dl>
   <br /></td></tr>
 <tr class="separator:a31d538da6326be9a2eaad2563dd29fdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -162,7 +160,7 @@ Static Protected Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:aa8c21d4d036ef8c71a87794ccce58673" id="r_aa8c21d4d036ef8c71a87794ccce58673"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#aa8c21d4d036ef8c71a87794ccce58673">Provider</a><code> [get]</code></td></tr>
-<tr class="memdesc:aa8c21d4d036ef8c71a87794ccce58673"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS.">OAuthProvider</a> this validator is for.  <br /></td></tr>
+<tr class="memdesc:aa8c21d4d036ef8c71a87794ccce58673"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth2.0 providers supported by TGS that do not support OIDC.">OAuthProvider</a> this validator is for.  <br /></td></tr>
 <tr class="separator:aa8c21d4d036ef8c71a87794ccce58673"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8e7356d848ea3170533f10181c3def6" id="r_af8e7356d848ea3170533f10181c3def6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308">OAuthGatewayStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#af8e7356d848ea3170533f10181c3def6">GatewayStatus</a><code> [get]</code></td></tr>
 <tr class="memdesc:af8e7356d848ea3170533f10181c3def6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308" title="Status of the OAuth gateway for a provider.">OAuthGatewayStatus</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider.">IOAuthValidator</a>.  <br /></td></tr>
@@ -480,7 +478,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Gets the <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS.">OAuthProvider</a> of validator.<dl class="section return"><dt>Returns</dt><dd>The client ID of the validator on success, <code>null</code> on failure.</dd></dl>
+<p>Gets the <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth2.0 providers supported by TGS that do not support OIDC.">OAuthProvider</a> of validator.<dl class="section return"><dt>Returns</dt><dd>The client ID of the validator on success, <code>null</code> on failure.</dd></dl>
  </p>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#ab252a816c0eef32b1261d2ceee038ab0">Tgstation.Server.Host.Security.OAuth.IOAuthValidator</a>.</p>
@@ -807,7 +805,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS.">OAuthProvider</a> this validator is for. </p>
+<p>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth2.0 providers supported by TGS that do not support OIDC.">OAuthProvider</a> this validator is for. </p>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#aaafc1ae9a06f82acc28ebb5e3c73dc58">Tgstation.Server.Host.Security.OAuth.IOAuthValidator</a>.</p>
 

@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.GraphQL.Mutations.UserMutations.UpdateUserCore" name="Tgstation.Server.Host.GraphQL.Mutations.UserMutations.UpdateUserCore">
+<area shape="rect" id="Node000001" title="Updates a user." alt="" coords="314,70,546,126"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_user_mutations.html#a93494e681eda4fed457bdc922b4d33eb" title="Updates a Users properties." alt="" coords="5,5,266,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,68,221,49,222,44,299,63"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_user_mutations.html#a91028f20efeaf62366b545ab9bfdca23" title="Updates a User, setting new values for its owned PermissionSet." alt="" coords="19,70,252,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="298,100,252,100,252,95,298,95"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_user_mutations.html#a713cb64071268822aef1c9c0d01f74b1" title="Updates a User, setting new values for its owned PermissionSet." alt="" coords="19,150,252,206"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="311,133,241,152,240,147,310,127"/>
+</map>

@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -128,6 +128,12 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html">OAuthProviderInfo</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public information about a given OAuthProvider.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_oidc_connection.html">OidcConnection</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a valid OIDC connection.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_oidc_connection.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_oidc_provider_info.html">OidcProviderInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a configured OIDC provider.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_oidc_provider_info.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html">PermissionSet</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a set of server permissions.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html#details">More...</a><br /></td></tr>
@@ -313,7 +319,7 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a9b5e439c28e48c63cfd341a09475181f">EngineFirewallFail</a>
 , <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ab6a3956ae3bf109dc8b764f42873c54f">NoPortsAvailable</a>
 , <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8add38e6da07b457322c287231a4b8f772">PortNotAvailable</a>
-, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a5261e5851ba039b68ee0f66c9cd5ee83">AdminUserCannotOAuth</a>
+, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ab9282dd7e1487afc912234db39bbbde7">AdminUserCannotHaveServiceConnection</a>
 , <br />
 &#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ae390eb31f661edf88bb3deed466098a1">OAuthProviderDisabled</a>
 , <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a9be896e4189c3bed74bfd767114623ab">FileUploadExpired</a>
@@ -332,6 +338,7 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a513674f6d414a54eafa66e1246f07875">RepoTokenUsernameMismatch</a>
 , <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a1eb8e679917f819ac4618d734754900a">RemoteGatewaysNotImplemented</a>
+, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aba0c79489c0f2479b00774e07eaf59e1">BadUserEditDueToOidcStrictMode</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a1a6adb59dd51244efabf4e548e7075c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types of Response.ErrorMessageResponses that the API may return.  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">More...</a><br /></td></tr>
@@ -385,7 +392,7 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a0d5820a1882caca84cdcc8ccc81e9d30">InvisionCommunity</a>
 <br />
  }</td></tr>
-<tr class="memdesc:a49b1c1275c0d47d43360f8c7619ec901"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of OAuth providers supported by TGS.  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">More...</a><br /></td></tr>
+<tr class="memdesc:a49b1c1275c0d47d43360f8c7619ec901"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of OAuth2.0 providers supported by TGS that do not support OIDC.  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">More...</a><br /></td></tr>
 <tr class="separator:a49b1c1275c0d47d43360f8c7619ec901"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaff5188f30ee5c04c081684eb9672f17" id="r_aaff5188f30ee5c04c081684eb9672f17"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a> { <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17a88183b946cc5f0e8c96b2e66e1c74a7e">Unknown</a>
 , <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17ad3b7c913cd04ebfec0e9ec32cb6fd58c">GitHub</a>
@@ -849,7 +856,7 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8add38e6da07b457322c287231a4b8f772" name="a1a6adb59dd51244efabf4e548e7075c8add38e6da07b457322c287231a4b8f772"></a>PortNotAvailable&#160;</td><td class="fielddoc"><p>Attempted to set a port which is either in use by another part of TGS or otherwise not available for binding. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a5261e5851ba039b68ee0f66c9cd5ee83" name="a1a6adb59dd51244efabf4e548e7075c8a5261e5851ba039b68ee0f66c9cd5ee83"></a>AdminUserCannotOAuth&#160;</td><td class="fielddoc"><p>Attempted to set Internal.UserApiBase.OAuthConnections for the admin user. </p>
+<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8ab9282dd7e1487afc912234db39bbbde7" name="a1a6adb59dd51244efabf4e548e7075c8ab9282dd7e1487afc912234db39bbbde7"></a>AdminUserCannotHaveServiceConnection&#160;</td><td class="fielddoc"><p>Attempted to set Internal.UserApiBase.OAuthConnections for the admin user. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8ae390eb31f661edf88bb3deed466098a1" name="a1a6adb59dd51244efabf4e548e7075c8ae390eb31f661edf88bb3deed466098a1"></a>OAuthProviderDisabled&#160;</td><td class="fielddoc"><p>Attempted to login with a disabled OAuth provider. </p>
 </td></tr>
@@ -878,6 +885,8 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a513674f6d414a54eafa66e1246f07875" name="a1a6adb59dd51244efabf4e548e7075c8a513674f6d414a54eafa66e1246f07875"></a>RepoTokenUsernameMismatch&#160;</td><td class="fielddoc"><p>Entered wrong RepositorySettings.AccessUser for a RepositorySettings.AccessToken. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a1eb8e679917f819ac4618d734754900a" name="a1a6adb59dd51244efabf4e548e7075c8a1eb8e679917f819ac4618d734754900a"></a>RemoteGatewaysNotImplemented&#160;</td><td class="fielddoc"><p>Attempted to make a cross swarm server request using the GraphQL API. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8aba0c79489c0f2479b00774e07eaf59e1" name="a1a6adb59dd51244efabf4e548e7075c8aba0c79489c0f2479b00774e07eaf59e1"></a>BadUserEditDueToOidcStrictMode&#160;</td><td class="fielddoc"><p>Attempted to edit a user security property which is locked down due to the server being in Response.ServerInformationResponse.OidcStrictMode. </p>
 </td></tr>
 </table>
 
@@ -1169,7 +1178,7 @@ Enumerations</h2></td></tr>
 <div class="line"><span class="lineno">  581</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8add38e6da07b457322c287231a4b8f772">PortNotAvailable</a>,</div>
 <div class="line"><span class="lineno">  582</span> </div>
 <div class="line"><span class="lineno">  586</span>        [Description(<span class="stringliteral">&quot;The admin user cannot use OAuth connections!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  587</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a5261e5851ba039b68ee0f66c9cd5ee83">AdminUserCannotOAuth</a>,</div>
+<div class="line"><span class="lineno">  587</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ab9282dd7e1487afc912234db39bbbde7">AdminUserCannotHaveServiceConnection</a>,</div>
 <div class="line"><span class="lineno">  588</span> </div>
 <div class="line"><span class="lineno">  592</span>        [Description(<span class="stringliteral">&quot;The requested OAuth provider is disabled via configuration!&quot;</span>)]</div>
 <div class="line"><span class="lineno">  593</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ae390eb31f661edf88bb3deed466098a1">OAuthProviderDisabled</a>,</div>
@@ -1212,7 +1221,10 @@ Enumerations</h2></td></tr>
 <div class="line"><span class="lineno">  666</span> </div>
 <div class="line"><span class="lineno">  670</span>        [Description(<span class="stringliteral">&quot;GraphQL swarm remote gateways not implemented!&quot;</span>)]</div>
 <div class="line"><span class="lineno">  671</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a1eb8e679917f819ac4618d734754900a">RemoteGatewaysNotImplemented</a>,</div>
-<div class="line"><span class="lineno">  672</span>    }</div>
+<div class="line"><span class="lineno">  672</span> </div>
+<div class="line"><span class="lineno">  676</span>        [Description(<span class="stringliteral">&quot;One or more of the fields requested to be updated cannot be due to the server being in OIDC strict mode.&quot;</span>)]</div>
+<div class="line"><span class="lineno">  677</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aba0c79489c0f2479b00774e07eaf59e1">BadUserEditDueToOidcStrictMode</a>,</div>
+<div class="line"><span class="lineno">  678</span>    }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8a0101fd941564b6792976162ec53ebba4"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a0101fd941564b6792976162ec53ebba4">Tgstation.Server.Api.Models.ErrorCode.OpenDreamTooOld</a></div><div class="ttdeci">@ OpenDreamTooOld</div><div class="ttdoc">Could not install OpenDream due to it not meeting the minimum version requirements.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8a034045c1b65adb43b709ea2f4e573951"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a034045c1b65adb43b709ea2f4e573951">Tgstation.Server.Api.Models.ErrorCode.ApiMismatch</a></div><div class="ttdeci">@ ApiMismatch</div><div class="ttdoc">Indicates an API upgrade was required by the server.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8a036d4fdb3297f73bb3c4e14bcf438e3e"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a036d4fdb3297f73bb3c4e14bcf438e3e">Tgstation.Server.Api.Models.ErrorCode.ModelValidationFailure</a></div><div class="ttdeci">@ ModelValidationFailure</div><div class="ttdoc">The request body was malformed.</div></div>
@@ -1237,7 +1249,6 @@ Enumerations</h2></td></tr>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8a50003a969ded946db692896a4a5ec1c4"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a50003a969ded946db692896a4a5ec1c4">Tgstation.Server.Api.Models.ErrorCode.RepoMismatchShaAndReference</a></div><div class="ttdeci">@ RepoMismatchShaAndReference</div><div class="ttdoc">Attempted to Request.RepositoryUpdateRequest.CheckoutSha and set Internal.RepositoryApiBase....</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8a513674f6d414a54eafa66e1246f07875"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a513674f6d414a54eafa66e1246f07875">Tgstation.Server.Api.Models.ErrorCode.RepoTokenUsernameMismatch</a></div><div class="ttdeci">@ RepoTokenUsernameMismatch</div><div class="ttdoc">Entered wrong RepositorySettings.AccessUser for a RepositorySettings.AccessToken.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8a5206bd7472156351d2d9a99633ac9580"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a5206bd7472156351d2d9a99633ac9580">Tgstation.Server.Api.Models.ErrorCode.IOError</a></div><div class="ttdeci">@ IOError</div><div class="ttdoc">An IO error occurred while working with the configuration system.</div></div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8a5261e5851ba039b68ee0f66c9cd5ee83"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a5261e5851ba039b68ee0f66c9cd5ee83">Tgstation.Server.Api.Models.ErrorCode.AdminUserCannotOAuth</a></div><div class="ttdeci">@ AdminUserCannotOAuth</div><div class="ttdoc">Attempted to set Internal.UserApiBase.OAuthConnections for the admin user.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8a5355901d7bb2e440b1928a19c5323edb"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a5355901d7bb2e440b1928a19c5323edb">Tgstation.Server.Api.Models.ErrorCode.RemoteApiError</a></div><div class="ttdeci">@ RemoteApiError</div><div class="ttdoc">A required remote API request failed.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8a55504e6a1e187426ae2a94c480dd8dd1"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a55504e6a1e187426ae2a94c480dd8dd1">Tgstation.Server.Api.Models.ErrorCode.GCoreFailure</a></div><div class="ttdeci">@ GCoreFailure</div><div class="ttdoc">Non-zero gcore exit code.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8a561351a05b0b60c943b21f38f23bd553"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a561351a05b0b60c943b21f38f23bd553">Tgstation.Server.Api.Models.ErrorCode.RepoDuplicateTestMerge</a></div><div class="ttdeci">@ RepoDuplicateTestMerge</div><div class="ttdoc">Request.RepositoryUpdateRequest.NewTestMerges contained duplicate TestMergeParameters....</div></div>
@@ -1289,7 +1300,9 @@ Enumerations</h2></td></tr>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8ab254802c60656270a5f21f42da04bc0e"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ab254802c60656270a5f21f42da04bc0e">Tgstation.Server.Api.Models.ErrorCode.UserMismatchNameSid</a></div><div class="ttdeci">@ UserMismatchNameSid</div><div class="ttdoc">Attempted to create a user with a UserName.Name and Internal.UserModelBase.SystemIdentifier.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8ab6a3956ae3bf109dc8b764f42873c54f"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ab6a3956ae3bf109dc8b764f42873c54f">Tgstation.Server.Api.Models.ErrorCode.NoPortsAvailable</a></div><div class="ttdeci">@ NoPortsAvailable</div><div class="ttdoc">Attempted to create an instance but no free ports could be found.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8ab6aac8a71757f5fdf164188595806e72"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ab6aac8a71757f5fdf164188595806e72">Tgstation.Server.Api.Models.ErrorCode.ConfigurationDirectoryNotEmpty</a></div><div class="ttdeci">@ ConfigurationDirectoryNotEmpty</div><div class="ttdoc">Attempted to delete an non-empty directory.</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8ab9282dd7e1487afc912234db39bbbde7"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ab9282dd7e1487afc912234db39bbbde7">Tgstation.Server.Api.Models.ErrorCode.AdminUserCannotHaveServiceConnection</a></div><div class="ttdeci">@ AdminUserCannotHaveServiceConnection</div><div class="ttdoc">Attempted to set Internal.UserApiBase.OAuthConnections for the admin user.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8ab97fe4295c7ba65db3c6ef4eb3c9c2bb"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ab97fe4295c7ba65db3c6ef4eb3c9c2bb">Tgstation.Server.Api.Models.ErrorCode.RepoMismatchShaAndUpdate</a></div><div class="ttdeci">@ RepoMismatchShaAndUpdate</div><div class="ttdoc">Attempted to Request.RepositoryUpdateRequest.CheckoutSha and Request.RepositoryUpdateRequest....</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8aba0c79489c0f2479b00774e07eaf59e1"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aba0c79489c0f2479b00774e07eaf59e1">Tgstation.Server.Api.Models.ErrorCode.BadUserEditDueToOidcStrictMode</a></div><div class="ttdeci">@ BadUserEditDueToOidcStrictMode</div><div class="ttdoc">Attempted to edit a user security property which is locked down due to the server being in Response....</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8abd8569dcf6e1e7cce0c99dbbb9f25785"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8abd8569dcf6e1e7cce0c99dbbb9f25785">Tgstation.Server.Api.Models.ErrorCode.ChatBotWrongChannelType</a></div><div class="ttdeci">@ ChatBotWrongChannelType</div><div class="ttdoc">A requested ChatChannel's data does not match with its Internal.ChatBotSettings.Provider.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8abe142fe273ff3a9ab873a266266e937f"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8abe142fe273ff3a9ab873a266266e937f">Tgstation.Server.Api.Models.ErrorCode.RepoSwappedShaOrReference</a></div><div class="ttdeci">@ RepoSwappedShaOrReference</div><div class="ttdoc">Either Request.RepositoryUpdateRequest.CheckoutSha or Internal.RepositoryApiBase.Reference was in one...</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8abf653fb5de0c10b302e6a44d01265fe8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8abf653fb5de0c10b302e6a44d01265fe8">Tgstation.Server.Api.Models.ErrorCode.ResourceNeverPresent</a></div><div class="ttdeci">@ ResourceNeverPresent</div><div class="ttdoc">Attempted to access a resource that was never present.</div></div>
@@ -1542,13 +1555,13 @@ Enumerations</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>List of OAuth providers supported by TGS. </p>
+<p>List of OAuth2.0 providers supported by TGS that do not support OIDC. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c" name="a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c"></a>GitHub&#160;</td><td class="fielddoc"><p><a href="https://github.com">https://github.com</a>. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a49b1c1275c0d47d43360f8c7619ec901a8f5cc6430613f1c12f36965050bb7197" name="a49b1c1275c0d47d43360f8c7619ec901a8f5cc6430613f1c12f36965050bb7197"></a>Discord&#160;</td><td class="fielddoc"><p><a href="https://discord.com">https://discord.com</a>. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f" name="a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f"></a>TGForums&#160;</td><td class="fielddoc"><p><a href="https://tgstation13.org">https://tgstation13.org</a>. </p>
+<tr><td class="fieldname"><a id="a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f" name="a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f"></a>TGForums&#160;</td><td class="fielddoc"><p>Pre-hostening <a href="https://tgstation13.org">https://tgstation13.org</a>. No longer supported. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a49b1c1275c0d47d43360f8c7619ec901a69b9cd2452d8b95ca6cb79f295cc9468" name="a49b1c1275c0d47d43360f8c7619ec901a69b9cd2452d8b95ca6cb79f295cc9468"></a>Keycloak&#160;</td><td class="fielddoc"><p><a href="https://www.keycloak.org">https://www.keycloak.org</a>. </p>
 </td></tr>
@@ -1556,20 +1569,22 @@ Enumerations</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="_o_auth_provider_8cs_source.html#l00010">10</a> of file <a class="el" href="_o_auth_provider_8cs_source.html">OAuthProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   11</span>    {</div>
-<div class="line"><span class="lineno">   15</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c">GitHub</a>,</div>
-<div class="line"><span class="lineno">   16</span> </div>
-<div class="line"><span class="lineno">   20</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2d962413bc23404156feea75066e39cca8f5cc6430613f1c12f36965050bb7197">Discord</a>,</div>
-<div class="line"><span class="lineno">   21</span> </div>
-<div class="line"><span class="lineno">   25</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f">TGForums</a>,</div>
-<div class="line"><span class="lineno">   26</span> </div>
-<div class="line"><span class="lineno">   30</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a69b9cd2452d8b95ca6cb79f295cc9468">Keycloak</a>,</div>
-<div class="line"><span class="lineno">   31</span> </div>
-<div class="line"><span class="lineno">   35</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a0d5820a1882caca84cdcc8ccc81e9d30">InvisionCommunity</a>,</div>
-<div class="line"><span class="lineno">   36</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="_o_auth_provider_8cs_source.html#l00012">12</a> of file <a class="el" href="_o_auth_provider_8cs_source.html">OAuthProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   13</span>    {</div>
+<div class="line"><span class="lineno">   17</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c">GitHub</a>,</div>
+<div class="line"><span class="lineno">   18</span> </div>
+<div class="line"><span class="lineno">   22</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2d962413bc23404156feea75066e39cca8f5cc6430613f1c12f36965050bb7197">Discord</a>,</div>
+<div class="line"><span class="lineno">   23</span> </div>
+<div class="line"><span class="lineno">   27</span>        [Obsolete(<span class="stringliteral">&quot;tgstation13.org no longer has a custom OAuth solution. This option will be removed in a future TGS version.&quot;</span>)]</div>
+<div class="line"><span class="lineno">   28</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f">TGForums</a>,</div>
+<div class="line"><span class="lineno">   29</span> </div>
+<div class="line"><span class="lineno">   33</span>        [Obsolete(<span class="stringliteral">&quot;This should now be implemented as an OIDC provider. This option will be removed in a future TGS version.&quot;</span>)]</div>
+<div class="line"><span class="lineno">   34</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a69b9cd2452d8b95ca6cb79f295cc9468">Keycloak</a>,</div>
+<div class="line"><span class="lineno">   35</span> </div>
+<div class="line"><span class="lineno">   39</span>        <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a0d5820a1882caca84cdcc8ccc81e9d30">InvisionCommunity</a>,</div>
+<div class="line"><span class="lineno">   40</span>    }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a49b1c1275c0d47d43360f8c7619ec901a0d5820a1882caca84cdcc8ccc81e9d30"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a0d5820a1882caca84cdcc8ccc81e9d30">Tgstation.Server.Api.Models.OAuthProvider.InvisionCommunity</a></div><div class="ttdeci">@ InvisionCommunity</div><div class="ttdoc">https://invisioncommunity.com.</div></div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f">Tgstation.Server.Api.Models.OAuthProvider.TGForums</a></div><div class="ttdeci">@ TGForums</div><div class="ttdoc">https://tgstation13.org.</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f">Tgstation.Server.Api.Models.OAuthProvider.TGForums</a></div><div class="ttdeci">@ TGForums</div><div class="ttdoc">Pre-hostening https://tgstation13.org. No longer supported.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a49b1c1275c0d47d43360f8c7619ec901a69b9cd2452d8b95ca6cb79f295cc9468"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a69b9cd2452d8b95ca6cb79f295cc9468">Tgstation.Server.Api.Models.OAuthProvider.Keycloak</a></div><div class="ttdeci">@ Keycloak</div><div class="ttdoc">https://www.keycloak.org.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c">Tgstation.Server.Api.Models.OAuthProvider.GitHub</a></div><div class="ttdeci">@ GitHub</div><div class="ttdoc">https://github.com.</div></div>
 </div><!-- fragment -->

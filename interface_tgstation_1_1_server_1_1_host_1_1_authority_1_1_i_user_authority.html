@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -117,6 +117,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab06fff41584b4f5ef12d045eb2e4486e" id="r_ab06fff41584b4f5ef12d045eb2e4486e"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_o_auth_connection.html">GraphQL.Types.OAuth.OAuthConnection</a>[]&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_user_authority.html#ab06fff41584b4f5ef12d045eb2e4486e">OAuthConnections</a> (long userId, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ab06fff41584b4f5ef12d045eb2e4486e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the GraphQL.Types.OAuth.OAuthConnections for the User with a given <em>userId</em> .  <br /></td></tr>
 <tr class="separator:ab06fff41584b4f5ef12d045eb2e4486e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1d7cd06060a420ce158447060fe0f9d" id="r_ac1d7cd06060a420ce158447060fe0f9d"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_oidc_connection.html">GraphQL.Types.OAuth.OidcConnection</a>[]&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_user_authority.html#ac1d7cd06060a420ce158447060fe0f9d">OidcConnections</a> (long userId, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ac1d7cd06060a420ce158447060fe0f9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the GraphQL.Types.OAuth.OidcConnections for the User with a given <em>userId</em> .  <br /></td></tr>
+<tr class="separator:ac1d7cd06060a420ce158447060fe0f9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ec27d9c5066d888814989969c3ea112" id="r_a2ec27d9c5066d888814989969c3ea112"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_i_queryable.html">IQueryable</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_user_authority.html#a2ec27d9c5066d888814989969c3ea112">Queryable</a> (bool includeJoins)</td></tr>
 <tr class="memdesc:a2ec27d9c5066d888814989969c3ea112"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets all registered Users.  <br /></td></tr>
 <tr class="separator:a2ec27d9c5066d888814989969c3ea112"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -270,6 +273,46 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">ValueTask&lt;TResult&gt;</a> resulting in an global::System.Array of GraphQL.Types.OAuth.OAuthConnection <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">AuthorityResponse&lt;TResult&gt;</a>.</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a56e8c3826bd0907cf7aeb18aa468610b">Tgstation.Server.Host.Authority.UserAuthority</a>.</p>
+
+</div>
+</div>
+<a id="ac1d7cd06060a420ce158447060fe0f9d" name="ac1d7cd06060a420ce158447060fe0f9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1d7cd06060a420ce158447060fe0f9d">&#9670;&#160;</a></span>OidcConnections()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_oidc_connection.html">GraphQL.Types.OAuth.OidcConnection</a>[]&gt; &gt; Tgstation.Server.Host.Authority.IUserAuthority.OidcConnections </td>
+          <td>(</td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>userId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the GraphQL.Types.OAuth.OidcConnections for the User with a given <em>userId</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">userId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570" title="The ID of the entity.">EntityId.Id</a> of the User.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">ValueTask&lt;TResult&gt;</a> resulting in an global::System.Array of GraphQL.Types.OAuth.OidcConnection <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">AuthorityResponse&lt;TResult&gt;</a>.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a473ac45404cca37f783b4575ee401b80">Tgstation.Server.Host.Authority.UserAuthority</a>.</p>
 
 </div>
 </div>

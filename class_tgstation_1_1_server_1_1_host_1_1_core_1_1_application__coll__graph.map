@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Core.Application" name="Tgstation.Server.Host.Core.Application">
-<area shape="rect" id="Node000001" title="Sets up dependency injection." alt="" coords="373,47,553,88"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html" title="DI root for configuring a SetupWizard." alt="" coords="47,5,166,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,23,349,45,373,49,372,54,348,50,181,29"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,55,208,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="223,65,372,65,372,70,223,70"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating TokenResponses." alt="" coords="6,105,207,145"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="222,105,348,85,372,81,373,86,349,90,222,111"/>
-</map>

@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Security.IIdentityCache.LoadCachedIdentity" name="Tgstation.Server.Host.Security.IIdentityCache.LoadCachedIdentity">
-<area shape="rect" id="Node000001" title="Attempt to load a cached ISystemIdentity." alt="" coords="331,5,553,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#abb41b8d489e868b70e44097689293240" title="Handles tokenValidatedContext .A Task representing the running operation." alt="" coords="5,5,283,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="315,28,283,28,283,23,315,23"/>
+<area shape="rect" id="Node000001" title="Attempt to load a cached ISystemIdentity." alt="" coords="295,13,517,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#ae7a11f6cc136eafce06872c382a15122" title="Handles TGS tokenValidatedContext s.A Task representing the running operation." alt="" coords="5,5,247,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="279,36,247,36,247,31,279,31"/>
 </map>

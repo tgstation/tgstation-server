@@ -1,0 +1,15 @@
+<map id="Tgstation.Server.Host.Security.AuthenticationContextFactory.ValidateOidcToken" name="Tgstation.Server.Host.Security.AuthenticationContextFactory.ValidateOidcToken">
+<area shape="rect" id="Node000001" title="Handles OIDC tokenValidatedContext s.A Task representing the running operation." alt="" coords="5,162,247,218"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#abd9cab598d35f6af8c789a1f01bba081" title="Add a given model &#160;to the the working set." alt="" coords="319,5,528,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,160,215,107,253,80,293,57,310,49,312,54,296,61,256,84,218,111,157,164"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="326,71,521,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="194,159,294,122,321,113,323,119,296,127,196,164"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a50e10a50be204ceb874bcf3e8a0f67d8" title="Initializes the AuthenticationContext." alt="" coords="323,136,524,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="247,173,308,167,308,172,247,179"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a78cffc592388ccd341602a45aa878b3f" title="Parse a DateTimeOffset out of a Claim in a given principal ." alt="" coords="295,201,552,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="247,200,279,203,279,209,247,205"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#ad270ec18822a7a90d8fca9a75c23851a" title="Remove a given model &#160;from the the working set." alt="" coords="319,267,528,307"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="198,216,296,251,323,259,321,265,294,256,196,221"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a74e123c6393ad813f997c882a22b228e" title="Saves changes made to the IDatabaseContext." alt="" coords="319,332,528,373"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="158,216,219,268,256,294,296,317,312,324,310,329,293,321,253,298,216,272,155,220"/>
+</map>

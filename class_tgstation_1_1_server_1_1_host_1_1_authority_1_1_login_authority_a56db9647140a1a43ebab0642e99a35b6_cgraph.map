@@ -8,7 +8,7 @@
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="129,343,184,296,219,272,256,251,270,245,272,250,259,256,222,277,187,301,132,347"/>
 <area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a1484aa5361ad7005e1d53606b17f4e9e" title="Create a ISystemIdentity for a given user ." alt="" coords="269,266,508,322"/>
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="189,342,262,323,263,329,190,347"/>
-<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a985633f0c977dad0c2979764d1000598" title="Create a TokenResponse for a given user ." alt="" coords="288,345,489,386"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a10ce6e4bf8a2c53a8460b890a58cb9f4" title="Create a TokenResponse for a given user ." alt="" coords="288,345,489,386"/>
 <area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="210,363,273,363,273,368,210,368"/>
 <area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="284,411,493,451"/>
 <area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="199,384,284,404,282,409,197,389"/>

@@ -1,3 +1,15 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_rest_authority_invoker.html" title=" " alt="" coords="5,5,250,61"/>
+<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html" title="Invokes TAuthority s." alt="" coords="5,93,236,134"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_invoker_base.html" title=" " alt="" coords="295,85,500,141"/>
+<area shape="poly" id="edge579_Node000000_Node000001" title=" " alt="" coords="251,111,295,111,295,116,251,116"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html" title="Invokes TAuthority s from GraphQL endpoints." alt="" coords="295,5,500,61"/>
+<area shape="poly" id="edge582_Node000000_Node000003" title=" " alt="" coords="207,85,298,59,299,64,209,91"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_rest_authority_invoker.html" title="Invokes TAuthority &#160;methods and generates IActionResult responses." alt="" coords="284,165,511,206"/>
+<area shape="poly" id="edge584_Node000000_Node000005" title=" " alt="" coords="217,135,317,162,315,167,215,141"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_graph_q_l_authority_invoker.html" title=" " alt="" coords="559,24,763,80"/>
+<area shape="poly" id="edge580_Node000001_Node000002" title=" " alt="" coords="514,83,558,73,559,78,515,89"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html" title=" " alt="" coords="559,121,763,177"/>
+<area shape="poly" id="edge581_Node000001_Node000004" title=" " alt="" coords="515,127,559,133,558,138,515,132"/>
+<area shape="poly" id="edge583_Node000003_Node000002" title=" " alt="" coords="515,39,559,42,558,47,515,44"/>
+<area shape="poly" id="edge585_Node000005_Node000004" title=" " alt="" coords="526,165,558,160,559,166,527,170"/>
 </map>

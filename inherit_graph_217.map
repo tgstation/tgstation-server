@@ -1,3 +1,13 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html" title="Constants used by the swarm system." alt="" coords="5,5,200,46"/>
+<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,104,206,145"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="254,71,454,111"/>
+<area shape="poly" id="edge693_Node000000_Node000001" title=" " alt="" coords="221,106,253,102,254,107,222,111"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html" title="IOAuthValidator for GitHub." alt="" coords="254,136,454,177"/>
+<area shape="poly" id="edge697_Node000000_Node000005" title=" " alt="" coords="221,137,254,141,253,146,221,142"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html" title="OAuth validator for Discord." alt="" coords="532,5,732,46"/>
+<area shape="poly" id="edge694_Node000001_Node000002" title=" " alt="" coords="457,64,542,44,543,49,459,69"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_invision_community_o_auth_validator.html" title="OAuth validator for Invision Community (selfhosted)." alt="" coords="502,71,761,111"/>
+<area shape="poly" id="edge695_Node000001_Node000003" title=" " alt="" coords="470,88,501,88,501,94,470,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_keycloak_o_auth_validator.html" title="OAuth validator for Keycloak." alt="" coords="531,136,733,177"/>
+<area shape="poly" id="edge696_Node000001_Node000004" title=" " alt="" coords="459,113,543,133,542,138,457,118"/>
 </map>

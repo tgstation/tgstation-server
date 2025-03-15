@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Security.AuthenticationContextFactory.ValidateTgsToken" name="Tgstation.Server.Host.Security.AuthenticationContextFactory.ValidateTgsToken">
+<area shape="rect" id="Node000001" title="Handles TGS tokenValidatedContext s.A Task representing the running operation." alt="" coords="5,63,247,119"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a50e10a50be204ceb874bcf3e8a0f67d8" title="Initializes the AuthenticationContext." alt="" coords="323,5,524,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="247,62,312,47,314,52,248,67"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#afc655c9c2d6af6086bcda5b6c54e1c41" title="Attempt to load a cached ISystemIdentity." alt="" coords="312,71,535,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="247,88,297,88,297,94,247,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a78cffc592388ccd341602a45aa878b3f" title="Parse a DateTimeOffset out of a Claim in a given principal ." alt="" coords="295,136,552,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="248,115,314,130,312,135,247,120"/>
+</map>

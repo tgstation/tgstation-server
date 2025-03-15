@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -221,13 +221,12 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">   42</span>            <span class="keywordflow">return</span> builder.ConfigureServices(</div>
 <div class="line"><span class="lineno">   43</span>                (context, services) =&gt;</div>
 <div class="line"><span class="lineno">   44</span>                {</div>
-<div class="line"><span class="lineno">   45</span>                    var application = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Application</a>(context.Configuration, context.HostingEnvironment);</div>
+<div class="line"><span class="lineno">   45</span>                    var application = <span class="keyword">new</span> Application(context.Configuration, context.HostingEnvironment);</div>
 <div class="line"><span class="lineno">   46</span>                    application.ConfigureServices(services, assemblyInformationProvider, ioManager, postSetupServices);</div>
 <div class="line"><span class="lineno">   47</span>                    services.AddSingleton(application);</div>
 <div class="line"><span class="lineno">   48</span>                })</div>
 <div class="line"><span class="lineno">   49</span>                .Configure(<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_web_host_builder_extensions.html#aa38e8d40574e3640929084c83f10b0f3">ConfigureApplication</a>);</div>
 <div class="line"><span class="lineno">   50</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Tgstation.Server.Host.Core.Application</a></div><div class="ttdoc">Sets up dependency injection.</div><div class="ttdef"><b>Definition</b> <a href="_application_8cs_source.html#l00084">Application.cs:85</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_web_host_builder_extensions_html_aa38e8d40574e3640929084c83f10b0f3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_web_host_builder_extensions.html#aa38e8d40574e3640929084c83f10b0f3">Tgstation.Server.Host.Extensions.WebHostBuilderExtensions.ConfigureApplication</a></div><div class="ttdeci">static void ConfigureApplication(IApplicationBuilder applicationBuilder)</div><div class="ttdoc">Configures a given applicationBuilder .</div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_web_host_builder_extensions.html#aa38e8d40574e3640929084c83f10b0f3">Tgstation.Server.Host.Extensions.WebHostBuilderExtensions.ConfigureApplication()</a>.</p>

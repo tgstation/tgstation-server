@@ -1,5 +1,14 @@
 Components:
   Configuration:
+  - Version: 5.6.0
+    Changes:
+    - Descriptions:
+      - Added `Security:OpenIDConnect` entries and `Security:OidcStrictMode`. See the README for details.
+      - '`Security:OAuth:Keycloak` has been deprecated. Please migrate to an OIDC provider.'
+      - '`Security:OAuth:TGForums` has been removed as the service is no longer provided.'
+      Author: Cyberboss
+      PullRequest: 2144
+    Unreleased: true
   - Version: 5.5.0
     Changes:
     - Descriptions:
@@ -181,15 +190,15 @@ Components:
   Core:
   - Version: 6.15.0
     ComponentVersions:
-      HttpApi: 10.12.1
-      GraphQLApi: 0.5.0
+      HttpApi: 10.13.0
+      GraphQLApi: 0.6.0
       DreamMakerApi: 7.3.1
-      Configuration: 5.5.0
+      Configuration: 5.6.0
       InteropApi: 5.10.0
       HostWatchdog: 1.6.0
       NugetCommon: 7.0.0
-      NugetApi: 17.0.1
-      NugetClient: 20.0.0
+      NugetApi: 18.0.0
+      NugetClient: 21.0.0
       WebControlPanel: 6.7.3
     Changes:
     - Descriptions:
@@ -202,6 +211,11 @@ Components:
       - Discord chatbot now will list removed TMs in deployment messages
       Author: Drulikar
       PullRequest: 2134
+    - Descriptions:
+      - Added OpenID Connect support. See the README for details.
+      - '`TGForums` OAuth has been removed as the service is no longer provided.'
+      Author: Cyberboss
+      PullRequest: 2144
     Unreleased: true
   - Version: 6.14.2
     ComponentVersions: {}
@@ -4137,6 +4151,14 @@ Components:
       Author: alexkar598
       PullRequest: 1133
   HttpApi:
+  - Version: 10.13.0
+    Changes:
+    - Descriptions:
+      - Added `oidcProviderInfos` to server information model. These list a `friendlyName`, user definable `themeColour`, and user definable `themeIconUrl` for indicating how to display OIDC providers. The `schemeKey` property is how authentication is performed. Send users to `/oidc/{schemeKey}/signin` to start the OIDC flow. Users will be returned to a configured endpoint (`/app` by default) with the query parameter `state` set to `oidc.{schemeKey}` and either a `code` indicating a TGS bearer token to use or a user readable `error`.
+      - Added `oidcConnections` to users, similar to `oAuthConnections` with the only difference being that the `provider` is replaced with a `schemeKey` string. Modifiable with the same right.
+      Author: Cyberboss
+      PullRequest: 2144
+    Unreleased: true
   - Version: 10.12.0
     Changes:
     - Descriptions:
@@ -4697,6 +4719,15 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   GraphQLApi:
+  - Version: 0.6.0
+    Changes:
+    - Descriptions:
+      - Added OIDC related fields.
+      - Renamed `adminUserCannotOAuth` to `adminUserCannotHaveServiceConnection`.
+      - Renamed `editOwnOAuthConnections` to `editOwnServiceConnections`.
+      Author: Cyberboss
+      PullRequest: 2144
+    Unreleased: true
   - Version: 0.5.0
     Changes:
     - Descriptions:
@@ -5016,6 +5047,17 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 18.0.0
+    Changes:
+    - Descriptions:
+      - Added `UserApiBase.OidcConnections`.
+      - Renamed `ErrorCode.AdminUserCannotOAuth` to `AdminUserCannotHaveServiceConnection`.
+      - Renamed `AdministrationRights.EditOwnOAuthConnections` to `EditOwnServiceConnections`.
+      - Made deprecated `OAuthProvider`s `Obsolete`.
+      - Added `OidcProviderInfos` and `OidcStrictMode` to `ServerInformationResponse`.
+      Author: Cyberboss
+      PullRequest: 2144
+    Unreleased: true
   - Version: 13.5.0
     Changes:
     - Descriptions:
@@ -5099,4 +5141,11 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient: []
+  NugetClient:
+  - Version: 21.0.0
+    Changes:
+    - Descriptions:
+      - Updated to API library version 18.0.0.
+      Author: Cyberboss
+      PullRequest: 2144
+    Unreleased: true

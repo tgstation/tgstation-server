@@ -1,10 +1,7 @@
 <map id="Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory" name="Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory">
-<area shape="rect" id="Node000001" title="Gets the evaluated log Directory." alt="" coords="269,95,550,135"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a3ec60bfa2b57cd85cae110578270a60f" title="Configure the Application&#39;s services ." alt="" coords="16,29,210,70"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,93,208,73,209,68,300,88"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aab04508f9021893da0268cf94411226f" title="Download a LogFileResponse." alt="" coords="5,95,221,135"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="253,118,221,118,221,112,253,112"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a3373ed476e620fd7c223185ab4234551" title="List LogFileResponses present." alt="" coords="5,160,221,201"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="300,142,209,162,208,157,298,137"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="162,16,144,10,113,8,84,10,67,15,60,21,63,28,58,29,55,19,64,10,84,5,113,3,145,5,164,11"/>
+<area shape="rect" id="Node000001" title="Gets the evaluated log Directory." alt="" coords="269,39,550,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aab04508f9021893da0268cf94411226f" title="Download a LogFileResponse." alt="" coords="5,5,221,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,44,221,40,221,35,253,39"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a3373ed476e620fd7c223185ab4234551" title="List LogFileResponses present." alt="" coords="5,71,221,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,79,221,82,221,77,253,73"/>
 </map>

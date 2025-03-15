@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Api.Models.OidcConnection" name="Tgstation.Server.Api.Models.OidcConnection">
+<area shape="rect" id="Node000001" title="Represents a valid OIDC connection." alt="" coords="10,5,196,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_oidc_connection.html" title=" " alt="" coords="5,94,201,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,62,106,94,100,94,100,62"/>
+</map>

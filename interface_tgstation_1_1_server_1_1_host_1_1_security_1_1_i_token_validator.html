@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -81,14 +81,14 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Handles TokenValidatedContexts.  
+<p>Handles validating authentication tokens.  
  <a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for Tgstation.Server.Host.Security.ITokenValidator:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator__inherit__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_security_8_i_token_validator_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_security_8_i_token_validator_inherit__map" id="a_tgstation_8_server_8_host_8_security_8_i_token_validator_inherit__map">
-<area shape="rect" title="Handles TokenValidatedContexts." alt="" coords="5,5,206,46"/>
+<area shape="rect" title="Handles validating authentication tokens." alt="" coords="5,5,206,46"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html" title=" " alt="" coords="5,94,206,135"/>
 <area shape="poly" title=" " alt="" coords="108,62,108,94,103,94,103,62"/>
 </map>
@@ -96,25 +96,75 @@ Inheritance diagram for Tgstation.Server.Host.Security.ITokenValidator:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a96e560de026a23b1a766707a222d0a6b" id="r_a96e560de026a23b1a766707a222d0a6b"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#a96e560de026a23b1a766707a222d0a6b">ValidateToken</a> (TokenValidatedContext tokenValidatedContext, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a96e560de026a23b1a766707a222d0a6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles <em>tokenValidatedContext</em> .  <br /></td></tr>
-<tr class="separator:a96e560de026a23b1a766707a222d0a6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e25b97aa3353faf135e59cc68c5e9e5" id="r_a8e25b97aa3353faf135e59cc68c5e9e5"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#a8e25b97aa3353faf135e59cc68c5e9e5">ValidateTgsToken</a> (Microsoft.AspNetCore.Authentication.JwtBearer.TokenValidatedContext tokenValidatedContext, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a8e25b97aa3353faf135e59cc68c5e9e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles TGS <em>tokenValidatedContext</em> s.  <br /></td></tr>
+<tr class="separator:a8e25b97aa3353faf135e59cc68c5e9e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bb3459a70087b1d3caedd1e8b052015" id="r_a8bb3459a70087b1d3caedd1e8b052015"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#a8bb3459a70087b1d3caedd1e8b052015">ValidateOidcToken</a> (RemoteAuthenticationContext&lt; OpenIdConnectOptions &gt; tokenValidatedContext, string schemeKey, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a8bb3459a70087b1d3caedd1e8b052015"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles OIDC <em>tokenValidatedContext</em> s.  <br /></td></tr>
+<tr class="separator:a8bb3459a70087b1d3caedd1e8b052015"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Handles TokenValidatedContexts. </p>
+<div class="textblock"><p>Handles validating authentication tokens. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_token_validator_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_token_validator_8cs_source.html">ITokenValidator.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_token_validator_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_token_validator_8cs_source.html">ITokenValidator.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a96e560de026a23b1a766707a222d0a6b" name="a96e560de026a23b1a766707a222d0a6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96e560de026a23b1a766707a222d0a6b">&#9670;&#160;</a></span>ValidateToken()</h2>
+<a id="a8bb3459a70087b1d3caedd1e8b052015" name="a8bb3459a70087b1d3caedd1e8b052015"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bb3459a70087b1d3caedd1e8b052015">&#9670;&#160;</a></span>ValidateOidcToken()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Host.Security.ITokenValidator.ValidateToken </td>
+          <td class="memname">Task Tgstation.Server.Host.Security.ITokenValidator.ValidateOidcToken </td>
           <td>(</td>
-          <td class="paramtype">TokenValidatedContext&#160;</td>
+          <td class="paramtype">RemoteAuthenticationContext&lt; OpenIdConnectOptions &gt;&#160;</td>
+          <td class="paramname"><em>tokenValidatedContext</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>schemeKey</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Handles OIDC <em>tokenValidatedContext</em> s. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tokenValidatedContext</td><td>The RemoteAuthenticationContext&lt;TOptions&gt; for OpenIdConnectOptions.</td></tr>
+    <tr><td class="paramname">schemeKey</td><td>The scheme key being used to login.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#ae3522f6896e89848ce2528a00eaa2e81">Tgstation.Server.Host.Security.AuthenticationContextFactory</a>.</p>
+
+</div>
+</div>
+<a id="a8e25b97aa3353faf135e59cc68c5e9e5" name="a8e25b97aa3353faf135e59cc68c5e9e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e25b97aa3353faf135e59cc68c5e9e5">&#9670;&#160;</a></span>ValidateTgsToken()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Tgstation.Server.Host.Security.ITokenValidator.ValidateTgsToken </td>
+          <td>(</td>
+          <td class="paramtype">Microsoft.AspNetCore.Authentication.JwtBearer.TokenValidatedContext&#160;</td>
           <td class="paramname"><em>tokenValidatedContext</em>, </td>
         </tr>
         <tr>
@@ -131,17 +181,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Handles <em>tokenValidatedContext</em> . </p>
+<p>Handles TGS <em>tokenValidatedContext</em> s. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">tokenValidatedContext</td><td>The TokenValidatedContext.</td></tr>
+    <tr><td class="paramname">tokenValidatedContext</td><td>The Microsoft.AspNetCore.Authentication.JwtBearer.TokenValidatedContext.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#abb41b8d489e868b70e44097689293240">Tgstation.Server.Host.Security.AuthenticationContextFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#ae7a11f6cc136eafce06872c382a15122">Tgstation.Server.Host.Security.AuthenticationContextFactory</a>.</p>
 
 </div>
 </div>

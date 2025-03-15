@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline" name="Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline">
-<area shape="rect" id="Node000001" title="Configure the services &#160;for the authentication pipeline." alt="" coords="247,22,472,78"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a3ec60bfa2b57cd85cae110578270a60f" title="Configure the Application&#39;s services ." alt="" coords="5,29,199,70"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,52,199,52,199,47,231,47"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="144,16,128,10,102,8,77,10,62,15,57,21,59,28,54,29,51,19,59,10,76,5,102,3,130,5,146,11"/>
-</map>

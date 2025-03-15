@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['editownoauthconnections_0',['EditOwnOAuthConnections',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a0334378755729d43cd68ba5aadf02183',1,'Tgstation::Server::Api::Rights']]],
-  ['editownpassword_1',['EditOwnPassword',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a6ca04cb3c1c0f79210a1e67312debeb5',1,'Tgstation::Server::Api::Rights']]],
+  ['editownpassword_0',['EditOwnPassword',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a6ca04cb3c1c0f79210a1e67312debeb5',1,'Tgstation::Server::Api::Rights']]],
+  ['editownserviceconnections_1',['EditOwnServiceConnections',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21ae0589b11f88516a680958baafe4ee345',1,'Tgstation::Server::Api::Rights']]],
   ['enabled_2',['Enabled',['../namespace_tgstation_1_1_server_1_1_host.html#a71712cdd4f38be5482e1d08905c0c308a00d23a76e43b46dae9ec7aa9dcbebb32',1,'Tgstation::Server::Host']]],
   ['engine_3',['Engine',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20a7bfa30721c5e726ff17e3f972237a82c',1,'Tgstation::Server::Api::Rights']]],
   ['engineactiveversionchange_4',['EngineActiveVersionChange',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7ad2161f4ad7606ee9c862512de1499e8b',1,'Tgstation::Server::Host::Components::Events']]],

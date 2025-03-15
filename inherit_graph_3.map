@@ -373,7 +373,7 @@
 <area shape="poly" id="edge207_Node000173_Node000174" title=" " alt="" coords="506,5034,594,5044,593,5049,505,5040"/>
 <area shape="poly" id="edge206_Node000172_Node000170" title=" " alt="" coords="803,4978,904,4967,905,4972,804,4983"/>
 <area shape="poly" id="edge208_Node000174_Node000170" title=" " alt="" coords="797,5030,827,5022,949,4977,951,4982,828,5027,799,5035"/>
-<area shape="rect" id="Node000166" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html" title="Handles TokenValidatedContexts." alt="" coords="591,1723,791,1763"/>
+<area shape="rect" id="Node000166" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html" title="Handles validating authentication tokens." alt="" coords="591,1723,791,1763"/>
 <area shape="poly" id="edge209_Node000166_Node000165" title=" " alt="" coords="806,1740,901,1740,901,1746,806,1746"/>
 <area shape="rect" id="Node000115" title=" " alt="" coords="300,4141,486,4182"/>
 <area shape="rect" id="Node000114" href="$interface_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_subscriptions_1_1_i_topic_event_receiver.html" title="Implementation of HotChocolate.Subscriptions.ITopicEventReceiver that works around the global::System..." alt="" coords="569,4569,813,4610"/>

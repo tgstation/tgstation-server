@@ -1,9 +1,7 @@
 <map id="Tgstation.Server.Host.Program.Main" name="Tgstation.Server.Host.Program.Main">
-<area shape="rect" id="Node000001" title="Entrypoint for the Program." alt="" coords="5,54,236,79"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_program.html#a0f021e24c9b45b38c58eaf1ca6ed716e" title="Initializes a new instance of the Program class." alt="" coords="284,13,486,54"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,50,268,45,269,50,228,56"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_program.html#a182073767b4d5bf1cb40405c1638c5f6" title="Parse Program top level args ." alt="" coords="284,78,486,119"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="232,77,269,82,268,87,232,83"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a6720ad4775ff4751c0d2e00b36f0c31f" title="Create the default IServerFactory." alt="" coords="534,5,739,61"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="486,31,519,31,519,36,486,36"/>
+<area shape="rect" id="Node000001" title="Entrypoint for the Program." alt="" coords="5,46,236,72"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_program.html#a0f021e24c9b45b38c58eaf1ca6ed716e" title="Initializes a new instance of the Program class." alt="" coords="284,5,486,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,43,268,38,269,43,228,48"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_program.html#a182073767b4d5bf1cb40405c1638c5f6" title="Parse Program top level args ." alt="" coords="284,71,486,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,70,269,74,268,80,232,75"/>
 </map>

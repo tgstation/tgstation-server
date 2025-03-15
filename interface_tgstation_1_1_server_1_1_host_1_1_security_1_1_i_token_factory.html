@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -97,9 +97,9 @@ Inheritance diagram for Tgstation.Server.Host.Security.ITokenFactory:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a985633f0c977dad0c2979764d1000598" id="r_a985633f0c977dad0c2979764d1000598"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a985633f0c977dad0c2979764d1000598">CreateToken</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> user, bool oAuth)</td></tr>
-<tr class="memdesc:a985633f0c977dad0c2979764d1000598"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a TokenResponse for a given <em>user</em> .  <br /></td></tr>
-<tr class="separator:a985633f0c977dad0c2979764d1000598"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10ce6e4bf8a2c53a8460b890a58cb9f4" id="r_a10ce6e4bf8a2c53a8460b890a58cb9f4"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a10ce6e4bf8a2c53a8460b890a58cb9f4">CreateToken</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> user, bool serviceLogin)</td></tr>
+<tr class="memdesc:a10ce6e4bf8a2c53a8460b890a58cb9f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a TokenResponse for a given <em>user</em> .  <br /></td></tr>
+<tr class="separator:a10ce6e4bf8a2c53a8460b890a58cb9f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -115,8 +115,8 @@ Properties</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_i_token_factory_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_token_factory_8cs_source.html">ITokenFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a985633f0c977dad0c2979764d1000598" name="a985633f0c977dad0c2979764d1000598"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a985633f0c977dad0c2979764d1000598">&#9670;&#160;</a></span>CreateToken()</h2>
+<a id="a10ce6e4bf8a2c53a8460b890a58cb9f4" name="a10ce6e4bf8a2c53a8460b890a58cb9f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10ce6e4bf8a2c53a8460b890a58cb9f4">&#9670;&#160;</a></span>CreateToken()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -131,7 +131,7 @@ Properties</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>oAuth</em>&#160;</td>
+          <td class="paramname"><em>serviceLogin</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -145,20 +145,20 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">user</td><td>The Models.User to create the token for. Must have the Api.Models.EntityId.Id field available.</td></tr>
-    <tr><td class="paramname">oAuth</td><td>Whether or not this is an OAuth login.</td></tr>
+    <tr><td class="paramname">serviceLogin</td><td>Whether or not this is an external service login.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new token string.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a5bb5ead7636a307d3666639feda3da80">Tgstation.Server.Host.Security.TokenFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#abcab65ec88a61fde94c043f5c3a66753">Tgstation.Server.Host.Security.TokenFactory</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00135">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00145">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory_a985633f0c977dad0c2979764d1000598_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory_a985633f0c977dad0c2979764d1000598_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory_a985633f0c977dad0c2979764d1000598_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory_a985633f0c977dad0c2979764d1000598_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory_a10ce6e4bf8a2c53a8460b890a58cb9f4_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory_a10ce6e4bf8a2c53a8460b890a58cb9f4_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory_a10ce6e4bf8a2c53a8460b890a58cb9f4_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory_a10ce6e4bf8a2c53a8460b890a58cb9f4_icgraph">
 <area shape="rect" title="Create a TokenResponse for a given user ." alt="" coords="258,5,458,46"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a56db9647140a1a43ebab0642e99a35b6" title="Attempt to login to the server with the current Basic or OAuth credentials.A ValueTask&lt;TResult&gt; resul..." alt="" coords="5,5,210,46"/>
 <area shape="poly" title=" " alt="" coords="242,28,210,28,210,23,242,23"/>
@@ -226,7 +226,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_i_token_factory_8cs_source.html#l00022">22</a> of file <a class="el" href="_i_token_factory_8cs_source.html">ITokenFactory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   22</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00298">Tgstation.Server.Host.Authority.LoginAuthority.CacheSystemIdentity()</a>, and <a class="el" href="_application_8cs_source.html#l00751">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00312">Tgstation.Server.Host.Authority.LoginAuthority.CacheSystemIdentity()</a>.</p>
 
 </div>
 </div>

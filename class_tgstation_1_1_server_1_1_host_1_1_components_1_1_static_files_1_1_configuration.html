@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -189,7 +189,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:abfbba9caf2deddcaf67fd8fd32e2723f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get ConfigurationFileResponses for all items in a given <em>configurationRelativePath</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">configurationRelativePath</td><td>The relative path in the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html">Configuration</a> directory.</td></tr>
-    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html" title="Sets up dependency injection.">Core.Application</a>.</td></tr>
+    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the Core.Application.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -201,7 +201,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ae6e959ce6c3aab862b59e79b42a72e67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a given <em>configurationRelativePath</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">configurationRelativePath</td><td>The relative path in the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html">Configuration</a> directory.</td></tr>
-    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html" title="Sets up dependency injection.">Core.Application</a>.</td></tr>
+    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the Core.Application.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -224,7 +224,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a962f47e5ed8f09c6d6bfef617cd8416e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to a given <em>configurationRelativePath</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">configurationRelativePath</td><td>The relative path in the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html">Configuration</a> directory.</td></tr>
-    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html" title="Sets up dependency injection.">Core.Application</a>.</td></tr>
+    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the Core.Application.</td></tr>
     <tr><td class="paramname">previousHash</td><td>The hash any existing file must match in order for the write to succeed.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation. Usage may result in partial writes.</td></tr>
   </table>
@@ -237,7 +237,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:adc8a3ae8bb98efe9e6184a39834bf2bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an empty directory at <em>configurationRelativePath</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">configurationRelativePath</td><td>The relative path in the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html">Configuration</a> directory.</td></tr>
-    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html" title="Sets up dependency injection.">Core.Application</a>.</td></tr>
+    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the Core.Application.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation. Usage may result in partial writes.</td></tr>
   </table>
   </dd>
@@ -278,7 +278,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ac4e429884fef10736259d98f81d5a415"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to delete an empty directory at <em>configurationRelativePath</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">configurationRelativePath</td><td>The path of the empty directory to delete.</td></tr>
-    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html" title="Sets up dependency injection.">Core.Application</a>.</td></tr>
+    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the Core.Application.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -666,7 +666,7 @@ Here is the call graph for this function:</div>
 <p>Create an empty directory at <em>configurationRelativePath</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">configurationRelativePath</td><td>The relative path in the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html">Configuration</a> directory.</td></tr>
-    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html" title="Sets up dependency injection.">Core.Application</a>.</td></tr>
+    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the Core.Application.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation. Usage may result in partial writes.</td></tr>
   </table>
   </dd>
@@ -757,7 +757,7 @@ Here is the call graph for this function:</div>
 <p>Attempt to delete an empty directory at <em>configurationRelativePath</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">configurationRelativePath</td><td>The path of the empty directory to delete.</td></tr>
-    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html" title="Sets up dependency injection.">Core.Application</a>.</td></tr>
+    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the Core.Application.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -1284,7 +1284,7 @@ Here is the call graph for this function:</div>
 <p>Get ConfigurationFileResponses for all items in a given <em>configurationRelativePath</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">configurationRelativePath</td><td>The relative path in the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html">Configuration</a> directory.</td></tr>
-    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html" title="Sets up dependency injection.">Core.Application</a>.</td></tr>
+    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the Core.Application.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -1404,7 +1404,7 @@ Here is the call graph for this function:</div>
 <p>Reads a given <em>configurationRelativePath</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">configurationRelativePath</td><td>The relative path in the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html">Configuration</a> directory.</td></tr>
-    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html" title="Sets up dependency injection.">Core.Application</a>.</td></tr>
+    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the Core.Application.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -1888,7 +1888,7 @@ Here is the caller graph for this function:</div>
 <p>Writes to a given <em>configurationRelativePath</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">configurationRelativePath</td><td>The relative path in the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html">Configuration</a> directory.</td></tr>
-    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html" title="Sets up dependency injection.">Core.Application</a>.</td></tr>
+    <tr><td class="paramname">systemIdentity</td><td>The ISystemIdentity for the operation. If <code>null</code>, the operation will be performed as the user of the Core.Application.</td></tr>
     <tr><td class="paramname">previousHash</td><td>The hash any existing file must match in order for the write to succeed.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation. Usage may result in partial writes.</td></tr>
   </table>

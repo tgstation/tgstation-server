@@ -1,5 +1,30 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html" title="Represents a message to send to a chat provider." alt="" coords="5,5,232,46"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_message.html" title="Represents a message to send to one or more Chat.ChannelRepresentations." alt="" coords="280,5,506,46"/>
-<area shape="poly" id="edge614_Node000000_Node000001" title=" " alt="" coords="248,23,279,23,279,28,248,28"/>
+<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html" title="Common base for interop parameters." alt="" coords="5,136,232,177"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html" title="Parameters for a bridge request." alt="" coords="295,5,521,46"/>
+<area shape="poly" id="edge604_Node000000_Node000001" title=" " alt="" coords="160,124,215,89,279,57,313,44,315,49,281,61,217,94,162,129"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html" title="Parameters for a topic request." alt="" coords="295,136,521,177"/>
+<area shape="poly" id="edge605_Node000000_Node000002" title=" " alt="" coords="247,154,294,154,294,159,247,159"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information_base.html" title="Base class for ReattachInformation." alt="" coords="310,332,506,373"/>
+<area shape="poly" id="edge607_Node000000_Node000011" title=" " alt="" coords="145,188,203,254,240,288,281,317,311,331,309,335,278,321,237,292,199,258,141,191"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chunked_topic_parameters.html" title="TopicParameters for TopicCommandType.ReceiveChunk." alt="" coords="584,136,833,177"/>
+<area shape="poly" id="edge606_Node000002_Node000003" title=" " alt="" coords="536,154,584,154,584,159,536,159"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session." alt="" coords="596,332,822,373"/>
+<area shape="poly" id="edge608_Node000011_Node000012" title=" " alt="" coords="521,350,595,350,595,355,521,355"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information.html" title="Database representation of Components.Session.ReattachInformation." alt="" coords="611,397,806,438"/>
+<area shape="poly" id="edge609_Node000011_Node000013" title=" " alt="" coords="520,374,612,394,611,399,519,379"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_response.html" title="Common base for interop responses." alt="" coords="295,267,521,307"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_response.html" title="A response to a bridge request." alt="" coords="596,201,822,242"/>
+<area shape="poly" id="edge610_Node000009_Node000008" title=" " alt="" coords="519,260,611,240,612,245,520,265"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_response.html" title="A response to a topic request." alt="" coords="596,267,822,307"/>
+<area shape="poly" id="edge611_Node000009_Node000010" title=" " alt="" coords="536,284,595,284,595,290,536,290"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_chunk_payload_id.html" title="Represents the payload ID of a set of chunked data." alt="" coords="295,71,521,111"/>
+<area shape="poly" id="edge614_Node000004_Node000003" title=" " alt="" coords="520,113,612,133,611,138,519,118"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunk_set_info.html" title="Information about a chunked bridge request." alt="" coords="596,71,822,111"/>
+<area shape="poly" id="edge612_Node000004_Node000005" title=" " alt="" coords="536,88,595,88,595,94,536,94"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunk_data.html" title="A packet of a split serialized set of data." alt="" coords="881,71,1108,111"/>
+<area shape="poly" id="edge613_Node000005_Node000006" title=" " alt="" coords="837,88,881,88,881,94,837,94"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_missing_payloads_communication.html" title="A communication that can be missing chunk payloads." alt="" coords="280,201,536,242"/>
+<area shape="poly" id="edge616_Node000007_Node000003" title=" " alt="" coords="519,195,611,175,612,180,520,200"/>
+<area shape="poly" id="edge615_Node000007_Node000008" title=" " alt="" coords="552,219,595,219,595,224,552,224"/>
+<area shape="poly" id="edge617_Node000007_Node000010" title=" " alt="" coords="520,243,612,263,611,269,519,248"/>
 </map>

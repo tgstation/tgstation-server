@@ -12,8 +12,11 @@ var searchData=
   ['oauthproviderinfos_2ecs_9',['OAuthProviderInfos.cs',['../_o_auth_provider_infos_8cs.html',1,'']]],
   ['oauthproviders_2ecs_10',['OAuthProviders.cs',['../_o_auth_providers_8cs.html',1,'']]],
   ['oauthtokenrequest_2ecs_11',['OAuthTokenRequest.cs',['../_o_auth_token_request_8cs.html',1,'']]],
-  ['openapienumvarnamesextension_2ecs_12',['OpenApiEnumVarNamesExtension.cs',['../_open_api_enum_var_names_extension_8cs.html',1,'']]],
-  ['opendreaminstallation_2ecs_13',['OpenDreamInstallation.cs',['../_open_dream_installation_8cs.html',1,'']]],
-  ['opendreaminstaller_2ecs_14',['OpenDreamInstaller.cs',['../_open_dream_installer_8cs.html',1,'']]],
-  ['operationresultextensions_2ecs_15',['OperationResultExtensions.cs',['../_operation_result_extensions_8cs.html',1,'']]]
+  ['oidcconfiguration_2ecs_12',['OidcConfiguration.cs',['../_oidc_configuration_8cs.html',1,'']]],
+  ['oidcconnection_2ecs_13',['oidcconnection.cs',['../_tgstation_8_server_8_api_2_models_2_oidc_connection_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_graph_q_l_2_types_2_oidc_2_oidc_connection_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_oidc_connection_8cs.html',1,'(Global Namespace)']]],
+  ['oidcproviderinfo_2ecs_14',['OidcProviderInfo.cs',['../_oidc_provider_info_8cs.html',1,'']]],
+  ['openapienumvarnamesextension_2ecs_15',['OpenApiEnumVarNamesExtension.cs',['../_open_api_enum_var_names_extension_8cs.html',1,'']]],
+  ['opendreaminstallation_2ecs_16',['OpenDreamInstallation.cs',['../_open_dream_installation_8cs.html',1,'']]],
+  ['opendreaminstaller_2ecs_17',['OpenDreamInstaller.cs',['../_open_dream_installer_8cs.html',1,'']]],
+  ['operationresultextensions_2ecs_18',['OperationResultExtensions.cs',['../_operation_result_extensions_8cs.html',1,'']]]
 ];

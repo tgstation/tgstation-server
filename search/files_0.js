@@ -319,5 +319,13 @@ var searchData=
   ['20241103161906_5fpgaddautostartandstop_2ecs_316',['20241103161906_PGAddAutoStartAndStop.cs',['../20241103161906___p_g_add_auto_start_and_stop_8cs.html',1,'']]],
   ['20241103161906_5fpgaddautostartandstop_2edesigner_2ecs_317',['20241103161906_PGAddAutoStartAndStop.Designer.cs',['../20241103161906___p_g_add_auto_start_and_stop_8_designer_8cs.html',1,'']]],
   ['20241103161915_5fsladdautostartandstop_2ecs_318',['20241103161915_SLAddAutoStartAndStop.cs',['../20241103161915___s_l_add_auto_start_and_stop_8cs.html',1,'']]],
-  ['20241103161915_5fsladdautostartandstop_2edesigner_2ecs_319',['20241103161915_SLAddAutoStartAndStop.Designer.cs',['../20241103161915___s_l_add_auto_start_and_stop_8_designer_8cs.html',1,'']]]
+  ['20241103161915_5fsladdautostartandstop_2edesigner_2ecs_319',['20241103161915_SLAddAutoStartAndStop.Designer.cs',['../20241103161915___s_l_add_auto_start_and_stop_8_designer_8cs.html',1,'']]],
+  ['20250302232550_5fmsaddoidcconnections_2ecs_320',['20250302232550_MSAddOidcConnections.cs',['../20250302232550___m_s_add_oidc_connections_8cs.html',1,'']]],
+  ['20250302232550_5fmsaddoidcconnections_2edesigner_2ecs_321',['20250302232550_MSAddOidcConnections.Designer.cs',['../20250302232550___m_s_add_oidc_connections_8_designer_8cs.html',1,'']]],
+  ['20250302232601_5fmyaddoidcconnections_2ecs_322',['20250302232601_MYAddOidcConnections.cs',['../20250302232601___m_y_add_oidc_connections_8cs.html',1,'']]],
+  ['20250302232601_5fmyaddoidcconnections_2edesigner_2ecs_323',['20250302232601_MYAddOidcConnections.Designer.cs',['../20250302232601___m_y_add_oidc_connections_8_designer_8cs.html',1,'']]],
+  ['20250302232611_5fpgaddoidcconnections_2ecs_324',['20250302232611_PGAddOidcConnections.cs',['../20250302232611___p_g_add_oidc_connections_8cs.html',1,'']]],
+  ['20250302232611_5fpgaddoidcconnections_2edesigner_2ecs_325',['20250302232611_PGAddOidcConnections.Designer.cs',['../20250302232611___p_g_add_oidc_connections_8_designer_8cs.html',1,'']]],
+  ['20250302232622_5fsladdoidcconnections_2ecs_326',['20250302232622_SLAddOidcConnections.cs',['../20250302232622___s_l_add_oidc_connections_8cs.html',1,'']]],
+  ['20250302232622_5fsladdoidcconnections_2edesigner_2ecs_327',['20250302232622_SLAddOidcConnections.Designer.cs',['../20250302232622___s_l_add_oidc_connections_8_designer_8cs.html',1,'']]]
 ];

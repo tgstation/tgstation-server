@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -200,8 +200,11 @@ Properties</h2></td></tr>
 <tr class="memdesc:a5883332794fbc05a435f2df074d1effc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The TestMerges made by the User.  <br /></td></tr>
 <tr class="separator:a5883332794fbc05a435f2df074d1effc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a220194c0f49ed363ee63948ac32a2fb5" id="r_a220194c0f49ed363ee63948ac32a2fb5"><td class="memItemLeft" align="right" valign="top">ICollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_o_auth_connection.html">OAuthConnection</a> &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a220194c0f49ed363ee63948ac32a2fb5">OAuthConnections</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a220194c0f49ed363ee63948ac32a2fb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The TestMerges made by the User.  <br /></td></tr>
+<tr class="memdesc:a220194c0f49ed363ee63948ac32a2fb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The OAuthConnections for the User.  <br /></td></tr>
 <tr class="separator:a220194c0f49ed363ee63948ac32a2fb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace6d4809df17cb8cdae774085cc1f56d" id="r_ace6d4809df17cb8cdae774085cc1f56d"><td class="memItemLeft" align="right" valign="top">ICollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_oidc_connection.html">OidcConnection</a> &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ace6d4809df17cb8cdae774085cc1f56d">OidcConnections</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ace6d4809df17cb8cdae774085cc1f56d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The OidcConnections for the User.  <br /></td></tr>
+<tr class="separator:ace6d4809df17cb8cdae774085cc1f56d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base"><td colspan="2" onclick="javascript:toggleInherit('properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html">Tgstation.Server.Api.Models.Internal.UserModelBase</a></td></tr>
 <tr class="memitem:a442b355a92704a9cbf29edaafd7975ed inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base" id="r_a442b355a92704a9cbf29edaafd7975ed"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html#a442b355a92704a9cbf29edaafd7975ed">Enabled</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a442b355a92704a9cbf29edaafd7975ed inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the UserModelBase is enabled since users cannot be deleted. System users cannot be disabled.  <br /></td></tr>
@@ -274,45 +277,47 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The CanonicalName.</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00135">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, <a class="el" href="_user_authority_8cs_source.html#l00293">Tgstation.Server.Host.Authority.UserAuthority.Create()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00310">Tgstation.Server.Host.Database.DatabaseSeeder.GetAdminUser()</a>, <a class="el" href="_user_authority_8cs_source.html#l00257">Tgstation.Server.Host.Authority.UserAuthority.GetId()</a>, <a class="el" href="_database_collection_extensions_8cs_source.html#l00027">Tgstation.Server.Host.Extensions.DatabaseCollectionExtensions.GetTgsUser&lt; TResult &gt;()</a>, <a class="el" href="_user_authority_8cs_source.html#l00542">Tgstation.Server.Host.Authority.UserAuthority.Queryable()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00201">Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00157">Tgstation.Server.Host.Database.DatabaseSeeder.SeedAdminUser()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00063">Tgstation.Server.Host.Database.DatabaseSeeder.SeedSystemUser()</a>, and <a class="el" href="_user_authority_8cs_source.html#l00360">Tgstation.Server.Host.Authority.UserAuthority.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00145">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, <a class="el" href="_user_authority_8cs_source.html#l00341">Tgstation.Server.Host.Authority.UserAuthority.Create()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00310">Tgstation.Server.Host.Database.DatabaseSeeder.GetAdminUser()</a>, <a class="el" href="_user_authority_8cs_source.html#l00300">Tgstation.Server.Host.Authority.UserAuthority.GetId()</a>, <a class="el" href="_database_collection_extensions_8cs_source.html#l00027">Tgstation.Server.Host.Extensions.DatabaseCollectionExtensions.GetTgsUser&lt; TResult &gt;()</a>, <a class="el" href="_user_authority_8cs_source.html#l00625">Tgstation.Server.Host.Authority.UserAuthority.Queryable()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00201">Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00157">Tgstation.Server.Host.Database.DatabaseSeeder.SeedAdminUser()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00063">Tgstation.Server.Host.Database.DatabaseSeeder.SeedSystemUser()</a>, <a class="el" href="_user_authority_8cs_source.html#l00408">Tgstation.Server.Host.Authority.UserAuthority.Update()</a>, and <a class="el" href="_authentication_context_factory_8cs_source.html#l00236">Tgstation.Server.Host.Security.AuthenticationContextFactory.ValidateOidcToken()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_a4b139051d0d6db501e37590fa1eabf16_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_a4b139051d0d6db501e37590fa1eabf16_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_a4b139051d0d6db501e37590fa1eabf16_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_a4b139051d0d6db501e37590fa1eabf16_icgraph">
-<area shape="rect" title="Change a UserName.Name into a CanonicalName." alt="" coords="1106,272,1301,313"/>
+<area shape="rect" title="Change a UserName.Name into a CanonicalName." alt="" coords="1106,323,1301,363"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a56db9647140a1a43ebab0642e99a35b6" title="Attempt to login to the server with the current Basic or OAuth credentials.A ValueTask&lt;TResult&gt; resul..." alt="" coords="834,5,1039,46"/>
-<area shape="poly" title=" " alt="" coords="1188,259,1168,214,1140,160,1103,106,1081,82,1056,61,1035,49,1038,44,1059,57,1084,78,1107,103,1145,157,1173,211,1192,257"/>
+<area shape="poly" title=" " alt="" coords="1191,308,1175,254,1148,187,1109,119,1084,88,1056,61,1037,49,1040,44,1059,57,1088,84,1113,116,1153,184,1180,252,1196,307"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ad2695069d164dde2b12e4fed8718726b" title="Creates a User.A ValueTask&lt;TResult&gt; resulting in am AuthorityResponse&lt;TResult&gt; for the created User." alt="" coords="834,71,1039,111"/>
-<area shape="poly" title=" " alt="" coords="1179,261,1127,195,1094,161,1056,132,1021,114,1024,110,1059,127,1097,157,1131,192,1183,258"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a302d5aab480a8a4599d92f1126d79d10" title="Get or create the admin User." alt="" coords="559,181,767,222"/>
-<area shape="poly" title=" " alt="" coords="1173,262,1123,215,1091,193,1057,176,1015,164,972,158,884,157,802,168,732,183,731,178,801,163,884,152,972,153,1016,159,1059,171,1094,188,1126,210,1177,258"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#acccb4650f7b19158f0241418c7345719" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="276,243,497,283"/>
-<area shape="poly" title=" " alt="" coords="1090,291,497,270,497,264,1090,286"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a35ad3c9eb6b23b7d832ed209e604454c" title="Gets the User with a given id .A ValueTask&lt;TResult&gt; resulting in a User AuthorityResponse&lt;TResult&gt;." alt="" coords="834,365,1039,406"/>
-<area shape="poly" title=" " alt="" coords="1143,322,1059,355,1019,367,1017,362,1057,350,1141,317"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_database_collection_extensions.html#a2589e6a00a1bb42aa95f8a1b863003ce" title="Gets User with the name User.TgsSystemUserName." alt="" coords="815,430,1058,486"/>
-<area shape="poly" title=" " alt="" coords="1175,326,1123,374,1059,420,1035,432,1033,427,1056,415,1120,370,1171,322"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a9815843c51ffc0f2c650e5b13518e697" title="Gets all registered Users." alt="" coords="834,509,1039,550"/>
-<area shape="poly" title=" " alt="" coords="1190,328,1169,368,1140,414,1103,461,1059,500,1039,511,1036,507,1056,495,1100,457,1136,411,1164,365,1185,325"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a58329cfe5297b2569da770f7c05e1fbf" title="Add a default admin User to a given databaseContext ." alt="" coords="829,185,1044,226"/>
-<area shape="poly" title=" " alt="" coords="1125,269,1057,247,1002,229,1004,224,1058,242,1126,264"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad6ca6c5c2af3d00965272871489da978" title="Add a default system User to a given databaseContext ." alt="" coords="825,300,1048,341"/>
-<area shape="poly" title=" " alt="" coords="1090,307,1048,311,1048,306,1090,302"/>
+<area shape="poly" title=" " alt="" coords="1185,309,1164,268,1136,220,1100,173,1056,132,1025,114,1028,110,1059,128,1104,169,1140,217,1169,266,1190,307"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a302d5aab480a8a4599d92f1126d79d10" title="Get or create the admin User." alt="" coords="559,449,767,490"/>
+<area shape="poly" title=" " alt="" coords="1187,378,1166,413,1137,451,1101,487,1059,515,1014,530,967,538,918,539,871,535,783,516,712,493,714,488,784,511,872,530,919,534,966,533,1012,525,1056,510,1098,483,1133,448,1162,410,1183,376"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#acccb4650f7b19158f0241418c7345719" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="276,299,497,339"/>
+<area shape="poly" title=" " alt="" coords="1183,310,1162,276,1133,238,1098,203,1056,176,1013,160,968,149,922,143,876,143,782,153,691,176,607,206,531,240,422,300,419,296,529,235,605,201,690,171,781,148,875,137,923,138,969,144,1015,154,1059,171,1101,199,1137,235,1166,273,1187,308"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a35ad3c9eb6b23b7d832ed209e604454c" title="Gets the User with a given id .A ValueTask&lt;TResult&gt; resulting in a User AuthorityResponse&lt;TResult&gt;." alt="" coords="834,251,1039,291"/>
+<area shape="poly" title=" " alt="" coords="1112,321,1057,306,1016,294,1017,289,1058,300,1113,315"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_database_collection_extensions.html#a2589e6a00a1bb42aa95f8a1b863003ce" title="Gets User with the name User.TgsSystemUserName." alt="" coords="815,315,1058,371"/>
+<area shape="poly" title=" " alt="" coords="1090,346,1058,346,1058,340,1090,340"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a9815843c51ffc0f2c650e5b13518e697" title="Gets all registered Users." alt="" coords="834,395,1039,435"/>
+<area shape="poly" title=" " alt="" coords="1113,371,1058,386,1017,397,1016,392,1057,380,1112,365"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a58329cfe5297b2569da770f7c05e1fbf" title="Add a default admin User to a given databaseContext ." alt="" coords="829,460,1044,501"/>
+<area shape="poly" title=" " alt="" coords="1169,376,1119,414,1059,449,1028,462,1026,457,1056,445,1116,409,1166,371"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad6ca6c5c2af3d00965272871489da978" title="Add a default system User to a given databaseContext ." alt="" coords="825,185,1048,226"/>
+<area shape="poly" title=" " alt="" coords="1166,315,1116,277,1056,241,1026,229,1028,224,1059,237,1119,272,1169,310"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#aef9a577a9544d2da75672eb17a24b94d" title="Updates a User.A ValueTask&lt;TResult&gt; resulting in am AuthorityResponse&lt;TResult&gt; for the created User." alt="" coords="834,575,1039,615"/>
-<area shape="poly" title=" " alt="" coords="1195,329,1178,381,1150,445,1111,509,1087,538,1059,564,1039,576,1036,572,1056,560,1083,534,1107,506,1145,442,1173,379,1190,327"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a374a1163eaa6f02afb419449a4478b48" title="Changes the admin password in IDatabaseContext back to it&#39;s default, enables the account,..." alt="" coords="262,177,511,218"/>
-<area shape="poly" title=" " alt="" coords="543,203,512,202,512,197,543,197"/>
-<area shape="poly" title=" " alt="" coords="554,228,482,245,481,239,553,223"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext .A ValueTask representing the running operation." alt="" coords="5,243,214,283"/>
-<area shape="poly" title=" " alt="" coords="283,225,199,245,198,239,282,220"/>
-<area shape="poly" title=" " alt="" coords="260,266,214,266,214,260,260,260"/>
-<area shape="poly" title=" " alt="" coords="813,207,768,206,768,201,813,201"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a59c3f85134ebd165aaa4df15c45d3901" title="Initially seed a given databaseContext ." alt="" coords="559,300,767,341"/>
-<area shape="poly" title=" " alt="" coords="873,235,715,302,713,297,871,230"/>
-<area shape="poly" title=" " alt="" coords="543,320,408,313,261,298,199,287,199,281,262,292,408,307,544,315"/>
-<area shape="poly" title=" " alt="" coords="843,347,780,359,708,366,632,366,558,355,518,342,479,324,415,286,418,282,481,319,520,337,560,350,633,361,707,361,779,353,842,342"/>
-<area shape="poly" title=" " alt="" coords="810,323,768,323,768,318,810,318"/>
+<area shape="poly" title=" " alt="" coords="1190,379,1169,420,1140,469,1104,517,1059,558,1028,576,1025,572,1056,554,1100,513,1136,466,1164,418,1185,377"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#ae3522f6896e89848ce2528a00eaa2e81" title="Handles OIDC tokenValidatedContext s.A Task representing the running operation." alt="" coords="816,639,1057,695"/>
+<area shape="poly" title=" " alt="" coords="1196,380,1179,434,1151,501,1112,570,1087,601,1059,629,1043,641,1040,636,1056,625,1083,598,1107,567,1146,499,1174,432,1191,378"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a374a1163eaa6f02afb419449a4478b48" title="Changes the admin password in IDatabaseContext back to it&#39;s default, enables the account,..." alt="" coords="262,436,511,477"/>
+<area shape="poly" title=" " alt="" coords="543,467,511,465,512,460,543,461"/>
+<area shape="poly" title=" " alt="" coords="592,445,558,429,480,384,416,342,419,337,483,380,560,425,594,441"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext .A ValueTask representing the running operation." alt="" coords="5,375,214,415"/>
+<area shape="poly" title=" " alt="" coords="276,435,204,419,205,413,277,430"/>
+<area shape="poly" title=" " alt="" coords="295,347,187,377,186,372,294,341"/>
+<area shape="poly" title=" " alt="" coords="813,478,768,476,768,471,813,473"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a59c3f85134ebd165aaa4df15c45d3901" title="Initially seed a given databaseContext ." alt="" coords="559,375,767,415"/>
+<area shape="poly" title=" " alt="" coords="842,458,815,450,722,418,723,413,816,444,844,453"/>
+<area shape="poly" title=" " alt="" coords="544,398,214,398,214,392,544,392"/>
+<area shape="poly" title=" " alt="" coords="820,232,490,301,489,295,819,227"/>
+<area shape="poly" title=" " alt="" coords="826,236,817,241,801,255,792,269,783,284,769,302,691,376,687,372,765,299,778,281,787,266,797,251,814,237,823,231"/>
 </map>
 </div>
 
@@ -351,22 +356,25 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new UserResponse.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_models_2_user_8cs_source.html#l00095">95</a> of file <a class="el" href="_models_2_user_8cs_source.html">User.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   96</span>        {</div>
-<div class="line"><span class="lineno">   97</span>            var result = CreateUserName&lt;UserResponse&gt;();</div>
-<div class="line"><span class="lineno">   98</span>            <span class="keywordflow">if</span> (recursive)</div>
-<div class="line"><span class="lineno">   99</span>                result.CreatedBy = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a29ff531eb009cc185905527b5d57bb18">CreatedBy</a>?.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2">CreateUserName</a>&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html">UserName</a>&gt;();</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>            result.CreatedAt = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html#abd4ba856828a87134ff5947bd134b85f">CreatedAt</a>;</div>
-<div class="line"><span class="lineno">  102</span>            result.Enabled = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html#a442b355a92704a9cbf29edaafd7975ed">Enabled</a>;</div>
-<div class="line"><span class="lineno">  103</span>            result.SystemIdentifier = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html#ab579df00363a2d7f71a25af0585a8ef2">SystemIdentifier</a>;</div>
-<div class="line"><span class="lineno">  104</span>            result.OAuthConnections = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a220194c0f49ed363ee63948ac32a2fb5">OAuthConnections</a></div>
-<div class="line"><span class="lineno">  105</span>                ?.Select(x =&gt; x.ToApi())</div>
-<div class="line"><span class="lineno">  106</span>                .ToList();</div>
-<div class="line"><span class="lineno">  107</span>            result.Group = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#aed9e78b17d8134625a78a0e16f92d75d">Group</a>?.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#aa38ee7281d84a9e3cce242aa6df2dffc">ToApi</a>(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  108</span>            result.PermissionSet = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html">PermissionSet</a>?.ToApi();</div>
-<div class="line"><span class="lineno">  109</span>            <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">  110</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_models_2_user_8cs_source.html#l00100">100</a> of file <a class="el" href="_models_2_user_8cs_source.html">User.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  101</span>        {</div>
+<div class="line"><span class="lineno">  102</span>            var result = CreateUserName&lt;UserResponse&gt;();</div>
+<div class="line"><span class="lineno">  103</span>            <span class="keywordflow">if</span> (recursive)</div>
+<div class="line"><span class="lineno">  104</span>                result.CreatedBy = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a29ff531eb009cc185905527b5d57bb18">CreatedBy</a>?.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2">CreateUserName</a>&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html">UserName</a>&gt;();</div>
+<div class="line"><span class="lineno">  105</span> </div>
+<div class="line"><span class="lineno">  106</span>            result.CreatedAt = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html#abd4ba856828a87134ff5947bd134b85f">CreatedAt</a>;</div>
+<div class="line"><span class="lineno">  107</span>            result.Enabled = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html#a442b355a92704a9cbf29edaafd7975ed">Enabled</a>;</div>
+<div class="line"><span class="lineno">  108</span>            result.SystemIdentifier = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html#ab579df00363a2d7f71a25af0585a8ef2">SystemIdentifier</a>;</div>
+<div class="line"><span class="lineno">  109</span>            result.OAuthConnections = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a220194c0f49ed363ee63948ac32a2fb5">OAuthConnections</a></div>
+<div class="line"><span class="lineno">  110</span>                ?.Select(x =&gt; x.ToApi())</div>
+<div class="line"><span class="lineno">  111</span>                .ToList();</div>
+<div class="line"><span class="lineno">  112</span>            result.OidcConnections = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ace6d4809df17cb8cdae774085cc1f56d">OidcConnections</a></div>
+<div class="line"><span class="lineno">  113</span>                ?.Select(x =&gt; x.ToApi())</div>
+<div class="line"><span class="lineno">  114</span>                .ToList();</div>
+<div class="line"><span class="lineno">  115</span>            result.Group = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#aed9e78b17d8134625a78a0e16f92d75d">Group</a>?.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#aa38ee7281d84a9e3cce242aa6df2dffc">ToApi</a>(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  116</span>            result.PermissionSet = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html">PermissionSet</a>?.ToApi();</div>
+<div class="line"><span class="lineno">  117</span>            <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  118</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base_html_a442b355a92704a9cbf29edaafd7975ed"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html#a442b355a92704a9cbf29edaafd7975ed">Tgstation.Server.Api.Models.Internal.UserModelBase.Enabled</a></div><div class="ttdeci">bool? Enabled</div><div class="ttdoc">If the UserModelBase is enabled since users cannot be deleted. System users cannot be disabled.</div><div class="ttdef"><b>Definition</b> <a href="_user_model_base_8cs_source.html#l00015">UserModelBase.cs:15</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base_html_ab579df00363a2d7f71a25af0585a8ef2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html#ab579df00363a2d7f71a25af0585a8ef2">Tgstation.Server.Api.Models.Internal.UserModelBase.SystemIdentifier</a></div><div class="ttdeci">string? SystemIdentifier</div><div class="ttdoc">The SID/UID of the UserModelBase on Windows/POSIX respectively.</div><div class="ttdef"><b>Definition</b> <a href="_user_model_base_8cs_source.html#l00029">UserModelBase.cs:29</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base_html_abd4ba856828a87134ff5947bd134b85f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html#abd4ba856828a87134ff5947bd134b85f">Tgstation.Server.Api.Models.Internal.UserModelBase.CreatedAt</a></div><div class="ttdeci">DateTimeOffset? CreatedAt</div><div class="ttdoc">When the UserModelBase was created.</div><div class="ttdef"><b>Definition</b> <a href="_user_model_base_8cs_source.html#l00022">UserModelBase.cs:22</a></div></div>
@@ -374,11 +382,12 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html">Tgstation.Server.Api.Models.UserName</a></div><div class="ttdoc">Base class for user names.</div><div class="ttdef"><b>Definition</b> <a href="_tgstation_8_server_8_api_2_models_2_user_name_8cs_source.html#l00006">UserName.cs:7</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name_html_a9f75360b06ae3468b43b68c48a2bccc2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2">Tgstation.Server.Api.Models.UserName.CreateUserName</a></div><div class="ttdeci">UserName CreateUserName()</div><div class="ttdoc">Create a copy of the UserName.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group_html_aa38ee7281d84a9e3cce242aa6df2dffc"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#aa38ee7281d84a9e3cce242aa6df2dffc">Tgstation.Server.Host.Models.UserGroup.ToApi</a></div><div class="ttdeci">UserGroupResponse ToApi(bool showUsers)</div><div class="ttdoc">Convert the UserGroup to it's API form.</div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html_a220194c0f49ed363ee63948ac32a2fb5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a220194c0f49ed363ee63948ac32a2fb5">Tgstation.Server.Host.Models.User.OAuthConnections</a></div><div class="ttdeci">ICollection&lt; OAuthConnection &gt;? OAuthConnections</div><div class="ttdoc">The TestMerges made by the User.</div><div class="ttdef"><b>Definition</b> <a href="_models_2_user_8cs_source.html#l00078">User.cs:78</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html_a220194c0f49ed363ee63948ac32a2fb5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a220194c0f49ed363ee63948ac32a2fb5">Tgstation.Server.Host.Models.User.OAuthConnections</a></div><div class="ttdeci">ICollection&lt; OAuthConnection &gt;? OAuthConnections</div><div class="ttdoc">The OAuthConnections for the User.</div><div class="ttdef"><b>Definition</b> <a href="_models_2_user_8cs_source.html#l00078">User.cs:78</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html_a29ff531eb009cc185905527b5d57bb18"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a29ff531eb009cc185905527b5d57bb18">Tgstation.Server.Host.Models.User.CreatedBy</a></div><div class="ttdeci">User? CreatedBy</div><div class="ttdoc">See UserResponse.</div><div class="ttdef"><b>Definition</b> <a href="_models_2_user_8cs_source.html#l00031">User.cs:31</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html_ace6d4809df17cb8cdae774085cc1f56d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ace6d4809df17cb8cdae774085cc1f56d">Tgstation.Server.Host.Models.User.OidcConnections</a></div><div class="ttdeci">ICollection&lt; OidcConnection &gt;? OidcConnections</div><div class="ttdoc">The OidcConnections for the User.</div><div class="ttdef"><b>Definition</b> <a href="_models_2_user_8cs_source.html#l00083">User.cs:83</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html_aed9e78b17d8134625a78a0e16f92d75d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#aed9e78b17d8134625a78a0e16f92d75d">Tgstation.Server.Host.Models.User.Group</a></div><div class="ttdeci">UserGroup? Group</div><div class="ttdoc">The UserGroup the User belongs to, if any.</div><div class="ttdef"><b>Definition</b> <a href="_models_2_user_8cs_source.html#l00041">User.cs:41</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_user_model_base_8cs_source.html#l00022">Tgstation.Server.Api.Models.Internal.UserModelBase.CreatedAt</a>, <a class="el" href="_models_2_user_8cs_source.html#l00031">Tgstation.Server.Host.Models.User.CreatedBy</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2">Tgstation.Server.Api.Models.UserName.CreateUserName()</a>, <a class="el" href="_user_model_base_8cs_source.html#l00015">Tgstation.Server.Api.Models.Internal.UserModelBase.Enabled</a>, <a class="el" href="_models_2_user_8cs_source.html#l00041">Tgstation.Server.Host.Models.User.Group</a>, <a class="el" href="_models_2_user_8cs_source.html#l00078">Tgstation.Server.Host.Models.User.OAuthConnections</a>, <a class="el" href="_user_model_base_8cs_source.html#l00029">Tgstation.Server.Api.Models.Internal.UserModelBase.SystemIdentifier</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html#a0c4c85a1b94bc28e9ca083765992e7fa">Tgstation.Server.Host.Models.PermissionSet.ToApi()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#aa38ee7281d84a9e3cce242aa6df2dffc">Tgstation.Server.Host.Models.UserGroup.ToApi()</a>.</p>
+<p class="reference">References <a class="el" href="_user_model_base_8cs_source.html#l00022">Tgstation.Server.Api.Models.Internal.UserModelBase.CreatedAt</a>, <a class="el" href="_models_2_user_8cs_source.html#l00031">Tgstation.Server.Host.Models.User.CreatedBy</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2">Tgstation.Server.Api.Models.UserName.CreateUserName()</a>, <a class="el" href="_user_model_base_8cs_source.html#l00015">Tgstation.Server.Api.Models.Internal.UserModelBase.Enabled</a>, <a class="el" href="_models_2_user_8cs_source.html#l00041">Tgstation.Server.Host.Models.User.Group</a>, <a class="el" href="_models_2_user_8cs_source.html#l00078">Tgstation.Server.Host.Models.User.OAuthConnections</a>, <a class="el" href="_models_2_user_8cs_source.html#l00083">Tgstation.Server.Host.Models.User.OidcConnections</a>, <a class="el" href="_user_model_base_8cs_source.html#l00029">Tgstation.Server.Api.Models.Internal.UserModelBase.SystemIdentifier</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html#a0c4c85a1b94bc28e9ca083765992e7fa">Tgstation.Server.Host.Models.PermissionSet.ToApi()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#aa38ee7281d84a9e3cce242aa6df2dffc">Tgstation.Server.Host.Models.UserGroup.ToApi()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -415,7 +424,7 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00135">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00145">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -454,7 +463,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_models_2_user_8cs_source.html#l00021">21</a> of file <a class="el" href="_models_2_user_8cs_source.html">User.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00135">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, <a class="el" href="_user_authority_8cs_source.html#l00257">Tgstation.Server.Host.Authority.UserAuthority.GetId()</a>, <a class="el" href="_database_collection_extensions_8cs_source.html#l00027">Tgstation.Server.Host.Extensions.DatabaseCollectionExtensions.GetTgsUser&lt; TResult &gt;()</a>, <a class="el" href="_user_authority_8cs_source.html#l00542">Tgstation.Server.Host.Authority.UserAuthority.Queryable()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00201">Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00063">Tgstation.Server.Host.Database.DatabaseSeeder.SeedSystemUser()</a>, and <a class="el" href="_user_authority_8cs_source.html#l00360">Tgstation.Server.Host.Authority.UserAuthority.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_login_authority_8cs_source.html#l00145">Tgstation.Server.Host.Authority.LoginAuthority.AttemptLogin()</a>, <a class="el" href="_user_authority_8cs_source.html#l00300">Tgstation.Server.Host.Authority.UserAuthority.GetId()</a>, <a class="el" href="_database_collection_extensions_8cs_source.html#l00027">Tgstation.Server.Host.Extensions.DatabaseCollectionExtensions.GetTgsUser&lt; TResult &gt;()</a>, <a class="el" href="_user_authority_8cs_source.html#l00625">Tgstation.Server.Host.Authority.UserAuthority.Queryable()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00201">Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00063">Tgstation.Server.Host.Database.DatabaseSeeder.SeedSystemUser()</a>, and <a class="el" href="_user_authority_8cs_source.html#l00408">Tgstation.Server.Host.Authority.UserAuthority.Update()</a>.</p>
 
 </div>
 </div>
@@ -484,7 +493,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_models_2_user_8cs_source.html#l00058">58</a> of file <a class="el" href="_models_2_user_8cs_source.html">User.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   58</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_user_authority_8cs_source.html#l00257">Tgstation.Server.Host.Authority.UserAuthority.GetId()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_user_authority_8cs_source.html#l00300">Tgstation.Server.Host.Authority.UserAuthority.GetId()</a>.</p>
 
 </div>
 </div>
@@ -513,7 +522,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_models_2_user_8cs_source.html#l00031">31</a> of file <a class="el" href="_models_2_user_8cs_source.html">User.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   31</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_models_2_user_8cs_source.html#l00095">Tgstation.Server.Host.Models.User.CreateUserResponse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_models_2_user_8cs_source.html#l00100">Tgstation.Server.Host.Models.User.CreateUserResponse()</a>.</p>
 
 </div>
 </div>
@@ -596,7 +605,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_models_2_user_8cs_source.html#l00041">41</a> of file <a class="el" href="_models_2_user_8cs_source.html">User.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   41</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_models_2_user_8cs_source.html#l00095">Tgstation.Server.Host.Models.User.CreateUserResponse()</a>, <a class="el" href="_authentication_context_8cs_source.html#l00078">Tgstation.Server.Host.Security.AuthenticationContext.Initialize()</a>, and <a class="el" href="_user_group_authority_8cs_source.html#l00103">Tgstation.Server.Host.Authority.UserGroupAuthority.Read()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_models_2_user_8cs_source.html#l00100">Tgstation.Server.Host.Models.User.CreateUserResponse()</a>, <a class="el" href="_authentication_context_8cs_source.html#l00078">Tgstation.Server.Host.Security.AuthenticationContext.Initialize()</a>, and <a class="el" href="_user_group_authority_8cs_source.html#l00103">Tgstation.Server.Host.Authority.UserGroupAuthority.Read()</a>.</p>
 
 </div>
 </div>
@@ -678,12 +687,41 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>The TestMerges made by the User. </p>
+<p>The OAuthConnections for the User. </p>
 
 <p class="definition">Definition at line <a class="el" href="_models_2_user_8cs_source.html#l00078">78</a> of file <a class="el" href="_models_2_user_8cs_source.html">User.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   78</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_models_2_user_8cs_source.html#l00095">Tgstation.Server.Host.Models.User.CreateUserResponse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_models_2_user_8cs_source.html#l00100">Tgstation.Server.Host.Models.User.CreateUserResponse()</a>.</p>
+
+</div>
+</div>
+<a id="ace6d4809df17cb8cdae774085cc1f56d" name="ace6d4809df17cb8cdae774085cc1f56d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace6d4809df17cb8cdae774085cc1f56d">&#9670;&#160;</a></span>OidcConnections</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ICollection&lt;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_oidc_connection.html">OidcConnection</a>&gt;? Tgstation.Server.Host.Models.User.OidcConnections</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The OidcConnections for the User. </p>
+
+<p class="definition">Definition at line <a class="el" href="_models_2_user_8cs_source.html#l00083">83</a> of file <a class="el" href="_models_2_user_8cs_source.html">User.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   83</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_models_2_user_8cs_source.html#l00100">Tgstation.Server.Host.Models.User.CreateUserResponse()</a>.</p>
 
 </div>
 </div>
@@ -741,6 +779,8 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_models_2_user_8cs_source.html#l00051">51</a> of file <a class="el" href="_models_2_user_8cs_source.html">User.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   51</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_authentication_context_factory_8cs_source.html#l00236">Tgstation.Server.Host.Security.AuthenticationContextFactory.ValidateOidcToken()</a>.</p>
+
 </div>
 </div>
 <a id="a5883332794fbc05a435f2df074d1effc" name="a5883332794fbc05a435f2df074d1effc"></a>

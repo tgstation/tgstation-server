@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -127,6 +127,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a14a92507a2a5cb1b5eaeb3a76808a9bb" id="r_a14a92507a2a5cb1b5eaeb3a76808a9bb"><td class="memItemLeft" align="right" valign="top">ICollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html">OAuthConnection</a> &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_api_base.html#a14a92507a2a5cb1b5eaeb3a76808a9bb">OAuthConnections</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a14a92507a2a5cb1b5eaeb3a76808a9bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of OAuthConnections associated with the user.  <br /></td></tr>
 <tr class="separator:a14a92507a2a5cb1b5eaeb3a76808a9bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fa194a68080f0c1c8e8c9e6f200d28b" id="r_a1fa194a68080f0c1c8e8c9e6f200d28b"><td class="memItemLeft" align="right" valign="top">ICollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_oidc_connection.html">OidcConnection</a> &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_api_base.html#a1fa194a68080f0c1c8e8c9e6f200d28b">OidcConnections</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a1fa194a68080f0c1c8e8c9e6f200d28b"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of OidcConnections associated with the user.  <br /></td></tr>
+<tr class="separator:a1fa194a68080f0c1c8e8c9e6f200d28b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb2a636caeedc151496a4e230dfa0a31" id="r_adb2a636caeedc151496a4e230dfa0a31"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html">PermissionSet</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_api_base.html#adb2a636caeedc151496a4e230dfa0a31">PermissionSet</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:adb2a636caeedc151496a4e230dfa0a31"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Models.PermissionSet directly associated with the user.  <br /></td></tr>
 <tr class="separator:adb2a636caeedc151496a4e230dfa0a31"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -192,8 +195,8 @@ Additional Inherited Members</h2></td></tr>
 
 <p>The UserGroup asociated with the user, if any. </p>
 
-<p class="definition">Definition at line <a class="el" href="_user_api_base_8cs_source.html#l00023">23</a> of file <a class="el" href="_user_api_base_8cs_source.html">UserApiBase.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   23</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_user_api_base_8cs_source.html#l00028">28</a> of file <a class="el" href="_user_api_base_8cs_source.html">UserApiBase.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   28</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -224,6 +227,33 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a id="a1fa194a68080f0c1c8e8c9e6f200d28b" name="a1fa194a68080f0c1c8e8c9e6f200d28b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fa194a68080f0c1c8e8c9e6f200d28b">&#9670;&#160;</a></span>OidcConnections</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ICollection&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_oidc_connection.html">OidcConnection</a>&gt;? Tgstation.Server.Api.Models.Internal.UserApiBase.OidcConnections</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>List of OidcConnections associated with the user. </p>
+
+<p class="definition">Definition at line <a class="el" href="_user_api_base_8cs_source.html#l00016">16</a> of file <a class="el" href="_user_api_base_8cs_source.html">UserApiBase.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   16</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="adb2a636caeedc151496a4e230dfa0a31" name="adb2a636caeedc151496a4e230dfa0a31"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adb2a636caeedc151496a4e230dfa0a31">&#9670;&#160;</a></span>PermissionSet</h2>
 
@@ -246,8 +276,8 @@ Additional Inherited Members</h2></td></tr>
 
 <p>The Models.PermissionSet directly associated with the user. </p>
 
-<p class="definition">Definition at line <a class="el" href="_user_api_base_8cs_source.html#l00017">17</a> of file <a class="el" href="_user_api_base_8cs_source.html">UserApiBase.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   17</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_user_api_base_8cs_source.html#l00022">22</a> of file <a class="el" href="_user_api_base_8cs_source.html">UserApiBase.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   22</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>

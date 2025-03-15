@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -85,19 +85,23 @@ $(document).ready(function() { init_codefold(0); });
 <a href="_i_token_validator_8cs.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using </span>System.Threading;</div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using </span>System.Threading.Tasks;</div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using </span>Microsoft.AspNetCore.Authentication.JwtBearer;</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_tgstation_1_1_server_1_1_host_1_1_security.html">Tgstation.Server.Host.Security</a></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
-<div class="foldopen" id="foldopen00011" data-start="{" data-end="};">
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html">   11</a></span>    <span class="keyword">public</span> <span class="keyword">interface </span><a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html">ITokenValidator</a></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    {</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#a96e560de026a23b1a766707a222d0a6b">   19</a></span>        Task <a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#a96e560de026a23b1a766707a222d0a6b">ValidateToken</a>(TokenValidatedContext tokenValidatedContext, CancellationToken cancellationToken);</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    }</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using </span>Microsoft.AspNetCore.Authentication;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using </span>Microsoft.AspNetCore.Authentication.OpenIdConnect;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_tgstation_1_1_server_1_1_host_1_1_security.html">Tgstation.Server.Host.Security</a></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>{</div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="};">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html">   12</a></span>    <span class="keyword">public</span> <span class="keyword">interface </span><a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html">ITokenValidator</a></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#a8e25b97aa3353faf135e59cc68c5e9e5">   20</a></span>        Task <a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#a8e25b97aa3353faf135e59cc68c5e9e5">ValidateTgsToken</a>(Microsoft.AspNetCore.Authentication.JwtBearer.TokenValidatedContext tokenValidatedContext, CancellationToken cancellationToken);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#a8bb3459a70087b1d3caedd1e8b052015">   29</a></span>        Task <a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#a8bb3459a70087b1d3caedd1e8b052015">ValidateOidcToken</a>(RemoteAuthenticationContext&lt;OpenIdConnectOptions&gt; tokenValidatedContext, <span class="keywordtype">string</span> schemeKey, CancellationToken cancellationToken);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    }</div>
 </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>}</div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html">Tgstation.Server.Host.Security.ITokenValidator</a></div><div class="ttdoc">Handles TokenValidatedContexts.</div><div class="ttdef"><b>Definition</b> <a href="_i_token_validator_8cs_source.html#l00011">ITokenValidator.cs:12</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator_html_a96e560de026a23b1a766707a222d0a6b"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#a96e560de026a23b1a766707a222d0a6b">Tgstation.Server.Host.Security.ITokenValidator.ValidateToken</a></div><div class="ttdeci">Task ValidateToken(TokenValidatedContext tokenValidatedContext, CancellationToken cancellationToken)</div><div class="ttdoc">Handles tokenValidatedContext .</div></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>}</div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html">Tgstation.Server.Host.Security.ITokenValidator</a></div><div class="ttdoc">Handles validating authentication tokens.</div><div class="ttdef"><b>Definition</b> <a href="_i_token_validator_8cs_source.html#l00012">ITokenValidator.cs:13</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator_html_a8bb3459a70087b1d3caedd1e8b052015"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#a8bb3459a70087b1d3caedd1e8b052015">Tgstation.Server.Host.Security.ITokenValidator.ValidateOidcToken</a></div><div class="ttdeci">Task ValidateOidcToken(RemoteAuthenticationContext&lt; OpenIdConnectOptions &gt; tokenValidatedContext, string schemeKey, CancellationToken cancellationToken)</div><div class="ttdoc">Handles OIDC tokenValidatedContext s.</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator_html_a8e25b97aa3353faf135e59cc68c5e9e5"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#a8e25b97aa3353faf135e59cc68c5e9e5">Tgstation.Server.Host.Security.ITokenValidator.ValidateTgsToken</a></div><div class="ttdeci">Task ValidateTgsToken(Microsoft.AspNetCore.Authentication.JwtBearer.TokenValidatedContext tokenValidatedContext, CancellationToken cancellationToken)</div><div class="ttdoc">Handles TGS tokenValidatedContext s.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_security_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_security.html">Tgstation.Server.Host.Security</a></div><div class="ttdef"><b>Definition</b> <a href="_authentication_context_8cs_source.html#l00007">AuthenticationContext.cs:8</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

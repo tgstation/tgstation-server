@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -121,6 +121,12 @@ Properties</h2></td></tr>
 <tr class="memitem:acdc8a6970be4a43efcc327f498eb9524" id="r_acdc8a6970be4a43efcc327f498eb9524"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html">OAuthProviderInfo</a> &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response.html#acdc8a6970be4a43efcc327f498eb9524">OAuthProviderInfos</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:acdc8a6970be4a43efcc327f498eb9524"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of OAuthProvider to the OAuthProviderInfo for them.  <br /></td></tr>
 <tr class="separator:acdc8a6970be4a43efcc327f498eb9524"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfb44000560d0c4a52ed862ef6b3b001" id="r_acfb44000560d0c4a52ed862ef6b3b001"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_oidc_provider_info.html">OidcProviderInfo</a> &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response.html#acfb44000560d0c4a52ed862ef6b3b001">OidcProviderInfos</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:acfb44000560d0c4a52ed862ef6b3b001"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of configured OidcProviderInfos.  <br /></td></tr>
+<tr class="separator:acfb44000560d0c4a52ed862ef6b3b001"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58d9ff8b2fca38ce99282358614a4ca5" id="r_a58d9ff8b2fca38ce99282358614a4ca5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response.html#a58d9ff8b2fca38ce99282358614a4ca5">OidcStrictMode</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a58d9ff8b2fca38ce99282358614a4ca5"><td class="mdescLeft">&#160;</td><td class="mdescRight">If only OIDC logins and registration is allowed.  <br /></td></tr>
+<tr class="separator:a58d9ff8b2fca38ce99282358614a4ca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4a84942df0ec4f5433021e32c470de1" id="r_af4a84942df0ec4f5433021e32c470de1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response.html#af4a84942df0ec4f5433021e32c470de1">UpdateInProgress</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:af4a84942df0ec4f5433021e32c470de1"><td class="mdescLeft">&#160;</td><td class="mdescRight">If there is a server update in progress.  <br /></td></tr>
 <tr class="separator:af4a84942df0ec4f5433021e32c470de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -232,6 +238,60 @@ Properties</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a id="acfb44000560d0c4a52ed862ef6b3b001" name="acfb44000560d0c4a52ed862ef6b3b001"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfb44000560d0c4a52ed862ef6b3b001">&#9670;&#160;</a></span>OidcProviderInfos</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_oidc_provider_info.html">OidcProviderInfo</a>&gt;? Tgstation.Server.Api.Models.Response.ServerInformationResponse.OidcProviderInfos</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>List of configured OidcProviderInfos. </p>
+
+<p class="definition">Definition at line <a class="el" href="_server_information_response_8cs_source.html#l00042">42</a> of file <a class="el" href="_server_information_response_8cs_source.html">ServerInformationResponse.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   42</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a58d9ff8b2fca38ce99282358614a4ca5" name="a58d9ff8b2fca38ce99282358614a4ca5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58d9ff8b2fca38ce99282358614a4ca5">&#9670;&#160;</a></span>OidcStrictMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Api.Models.Response.ServerInformationResponse.OidcStrictMode</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If only OIDC logins and registration is allowed. </p>
+
+<p class="definition">Definition at line <a class="el" href="_server_information_response_8cs_source.html#l00047">47</a> of file <a class="el" href="_server_information_response_8cs_source.html">ServerInformationResponse.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   47</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="a7fab0429cdf0d3efab2173e189e71017" name="a7fab0429cdf0d3efab2173e189e71017"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7fab0429cdf0d3efab2173e189e71017">&#9670;&#160;</a></span>SwarmServers</h2>
 
@@ -254,8 +314,8 @@ Properties</h2></td></tr>
 
 <p>A ICollection&lt;T&gt; of connected SwarmServerResponses. </p>
 
-<p class="definition">Definition at line <a class="el" href="_server_information_response_8cs_source.html#l00049">49</a> of file <a class="el" href="_server_information_response_8cs_source.html">ServerInformationResponse.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   49</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_server_information_response_8cs_source.html#l00059">59</a> of file <a class="el" href="_server_information_response_8cs_source.html">ServerInformationResponse.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   59</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -282,8 +342,8 @@ Properties</h2></td></tr>
 <p>If there is a server update in progress. </p>
 <p>false</p>
 
-<p class="definition">Definition at line <a class="el" href="_server_information_response_8cs_source.html#l00043">43</a> of file <a class="el" href="_server_information_response_8cs_source.html">ServerInformationResponse.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   43</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_server_information_response_8cs_source.html#l00053">53</a> of file <a class="el" href="_server_information_response_8cs_source.html">ServerInformationResponse.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   53</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>

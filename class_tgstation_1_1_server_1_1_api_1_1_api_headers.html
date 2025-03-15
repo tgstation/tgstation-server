@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.14.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -144,7 +144,7 @@ Static Public Attributes</h2></td></tr>
 <tr class="memdesc:a28f94492eb21542e63675a53d871e3ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">The InstanceId header key.  <br /></td></tr>
 <tr class="separator:a28f94492eb21542e63675a53d871e3ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed33a94614774ed99f9fa355dd4a3ddd" id="r_aed33a94614774ed99f9fa355dd4a3ddd"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aed33a94614774ed99f9fa355dd4a3ddd">OAuthProviderHeader</a> = &quot;OAuthProvider&quot;</td></tr>
-<tr class="memdesc:aed33a94614774ed99f9fa355dd4a3ddd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS.">OAuthProvider</a> header key.  <br /></td></tr>
+<tr class="memdesc:aed33a94614774ed99f9fa355dd4a3ddd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth2.0 providers supported by TGS that do not support OIDC.">OAuthProvider</a> header key.  <br /></td></tr>
 <tr class="separator:aed33a94614774ed99f9fa355dd4a3ddd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8e108c1ba26a8d57578f2d3b23ea394" id="r_aa8e108c1ba26a8d57578f2d3b23ea394"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aa8e108c1ba26a8d57578f2d3b23ea394">BearerAuthenticationScheme</a> = &quot;Bearer&quot;</td></tr>
 <tr class="memdesc:aa8e108c1ba26a8d57578f2d3b23ea394"><td class="mdescLeft">&#160;</td><td class="mdescRight">The JWT authentication header scheme.  <br /></td></tr>
@@ -309,7 +309,7 @@ Static Private Attributes</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">userAgent</td><td>The value of UserAgent.</td></tr>
     <tr><td class="paramname">oAuthCode</td><td>The value of OAuthCode.</td></tr>
-    <tr><td class="paramname">oAuthProvider</td><td>The value of <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS.">OAuthProvider</a>.</td></tr>
+    <tr><td class="paramname">oAuthProvider</td><td>The value of <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth2.0 providers supported by TGS that do not support OIDC.">OAuthProvider</a>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -324,7 +324,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  167</span>            <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a> = oAuthProvider;</div>
 <div class="line"><span class="lineno">  168</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a83843b09b15f9db25c73db6e2bd72db8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a83843b09b15f9db25c73db6e2bd72db8">Tgstation.Server.Api.ApiHeaders.OAuthCode</a></div><div class="ttdeci">string? OAuthCode</div><div class="ttdoc">The OAuth code in use.</div><div class="ttdef"><b>Definition</b> <a href="_api_headers_8cs_source.html#l00119">ApiHeaders.cs:119</a></div></div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a49b1c1275c0d47d43360f8c7619ec901"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">Tgstation.Server.Api.Models.OAuthProvider</a></div><div class="ttdeci">OAuthProvider</div><div class="ttdoc">List of OAuth providers supported by TGS.</div><div class="ttdef"><b>Definition</b> <a href="_o_auth_provider_8cs_source.html#l00010">OAuthProvider.cs:11</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a49b1c1275c0d47d43360f8c7619ec901"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">Tgstation.Server.Api.Models.OAuthProvider</a></div><div class="ttdeci">OAuthProvider</div><div class="ttdoc">List of OAuth2.0 providers supported by TGS that do not support OIDC.</div><div class="ttdef"><b>Definition</b> <a href="_o_auth_provider_8cs_source.html#l00012">OAuthProvider.cs:13</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_api_headers_8cs_source.html#l00119">Tgstation.Server.Api.ApiHeaders.OAuthCode</a>.</p>
 
@@ -1189,7 +1189,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS.">OAuthProvider</a> header key. </p>
+<p>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth2.0 providers supported by TGS that do not support OIDC.">OAuthProvider</a> header key. </p>
 
 <p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00039">39</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 
@@ -1249,7 +1249,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00069">69</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00349">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_api_headers_8cs_source.html#l00195">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00062">Tgstation.Server.Host.Utils.SwaggerConfiguration.Configure()</a>, <a class="el" href="_error_message_response_8cs_source.html#l00050">Tgstation.Server.Api.Models.Response.ErrorMessageResponse.ErrorMessageResponse()</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00080">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson()</a>, and <a class="el" href="_api_root_controller_8cs_source.html#l00125">Tgstation.Server.Host.Controllers.ApiRootController.ServerInfo()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00349">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_api_headers_8cs_source.html#l00195">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00062">Tgstation.Server.Host.Utils.SwaggerConfiguration.Configure()</a>, <a class="el" href="_error_message_response_8cs_source.html#l00050">Tgstation.Server.Api.Models.Response.ErrorMessageResponse.ErrorMessageResponse()</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00080">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson()</a>, and <a class="el" href="_api_root_controller_8cs_source.html#l00133">Tgstation.Server.Host.Controllers.ApiRootController.ServerInfo()</a>.</p>
 
 </div>
 </div>
@@ -1308,7 +1308,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00084">84</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   84</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00195">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_api_controller_8cs_source.html#l00109">Tgstation.Server.Host.Controllers.ApiController.HookExecuteAction()</a>, <a class="el" href="_api_headers_8cs_source.html#l00370">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>, and <a class="el" href="_authentication_context_factory_8cs_source.html#l00097">Tgstation.Server.Host.Security.AuthenticationContextFactory.ValidateToken()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00195">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_api_controller_8cs_source.html#l00109">Tgstation.Server.Host.Controllers.ApiController.HookExecuteAction()</a>, <a class="el" href="_api_headers_8cs_source.html#l00370">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>, and <a class="el" href="_authentication_context_factory_8cs_source.html#l00144">Tgstation.Server.Host.Security.AuthenticationContextFactory.ValidateTgsToken()</a>.</p>
 
 </div>
 </div>
@@ -1365,7 +1365,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00119">119</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  119</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00160">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_api_headers_8cs_source.html#l00195">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_api_headers_8cs_source.html#l00370">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00316">Tgstation.Server.Host.Authority.LoginAuthority.TryOAuthenticate&lt; TResult &gt;()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00160">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_api_headers_8cs_source.html#l00195">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_api_headers_8cs_source.html#l00370">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>, and <a class="el" href="_login_authority_8cs_source.html#l00330">Tgstation.Server.Host.Authority.LoginAuthority.TryOAuthenticate&lt; TResult &gt;()</a>.</p>
 
 </div>
 </div>

@@ -1,7 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys." alt="" coords="5,39,206,79"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity_factory.html" title="ISystemIdentityFactory for posix systems." alt="" coords="255,5,456,46"/>
-<area shape="poly" id="edge683_Node000000_Node000001" title=" " alt="" coords="221,41,254,36,255,42,222,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html" title="ISystemIdentityFactory for windows systems. Uses long running tasks due to potential networked domain..." alt="" coords="254,71,457,111"/>
-<area shape="poly" id="edge684_Node000000_Node000002" title=" " alt="" coords="222,71,253,75,253,81,221,76"/>
+<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html" title=" " alt="" coords="5,5,241,61"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_user_name_graph_q_l_transformer.html" title="ITransformer&lt;TInput, TOutput&gt; for GraphQL.Types.UserNames." alt="" coords="289,13,576,54"/>
+<area shape="poly" id="edge685_Node000000_Node000001" title=" " alt="" coords="256,31,288,31,288,36,256,36"/>
 </map>
