@@ -7,7 +7,7 @@ mutation CreateUserGroupWithInstanceListPerm($name: String!) {
         administrationRights {
           canChangeVersion
           canDownloadLogs
-          canEditOwnOAuthConnections
+          canEditOwnServiceConnections
           canEditOwnPassword
           canReadUsers
           canRestartHost

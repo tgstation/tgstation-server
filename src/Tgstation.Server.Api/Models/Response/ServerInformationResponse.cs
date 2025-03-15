@@ -37,6 +37,16 @@ namespace Tgstation.Server.Api.Models.Response
 		public Dictionary<OAuthProvider, OAuthProviderInfo>? OAuthProviderInfos { get; set; }
 
 		/// <summary>
+		/// List of configured <see cref="OidcProviderInfo"/>s.
+		/// </summary>
+		public List<OidcProviderInfo>? OidcProviderInfos { get; set; }
+
+		/// <summary>
+		/// If only OIDC logins and registration is allowed.
+		/// </summary>
+		public bool OidcStrictMode { get; set; }
+
+		/// <summary>
 		/// If there is a server update in progress.
 		/// </summary>
 		/// <example>false</example>

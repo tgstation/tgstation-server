@@ -10,27 +10,27 @@ mutation SetUserGroup($id: ID!, $newGroupId: ID!) {
     user {
         ownedPermissionSet {
             instanceManagerRights {
-            canCreate
-            canDelete
-            canGrantPermissions
-            canList
-            canRead
-            canRelocate
-            canRename
-            canSetAutoUpdate
-            canSetChatBotLimit
-            canSetConfiguration
-            canSetOnline
+                canCreate
+                canDelete
+                canGrantPermissions
+                canList
+                canRead
+                canRelocate
+                canRename
+                canSetAutoUpdate
+                canSetChatBotLimit
+                canSetConfiguration
+                canSetOnline
             }
             administrationRights {
-            canChangeVersion
-            canDownloadLogs
-            canEditOwnOAuthConnections
-            canEditOwnPassword
-            canReadUsers
-            canRestartHost
-            canUploadVersion
-            canWriteUsers
+                canChangeVersion
+                canDownloadLogs
+                canEditOwnServiceConnections
+                canEditOwnPassword
+                canReadUsers
+                canRestartHost
+                canUploadVersion
+                canWriteUsers
             }
         }
         group {

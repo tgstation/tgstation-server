@@ -20,7 +20,7 @@ query ReadCurrentUser {
           administrationRights {
             canChangeVersion
             canDownloadLogs
-            canEditOwnOAuthConnections
+            canEditOwnServiceConnections
             canEditOwnPassword
             canReadUsers
             canRestartHost

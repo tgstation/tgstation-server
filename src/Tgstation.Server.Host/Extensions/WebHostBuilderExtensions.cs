@@ -66,6 +66,7 @@ namespace Tgstation.Server.Host.Extensions
 					applicationBuilder.ApplicationServices.GetRequiredService<IOptions<ControlPanelConfiguration>>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<IOptions<GeneralConfiguration>>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<IOptions<DatabaseConfiguration>>(),
+					applicationBuilder.ApplicationServices.GetRequiredService<IOptions<SecurityConfiguration>>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<IOptions<SwarmConfiguration>>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<IOptions<InternalConfiguration>>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<ILogger<Application>>());

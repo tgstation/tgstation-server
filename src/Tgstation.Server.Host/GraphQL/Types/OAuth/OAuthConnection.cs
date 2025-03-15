@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.GraphQL.Types.OAuth
 	{
 		/// <summary>
 		/// The <see cref="OAuthProvider"/> of the <see cref="OAuthConnection"/>.
-		/// </summary>]
+		/// </summary>
 		public OAuthProvider Provider { get; }
 
 		/// <summary>
