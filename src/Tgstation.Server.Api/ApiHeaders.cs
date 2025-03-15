@@ -320,6 +320,7 @@ namespace Tgstation.Server.Api
 								Password = String.Concat(basicAuthSplits.Skip(1));
 								break;
 							default:
+								AddError(HeaderErrorTypes.AuthorizationInvalid, "Invalid authentication scheme!");
 								break;
 						}
 					}
