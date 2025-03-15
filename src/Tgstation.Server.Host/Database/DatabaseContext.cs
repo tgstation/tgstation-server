@@ -482,9 +482,6 @@ namespace Tgstation.Server.Host.Database
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 
 			// !!! DON'T FORGET TO UPDATE THE SWARM PROTOCOL MAJOR VERSION !!!
-			if (targetVersion < new Version(6, 13, 0) && currentDatabaseType == DatabaseType.Sqlite)
-				targetMigration = nameof(SLAddAutoStartAndStop);
-
 			if (targetVersion < new Version(6, 12, 0))
 				targetMigration = currentDatabaseType switch
 				{
