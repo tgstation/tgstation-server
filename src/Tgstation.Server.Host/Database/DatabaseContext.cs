@@ -466,7 +466,7 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLNormalizeSqlite);
+		internal static readonly Type SLLatestMigration = typeof(SLAddAutoStartAndStop);
 
 		/// <summary>
 		/// Gets the name of the migration to run for migrating down to a given <paramref name="targetVersion"/> for the <paramref name="currentDatabaseType"/>.
