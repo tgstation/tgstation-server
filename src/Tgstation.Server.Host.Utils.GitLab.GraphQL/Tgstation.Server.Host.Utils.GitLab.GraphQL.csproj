@@ -9,7 +9,7 @@
 
   <Target Name="InstallApollo" Inputs="package.json;yarn.lock" Outputs="node_modules/.bin/apollo">
     <Message Text="Installing Apollo..." Importance="high" />
-    <Exec Command="yarn" />
+    <Exec Command="yarn install --immutable" />
   </Target>
 
   <Target Name="CleanApollo" AfterTargets="Clean">
