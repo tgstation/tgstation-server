@@ -192,7 +192,18 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 6.15.1
-    ComponentVersions: {}
+    ComponentVersions:
+      Core: 6.15.0
+      HttpApi: 10.13.0
+      GraphQLApi: 0.6.0
+      DreamMakerApi: 7.3.1
+      Configuration: 5.6.0
+      InteropApi: 5.10.0
+      HostWatchdog: 1.6.0
+      NugetCommon: 7.0.0
+      NugetApi: 18.0.0
+      NugetClient: 21.0.0
+      WebControlPanel: 6.9.0
     Changes: []
     Unreleased: true
   - Version: 6.15.0
@@ -4728,15 +4739,6 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   GraphQLApi:
-  - Version: 0.6.0
-    Changes:
-    - Descriptions:
-      - Added OIDC related fields.
-      - Renamed `adminUserCannotOAuth` to `adminUserCannotHaveServiceConnection`.
-      - Renamed `editOwnOAuthConnections` to `editOwnServiceConnections`.
-      Author: Cyberboss
-      PullRequest: 2144
-    Unreleased: true
   - Version: 0.5.0
     Changes:
     - Descriptions:
@@ -5056,17 +5058,6 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
-  - Version: 18.0.0
-    Changes:
-    - Descriptions:
-      - Added `UserApiBase.OidcConnections`.
-      - Renamed `ErrorCode.AdminUserCannotOAuth` to `AdminUserCannotHaveServiceConnection`.
-      - Renamed `AdministrationRights.EditOwnOAuthConnections` to `EditOwnServiceConnections`.
-      - Made deprecated `OAuthProvider`s `Obsolete`.
-      - Added `OidcProviderInfos` and `OidcStrictMode` to `ServerInformationResponse`.
-      Author: Cyberboss
-      PullRequest: 2144
-    Unreleased: true
   - Version: 13.5.0
     Changes:
     - Descriptions:
@@ -5150,11 +5141,4 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient:
-  - Version: 21.0.0
-    Changes:
-    - Descriptions:
-      - Updated to API library version 18.0.0.
-      Author: Cyberboss
-      PullRequest: 2144
-    Unreleased: true
+  NugetClient: []

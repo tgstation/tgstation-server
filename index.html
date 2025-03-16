@@ -311,8 +311,8 @@ OAuth Configuration</h4>
 <h4><a class="anchor" id="autotoc_md18"></a>
 OpenID Connect Configuration</h4>
 <ul>
-<li><code>Security:Oidc:&lt;Scheme Key&gt;</code>: Sets up an OpenID Connect Provider with given "Scheme Key". Sample entry: <div class="fragment"><div class="line">Security:</div>
-<div class="line">  Oidc:</div>
+<li><code>Security:OpenIDConnect:&lt;Scheme Key&gt;</code>: Sets up an OpenID Connect Provider with given "Scheme Key". Note that you must setup a redirect URI of <code>/oidc/&lt;scheme key&gt;/sigin-callback</code> in your provider. Sample entry: <div class="fragment"><div class="line">Security:</div>
+<div class="line">  OpenIDConnect:</div>
 <div class="line">    Example:</div>
 <div class="line">      Authority: &quot;...&quot; # This is the root of the URL containing the &quot;/.well-known/openid-configuration&quot; endpoint</div>
 <div class="line">      ClientId: &quot;...&quot;</div>
