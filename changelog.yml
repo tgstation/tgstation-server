@@ -8,7 +8,6 @@ Components:
       - '`Security:OAuth:TGForums` has been removed as the service is no longer provided.'
       Author: Cyberboss
       PullRequest: 2144
-    Unreleased: true
   - Version: 5.5.0
     Changes:
     - Descriptions:
@@ -188,8 +187,17 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.16.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.15.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.15.0
     ComponentVersions:
+      Core: 6.15.0
       HttpApi: 10.13.0
       GraphQLApi: 0.6.0
       DreamMakerApi: 7.3.1
@@ -199,7 +207,7 @@ Components:
       NugetCommon: 7.0.0
       NugetApi: 18.0.0
       NugetClient: 21.0.0
-      WebControlPanel: 6.7.3
+      WebControlPanel: 6.9.0
     Changes:
     - Descriptions:
       - Transitioned GitLab API to GraphQL due to incomplete implementation (namely for MR notes) in the abandoned API.
@@ -216,11 +224,6 @@ Components:
       - '`TGForums` OAuth has been removed as the service is no longer provided.'
       Author: Cyberboss
       PullRequest: 2144
-    Unreleased: true
-  - Version: 6.14.2
-    ComponentVersions: {}
-    Changes: []
-    Unreleased: true
   - Version: 6.14.1
     ComponentVersions:
       HttpApi: 10.12.1
@@ -3928,7 +3931,6 @@ Components:
       - Added restrictions for when `OidcStrictMode` is in effect.
       Author: Cyberboss
       PullRequest: 2164
-    Unreleased: true
   - Version: 6.4.0
     Changes:
     - Descriptions:
@@ -4166,7 +4168,6 @@ Components:
       - Added `oidcConnections` to users, similar to `oAuthConnections` with the only difference being that the `provider` is replaced with a `schemeKey` string. Modifiable with the same right.
       Author: Cyberboss
       PullRequest: 2144
-    Unreleased: true
   - Version: 10.12.0
     Changes:
     - Descriptions:
