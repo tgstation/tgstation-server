@@ -353,10 +353,10 @@ The following providers use the `ServerUrl` setting:
 Gateway auth simply allows the users to authenticate with the service using the configuration you provide and have their impersonation token passed back to the client. An example of this is using GitHub gateway auth to allow clients to enumerate pull requests without getting rate limited.
 
 #### OpenID Connect Configuration
-- `Security:Oidc:<Scheme Key>`: Sets up an OpenID Connect Provider with given "Scheme Key". Sample entry:
+- `Security:OpenIDConnect:<Scheme Key>`: Sets up an OpenID Connect Provider with given "Scheme Key". Note that you must setup a redirect URI of `/oidc/<scheme key>/sigin-callback` in your provider. Sample entry:
 ```yml
 Security:
-  Oidc:
+  OpenIDConnect:
     Example:
       Authority: "..." # This is the root of the URL containing the "/.well-known/openid-configuration" endpoint
       ClientId: "..."
