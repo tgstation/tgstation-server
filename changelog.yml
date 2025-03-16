@@ -3921,6 +3921,14 @@ Components:
       Author: AffectedArc07
       PullRequest: 1408
   WebControlPanel:
+  - Version: 6.9.0
+    Changes:
+    - Descriptions:
+      - Added support for Open ID Connect authentication.
+      - Added restrictions for when `OidcStrictMode` is in effect.
+      Author: Cyberboss
+      PullRequest: 2164
+    Unreleased: true
   - Version: 6.4.0
     Changes:
     - Descriptions:
