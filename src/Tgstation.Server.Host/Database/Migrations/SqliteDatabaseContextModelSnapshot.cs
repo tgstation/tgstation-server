@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Database
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
-			modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
+			modelBuilder.HasAnnotation("ProductVersion", "8.0.13");
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 			{
@@ -460,6 +460,35 @@ namespace Tgstation.Server.Host.Database
 				b.ToTable("OAuthConnections");
 			});
 
+			modelBuilder.Entity("Tgstation.Server.Host.Models.OidcConnection", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("INTEGER");
+
+				b.Property<string>("ExternalUserId")
+					.IsRequired()
+					.HasMaxLength(100)
+					.HasColumnType("TEXT");
+
+				b.Property<string>("SchemeKey")
+					.IsRequired()
+					.HasMaxLength(100)
+					.HasColumnType("TEXT");
+
+				b.Property<long>("UserId")
+					.HasColumnType("INTEGER");
+
+				b.HasKey("Id");
+
+				b.HasIndex("UserId");
+
+				b.HasIndex("SchemeKey", "ExternalUserId")
+					.IsUnique();
+
+				b.ToTable("OidcConnections");
+			});
+
 			modelBuilder.Entity("Tgstation.Server.Host.Models.PermissionSet", b =>
 			{
 				b.Property<long?>("Id")
@@ -892,6 +921,17 @@ namespace Tgstation.Server.Host.Database
 				b.Navigation("User");
 			});
 
+			modelBuilder.Entity("Tgstation.Server.Host.Models.OidcConnection", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.User", "User")
+					.WithMany("OidcConnections")
+					.HasForeignKey("UserId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+
+				b.Navigation("User");
+			});
+
 			modelBuilder.Entity("Tgstation.Server.Host.Models.PermissionSet", b =>
 			{
 				b.HasOne("Tgstation.Server.Host.Models.UserGroup", "Group")
@@ -1047,6 +1087,8 @@ namespace Tgstation.Server.Host.Database
 				b.Navigation("CreatedUsers");
 
 				b.Navigation("OAuthConnections");
+
+				b.Navigation("OidcConnections");
 
 				b.Navigation("PermissionSet");
 

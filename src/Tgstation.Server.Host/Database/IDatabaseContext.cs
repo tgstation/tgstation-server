@@ -91,6 +91,11 @@ namespace Tgstation.Server.Host.Database
 		IDatabaseCollection<OAuthConnection> OAuthConnections { get; }
 
 		/// <summary>
+		/// The <see cref="DbSet{TEntity}"/> for <see cref="OidcConnection"/>s.
+		/// </summary>
+		IDatabaseCollection<OidcConnection> OidcConnections { get; }
+
+		/// <summary>
 		/// The <see cref="DbSet{TEntity}"/> for <see cref="UserGroup"/>s.
 		/// </summary>
 		IDatabaseCollection<UserGroup> Groups { get; }

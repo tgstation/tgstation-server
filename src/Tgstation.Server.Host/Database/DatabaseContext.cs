@@ -99,6 +99,11 @@ namespace Tgstation.Server.Host.Database
 		public DbSet<OAuthConnection> OAuthConnections { get; set; }
 
 		/// <summary>
+		/// The <see cref="OidcConnection"/>s in the <see cref="DatabaseContext"/>.
+		/// </summary>
+		public DbSet<OidcConnection> OidcConnections { get; set; }
+
+		/// <summary>
 		/// The <see cref="PermissionSet"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<PermissionSet> PermissionSets { get; set; }
@@ -152,6 +157,9 @@ namespace Tgstation.Server.Host.Database
 
 		/// <inheritdoc />
 		IDatabaseCollection<OAuthConnection> IDatabaseContext.OAuthConnections => oAuthConnections;
+
+		/// <inheritdoc />
+		IDatabaseCollection<OidcConnection> IDatabaseContext.OidcConnections => oidcConnections;
 
 		/// <inheritdoc />
 		IDatabaseCollection<UserGroup> IDatabaseContext.Groups => groups;
@@ -240,6 +248,11 @@ namespace Tgstation.Server.Host.Database
 		readonly IDatabaseCollection<OAuthConnection> oAuthConnections;
 
 		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.OidcConnections"/>.
+		/// </summary>
+		readonly IDatabaseCollection<OidcConnection> oidcConnections;
+
+		/// <summary>
 		/// Backing field for <see cref="IDatabaseContext.Groups"/>.
 		/// </summary>
 		readonly IDatabaseCollection<UserGroup> groups;
@@ -288,6 +301,7 @@ namespace Tgstation.Server.Host.Database
 			jobsCollection = new DatabaseCollection<Job>(Jobs!);
 			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations!);
 			oAuthConnections = new DatabaseCollection<OAuthConnection>(OAuthConnections!);
+			oidcConnections = new DatabaseCollection<OidcConnection>(OidcConnections!);
 			groups = new DatabaseCollection<UserGroup>(Groups!);
 			permissionSets = new DatabaseCollection<PermissionSet>(PermissionSets!);
 		}
@@ -387,8 +401,10 @@ namespace Tgstation.Server.Host.Database
 			userModel.HasIndex(x => x.SystemIdentifier).IsUnique();
 			userModel.HasMany(x => x.TestMerges).WithOne(x => x.MergedBy).OnDelete(DeleteBehavior.Restrict);
 			userModel.HasMany(x => x.OAuthConnections).WithOne(x => x.User).OnDelete(DeleteBehavior.Cascade);
+			userModel.HasMany(x => x.OidcConnections).WithOne(x => x.User).OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<OAuthConnection>().HasIndex(x => new { x.Provider, x.ExternalUserId }).IsUnique();
+			modelBuilder.Entity<OidcConnection>().HasIndex(x => new { x.SchemeKey, x.ExternalUserId }).IsUnique();
 
 			var groupsModel = modelBuilder.Entity<UserGroup>();
 			groupsModel.HasIndex(x => x.Name).IsUnique();
@@ -451,22 +467,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddAutoStartAndStop);
+		internal static readonly Type MSLatestMigration = typeof(MSAddOidcConnections);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddAutoStartAndStop);
+		internal static readonly Type MYLatestMigration = typeof(MYAddOidcConnections);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddAutoStartAndStop);
+		internal static readonly Type PGLatestMigration = typeof(PGAddOidcConnections);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddAutoStartAndStop);
+		internal static readonly Type SLLatestMigration = typeof(SLAddOidcConnections);
 
 		/// <summary>
 		/// Gets the name of the migration to run for migrating down to a given <paramref name="targetVersion"/> for the <paramref name="currentDatabaseType"/>.
@@ -482,6 +498,16 @@ namespace Tgstation.Server.Host.Database
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 
 			// !!! DON'T FORGET TO UPDATE THE SWARM PROTOCOL MAJOR VERSION !!!
+			if (targetVersion < new Version(6, 15, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddAutoStartAndStop),
+					DatabaseType.PostgresSql => nameof(PGAddAutoStartAndStop),
+					DatabaseType.SqlServer => nameof(MSAddAutoStartAndStop),
+					DatabaseType.Sqlite => nameof(SLAddAutoStartAndStop),
+					_ => BadDatabaseType(),
+				};
+
 			if (targetVersion < new Version(6, 12, 0))
 				targetMigration = currentDatabaseType switch
 				{

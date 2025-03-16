@@ -321,11 +321,19 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `Swarm:UpdateRequiredNodeCount`: Should be set to the total number of servers in your swarm minus 1. Prevents updates from occurring unless the non-controller server count in the swarm is greater than or equal to this value.
 
-- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `Keycloak`, `GitHub`, `Discord`, `InvisionCommunity` and `TGForums`. Setting these fields to `null` disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
+- `Telemetry:DisableVersionReporting`: Prevents you installation and the version you're using from being reported on the source repository's deployments list
+
+- `Telemetry:ServerFriendlyName`: Prevents anonymous TGS version usage statistics from being sent to be displayed on the repository.
+
+- `Telemetry:VersionReportingRepositoryId`: The repository telemetry is sent to. For security reasons, this is not the main TGS repo. See the [tgstation-server-deployments](https://github.com/tgstation/tgstation-server-deployments) repository for more information.
+
+#### OAuth Configuration
+
+- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, `InvisionCommunity` and `TGForums`. Setting these fields to `null` disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
 ```yml
 Security:
   OAuth:
-    Keycloak:
+    InvisionCommunity:
       ClientId: "..."
       ClientSecret: "..."
       RedirectUrl: "..."
@@ -336,22 +344,30 @@ Security:
 The following providers use the `RedirectUrl` setting:
 
 - GitHub
-- TGForums
-- Keycloak
 - InvisionCommunity
 
 The following providers use the `ServerUrl` setting:
 
-- Keycloak
 - InvisionCommunity
 
 Gateway auth simply allows the users to authenticate with the service using the configuration you provide and have their impersonation token passed back to the client. An example of this is using GitHub gateway auth to allow clients to enumerate pull requests without getting rate limited.
 
-- `Telemetry:DisableVersionReporting`: Prevents you installation and the version you're using from being reported on the source repository's deployments list
+#### OpenID Connect Configuration
+- `Security:Oidc:<Scheme Key>`: Sets up an OpenID Connect Provider with given "Scheme Key". Sample entry:
+```yml
+Security:
+  Oidc:
+    Example:
+      Authority: "..." # This is the root of the URL containing the "/.well-known/openid-configuration" endpoint
+      ClientId: "..."
+      ClientSecret: "..."
+	  FriendlyName: "Example Provider" # Friendly name is how this provider is displayed in UIs
+	  ThemeColour: "#ff0000" # (Optional) Hex color code indicating the color used to theme UI elements relating to this provider
+	  ThemeIconUrl: "..." # (Optional) Public URL of an image that can be used to theme UI elements relating to this provider
+	  UsernameClaim: "preferred_username" # (Optional) Name of claim used to set TGS usernames upon registration. By default "preferred_username" is used. Only applies when using OidcStrictMode.
+```
 
-- `Telemetry:ServerFriendlyName`: Prevents anonymous TGS version usage statistics from being sent to be displayed on the repository.
-
-- `Telemetry:VersionReportingRepositoryId`: The repository telemetry is sent to. For security reasons, this is not the main TGS repo. See the [tgstation-server-deployments](https://github.com/tgstation/tgstation-server-deployments) repository for more information.
+- `Security:OidcStrictMode`: Boolean flag that, when `true`, disables password and OAuth logins, password changes, individual permission set assignment, and enables user registration using OpenID Connect providers. The claim name `tgstation-server-group-id` is used to dictate what TGS group users are registered to.
 
 ### Database Configuration
 

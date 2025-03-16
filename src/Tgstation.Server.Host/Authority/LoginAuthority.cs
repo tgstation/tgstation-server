@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Authority.Core;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.GraphQL.Mutations.Payloads;
 using Tgstation.Server.Host.Models;
@@ -59,6 +61,11 @@ namespace Tgstation.Server.Host.Authority
 		readonly ISessionInvalidationTracker sessionInvalidationTracker;
 
 		/// <summary>
+		/// The <see cref="SecurityConfiguration"/> for the <see cref="LoginAuthority"/>.
+		/// </summary>
+		readonly SecurityConfiguration securityConfiguration;
+
+		/// <summary>
 		/// Generate an <see cref="AuthorityResponse{TResult}"/> for a given <paramref name="headersException"/>.
 		/// </summary>
 		/// <typeparam name="TResult">The <see cref="Type"/> of <see cref="AuthorityResponse{TResult}"/> to generate.</typeparam>
@@ -106,6 +113,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/>.</param>
 		/// <param name="sessionInvalidationTracker">The value of <see cref="sessionInvalidationTracker"/>.</param>
+		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="securityConfiguration"/>.</param>
 		public LoginAuthority(
 			IAuthenticationContext authenticationContext,
 			IDatabaseContext databaseContext,
@@ -116,7 +124,8 @@ namespace Tgstation.Server.Host.Authority
 			ITokenFactory tokenFactory,
 			ICryptographySuite cryptographySuite,
 			IIdentityCache identityCache,
-			ISessionInvalidationTracker sessionInvalidationTracker)
+			ISessionInvalidationTracker sessionInvalidationTracker,
+			IOptions<SecurityConfiguration> securityConfigurationOptions)
 			: base(
 				  authenticationContext,
 				  databaseContext,
@@ -129,11 +138,16 @@ namespace Tgstation.Server.Host.Authority
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
 			this.sessionInvalidationTracker = sessionInvalidationTracker ?? throw new ArgumentNullException(nameof(sessionInvalidationTracker));
+			securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 		}
 
 		/// <inheritdoc />
 		public async ValueTask<AuthorityResponse<LoginResult>> AttemptLogin(CancellationToken cancellationToken)
 		{
+			// password and oauth logins disabled
+			if (securityConfiguration.OidcStrictMode)
+				return Unauthorized<LoginResult>();
+
 			var headers = apiHeadersProvider.ApiHeaders;
 			if (headers == null)
 				return GenerateHeadersExceptionResponse<LoginResult>(apiHeadersProvider.HeadersException!);
@@ -318,6 +332,12 @@ namespace Tgstation.Server.Host.Authority
 			(string? UserID, string AccessCode)? oauthResult;
 			try
 			{
+				// minor special case here until its removal
+#pragma warning disable CS0618 // Type or member is obsolete
+				if (oAuthProvider == OAuthProvider.TGForums)
+#pragma warning restore CS0618 // Type or member is obsolete
+					return (Unauthorized<TResult>(), null);
+
 				var validator = oAuthProviders
 					.GetValidator(oAuthProvider, forLogin);
 

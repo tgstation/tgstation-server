@@ -44,9 +44,9 @@ namespace Tgstation.Server.Api.Rights
 		DownloadLogs = 1 << 5,
 
 		/// <summary>
-		/// User can modify their own <see cref="Models.Internal.UserApiBase.OAuthConnections"/>.
+		/// User can modify their own <see cref="Models.Internal.UserApiBase.OAuthConnections"/> and <see cref="Models.Internal.UserApiBase.OidcConnections"/>.
 		/// </summary>
-		EditOwnOAuthConnections = 1 << 6,
+		EditOwnServiceConnections = 1 << 6,
 
 		/// <summary>
 		/// User can upgrade/downgrade TGS using file uploads through the API.

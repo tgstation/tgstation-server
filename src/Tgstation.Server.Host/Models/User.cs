@@ -73,9 +73,14 @@ namespace Tgstation.Server.Host.Models
 		public ICollection<TestMerge>? TestMerges { get; set; }
 
 		/// <summary>
-		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>.
+		/// The <see cref="OAuthConnection"/>s for the <see cref="User"/>.
 		/// </summary>
 		public ICollection<OAuthConnection>? OAuthConnections { get; set; }
+
+		/// <summary>
+		/// The <see cref="OidcConnection"/>s for the <see cref="User"/>.
+		/// </summary>
+		public ICollection<OidcConnection>? OidcConnections { get; set; }
 
 		/// <summary>
 		/// Change a <see cref="UserName.Name"/> into a <see cref="CanonicalName"/>.
@@ -102,6 +107,9 @@ namespace Tgstation.Server.Host.Models
 			result.Enabled = Enabled;
 			result.SystemIdentifier = SystemIdentifier;
 			result.OAuthConnections = OAuthConnections
+				?.Select(x => x.ToApi())
+				.ToList();
+			result.OidcConnections = OidcConnections
 				?.Select(x => x.ToApi())
 				.ToList();
 			result.Group = Group?.ToApi(false);

@@ -8,7 +8,10 @@ using HotChocolate.Data;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 
+using Microsoft.Extensions.Options;
+
 using Tgstation.Server.Host.Authority;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models.Transformers;
 using Tgstation.Server.Host.Security;
 
@@ -26,6 +29,18 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// </summary>
 		/// <returns>A new <see cref="UserGroups"/>.</returns>
 		public UserGroups Groups() => new();
+
+		/// <summary>
+		/// If only OIDC logins and registration is allowed.
+		/// </summary>
+		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SecurityConfiguration"/>.</param>
+		/// <returns><see langword="true"/> if OIDC strict mode is enabled, <see langword="false"/> otherwise.</returns>
+		public bool OidcStrictMode(
+			[Service] IOptions<SecurityConfiguration> securityConfigurationOptions)
+		{
+			ArgumentNullException.ThrowIfNull(securityConfigurationOptions);
+			return securityConfigurationOptions.Value.OidcStrictMode;
+		}
 
 		/// <summary>
 		/// Gets the current <see cref="User"/>.

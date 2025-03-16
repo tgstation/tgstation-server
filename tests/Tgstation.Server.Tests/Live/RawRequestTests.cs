@@ -19,7 +19,6 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Hubs;
-using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
@@ -27,8 +26,6 @@ using Tgstation.Server.Client.Extensions;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host;
 using Tgstation.Server.Client.GraphQL;
-using System.Linq;
-using StrawberryShake;
 
 namespace Tgstation.Server.Tests.Live
 {

@@ -14,7 +14,9 @@ namespace Tgstation.Server.Host.Security.OAuth
 	sealed class KeycloakOAuthValidator : GenericOAuthValidator
 	{
 		/// <inheritdoc />
+#pragma warning disable CS0618 // Type or member is obsolete
 		public override OAuthProvider Provider => OAuthProvider.Keycloak;
+#pragma warning restore CS0618 // Type or member is obsolete
 
 		/// <inheritdoc />
 		protected override Uri TokenUrl => new($"{BaseProtocolPath}/token");

@@ -14,7 +14,9 @@ namespace Tgstation.Server.Host.Security.OAuth
 	sealed class InvisionCommunityOAuthValidator : GenericOAuthValidator
 	{
 		/// <inheritdoc />
+#pragma warning disable CS0618 // Type or member is obsolete
 		public override OAuthProvider Provider => OAuthProvider.InvisionCommunity;
+#pragma warning restore CS0618 // Type or member is obsolete
 
 		/// <inheritdoc />
 		protected override Uri TokenUrl => new($"{OAuthConfiguration.ServerUrl}/oauth/token/"); // This needs the trailing slash or it doesnt get the token. Do not remove.

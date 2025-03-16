@@ -42,6 +42,11 @@ namespace Tgstation.Server.Host.Authority
 		readonly IOAuthConnectionsDataLoader oAuthConnectionsDataLoader;
 
 		/// <summary>
+		/// The <see cref="IOidcConnectionsDataLoader"/> for the <see cref="UserAuthority"/>.
+		/// </summary>
+		readonly IOidcConnectionsDataLoader oidcConnectionsDataLoader;
+
+		/// <summary>
 		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="UserAuthority"/>.
 		/// </summary>
 		readonly ISystemIdentityFactory systemIdentityFactory;
@@ -72,6 +77,11 @@ namespace Tgstation.Server.Host.Authority
 		readonly IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions;
 
 		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="SecurityConfiguration"/> for the <see cref="UserAuthority"/>.
+		/// </summary>
+		readonly IOptions<SecurityConfiguration> securityConfigurationOptions;
+
+		/// <summary>
 		/// Implements the <see cref="usersDataLoader"/>.
 		/// </summary>
 		/// <param name="ids">The <see cref="IReadOnlyList{T}"/> of <see cref="User"/> <see cref="EntityId.Id"/>s to load.</param>
@@ -95,7 +105,7 @@ namespace Tgstation.Server.Host.Authority
 		}
 
 		/// <summary>
-		/// Implements the <see cref="usersDataLoader"/>.
+		/// Implements the <see cref="oAuthConnectionsDataLoader"/>.
 		/// </summary>
 		/// <param name="userIds">The <see cref="IReadOnlyCollection{T}"/> of <see cref="User"/> <see cref="EntityId.Id"/>s to load the OAuthConnections for.</param>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to load from.</param>
@@ -117,8 +127,35 @@ namespace Tgstation.Server.Host.Authority
 				.ToListAsync(cancellationToken);
 
 			return list.ToLookup(
-				oauthConnection => oauthConnection.UserId,
+				oAuthConnection => oAuthConnection.UserId,
 				x => new GraphQL.Types.OAuth.OAuthConnection(x.ExternalUserId!, x.Provider));
+		}
+
+		/// <summary>
+		/// Implements the <see cref="oidcConnectionsDataLoader"/>.
+		/// </summary>
+		/// <param name="userIds">The <see cref="IReadOnlyCollection{T}"/> of <see cref="User"/> <see cref="EntityId.Id"/>s to load the OidcConnections for.</param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to load from.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of the requested <see cref="User"/>s.</returns>
+		[DataLoader]
+		public static async ValueTask<ILookup<long, GraphQL.Types.OAuth.OidcConnection>> GetOidcConnections(
+			IReadOnlyList<long> userIds,
+			IDatabaseContext databaseContext,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(userIds);
+			ArgumentNullException.ThrowIfNull(databaseContext);
+
+			var list = await databaseContext
+				.OidcConnections
+				.AsQueryable()
+				.Where(x => userIds.Contains(x.User!.Id!.Value))
+				.ToListAsync(cancellationToken);
+
+			return list.ToLookup(
+				oidcConnection => oidcConnection.UserId,
+				x => new GraphQL.Types.OAuth.OidcConnection(x.ExternalUserId!, x.SchemeKey!));
 		}
 
 		/// <summary>
@@ -147,24 +184,28 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
 		/// <param name="usersDataLoader">The value of <see cref="usersDataLoader"/>.</param>
 		/// <param name="oAuthConnectionsDataLoader">The value of <see cref="oAuthConnectionsDataLoader"/>.</param>
+		/// <param name="oidcConnectionsDataLoader">The value of <see cref="oidcConnectionsDataLoader"/>.</param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="permissionsUpdateNotifyee">The value of <see cref="permissionsUpdateNotifyee"/>.</param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
 		/// <param name="sessionInvalidationTracker">The value of <see cref="sessionInvalidationTracker"/>.</param>
 		/// <param name="topicEventSender">The value of <see cref="topicEventSender"/>.</param>
 		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="securityConfigurationOptions">The value of <see cref="securityConfigurationOptions"/>.</param>
 		public UserAuthority(
 			IAuthenticationContext authenticationContext,
 			IDatabaseContext databaseContext,
 			ILogger<UserAuthority> logger,
 			IUsersDataLoader usersDataLoader,
 			IOAuthConnectionsDataLoader oAuthConnectionsDataLoader,
+			IOidcConnectionsDataLoader oidcConnectionsDataLoader,
 			ISystemIdentityFactory systemIdentityFactory,
 			IPermissionsUpdateNotifyee permissionsUpdateNotifyee,
 			ICryptographySuite cryptographySuite,
 			ISessionInvalidationTracker sessionInvalidationTracker,
 			ITopicEventSender topicEventSender,
-			IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions)
+			IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<SecurityConfiguration> securityConfigurationOptions)
 			: base(
 				  authenticationContext,
 				  databaseContext,
@@ -172,12 +213,14 @@ namespace Tgstation.Server.Host.Authority
 		{
 			this.usersDataLoader = usersDataLoader ?? throw new ArgumentNullException(nameof(usersDataLoader));
 			this.oAuthConnectionsDataLoader = oAuthConnectionsDataLoader ?? throw new ArgumentNullException(nameof(oAuthConnectionsDataLoader));
+			this.oidcConnectionsDataLoader = oidcConnectionsDataLoader ?? throw new ArgumentNullException(nameof(oidcConnectionsDataLoader));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.permissionsUpdateNotifyee = permissionsUpdateNotifyee ?? throw new ArgumentNullException(nameof(permissionsUpdateNotifyee));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.sessionInvalidationTracker = sessionInvalidationTracker ?? throw new ArgumentNullException(nameof(sessionInvalidationTracker));
 			this.topicEventSender = topicEventSender ?? throw new ArgumentNullException(nameof(topicEventSender));
 			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.securityConfigurationOptions = securityConfigurationOptions ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 		}
 
 		/// <summary>
@@ -290,6 +333,11 @@ namespace Tgstation.Server.Host.Authority
 				await oAuthConnectionsDataLoader.LoadRequiredAsync(userId, cancellationToken));
 
 		/// <inheritdoc />
+		public async ValueTask<AuthorityResponse<GraphQL.Types.OAuth.OidcConnection[]>> OidcConnections(long userId, CancellationToken cancellationToken)
+			=> new AuthorityResponse<GraphQL.Types.OAuth.OidcConnection[]>(
+				await oidcConnectionsDataLoader.LoadRequiredAsync(userId, cancellationToken));
+
+		/// <inheritdoc />
 		public async ValueTask<AuthorityResponse<User>> Create(
 			UserCreateRequest createRequest,
 			bool? needZeroLengthPasswordWithOAuthConnections,
@@ -372,7 +420,7 @@ namespace Tgstation.Server.Host.Authority
 			var callerAdministrationRights = (AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration);
 			var canEditAllUsers = callerAdministrationRights.HasFlag(AdministrationRights.WriteUsers);
 			var passwordEdit = canEditAllUsers || callerAdministrationRights.HasFlag(AdministrationRights.EditOwnPassword);
-			var oAuthEdit = canEditAllUsers || callerAdministrationRights.HasFlag(AdministrationRights.EditOwnOAuthConnections);
+			var oAuthEdit = canEditAllUsers || callerAdministrationRights.HasFlag(AdministrationRights.EditOwnServiceConnections);
 
 			var originalUser = !canEditAllUsers
 				? AuthenticationContext.User
@@ -382,6 +430,7 @@ namespace Tgstation.Server.Host.Authority
 					.Where(x => x.Id == model.Id)
 					.Include(x => x.CreatedBy)
 					.Include(x => x.OAuthConnections)
+					.Include(x => x.OidcConnections)
 					.Include(x => x.Group!)
 						.ThenInclude(x => x.PermissionSet)
 					.Include(x => x.PermissionSet)
@@ -437,8 +486,11 @@ namespace Tgstation.Server.Host.Authority
 				&& (model.OAuthConnections.Count != originalUser.OAuthConnections!.Count
 				|| !model.OAuthConnections.All(x => originalUser.OAuthConnections.Any(y => y.Provider == x.Provider && y.ExternalUserId == x.ExternalUserId))))
 			{
+				if (securityConfigurationOptions.Value.OidcStrictMode)
+					return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+
 				if (originalUser.CanonicalName == User.CanonicalizeName(DefaultCredentials.AdminUserName))
-					return BadRequest<User>(ErrorCode.AdminUserCannotOAuth);
+					return BadRequest<User>(ErrorCode.AdminUserCannotHaveServiceConnection);
 
 				if (model.OAuthConnections.Count == 0 && originalUser.PasswordHash == null && originalUser.SystemIdentifier == null)
 					return BadRequest<User>(ErrorCode.CannotRemoveLastAuthenticationOption);
@@ -452,8 +504,33 @@ namespace Tgstation.Server.Host.Authority
 					});
 			}
 
+			if (model.OidcConnections != null
+				&& (model.OidcConnections.Count != originalUser.OidcConnections!.Count
+				|| !model.OidcConnections.All(x => originalUser.OidcConnections.Any(y => y.SchemeKey == x.SchemeKey && y.ExternalUserId == x.ExternalUserId))))
+			{
+				if (securityConfigurationOptions.Value.OidcStrictMode)
+					return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+
+				if (originalUser.CanonicalName == User.CanonicalizeName(DefaultCredentials.AdminUserName))
+					return BadRequest<User>(ErrorCode.AdminUserCannotHaveServiceConnection);
+
+				if (model.OidcConnections.Count == 0 && originalUser.PasswordHash == null && originalUser.SystemIdentifier == null)
+					return BadRequest<User>(ErrorCode.CannotRemoveLastAuthenticationOption);
+
+				originalUser.OidcConnections.Clear();
+				foreach (var updatedConnection in model.OidcConnections)
+					originalUser.OidcConnections.Add(new Models.OidcConnection
+					{
+						SchemeKey = updatedConnection.SchemeKey,
+						ExternalUserId = updatedConnection.ExternalUserId,
+					});
+			}
+
 			if (model.Group != null)
 			{
+				if (securityConfigurationOptions.Value.OidcStrictMode)
+					return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+
 				originalUser.Group = await DatabaseContext
 					.Groups
 					.AsQueryable()
@@ -474,6 +551,9 @@ namespace Tgstation.Server.Host.Authority
 			}
 			else if (model.PermissionSet != null)
 			{
+				if (securityConfigurationOptions.Value.OidcStrictMode)
+					return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+
 				if (originalUser.PermissionSet == null)
 				{
 					Logger.LogTrace("Creating new permission set...");
@@ -495,6 +575,9 @@ namespace Tgstation.Server.Host.Authority
 
 			if (model.Enabled.HasValue)
 			{
+				if (securityConfigurationOptions.Value.OidcStrictMode)
+					return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+
 				invalidateSessions = originalUser.Require(x => x.Enabled) && !model.Enabled.Value;
 				originalUser.Enabled = model.Enabled.Value;
 			}
@@ -554,6 +637,7 @@ namespace Tgstation.Server.Host.Authority
 				queryable = queryable
 					.Include(x => x.CreatedBy)
 					.Include(x => x.OAuthConnections)
+					.Include(x => x.OidcConnections)
 					.Include(x => x.Group!)
 						.ThenInclude(x => x.PermissionSet)
 					.Include(x => x.PermissionSet);
@@ -603,6 +687,15 @@ namespace Tgstation.Server.Host.Authority
 					})
 					.ToList()
 					?? new List<Models.OAuthConnection>(),
+				OidcConnections = model
+					.OidcConnections
+					?.Select(x => new Models.OidcConnection
+					{
+						SchemeKey = x.SchemeKey,
+						ExternalUserId = x.ExternalUserId,
+					})
+					.ToList()
+					?? new List<Models.OidcConnection>(),
 			};
 		}
 
