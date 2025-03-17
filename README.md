@@ -329,7 +329,7 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 #### OAuth Configuration
 
-- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, `InvisionCommunity` and `TGForums`. Setting these fields to `null` disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
+- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, and `InvisionCommunity`. Setting these fields to `null` disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
 ```yml
 Security:
   OAuth:
