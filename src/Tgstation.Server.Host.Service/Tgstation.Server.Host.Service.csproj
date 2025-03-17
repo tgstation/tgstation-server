@@ -21,11 +21,11 @@
     <!-- Usage: Command line argument support -->
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
     <!-- Usage: Identifies when we are running in the context of the Windows SCM -->
-    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="9.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="9.0.3" />
     <!-- Usage: Windows event log logging plugin -->
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="9.0.3" />
     <!-- Usage: Console logging plugin -->
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.3" />
     <!-- Usage: Updated transitive dependency of Core.System.ServiceProcess -->
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <!-- Usage: Updated transitive dependency of Core.System.ServiceProcess -->
