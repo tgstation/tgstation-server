@@ -369,6 +369,8 @@ Security:
 
 - `Security:OidcStrictMode`: Boolean flag that, when `true`, disables password and OAuth logins, password changes, individual permission set assignment, and enables user registration using OpenID Connect providers. The claim name `tgstation-server-group-id` is used to dictate what TGS group users are registered to.
 
+_Note: When using OIDC with a reverse proxy, TGS must receive `X-Forwarded` headers to properly identify the redirect URI to use. i.e. `X-Forwarded-Host` and `X-Forwarded-Proto`._
+
 ### Database Configuration
 
 If using a MariaDB/MySQL server, our client library [recommends you set 'utf8mb4' as your default charset](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql#1-recommended-server-charset) disregard at your own risk.
