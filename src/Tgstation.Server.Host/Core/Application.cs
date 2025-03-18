@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.SignalR;
@@ -616,6 +617,12 @@ namespace Tgstation.Server.Host.Core
 
 			// Wrap exceptions in a 500 (ErrorMessage) response
 			applicationBuilder.UseServerErrorHandling();
+
+			// header forwarding important for OIDC
+			applicationBuilder.UseForwardedHeaders(new ForwardedHeadersOptions
+			{
+				ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost,
+			});
 
 			// metrics capture
 			applicationBuilder.UseHttpMetrics();

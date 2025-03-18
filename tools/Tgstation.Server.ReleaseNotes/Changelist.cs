@@ -41,6 +41,7 @@ namespace Tgstation.Server.ReleaseNotes
 						Author = author
 					};
 				})
+				.Distinct(new ChangelistEqualityComparer())
 				.ToList();
 		}
 

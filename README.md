@@ -329,7 +329,7 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 #### OAuth Configuration
 
-- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, `InvisionCommunity` and `TGForums`. Setting these fields to `null` disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
+- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, and `InvisionCommunity`. Setting these fields to `null` disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
 ```yml
 Security:
   OAuth:
@@ -368,6 +368,8 @@ Security:
 ```
 
 - `Security:OidcStrictMode`: Boolean flag that, when `true`, disables password and OAuth logins, password changes, individual permission set assignment, and enables user registration using OpenID Connect providers. The claim name `tgstation-server-group-id` is used to dictate what TGS group users are registered to.
+
+_Note: When using OIDC with a reverse proxy, TGS must receive `X-Forwarded` headers to properly identify the redirect URI to use. i.e. `X-Forwarded-Host` and `X-Forwarded-Proto`._
 
 ### Database Configuration
 
