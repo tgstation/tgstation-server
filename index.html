@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -290,7 +290,7 @@ Manual Configuration</h4>
 <h4><a class="anchor" id="autotoc_md17"></a>
 OAuth Configuration</h4>
 <ul>
-<li><code>Security:OAuth:&lt;Provider Name&gt;</code>: Sets the OAuth client ID and secret for a given <code>&lt;Provider Name&gt;</code>. The currently supported providers are <code>GitHub</code>, <code>Discord</code>, <code>InvisionCommunity</code> and <code>TGForums</code>. Setting these fields to <code>null</code> disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry: <div class="fragment"><div class="line">Security:</div>
+<li><code>Security:OAuth:&lt;Provider Name&gt;</code>: Sets the OAuth client ID and secret for a given <code>&lt;Provider Name&gt;</code>. The currently supported providers are <code>GitHub</code>, <code>Discord</code>, and <code>InvisionCommunity</code>. Setting these fields to <code>null</code> disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry: <div class="fragment"><div class="line">Security:</div>
 <div class="line">  OAuth:</div>
 <div class="line">    InvisionCommunity:</div>
 <div class="line">      ClientId: &quot;...&quot;</div>
@@ -324,6 +324,7 @@ OpenID Connect Configuration</h4>
 </div><!-- fragment --></li>
 <li><code>Security:OidcStrictMode</code>: Boolean flag that, when <code>true</code>, disables password and OAuth logins, password changes, individual permission set assignment, and enables user registration using OpenID Connect providers. The claim name <code>tgstation-server-group-id</code> is used to dictate what TGS group users are registered to.</li>
 </ul>
+<p><em>Note: When using OIDC with a reverse proxy, TGS must receive <code>X-Forwarded</code> headers to properly identify the redirect URI to use. i.e. <code>X-Forwarded-Host</code> and <code>X-Forwarded-Proto</code>.</em></p>
 <h3><a class="anchor" id="autotoc_md19"></a>
 Database Configuration</h3>
 <p>If using a MariaDB/MySQL server, our client library <a href="https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql#1-recommended-server-charset">recommends you set 'utf8mb4' as your default charset</a> disregard at your own risk.</p>

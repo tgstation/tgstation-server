@@ -193,7 +193,6 @@ Components:
     Unreleased: true
   - Version: 6.15.1
     ComponentVersions:
-      Core: 6.15.0
       HttpApi: 10.13.0
       GraphQLApi: 0.6.0
       DreamMakerApi: 7.3.1
@@ -203,8 +202,12 @@ Components:
       NugetCommon: 7.0.0
       NugetApi: 18.0.0
       NugetClient: 21.0.0
-      WebControlPanel: 6.9.0
-    Changes: []
+      WebControlPanel: 6.9.3
+    Changes:
+    - Descriptions:
+      - The headers `X-Forwarded-For`, `X-Forwarded-Host`, and `X-Forwarded-Proto` will now be respected with regards to generating OIDC redirect URIs.
+      Author: Cyberboss
+      PullRequest: 2169
     Unreleased: true
   - Version: 6.15.0
     ComponentVersions:
