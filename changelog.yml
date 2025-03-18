@@ -191,6 +191,10 @@ Components:
     ComponentVersions: {}
     Changes: []
     Unreleased: true
+  - Version: 6.15.2
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.15.1
     ComponentVersions:
       HttpApi: 10.13.0
@@ -208,7 +212,6 @@ Components:
       - The headers `X-Forwarded-For`, `X-Forwarded-Host`, and `X-Forwarded-Proto` will now be respected with regards to generating OIDC redirect URIs.
       Author: Cyberboss
       PullRequest: 2169
-    Unreleased: true
   - Version: 6.15.0
     ComponentVersions:
       Core: 6.15.0
