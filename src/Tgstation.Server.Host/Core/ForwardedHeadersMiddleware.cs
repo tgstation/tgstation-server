@@ -122,7 +122,9 @@ public class ForwardedHeadersMiddleware
 	/// <param name="context">The <see cref="HttpContext"/> for the current request.</param>
 	public Task Invoke(HttpContext context)
 	{
+		_logger.LogDebug("Pre apply");
 		ApplyForwarders(context);
+		_logger.LogDebug("Post apply");
 		return _next(context);
 	}
 
@@ -150,6 +152,7 @@ public class ForwardedHeadersMiddleware
 		{
 			checkProto = true;
 			forwardedProto = requestHeaders.GetCommaSeparatedValues(_options.ForwardedProtoHeaderName);
+			_logger.LogDebug("Checking proto: {forwarded}", forwardedProto);
 			if (_options.RequireHeaderSymmetry && checkFor && forwardedFor!.Length != forwardedProto.Length)
 			{
 				_logger.LogWarning(1, "Parameter count mismatch between X-Forwarded-For and X-Forwarded-Proto.");
@@ -197,6 +200,7 @@ public class ForwardedHeadersMiddleware
 		var sets = new SetOfForwarders[entryCount];
 		for (int i = 0; i < sets.Length; i++)
 		{
+			_logger.LogDebug("Set iter: {i}", i);
 			// They get processed in reverse order, right to left.
 			var set = new SetOfForwarders();
 			if (checkFor && i < forwardedFor!.Length)
@@ -206,6 +210,7 @@ public class ForwardedHeadersMiddleware
 			if (checkProto && i < forwardedProto!.Length)
 			{
 				set.Scheme = forwardedProto[forwardedProto.Length - i - 1];
+				_logger.LogDebug("Set scheme: {scheme}", set.Scheme);
 			}
 			if (checkHost && i < forwardedHost!.Length)
 			{
@@ -232,6 +237,7 @@ public class ForwardedHeadersMiddleware
 
 		for (; entriesConsumed < sets.Length; entriesConsumed++)
 		{
+			_logger.LogDebug("Consume iter: {i}", entriesConsumed);
 			var set = sets[entriesConsumed];
 			if (checkFor)
 			{
@@ -271,8 +277,10 @@ public class ForwardedHeadersMiddleware
 
 			if (checkProto)
 			{
+				_logger.LogDebug("Consume check proto: {setScheme}", set.Scheme);
 				if (!string.IsNullOrEmpty(set.Scheme) && set.Scheme.AsSpan().IndexOfAnyExcept(SchemeChars) < 0)
 				{
+					_logger.LogDebug("Consume apply proto");
 					applyChanges = true;
 					currentValues.Scheme = set.Scheme;
 				}
@@ -315,6 +323,7 @@ public class ForwardedHeadersMiddleware
 
 		if (applyChanges)
 		{
+			_logger.LogDebug("Apply changes: {scheme}", currentValues.Scheme);
 			if (checkFor && currentValues.RemoteIpAndPort != null)
 			{
 				if (connection.RemoteIpAddress != null)
@@ -353,6 +362,8 @@ public class ForwardedHeadersMiddleware
 					requestHeaders.Remove(_options.ForwardedProtoHeaderName);
 				}
 				request.Scheme = currentValues.Scheme;
+
+				_logger.LogDebug("Do apply proto: {scheme}, {forwarded}", request.Scheme, forwardedProto);
 			}
 
 			if (checkHost && currentValues.Host != null)
