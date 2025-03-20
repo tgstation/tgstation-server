@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <!-- Usage: ValueTask netstandard backport  -->
-    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.1" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.2" />
   </ItemGroup>
 
   <Target Name="IconGeneration" BeforeTargets="ResolveAssemblyReferences" Inputs="../../build/logo.svg" Outputs="../../artifacts/tgs.ico;../../artifacts/tgs.png;../../tools/Tgstation.Server.LogoGenerator/Program.cs">
