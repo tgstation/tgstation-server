@@ -189,7 +189,7 @@ Components:
   Core:
   - Version: 6.16.0
     ComponentVersions:
-      Core: 6.15.1
+      Core: 6.15.2
       HttpApi: 10.13.0
       GraphQLApi: 0.6.0
       DreamMakerApi: 7.3.1
