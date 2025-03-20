@@ -643,7 +643,7 @@ namespace Tgstation.Server.Host.Core
 					global::System.Net.IPAddress.Any,
 					0));
 
-			applicationBuilder.UseMiddleware<ForwardedHeadersMiddleware>(Options.Create(forwardedHeaderOptions));
+			applicationBuilder.UseForwardedHeaders(forwardedHeaderOptions);
 
 			applicationBuilder.Use((context, next) =>
 			{
