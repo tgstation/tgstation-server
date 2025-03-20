@@ -577,7 +577,6 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SwarmConfiguration"/> to use.</param>
 		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="InternalConfiguration"/> to use.</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/>.</param>
-		#pragma warning disable
 		public void Configure(
 			IApplicationBuilder applicationBuilder,
 			IServerControl serverControl,
@@ -619,22 +618,10 @@ namespace Tgstation.Server.Host.Core
 			// Wrap exceptions in a 500 (ErrorMessage) response
 			applicationBuilder.UseServerErrorHandling();
 
-			applicationBuilder.Use((context, next) =>
-			{
-				logger.LogDebug("Crossedfall Pre middleware:");
-				foreach (var header in context.Request.Headers)
-				{
-					logger.LogDebug("{header}: {value}", header.Key, header.Value);
-				}
-
-				return next();
-			});
-
 			// header forwarding important for OIDC
 			var forwardedHeaderOptions = new ForwardedHeadersOptions
 			{
 				ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost,
-				AllowedHosts = null,
 			};
 
 			forwardedHeaderOptions.KnownNetworks.Clear();
@@ -644,22 +631,6 @@ namespace Tgstation.Server.Host.Core
 					0));
 
 			applicationBuilder.UseForwardedHeaders(forwardedHeaderOptions);
-
-			applicationBuilder.Use((context, next) =>
-			{
-				logger.LogDebug("Crossedfall Post middleware:");
-				foreach (var header in context.Request.Headers)
-				{
-					logger.LogDebug("{header}: {value}", header.Key, header.Value);
-				}
-
-				return next();
-			});
-
-			/*applicationBuilder.UseForwardedHeaders(new ForwardedHeadersOptions
-			{
-				ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost,
-			});*/
 
 			// metrics capture
 			applicationBuilder.UseHttpMetrics();
