@@ -495,7 +495,9 @@ namespace Tgstation.Server.Host.Authority
 				if (model.OAuthConnections.Count == 0 && originalUser.PasswordHash == null && originalUser.SystemIdentifier == null)
 					return BadRequest<User>(ErrorCode.CannotRemoveLastAuthenticationOption);
 
+				DatabaseContext.OAuthConnections.RemoveRange(originalUser.OAuthConnections);
 				originalUser.OAuthConnections.Clear();
+
 				foreach (var updatedConnection in model.OAuthConnections)
 					originalUser.OAuthConnections.Add(new Models.OAuthConnection
 					{
@@ -517,6 +519,7 @@ namespace Tgstation.Server.Host.Authority
 				if (model.OidcConnections.Count == 0 && originalUser.PasswordHash == null && originalUser.SystemIdentifier == null)
 					return BadRequest<User>(ErrorCode.CannotRemoveLastAuthenticationOption);
 
+				DatabaseContext.OidcConnections.RemoveRange(originalUser.OidcConnections);
 				originalUser.OidcConnections.Clear();
 				foreach (var updatedConnection in model.OidcConnections)
 					originalUser.OidcConnections.Add(new Models.OidcConnection

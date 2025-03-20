@@ -619,10 +619,18 @@ namespace Tgstation.Server.Host.Core
 			applicationBuilder.UseServerErrorHandling();
 
 			// header forwarding important for OIDC
-			applicationBuilder.UseForwardedHeaders(new ForwardedHeadersOptions
+			var forwardedHeaderOptions = new ForwardedHeadersOptions
 			{
 				ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost,
-			});
+			};
+
+			forwardedHeaderOptions.KnownNetworks.Clear();
+			forwardedHeaderOptions.KnownNetworks.Add(
+				new IPNetwork(
+					global::System.Net.IPAddress.Any,
+					0));
+
+			applicationBuilder.UseForwardedHeaders(forwardedHeaderOptions);
 
 			// metrics capture
 			applicationBuilder.UseHttpMetrics();
