@@ -228,7 +228,9 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task ValidateOidcToken(RemoteAuthenticationContext<OpenIdConnectOptions> tokenValidatedContext, string schemeKey, string groupIdClaimName, CancellationToken cancellationToken)
+#pragma warning restore CA1506
 		{
 			ArgumentNullException.ThrowIfNull(tokenValidatedContext);
 
