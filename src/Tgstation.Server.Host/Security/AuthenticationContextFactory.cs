@@ -335,7 +335,7 @@ namespace Tgstation.Server.Host.Security
 						GroupId = group.Id,
 						OidcConnections = new List<OidcConnection>
 						{
-							new OidcConnection
+							new()
 							{
 								SchemeKey = schemeKey,
 								ExternalUserId = userId,
