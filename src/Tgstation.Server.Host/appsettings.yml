@@ -74,6 +74,16 @@ Security:
     TGForums: # https://tgstation13.org OAuth configuration
     Keycloak: # Keycloak OAuth configuration.
     InvisionCommunity: # Invision Community OAuth configuration.
+#  OpenIDConnect:
+#    Example: # Scheme key: Name of this OIDC scheme (public)
+#      Authority: "..." # This is the root of the URL containing the "/.well-known/openid-configuration" endpoint
+#      ClientId: "..."
+#      ClientSecret: "..."
+#      FriendlyName: "Example Provider" # Friendly name is how this provider is displayed in UIs (public)
+#      ThemeColour: "#ff0000" # (Optional) Hex color code indicating the color used to theme UI elements relating to this provider (public)
+#      ThemeIconUrl: "..." # (Optional) Public URL of an image that can be used to theme UI elements relating to this provider (public)
+#      UsernameClaim: "preferred_username" # (Optional) Name of claim used to set TGS usernames upon registration. By default "preferred_username" is used. Only applies when using OidcStrictMode.
+#      GroupIdClaim: "tgstation-server-group-id" # (Options) Name of claim used to set TGS group ID upon logging in. By default "tgstation-server-group-id" is used. Only applies when using OidcStrictMode.
 Swarm: # Should be left empty if using swarm mode is not desired
 # Identifier: # Required: The string identifier of the swarm node
 # PrivateKey: # Required: The shared API key used for inter-server communication in the swarm. Must be the same secure string on all nodes

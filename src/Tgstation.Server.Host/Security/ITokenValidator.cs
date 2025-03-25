@@ -24,8 +24,9 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="tokenValidatedContext">The <see cref="RemoteAuthenticationContext{TOptions}"/> for <see cref="OpenIdConnectOptions"/>.</param>
 		/// <param name="schemeKey">The scheme key being used to login.</param>
+		/// <param name="groupIdClaimName">The name of the <see cref="global::System.Security.Claims.Claim"/> used to set the user's group ID.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task ValidateOidcToken(RemoteAuthenticationContext<OpenIdConnectOptions> tokenValidatedContext, string schemeKey, CancellationToken cancellationToken);
+		Task ValidateOidcToken(RemoteAuthenticationContext<OpenIdConnectOptions> tokenValidatedContext, string schemeKey, string groupIdClaimName, CancellationToken cancellationToken);
 	}
 }

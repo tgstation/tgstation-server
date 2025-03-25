@@ -916,6 +916,7 @@ namespace Tgstation.Server.Host.Core
 										.ValidateOidcToken(
 											context,
 											configName,
+											config.GroupIdClaim,
 											context
 												.HttpContext
 												.RequestAborted);
@@ -923,7 +924,7 @@ namespace Tgstation.Server.Host.Core
 							if (securityConfiguration.OidcStrictMode)
 							{
 								options.GetClaimsFromUserInfoEndpoint = true;
-								options.ClaimActions.MapUniqueJsonKey(AuthenticationContextFactory.TgsGroupIdClaimName, AuthenticationContextFactory.TgsGroupIdClaimName);
+								options.ClaimActions.MapUniqueJsonKey(config.GroupIdClaim, config.GroupIdClaim);
 								options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
 								{
 									NameClaimType = config.UsernameClaim,
