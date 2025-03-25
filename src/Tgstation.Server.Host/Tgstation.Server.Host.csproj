@@ -146,7 +146,7 @@
     <!-- Usage: Discord interop -->
     <PackageReference Include="Remora.Discord" Version="2025.1.0" />
     <!-- Usage: Rich logger builder -->
-    <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.1" />
     <!-- Usage: Async logging plugin -->
     <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
     <!-- Usage: Console logging plugin -->
