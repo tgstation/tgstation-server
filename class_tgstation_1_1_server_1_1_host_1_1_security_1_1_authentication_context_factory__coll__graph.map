@@ -1,15 +1,15 @@
 <map id="Tgstation.Server.Host.Security.AuthenticationContextFactory" name="Tgstation.Server.Host.Security.AuthenticationContextFactory">
 <area shape="rect" id="Node000001" title=" " alt="" coords="2136,347,2337,388"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html" title="Handles validating authentication tokens." alt="" coords="1749,43,1861,68"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1876,42,1932,39,1994,43,2057,57,2087,70,2114,87,2144,114,2169,147,2190,184,2205,221,2226,293,2236,346,2230,347,2221,294,2200,223,2185,186,2165,150,2140,118,2111,91,2084,75,2055,62,1994,48,1932,44,1877,47"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html" title="Handles validating authentication tokens." alt="" coords="1749,47,1861,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1876,46,1932,43,1994,47,2057,61,2087,74,2114,91,2144,118,2169,150,2189,186,2205,223,2226,293,2235,346,2230,347,2221,294,2200,225,2184,188,2164,153,2140,121,2111,95,2084,79,2055,67,1993,52,1932,48,1877,51"/>
 <area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="1307,485,1397,511"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1412,497,1540,497,1716,488,1813,480,1914,466,2014,448,2112,425,2158,407,2200,386,2202,391,2161,412,2113,430,2015,454,1915,472,1814,485,1716,494,1541,502,1412,502"/>
 <area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html" title=" " alt="" coords="1705,581,1905,621"/>
 <area shape="poly" id="edge16_Node000013_Node000003" title=" " alt="" coords="1412,503,1531,522,1669,552,1750,577,1749,583,1667,557,1530,527,1411,508"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="817,195,905,220"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="920,197,1001,190,1107,188,1214,190,1412,187,1566,182,1721,182,1918,196,2020,201,2063,209,2114,232,2150,257,2181,288,2225,345,2220,349,2177,291,2146,261,2111,236,2061,214,2019,206,1918,201,1721,188,1567,187,1412,193,1214,195,1107,193,1001,195,921,203"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="1238,87,1466,128"/>
-<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="907,186,1000,156,1059,143,1106,137,1213,125,1237,122,1237,127,1214,130,1107,142,1060,148,1001,161,909,191"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="1238,91,1466,132"/>
+<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="907,186,1000,156,1237,123,1238,128,1001,161,908,191"/>
 <area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html" title="Configuration options pertaining to user security." alt="" coords="1238,311,1466,352"/>
 <area shape="poly" id="edge11_Node000010_Node000004" title=" " alt="" coords="921,206,1080,214,1158,222,1215,234,1248,250,1280,269,1330,309,1327,313,1277,274,1246,254,1213,239,1157,228,1079,219,921,211"/>
 <area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html" title=" " alt="" coords="1240,588,1464,614"/>
@@ -22,14 +22,14 @@
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1921,312,2136,348,2135,353,1920,317"/>
 <area shape="rect" id="Node000007" title=" " alt="" coords="1692,340,1918,395"/>
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1934,365,2136,365,2136,370,1934,370"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1481,98,1645,95,1829,99,1918,105,1998,116,2064,131,2114,152,2139,171,2162,195,2196,249,2220,303,2233,346,2228,348,2215,305,2192,252,2157,199,2136,175,2111,156,2063,136,1997,121,1917,110,1829,104,1645,100,1481,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1481,109,1658,112,1853,119,2020,132,2079,141,2114,152,2139,171,2162,195,2196,249,2220,303,2233,346,2228,348,2215,305,2192,252,2157,198,2136,175,2111,157,2078,146,2020,137,1853,124,1658,118,1481,115"/>
 <area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="811,5,911,31"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="927,20,1060,35,1214,61,1294,84,1292,89,1213,66,1060,40,927,26"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="927,20,1060,34,1138,45,1214,61,1300,88,1298,93,1213,66,1137,51,1060,39,927,25"/>
 <area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="1427,355,1550,391,1621,408,1692,420,1754,425,1816,427,1941,420,2055,404,2149,386,2150,391,2056,409,1941,425,1816,432,1753,431,1692,425,1620,413,1549,396,1426,360"/>
 <area shape="rect" id="Node000011" title=" " alt="" coords="840,375,882,400"/>
 <area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="898,384,939,390,960,398,978,411,987,421,990,432,990,454,991,474,994,483,1002,491,1020,499,1044,505,1105,508,1167,503,1212,490,1233,472,1266,434,1333,350,1337,354,1270,437,1237,475,1215,495,1168,508,1105,514,1044,510,1018,504,999,495,990,486,986,475,985,454,985,433,982,424,975,415,958,403,938,395,897,389"/>
 <area shape="rect" id="Node000012" title=" " alt="" coords="745,56,977,111"/>
-<area shape="poly" id="edge13_Node000010_Node000012" title=" " alt="" coords="992,86,1131,96,1185,102,1215,111,1240,140,1275,195,1341,309,1337,312,1270,198,1235,143,1212,115,1183,107,1130,101,992,91"/>
+<area shape="poly" id="edge13_Node000010_Node000012" title=" " alt="" coords="992,86,1131,96,1185,102,1215,111,1270,193,1341,309,1336,312,1266,195,1212,115,1183,107,1130,101,992,91"/>
 <area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="1921,590,1968,582,2017,569,2066,551,2111,527,2149,495,2181,457,2206,418,2223,387,2228,389,2211,421,2185,460,2153,499,2114,531,2068,556,2019,574,1969,587,1921,595"/>
 <area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="For creating and accessing authentication contexts." alt="" coords="1276,539,1428,564"/>
 <area shape="poly" id="edge15_Node000013_Node000014" title=" " alt="" coords="1444,556,1668,578,1705,583,1704,588,1668,583,1443,561"/>

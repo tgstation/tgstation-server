@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.16.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -943,48 +943,49 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00916" name="l00916"></a><span class="lineno">  916</span>                                        .ValidateOidcToken(</div>
 <div class="line"><a id="l00917" name="l00917"></a><span class="lineno">  917</span>                                            context,</div>
 <div class="line"><a id="l00918" name="l00918"></a><span class="lineno">  918</span>                                            configName,</div>
-<div class="line"><a id="l00919" name="l00919"></a><span class="lineno">  919</span>                                            context</div>
-<div class="line"><a id="l00920" name="l00920"></a><span class="lineno">  920</span>                                                .HttpContext</div>
-<div class="line"><a id="l00921" name="l00921"></a><span class="lineno">  921</span>                                                .RequestAborted);</div>
-<div class="line"><a id="l00922" name="l00922"></a><span class="lineno">  922</span> </div>
-<div class="line"><a id="l00923" name="l00923"></a><span class="lineno">  923</span>                            <span class="keywordflow">if</span> (securityConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#ac6d285ea65ae8415b090772ab0ffe6e2">OidcStrictMode</a>)</div>
-<div class="line"><a id="l00924" name="l00924"></a><span class="lineno">  924</span>                            {</div>
-<div class="line"><a id="l00925" name="l00925"></a><span class="lineno">  925</span>                                options.GetClaimsFromUserInfoEndpoint = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00926" name="l00926"></a><span class="lineno">  926</span>                                options.ClaimActions.MapUniqueJsonKey(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">AuthenticationContextFactory</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a0a2cb2a1155cef3848918fdc1a31d3eb">TgsGroupIdClaimName</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">AuthenticationContextFactory</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a0a2cb2a1155cef3848918fdc1a31d3eb">TgsGroupIdClaimName</a>);</div>
-<div class="line"><a id="l00927" name="l00927"></a><span class="lineno">  927</span>                                options.TokenValidationParameters = <span class="keyword">new</span> Microsoft.IdentityModel.Tokens.TokenValidationParameters</div>
-<div class="line"><a id="l00928" name="l00928"></a><span class="lineno">  928</span>                                {</div>
-<div class="line"><a id="l00929" name="l00929"></a><span class="lineno">  929</span>                                    NameClaimType = config.UsernameClaim,</div>
-<div class="line"><a id="l00930" name="l00930"></a><span class="lineno">  930</span>                                    RoleClaimType = <span class="stringliteral">&quot;roles&quot;</span>,</div>
-<div class="line"><a id="l00931" name="l00931"></a><span class="lineno">  931</span>                                };</div>
-<div class="line"><a id="l00932" name="l00932"></a><span class="lineno">  932</span> </div>
-<div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span>                                options.Scope.Add(OpenIdConnectScope.Profile);</div>
-<div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span>                                options.Events.OnUserInformationReceived = CompleteAuth;</div>
-<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span>                            }</div>
-<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span>                            <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00937" name="l00937"></a><span class="lineno">  937</span>                                options.Events.OnTokenValidated = CompleteAuth;</div>
-<div class="line"><a id="l00938" name="l00938"></a><span class="lineno">  938</span> </div>
-<div class="line"><a id="l00939" name="l00939"></a><span class="lineno">  939</span>                            options.Scope.Add(OpenIdConnectScope.OpenId);</div>
-<div class="line"><a id="l00940" name="l00940"></a><span class="lineno">  940</span>                            options.Scope.Add(OpenIdConnectScope.OfflineAccess);</div>
-<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span> </div>
-<div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span><span class="preprocessor">#if DEBUG</span></div>
-<div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span>                            options.RequireHttpsMetadata = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span> </div>
-<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span>                            options.SaveTokens = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span>                            options.ResponseType = OpenIdConnectResponseType.Code;</div>
-<div class="line"><a id="l00948" name="l00948"></a><span class="lineno">  948</span>                            options.MapInboundClaims = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00949" name="l00949"></a><span class="lineno">  949</span> </div>
-<div class="line"><a id="l00950" name="l00950"></a><span class="lineno">  950</span>                            options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;</div>
-<div class="line"><a id="l00951" name="l00951"></a><span class="lineno">  951</span> </div>
-<div class="line"><a id="l00952" name="l00952"></a><span class="lineno">  952</span>                            var basePath = $<span class="stringliteral">&quot;/oidc/{configName}/&quot;</span>;</div>
-<div class="line"><a id="l00953" name="l00953"></a><span class="lineno">  953</span>                            options.CallbackPath = <span class="keyword">new</span> PathString(basePath + <span class="stringliteral">&quot;signin-callback&quot;</span>);</div>
-<div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span>                            options.SignedOutCallbackPath = <span class="keyword">new</span> PathString(basePath + <span class="stringliteral">&quot;signout-callback&quot;</span>);</div>
-<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span>                            options.RemoteSignOutPath = <span class="keyword">new</span> PathString(basePath + <span class="stringliteral">&quot;signout&quot;</span>);</div>
-<div class="line"><a id="l00956" name="l00956"></a><span class="lineno">  956</span>                        });</div>
-<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span>            }</div>
-<div class="line"><a id="l00958" name="l00958"></a><span class="lineno">  958</span>        }</div>
-<div class="line"><a id="l00959" name="l00959"></a><span class="lineno">  959</span>    }</div>
-<div class="line"><a id="l00960" name="l00960"></a><span class="lineno">  960</span>}</div>
+<div class="line"><a id="l00919" name="l00919"></a><span class="lineno">  919</span>                                            config.GroupIdClaim,</div>
+<div class="line"><a id="l00920" name="l00920"></a><span class="lineno">  920</span>                                            context</div>
+<div class="line"><a id="l00921" name="l00921"></a><span class="lineno">  921</span>                                                .HttpContext</div>
+<div class="line"><a id="l00922" name="l00922"></a><span class="lineno">  922</span>                                                .RequestAborted);</div>
+<div class="line"><a id="l00923" name="l00923"></a><span class="lineno">  923</span> </div>
+<div class="line"><a id="l00924" name="l00924"></a><span class="lineno">  924</span>                            <span class="keywordflow">if</span> (securityConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#ac6d285ea65ae8415b090772ab0ffe6e2">OidcStrictMode</a>)</div>
+<div class="line"><a id="l00925" name="l00925"></a><span class="lineno">  925</span>                            {</div>
+<div class="line"><a id="l00926" name="l00926"></a><span class="lineno">  926</span>                                options.GetClaimsFromUserInfoEndpoint = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00927" name="l00927"></a><span class="lineno">  927</span>                                options.ClaimActions.MapUniqueJsonKey(config.GroupIdClaim, config.GroupIdClaim);</div>
+<div class="line"><a id="l00928" name="l00928"></a><span class="lineno">  928</span>                                options.TokenValidationParameters = <span class="keyword">new</span> Microsoft.IdentityModel.Tokens.TokenValidationParameters</div>
+<div class="line"><a id="l00929" name="l00929"></a><span class="lineno">  929</span>                                {</div>
+<div class="line"><a id="l00930" name="l00930"></a><span class="lineno">  930</span>                                    NameClaimType = config.UsernameClaim,</div>
+<div class="line"><a id="l00931" name="l00931"></a><span class="lineno">  931</span>                                    RoleClaimType = <span class="stringliteral">&quot;roles&quot;</span>,</div>
+<div class="line"><a id="l00932" name="l00932"></a><span class="lineno">  932</span>                                };</div>
+<div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span> </div>
+<div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span>                                options.Scope.Add(OpenIdConnectScope.Profile);</div>
+<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span>                                options.Events.OnUserInformationReceived = CompleteAuth;</div>
+<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span>                            }</div>
+<div class="line"><a id="l00937" name="l00937"></a><span class="lineno">  937</span>                            <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00938" name="l00938"></a><span class="lineno">  938</span>                                options.Events.OnTokenValidated = CompleteAuth;</div>
+<div class="line"><a id="l00939" name="l00939"></a><span class="lineno">  939</span> </div>
+<div class="line"><a id="l00940" name="l00940"></a><span class="lineno">  940</span>                            options.Scope.Add(OpenIdConnectScope.OpenId);</div>
+<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span>                            options.Scope.Add(OpenIdConnectScope.OfflineAccess);</div>
+<div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span> </div>
+<div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span><span class="preprocessor">#if DEBUG</span></div>
+<div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span>                            options.RequireHttpsMetadata = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span> </div>
+<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span>                            options.SaveTokens = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00948" name="l00948"></a><span class="lineno">  948</span>                            options.ResponseType = OpenIdConnectResponseType.Code;</div>
+<div class="line"><a id="l00949" name="l00949"></a><span class="lineno">  949</span>                            options.MapInboundClaims = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00950" name="l00950"></a><span class="lineno">  950</span> </div>
+<div class="line"><a id="l00951" name="l00951"></a><span class="lineno">  951</span>                            options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;</div>
+<div class="line"><a id="l00952" name="l00952"></a><span class="lineno">  952</span> </div>
+<div class="line"><a id="l00953" name="l00953"></a><span class="lineno">  953</span>                            var basePath = $<span class="stringliteral">&quot;/oidc/{configName}/&quot;</span>;</div>
+<div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span>                            options.CallbackPath = <span class="keyword">new</span> PathString(basePath + <span class="stringliteral">&quot;signin-callback&quot;</span>);</div>
+<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span>                            options.SignedOutCallbackPath = <span class="keyword">new</span> PathString(basePath + <span class="stringliteral">&quot;signout-callback&quot;</span>);</div>
+<div class="line"><a id="l00956" name="l00956"></a><span class="lineno">  956</span>                            options.RemoteSignOutPath = <span class="keyword">new</span> PathString(basePath + <span class="stringliteral">&quot;signout&quot;</span>);</div>
+<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span>                        });</div>
+<div class="line"><a id="l00958" name="l00958"></a><span class="lineno">  958</span>            }</div>
+<div class="line"><a id="l00959" name="l00959"></a><span class="lineno">  959</span>        }</div>
+<div class="line"><a id="l00960" name="l00960"></a><span class="lineno">  960</span>    }</div>
+<div class="line"><a id="l00961" name="l00961"></a><span class="lineno">  961</span>}</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_i_action_result_executor_html"><div class="ttname"><a href="class_i_action_result_executor.html">IActionResultExecutor</a></div></div>
 <div class="ttc" id="aclass_i_claims_transformation_html"><div class="ttname"><a href="class_i_claims_transformation.html">IClaimsTransformation</a></div></div>
@@ -1072,7 +1073,6 @@ $(document).ready(function() { init_codefold(0); });
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute_html_af17f819f7eb525f7274264ec212a5105"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Tgstation.Server.Host.Properties.MasterVersionsAttribute.Instance</a></div><div class="ttdeci">static MasterVersionsAttribute Instance</div><div class="ttdoc">Return the Assembly's instance of the MasterVersionsAttribute.</div><div class="ttdef"><b>Definition</b> <a href="_master_versions_attribute_8cs_source.html#l00015">MasterVersionsAttribute.cs:15</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html">Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation</a></div><div class="ttdoc">A IClaimsTransformation that maps Claims using an IAuthenticationContext.</div><div class="ttdef"><b>Definition</b> <a href="_authentication_context_claims_transformation_8cs_source.html#l00016">AuthenticationContextClaimsTransformation.cs:17</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">Tgstation.Server.Host.Security.AuthenticationContextFactory</a></div><div class="ttdef"><b>Definition</b> <a href="_authentication_context_factory_8cs_source.html#l00028">AuthenticationContextFactory.cs:29</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory_html_a0a2cb2a1155cef3848918fdc1a31d3eb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a0a2cb2a1155cef3848918fdc1a31d3eb">Tgstation.Server.Host.Security.AuthenticationContextFactory.TgsGroupIdClaimName</a></div><div class="ttdeci">const string TgsGroupIdClaimName</div><div class="ttdoc">Claim name used to set user groups in OIDC strict mode.</div><div class="ttdef"><b>Definition</b> <a href="_authentication_context_factory_8cs_source.html#l00038">AuthenticationContextFactory.cs:38</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter.html">Tgstation.Server.Host.Security.AuthorizationContextHubFilter</a></div><div class="ttdoc">An IHubFilter that denies method calls and connections if the IAuthenticationContext is not valid for...</div><div class="ttdef"><b>Definition</b> <a href="_authorization_context_hub_filter_8cs_source.html#l00015">AuthorizationContextHubFilter.cs:16</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html">Tgstation.Server.Host.Security.CryptographySuite</a></div><div class="ttdef"><b>Definition</b> <a href="_cryptography_suite_8cs_source.html#l00012">CryptographySuite.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html">Tgstation.Server.Host.Security.IdentityCache</a></div><div class="ttdef"><b>Definition</b> <a href="_identity_cache_8cs_source.html#l00015">IdentityCache.cs:16</a></div></div>

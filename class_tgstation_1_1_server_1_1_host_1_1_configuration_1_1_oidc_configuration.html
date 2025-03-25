@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.16.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -76,6 +76,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#properties">Properties</a> &#124;
+<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_oidc_configuration-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Tgstation.Server.Host.Configuration.OidcConfiguration Class Reference<span class="mlabels"><span class="mlabel">sealed</span></span></div></div>
 </div><!--header-->
@@ -83,6 +84,16 @@ $(function() {
 
 <p>Configuration for an OpenID Connect provider.  
  <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_oidc_configuration.html#details">More...</a></p>
+<div class="dynheader">
+Collaboration diagram for Tgstation.Server.Host.Configuration.OidcConfiguration:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_oidc_configuration__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_configuration_8_oidc_configuration_coll__map" alt="Collaboration graph"/></div>
+<map name="a_tgstation_8_server_8_host_8_configuration_8_oidc_configuration_coll__map" id="a_tgstation_8_server_8_host_8_configuration_8_oidc_configuration_coll__map">
+<area shape="rect" title="Configuration for an OpenID Connect provider." alt="" coords="5,94,234,135"/>
+<area shape="rect" title=" " alt="" coords="75,5,164,31"/>
+<area shape="poly" title=" " alt="" coords="122,46,122,93,117,93,117,46"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -110,12 +121,48 @@ Properties</h2></td></tr>
 <tr class="memitem:a34552345c1e24c9d3f9ba7bd0cdf61ca" id="r_a34552345c1e24c9d3f9ba7bd0cdf61ca"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_oidc_configuration.html#a34552345c1e24c9d3f9ba7bd0cdf61ca">UsernameClaim</a> = JwtRegisteredClaimNames.PreferredUsername<code> [get, set]</code></td></tr>
 <tr class="memdesc:a34552345c1e24c9d3f9ba7bd0cdf61ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the claim used to set the user's name.  <br /></td></tr>
 <tr class="separator:a34552345c1e24c9d3f9ba7bd0cdf61ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a265a3524c38ea70cdd5013e7e5c96f99" id="r_a265a3524c38ea70cdd5013e7e5c96f99"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_oidc_configuration.html#a265a3524c38ea70cdd5013e7e5c96f99">GroupIdClaim</a> = <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_oidc_configuration.html#a5acf83f4f4c2e7745d8fca862beda4ff">DefaultGroupClaimName</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a265a3524c38ea70cdd5013e7e5c96f99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Claim name used to set user groups in OIDC strict mode.  <br /></td></tr>
+<tr class="separator:a265a3524c38ea70cdd5013e7e5c96f99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
+Static Private Attributes</h2></td></tr>
+<tr class="memitem:a5acf83f4f4c2e7745d8fca862beda4ff" id="r_a5acf83f4f4c2e7745d8fca862beda4ff"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_oidc_configuration.html#a5acf83f4f4c2e7745d8fca862beda4ff">DefaultGroupClaimName</a> = &quot;tgstation-server-group-id&quot;</td></tr>
+<tr class="memdesc:a5acf83f4f4c2e7745d8fca862beda4ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default value of GroupIdClaim.  <br /></td></tr>
+<tr class="separator:a5acf83f4f4c2e7745d8fca862beda4ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Configuration for an OpenID Connect provider. </p>
 
 <p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00010">10</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
-</div><h2 class="groupheader">Property Documentation</h2>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a5acf83f4f4c2e7745d8fca862beda4ff" name="a5acf83f4f4c2e7745d8fca862beda4ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5acf83f4f4c2e7745d8fca862beda4ff">&#9670;&#160;</a></span>DefaultGroupClaimName</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const string Tgstation.Server.Host.Configuration.OidcConfiguration.DefaultGroupClaimName = &quot;tgstation-server-group-id&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The default value of GroupIdClaim. </p>
+
+<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00015">15</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
 <a id="ad5dd95f1ba70a58d90eddb87e92bfe0c" name="ad5dd95f1ba70a58d90eddb87e92bfe0c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad5dd95f1ba70a58d90eddb87e92bfe0c">&#9670;&#160;</a></span>Authority</h2>
 
@@ -138,8 +185,8 @@ Properties</h2></td></tr>
 
 <p>The Uri containing the .well-known endpoint for the provider. </p>
 
-<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00015">15</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   15</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00020">20</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   20</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -165,8 +212,8 @@ Properties</h2></td></tr>
 
 <p>The OIDC client ID. </p>
 
-<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00020">20</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   20</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00025">25</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   25</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -192,8 +239,8 @@ Properties</h2></td></tr>
 
 <p>The OIDC client secret. </p>
 
-<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00025">25</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   25</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00030">30</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -219,8 +266,36 @@ Properties</h2></td></tr>
 
 <p>The provider's name as it should be displayed to the user. </p>
 
-<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00030">30</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   30</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00035">35</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a265a3524c38ea70cdd5013e7e5c96f99" name="a265a3524c38ea70cdd5013e7e5c96f99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a265a3524c38ea70cdd5013e7e5c96f99">&#9670;&#160;</a></span>GroupIdClaim</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Tgstation.Server.Host.Configuration.OidcConfiguration.GroupIdClaim = <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_oidc_configuration.html#a5acf83f4f4c2e7745d8fca862beda4ff">DefaultGroupClaimName</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Claim name used to set user groups in OIDC strict mode. </p>
+
+<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00060">60</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   60</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_oidc_configuration.html#a5acf83f4f4c2e7745d8fca862beda4ff">DefaultGroupClaimName</a>;</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_oidc_configuration_html_a5acf83f4f4c2e7745d8fca862beda4ff"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_oidc_configuration.html#a5acf83f4f4c2e7745d8fca862beda4ff">Tgstation.Server.Host.Configuration.OidcConfiguration.DefaultGroupClaimName</a></div><div class="ttdeci">const string DefaultGroupClaimName</div><div class="ttdoc">The default value of GroupIdClaim.</div><div class="ttdef"><b>Definition</b> <a href="_oidc_configuration_8cs_source.html#l00015">OidcConfiguration.cs:15</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -246,8 +321,8 @@ Properties</h2></td></tr>
 
 <p>The path to return to once OIDC authentication is complete. On success the "code" and "state" query strings will be set, containing a TGS token and "oidc.(scheme key)" strings respectively. On failure the "error" query string will be set with a user readable error message. </p>
 
-<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00035">35</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="stringliteral">&quot;/app&quot;</span>;</div>
+<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00040">40</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   40</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="stringliteral">&quot;/app&quot;</span>;</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -273,8 +348,8 @@ Properties</h2></td></tr>
 
 <p>Colour that should be used to theme this OIDC provider. </p>
 
-<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00040">40</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00045">45</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   45</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -300,8 +375,8 @@ Properties</h2></td></tr>
 
 <p>Image URL that should be used to theme this OIDC provider. </p>
 
-<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00045">45</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00050">50</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -327,8 +402,8 @@ Properties</h2></td></tr>
 
 <p>The name of the claim used to set the user's name. </p>
 
-<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00050">50</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   50</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = JwtRegisteredClaimNames.PreferredUsername;</div>
+<p class="definition">Definition at line <a class="el" href="_oidc_configuration_8cs_source.html#l00055">55</a> of file <a class="el" href="_oidc_configuration_8cs_source.html">OidcConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   55</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = JwtRegisteredClaimNames.PreferredUsername;</div>
 </div><!-- fragment -->
 </div>
 </div>

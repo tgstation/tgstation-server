@@ -1,5 +1,12 @@
 Components:
   Configuration:
+  - Version: 5.7.0
+    Changes:
+    - Descriptions:
+      - Added `Security:OpenIDConnect:<scheme key>:GroupIDClaim` to allow specifying a custom group ID claim name from OIDC providers.
+      Author: Cyberboss
+      PullRequest: 2177
+    Unreleased: true
   - Version: 5.6.0
     Changes:
     - Descriptions:
@@ -189,17 +196,17 @@ Components:
   Core:
   - Version: 6.16.0
     ComponentVersions:
-      Core: 6.15.2
+      Core: 6.16.0
       HttpApi: 10.13.0
       GraphQLApi: 0.6.0
       DreamMakerApi: 7.3.1
-      Configuration: 5.6.0
+      Configuration: 5.7.0
       InteropApi: 5.10.0
       HostWatchdog: 1.6.0
       NugetCommon: 7.0.0
       NugetApi: 18.0.0
       NugetClient: 21.0.0
-      WebControlPanel: 6.9.3
+      WebControlPanel: 6.9.5
     Changes: []
     Unreleased: true
   - Version: 6.15.3

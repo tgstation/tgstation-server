@@ -4,7 +4,7 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="559,69,475,49,476,44,560,64"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a59c3f85134ebd165aaa4df15c45d3901" title="Initially seed a given databaseContext ." alt="" coords="282,71,491,111"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="543,94,491,94,491,88,543,88"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#ae3522f6896e89848ce2528a00eaa2e81" title="Handles OIDC tokenValidatedContext s.A Task representing the running operation." alt="" coords="266,135,507,191"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#aadc5630dc46ebe24e1c479f1bf8c17f1" title="Handles OIDC tokenValidatedContext s.A Task representing the running operation." alt="" coords="266,135,507,191"/>
 <area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="568,118,497,137,495,132,567,113"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext .A ValueTask representing the running operation." alt="" coords="5,39,214,79"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="246,45,214,49,214,44,246,40"/>

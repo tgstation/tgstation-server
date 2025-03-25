@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.16.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -99,17 +99,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8e25b97aa3353faf135e59cc68c5e9e5" id="r_a8e25b97aa3353faf135e59cc68c5e9e5"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#a8e25b97aa3353faf135e59cc68c5e9e5">ValidateTgsToken</a> (Microsoft.AspNetCore.Authentication.JwtBearer.TokenValidatedContext tokenValidatedContext, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a8e25b97aa3353faf135e59cc68c5e9e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles TGS <em>tokenValidatedContext</em> s.  <br /></td></tr>
 <tr class="separator:a8e25b97aa3353faf135e59cc68c5e9e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bb3459a70087b1d3caedd1e8b052015" id="r_a8bb3459a70087b1d3caedd1e8b052015"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#a8bb3459a70087b1d3caedd1e8b052015">ValidateOidcToken</a> (RemoteAuthenticationContext&lt; OpenIdConnectOptions &gt; tokenValidatedContext, string schemeKey, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a8bb3459a70087b1d3caedd1e8b052015"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles OIDC <em>tokenValidatedContext</em> s.  <br /></td></tr>
-<tr class="separator:a8bb3459a70087b1d3caedd1e8b052015"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd1eede2e945b28b40daa7e57b61c6db" id="r_afd1eede2e945b28b40daa7e57b61c6db"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_validator.html#afd1eede2e945b28b40daa7e57b61c6db">ValidateOidcToken</a> (RemoteAuthenticationContext&lt; OpenIdConnectOptions &gt; tokenValidatedContext, string schemeKey, string groupIdClaimName, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:afd1eede2e945b28b40daa7e57b61c6db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles OIDC <em>tokenValidatedContext</em> s.  <br /></td></tr>
+<tr class="separator:afd1eede2e945b28b40daa7e57b61c6db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Handles validating authentication tokens. </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_token_validator_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_token_validator_8cs_source.html">ITokenValidator.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a8bb3459a70087b1d3caedd1e8b052015" name="a8bb3459a70087b1d3caedd1e8b052015"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8bb3459a70087b1d3caedd1e8b052015">&#9670;&#160;</a></span>ValidateOidcToken()</h2>
+<a id="afd1eede2e945b28b40daa7e57b61c6db" name="afd1eede2e945b28b40daa7e57b61c6db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd1eede2e945b28b40daa7e57b61c6db">&#9670;&#160;</a></span>ValidateOidcToken()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -125,6 +125,12 @@ Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>schemeKey</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>groupIdClaimName</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -145,13 +151,14 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">tokenValidatedContext</td><td>The RemoteAuthenticationContext&lt;TOptions&gt; for OpenIdConnectOptions.</td></tr>
     <tr><td class="paramname">schemeKey</td><td>The scheme key being used to login.</td></tr>
+    <tr><td class="paramname">groupIdClaimName</td><td>The name of the global::System.Security.Claims.Claim used to set the user's group ID.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#ae3522f6896e89848ce2528a00eaa2e81">Tgstation.Server.Host.Security.AuthenticationContextFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#aadc5630dc46ebe24e1c479f1bf8c17f1">Tgstation.Server.Host.Security.AuthenticationContextFactory</a>.</p>
 
 </div>
 </div>

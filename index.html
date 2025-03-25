@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.15.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.16.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -313,14 +313,15 @@ OpenID Connect Configuration</h4>
 <ul>
 <li><code>Security:OpenIDConnect:&lt;Scheme Key&gt;</code>: Sets up an OpenID Connect Provider with given "Scheme Key". Note that you must setup a redirect URI of <code>/oidc/&lt;scheme key&gt;/sigin-callback</code> in your provider. Sample entry: <div class="fragment"><div class="line">Security:</div>
 <div class="line">  OpenIDConnect:</div>
-<div class="line">    Example:</div>
+<div class="line">    Example: # Scheme key: Name of this OIDC scheme (public)</div>
 <div class="line">      Authority: &quot;...&quot; # This is the root of the URL containing the &quot;/.well-known/openid-configuration&quot; endpoint</div>
 <div class="line">      ClientId: &quot;...&quot;</div>
 <div class="line">      ClientSecret: &quot;...&quot;</div>
-<div class="line">      FriendlyName: &quot;Example Provider&quot; # Friendly name is how this provider is displayed in UIs</div>
-<div class="line">      ThemeColour: &quot;#ff0000&quot; # (Optional) Hex color code indicating the color used to theme UI elements relating to this provider</div>
-<div class="line">      ThemeIconUrl: &quot;...&quot; # (Optional) Public URL of an image that can be used to theme UI elements relating to this provider</div>
+<div class="line">      FriendlyName: &quot;Example Provider&quot; # Friendly name is how this provider is displayed in UIs (public)</div>
+<div class="line">      ThemeColour: &quot;#ff0000&quot; # (Optional) Hex color code indicating the color used to theme UI elements relating to this provider (public)</div>
+<div class="line">      ThemeIconUrl: &quot;...&quot; # (Optional) Public URL of an image that can be used to theme UI elements relating to this provider (public)</div>
 <div class="line">      UsernameClaim: &quot;preferred_username&quot; # (Optional) Name of claim used to set TGS usernames upon registration. By default &quot;preferred_username&quot; is used. Only applies when using OidcStrictMode.</div>
+<div class="line">      GroupIdClaim: &quot;tgstation-server-group-id&quot; # (Options) Name of claim used to set TGS group ID upon logging in. By default &quot;tgstation-server-group-id&quot; is used. Only applies when using OidcStrictMode.</div>
 </div><!-- fragment --></li>
 <li><code>Security:OidcStrictMode</code>: Boolean flag that, when <code>true</code>, disables password and OAuth logins, password changes, individual permission set assignment, and enables user registration using OpenID Connect providers. The claim name <code>tgstation-server-group-id</code> is used to dictate what TGS group users are registered to.</li>
 </ul>
