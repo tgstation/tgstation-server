@@ -28,7 +28,7 @@ jobs:
         uses: robotology/gh-action-nightly-merge@81570ba03dd370f582bd3f52d47672d29191829f #v1.5.2
         with:
           stable_branch: dev
-          development_branch: v7
+          development_branch: V7
           allow_ff: true
           allow_forks: true
           user_name: tgstation-server-ci[bot]
