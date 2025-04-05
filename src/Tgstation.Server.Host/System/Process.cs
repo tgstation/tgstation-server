@@ -169,7 +169,8 @@ namespace Tgstation.Server.Host.System
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current);
 
-			MeasureProcessorTimeDelta();
+			lastProcessorUsageTime = handle.TotalProcessorTime;
+			lastProcessorMeasureTime = DateTimeOffset.UtcNow;
 
 			logger.LogTrace("Created process ID: {pid}", Id);
 		}
