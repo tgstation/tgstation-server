@@ -63,6 +63,7 @@ namespace Tgstation.Server.Host.Authority
 
 			var selectedPermissionSets = await databaseContext
 				.PermissionSets
+				.AsQueryable()
 				.Where(dbModel => idLookups.Contains(dbModel.Id!.Value)
 					|| (dbModel.UserId.HasValue && userIdLookups.Contains(dbModel.UserId.Value))
 					|| (dbModel.GroupId.HasValue && groupIdLookups.Contains(dbModel.GroupId.Value)))

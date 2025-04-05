@@ -219,13 +219,18 @@ namespace Tgstation.Server.Host.IO
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public async ValueTask<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken)
+		public async ValueTask<Memory<byte>> ReadAllBytes(string path, CancellationToken cancellationToken)
 		{
 			await using var file = CreateAsyncSequentialReadStream(path);
-			byte[] buf;
-			buf = new byte[file.Length];
-			await file.ReadAsync(buf, cancellationToken);
-			return buf;
+
+			var length = file.Length;
+			if (length > Int32.MaxValue)
+				throw new InvalidOperationException("Cannot buffer files larger than 2GB!");
+
+			await using var ms = new MemoryStream((int)length);
+			await file.CopyToAsync(ms, cancellationToken);
+
+			return new Memory<byte>(ms.GetBuffer(), 0, (int)ms.Length);
 		}
 
 		/// <inheritdoc />
@@ -235,7 +240,7 @@ namespace Tgstation.Server.Host.IO
 		public virtual string ResolvePath(string path) => Path.GetFullPath(path ?? throw new ArgumentNullException(nameof(path)));
 
 		/// <inheritdoc />
-		public async ValueTask WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)
+		public async ValueTask WriteAllBytes(string path, ReadOnlyMemory<byte> contents, CancellationToken cancellationToken)
 		{
 			await using var file = CreateAsyncSequentialWriteStream(path);
 			await file.WriteAsync(contents, cancellationToken);
@@ -312,8 +317,8 @@ namespace Tgstation.Server.Host.IO
 				path = ResolvePath(path);
 				ArgumentNullException.ThrowIfNull(zipFile);
 
-#if NET9_0_OR_GREATER
-#error Check if zip file seeking has been addressesed. See https://github.com/tgstation/tgstation-server/issues/1531
+#if NET11_0_OR_GREATER
+#error Check if zip file seeking has been addressed. See https://github.com/tgstation/tgstation-server/issues/1531
 #endif
 
 				// ZipArchive does a synchronous copy on unseekable streams we want to avoid

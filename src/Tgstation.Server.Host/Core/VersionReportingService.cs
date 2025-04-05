@@ -140,7 +140,7 @@ namespace Tgstation.Server.Host.Core
 					string guidStr;
 					try
 					{
-						guidStr = Encoding.UTF8.GetString(contents);
+						guidStr = Encoding.UTF8.GetString(contents.Span);
 					}
 					catch (Exception ex)
 					{

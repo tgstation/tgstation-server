@@ -93,7 +93,7 @@ Note: The `winget` package is submitted to Microsoft for approval once TGS relea
 
 ##### Manual
 
-If you don't have it installed already, download and install the [ASP .NET Core Runtime Hosting Bundle (>= v8.0)](https://dotnet.microsoft.com/download/dotnet/8.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
+If you don't have it installed already, download and install the [ASP .NET Core Runtime Hosting Bundle (>= v10.0)](https://dotnet.microsoft.com/download/dotnet/10.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
 
 [Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). Typically, you want the `ServerService.zip` package in order to run TGS as a Windows service. Choose `ServerConsole.zip` if you prefer to use a command line daemon.
 
@@ -166,7 +166,7 @@ Refer to [tgstation-server.nix](./build/package/nix/tgstation-server.nix) for th
 
 The following dependencies are required.
 
-- aspnetcore-runtime-8.0 (See Prerequisites under the `Ubuntu/Debian Package` section)
+- aspnetcore-runtime-10.0 (See Prerequisites under the `Ubuntu/Debian Package` section)
 - libc6-i386
 - libstdc++6:i386
 - gcc-multilib (Only on 64-bit systems)
@@ -219,19 +219,19 @@ If using manual configuration, before starting your container make sure the afor
 
 In order for TGS to use [OpenDream](https://github.com/OpenDreamProject/OpenDream), it requires the full .NET SDK to build whichever version your servers target. Whatever that is, it must be available using the `dotnet` command for whichever user runs TGS.
 
-OpenDream currently requires [.NET SDK 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) at the time of this writing. You must install this manually outside of TGS (i.e. using your package manager).
+OpenDream currently requires [.NET SDK 10.0](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) at the time of this writing. You must install this manually outside of TGS (i.e. using your package manager).
 
 <details>
   <summary>How to handle a different SDK version than the ASP.NET runtime of TGS.</summary>
 
-  On Linux, as long as OpenDream and TGS do not use the same .NET major version, you cannot achieve this with the package manager as they will conflict. For example, the 7.0 SDK can be added to an 8.0 runtime installation via the following steps.
+  On Linux, as long as OpenDream and TGS do not use the same .NET major version, you cannot achieve this with the package manager as they will conflict. For example, the 9.0 SDK can be added to an 10.0 runtime installation via the following steps.
 
   1. Install `tgstation-server` using any of the above methods.
-  1. [Download the Linux SDK binaries](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) for your selected architecture.
+  1. [Download the Linux SDK binaries](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) for your selected architecture.
   1. Extract everything EXCEPT the `dotnet` executable, `LICENSE.txt`, and `ThirdPartyNotices.txt` in the `.tar.gz` on top of the existing installation directory `/usr/share/dotnet/`
   1. Run `sudo chown -R root /usr/share/dotnet`
 
-  You should now be able to run the `dotnet --list-sdks` command and see an entry for `7.0.XXX [/usr/share/dotnet/sdk]`.
+  You should now be able to run the `dotnet --list-sdks` command and see an entry for `9.0.XXX [/usr/share/dotnet/sdk]`.
 </details>
 
 ### Configuring
@@ -248,7 +248,7 @@ There are 3 primary supported ways to configure TGS:
 - Set environment variables in the form `Section__Subsection=value` or `Section__ArraySubsection__0=value` for arrays.
 - Set command line arguments in the form `--Section:Subsection=value` or `--Section:ArraySubsection:0=value` for arrays.
 
-The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration [here](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-8.0).
+The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration [here](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-10.0).
 
 #### Manual Configuration
 
