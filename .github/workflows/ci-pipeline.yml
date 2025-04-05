@@ -35,7 +35,7 @@ on:
 
 env:
   LINUX_RUNNER: ubuntu-latest
-  WINDOWS_RUNNER: windows-latest
+  WINDOWS_RUNNER: windows-2025
   TGS_DOTNET_VERSION: 8
   OD_MIN_COMPAT_DOTNET_VERSION: 7
   OD_DOTNET_VERSION: 9
