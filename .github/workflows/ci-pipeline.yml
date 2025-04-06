@@ -105,6 +105,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgdiplus
 
+      - name: Workaround StrawberryShake Issues By removing Preinstalled NET 8 SDK
+        run: sudo rm -rf /usr/share/dotnet/sdk/*
+
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
@@ -475,6 +478,9 @@ jobs:
           sudo dpkg --add-architecture i386
           sudo apt-get update
           sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386 libgdiplus
+
+      - name: Workaround StrawberryShake Issues By removing Preinstalled NET 8 SDK
+        run: sudo rm -rf /usr/share/dotnet/sdk/*
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -877,6 +883,9 @@ jobs:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
+      - name: Workaround StrawberryShake Issues By removing Preinstalled NET 8 SDK
+        run: sudo rm -rf /usr/share/dotnet/sdk/*
+
       - name: Setup dotnet (TGS)
         uses: actions/setup-dotnet@v4
         with:
@@ -1330,6 +1339,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y dotnet-sdk-${{ env.TGS_DOTNET_VERSION }}.0
+
+      - name: Workaround StrawberryShake Issues By removing Preinstalled NET 8 SDK
+        run: sudo rm -rf /usr/share/dotnet/sdk/*
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4

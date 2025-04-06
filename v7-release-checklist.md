@@ -4,3 +4,4 @@
 - [ ] Update CI dotnet version to ga
 - [ ] Disable `TgsNetPreviewBuild` in Version.props
 - [ ] Fix dependencies in debian build-package.sh and control
+- [ ] Remove SDK uninstall steps in ci-pipeline.yml
