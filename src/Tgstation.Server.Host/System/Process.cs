@@ -169,7 +169,16 @@ namespace Tgstation.Server.Host.System
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current);
 
-			lastProcessorUsageTime = handle.TotalProcessorTime;
+			try
+			{
+				lastProcessorUsageTime = handle.TotalProcessorTime;
+			}
+			catch (Exception ex)
+			{
+				logger.LogTrace(ex, "Failed to measure initial process time.");
+				lastProcessorUsageTime = TimeSpan.Zero;
+			}
+
 			lastProcessorMeasureTime = DateTimeOffset.UtcNow;
 
 			logger.LogTrace("Created process ID: {pid}", Id);
