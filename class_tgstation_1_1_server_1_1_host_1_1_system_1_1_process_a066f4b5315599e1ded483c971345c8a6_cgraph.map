@@ -1,7 +1,5 @@
 <map id="Tgstation.Server.Host.System.Process.Process" name="Tgstation.Server.Host.System.Process.Process">
-<area shape="rect" id="Node000001" title="Initializes a new instance of the Process class." alt="" coords="5,39,203,79"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a3cb8a821042236bfba494f767d643c85" title="Gets the estimated CPU usage fraction of the process based on the last time this was called...." alt="" coords="251,5,491,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,44,235,40,235,45,204,49"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#aece276c8da5d8ba1e7b073939b37829b" title="Attaches a log message to the process&#39; exit event." alt="" coords="272,71,470,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="204,68,257,75,257,80,203,74"/>
+<area shape="rect" id="Node000001" title="Initializes a new instance of the Process class." alt="" coords="5,5,203,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#aece276c8da5d8ba1e7b073939b37829b" title="Attaches a log message to the process&#39; exit event." alt="" coords="251,5,448,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,23,235,23,235,28,203,28"/>
 </map>

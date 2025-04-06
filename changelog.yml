@@ -194,6 +194,10 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 7.0.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.16.0
     ComponentVersions:
       Core: 6.16.0
@@ -211,7 +215,6 @@ Components:
     Unreleased: true
   - Version: 6.15.3
     ComponentVersions:
-      Core: 6.15.2
       HttpApi: 10.13.0
       GraphQLApi: 0.6.0
       DreamMakerApi: 7.3.1
@@ -222,7 +225,11 @@ Components:
       NugetApi: 18.0.0
       NugetClient: 21.0.0
       WebControlPanel: 6.9.3
-    Changes: []
+    Changes:
+    - Descriptions:
+      - Fixed a bug where measuring CPU usage would fail.
+      Author: Cyberboss
+      PullRequest: 2186
     Unreleased: true
   - Version: 6.15.2
     ComponentVersions:

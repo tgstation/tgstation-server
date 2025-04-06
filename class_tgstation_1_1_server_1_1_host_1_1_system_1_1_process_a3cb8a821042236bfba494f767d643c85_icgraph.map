@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.System.Process.MeasureProcessorTimeDelta" name="Tgstation.Server.Host.System.Process.MeasureProcessorTimeDelta">
-<area shape="rect" id="Node000001" title="Gets the estimated CPU usage fraction of the process based on the last time this was called...." alt="" coords="251,5,491,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a066f4b5315599e1ded483c971345c8a6" title="Initializes a new instance of the Process class." alt="" coords="5,5,203,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,28,203,28,203,23,235,23"/>
-</map>
