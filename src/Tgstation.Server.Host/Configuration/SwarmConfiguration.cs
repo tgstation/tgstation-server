@@ -47,5 +47,15 @@ namespace Tgstation.Server.Host.Configuration
 		/// The number of nodes in addition to the controller required to be connected a server swarm before performing an update.
 		/// </summary>
 		public uint UpdateRequiredNodeCount { get; set; }
+
+		/// <summary>
+		/// The IP address specifier for hosting the swarm service. Defaults to 0.0.0.0.
+		/// </summary>
+		public string? HostingIP { get; set; }
+
+		/// <summary>
+		/// The swarm API port. Defaults to <see cref="GeneralConfiguration.ApiPort"/> + 1.
+		/// </summary>
+		public ushort? HostingPort { get; set; }
 	}
 }

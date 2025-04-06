@@ -2,6 +2,7 @@
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -315,9 +316,6 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IMetricFactory>(_ => Metrics.DefaultFactory);
 			services.AddSingleton<ICollectorRegistry>(_ => Metrics.DefaultRegistry);
 
-			if (prometheusPort.HasValue && prometheusPort != postSetupServices.GeneralConfiguration.ApiPort)
-				services.AddMetricServer(options => options.Port = prometheusPort.Value);
-
 			services.UseHttpClientMetrics();
 
 			var healthChecksBuilder = services
@@ -336,12 +334,13 @@ namespace Tgstation.Server.Host.Core
 							builder => builder
 								.RequireAuthenticatedUser()
 								.RequireRole(TgsAuthorizeAttribute.UserEnabledRole));
+
 						options.AddPolicy(
-							"testingasdf",
+							SwarmConstants.AuthenticationSchemeAndPolicy,
 							builder =>
 							{
 								builder.RequireAuthenticatedUser();
-								builder.AuthenticationSchemes.Add(CookieAuthenticationDefaults.AuthenticationScheme);
+								builder.AuthenticationSchemes.Add(SwarmConstants.AuthenticationSchemeAndPolicy);
 							});
 					})
 				.ModifyOptions(options =>
@@ -545,7 +544,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
-			services.AddSingleton<IGrpcChannelFactory, GrpcChannelFactory>();
+			services.AddSingleton<ICallInvokerlFactory, CallInvokerFactory>();
 			services.AddHostedService<CommandPipeManager>();
 			services.AddHostedService<VersionReportingService>();
 
@@ -581,6 +580,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SwarmConfiguration"/> to use.</param>
 		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="InternalConfiguration"/> to use.</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/>.</param>
+#pragma warning disable CA1502 // TODO: Decomplexify
 		public void Configure(
 			IApplicationBuilder applicationBuilder,
 			IServerControl serverControl,
@@ -594,6 +594,7 @@ namespace Tgstation.Server.Host.Core
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			IOptions<InternalConfiguration> internalConfigurationOptions,
 			ILogger<Application> logger)
+#pragma warning restore CA1502
 		{
 			ArgumentNullException.ThrowIfNull(applicationBuilder);
 			ArgumentNullException.ThrowIfNull(serverControl);
@@ -630,8 +631,8 @@ namespace Tgstation.Server.Host.Core
 
 			forwardedHeaderOptions.KnownNetworks.Clear();
 			forwardedHeaderOptions.KnownNetworks.Add(
-				new IPNetwork(
-					global::System.Net.IPAddress.Any,
+				new Microsoft.AspNetCore.HttpOverrides.IPNetwork(
+					IPAddress.Any,
 					0));
 
 			applicationBuilder.UseForwardedHeaders(forwardedHeaderOptions);
@@ -745,16 +746,29 @@ namespace Tgstation.Server.Host.Core
 
 				if (swarmConfiguration.PrivateKey != null)
 				{
-					endpoints.MapGrpcService<SwarmSharedService>();
+					var hostingIP = swarmConfiguration.HostingIP;
+					if (hostingIP == null || IPAddress.Parse(hostingIP) == IPAddress.Any)
+					{
+						hostingIP = "*";
+					}
+
+					var swarmRequiredHost = $"{hostingIP}:{swarmConfiguration.HostingPort ?? serverPortProvider.HttpApiPort}";
+
+					endpoints.MapGrpcService<SwarmSharedService>()
+						.RequireHost(swarmRequiredHost);
 
 					if (swarmConfiguration.ControllerAddress != null)
-						endpoints.MapGrpcService<SwarmNodeService>();
+						endpoints.MapGrpcService<SwarmNodeService>()
+							.RequireHost(swarmRequiredHost);
 					else
-						endpoints.MapGrpcService<SwarmControllerService>();
+						endpoints.MapGrpcService<SwarmControllerService>()
+							.RequireHost(swarmRequiredHost);
 				}
 
 				// majority of handling is done in the controllers
-				endpoints.MapControllers();
+				var tgsRequiredHost = $"*:{serverPortProvider.HttpApiPort}";
+				endpoints.MapControllers()
+					.RequireHost(tgsRequiredHost);
 
 				if (internalConfiguration.EnableGraphQL)
 				{
@@ -768,21 +782,19 @@ namespace Tgstation.Server.Host.Core
 
 					endpoints
 						.MapGraphQL(Routes.GraphQL)
-						.WithOptions(gqlOptions);
+						.WithOptions(gqlOptions)
+						.RequireHost(tgsRequiredHost);
 				}
 
 				if (generalConfiguration.PrometheusPort.HasValue)
-					if (generalConfiguration.PrometheusPort == generalConfiguration.ApiPort)
-					{
-						endpoints.MapMetrics();
-						logger.LogDebug("Prometheus being hosted alongside server");
-					}
-					else
-						logger.LogDebug("Prometheus being hosted on port {prometheusPort}", generalConfiguration.PrometheusPort);
+					endpoints
+						.MapMetrics()
+						.RequireHost($"*:{generalConfiguration.PrometheusPort.Value}");
 				else
 					logger.LogTrace("Prometheus disabled");
 
-				endpoints.MapHealthChecks("/health");
+				endpoints.MapHealthChecks("/health")
+					.RequireHost(tgsRequiredHost);
 
 				var oidcConfig = securityConfigurationOptions.Value.OpenIDConnect;
 				if (oidcConfig == null)
@@ -796,7 +808,8 @@ namespace Tgstation.Server.Host.Core
 							new AuthenticationProperties
 							{
 								RedirectUri = $"/oidc/{kvp.Key}/landing",
-							}));
+							}))
+						.RequireHost(tgsRequiredHost);
 			});
 
 			// 404 anything that gets this far
@@ -878,6 +891,8 @@ namespace Tgstation.Server.Host.Core
 									.RequestAborted),
 					};
 				});
+
+			authBuilder.AddScheme<AuthenticationSchemeOptions, SwarmAuthenticationHandler>(SwarmConstants.AuthenticationSchemeAndPolicy, "Swarm Authentication", null);
 
 			var oidcConfig = securityConfiguration.OpenIDConnect;
 			if (oidcConfig == null || oidcConfig.Count == 0)

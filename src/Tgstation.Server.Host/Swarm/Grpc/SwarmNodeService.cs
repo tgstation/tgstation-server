@@ -66,7 +66,9 @@ namespace Tgstation.Server.Host.Swarm.Grpc
 						Controller = info.Controller,
 						Identifier = info.SwarmServer.Identifier,
 						Address = new Uri(info.SwarmServer.Address),
-						PublicAddress = new Uri(info.SwarmServer.PublicAddress),
+						PublicAddress = info.SwarmServer.PublicAddress != null
+							? new Uri(info.SwarmServer.PublicAddress)
+							: null,
 					})
 					.ToList();
 			}

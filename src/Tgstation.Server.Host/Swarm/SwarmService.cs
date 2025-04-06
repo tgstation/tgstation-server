@@ -11,7 +11,7 @@ using System.Web;
 
 using Google.Protobuf;
 
-using Grpc.Net.Client;
+using Grpc.Core;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -100,9 +100,9 @@ namespace Tgstation.Server.Host.Swarm
 		readonly ITokenFactory tokenFactory;
 
 		/// <summary>
-		/// The <see cref="IGrpcChannelFactory"/> for the <see cref="SwarmService"/>.
+		/// The <see cref="ICallInvokerlFactory"/> for the <see cref="SwarmService"/>.
 		/// </summary>
-		readonly IGrpcChannelFactory grpcChannelFactory;
+		readonly ICallInvokerlFactory grpcChannelFactory;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SwarmService"/>.
@@ -130,9 +130,9 @@ namespace Tgstation.Server.Host.Swarm
 		readonly Dictionary<string, (Guid RegistrationId, DateTimeOffset RegisteredAt)>? registrationIdsAndTimes;
 
 		/// <summary>
-		/// <see cref="Dictionary{TKey, TValue}"/> of non-controller <see cref="Api.Models.Internal.SwarmServer.Identifier"/>s to <see cref="GrpcChannel"/>s connecting to them.
+		/// <see cref="Dictionary{TKey, TValue}"/> of non-controller <see cref="Api.Models.Internal.SwarmServer.Identifier"/>s to <see cref="CallInvoker"/>s connecting to them.
 		/// </summary>
-		readonly Dictionary<string, GrpcChannel> nodeGrpcChannels;
+		readonly Dictionary<string, CallInvoker> nodeCallInvokers;
 
 		/// <summary>
 		/// If the current server is the swarm controller.
@@ -150,9 +150,9 @@ namespace Tgstation.Server.Host.Swarm
 		volatile TaskCompletionSource? forceHealthCheckTcs;
 
 		/// <summary>
-		/// The <see cref="GrpcChannel"/> for communication with the swarm controller.
+		/// The <see cref="CallInvoker"/> for communication with the swarm controller.
 		/// </summary>
-		GrpcChannel? controllerGrpcChannel;
+		CallInvoker? controllerCallInvoker;
 
 		/// <summary>
 		/// The <see cref="Task"/> for the <see cref="HealthCheckLoop(CancellationToken)"/>.
@@ -197,7 +197,7 @@ namespace Tgstation.Server.Host.Swarm
 			IServerUpdater serverUpdater,
 			IFileTransferTicketProvider transferService,
 			ITokenFactory tokenFactory,
-			IGrpcChannelFactory grpcChannelFactory,
+			ICallInvokerlFactory grpcChannelFactory,
 			IOptionsMonitor<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<SwarmService> logger)
 		{
@@ -213,7 +213,7 @@ namespace Tgstation.Server.Host.Swarm
 			this.swarmConfigurationOptions = swarmConfigurationOptions ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-			nodeGrpcChannels = new Dictionary<string, GrpcChannel>();
+			nodeCallInvokers = new Dictionary<string, CallInvoker>();
 			if (SwarmMode)
 			{
 				var currentSwarmOptions = swarmConfigurationOptions.CurrentValue;
@@ -247,13 +247,7 @@ namespace Tgstation.Server.Host.Swarm
 
 		/// <inheritdoc />
 		public void Dispose()
-		{
-			serverHealthCheckCancellationTokenSource?.Dispose();
-			foreach (var kvp in nodeGrpcChannels)
-				kvp.Value.Dispose();
-
-			controllerGrpcChannel?.Dispose();
-		}
+			=> serverHealthCheckCancellationTokenSource?.Dispose();
 
 		/// <inheritdoc />
 		public async ValueTask AbortUpdate()
@@ -306,7 +300,7 @@ namespace Tgstation.Server.Host.Swarm
 				logger.LogTrace("Sending ready-commit to swarm controller...");
 
 				var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(
-					GetChannelForNode(null, out var registration));
+					GetCallInvokerForNode(null, out var registration));
 
 				try
 				{
@@ -361,7 +355,7 @@ namespace Tgstation.Server.Host.Swarm
 			async ValueTask SendRemoteCommitUpdate(SwarmServerInformation swarmServer)
 			{
 				var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(
-					GetChannelForNode(swarmServer, out var registration));
+					GetCallInvokerForNode(swarmServer, out var registration));
 
 				try
 				{
@@ -472,8 +466,8 @@ namespace Tgstation.Server.Host.Swarm
 
 			async ValueTask SendUnregistrationRequest(SwarmServerInformation? swarmServer)
 			{
-				var channel = GetChannelForNode(swarmServer, out var registration);
-				var client = new GrpcSwarmControllerService.GrpcSwarmControllerServiceClient(channel);
+				var callInvoker = GetCallInvokerForNode(swarmServer, out var registration);
+				var client = new GrpcSwarmControllerService.GrpcSwarmControllerServiceClient(callInvoker);
 
 				try
 				{
@@ -738,8 +732,8 @@ namespace Tgstation.Server.Host.Swarm
 			using var httpClient = httpClientFactory.CreateClient();
 			async ValueTask SendRemoteAbort(SwarmServerInformation swarmServer)
 			{
-				var channel = GetChannelForNode(swarmServer, out var registration);
-				var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(channel);
+				var callInvoker = GetCallInvokerForNode(swarmServer, out var registration);
+				var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(callInvoker);
 
 				try
 				{
@@ -816,7 +810,9 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="updateRequest">The <see cref="PrepareUpdateRequest"/>. Must always have <see cref="PrepareUpdateRequest.UpdateVersion"/> populated. If <paramref name="initiatorProvider"/> is <see langword="null"/>, it must be fully populated.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="SwarmPrepareResult"/>.</returns>
+#pragma warning disable CA1506 // TODO: Decomplexify
 		async ValueTask<SwarmPrepareResult> PrepareUpdateImpl(ISeekableFileStreamProvider? initiatorProvider, PrepareUpdateRequest updateRequest, CancellationToken cancellationToken)
+#pragma warning restore CA1506
 		{
 			var version = updateRequest.UpdateVersion.ToVersion();
 			if (!SwarmMode)
@@ -874,8 +870,8 @@ namespace Tgstation.Server.Host.Swarm
 
 					logger.LogInformation("Forwarding update request to swarm controller...");
 
-					var channel = GetChannelForNode(null, out var registration);
-					var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(channel);
+					var callInvoker = GetCallInvokerForNode(null, out var registration);
+					var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(callInvoker);
 
 					// File transfer service will hold the necessary streams
 					var request = new PrepareUpdateRequest
@@ -984,11 +980,13 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="currentUpdateOperation">The current <see cref="SwarmUpdateOperation"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="SwarmPrepareResult"/>.</returns>
+#pragma warning disable CA1506 // TODO: Decomplexify
 		async ValueTask<SwarmPrepareResult> ControllerDistributedPrepareUpdate(
 			ISeekableFileStreamProvider? initiatorProvider,
 			PrepareUpdateRequest updateRequest,
 			SwarmUpdateOperation currentUpdateOperation,
 			CancellationToken cancellationToken)
+#pragma warning restore CA1506
 		{
 			bool abortUpdate = false;
 			try
@@ -1083,8 +1081,8 @@ namespace Tgstation.Server.Host.Swarm
 						var node = tuple!.Item1;
 						var body = tuple.Item2;
 
-						var channel = GetChannelForNode(node, out var registration);
-						var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(channel);
+						var callInvoker = GetCallInvokerForNode(node, out var registration);
+						var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(callInvoker);
 
 						try
 						{
@@ -1183,8 +1181,8 @@ namespace Tgstation.Server.Host.Swarm
 			var registrationIdsAndTimes = this.registrationIdsAndTimes!;
 			async ValueTask HealthRequestForServer(SwarmServerInformation swarmServer)
 			{
-				var channel = GetChannelForNode(swarmServer, out var registration);
-				var client = new GrpcSwarmNodeService.GrpcSwarmNodeServiceClient(channel);
+				var callInvoker = GetCallInvokerForNode(swarmServer, out var registration);
+				var client = new GrpcSwarmNodeService.GrpcSwarmNodeServiceClient(callInvoker);
 
 				try
 				{
@@ -1258,8 +1256,8 @@ namespace Tgstation.Server.Host.Swarm
 			if (controllerRegistration.HasValue)
 				try
 				{
-					var channel = GetChannelForNode(null, out var registration);
-					var client = new GrpcSwarmNodeService.GrpcSwarmNodeServiceClient(channel);
+					var callInvoker = GetCallInvokerForNode(null, out var registration);
+					var client = new GrpcSwarmNodeService.GrpcSwarmNodeServiceClient(callInvoker);
 
 					await client.HealthCheckAsync(
 						new HealthCheckRequest
@@ -1315,8 +1313,8 @@ namespace Tgstation.Server.Host.Swarm
 			var currentSwarmConfiguration = swarmConfigurationOptions.CurrentValue;
 			logger.LogInformation("Attempting to register with swarm controller at {controllerAddress}...", currentSwarmConfiguration.ControllerAddress);
 
-			var channel = GetChannelForNode(null, out _);
-			var client = new GrpcSwarmControllerService.GrpcSwarmControllerServiceClient(channel);
+			var callInvoker = GetCallInvokerForNode(null, out _);
+			var client = new GrpcSwarmControllerService.GrpcSwarmControllerServiceClient(callInvoker);
 			try
 			{
 				try
@@ -1327,7 +1325,7 @@ namespace Tgstation.Server.Host.Swarm
 							RegisteringNode = new Grpc.SwarmServer
 							{
 								Address = currentSwarmConfiguration.Address!.ToString(),
-								PublicAddress = currentSwarmConfiguration.PublicAddress!.ToString(),
+								PublicAddress = currentSwarmConfiguration.PublicAddress?.ToString(),
 								Identifier = currentSwarmConfiguration.Identifier,
 							},
 							SwarmProtocolVersion = new GrpcVersion(
@@ -1382,8 +1380,8 @@ namespace Tgstation.Server.Host.Swarm
 			using var httpClient = httpClientFactory.CreateClient();
 			async ValueTask UpdateRequestForServer(SwarmServerInformation swarmServer)
 			{
-				var channel = GetChannelForNode(swarmServer, out var registration);
-				var client = new GrpcSwarmNodeService.GrpcSwarmNodeServiceClient(channel);
+				var callInvoker = GetCallInvokerForNode(swarmServer, out var registration);
+				var client = new GrpcSwarmNodeService.GrpcSwarmNodeServiceClient(callInvoker);
 				try
 				{
 					var request = new UpdateNodeListRequest
@@ -1396,7 +1394,7 @@ namespace Tgstation.Server.Host.Swarm
 						SwarmServer = new Grpc.SwarmServer
 						{
 							Address = swarmServer.Address!.ToString(),
-							PublicAddress = swarmServer.PublicAddress!.ToString(),
+							PublicAddress = swarmServer.PublicAddress?.ToString(),
 							Identifier = swarmServer.Identifier,
 						},
 					}));
@@ -1533,27 +1531,27 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <summary>
-		/// Get the <see cref="GrpcChannel"/> and <see cref="SwarmRegistration"/> for a given <paramref name="swarmServer"/>.
+		/// Get the <see cref="CallInvoker"/> and <see cref="SwarmRegistration"/> for a given <paramref name="swarmServer"/>.
 		/// </summary>
 		/// <param name="swarmServer">The optional <see cref="Api.Models.Internal.SwarmServer"/> to connect to. If <see langword="null"/> the <see cref="SwarmConfiguration.ControllerAddress"/> will be used.</param>
 		/// <param name="swarmRegistration">The <see cref="SwarmRegistration"/> for the <paramref name="swarmServer"/>, if any.</param>
-		/// <returns>The <see cref="GrpcChannel"/> to use for calling the target <paramref name="swarmServer"/>.</returns>
-		private GrpcChannel GetChannelForNode(Api.Models.Internal.SwarmServer? swarmServer, out SwarmRegistration? swarmRegistration)
+		/// <returns>The <see cref="CallInvoker"/> to use for calling the target <paramref name="swarmServer"/>.</returns>
+		private CallInvoker GetCallInvokerForNode(Api.Models.Internal.SwarmServer? swarmServer, out SwarmRegistration? swarmRegistration)
 		{
 			string CreateSwarmAuthorizationHeader() => $"{SwarmConstants.AuthenticationSchemeAndPolicy} {swarmConfigurationOptions.CurrentValue.PrivateKey}";
 
-			lock (nodeGrpcChannels)
+			lock (nodeCallInvokers)
 			{
-				GrpcChannel? channel;
+				CallInvoker? callInvoker;
 				if (swarmServer == null)
 				{
-					if (controllerGrpcChannel == null)
+					if (controllerCallInvoker == null)
 					{
 						var controllerAddress = swarmConfigurationOptions.CurrentValue.ControllerAddress;
 						if (controllerAddress == null)
 							throw new InvalidOperationException("Controller address was null!");
 
-						controllerGrpcChannel = grpcChannelFactory.CreateChannel(controllerAddress, CreateSwarmAuthorizationHeader);
+						controllerCallInvoker = grpcChannelFactory.CreateCallInvoker(controllerAddress, CreateSwarmAuthorizationHeader);
 					}
 
 					if (controllerRegistration.HasValue)
@@ -1564,7 +1562,7 @@ namespace Tgstation.Server.Host.Swarm
 					else
 						swarmRegistration = null;
 
-					channel = controllerGrpcChannel;
+					callInvoker = controllerCallInvoker;
 				}
 				else
 				{
@@ -1577,14 +1575,14 @@ namespace Tgstation.Server.Host.Swarm
 						else
 							swarmRegistration = null;
 
-					if (!nodeGrpcChannels.TryGetValue(swarmServer.Identifier!, out channel))
-						{
-							channel = grpcChannelFactory.CreateChannel(swarmServer.Address!, CreateSwarmAuthorizationHeader);
-							nodeGrpcChannels.Add(swarmServer.Identifier!, channel);
-						}
+					if (!nodeCallInvokers.TryGetValue(swarmServer.Identifier!, out callInvoker))
+					{
+						callInvoker = grpcChannelFactory.CreateCallInvoker(swarmServer.Address!, CreateSwarmAuthorizationHeader);
+						nodeCallInvokers.Add(swarmServer.Identifier!, callInvoker);
+					}
 				}
 
-				return channel;
+				return callInvoker;
 			}
 		}
 	}

@@ -210,6 +210,11 @@ namespace Tgstation.Server.Tests.Live
 			if (swarmConfiguration.UpdateRequiredNodeCount != 0)
 				swarmArgs.Add($"Swarm:UpdateRequiredNodeCount={swarmConfiguration.UpdateRequiredNodeCount}");
 
+			if (swarmConfiguration.HostingIP != null)
+				swarmArgs.Add($"Swarm:HostingIP={swarmConfiguration.HostingIP}");
+
+			swarmArgs.Add($"Swarm:HostingPort={swarmConfiguration.HostingPort.Value}");
+
 			swarmNodeId = swarmConfiguration.Identifier;
 		}
 

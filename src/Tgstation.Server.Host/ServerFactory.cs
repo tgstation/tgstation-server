@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -154,9 +155,20 @@ namespace Tgstation.Server.Host
 							kestrelOptions.ListenAnyIP(
 								serverPortProvider.HttpApiPort,
 								listenOptions => listenOptions.Protocols = HttpProtocols.Http1); // Can't use Http1And2 without TLS. Let the reverse proxy handle it
-							kestrelOptions.ListenAnyIP(
-								serverPortProvider.HttpApiPort,
-								listenOptions => listenOptions.Protocols = HttpProtocols.Http2);
+
+							var swarmConfig = postSetupServices.SwarmConfiguration;
+							if (swarmConfig.PrivateKey != null)
+							{
+								IPAddress hostingAddress = String.IsNullOrWhiteSpace(swarmConfig.HostingIP)
+									? IPAddress.Any
+									: IPAddress.Parse(swarmConfig.HostingIP);
+
+								kestrelOptions.Listen(
+									new IPEndPoint(
+										hostingAddress,
+										swarmConfig.HostingPort ?? serverPortProvider.HttpApiPort + 1),
+									listenOptions => listenOptions.Protocols = HttpProtocols.Http2);
+							}
 
 							// with 515 we lost the ability to test this effectively. Just bump it slightly above the default and let the existing limit hold us back
 							kestrelOptions.Limits.MaxRequestLineSize = 8400;

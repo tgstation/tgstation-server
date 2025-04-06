@@ -509,12 +509,13 @@ namespace Tgstation.Server.Tests.Live
 
 			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
 
-			var controllerAddress = new Uri("http://localhost:15011");
+			var controllerAddress = new Uri("http://localhost:15111");
 			using (var controller = new LiveTestingServer(new SwarmConfiguration
 			{
 				Address = controllerAddress,
 				Identifier = "controller",
-				PrivateKey = PrivateKey
+				PrivateKey = PrivateKey,
+				HostingPort = 15111,
 			}, false, 15011))
 			{
 				using var serverCts = new CancellationTokenSource();
@@ -534,7 +535,7 @@ namespace Tgstation.Server.Tests.Live
 						Assert.AreEqual(1, serverInformation.SwarmServers.Count);
 						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
 						Assert.IsNotNull(controller);
-						Assert.AreEqual(controller.Address, new Uri("http://localhost:15011"));
+						Assert.AreEqual(controller.Address, new Uri("http://localhost:15111"));
 						Assert.IsTrue(controller.Controller);
 					}
 
@@ -602,27 +603,30 @@ namespace Tgstation.Server.Tests.Live
 			new LiveTestingServer(null, false).Dispose();
 			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
 
-			var controllerAddress = new Uri("http://localhost:15011");
+			var controllerAddress = new Uri("http://localhost:15111");
 			using (var controller = new LiveTestingServer(new SwarmConfiguration
 			{
 				Address = controllerAddress,
 				Identifier = "controller",
-				PrivateKey = PrivateKey
+				PrivateKey = PrivateKey,
+				HostingPort = 15111,
 			}, false, 15011))
 			{
 				using var node1 = new LiveTestingServer(new SwarmConfiguration
 				{
-					Address = new Uri("http://localhost:15012"),
+					Address = new Uri("http://localhost:15112"),
 					ControllerAddress = controllerAddress,
 					Identifier = "node1",
-					PrivateKey = PrivateKey
+					PrivateKey = PrivateKey,
+					HostingPort = 15112,
 				}, false, 15012);
 				using var node2 = new LiveTestingServer(new SwarmConfiguration
 				{
-					Address = new Uri("http://localhost:15013"),
+					Address = new Uri("http://localhost:15113"),
 					ControllerAddress = controllerAddress,
 					Identifier = "node2",
-					PrivateKey = PrivateKey
+					PrivateKey = PrivateKey,
+					HostingPort = 15113,
 				}, false, 15013);
 				using var serverCts = new CancellationTokenSource();
 				var cancellationToken = serverCts.Token;
@@ -657,17 +661,17 @@ namespace Tgstation.Server.Tests.Live
 
 						var node1 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node1");
 						Assert.IsNotNull(node1);
-						Assert.AreEqual(node1.Address, new Uri("http://localhost:15012"));
+						Assert.AreEqual(node1.Address, new Uri("http://localhost:15112"));
 						Assert.IsFalse(node1.Controller);
 
 						var node2 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node2");
 						Assert.IsNotNull(node2);
-						Assert.AreEqual(node2.Address, new Uri("http://localhost:15013"));
+						Assert.AreEqual(node2.Address, new Uri("http://localhost:15113"));
 						Assert.IsFalse(node2.Controller);
 
 						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
 						Assert.IsNotNull(controller);
-						Assert.AreEqual(controller.Address, new Uri("http://localhost:15011"));
+						Assert.AreEqual(controller.Address, new Uri("http://localhost:15111"));
 						Assert.IsTrue(controller.Controller);
 					}
 
@@ -700,7 +704,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(newUser.Enabled, node1User.Enabled);
 
 					await using var controllerUserClient = await restClientFactory.CreateFromLogin(
-						controllerAddress,
+						controller.ApiUrl,
 						newUser.Name,
 						"asdfasdfasdfasdf");
 
@@ -880,7 +884,7 @@ namespace Tgstation.Server.Tests.Live
 
 			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
 
-			var controllerAddress = new Uri("http://localhost:15011");
+			var controllerAddress = new Uri("http://localhost:15111");
 			using (var controller = new LiveTestingServer(new SwarmConfiguration
 			{
 				Address = controllerAddress,
@@ -888,22 +892,25 @@ namespace Tgstation.Server.Tests.Live
 				PublicAddress = new Uri("http://fakecontroller.com"),
 				PrivateKey = PrivateKey,
 				UpdateRequiredNodeCount = 2,
+				HostingPort = 15111,
 			}, false, 15011))
 			{
 				using var node1 = new LiveTestingServer(new SwarmConfiguration
 				{
-					Address = new Uri("http://localhost:15012"),
+					Address = new Uri("http://localhost:15112"),
 					ControllerAddress = controllerAddress,
 					PublicAddress = new Uri("http://fakenode1.com"),
 					Identifier = "node1",
-					PrivateKey = PrivateKey
+					PrivateKey = PrivateKey,
+					HostingPort = 15112,
 				}, false, 15012);
 				using var node2 = new LiveTestingServer(new SwarmConfiguration
 				{
-					Address = new Uri("http://localhost:15013"),
+					Address = new Uri("http://localhost:15113"),
 					ControllerAddress = controllerAddress,
 					Identifier = "node2",
-					PrivateKey = PrivateKey
+					PrivateKey = PrivateKey,
+					HostingPort = 15113,
 				}, false, 15013);
 				using var serverCts = new CancellationTokenSource();
 
@@ -942,19 +949,19 @@ namespace Tgstation.Server.Tests.Live
 
 						var node1 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node1");
 						Assert.IsNotNull(node1);
-						Assert.AreEqual(node1.Address, new Uri("http://localhost:15012"));
+						Assert.AreEqual(node1.Address, new Uri("http://localhost:15112"));
 						Assert.IsFalse(node1.Controller);
 						Assert.AreEqual(node1.PublicAddress, new Uri("http://fakenode1.com"));
 
 						var node2 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node2");
 						Assert.IsNotNull(node2);
-						Assert.AreEqual(node2.Address, new Uri("http://localhost:15013"));
+						Assert.AreEqual(node2.Address, new Uri("http://localhost:15113"));
 						Assert.IsFalse(node2.Controller);
 						Assert.IsNull(node2.PublicAddress);
 
 						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
 						Assert.IsNotNull(controller);
-						Assert.AreEqual(controller.Address, new Uri("http://localhost:15011"));
+						Assert.AreEqual(controller.Address, new Uri("http://localhost:15111"));
 						Assert.IsTrue(controller.Controller);
 						Assert.AreEqual(controller.PublicAddress, new Uri("http://fakecontroller.com"));
 					}

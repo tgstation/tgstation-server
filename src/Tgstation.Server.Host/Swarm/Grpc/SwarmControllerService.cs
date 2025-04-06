@@ -64,7 +64,9 @@ namespace Tgstation.Server.Host.Swarm.Grpc
 				swarmServer = new Api.Models.Internal.SwarmServer
 				{
 					Address = new Uri(request.RegisteringNode.Address),
-					PublicAddress = new Uri(request.RegisteringNode.PublicAddress),
+					PublicAddress = request.RegisteringNode.PublicAddress == null
+						? null
+						: new Uri(request.RegisteringNode.PublicAddress),
 					Identifier = request.RegisteringNode.Identifier,
 				};
 			}

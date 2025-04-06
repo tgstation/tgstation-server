@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.Swarm;
 
 namespace Tgstation.Server.Host.Security
 {
@@ -33,6 +34,9 @@ namespace Tgstation.Server.Host.Security
 		public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
 		{
 			ArgumentNullException.ThrowIfNull(principal);
+
+			if (principal.Identity?.AuthenticationType == SwarmConstants.AuthenticationSchemeAndPolicy)
+				return Task.FromResult(principal);
 
 			if (!authenticationContext.Valid)
 				throw new InvalidOperationException("Expected a valid authentication context here!");
