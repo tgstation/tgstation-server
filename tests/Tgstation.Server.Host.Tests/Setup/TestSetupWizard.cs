@@ -323,11 +323,11 @@ namespace Tgstation.Server.Host.Setup.Tests
 			//third run
 			testGeneralConfig.SetupWizardMode = SetupWizardMode.Autodetect;
 			mockIOManager
-				.Setup(x => x.WriteAllBytes(It.IsNotNull<string>(), It.IsNotNull<byte[]>(), It.IsAny<CancellationToken>()))
-				.Callback((string path, byte[] bytes, CancellationToken ct) =>
+				.Setup(x => x.WriteAllBytes(It.IsNotNull<string>(), It.IsAny<ReadOnlyMemory<byte>>(), It.IsAny<CancellationToken>()))
+				.Callback((string path, ReadOnlyMemory<byte> bytes, CancellationToken ct) =>
 				{
 					// for debugging
-					var str = Encoding.UTF8.GetString(bytes);
+					var str = Encoding.UTF8.GetString(bytes.Span);
 				})
 				.Throws(new Exception())
 				.Verifiable();
