@@ -39,6 +39,7 @@ env:
   OD_MIN_COMPAT_DOTNET_VERSION: 7
   OD_DOTNET_VERSION: 9
   TGS_DOTNET_QUALITY: preview
+  OD_DOTNET_QUALITY: ga
   TGS_NODE_VERSION: 20.x
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
@@ -253,14 +254,14 @@ jobs:
         if: matrix.committish == 'master'
         with:
           dotnet-version: "${{ env.OD_DOTNET_VERSION }}.0.x"
-          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+          dotnet-quality: ${{ env.OD_DOTNET_QUALITY }}
 
       - name: Setup dotnet (min-compat)
         uses: actions/setup-dotnet@v4
         if: matrix.committish == 'tgs-min-compat'
         with:
           dotnet-version: "${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x"
-          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+          dotnet-quality: ${{ env.OD_DOTNET_QUALITY }}
 
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -614,14 +615,20 @@ jobs:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     runs-on: windows-latest
     steps:
-      - name: Setup dotnet
+      - name: Setup dotnet (TGS)
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
             ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+      - name: Setup dotnet (OD)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
             ${{ env.OD_DOTNET_VERSION }}.0.x
             ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
-          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+          dotnet-quality: ${{ env.OD_DOTNET_QUALITY }}
 
       - name: Wait for LocalDB Connection # Do this first because we don't want to find out it's failing later
         shell: powershell
@@ -870,14 +877,20 @@ jobs:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
-      - name: Setup dotnet
+      - name: Setup dotnet (TGS)
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
             ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+      - name: Setup dotnet (OD)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
             ${{ env.OD_DOTNET_VERSION }}.0.x
             ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
-          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+          dotnet-quality: ${{ env.OD_DOTNET_QUALITY }}
 
       - name: Disable ptrace_scope
         run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
