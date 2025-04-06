@@ -44,6 +44,14 @@ namespace Tgstation.Server.Host.Authority
 		ValueTask<AuthorityResponse<GraphQL.Types.OAuth.OAuthConnection[]>> OAuthConnections(long userId, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Gets the <see cref="GraphQL.Types.OAuth.OidcConnection"/>s for the <see cref="User"/> with a given <paramref name="userId"/>.
+		/// </summary>
+		/// <param name="userId">The <see cref="EntityId.Id"/> of the <see cref="User"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in an <see cref="global::System.Array"/> of <see cref="GraphQL.Types.OAuth.OidcConnection"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
+		ValueTask<AuthorityResponse<GraphQL.Types.OAuth.OidcConnection[]>> OidcConnections(long userId, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Gets all registered <see cref="User"/>s.
 		/// </summary>
 		/// <param name="includeJoins">If related entities should be loaded.</param>
@@ -70,7 +78,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="updateRequest">The <see cref="UserUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in am <see cref="AuthorityResponse{TResult}"/> for the created <see cref="User"/>.</returns>
-		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword | AdministrationRights.EditOwnOAuthConnections)]
+		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword | AdministrationRights.EditOwnServiceConnections)]
 		ValueTask<AuthorityResponse<User>> Update(UserUpdateRequest updateRequest, CancellationToken cancellationToken);
 	}
 }

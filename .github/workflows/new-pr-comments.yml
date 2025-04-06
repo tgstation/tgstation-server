@@ -7,6 +7,7 @@ on:
     branches:
       - dev
       - master
+      - V7
 
 jobs:
   comment-on-new-pr:

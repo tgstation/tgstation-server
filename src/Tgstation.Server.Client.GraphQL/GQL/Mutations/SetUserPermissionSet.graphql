@@ -12,7 +12,7 @@ mutation SetUserPermissionSet($id: ID!, $permissionSet: PermissionSetInput!) {
         administrationRights {
           canChangeVersion
           canDownloadLogs
-          canEditOwnOAuthConnections
+          canEditOwnServiceConnections
           canEditOwnPassword
           canReadUsers
           canRestartHost
@@ -37,7 +37,7 @@ mutation SetUserPermissionSet($id: ID!, $permissionSet: PermissionSetInput!) {
         administrationRights {
           canChangeVersion
           canDownloadLogs
-          canEditOwnOAuthConnections
+          canEditOwnServiceConnections
           canEditOwnPassword
           canReadUsers
           canRestartHost

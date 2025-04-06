@@ -106,6 +106,21 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		}
 
 		/// <summary>
+		/// List of <see cref="OidcConnection"/>s associated with the user if OIDC is configured.
+		/// </summary>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="Array"/> of <see cref="OidcConnection"/>s for the <see cref="User"/> if OAuth is configured.</returns>
+		public ValueTask<OidcConnection[]> OidcConnections(
+			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(userAuthority);
+			return userAuthority.Invoke<OidcConnection[], OidcConnection[]>(
+				authority => authority.OidcConnections(Id, cancellationToken));
+		}
+
+		/// <summary>
 		/// The <see cref="PermissionSet"/> associated with the <see cref="User"/>.
 		/// </summary>
 		/// <param name="permissionSetAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IPermissionSetAuthority"/>.</param>

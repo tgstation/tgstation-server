@@ -127,7 +127,7 @@ namespace Tgstation.Server.Tests.Live
 					{
 						Id = restUser.Id,
 						OAuthConnections = sampleOAuthConnections
-					}, cancellationToken), Api.Models.ErrorCode.AdminUserCannotOAuth);
+					}, cancellationToken), Api.Models.ErrorCode.AdminUserCannotHaveServiceConnection);
 
 					var testUser = await client.Users.Create(
 						new UserCreateRequest
@@ -288,7 +288,7 @@ namespace Tgstation.Server.Tests.Live
 							sampleOAuthConnections,
 							cancellationToken),
 						data => data.UpdateUser,
-						Client.GraphQL.ErrorCode.AdminUserCannotOAuth,
+						Client.GraphQL.ErrorCode.AdminUserCannotHaveServiceConnection,
 						cancellationToken);
 
 					var testUserResult = await client.RunMutationEnsureNoErrors(
@@ -334,7 +334,7 @@ namespace Tgstation.Server.Tests.Live
 
 					Assert.IsFalse(group.PermissionSet.AdministrationRights.CanChangeVersion);
 					Assert.IsFalse(group.PermissionSet.AdministrationRights.CanDownloadLogs);
-					Assert.IsFalse(group.PermissionSet.AdministrationRights.CanEditOwnOAuthConnections);
+					Assert.IsFalse(group.PermissionSet.AdministrationRights.CanEditOwnServiceConnections);
 					Assert.IsFalse(group.PermissionSet.AdministrationRights.CanEditOwnPassword);
 					Assert.IsFalse(group.PermissionSet.AdministrationRights.CanReadUsers);
 					Assert.IsFalse(group.PermissionSet.AdministrationRights.CanRestartHost);
@@ -363,7 +363,7 @@ namespace Tgstation.Server.Tests.Live
 
 					Assert.IsFalse(group2.PermissionSet.AdministrationRights.CanChangeVersion);
 					Assert.IsFalse(group2.PermissionSet.AdministrationRights.CanDownloadLogs);
-					Assert.IsFalse(group2.PermissionSet.AdministrationRights.CanEditOwnOAuthConnections);
+					Assert.IsFalse(group2.PermissionSet.AdministrationRights.CanEditOwnServiceConnections);
 					Assert.IsFalse(group2.PermissionSet.AdministrationRights.CanEditOwnPassword);
 					Assert.IsFalse(group2.PermissionSet.AdministrationRights.CanReadUsers);
 					Assert.IsFalse(group2.PermissionSet.AdministrationRights.CanRestartHost);
@@ -416,7 +416,7 @@ namespace Tgstation.Server.Tests.Live
 
 					Assert.IsTrue(group3.PermissionSet.AdministrationRights.CanChangeVersion);
 					Assert.IsTrue(group3.PermissionSet.AdministrationRights.CanDownloadLogs);
-					Assert.IsTrue(group3.PermissionSet.AdministrationRights.CanEditOwnOAuthConnections);
+					Assert.IsTrue(group3.PermissionSet.AdministrationRights.CanEditOwnServiceConnections);
 					Assert.IsTrue(group3.PermissionSet.AdministrationRights.CanEditOwnPassword);
 					Assert.IsTrue(group3.PermissionSet.AdministrationRights.CanReadUsers);
 					Assert.IsTrue(group3.PermissionSet.AdministrationRights.CanRestartHost);
@@ -448,7 +448,7 @@ namespace Tgstation.Server.Tests.Live
 								}
 							],
 							cancellationToken),
-						data => data.CreateUserByOAuthAndPermissionSet,
+						data => data.CreateUserByServiceConnectionAndPermissionSet,
 						cancellationToken);
 
 					var testUser2 = oAuthCreateResult.User;
@@ -483,7 +483,7 @@ namespace Tgstation.Server.Tests.Live
 								{
 									CanChangeVersion = true,
 									CanDownloadLogs = true,
-									CanEditOwnOAuthConnections = true,
+									CanEditOwnServiceConnections = true,
 									CanEditOwnPassword = true,
 									CanReadUsers = true,
 									CanRestartHost = true,

@@ -20,7 +20,7 @@ query GetSomeGroupInfo($id: ID!) {
             administrationRights {
               canChangeVersion
               canDownloadLogs
-              canEditOwnOAuthConnections
+              canEditOwnServiceConnections
               canEditOwnPassword
               canReadUsers
               canRestartHost

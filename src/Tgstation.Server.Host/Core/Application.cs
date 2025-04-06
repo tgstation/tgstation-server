@@ -3,6 +3,7 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
+using System.Web;
 
 using Cyberboss.AspNetCore.AsyncInitializer;
 
@@ -13,12 +14,15 @@ using HotChocolate.Subscriptions;
 using HotChocolate.Types;
 
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.SignalR;
@@ -27,6 +31,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 using Newtonsoft.Json;
 
@@ -121,6 +126,14 @@ namespace Tgstation.Server.Host.Core
 			else
 				services.AddSingleton<IWatchdogFactory, TSystemWatchdogFactory>();
 		}
+
+		/// <summary>
+		/// Get the OIDC authentication scheme name for a given <paramref name="schemeKey"/>.
+		/// </summary>
+		/// <param name="schemeKey">The scheme key for the <see cref="OidcConfiguration"/>.</param>
+		/// <returns>The authentication scheme name.</returns>
+		static string GetOidcScheme(string schemeKey)
+			=> AuthenticationContextFactory.OpenIDConnectAuthenticationSchemePrefix + schemeKey;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Application"/> class.
@@ -239,7 +252,7 @@ namespace Tgstation.Server.Host.Core
 				postSetupServices.FileLoggingConfiguration);
 
 			// configure authentication pipeline
-			ConfigureAuthenticationPipeline(services);
+			ConfigureAuthenticationPipeline(services, postSetupServices.SecurityConfiguration);
 
 			// add mvc, configure the json serializer settings
 			var jsonVersionConverterList = new List<JsonConverter>
@@ -316,9 +329,21 @@ namespace Tgstation.Server.Host.Core
 				.AddScoped<GraphQL.Subscriptions.ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
 				.AddGraphQLServer()
 				.AddAuthorization(
-					options => options.AddPolicy(
-						TgsAuthorizeAttribute.PolicyName,
-						builder => builder.RequireRole(TgsAuthorizeAttribute.UserEnabledRole)))
+					options =>
+					{
+						options.AddPolicy(
+							TgsAuthorizeAttribute.PolicyName,
+							builder => builder
+								.RequireAuthenticatedUser()
+								.RequireRole(TgsAuthorizeAttribute.UserEnabledRole));
+						options.AddPolicy(
+							"testingasdf",
+							builder =>
+							{
+								builder.RequireAuthenticatedUser();
+								builder.AuthenticationSchemes.Add(CookieAuthenticationDefaults.AuthenticationScheme);
+							});
+					})
 				.ModifyOptions(options =>
 				{
 					options.EnsureAllNodesCanBeResolved = true;
@@ -552,6 +577,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use.</param>
 		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="DatabaseConfiguration"/> to use.</param>
+		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SecurityConfiguration"/> to use.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SwarmConfiguration"/> to use.</param>
 		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="InternalConfiguration"/> to use.</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/>.</param>
@@ -564,6 +590,7 @@ namespace Tgstation.Server.Host.Core
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<DatabaseConfiguration> databaseConfigurationOptions,
+			IOptions<SecurityConfiguration> securityConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			IOptions<InternalConfiguration> internalConfigurationOptions,
 			ILogger<Application> logger)
@@ -594,6 +621,20 @@ namespace Tgstation.Server.Host.Core
 
 			// Wrap exceptions in a 500 (ErrorMessage) response
 			applicationBuilder.UseServerErrorHandling();
+
+			// header forwarding important for OIDC
+			var forwardedHeaderOptions = new ForwardedHeadersOptions
+			{
+				ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost,
+			};
+
+			forwardedHeaderOptions.KnownNetworks.Clear();
+			forwardedHeaderOptions.KnownNetworks.Add(
+				new IPNetwork(
+					global::System.Net.IPAddress.Any,
+					0));
+
+			applicationBuilder.UseForwardedHeaders(forwardedHeaderOptions);
 
 			// metrics capture
 			applicationBuilder.UseHttpMetrics();
@@ -742,6 +783,20 @@ namespace Tgstation.Server.Host.Core
 					logger.LogTrace("Prometheus disabled");
 
 				endpoints.MapHealthChecks("/health");
+
+				var oidcConfig = securityConfigurationOptions.Value.OpenIDConnect;
+				if (oidcConfig == null)
+					return;
+
+				foreach (var kvp in oidcConfig)
+					endpoints.MapGet(
+						$"/oidc/{kvp.Key}/signin",
+						context => context.ChallengeAsync(
+							GetOidcScheme(kvp.Key),
+							new AuthenticationProperties
+							{
+								RedirectUri = $"/oidc/{kvp.Key}/landing",
+							}));
 			});
 
 			// 404 anything that gets this far
@@ -762,7 +817,8 @@ namespace Tgstation.Server.Host.Core
 		/// Configure the <paramref name="services"/> for the authentication pipeline.
 		/// </summary>
 		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
-		void ConfigureAuthenticationPipeline(IServiceCollection services)
+		/// <param name="securityConfiguration">The <see cref="SecurityConfiguration"/>.</param>
+		void ConfigureAuthenticationPipeline(IServiceCollection services, SecurityConfiguration securityConfiguration)
 		{
 			services.AddHttpContextAccessor();
 			services.AddScoped<IApiHeadersProvider, ApiHeadersProvider>();
@@ -782,8 +838,11 @@ namespace Tgstation.Server.Host.Core
 				.CurrentAuthenticationContext);
 			services.AddScoped<IClaimsTransformation, AuthenticationContextClaimsTransformation>();
 
-			services
-				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+			var authBuilder = services
+				.AddAuthentication(options =>
+				{
+					options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+				})
 				.AddJwtBearer(jwtBearerOptions =>
 				{
 					// this line isn't actually run until the first request is made
@@ -812,13 +871,105 @@ namespace Tgstation.Server.Host.Core
 							.HttpContext
 							.RequestServices
 							.GetRequiredService<ITokenValidator>()
-							.ValidateToken(
+							.ValidateTgsToken(
 								context,
 								context
 									.HttpContext
 									.RequestAborted),
 					};
 				});
+
+			var oidcConfig = securityConfiguration.OpenIDConnect;
+			if (oidcConfig == null || oidcConfig.Count == 0)
+				return;
+
+			authBuilder.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
+
+			foreach (var kvp in oidcConfig)
+			{
+				var configName = kvp.Key;
+				authBuilder
+					.AddOpenIdConnect(
+						GetOidcScheme(configName),
+						options =>
+						{
+							var config = kvp.Value;
+
+							options.Authority = config.Authority?.ToString();
+							options.ClientId = config.ClientId;
+							options.ClientSecret = config.ClientSecret;
+
+							options.Events = new OpenIdConnectEvents
+							{
+								OnRemoteFailure = context =>
+								{
+									context.HandleResponse();
+									context.HttpContext.Response.Redirect($"{config.ReturnPath}?error={HttpUtility.UrlEncode(context.Failure?.Message ?? $"{options.Events.OnRemoteFailure} was called without an {nameof(Exception)}!")}&state=oidc.{HttpUtility.UrlEncode(configName)}");
+									return Task.CompletedTask;
+								},
+								OnTicketReceived = context =>
+								{
+									var services = context
+										.HttpContext
+										.RequestServices;
+									var tokenFactory = services
+										.GetRequiredService<ITokenFactory>();
+									var authenticationContext = services
+										.GetRequiredService<IAuthenticationContext>();
+									context.HandleResponse();
+									context.HttpContext.Response.Redirect($"{config.ReturnPath}?code={HttpUtility.UrlEncode(tokenFactory.CreateToken(authenticationContext.User, true))}&state=oidc.{HttpUtility.UrlEncode(configName)}");
+									return Task.CompletedTask;
+								},
+							};
+
+							Task CompleteAuth(RemoteAuthenticationContext<OpenIdConnectOptions> context)
+								=> context
+										.HttpContext
+										.RequestServices
+										.GetRequiredService<ITokenValidator>()
+										.ValidateOidcToken(
+											context,
+											configName,
+											config.GroupIdClaim,
+											context
+												.HttpContext
+												.RequestAborted);
+
+							if (securityConfiguration.OidcStrictMode)
+							{
+								options.GetClaimsFromUserInfoEndpoint = true;
+								options.ClaimActions.MapUniqueJsonKey(config.GroupIdClaim, config.GroupIdClaim);
+								options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+								{
+									NameClaimType = config.UsernameClaim,
+									RoleClaimType = "roles",
+								};
+
+								options.Scope.Add(OpenIdConnectScope.Profile);
+								options.Events.OnUserInformationReceived = CompleteAuth;
+							}
+							else
+								options.Events.OnTokenValidated = CompleteAuth;
+
+							options.Scope.Add(OpenIdConnectScope.OpenId);
+							options.Scope.Add(OpenIdConnectScope.OfflineAccess);
+
+#if DEBUG
+							options.RequireHttpsMetadata = false;
+#endif
+
+							options.SaveTokens = true;
+							options.ResponseType = OpenIdConnectResponseType.Code;
+							options.MapInboundClaims = false;
+
+							options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
+							var basePath = $"/oidc/{configName}/";
+							options.CallbackPath = new PathString(basePath + "signin-callback");
+							options.SignedOutCallbackPath = new PathString(basePath + "signout-callback");
+							options.RemoteSignOutPath = new PathString(basePath + "signout");
+						});
+			}
 		}
 	}
 }

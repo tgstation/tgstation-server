@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -63,6 +64,11 @@ namespace Tgstation.Server.Host.Configuration
 		public string? CustomTokenSigningKeyBase64 { get; set; }
 
 		/// <summary>
+		/// If OIDC strict mode should be enabled. This mode enforces the existence of at least one <see cref="OpenIDConnect"/>ion and allows users to register using them. Users must have the tgstation-server.group_id role set to a valid TGS group ID to login. This mode disables regular and OAuth login methods.
+		/// </summary>
+		public bool OidcStrictMode { get; set; }
+
+		/// <summary>
 		/// OAuth provider settings.
 		/// </summary>
 		public IDictionary<OAuthProvider, OAuthConfiguration>? OAuth
@@ -87,5 +93,23 @@ namespace Tgstation.Server.Host.Configuration
 		/// Backing field for <see cref="OAuth"/>.
 		/// </summary>
 		IDictionary<OAuthProvider, OAuthConfiguration>? oAuth;
+
+		/// <summary>
+		/// OIDC provider settings keyed by scheme name.
+		/// </summary>
+		public IDictionary<string, OidcConfiguration>? OpenIDConnect { get; set; }
+
+		/// <summary>
+		/// Get the <see cref="OidcProviderInfo"/>s from the <see cref="SecurityConfiguration"/>.
+		/// </summary>
+		/// <returns>An <see cref="IEnumerable{T}"/> of <see cref="OidcProviderInfo"/>s.</returns>
+		public IEnumerable<OidcProviderInfo> OidcProviderInfos()
+			=> OpenIDConnect?.Select(oidcConfig => new OidcProviderInfo
+			{
+				SchemeKey = oidcConfig.Key,
+				FriendlyName = oidcConfig.Value.FriendlyName ?? oidcConfig.Key,
+				ThemeColour = oidcConfig.Value.ThemeColour,
+				ThemeIconUrl = oidcConfig.Value.ThemeIconUrl,
+			}) ?? Enumerable.Empty<OidcProviderInfo>();
 	}
 }

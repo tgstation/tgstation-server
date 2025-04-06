@@ -6,7 +6,7 @@
 
 [![CI Pipeline](https://github.com/tgstation/tgstation-server/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/tgstation/tgstation-server/actions/workflows/ci-pipeline.yml) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
 
-[![GitHub license](https://img.shields.io/github/license/tgstation/tgstation-server.svg)](LICENSE) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/tgstation/tgstation-server.svg)](http://isitmaintained.com/project/tgstation/tgstation-server "Average time to resolve an issue") [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Api.svg)](https://www.nuget.org/packages/Tgstation.Server.Api) [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Client.svg)](https://www.nuget.org/packages/Tgstation.Server.Client)
+![enbyware](https://pride-badges.pony.workers.dev/static/v1?label=enbyware&labelColor=%23555&stripeWidth=8&stripeColors=FCF434%2CFFFFFF%2C9C59D1%2C2C2C2C) [![GitHub license](https://img.shields.io/github/license/tgstation/tgstation-server.svg)](LICENSE) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/tgstation/tgstation-server.svg)](http://isitmaintained.com/project/tgstation/tgstation-server "Average time to resolve an issue") [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Api.svg)](https://www.nuget.org/packages/Tgstation.Server.Api) [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Client.svg)](https://www.nuget.org/packages/Tgstation.Server.Client)
 
 [![forthebadge](http://forthebadge.com/images/badges/made-with-c-sharp.svg)](http://forthebadge.com) [![forinfinityandbyond](https://user-images.githubusercontent.com/5211576/29499758-4efff304-85e6-11e7-8267-62919c3688a9.gif)](https://www.reddit.com/r/SS13/comments/5oplxp/what_is_the_main_problem_with_byond_as_an_engine/dclbu1a) [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
 
@@ -321,11 +321,19 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `Swarm:UpdateRequiredNodeCount`: Should be set to the total number of servers in your swarm minus 1. Prevents updates from occurring unless the non-controller server count in the swarm is greater than or equal to this value.
 
-- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `Keycloak`, `GitHub`, `Discord`, `InvisionCommunity` and `TGForums`. Setting these fields to `null` disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
+- `Telemetry:DisableVersionReporting`: Prevents you installation and the version you're using from being reported on the source repository's deployments list
+
+- `Telemetry:ServerFriendlyName`: Prevents anonymous TGS version usage statistics from being sent to be displayed on the repository.
+
+- `Telemetry:VersionReportingRepositoryId`: The repository telemetry is sent to. For security reasons, this is not the main TGS repo. See the [tgstation-server-deployments](https://github.com/tgstation/tgstation-server-deployments) repository for more information.
+
+#### OAuth Configuration
+
+- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, and `InvisionCommunity`. Setting these fields to `null` disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
 ```yml
 Security:
   OAuth:
-    Keycloak:
+    InvisionCommunity:
       ClientId: "..."
       ClientSecret: "..."
       RedirectUrl: "..."
@@ -336,22 +344,33 @@ Security:
 The following providers use the `RedirectUrl` setting:
 
 - GitHub
-- TGForums
-- Keycloak
 - InvisionCommunity
 
 The following providers use the `ServerUrl` setting:
 
-- Keycloak
 - InvisionCommunity
 
 Gateway auth simply allows the users to authenticate with the service using the configuration you provide and have their impersonation token passed back to the client. An example of this is using GitHub gateway auth to allow clients to enumerate pull requests without getting rate limited.
 
-- `Telemetry:DisableVersionReporting`: Prevents you installation and the version you're using from being reported on the source repository's deployments list
+#### OpenID Connect Configuration
+- `Security:OpenIDConnect:<Scheme Key>`: Sets up an OpenID Connect Provider with given "Scheme Key". Note that you must setup a redirect URI of `/oidc/<scheme key>/sigin-callback` in your provider. Sample entry:
+```yml
+Security:
+  OpenIDConnect:
+    Example: # Scheme key: Name of this OIDC scheme (public)
+      Authority: "..." # This is the root of the URL containing the "/.well-known/openid-configuration" endpoint
+      ClientId: "..."
+      ClientSecret: "..."
+      FriendlyName: "Example Provider" # Friendly name is how this provider is displayed in UIs (public)
+      ThemeColour: "#ff0000" # (Optional) Hex color code indicating the color used to theme UI elements relating to this provider (public)
+      ThemeIconUrl: "..." # (Optional) Public URL of an image that can be used to theme UI elements relating to this provider (public)
+      UsernameClaim: "preferred_username" # (Optional) Name of claim used to set TGS usernames upon registration. By default "preferred_username" is used. Only applies when using OidcStrictMode.
+      GroupIdClaim: "tgstation-server-group-id" # (Options) Name of claim used to set TGS group ID upon logging in. By default "tgstation-server-group-id" is used. Only applies when using OidcStrictMode.
+```
 
-- `Telemetry:ServerFriendlyName`: Prevents anonymous TGS version usage statistics from being sent to be displayed on the repository.
+- `Security:OidcStrictMode`: Boolean flag that, when `true`, disables password and OAuth logins, password changes, individual permission set assignment, and enables user registration using OpenID Connect providers. The claim name `tgstation-server-group-id` is used to dictate what TGS group users are registered to.
 
-- `Telemetry:VersionReportingRepositoryId`: The repository telemetry is sent to. For security reasons, this is not the main TGS repo. See the [tgstation-server-deployments](https://github.com/tgstation/tgstation-server-deployments) repository for more information.
+_Note: When using OIDC with a reverse proxy, TGS must receive `X-Forwarded` headers to properly identify the redirect URI to use. i.e. `X-Forwarded-Host` and `X-Forwarded-Proto`._
 
 ### Database Configuration
 

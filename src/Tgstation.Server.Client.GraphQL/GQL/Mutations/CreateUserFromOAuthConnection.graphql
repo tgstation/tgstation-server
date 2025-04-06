@@ -1,5 +1,5 @@
 mutation CreateUserFromOAuthConnection($name: String!, $oAuthConnections: [OAuthConnectionInput!]!) {
-  createUserByOAuthAndPermissionSet(input: { name: $name, oAuthConnections: $oAuthConnections }) {
+  createUserByServiceConnectionAndPermissionSet(input: { name: $name, oAuthConnections: $oAuthConnections }) {
     errors {
       ... on ErrorMessageError {
         additionalData
