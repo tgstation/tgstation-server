@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
