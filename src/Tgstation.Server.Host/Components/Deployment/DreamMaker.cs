@@ -29,8 +29,10 @@ using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Deployment
 {
+#pragma warning disable CA1506 // TODO: Decomplexify
 	/// <inheritdoc />
 	sealed class DreamMaker : IDreamMaker
+#pragma warning restore CA1506
 	{
 		/// <summary>
 		/// Extension for .dmes.
@@ -674,7 +676,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				// run compiler
 				progressReporter.StageName = "Running Compiler";
-				var compileSuceeded = await RunDreamMaker(engineLock, job, dreamMakerSettings.CompilerAdditionalArguments, cancellationToken);
+				var compileSucceeded = await RunDreamMaker(engineLock, job, dreamMakerSettings.CompilerAdditionalArguments, cancellationToken);
 
 				// Session takes ownership of the lock and Disposes it so save this for later
 				var engineVersion = engineLock.Version;
@@ -682,7 +684,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				// verify api
 				try
 				{
-					if (!compileSuceeded)
+					if (!compileSucceeded)
 						throw new JobException(
 							ErrorCode.DeploymentExitCode,
 							new JobException($"Compilation failed:{Environment.NewLine}{Environment.NewLine}{job.Output}"));
@@ -707,7 +709,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						new List<string>
 						{
 							resolvedOutputDirectory,
-							compileSuceeded ? "1" : "0",
+							compileSucceeded ? "1" : "0",
 							engineVersion.ToString(),
 						},
 						true,
@@ -965,7 +967,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				cancellationToken);
 
 			var dmeBytes = await dmeReadTask;
-			var dme = Encoding.UTF8.GetString(dmeBytes);
+			var dme = Encoding.UTF8.GetString(dmeBytes.Span);
 
 			var dmeModifications = await dmeModificationsTask;
 

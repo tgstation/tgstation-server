@@ -300,10 +300,10 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			async ValueTask<byte[]?> GetActiveVersion()
+			async ValueTask<Memory<byte>?> GetActiveVersion()
 			{
 				var activeVersionFileExists = await ioManager.FileExists(ActiveVersionFileName, cancellationToken);
-				return !activeVersionFileExists ? null : await ioManager.ReadAllBytes(ActiveVersionFileName, cancellationToken);
+				return !activeVersionFileExists ? (Memory<byte>?)null : await ioManager.ReadAllBytes(ActiveVersionFileName, cancellationToken);
 			}
 
 			var activeVersionBytesTask = GetActiveVersion();
@@ -324,7 +324,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				}
 
 				var bytes = await ioManager.ReadAllBytes(versionFile, cancellationToken);
-				var text = Encoding.UTF8.GetString(bytes);
+				var text = Encoding.UTF8.GetString(bytes.Span);
 				EngineVersion version;
 				if (!EngineVersion.TryParse(text, out var versionNullable))
 				{
@@ -366,9 +366,9 @@ namespace Tgstation.Server.Host.Components.Engine
 					.Select(kvp => engineInstaller.UpgradeInstallation(kvp.Value, kvp.Key, cancellationToken)));
 
 			var activeVersionBytes = await activeVersionBytesTask;
-			if (activeVersionBytes != null)
+			if (activeVersionBytes.HasValue)
 			{
-				var activeVersionString = Encoding.UTF8.GetString(activeVersionBytes);
+				var activeVersionString = Encoding.UTF8.GetString(activeVersionBytes.Value.Span);
 
 				EngineVersion? activeVersion;
 				bool hasRequestedActiveVersion;

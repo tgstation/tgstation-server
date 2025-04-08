@@ -52,6 +52,7 @@ namespace Tgstation.Server.Host.Authority
 
 			return databaseContext
 				.Groups
+				.AsQueryable()
 				.Where(group => ids.Contains(group.Id!.Value))
 				.ToDictionaryAsync(userGroup => userGroup.Id!.Value, cancellationToken);
 		}

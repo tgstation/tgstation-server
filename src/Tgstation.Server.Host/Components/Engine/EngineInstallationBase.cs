@@ -115,7 +115,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			logger.LogDebug("Loading {envFile} for engine installation {version}...", envFile, Version);
 
 			var fileBytes = await InstallationIOManager.ReadAllBytes(envFile, cancellationToken);
-			var fileContents = Encoding.UTF8.GetString(fileBytes);
+			var fileContents = Encoding.UTF8.GetString(fileBytes.Span);
 			var parser = new EnvParser();
 
 			try

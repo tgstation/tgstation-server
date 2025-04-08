@@ -22,6 +22,10 @@
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(TgsNetPreviewBuild)' == 'true'">
+    <NoWarn>NU5104</NoWarn>
+  </PropertyGroup>
 
   <ItemGroup>
     <!-- Usage: Sourcelink -->

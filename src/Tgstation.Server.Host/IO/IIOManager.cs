@@ -95,7 +95,7 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> that results in the contents of a file at <paramref name="path"/>.</returns>
 		/// <remarks>This function will fail to read files from the /proc filesystem on Linux.</remarks>
-		ValueTask<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken);
+		ValueTask<Memory<byte>> ReadAllBytes(string path, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Returns full directory names in a given <paramref name="path"/>.
@@ -134,7 +134,7 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="contents">The contents of the file.</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken);
+		ValueTask WriteAllBytes(string path, ReadOnlyMemory<byte> contents, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Copy a file from <paramref name="src"/> to <paramref name="dest"/>.

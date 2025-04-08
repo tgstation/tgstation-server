@@ -12,8 +12,8 @@ Server startup can be a bit complicated so here's a walkthrough
 1. `CreateServer()` is called on the `IServerFactory` to get the `IServer` instance.
     - The factory pattern is used throughout TGS to construct implementations where the composition root is not sufficient. `ServerFactory` is somewhat of an exception to this because it exists outside of the dependency injection umbrella.
 1. Inside `CreateServer()` we run the [setup code](./Setup) if need be.
-    - This is implemented as a separate [dotnet host](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-8.0) to the main server.
-1. Still inside `CreateServer()` we configure the main [dotnet host (IHostBuilder)](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-8.0) using the application [Application](./Core/Application.cs) class as the [Startup class](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-8.0#the-startup-class).
+    - This is implemented as a separate [dotnet host](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-10.0) to the main server.
+1. Still inside `CreateServer()` we configure the main [dotnet host (IHostBuilder)](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-10.0) using the application [Application](./Core/Application.cs) class as the [Startup class](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-10.0#the-startup-class).
 1. The `IHostBuilder` is used to construct the return `Server` implementation.
 1. `Run()` is called on the `IServer` instance.
 1. The DI container is built using the [Application](./Core/Application.cs) class.

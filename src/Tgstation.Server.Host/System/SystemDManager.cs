@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.System
 		/// </summary>
 		/// <returns>A <see cref="long"/> representing the clock time in nanoseconds.</returns>
 		/// <remarks>See https://linux.die.net/man/3/clock_gettime.</remarks>
-		static long GetMonotonicUsec() => global::System.Diagnostics.Stopwatch.GetTimestamp(); // HACK: https://github.com/dotnet/runtime/blob/v8.0.0-preview.6.23329.7/src/native/libs/System.Native/pal_time.c#L84 clock_gettime_nsec_np is an OSX only thing apparently...
+		static long GetMonotonicUsec() => global::System.Diagnostics.Stopwatch.GetTimestamp(); // HACK: https://github.com/dotnet/runtime/blob/v10.0.0-preview.2.25163.2/src/native/libs/System.Native/pal_time.c#L91 clock_gettime_nsec_np is an OSX only thing apparently...
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SystemDManager"/> class.
