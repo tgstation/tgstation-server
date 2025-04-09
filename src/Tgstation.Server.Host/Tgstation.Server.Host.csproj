@@ -160,7 +160,7 @@
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="8.1.0" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.3" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.4" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
     <PackageReference Include="System.Management" Version="9.0.3" />
   </ItemGroup>
