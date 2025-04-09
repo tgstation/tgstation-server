@@ -118,7 +118,7 @@
     <!-- Usage: Generating dumps of dotnet engine processes -->
     <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.607501" />
     <!-- Usage: Database ORM -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
     <!-- Usage: Automatic migration generation using command line -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -126,7 +126,7 @@
     <!-- Usage: Sqlite ORM plugin -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.3" />
     <!-- Usage: MSSQL ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
     <!-- Usage: Database connectivity health check -->
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.14" />
     <!-- Usage: OIDC support prerequisite. See https://stackoverflow.com/a/78650835/3976486 -->
