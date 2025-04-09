@@ -778,6 +778,7 @@ namespace Tgstation.Server.Tests.Live
 						Identifier = "controller",
 						PrivateKey = PrivateKey,
 						UpdateRequiredNodeCount = 2,
+						HostingPort = 15111,
 					});
 					serverTask = Task.WhenAll(
 						controller.Run(cancellationToken).AsTask(),

@@ -730,7 +730,7 @@ namespace Tgstation.Server.Host.Swarm
 			logger.LogInformation("Aborting swarm update!");
 
 			using var httpClient = httpClientFactory.CreateClient();
-			async ValueTask SendRemoteAbort(SwarmServerInformation swarmServer)
+			async ValueTask SendRemoteAbort(SwarmServerInformation? swarmServer)
 			{
 				var callInvoker = GetCallInvokerForNode(swarmServer, out var registration);
 				var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(callInvoker);
@@ -750,17 +750,14 @@ namespace Tgstation.Server.Host.Swarm
 					logger.LogWarning(
 						ex,
 						"Unable to send remote abort to {nodeOrController}!",
-						swarmController
+						swarmController && swarmServer != null
 							? $"node {swarmServer.Identifier}"
 							: "controller");
 				}
 			}
 
 			if (!swarmController)
-				return SendRemoteAbort(new SwarmServerInformation
-				{
-					Address = swarmConfigurationOptions.CurrentValue.ControllerAddress,
-				});
+				return SendRemoteAbort(null);
 
 			lock (swarmServers!)
 				return ValueTaskExtensions.WhenAll(
@@ -783,10 +780,15 @@ namespace Tgstation.Server.Host.Swarm
 			{
 				var request = new HttpRequestMessage(
 					HttpMethod.Get,
-					$"{Api.Routes.Transfer}?ticket={HttpUtility.UrlEncode(ticket.FileTicket)}");
+					$"{sourceNode.Address!.ToString().TrimEnd('/')}{Api.Routes.Transfer}?ticket={HttpUtility.UrlEncode(ticket.FileTicket)}")
+				{
+					Version = new Version(2, 0),
+					VersionPolicy = HttpVersionPolicy.RequestVersionExact,
+				};
 
 				try
 				{
+					request.Headers.Authorization = new AuthenticationHeaderValue(SwarmConstants.AuthenticationSchemeAndPolicy, swarmConfigurationOptions.CurrentValue.PrivateKey);
 					request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Octet));
 					return new RequestFileStreamProvider(httpClient, request);
 				}
@@ -1066,7 +1068,8 @@ namespace Tgstation.Server.Host.Swarm
 							SourceNodeIdentifier = sourceNode,
 						};
 
-						request.DownloadTicketsByNodeIdentifier.Add(localTicketDictionary);
+						if (localTicketDictionary != null)
+							request.DownloadTicketsByNodeIdentifier.Add(localTicketDictionary);
 
 						return Tuple.Create(node, request);
 					})
@@ -1083,6 +1086,8 @@ namespace Tgstation.Server.Host.Swarm
 
 						var callInvoker = GetCallInvokerForNode(node, out var registration);
 						var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(callInvoker);
+
+						body.Registration = registration;
 
 						try
 						{
@@ -1536,7 +1541,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="swarmServer">The optional <see cref="Api.Models.Internal.SwarmServer"/> to connect to. If <see langword="null"/> the <see cref="SwarmConfiguration.ControllerAddress"/> will be used.</param>
 		/// <param name="swarmRegistration">The <see cref="SwarmRegistration"/> for the <paramref name="swarmServer"/>, if any.</param>
 		/// <returns>The <see cref="CallInvoker"/> to use for calling the target <paramref name="swarmServer"/>.</returns>
-		private CallInvoker GetCallInvokerForNode(Api.Models.Internal.SwarmServer? swarmServer, out SwarmRegistration? swarmRegistration)
+		CallInvoker GetCallInvokerForNode(Api.Models.Internal.SwarmServer? swarmServer, out SwarmRegistration? swarmRegistration)
 		{
 			string CreateSwarmAuthorizationHeader() => $"{SwarmConstants.AuthenticationSchemeAndPolicy} {swarmConfigurationOptions.CurrentValue.PrivateKey}";
 

@@ -26,6 +26,7 @@ using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -337,11 +338,15 @@ namespace Tgstation.Server.Host.Core
 
 						options.AddPolicy(
 							SwarmConstants.AuthenticationSchemeAndPolicy,
-							builder =>
-							{
-								builder.RequireAuthenticatedUser();
-								builder.AuthenticationSchemes.Add(SwarmConstants.AuthenticationSchemeAndPolicy);
-							});
+							builder => builder
+								.RequireAuthenticatedUser()
+								.AddAuthenticationSchemes(SwarmConstants.AuthenticationSchemeAndPolicy));
+
+						options.AddPolicy(
+							TransferConstants.AuthorizationPolicy,
+							builder => builder
+								.RequireAuthenticatedUser()
+								.AddAuthenticationSchemes(SwarmConstants.AuthenticationSchemeAndPolicy, JwtBearerDefaults.AuthenticationScheme));
 					})
 				.ModifyOptions(options =>
 				{
@@ -763,6 +768,17 @@ namespace Tgstation.Server.Host.Core
 					else
 						endpoints.MapGrpcService<SwarmControllerService>()
 							.RequireHost(swarmRequiredHost);
+
+					// special map the transfer controller download endpoint
+					endpoints.MapControllerRoute(
+						"SwarmServiceFileTransferAccess",
+						Routes.Transfer.TrimStart('/'),
+						new
+						{
+							controller = nameof(Routes.Transfer),
+							action = nameof(TransferController.Download),
+						})
+						.RequireHost("";
 				}
 
 				// majority of handling is done in the controllers
