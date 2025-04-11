@@ -35,6 +35,8 @@ on:
         type: string
 
 env:
+  LINUX_RUNNER: ubuntu-latest
+  WINDOWS_RUNNER: windows-2025
   TGS_DOTNET_VERSION: 8
   OD_MIN_COMPAT_DOTNET_VERSION: 7
   OD_DOTNET_VERSION: 9
@@ -50,7 +52,7 @@ concurrency:
 jobs:
   start-gate:
     name: CI Start Gate
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     steps:
       - name: GitHub Requires at Least One Step for a Job
         run: exit 0
@@ -58,7 +60,7 @@ jobs:
   build-releasenotes:
     name: Build ReleaseNotes for Other Jobs
     needs: start-gate
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     steps:
       - name: Install Native Dependencies
         run: |
@@ -93,7 +95,7 @@ jobs:
   code-scanning:
     name: Run CodeQL
     needs: start-gate
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     permissions:
       security-events: write
     env:
@@ -158,7 +160,7 @@ jobs:
       matrix:
         byond:
           ["510.1346", "511.1385", "512.1488", "513.1542", "514.1589", "515.1647", "EDGE"]
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     steps:
       - name: Install Native x86 libc Dependencies # Name checked in rerunFlakyTests.js
         run: |
@@ -246,7 +248,7 @@ jobs:
       fail-fast: false
       matrix:
         committish: ["master", "tgs-min-compat"]
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -297,7 +299,7 @@ jobs:
 
   efcore-version-match:
     name: Check Nuget Versions Match Tools
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     needs: start-gate
     steps:
       - name: Checkout (Branch)
@@ -355,7 +357,7 @@ jobs:
   pages-build:
     name: Build gh-pages
     needs: build-releasenotes
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -432,7 +434,7 @@ jobs:
 
   docker-build:
     name: Build Docker Image
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     needs: start-gate
     env:
       TGS_TELEMETRY_KEY_FILE: tgs_telemetry_key.txt
@@ -467,7 +469,7 @@ jobs:
         configuration: ["Debug", "Release"]
     env:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     steps:
       - name: Install Native x86 libc Dependencies # Name checked in rerunFlakyTests.js
         run: |
@@ -540,7 +542,7 @@ jobs:
         configuration: ["Debug", "Release"]
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
-    runs-on: windows-latest
+    runs-on: ${ env.WINDOWS_RUNNER }
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -612,7 +614,7 @@ jobs:
         configuration: ["Debug", "Release"]
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
-    runs-on: windows-latest
+    runs-on: ${ env.WINDOWS_RUNNER }
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -868,7 +870,7 @@ jobs:
         configuration: ["Debug", "Release"]
     env:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -1004,7 +1006,7 @@ jobs:
   validate-openapi-spec:
     name: OpenAPI Spec Validation
     needs: windows-integration-tests
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     steps:
       - name: Install IBM OpenAPI Validator
         run: npm i -g ibm-openapi-validator@0.51.3
@@ -1037,7 +1039,7 @@ jobs:
         windows-unit-tests,
         windows-integration-tests,
       ]
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     steps:
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -1295,7 +1297,7 @@ jobs:
   build-deb:
     name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
     needs: build-releasenotes
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     env:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     steps:
@@ -1451,7 +1453,7 @@ jobs:
 
   build-msi:
     name: Build Windows Installer .exe
-    runs-on: windows-latest
+    runs-on: ${ env.WINDOWS_RUNNER }
     needs: start-gate
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
@@ -1602,7 +1604,7 @@ jobs:
   check-winget-pr-template:
     name: Check winget-pkgs Pull Request Template is up to date
     needs: build-releasenotes
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -1665,7 +1667,7 @@ jobs:
         efcore-version-match,
         code-scanning,
       ]
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     steps:
       - name: Decide whether the needed jobs succeeded or failed
         uses: re-actors/alls-green@223e4bb7a751b91f43eda76992bcfbf23b8b0302
@@ -1675,7 +1677,7 @@ jobs:
   deployment-gate:
     name: Deployment Start Gate
     needs: ci-completion-gate
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     if: github.event_name == 'push' && contains(github.event.head_commit.message, 'Deploy]')
     steps:
       - name: GitHub Requires at Least One Step for a Job
@@ -1684,7 +1686,7 @@ jobs:
   deploy-rest:
     name: Deploy REST API
     needs: deployment-gate
-    runs-on: windows-latest
+    runs-on: ${ env.WINDOWS_RUNNER }
     permissions:
       id-token: write
       attestations: write
@@ -1765,7 +1767,7 @@ jobs:
   deploy-gql:
     name: Deploy GraphQL API
     needs: deployment-gate
-    runs-on: windows-latest
+    runs-on: ${ env.WINDOWS_RUNNER }
     permissions:
       id-token: write
       attestations: write
@@ -1853,7 +1855,7 @@ jobs:
   deploy-dm:
     name: Deploy DreamMaker API
     needs: deployment-gate
-    runs-on: windows-latest
+    runs-on: ${ env.WINDOWS_RUNNER }
     permissions:
       id-token: write
       attestations: write
@@ -1933,7 +1935,7 @@ jobs:
   deploy-client:
     name: Deploy Nuget Packages
     needs: deployment-gate
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     if: contains(github.event.head_commit.message, '[NugetDeploy]')
     steps:
       - name: Setup dotnet
@@ -1993,7 +1995,7 @@ jobs:
   ensure-release:
     name: Ensure TGS Release is Latest GitHub Release
     needs: [deploy-dm, deploy-rest, deploy-gql]
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     if: (!(cancelled() || failure())) && (!contains(github.event.head_commit.message, '[TGSDeploy]')) && (needs.deploy-dm.result == 'success' || needs.deploy-rest.result == 'success' || needs.deploy-gql.result == 'success')
     steps:
       - name: Setup dotnet
@@ -2023,7 +2025,7 @@ jobs:
   deploy-tgs:
     name: Deploy TGS
     needs: [deploy-dm, deploy-rest, deploy-gql, deployment-gate]
-    runs-on: windows-latest
+    runs-on: ${ env.WINDOWS_RUNNER }
     if: (!(cancelled() || failure())) && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]') && needs.deployment-gate.result == 'success'
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
@@ -2332,7 +2334,7 @@ jobs:
   update-nix:
     name: Update Nix SHA
     needs: changelog-regen
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     if: (!(cancelled() || failure())) && needs.changelog-regen.result == 'success'
     steps:
       - name: Install Native Packages # Name checked in rerunFlakyTests.js
@@ -2391,7 +2393,7 @@ jobs:
 
   changelog-regen:
     name: Regenerate Changelog
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     if: (!(cancelled() || failure())) && needs.deploy-tgs.result == 'success'
     needs: deploy-tgs
     steps:
@@ -2438,7 +2440,7 @@ jobs:
     name: Deploy TGS (Docker)
     needs: deploy-tgs
     if: (!(cancelled() || failure())) && needs.deploy-tgs.result == 'success'
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     steps:
       - name: Install Native Packages # Name checked in rerunFlakyTests.js
         run: |
@@ -2464,7 +2466,7 @@ jobs:
     name: Deploy TGS (PPA)
     needs: deploy-tgs
     if: (!(cancelled() || failure())) && needs.deploy-tgs.result == 'success'
-    runs-on: ubuntu-latest
+    runs-on: ${ env.LINUX_RUNNER }
     steps:
       - name: Install Native Packages # Name checked in rerunFlakyTests.js
         run: |
@@ -2493,7 +2495,7 @@ jobs:
     name: Deploy TGS (winget)
     needs: deploy-tgs
     if: (!(cancelled() || failure())) && needs.deploy-tgs.result == 'success'
-    runs-on: windows-latest
+    runs-on: ${ env.WINDOWS_RUNNER }
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
