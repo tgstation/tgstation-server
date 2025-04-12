@@ -32,7 +32,8 @@ jobs:
         with:
           token: ${{ steps.app-token-generation.outputs.token }}
           ref: master
-          fetch-tags: true
+          fetch-depth: 0
+          # fetch-tags: true Doesn't work, see https://github.com/actions/checkout/issues/1471
 
       - name: Parse TGS version
         run: echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
