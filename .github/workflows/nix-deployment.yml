@@ -63,7 +63,7 @@ jobs:
           git tag -a tgstation-server-v${{ env.TGS_VERSION }} -m tgstation-server-v${{ env.TGS_VERSION }}
 
       - name: Push Commit
-        run: git push "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/tgstation/tgstation-server"
+        run: git push
 
       - name: Force Push Tags
         run: git push -f origin tag tgstation-server-v${{ env.TGS_VERSION }}
