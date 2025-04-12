@@ -357,14 +357,15 @@ Gateway auth simply allows the users to authenticate with the service using the 
 ```yml
 Security:
   OpenIDConnect:
-    Example:
+    Example: # Scheme key: Name of this OIDC scheme (public)
       Authority: "..." # This is the root of the URL containing the "/.well-known/openid-configuration" endpoint
       ClientId: "..."
       ClientSecret: "..."
-	  FriendlyName: "Example Provider" # Friendly name is how this provider is displayed in UIs
-	  ThemeColour: "#ff0000" # (Optional) Hex color code indicating the color used to theme UI elements relating to this provider
-	  ThemeIconUrl: "..." # (Optional) Public URL of an image that can be used to theme UI elements relating to this provider
-	  UsernameClaim: "preferred_username" # (Optional) Name of claim used to set TGS usernames upon registration. By default "preferred_username" is used. Only applies when using OidcStrictMode.
+      FriendlyName: "Example Provider" # Friendly name is how this provider is displayed in UIs (public)
+      ThemeColour: "#ff0000" # (Optional) Hex color code indicating the color used to theme UI elements relating to this provider (public)
+      ThemeIconUrl: "..." # (Optional) Public URL of an image that can be used to theme UI elements relating to this provider (public)
+      UsernameClaim: "preferred_username" # (Optional) Name of claim used to set TGS usernames upon registration. By default "preferred_username" is used. Only applies when using OidcStrictMode.
+      GroupIdClaim: "tgstation-server-group-id" # (Options) Name of claim used to set TGS group ID upon logging in. By default "tgstation-server-group-id" is used. Only applies when using OidcStrictMode.
 ```
 
 - `Security:OidcStrictMode`: Boolean flag that, when `true`, disables password and OAuth logins, password changes, individual permission set assignment, and enables user registration using OpenID Connect providers. The claim name `tgstation-server-group-id` is used to dictate what TGS group users are registered to.

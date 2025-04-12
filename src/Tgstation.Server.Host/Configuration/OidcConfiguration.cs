@@ -10,6 +10,11 @@ namespace Tgstation.Server.Host.Configuration
 	public sealed class OidcConfiguration
 	{
 		/// <summary>
+		/// The default value of <see cref="GroupIdClaim"/>.
+		/// </summary>
+		private const string DefaultGroupClaimName = "tgstation-server-group-id";
+
+		/// <summary>
 		/// The <see cref="Uri"/> containing the .well-known endpoint for the provider.
 		/// </summary>
 		public Uri? Authority { get; set; }
@@ -48,5 +53,10 @@ namespace Tgstation.Server.Host.Configuration
 		/// The name of the claim used to set the user's name.
 		/// </summary>
 		public string UsernameClaim { get; set; } = JwtRegisteredClaimNames.PreferredUsername;
+
+		/// <summary>
+		/// Claim name used to set user groups in OIDC strict mode.
+		/// </summary>
+		public string GroupIdClaim { get; set; } = DefaultGroupClaimName;
 	}
 }

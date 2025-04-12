@@ -6,6 +6,7 @@ on:
     branches:
       - dev
       - master
+      - V7
 
 concurrency:
   group: "dependabot-automerge-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"

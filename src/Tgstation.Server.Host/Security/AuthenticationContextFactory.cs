@@ -33,11 +33,6 @@ namespace Tgstation.Server.Host.Security
 		public const string OpenIDConnectAuthenticationSchemePrefix = $"{OpenIdConnectDefaults.AuthenticationScheme}.";
 
 		/// <summary>
-		/// Claim name used to set user groups in OIDC strict mode.
-		/// </summary>
-		public const string TgsGroupIdClaimName = "tgstation-server-group-id";
-
-		/// <summary>
 		/// The <see cref="IAuthenticationContext"/> the <see cref="AuthenticationContextFactory"/> created.
 		/// </summary>
 		public IAuthenticationContext CurrentAuthenticationContext => currentAuthenticationContext;
@@ -233,7 +228,9 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public async Task ValidateOidcToken(RemoteAuthenticationContext<OpenIdConnectOptions> tokenValidatedContext, string schemeKey, CancellationToken cancellationToken)
+#pragma warning disable CA1506 // TODO: Decomplexify
+		public async Task ValidateOidcToken(RemoteAuthenticationContext<OpenIdConnectOptions> tokenValidatedContext, string schemeKey, string groupIdClaimName, CancellationToken cancellationToken)
+#pragma warning restore CA1506
 		{
 			ArgumentNullException.ThrowIfNull(tokenValidatedContext);
 
@@ -270,7 +267,7 @@ namespace Tgstation.Server.Host.Security
 			}
 			else
 			{
-				var groupClaim = principal.FindFirst(TgsGroupIdClaimName);
+				var groupClaim = principal.FindFirst(groupIdClaimName);
 				long? groupId;
 				if (groupClaim == default)
 					groupId = null;
@@ -278,7 +275,7 @@ namespace Tgstation.Server.Host.Security
 					groupId = groupIdParsed;
 				else
 				{
-					tokenValidatedContext.Fail($"User has non-numeric '{TgsGroupIdClaimName}' claim!");
+					tokenValidatedContext.Fail($"User has non-numeric '{groupIdClaimName}' claim!");
 					return;
 				}
 
@@ -291,7 +288,7 @@ namespace Tgstation.Server.Host.Security
 						.FirstOrDefaultAsync(cancellationToken)
 					: null;
 
-				var missingClaimError = $"User missing '{TgsGroupIdClaimName}' claim!";
+				var missingClaimError = $"User missing '{groupIdClaimName}' claim!";
 				if (connection == default)
 				{
 					var username = principal.Identity?.Name;
@@ -311,10 +308,12 @@ namespace Tgstation.Server.Host.Security
 					{
 						tokenValidatedContext.Fail(
 							groupId.HasValue
-								? $"'{TgsGroupIdClaimName}' does not point to a valid group!"
+								? $"'{groupIdClaimName}' does not point to a valid group!"
 								: missingClaimError);
 						return;
 					}
+
+					logger.LogInformation("Registering new user '{name}' via OIDC scheme '{scheme}'", username, schemeKey);
 
 					var tgsUser = await databaseContext
 						.Users
@@ -335,7 +334,7 @@ namespace Tgstation.Server.Host.Security
 						GroupId = group.Id,
 						OidcConnections = new List<OidcConnection>
 						{
-							new OidcConnection
+							new()
 							{
 								SchemeKey = schemeKey,
 								ExternalUserId = userId,
@@ -353,6 +352,7 @@ namespace Tgstation.Server.Host.Security
 					// group update
 					if (group == null)
 					{
+						logger.LogDebug("User {id} attempted to login via OIDC scheme '{scheme}' but had no group ID claim ('{groupClaimName}') and will be disabled", user.Id, schemeKey, groupIdClaimName);
 						user.PermissionSet = new PermissionSet
 						{
 							AdministrationRights = AdministrationRights.None,
@@ -365,6 +365,7 @@ namespace Tgstation.Server.Host.Security
 						return;
 					}
 
+					logger.LogDebug("User {id} mapped to group {groupId} via OIDC login on scheme '{scheme}'", user.Id, groupId, schemeKey);
 					user.Group = group;
 					if (user.PermissionSet != null)
 						databaseContext.PermissionSets.Remove(user.PermissionSet);
