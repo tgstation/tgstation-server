@@ -202,8 +202,22 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 6.16.1
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.13.0
+      GraphQLApi: 0.6.0
+      DreamMakerApi: 7.3.1
+      Configuration: 5.7.0
+      InteropApi: 5.10.0
+      HostWatchdog: 1.6.0
+      NugetCommon: 7.0.0
+      NugetApi: 18.0.0
+      NugetClient: 21.0.0
+      WebControlPanel: 6.10.0
+    Changes:
+    - Descriptions:
+      - Corrected network systemd dependencies declarations.
+      Author: Cyberboss
+      PullRequest: 2210
     Unreleased: true
   - Version: 6.16.0
     ComponentVersions:
