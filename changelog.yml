@@ -210,7 +210,7 @@ Components:
       NugetCommon: 7.0.0
       NugetApi: 18.0.0
       NugetClient: 21.0.0
-      WebControlPanel: 6.9.5
+      WebControlPanel: 6.10.0
     Changes: []
     Unreleased: true
   - Version: 6.15.3
