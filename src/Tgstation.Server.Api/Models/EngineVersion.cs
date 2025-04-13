@@ -58,7 +58,8 @@ namespace Tgstation.Server.Api.Models
 			var splits = input.Split(DashChar, StringSplitOptions.RemoveEmptyEntries);
 			engineVersion = null;
 
-			if (splits.Length > 3)
+			var length = splits.Length;
+			if (length == 0 || length > 3)
 				return false;
 
 			EngineType engine;

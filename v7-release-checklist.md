@@ -1,0 +1,7 @@
+- [ ] Disable Prerelease in global.json
+- [ ] Correct Docker Base image references
+- [ ] Update all nuget packages to ga
+- [ ] Update CI dotnet version to ga
+- [ ] Disable `TgsNetPreviewBuild` in Version.props
+- [ ] Fix dependencies in debian build-package.sh and control
+- [ ] Remove OD SDK install steps for linux unit tests, codeql, and deb build in ci-pipeline.yml
