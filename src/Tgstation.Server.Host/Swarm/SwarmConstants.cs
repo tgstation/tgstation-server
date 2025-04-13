@@ -17,6 +17,11 @@ namespace Tgstation.Server.Host.Swarm
 		public const string AuthenticationSchemeAndPolicy = "TGS_Swarm";
 
 		/// <summary>
+		/// Name of the <see cref="Controllers.SwarmTransferController"/>.
+		/// </summary>
+		public const string TransferControllerName = "SwarmTransfer";
+
+		/// <summary>
 		/// Interval at which the swarm controller makes health checks on nodes.
 		/// </summary>
 		public const int ControllerHealthCheckIntervalMinutes = 3;

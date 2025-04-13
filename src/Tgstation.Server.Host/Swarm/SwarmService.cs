@@ -21,6 +21,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
@@ -778,7 +779,7 @@ namespace Tgstation.Server.Host.Swarm
 			{
 				var request = new HttpRequestMessage(
 					HttpMethod.Get,
-					$"{sourceNode.Address!.ToString().TrimEnd('/')}{Api.Routes.Transfer}?ticket={HttpUtility.UrlEncode(ticket.FileTicket)}")
+					$"{sourceNode.Address!.ToString().TrimEnd('/')}/{SwarmConstants.TransferControllerName}/{nameof(SwarmTransferController.Download)}?ticket={HttpUtility.UrlEncode(ticket.FileTicket)}")
 				{
 					Version = new Version(2, 0),
 					VersionPolicy = HttpVersionPolicy.RequestVersionExact,

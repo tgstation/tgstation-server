@@ -4,8 +4,8 @@ using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
-using Tgstation.Server.Api;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Swarm.Grpc;
 
@@ -55,7 +55,12 @@ namespace Tgstation.Server.Host.Swarm
 			// special map the transfer controller download endpoint
 			endpoints.MapControllerRoute(
 				"SwarmTransferAccess",
-				$"{Routes.Transfer.TrimStart('/')}{{controller=Transfer}}/{{action=Download}}")
+				"{controller}/{action}",
+				constraints: new
+				{
+					controller = SwarmConstants.TransferControllerName,
+					action = nameof(SwarmTransferController.Download),
+				})
 				.RequireHost(swarmRequiredHost);
 		}
 	}

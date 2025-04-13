@@ -340,12 +340,6 @@ namespace Tgstation.Server.Host.Core
 							builder => builder
 								.RequireAuthenticatedUser()
 								.AddAuthenticationSchemes(SwarmConstants.AuthenticationSchemeAndPolicy));
-
-						options.AddPolicy(
-							TransferConstants.AuthorizationPolicy,
-							builder => builder
-								.RequireAuthenticatedUser()
-								.AddAuthenticationSchemes(SwarmConstants.AuthenticationSchemeAndPolicy, JwtBearerDefaults.AuthenticationScheme));
 					})
 				.ModifyOptions(options =>
 				{
