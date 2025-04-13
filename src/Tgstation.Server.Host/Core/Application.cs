@@ -77,7 +77,6 @@ using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.OAuth;
 using Tgstation.Server.Host.Setup;
 using Tgstation.Server.Host.Swarm;
-using Tgstation.Server.Host.Swarm.Grpc;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
@@ -738,6 +737,8 @@ namespace Tgstation.Server.Host.Core
 			// setup endpoints
 			applicationBuilder.UseEndpoints(endpoints =>
 			{
+				var tgsRequiredHost = $"*:{serverPortProvider.HttpApiPort}";
+
 				// access to the signalR jobs hub
 				endpoints.MapHub<JobsHub>(
 					Routes.JobsHub,
@@ -747,42 +748,12 @@ namespace Tgstation.Server.Host.Core
 						options.CloseOnAuthenticationExpiration = true;
 					})
 					.RequireAuthorization()
-					.RequireCors(corsBuilder);
+					.RequireCors(corsBuilder)
+					.RequireHost(tgsRequiredHost);
 
-				if (swarmConfiguration.PrivateKey != null)
-				{
-					var hostingIP = swarmConfiguration.HostingIP;
-					if (hostingIP == null || IPAddress.Parse(hostingIP) == IPAddress.Any)
-					{
-						hostingIP = "*";
-					}
-
-					var swarmRequiredHost = $"{hostingIP}:{swarmConfiguration.HostingPort ?? serverPortProvider.HttpApiPort}";
-
-					endpoints.MapGrpcService<SwarmSharedService>()
-						.RequireHost(swarmRequiredHost);
-
-					if (swarmConfiguration.ControllerAddress != null)
-						endpoints.MapGrpcService<SwarmNodeService>()
-							.RequireHost(swarmRequiredHost);
-					else
-						endpoints.MapGrpcService<SwarmControllerService>()
-							.RequireHost(swarmRequiredHost);
-
-					// special map the transfer controller download endpoint
-					endpoints.MapControllerRoute(
-						"SwarmServiceFileTransferAccess",
-						Routes.Transfer.TrimStart('/'),
-						new
-						{
-							controller = nameof(Routes.Transfer),
-							action = nameof(TransferController.Download),
-						})
-						.RequireHost("";
-				}
+				SwarmEndpointsBuilder.Map(endpoints, serverPortProvider, swarmConfiguration);
 
 				// majority of handling is done in the controllers
-				var tgsRequiredHost = $"*:{serverPortProvider.HttpApiPort}";
 				endpoints.MapControllers()
 					.RequireHost(tgsRequiredHost);
 
@@ -805,7 +776,7 @@ namespace Tgstation.Server.Host.Core
 				if (generalConfiguration.PrometheusPort.HasValue)
 					endpoints
 						.MapMetrics()
-						.RequireHost($"*:{generalConfiguration.PrometheusPort.Value}");
+						.RequireHost($"*:{generalConfiguration.PrometheusPort ?? serverPortProvider.HttpApiPort}");
 				else
 					logger.LogTrace("Prometheus disabled");
 

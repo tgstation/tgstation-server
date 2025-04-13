@@ -293,7 +293,6 @@ namespace Tgstation.Server.Host.Swarm
 			}
 
 			logger.LogInformation("Waiting to commit update...");
-			using var httpClient = httpClientFactory.CreateClient();
 			if (!swarmController)
 			{
 				// let the controller know we're ready
@@ -729,7 +728,6 @@ namespace Tgstation.Server.Host.Swarm
 		{
 			logger.LogInformation("Aborting swarm update!");
 
-			using var httpClient = httpClientFactory.CreateClient();
 			async ValueTask SendRemoteAbort(SwarmServerInformation? swarmServer)
 			{
 				var callInvoker = GetCallInvokerForNode(swarmServer, out var registration);
@@ -1036,7 +1034,6 @@ namespace Tgstation.Server.Host.Swarm
 					? currentSwarmConfiguration.Identifier
 					: updateRequest.SourceNodeIdentifier;
 
-				using var httpClient = httpClientFactory.CreateClient();
 				using var transferSemaphore = new SemaphoreSlim(1);
 
 				bool anyFailed = false;
@@ -1177,8 +1174,6 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask HealthCheckNodes(CancellationToken cancellationToken)
 		{
-			using var httpClient = httpClientFactory.CreateClient();
-
 			List<SwarmServerInformation> currentSwarmServers;
 			lock (swarmServers!)
 				currentSwarmServers = swarmServers.ToList();
@@ -1256,8 +1251,6 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask HealthCheckController(CancellationToken cancellationToken)
 		{
-			using var httpClient = httpClientFactory.CreateClient();
-
 			if (controllerRegistration.HasValue)
 				try
 				{
@@ -1382,7 +1375,6 @@ namespace Tgstation.Server.Host.Swarm
 
 			logger.LogDebug("Sending updated server list to all {nodeCount} nodes...", currentSwarmServers.Count - 1);
 
-			using var httpClient = httpClientFactory.CreateClient();
 			async ValueTask UpdateRequestForServer(SwarmServerInformation swarmServer)
 			{
 				var callInvoker = GetCallInvokerForNode(swarmServer, out var registration);
