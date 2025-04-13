@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Tgstation.Server.Api.Models
+﻿namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Sanity limits to prevent users from overloading.
