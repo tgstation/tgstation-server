@@ -23,7 +23,6 @@ jobs:
         id: app-token-generation
         uses: actions/create-github-app-token@v1
         with:
-          repositories: tgstation-ppa
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
