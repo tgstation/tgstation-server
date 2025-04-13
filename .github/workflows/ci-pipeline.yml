@@ -534,7 +534,7 @@ jobs:
           key: byond-zips
 
       - name: Run Unit Tests
-        run: sudo -E dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
+        run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
         env:
           TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
           TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
