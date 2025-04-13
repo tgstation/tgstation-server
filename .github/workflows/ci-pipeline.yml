@@ -108,10 +108,16 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            ${{ env.TGS_DOTNET_VERSION }}.0.x
-            ${{ env.OD_DOTNET_VERSION }}.0.x
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
           dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+      - name: Setup dotnet (TEMP NET 10 WORKAROUND)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            ${{ env.OD_DOTNET_VERSION }}.0.x
+            ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.OD_DOTNET_QUALITY }}
 
       - name: Setup Node.JS
         uses: actions/setup-node@v4
@@ -481,10 +487,16 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            ${{ env.TGS_DOTNET_VERSION }}.0.x
-            ${{ env.OD_DOTNET_VERSION }}.0.x
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
           dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+      - name: Setup dotnet (TEMP NET 10 WORKAROUND)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            ${{ env.OD_DOTNET_VERSION }}.0.x
+            ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.OD_DOTNET_QUALITY }}
 
       - name: Setup Node.JS
         uses: actions/setup-node@v4
@@ -550,9 +562,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            ${{ env.TGS_DOTNET_VERSION }}.0.x
-            ${{ env.OD_DOTNET_VERSION }}.0.x
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
           dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
       - name: Setup Node.JS
@@ -1340,10 +1350,16 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            ${{ env.TGS_DOTNET_VERSION }}.0.x
-            ${{ env.OD_DOTNET_VERSION }}.0.x
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
           dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+      - name: Setup dotnet (TEMP NET 10 WORKAROUND)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            ${{ env.OD_DOTNET_VERSION }}.0.x
+            ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.OD_DOTNET_QUALITY }}
 
       - name: Override /usr/bin/dotnet
         run: |
