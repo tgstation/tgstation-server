@@ -1,6 +1,7 @@
 [Unit]
 Description=tgstation-server
-After=network.target
+Wants=network-online.target
+After=network-online.target
 After=mysql.service
 After=mariadb.service
 After=postgresql.service
