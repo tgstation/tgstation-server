@@ -822,6 +822,10 @@ namespace Tgstation.Server.Host.Core
 		protected override void ConfigureHostedService(IServiceCollection services)
 			=> services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
 
+		/// <inheritdoc />
+		protected override void UseValidatedConfig<TConfig, TValidator>(IServiceCollection services)
+			=> services.UseValidatedConfig<TConfig, TValidator>(Configuration);
+
 		/// <summary>
 		/// Configure the <paramref name="services"/> for the authentication pipeline.
 		/// </summary>

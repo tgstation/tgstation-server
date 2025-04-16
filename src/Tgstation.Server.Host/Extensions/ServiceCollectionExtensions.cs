@@ -166,6 +166,22 @@ namespace Tgstation.Server.Host.Extensions
 		}
 
 		/// <summary>
+		/// Add a standard <typeparamref name="TConfig"/> binding.
+		/// </summary>
+		/// <typeparam name="TConfig">The <see langword="class"/> to bind. Must have a <see langword="public"/> const/static <see cref="string"/> field named "Section".</typeparam>
+		/// <typeparam name="TValidator">The <see cref="IValidateOptions{TOptions}"/> <see cref="Type"/> for <typeparamref name="TConfig"/>s.</typeparam>
+		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure.</param>
+		/// <param name="configuration">The <see cref="IConfiguration"/> containing the <typeparamref name="TConfig"/>.</param>
+		/// <returns><paramref name="serviceCollection"/>.</returns>
+		public static OptionsBuilder<TConfig> UseValidatedConfig<TConfig, TValidator>(this IServiceCollection serviceCollection, IConfiguration configuration)
+			where TConfig : class
+			where TValidator : class, IValidateOptions<TConfig>
+		{
+			serviceCollection.AddSingleton<IValidateOptions<TConfig>, TValidator>();
+			return UseStandardConfig<TConfig>(serviceCollection, configuration);
+		}
+
+		/// <summary>
 		/// Clear previous providers and configure logging.
 		/// </summary>
 		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure.</param>
