@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -12,7 +13,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Setup;
@@ -151,24 +151,34 @@ namespace Tgstation.Server.Host
 					webHostBuilder
 						.UseKestrel(kestrelOptions =>
 						{
-							var serverPortProvider = kestrelOptions.ApplicationServices.GetRequiredService<IServerPortProvider>();
-							kestrelOptions.ListenAnyIP(
-								serverPortProvider.HttpApiPort,
-								listenOptions => listenOptions.Protocols = HttpProtocols.Http1); // Can't use Http1And2 without TLS. Let the reverse proxy handle it
+							var http1Endpoints = postSetupServices.GeneralConfiguration.ApiEndPoints
+								.Concat(postSetupServices.GeneralConfiguration.MetricsEndPoints)
+								.Select(spec => spec.ParseIPEndPoint())
+								.Distinct();
+
+							var foundBridgeEndpoint = false;
+							var bridgeEndpoint = new IPEndPoint(
+								IPAddress.Loopback,
+								postSetupServices.SessionConfiguration.BridgePort);
+							foreach (var endPoint in http1Endpoints)
+							{
+								foundBridgeEndpoint |= endPoint == bridgeEndpoint;
+								kestrelOptions.Listen(
+									endPoint,
+									listenOptions => listenOptions.Protocols = HttpProtocols.Http1);
+							}
 
 							var swarmConfig = postSetupServices.SwarmConfiguration;
 							if (swarmConfig.PrivateKey != null)
-							{
-								IPAddress hostingAddress = String.IsNullOrWhiteSpace(swarmConfig.HostingIP)
-									? IPAddress.Any
-									: IPAddress.Parse(swarmConfig.HostingIP);
+								foreach (var spec in swarmConfig.EndPoints)
+									kestrelOptions.Listen(
+										spec.ParseIPEndPoint(),
+										listenOptions => listenOptions.Protocols = HttpProtocols.Http2);
 
+							if (!foundBridgeEndpoint)
 								kestrelOptions.Listen(
-									new IPEndPoint(
-										hostingAddress,
-										swarmConfig.HostingPort ?? serverPortProvider.HttpApiPort + 1),
-									listenOptions => listenOptions.Protocols = HttpProtocols.Http2);
-							}
+									bridgeEndpoint,
+									listenOptions => listenOptions.Protocols = HttpProtocols.Http1);
 
 							// with 515 we lost the ability to test this effectively. Just bump it slightly above the default and let the existing limit hold us back
 							kestrelOptions.Limits.MaxRequestLineSize = 8400;

@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.System;
@@ -19,11 +18,6 @@ namespace Tgstation.Server.Host.Utils
 	/// <inheritdoc />
 	sealed class PortAllocator : IPortAllocator, IDisposable
 	{
-		/// <summary>
-		/// The <see cref="IServerPortProvider"/> for the <see cref="PortAllocator"/>.
-		/// </summary>
-		readonly IServerPortProvider serverPortProvider;
-
 		/// <summary>
 		/// The <see cref="IDatabaseContext"/> for the <see cref="PortAllocator"/>.
 		/// </summary>
@@ -40,6 +34,16 @@ namespace Tgstation.Server.Host.Utils
 		readonly ILogger<PortAllocator> logger;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="PortAllocator"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
+		/// The <see cref="SessionConfiguration"/> for the <see cref="PortAllocator"/>.
+		/// </summary>
+		readonly SessionConfiguration sessionConfiguration;
+
+		/// <summary>
 		/// The <see cref="SwarmConfiguration"/> for the <see cref="PortAllocator"/>.
 		/// </summary>
 		readonly SwarmConfiguration swarmConfiguration;
@@ -52,21 +56,24 @@ namespace Tgstation.Server.Host.Utils
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PortAllocator"/> class.
 		/// </summary>
-		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public PortAllocator(
-			IServerPortProvider serverPortProvider,
 			IDatabaseContextFactory databaseContextFactory,
 			IPlatformIdentifier platformIdentifier,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<SessionConfiguration> sessionConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<PortAllocator> logger)
 		{
-			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
@@ -128,9 +135,29 @@ namespace Tgstation.Server.Host.Utils
 					if (checkOne && port != basePort)
 						break;
 
-					if (port == serverPortProvider.HttpApiPort)
+					bool SpecsMatchPort(IReadOnlyList<HostingSpecification> specs) => specs.Any(spec => spec.Port == port);
+
+					if (SpecsMatchPort(generalConfiguration.ApiEndPoints))
 					{
-						logger.LogWarning("Cannot allocate port {port} as it is the TGS API port!", port);
+						logger.LogWarning("Cannot allocate port {port} as it is a TGS API port!", port);
+						continue;
+					}
+
+					if (SpecsMatchPort(generalConfiguration.MetricsEndPoints))
+					{
+						logger.LogWarning("Cannot allocate port {port} as it is a metrics port!", port);
+						continue;
+					}
+
+					if (SpecsMatchPort(swarmConfiguration.EndPoints))
+					{
+						logger.LogWarning("Cannot allocate port {port} as it is a swarm API port!", port);
+						continue;
+					}
+
+					if (port == sessionConfiguration.BridgePort)
+					{
+						logger.LogWarning("Cannot allocate port {port} as it is the bridge request port!", port);
 						continue;
 					}
 

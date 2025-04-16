@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Net;
+using System.Linq;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Swarm.Grpc;
 
 namespace Tgstation.Server.Host.Swarm
@@ -20,37 +19,29 @@ namespace Tgstation.Server.Host.Swarm
 		/// Map endpoints.
 		/// </summary>
 		/// <param name="endpoints">The <see cref="IEndpointRouteBuilder"/>.</param>
-		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/>.</param>
 		/// <param name="swarmConfiguration">The <see cref="SwarmConfiguration"/>.</param>
-		internal static void Map(
+		/// <returns>The required hosts <see cref="string"/> <see cref="Array"/> for the swarm service.</returns>
+		internal static string[]? Map(
 			IEndpointRouteBuilder endpoints,
-			IServerPortProvider serverPortProvider,
 			SwarmConfiguration swarmConfiguration)
 		{
 			ArgumentNullException.ThrowIfNull(endpoints);
-			ArgumentNullException.ThrowIfNull(serverPortProvider);
 			ArgumentNullException.ThrowIfNull(swarmConfiguration);
 
 			if (swarmConfiguration.PrivateKey == null)
-				return;
+				return null;
 
-			var hostingIP = swarmConfiguration.HostingIP;
-			if (hostingIP == null || IPAddress.Parse(hostingIP) == IPAddress.Any)
-			{
-				hostingIP = "*";
-			}
-
-			var swarmRequiredHost = $"{hostingIP}:{swarmConfiguration.HostingPort ?? serverPortProvider.HttpApiPort}";
+			var swarmHosts = swarmConfiguration.EndPoints.Select(endpoint => endpoint.ParseEndPointSpecification()).ToArray();
 
 			endpoints.MapGrpcService<SwarmSharedService>()
-				.RequireHost(swarmRequiredHost);
+				.RequireHost(swarmHosts);
 
 			if (swarmConfiguration.ControllerAddress != null)
 				endpoints.MapGrpcService<SwarmNodeService>()
-					.RequireHost(swarmRequiredHost);
+					.RequireHost(swarmHosts);
 			else
 				endpoints.MapGrpcService<SwarmControllerService>()
-					.RequireHost(swarmRequiredHost);
+					.RequireHost(swarmHosts);
 
 			// special map the transfer controller download endpoint
 			endpoints.MapControllerRoute(
@@ -61,7 +52,9 @@ namespace Tgstation.Server.Host.Swarm
 					controller = SwarmConstants.TransferControllerName,
 					action = nameof(SwarmTransferController.Download),
 				})
-				.RequireHost(swarmRequiredHost);
+				.RequireHost(swarmHosts);
+
+			return swarmHosts;
 		}
 	}
 }

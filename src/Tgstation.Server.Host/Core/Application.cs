@@ -2,6 +2,7 @@
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
@@ -169,11 +170,7 @@ namespace Tgstation.Server.Host.Core
 			// configure configuration
 			services.UseStandardConfig<UpdatesConfiguration>(Configuration);
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
-			services.UseStandardConfig<SessionConfiguration>(Configuration);
 			services.UseStandardConfig<TelemetryConfiguration>(Configuration);
-
-			// enable options which give us config reloading
-			services.AddOptions();
 
 			// Set the timeout for IHostedService.StopAsync
 			services.Configure<HostOptions>(
@@ -309,9 +306,6 @@ namespace Tgstation.Server.Host.Core
 			// Enable managed HTTP clients
 			services.AddHttpClient();
 			services.AddSingleton<IAbstractHttpClientFactory, AbstractHttpClientFactory>();
-
-			// configure metrics
-			var prometheusPort = postSetupServices.GeneralConfiguration.PrometheusPort;
 
 			services.AddSingleton<IMetricFactory>(_ => Metrics.DefaultFactory);
 			services.AddSingleton<ICollectorRegistry>(_ => Metrics.DefaultRegistry);
@@ -540,9 +534,9 @@ namespace Tgstation.Server.Host.Core
 			// configure misc services
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
-			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
 			services.AddSingleton<ICallInvokerlFactory, CallInvokerFactory>();
+			services.AddSingleton<BridgeController>();
 			services.AddHostedService<CommandPipeManager>();
 			services.AddHostedService<VersionReportingService>();
 
@@ -569,7 +563,6 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/>.</param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/>.</param>
-		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/>.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use.</param>
@@ -577,13 +570,13 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SecurityConfiguration"/> to use.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SwarmConfiguration"/> to use.</param>
 		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="InternalConfiguration"/> to use.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SessionConfiguration"/> to use.</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/>.</param>
 #pragma warning disable CA1502 // TODO: Decomplexify
 		public void Configure(
 			IApplicationBuilder applicationBuilder,
 			IServerControl serverControl,
 			ITokenFactory tokenFactory,
-			IServerPortProvider serverPortProvider,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
@@ -591,6 +584,7 @@ namespace Tgstation.Server.Host.Core
 			IOptions<SecurityConfiguration> securityConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			IOptions<InternalConfiguration> internalConfigurationOptions,
+			IOptions<SessionConfiguration> sessionConfigurationOptions,
 			ILogger<Application> logger)
 #pragma warning restore CA1502
 		{
@@ -599,7 +593,6 @@ namespace Tgstation.Server.Host.Core
 
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 
-			ArgumentNullException.ThrowIfNull(serverPortProvider);
 			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
 			var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
@@ -607,6 +600,7 @@ namespace Tgstation.Server.Host.Core
 			var databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
 			var swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			var internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
+			var sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 
 			ArgumentNullException.ThrowIfNull(logger);
 
@@ -729,10 +723,12 @@ namespace Tgstation.Server.Host.Core
 			applicationBuilder.UseDbConflictHandling();
 
 			// setup endpoints
+			var httpApiHosts = generalConfiguration.ApiEndPoints.Select(endpoint => endpoint.ParseEndPointSpecification()).ToArray();
+			var metricsHosts = generalConfiguration.MetricsEndPoints.Select(endpoint => endpoint.ParseEndPointSpecification()).ToArray();
+			var bridgeHost = $"{IPAddress.Loopback}:{sessionConfiguration.BridgePort}";
+			string[]? swarmHosts = null;
 			applicationBuilder.UseEndpoints(endpoints =>
 			{
-				var tgsRequiredHost = $"*:{serverPortProvider.HttpApiPort}";
-
 				// access to the signalR jobs hub
 				endpoints.MapHub<JobsHub>(
 					Routes.JobsHub,
@@ -743,13 +739,25 @@ namespace Tgstation.Server.Host.Core
 					})
 					.RequireAuthorization()
 					.RequireCors(corsBuilder)
-					.RequireHost(tgsRequiredHost);
+					.RequireHost(httpApiHosts);
 
-				SwarmEndpointsBuilder.Map(endpoints, serverPortProvider, swarmConfiguration);
+				swarmHosts = SwarmEndpointsBuilder.Map(endpoints, swarmConfiguration);
+
+				Task ProcessBridgeRequest(HttpContext context) => context.RequestServices.GetRequiredService<BridgeController>().Process(context);
+
+				endpoints.MapGet(
+					$"/{BridgeController.RouteExtension}",
+					ProcessBridgeRequest)
+					.RequireHost(bridgeHost);
+
+				endpoints.MapGet(
+					$"{Routes.ApiRoot}{BridgeController.RouteExtension}",
+					ProcessBridgeRequest)
+					.RequireHost(bridgeHost);
 
 				// majority of handling is done in the controllers
 				endpoints.MapControllers()
-					.RequireHost(tgsRequiredHost);
+					.RequireHost(httpApiHosts);
 
 				if (internalConfiguration.EnableGraphQL)
 				{
@@ -764,18 +772,18 @@ namespace Tgstation.Server.Host.Core
 					endpoints
 						.MapGraphQL(Routes.GraphQL)
 						.WithOptions(gqlOptions)
-						.RequireHost(tgsRequiredHost);
+						.RequireHost(httpApiHosts);
 				}
 
-				if (generalConfiguration.PrometheusPort.HasValue)
+				if (generalConfiguration.MetricsEndPoints.Count > 0)
 					endpoints
 						.MapMetrics()
-						.RequireHost($"*:{generalConfiguration.PrometheusPort ?? serverPortProvider.HttpApiPort}");
+						.RequireHost();
 				else
 					logger.LogTrace("Prometheus disabled");
 
 				endpoints.MapHealthChecks("/health")
-					.RequireHost(tgsRequiredHost);
+					.RequireHost(httpApiHosts);
 
 				var oidcConfig = securityConfigurationOptions.Value.OpenIDConnect;
 				if (oidcConfig == null)
@@ -790,7 +798,7 @@ namespace Tgstation.Server.Host.Core
 							{
 								RedirectUri = $"/oidc/{kvp.Key}/landing",
 							}))
-						.RequireHost(tgsRequiredHost);
+						.RequireHost(httpApiHosts);
 			});
 
 			// 404 anything that gets this far
@@ -800,7 +808,14 @@ namespace Tgstation.Server.Host.Core
 			if (controlPanelConfiguration.Enable)
 				logger.LogTrace("Webpanel version: {webCPVersion}", MasterVersionsAttribute.Instance.RawWebpanelVersion);
 
-			logger.LogDebug("Starting hosting on port {httpApiPort}...", serverPortProvider.HttpApiPort);
+			logger.LogDebug("Bridge service hosted on: {bridgeHost}", bridgeHost);
+			if (metricsHosts.Any())
+				logger.LogDebug("Metrics service hosted on: {metricsHosts}", String.Join(", ", metricsHosts));
+
+			if (swarmHosts != null)
+				logger.LogDebug("Swarm service hosted on: {swarmHosts}", String.Join(", ", swarmHosts));
+
+			logger.LogDebug("HTTP API hosted on: {httpApiHosts}", String.Join(", ", httpApiHosts));
 		}
 
 		/// <inheritdoc />

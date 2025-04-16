@@ -20,7 +20,6 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -120,11 +119,6 @@ namespace Tgstation.Server.Host.Components
 		readonly IRepositoryManagerFactory repositoryManagerFactory;
 
 		/// <summary>
-		/// The <see cref="IServerPortProvider"/> for the <see cref="InstanceFactory"/>.
-		/// </summary>
-		readonly IServerPortProvider serverPortProvider;
-
-		/// <summary>
 		/// The <see cref="IFileTransferTicketProvider"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly IFileTransferTicketProvider fileTransferService;
@@ -187,7 +181,6 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="repositoryManagerFactory">The value of <see cref="repositoryManagerFactory"/>.</param>
-		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
@@ -213,7 +206,6 @@ namespace Tgstation.Server.Host.Components
 			INetworkPromptReaper networkPromptReaper,
 			IPlatformIdentifier platformIdentifier,
 			IRepositoryManagerFactory repositoryManagerFactory,
-			IServerPortProvider serverPortProvider,
 			IFileTransferTicketProvider fileTransferService,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			IAsyncDelayer asyncDelayer,
@@ -239,7 +231,6 @@ namespace Tgstation.Server.Host.Components
 			this.networkPromptReaper = networkPromptReaper ?? throw new ArgumentNullException(nameof(networkPromptReaper));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.repositoryManagerFactory = repositoryManagerFactory ?? throw new ArgumentNullException(nameof(repositoryManagerFactory));
-			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
@@ -338,7 +329,6 @@ namespace Tgstation.Server.Host.Components
 							networkPromptReaper,
 							platformIdentifier,
 							bridgeRegistrar,
-							serverPortProvider,
 							eventConsumer,
 							asyncDelayer,
 							dotnetDumpService,

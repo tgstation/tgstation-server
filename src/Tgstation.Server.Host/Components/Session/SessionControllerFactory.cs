@@ -21,7 +21,6 @@ using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -93,11 +92,6 @@ namespace Tgstation.Server.Host.Components.Session
 		/// The <see cref="IBridgeRegistrar"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly IBridgeRegistrar bridgeRegistrar;
-
-		/// <summary>
-		/// The <see cref="IServerPortProvider"/> for the <see cref="SessionControllerFactory"/>.
-		/// </summary>
-		readonly IServerPortProvider serverPortProvider;
 
 		/// <summary>
 		/// The <see cref="IEventConsumer"/> for the <see cref="SessionControllerFactory"/>.
@@ -193,7 +187,6 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="bridgeRegistrar">The value of <see cref="bridgeRegistrar"/>.</param>
-		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
@@ -213,7 +206,6 @@ namespace Tgstation.Server.Host.Components.Session
 			INetworkPromptReaper networkPromptReaper,
 			IPlatformIdentifier platformIdentifier,
 			IBridgeRegistrar bridgeRegistrar,
-			IServerPortProvider serverPortProvider,
 			IEventConsumer eventConsumer,
 			IAsyncDelayer asyncDelayer,
 			IDotnetDumpService dotnetDumpService,
@@ -234,7 +226,6 @@ namespace Tgstation.Server.Host.Components.Session
 			this.networkPromptReaper = networkPromptReaper ?? throw new ArgumentNullException(nameof(networkPromptReaper));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.bridgeRegistrar = bridgeRegistrar ?? throw new ArgumentNullException(nameof(bridgeRegistrar));
-			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
@@ -533,7 +524,7 @@ namespace Tgstation.Server.Host.Components.Session
 				new Dictionary<string, string>
 				{
 					{ DMApiConstants.ParamApiVersion, DMApiConstants.InteropVersion.Semver().ToString() },
-					{ DMApiConstants.ParamServerPort, serverPortProvider.HttpApiPort.ToString(CultureInfo.InvariantCulture) },
+					{ DMApiConstants.ParamServerPort, sessionConfiguration.BridgePort.ToString(CultureInfo.InvariantCulture) },
 					{ DMApiConstants.ParamAccessIdentifier, accessIdentifier },
 				},
 				launchParameters,
@@ -670,7 +661,7 @@ namespace Tgstation.Server.Host.Components.Session
 				instance.Name!,
 				securityLevel,
 				visibility,
-				serverPortProvider.HttpApiPort,
+				sessionConfiguration.BridgePort,
 				apiValidateOnly);
 
 		/// <summary>

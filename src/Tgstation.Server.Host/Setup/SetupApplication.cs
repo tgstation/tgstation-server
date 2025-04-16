@@ -63,6 +63,7 @@ namespace Tgstation.Server.Host.Setup
 			services.UseStandardConfig<ElasticsearchConfiguration>(Configuration);
 			services.UseStandardConfig<InternalConfiguration>(Configuration);
 			services.UseStandardConfig<SwarmConfiguration>(Configuration);
+			services.UseStandardConfig<SessionConfiguration>(Configuration);
 
 			ConfigureHostedService(services);
 		}

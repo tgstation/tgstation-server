@@ -252,13 +252,34 @@ The latter two are not recommended as they cannot be dynamically changed at runt
 
 #### Manual Configuration
 
-Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will override the default settings in `appsettings.yml` with your production settings. There are a few keys meant to be changed by hosts. The configuration is only read after server statup. To reload it you must restart TGS. This can be done while your game servers are running by using the Administrative restart function (as opposed to an OS service restart). Note these are all case-sensitive:
+Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will override the default settings in `appsettings.yml` with your production settings. There are a few keys meant to be changed by hosts. The configuration is only read after server statup. To reload it you must restart TGS. This can be done while your game servers are running by using the Administrative restart function (as opposed to an OS service restart).
+
+##### `HostingSpecification`s
+
+A `HostingSpecification` is an object containing an `IPAddress` and `Port` that specifics what IP endpoint a service listens on. i.e:
+
+```yml
+HostingSpecificationsList:
+  - Port: 1234 # Will listen on any IPv4 Address on port 1234
+  - IPAddress: 0.0.0.0
+    Port: 2345 # Same on port 2345
+  - IPAddress: ::1
+    Port: 3456 # Will only listen on IPv6 localhost port 3456
+  - IPAddress: 192.168.1.16
+    Port: 3456 # Will only listen on 192.168.1.16 port 3456
+```
+
+##### Options
+
+Note these are all case-sensitive:
 
 - `General:ConfigVersion`: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version.
 
-- `General:MinimumPasswordLength`: Minimum password length requirement for database users.
+- `General:ApiEndPoints`: Array of `HostingSpecification`s used to host the public TGS HTTP API.
 
-- `General:PrometheusPort`: Port Prometheus metrics are published on under /metrics. This can be set to the same value as the `ApiPort`, just note that accessing it does not require authentication.
+- `General:MetricsEndPoints`: Array of `HostingSpecification`s used to host prometheus metrics under `/metrics` and health checks under `/health`.
+
+- `General:MinimumPasswordLength`: Minimum password length requirement for database users.
 
 - `General:ValidInstancePaths`: Array meant to limit the directories in which instances may be created.
 
@@ -271,6 +292,8 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 - `General:SkipAddingByondFirewallException`: Set to `true` if you have Windows firewall disabled
 
 - `General:AdditionalEventScriptsDirectories`: An array of directories that are considered to contain EventScripts alongside instance directories. Working directory for executed scripts will remain the instance EventScripts directory.
+
+- `Session:BridgePort`: Port that game servers will talk back to TGS on over `127.0.0.1`.
 
 - `Session:HighPriorityLiveDreamDaemon`: Boolean controlling if live DreamDaemon instances get set to above normal priority processes.
 
@@ -311,11 +334,13 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `Swarm:PrivateKey`: Must be a secure string set identically on all swarmed servers.
 
-- `Swarm:ControllerAddress`: Must be set on all swarmed servers that are **not** the controller server and should be an address the controller server may be reached at.
+- `Swarm:ControllerAddress`: Must be set on all swarmed servers that are **not** the controller server and should be an address the controller server's **swarm service** may be reached at.
 
-- `Swarm:Address`: Must be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.
+- `Swarm:Address`: Must be set on all swarmed servers. Should be an address the server's **swarm service** can be reached at by other servers in the swarm.
 
-- `Swarm:PublicAddress`: Should be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.
+- `Swarm:EndPoints`: Array of `HostingSpecification`s the server's swarm service is hosted on.
+
+- `Swarm:PublicAddress`: Should be set on all swarmed servers. Should be an address the server's **HTTP API** can be reached at by end users.
 
 - `Swarm:Identifier`: Must be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.
 

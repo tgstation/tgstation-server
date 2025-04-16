@@ -26,6 +26,9 @@ namespace Tgstation.Server.Host.Setup
 		public SwarmConfiguration SwarmConfiguration => swarmConfigurationOptions.Value;
 
 		/// <inheritdoc />
+		public SessionConfiguration SessionConfiguration => sessionConfigurationOptions.Value;
+
+		/// <inheritdoc />
 		public FileLoggingConfiguration FileLoggingConfiguration => fileLoggingConfigurationOptions.Value;
 
 		/// <inheritdoc />
@@ -73,6 +76,11 @@ namespace Tgstation.Server.Host.Setup
 		readonly IOptions<SwarmConfiguration> swarmConfigurationOptions;
 
 		/// <summary>
+		/// Backing <see cref="IOptions{TOptions}"/> for <see cref="InternalConfiguration"/>.
+		/// </summary>
+		readonly IOptions<SessionConfiguration> sessionConfigurationOptions;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="PostSetupServices"/> class.
 		/// </summary>
 		/// <param name="platformIdentifier">The value of <see cref="PlatformIdentifier"/>.</param>
@@ -83,6 +91,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="elasticsearchConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="ElasticsearchConfiguration"/>.</param>
 		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="InternalConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="SwarmConfiguration"/>.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="SessionConfiguration"/>.</param>
 		public PostSetupServices(
 			IPlatformIdentifier platformIdentifier,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
@@ -91,7 +100,8 @@ namespace Tgstation.Server.Host.Setup
 			IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions,
 			IOptions<ElasticsearchConfiguration> elasticsearchConfigurationOptions,
 			IOptions<InternalConfiguration> internalConfigurationOptions,
-			IOptions<SwarmConfiguration> swarmConfigurationOptions)
+			IOptions<SwarmConfiguration> swarmConfigurationOptions,
+			IOptions<SessionConfiguration> sessionConfigurationOptions)
 		{
 			PlatformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
@@ -101,6 +111,7 @@ namespace Tgstation.Server.Host.Setup
 			this.elasticsearchConfigurationOptions = elasticsearchConfigurationOptions ?? throw new ArgumentNullException(nameof(elasticsearchConfigurationOptions));
 			this.internalConfigurationOptions = internalConfigurationOptions ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
 			this.swarmConfigurationOptions = swarmConfigurationOptions ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
+			this.sessionConfigurationOptions = sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 		}
 	}
 }

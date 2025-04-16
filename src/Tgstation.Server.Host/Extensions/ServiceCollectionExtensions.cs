@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Serilog;
 using Serilog.Configuration;
@@ -143,7 +144,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure.</param>
 		/// <param name="configuration">The <see cref="IConfiguration"/> containing the <typeparamref name="TConfig"/>.</param>
 		/// <returns><paramref name="serviceCollection"/>.</returns>
-		public static IServiceCollection UseStandardConfig<TConfig>(this IServiceCollection serviceCollection, IConfiguration configuration)
+		public static OptionsBuilder<TConfig> UseStandardConfig<TConfig>(this IServiceCollection serviceCollection, IConfiguration configuration)
 			where TConfig : class
 		{
 			ArgumentNullException.ThrowIfNull(serviceCollection);
@@ -160,7 +161,8 @@ namespace Tgstation.Server.Host.Extensions
 
 			var sectionName = (string)sectionField.GetValue(null)!;
 
-			return serviceCollection.Configure<TConfig>(configuration.GetSection(sectionName));
+			return serviceCollection.AddOptionsWithValidateOnStart<TConfig>()
+				.BindConfiguration(sectionName);
 		}
 
 		/// <summary>

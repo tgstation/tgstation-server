@@ -515,7 +515,13 @@ namespace Tgstation.Server.Tests.Live
 				Address = controllerAddress,
 				Identifier = "controller",
 				PrivateKey = PrivateKey,
-				HostingPort = 15111,
+				EndPoints = new List<HostingSpecification>
+				{
+					new HostingSpecification
+					{
+						Port = 15111,
+					}
+				}
 			}, false, 15011))
 			{
 				using var serverCts = new CancellationTokenSource();
@@ -609,7 +615,13 @@ namespace Tgstation.Server.Tests.Live
 				Address = controllerAddress,
 				Identifier = "controller",
 				PrivateKey = PrivateKey,
-				HostingPort = 15111,
+				EndPoints = new List<HostingSpecification>
+				{
+					new HostingSpecification
+					{
+						Port = 15111,
+					}
+				}
 			}, false, 15011))
 			{
 				using var node1 = new LiveTestingServer(new SwarmConfiguration
@@ -618,7 +630,13 @@ namespace Tgstation.Server.Tests.Live
 					ControllerAddress = controllerAddress,
 					Identifier = "node1",
 					PrivateKey = PrivateKey,
-					HostingPort = 15112,
+					EndPoints = new List<HostingSpecification>
+				{
+					new HostingSpecification
+					{
+						Port = 15112,
+					}
+				}
 				}, false, 15012);
 				using var node2 = new LiveTestingServer(new SwarmConfiguration
 				{
@@ -626,7 +644,13 @@ namespace Tgstation.Server.Tests.Live
 					ControllerAddress = controllerAddress,
 					Identifier = "node2",
 					PrivateKey = PrivateKey,
-					HostingPort = 15113,
+					EndPoints = new List<HostingSpecification>
+				{
+					new HostingSpecification
+					{
+						Port = 15113,
+					}
+				}
 				}, false, 15013);
 				using var serverCts = new CancellationTokenSource();
 				var cancellationToken = serverCts.Token;
@@ -778,7 +802,13 @@ namespace Tgstation.Server.Tests.Live
 						Identifier = "controller",
 						PrivateKey = PrivateKey,
 						UpdateRequiredNodeCount = 2,
-						HostingPort = 15111,
+						EndPoints = new List<HostingSpecification>
+						{
+							new HostingSpecification
+							{
+								Port = 15111,
+							}
+						}
 					});
 					serverTask = Task.WhenAll(
 						controller.Run(cancellationToken).AsTask(),
@@ -893,7 +923,13 @@ namespace Tgstation.Server.Tests.Live
 				PublicAddress = new Uri("http://fakecontroller.com"),
 				PrivateKey = PrivateKey,
 				UpdateRequiredNodeCount = 2,
-				HostingPort = 15111,
+				EndPoints = new List<HostingSpecification>
+				{
+					new HostingSpecification
+					{
+						Port = 15111,
+					}
+				}
 			}, false, 15011))
 			{
 				using var node1 = new LiveTestingServer(new SwarmConfiguration
@@ -903,7 +939,13 @@ namespace Tgstation.Server.Tests.Live
 					PublicAddress = new Uri("http://fakenode1.com"),
 					Identifier = "node1",
 					PrivateKey = PrivateKey,
-					HostingPort = 15112,
+					EndPoints = new List<HostingSpecification>
+					{
+						new HostingSpecification
+						{
+							Port = 15112,
+						}
+					}
 				}, false, 15012);
 				using var node2 = new LiveTestingServer(new SwarmConfiguration
 				{
@@ -911,7 +953,13 @@ namespace Tgstation.Server.Tests.Live
 					ControllerAddress = controllerAddress,
 					Identifier = "node2",
 					PrivateKey = PrivateKey,
-					HostingPort = 15113,
+					EndPoints = new List<HostingSpecification>
+					{
+						new HostingSpecification
+						{
+							Port = 15113,
+						}
+					}
 				}, false, 15013);
 				using var serverCts = new CancellationTokenSource();
 

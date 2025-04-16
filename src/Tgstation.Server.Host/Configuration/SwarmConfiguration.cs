@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Tgstation.Server.Api.Models.Internal;
 
@@ -49,13 +50,8 @@ namespace Tgstation.Server.Host.Configuration
 		public uint UpdateRequiredNodeCount { get; set; }
 
 		/// <summary>
-		/// The IP address specifier for hosting the swarm service. Defaults to 0.0.0.0.
+		/// Endpoints used to host the swarm API.
 		/// </summary>
-		public string? HostingIP { get; set; }
-
-		/// <summary>
-		/// The swarm API port. Defaults to <see cref="GeneralConfiguration.ApiPort"/> + 1.
-		/// </summary>
-		public ushort? HostingPort { get; set; }
+		public IReadOnlyList<HostingSpecification> EndPoints { get; set; } = new List<HostingSpecification>();
 	}
 }

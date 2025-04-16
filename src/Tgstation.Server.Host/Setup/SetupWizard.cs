@@ -176,10 +176,10 @@ namespace Tgstation.Server.Host.Setup
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> resulting in the hosting port, or <see langword="null"/> to use the default.</returns>
-		async ValueTask<ushort?> PromptForHostingPort(CancellationToken cancellationToken)
+		async ValueTask<HostingSpecification?> PromptForHostingSpec(CancellationToken cancellationToken)
 		{
 			await console.WriteAsync(null, true, cancellationToken);
-			await console.WriteAsync("What port would you like to connect to TGS on?", true, cancellationToken);
+			await console.WriteAsync("What port would you like to connect to TGS on? (Bridge port will alsoe be set to this)", true, cancellationToken);
 			await console.WriteAsync("Note: If this is a docker container with the default port already mapped, use the default.", true, cancellationToken);
 
 			do
@@ -192,7 +192,10 @@ namespace Tgstation.Server.Host.Setup
 				if (String.IsNullOrWhiteSpace(portString))
 					return null;
 				if (UInt16.TryParse(portString, out var port) && port != 0)
-					return port;
+					return new HostingSpecification
+					{
+						Port = port,
+					};
 				await console.WriteAsync("Invalid port! Please enter a value between 1 and 65535", true, cancellationToken);
 			}
 			while (true);
@@ -987,29 +990,35 @@ namespace Tgstation.Server.Host.Setup
 		/// Saves a given <see cref="Configuration"/> set to <paramref name="userConfigFileName"/>.
 		/// </summary>
 		/// <param name="userConfigFileName">The file to save the <see cref="Configuration"/> to.</param>
-		/// <param name="hostingPort">The hosting port to save.</param>
+		/// <param name="apiSpec">The API <see cref="HostingSpecification"/> to save.</param>
 		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/> to save.</param>
 		/// <param name="newGeneralConfiguration">The <see cref="GeneralConfiguration"/> to save.</param>
 		/// <param name="fileLoggingConfiguration">The <see cref="FileLoggingConfiguration"/> to save.</param>
 		/// <param name="elasticsearchConfiguration">The <see cref="ElasticsearchConfiguration"/> to save.</param>
 		/// <param name="controlPanelConfiguration">The <see cref="ControlPanelConfiguration"/> to save.</param>
-		/// <param name="swarmConfiguration">The <see cref="SwarmConfiguration"/> to save.</param>
 		/// <param name="telemetryConfiguration">The <see cref="TelemetryConfiguration"/> to save.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask SaveConfiguration(
 			string userConfigFileName,
-			ushort? hostingPort,
+			HostingSpecification? apiSpec,
 			DatabaseConfiguration databaseConfiguration,
 			GeneralConfiguration newGeneralConfiguration,
 			FileLoggingConfiguration? fileLoggingConfiguration,
 			ElasticsearchConfiguration? elasticsearchConfiguration,
 			ControlPanelConfiguration controlPanelConfiguration,
-			SwarmConfiguration? swarmConfiguration,
 			TelemetryConfiguration? telemetryConfiguration,
 			CancellationToken cancellationToken)
 		{
-			newGeneralConfiguration.ApiPort = hostingPort ?? GeneralConfiguration.DefaultApiPort;
+			apiSpec ??= new HostingSpecification
+			{
+				Port = GeneralConfiguration.DefaultApiPort,
+			};
+
+			newGeneralConfiguration.ApiEndPoints = new List<HostingSpecification>
+			{
+				apiSpec,
+			};
 			newGeneralConfiguration.ConfigVersion = GeneralConfiguration.CurrentConfigVersion;
 			var map = new Dictionary<string, object?>()
 			{
@@ -1018,8 +1027,14 @@ namespace Tgstation.Server.Host.Setup
 				{ FileLoggingConfiguration.Section, fileLoggingConfiguration },
 				{ ElasticsearchConfiguration.Section, elasticsearchConfiguration },
 				{ ControlPanelConfiguration.Section, controlPanelConfiguration },
-				{ SwarmConfiguration.Section, swarmConfiguration },
 				{ TelemetryConfiguration.Section, telemetryConfiguration },
+				{
+					SessionConfiguration.Section,
+					new SessionConfiguration
+					{
+						BridgePort = apiSpec.Port,
+					}
+				},
 			};
 
 			var versionConverter = new VersionConverter();
@@ -1078,8 +1093,9 @@ namespace Tgstation.Server.Host.Setup
 			// welcome message
 			await console.WriteAsync($"Welcome to {Constants.CanonicalPackageName}!", true, cancellationToken);
 			await console.WriteAsync("This wizard will help you configure your server.", true, cancellationToken);
+			await console.WriteAsync("Note: Only the absolute basics will be covered. It is recommended that you configure your server manually using the README.md.", true, cancellationToken);
 
-			var hostingPort = await PromptForHostingPort(cancellationToken);
+			var hostingSpec = await PromptForHostingSpec(cancellationToken);
 
 			var databaseConfiguration = await ConfigureDatabase(cancellationToken);
 
@@ -1091,8 +1107,6 @@ namespace Tgstation.Server.Host.Setup
 
 			var controlPanelConfiguration = await ConfigureControlPanel(cancellationToken);
 
-			var swarmConfiguration = await ConfigureSwarm(cancellationToken);
-
 			var telemetryConfiguration = await ConfigureTelemetry(cancellationToken);
 
 			await console.WriteAsync(null, true, cancellationToken);
@@ -1100,13 +1114,12 @@ namespace Tgstation.Server.Host.Setup
 
 			await SaveConfiguration(
 				userConfigFileName,
-				hostingPort,
+				hostingSpec,
 				databaseConfiguration,
 				newGeneralConfiguration,
 				fileLoggingConfiguration,
 				elasticSearchConfiguration,
 				controlPanelConfiguration,
-				swarmConfiguration,
 				telemetryConfiguration,
 				cancellationToken);
 		}
@@ -1224,7 +1237,6 @@ namespace Tgstation.Server.Host.Setup
 								Enable = true,
 								AllowAnyOrigin = true,
 							},
-							null,
 							null,
 							cancellationToken);
 					}

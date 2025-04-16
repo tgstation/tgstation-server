@@ -44,6 +44,11 @@ namespace Tgstation.Server.Host.Setup
 		SwarmConfiguration SwarmConfiguration { get; }
 
 		/// <summary>
+		/// The <see cref="Configuration.SessionConfiguration"/>.
+		/// </summary>
+		SessionConfiguration SessionConfiguration { get; }
+
+		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/>.
 		/// </summary>
 		IPlatformIdentifier PlatformIdentifier { get; }

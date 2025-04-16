@@ -61,7 +61,6 @@ namespace Tgstation.Server.Host.Extensions
 					applicationBuilder, // TODO: find a way to call this func and auto-resolve the services
 					applicationBuilder.ApplicationServices.GetRequiredService<IServerControl>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<ITokenFactory>(),
-					applicationBuilder.ApplicationServices.GetRequiredService<IServerPortProvider>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<IAssemblyInformationProvider>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<IOptions<ControlPanelConfiguration>>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<IOptions<GeneralConfiguration>>(),
@@ -69,6 +68,7 @@ namespace Tgstation.Server.Host.Extensions
 					applicationBuilder.ApplicationServices.GetRequiredService<IOptions<SecurityConfiguration>>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<IOptions<SwarmConfiguration>>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<IOptions<InternalConfiguration>>(),
+					applicationBuilder.ApplicationServices.GetRequiredService<IOptions<SessionConfiguration>>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<ILogger<Application>>());
 	}
 }
