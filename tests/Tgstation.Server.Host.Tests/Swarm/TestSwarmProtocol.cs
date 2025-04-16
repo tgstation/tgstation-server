@@ -157,7 +157,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node1.TryInit());
 
-			Assert.AreEqual(2, controller.Service.GetSwarmServers().Count);
+			Assert.AreEqual(2, controller.Service.GetSwarmServers().Count, "thing 1");
 			await DelayMax(() => Assert.AreEqual(2, node1.Service.GetSwarmServers().Count), 5);
 		}
 
