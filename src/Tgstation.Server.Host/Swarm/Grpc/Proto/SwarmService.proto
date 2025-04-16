@@ -6,7 +6,6 @@ package Tgstation.Server.Host.Swarm.Grpc;
 
 service GrpcSwarmControllerService {
 	rpc RegisterNode(RegisterNodeRequest) returns (RegisterNodeResponse);
-	rpc UnregisterNode(UnregisterNodeRequest) returns (UnregisterNodeResponse);
 }
 
 service GrpcSwarmNodeService {
@@ -18,6 +17,7 @@ service GrpcSwarmSharedService {
 	rpc PrepareUpdate(PrepareUpdateRequest) returns (PrepareUpdateResponse);
 	rpc CommitUpdate(CommitUpdateRequest) returns (CommitUpdateResponse);
 	rpc AbortUpdate(AbortUpdateRequest) returns (AbortUpdateResponse);
+	rpc UnregisterNode(UnregisterNodeRequest) returns (UnregisterNodeResponse);
 }
 
 message SwarmRegistration {

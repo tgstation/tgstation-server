@@ -467,7 +467,7 @@ namespace Tgstation.Server.Host.Swarm
 			async ValueTask SendUnregistrationRequest(SwarmServerInformation? swarmServer)
 			{
 				var callInvoker = GetCallInvokerForNode(swarmServer, out var registration);
-				var client = new GrpcSwarmControllerService.GrpcSwarmControllerServiceClient(callInvoker);
+				var client = new GrpcSwarmSharedService.GrpcSwarmSharedServiceClient(callInvoker);
 
 				try
 				{

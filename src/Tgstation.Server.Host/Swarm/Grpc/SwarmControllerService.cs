@@ -88,27 +88,5 @@ namespace Tgstation.Server.Host.Swarm.Grpc
 
 			return registrationResult;
 		}
-
-		/// <summary>
-		/// Attempt to unregister a node.
-		/// </summary>
-		/// <param name="request">The <see cref="UnregisterNodeRequest"/>.</param>
-		/// <param name="context">The <see cref="ServerCallContext"/>.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="UnregisterNodeResponse"/>.</returns>
-		public override async Task<UnregisterNodeResponse> UnregisterNode(UnregisterNodeRequest request, ServerCallContext context)
-		{
-			ArgumentNullException.ThrowIfNull(request);
-			ArgumentNullException.ThrowIfNull(context);
-
-			if (request.Registration == null)
-				throw new RpcException(
-					new Status(StatusCode.InvalidArgument, $"{nameof(UnregisterNodeRequest.Registration)} was null!"));
-
-			request.Registration.Validate(swarmOperations);
-
-			await swarmOperations.UnregisterNode(request.Registration, context.CancellationToken);
-
-			return new UnregisterNodeResponse();
-		}
 	}
 }
