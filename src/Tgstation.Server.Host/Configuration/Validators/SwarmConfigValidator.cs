@@ -17,9 +17,6 @@ namespace Tgstation.Server.Host.Configuration.Validators
 			if (options.PrivateKey == null)
 				return ValidateOptionsResult.Success;
 
-			if (options.UpdateRequiredNodeCount == 0)
-				return ValidateOptionsResult.Fail($"{nameof(SwarmConfiguration.UpdateRequiredNodeCount)} must be greater than 0!");
-
 			if (options.Address == null)
 				return ValidateOptionsResult.Fail($"{nameof(SwarmConfiguration.Address)} must be set to an http endpoint of this swarm service accessible from other servers in the swarm!");
 

@@ -193,8 +193,6 @@ namespace Tgstation.Server.Host.Setup.Tests
 				//cp config
 				"y",
 				"y",
-				// swarm config
-				"n",
 				// telemetry config
 				"n",
 				//saved, now for second run
@@ -226,16 +224,6 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"y",
 				"n",
 				String.Empty,
-				//swarm config
-				"y",
-				"node1",
-				"not a url",
-				"net.tcp://notandhttpAddress.com",
-				"http://node1internal:3400",
-				"http://node1public:3400",
-				"privatekey",
-				"n",
-				"http://controller.com",
 				// telemetry config
 				"y",
 				"telemetry name",
@@ -270,13 +258,6 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"y",
 				"n",
 				"http://fake.com, https://example.org",
-				//swarm config
-				"y",
-				"controller",
-				"https://controllerinternal.com",
-				"https://controllerpublic.com",
-				"privatekey",
-				"y",
 				// telemetry config
 				"n",
 			};
