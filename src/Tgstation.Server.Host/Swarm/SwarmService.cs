@@ -101,9 +101,9 @@ namespace Tgstation.Server.Host.Swarm
 		readonly ITokenFactory tokenFactory;
 
 		/// <summary>
-		/// The <see cref="ICallInvokerlFactory"/> for the <see cref="SwarmService"/>.
+		/// The <see cref="ICallInvokerFactory"/> for the <see cref="SwarmService"/>.
 		/// </summary>
-		readonly ICallInvokerlFactory grpcChannelFactory;
+		readonly ICallInvokerFactory grpcChannelFactory;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SwarmService"/>.
@@ -198,7 +198,7 @@ namespace Tgstation.Server.Host.Swarm
 			IServerUpdater serverUpdater,
 			IFileTransferTicketProvider transferService,
 			ITokenFactory tokenFactory,
-			ICallInvokerlFactory grpcChannelFactory,
+			ICallInvokerFactory grpcChannelFactory,
 			IOptionsMonitor<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<SwarmService> logger)
 		{

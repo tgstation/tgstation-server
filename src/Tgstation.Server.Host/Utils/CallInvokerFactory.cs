@@ -12,7 +12,7 @@ using Microsoft.Net.Http.Headers;
 namespace Tgstation.Server.Host.Utils
 {
 	/// <inheritdoc />
-	sealed class CallInvokerFactory : ICallInvokerlFactory, IDisposable
+	sealed class CallInvokerFactory : ICallInvokerFactory, IDisposable
 	{
 		/// <summary>
 		/// The <see cref="IHttpClientFactory"/> for the <see cref="CallInvokerFactory"/>.

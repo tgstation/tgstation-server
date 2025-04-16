@@ -535,7 +535,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
-			services.AddSingleton<ICallInvokerlFactory, CallInvokerFactory>();
+			services.AddSingleton<ICallInvokerFactory, CallInvokerFactory>();
 			services.AddSingleton<BridgeController>();
 			services.AddHostedService<CommandPipeManager>();
 			services.AddHostedService<VersionReportingService>();

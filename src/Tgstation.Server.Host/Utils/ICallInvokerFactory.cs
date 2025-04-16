@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Utils
 	/// <summary>
 	/// Factory for creating <see cref="CallInvoker"/>s.
 	/// </summary>
-	interface ICallInvokerlFactory
+	interface ICallInvokerFactory
 	{
 		/// <summary>
 		/// Create a <see cref="CallInvoker"/> for a given <paramref name="address"/> that uses a given <paramref name="authorization"/> header.
