@@ -970,7 +970,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			{
 				try
 				{
-					SocketExtensions.BindTest(new PlatformIdentifier(), ddPort, false, testVersion.Engine == EngineType.OpenDream);
+					SocketExtensions.BindTest(new PlatformIdentifier(), new IPEndPoint(IPAddress.Any, ddPort), testVersion.Engine == EngineType.OpenDream);
 					break;
 				}
 				catch

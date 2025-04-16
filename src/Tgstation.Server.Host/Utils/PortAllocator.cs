@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -187,8 +188,8 @@ namespace Tgstation.Server.Host.Utils
 
 					try
 					{
-						SocketExtensions.BindTest(platformIdentifier, port, false, true);
-						SocketExtensions.BindTest(platformIdentifier, port, false, false);
+						SocketExtensions.BindTest(platformIdentifier, new IPEndPoint(IPAddress.Any, port), true);
+						SocketExtensions.BindTest(platformIdentifier, new IPEndPoint(IPAddress.Any, port), false);
 					}
 					catch (Exception ex)
 					{

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -155,7 +156,7 @@ namespace Tgstation.Server.Host.Components.Session
 				for (var i = 0; i < MaxAttempts; ++i)
 					try
 					{
-						SocketExtensions.BindTest(platformIdentifier, port, false, engineType == EngineType.OpenDream);
+						SocketExtensions.BindTest(platformIdentifier, new IPEndPoint(IPAddress.Any, port), engineType == EngineType.OpenDream);
 						if (i > 0)
 							logger.LogDebug("Clearing the socket took {iterations} attempts :/", i + 1);
 

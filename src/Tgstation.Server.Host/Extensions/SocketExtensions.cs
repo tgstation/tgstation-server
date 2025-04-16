@@ -12,19 +12,20 @@ namespace Tgstation.Server.Host.Extensions
 	static class SocketExtensions
 	{
 		/// <summary>
-		/// Attempt to exclusively bind to a given <paramref name="port"/>.
+		/// Attempt to exclusively bind to a given <paramref name="endPoint"/>.
 		/// </summary>
 		/// <param name="platformIdentifier">The <see cref="PlatformIdentifier"/> to use.</param>
-		/// <param name="port">The port number to bind to.</param>
-		/// <param name="includeIPv6">If IPV6 should be tested as well.</param>
+		/// <param name="endPoint">The <see cref="IPEndPoint"/> to bind to.</param>
 		/// <param name="udp">If we're bind testing for UDP. If <see langword="false"/> TCP will be checked.</param>
-		public static void BindTest(IPlatformIdentifier platformIdentifier, ushort port, bool includeIPv6, bool udp)
+		public static void BindTest(IPlatformIdentifier platformIdentifier, IPEndPoint endPoint, bool udp)
 		{
 			ArgumentNullException.ThrowIfNull(platformIdentifier);
 			ProcessExecutor.WithProcessLaunchExclusivity(() =>
 			{
+				var ipAddress = endPoint.Address;
+				var ipv6 = ipAddress.AddressFamily == AddressFamily.InterNetworkV6;
 				using var socket = new Socket(
-					includeIPv6
+					ipv6
 						? AddressFamily.InterNetworkV6
 						: AddressFamily.InterNetwork,
 					udp
@@ -39,15 +40,10 @@ namespace Tgstation.Server.Host.Extensions
 				if (!udp && platformIdentifier.IsWindows)
 					socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.DontLinger, true);
 
-				if (includeIPv6)
+				if (ipv6)
 					socket.DualMode = true;
 
-				socket.Bind(
-					new IPEndPoint(
-						includeIPv6
-							? IPAddress.IPv6Any
-							: IPAddress.Any,
-						port));
+				socket.Bind(endPoint);
 			});
 		}
 	}
