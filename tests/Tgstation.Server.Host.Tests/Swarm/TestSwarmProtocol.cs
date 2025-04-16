@@ -149,16 +149,16 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			{
 				Assert.AreEqual(2, controller.Service.GetSwarmServers().Count);
 				Assert.AreEqual(2, node1.Service.GetSwarmServers().Count);
-			});
+			}, 5);
 
 			await node1.SimulateReboot(default);
 			// health check timeout
-			await DelayMax(() => Assert.AreEqual(1, controller.Service.GetSwarmServers().Count));
+			await DelayMax(() => Assert.AreEqual(1, controller.Service.GetSwarmServers().Count), 5);
 
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node1.TryInit());
 
 			Assert.AreEqual(2, controller.Service.GetSwarmServers().Count);
-			await DelayMax(() => Assert.AreEqual(2, node1.Service.GetSwarmServers().Count));
+			await DelayMax(() => Assert.AreEqual(2, node1.Service.GetSwarmServers().Count), 5);
 		}
 
 		[TestMethod]
