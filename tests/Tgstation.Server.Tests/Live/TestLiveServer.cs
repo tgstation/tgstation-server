@@ -1283,7 +1283,7 @@ namespace Tgstation.Server.Tests.Live
 					null,
 					cancellationToken);
 
-				var dependenciesSh = Encoding.UTF8.GetString(await depsBytesTask);
+				var dependenciesSh = Encoding.UTF8.GetString((await depsBytesTask).Span);
 				var lines = dependenciesSh.Split("\n", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 				const string MajorPrefix = "export BYOND_MAJOR=";
 				var major = Int32.Parse(lines.First(x => x.StartsWith(MajorPrefix))[MajorPrefix.Length..]);

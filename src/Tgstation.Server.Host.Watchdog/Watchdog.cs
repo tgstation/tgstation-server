@@ -110,7 +110,7 @@ namespace Tgstation.Server.Host.Watchdog
 					var sourcePath = Path.GetFullPath(
 						Path.Combine(
 							rootLocation,
-							"../../../../Tgstation.Server.Host/bin/Debug/net8.0"));
+							"../../../../Tgstation.Server.Host/bin/Debug/net10.0"));
 					foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
 						Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath, StringComparison.Ordinal));
 

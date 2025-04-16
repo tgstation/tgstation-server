@@ -437,7 +437,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			{
 				await EnsureDirectories(cancellationToken);
 				var ignoreFileBytes = await ioManager.ReadAllBytes(StaticIgnorePath(), cancellationToken);
-				var ignoreFileText = Encoding.UTF8.GetString(ignoreFileBytes);
+				var ignoreFileText = Encoding.UTF8.GetString(ignoreFileBytes.Span);
 
 				ignoreFiles = new List<string> { StaticIgnoreFile };
 

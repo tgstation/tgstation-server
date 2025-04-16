@@ -201,7 +201,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				if (filePreviouslyExisted)
 				{
 					var trustedFileBytes = await IOManager.ReadAllBytes(trustedFilePath, cancellationToken);
-					trustedFileText = Encoding.UTF8.GetString(trustedFileBytes);
+					trustedFileText = Encoding.UTF8.GetString(trustedFileBytes.Span);
 					trustedFileText = $"{trustedFileText.Trim()}{Environment.NewLine}";
 				}
 				else

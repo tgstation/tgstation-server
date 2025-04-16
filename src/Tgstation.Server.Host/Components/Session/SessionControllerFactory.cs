@@ -610,7 +610,7 @@ namespace Tgstation.Server.Host.Components.Session
 							outputFilePath!,
 							cancellationToken);
 
-						ddOutput = Encoding.UTF8.GetString(dreamDaemonLogBytes);
+						ddOutput = Encoding.UTF8.GetString(dreamDaemonLogBytes.Span);
 					}
 					finally
 					{

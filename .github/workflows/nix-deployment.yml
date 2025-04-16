@@ -39,14 +39,14 @@ jobs:
 
       - name: Retrieve ServerConsole.zip Artifact
         run: |
-          curl -L https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v${{ env.TGS_VERSION }}/ServerConsole.zip -f -o ServerConsole.zip
-          unzip ServerConsole.zip -d release
+          mkdir release
+          curl -L https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v${{ env.TGS_VERSION }}/ServerConsole.zip -f -o release/ServerConsole.zip
 
       - name: Regenerate Nix Hash
         run: |
           nix hash path ./release > build/package/nix/ServerConsole.sha256
           cat build/package/nix/ServerConsole.sha256
-          rm -rf ./release ServerConsole.zip
+          rm -rf ./release
 
       - name: Commit
         run: |

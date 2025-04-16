@@ -1183,7 +1183,7 @@ namespace Tgstation.Server.Host.Setup
 					if (exists)
 					{
 						var bytes = await ioManager.ReadAllBytes(userConfigFileName, cancellationToken);
-						var contents = Encoding.UTF8.GetString(bytes);
+						var contents = Encoding.UTF8.GetString(bytes.Span);
 						var lines = contents.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 						var existingConfigIsEmpty = lines
 							.Select(line => line.Trim())

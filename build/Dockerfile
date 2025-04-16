@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0-preview-trixie-slim AS build
 
 # Set in CI
 ARG TGS_TELEMETRY_KEY_FILE=
@@ -56,7 +56,7 @@ RUN export TGS_TELEMETRY_KEY_FILE="../../${TGS_TELEMETRY_KEY_FILE}" \
 	&& build/RemoveUnsupportedRuntimes.sh /app/lib/Default \
 	&& mv /app/lib/Default/appsettings* /app
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-preview-trixie-slim
 
 #needed for byond, curl for healthchecks
 RUN apt-get update \

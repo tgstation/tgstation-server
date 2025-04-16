@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Utils
 		/// <inheritdoc />
 		public async ValueTask Delay(TimeSpan timeSpan, CancellationToken cancellationToken)
 		{
-			// https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.delay?view=net-8.0#system-threading-tasks-task-delay(system-timespan)
+			// https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.delay?view=net-10.0#system-threading-tasks-task-delay(system-timespan)
 			const uint DelayMinutesLimit = UInt32.MaxValue - 1;
 			Debug.Assert(DelayMinutesLimit == 4294967294, "Delay limit assertion failure!");
 

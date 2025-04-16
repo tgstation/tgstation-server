@@ -94,7 +94,7 @@ namespace Tgstation.Server.Host
 
 					// CURSED
 					// https://github.com/dotnet/runtime/blob/30dc7e7aedb7aab085c7d9702afeae5bc5a43133/src/libraries/Microsoft.Extensions.Hosting/src/HostingHostBuilderExtensions.cs#L246-L249
-#if !NET8_0
+#if !NET10_0
 #error Validate this monstrosity works on current .NET
 #endif
 					IConfigurationSource? cmdLineConfig;
