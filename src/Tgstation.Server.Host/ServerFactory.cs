@@ -162,7 +162,7 @@ namespace Tgstation.Server.Host
 								postSetupServices.SessionConfiguration.BridgePort);
 							foreach (var endPoint in http1Endpoints)
 							{
-								foundBridgeEndpoint |= endPoint == bridgeEndpoint;
+								foundBridgeEndpoint |= endPoint == bridgeEndpoint || (endPoint.Port == bridgeEndpoint.Port && endPoint.Address == IPAddress.Any);
 								kestrelOptions.Listen(
 									endPoint,
 									listenOptions => listenOptions.Protocols = HttpProtocols.Http1);
