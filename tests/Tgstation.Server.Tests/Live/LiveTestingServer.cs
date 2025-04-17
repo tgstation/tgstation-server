@@ -80,7 +80,7 @@ namespace Tgstation.Server.Tests.Live
 
 		public IServer RealServer { get; private set; }
 
-		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 15010, ushort bridgePort = 15710)
+		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 15010)
 		{
 			if (needCleanup)
 			{
@@ -157,7 +157,7 @@ namespace Tgstation.Server.Tests.Live
 				$"General:OpenDreamSuppressInstallOutput={TestingUtils.RunningInGitHubActions}",
 				"Telemetry:DisableVersionReporting=true",
 				$"General:MetricsEndPoints:0:Port={port}",
-				$"Session:BridgePort={bridgePort}",
+				$"Session:BridgePort={port}",
 			};
 
 			if (MultiServerClient.UseGraphQL)
