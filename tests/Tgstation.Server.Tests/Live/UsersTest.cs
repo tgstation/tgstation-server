@@ -518,7 +518,7 @@ namespace Tgstation.Server.Tests.Live
 		ValueTask TestCreateSysUser(CancellationToken cancellationToken)
 		{
 			var sysId = Environment.UserName;
-
+			Console.WriteLine($"TEST: Attempting to create system user: {sysId}");
 			return serverClient.Execute(
 				async restClient =>
 				{
@@ -535,10 +535,17 @@ namespace Tgstation.Server.Tests.Live
 				{
 					if (new PlatformIdentifier().IsWindows)
 					{
-						await graphQLClient.RunMutationEnsureNoErrors(
+						var user = await graphQLClient.RunMutationEnsureNoErrors(
 							gql => gql.CreateSystemUserWithPermissionSet.ExecuteAsync(sysId, cancellationToken),
 							data => data.CreateUserBySystemIDAndPermissionSet,
 							cancellationToken);
+
+						Assert.IsNotNull(user);
+						Assert.IsNotNull(user.User);
+						Assert.IsNotNull(user.User.Id);
+						Assert.IsNotNull(user.User.Name);
+						Assert.AreEqual(sysId, user.User.Name);
+						Console.WriteLine($"TEST: Created system user: {sysId}");
 					}
 					else
 						await ApiAssert.OperationFails(
@@ -604,7 +611,10 @@ namespace Tgstation.Server.Tests.Live
 
 		ValueTask TestPagination(CancellationToken cancellationToken)
 		{
-			var expectedCount = new PlatformIdentifier().IsWindows ? 106 : 105; // system user
+			var expectedCount = 105;
+			if (new PlatformIdentifier().IsWindows)
+				++expectedCount; // system user
+
 			return serverClient.Execute(
 				async restClient =>
 				{

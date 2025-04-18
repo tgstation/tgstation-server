@@ -11,6 +11,7 @@ mutation CreateSystemUserWithPermissionSet($systemIdentifier: String!) {
     }
     user {
       id
+      name
     }
   }
 }
