@@ -227,9 +227,9 @@ Components:
     ComponentVersions:
       HttpApi: 10.13.0
       GraphQLApi: 0.6.0
-      DreamMakerApi: 7.3.1
+      DreamMakerApi: 7.3.2
       Configuration: 5.7.0
-      InteropApi: 5.10.0
+      InteropApi: 5.10.1
       HostWatchdog: 1.6.0
       NugetCommon: 7.0.0
       NugetApi: 18.0.0
@@ -240,6 +240,10 @@ Components:
       - Corrected network systemd dependencies declarations.
       Author: Cyberboss
       PullRequest: 2210
+    - Descriptions:
+      - Fixed DMAPI test merge timestamp fallback behavior relaying a stringified Unix timestamp instead of an ISO-8601 timestamp.
+      Author: Cyberboss
+      PullRequest: 2214
     Unreleased: true
   - Version: 6.16.0
     ComponentVersions:
