@@ -148,20 +148,7 @@ namespace Tgstation.Server.Host.Security
 				throw new InvalidOperationException("Authentication context has already been loaded");
 
 			var principal = new ClaimsPrincipal(new ClaimsIdentity(jwt.Claims));
-
-			var userIdClaim = principal.FindFirst(JwtRegisteredClaimNames.Sub);
-			if (userIdClaim == default)
-				throw new InvalidOperationException($"Missing '{JwtRegisteredClaimNames.Sub}' claim!");
-
-			long userId;
-			try
-			{
-				userId = Int64.Parse(userIdClaim.Value, CultureInfo.InvariantCulture);
-			}
-			catch (Exception e)
-			{
-				throw new InvalidOperationException("Failed to parse user ID!", e);
-			}
+			var userId = principal.GetTgsUserId();
 
 			var notBefore = ParseTime(principal, JwtRegisteredClaimNames.Nbf);
 			var expires = ParseTime(principal, JwtRegisteredClaimNames.Exp);
