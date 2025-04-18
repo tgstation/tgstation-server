@@ -1,4 +1,4 @@
-query PageUserIds($first: Int, $after: String) {
+query PageUserNames($first: Int, $after: String) {
   swarm {
     users {
       queryableUsers(first: $first, after: $after) {
@@ -8,7 +8,6 @@ query PageUserIds($first: Int, $after: String) {
         }
         totalCount
         nodes {
-          id
           name
         }
       }

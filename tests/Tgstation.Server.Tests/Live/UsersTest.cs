@@ -687,7 +687,7 @@ namespace Tgstation.Server.Tests.Live
 						{
 							var isLastIteration = i == expectedIterations - 1;
 							var queryable = (await graphQLClient.RunQueryEnsureNoErrors(
-								gql => gql.PageUserIds.ExecuteAsync(inputPageSize, cursor, cancellationToken),
+								gql => gql.PageUserNames.ExecuteAsync(inputPageSize, cursor, cancellationToken),
 								cancellationToken))
 								.Swarm
 								.Users
@@ -702,14 +702,14 @@ namespace Tgstation.Server.Tests.Live
 
 							cursor = queryable.PageInfo.EndCursor;
 
-							totalNames.AddRange(queryable.Nodes.Select(user => $"#{user.Id} {user.Name}"));
+							totalNames.AddRange(queryable.Nodes.Select(user => user.Name));
 						}
 					}
 
 					async ValueTask TestBadPageSize(int size)
 					{
 						var result = await graphQLClient.RunOperation(
-							gql => gql.PageUserIds.ExecuteAsync(size, null, cancellationToken),
+							gql => gql.PageUserNames.ExecuteAsync(size, null, cancellationToken),
 							cancellationToken);
 
 						if (size == 0)
