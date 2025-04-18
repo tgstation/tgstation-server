@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +46,7 @@ using Serilog.Sinks.Elasticsearch;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Authority.Core;
@@ -810,6 +812,10 @@ namespace Tgstation.Server.Host.Core
 			services.AddScoped<IApiHeadersProvider, ApiHeadersProvider>();
 			services.AddScoped<AuthenticationContextFactory>();
 			services.AddScoped<ITokenValidator>(provider => provider.GetRequiredService<AuthenticationContextFactory>());
+
+			var genericRightsAuthHandler = typeof(RightsAuthorizationHandler<>);
+			foreach (var rightType in RightsHelper.AllRightTypes())
+				services.AddScoped(typeof(IAuthorizationHandler), genericRightsAuthHandler.MakeGenericType(rightType));
 
 			// what if you
 			// wanted to just do this:
