@@ -519,8 +519,8 @@ jobs:
       - name: Run Unit Tests
         run: sudo dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
         env:
-          TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-          TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
+          TGS_TEST_DISCORD_TOKEN: ${{ matrix.configuration == 'Release' && secrets.DISCORD_TOKEN || '' }}
+          TGS_TEST_IRC_CONNECTION_STRING: ${{ matrix.configuration == 'Release' && secrets.IRC_CONNECTION_STRING || '' }}
           TGS_TEST_APP_ID: ${{ secrets.APP_ID }}
           TGS_TEST_APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
           TGS_TEST_REPO_SLUG: ${{ github.repository }}
@@ -588,8 +588,6 @@ jobs:
       - name: Run Unit Tests
         run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
         env:
-          TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-          TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
           TGS_TEST_APP_ID: ${{ secrets.APP_ID }}
           TGS_TEST_APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
           TGS_TEST_REPO_SLUG: ${{ github.repository }}
@@ -2330,64 +2328,11 @@ jobs:
           asset_content_type: application/octet-stream
 
   update-nix:
-    name: Update Nix SHA
+    name: Nix Deployment
     needs: changelog-regen
-    runs-on: ubuntu-latest
     if: (!(cancelled() || failure())) && needs.changelog-regen.result == 'success'
-    steps:
-      - name: Install Native Packages # Name checked in rerunFlakyTests.js
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y xmlstarlet
-
-      - name: Setup Nix
-        uses: cachix/install-nix-action@v30
-        with:
-          nix_path: nixpkgs=channel:nixos-unstable
-
-      - name: Generate App Token
-        id: app-token-generation
-        uses: actions/create-github-app-token@v1
-        with:
-          repositories: tgstation-ppa
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
-
-      - name: Clone
-        run: git clone -b master --single-branch "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/tgstation/tgstation-server" --depth 1 .
-
-      - name: Parse TGS version
-        run: echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
-
-      - name: Retrieve ServerConsole.zip Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: server-console-release
-          path: server-console-release
-
-      - name: Regenerate Nix Hash
-        run: |
-          nix hash path ./server-console-release > build/package/nix/ServerConsole.sha256
-          cat build/package/nix/ServerConsole.sha256
-
-      - name: Commit
-        run: |
-          git config --global push.default simple
-          git config user.name "tgstation-server-ci[bot]"
-          git config user.email "161980869+tgstation-server-ci[bot]@users.noreply.github.com"
-          git add build/package/nix/ServerConsole.sha256
-          git commit -m "Update nix SHA256 for TGS v${{ env.TGS_VERSION }}"
-
-      - name: Re-tag
-        run: |
-          git tag -d tgstation-server-v${{ env.TGS_VERSION }}
-          git tag -a tgstation-server-v${{ env.TGS_VERSION }} -m tgstation-server-v${{ env.TGS_VERSION }}
-
-      - name: Push Commit
-        run: git push "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/tgstation/tgstation-server"
-
-      - name: Force Push Tags
-        run: git push -f origin tag tgstation-server-v${{ env.TGS_VERSION }}
+    uses: ./.github/workflows/nix-deployment.yml
+    secrets: inherit
 
   changelog-regen:
     name: Regenerate Changelog

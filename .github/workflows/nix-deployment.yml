@@ -1,0 +1,68 @@
+name: Nix Deployment
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  update-nix:
+    name: Update Nix SHA (master)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Native Packages # Name checked in rerunFlakyTests.js
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xmlstarlet
+
+      - name: Setup Nix
+        uses: cachix/install-nix-action@v30
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: Generate App Token
+        id: app-token-generation
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token-generation.outputs.token }}
+          ref: master
+          fetch-depth: 0
+          # fetch-tags: true Doesn't work, see https://github.com/actions/checkout/issues/1471
+
+      - name: Parse TGS version
+        run: echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
+
+      - name: Retrieve ServerConsole.zip Artifact
+        run: |
+          mkdir release
+          curl -L https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v${{ env.TGS_VERSION }}/ServerConsole.zip -f -o release/ServerConsole.zip
+
+      - name: Regenerate Nix Hash
+        run: |
+          nix hash path ./release > build/package/nix/ServerConsole.sha256
+          cat build/package/nix/ServerConsole.sha256
+          rm -rf ./release
+
+      - name: Commit
+        run: |
+          git config --global push.default simple
+          git config user.name "tgstation-server-ci[bot]"
+          git config user.email "161980869+tgstation-server-ci[bot]@users.noreply.github.com"
+          git add build/package/nix/ServerConsole.sha256
+          git commit -m "Update nix SHA256 for TGS v${{ env.TGS_VERSION }}"
+
+      - name: Re-tag
+        run: |
+          git tag -d tgstation-server-v${{ env.TGS_VERSION }}
+          git tag -a tgstation-server-v${{ env.TGS_VERSION }} -m tgstation-server-v${{ env.TGS_VERSION }}
+
+      - name: Push Commit
+        run: git push
+
+      - name: Force Push Tags
+        run: git push -f origin tag tgstation-server-v${{ env.TGS_VERSION }}

@@ -61,7 +61,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		public async Task TestConnectAndDisconnect()
 		{
 			var actualToken = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING");
-			if (actualToken == null)
+			if (String.IsNullOrWhiteSpace(actualToken))
 				Assert.Inconclusive("Required environment variable TGS_TEST_IRC_CONNECTION_STRING isn't set!");
 
 			if (!new IrcConnectionStringBuilder(actualToken).Valid)
