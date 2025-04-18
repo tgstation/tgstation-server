@@ -9,6 +9,7 @@ query PageUserIds($first: Int, $after: String) {
         totalCount
         nodes {
           id
+          name
         }
       }
     }

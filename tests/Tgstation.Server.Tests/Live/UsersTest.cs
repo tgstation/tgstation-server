@@ -680,7 +680,9 @@ namespace Tgstation.Server.Tests.Live
 						var exactMatch = (expectedCount % outputPageSize) == 0;
 						var expectedIterations = (expectedCount / outputPageSize) + (exactMatch ? 0 : 1);
 
-						var assertErrorMessage = $"Failed with input page size {inputPageSize?.ToString() ?? "(NULL)"}";
+						List<string> totalNames = new List<string>();
+
+						string AssertErrorMessage() => $"Failed with input page size {inputPageSize?.ToString() ?? "(NULL)"}. Expected {String.Join(", ", totalNames.OrderBy(name => name))}";
 						for (int i = 0; i < expectedIterations; ++i)
 						{
 							var isLastIteration = i == expectedIterations - 1;
@@ -692,13 +694,15 @@ namespace Tgstation.Server.Tests.Live
 								.QueryableUsers;
 
 							if (!isLastIteration || exactMatch)
-								Assert.AreEqual(outputPageSize, queryable.Nodes.Count, assertErrorMessage);
+								Assert.AreEqual(outputPageSize, queryable.Nodes.Count, AssertErrorMessage());
 							else
-								Assert.AreEqual(expectedCount % outputPageSize, queryable.Nodes.Count, assertErrorMessage);
-							Assert.AreEqual(!isLastIteration, queryable.PageInfo.HasNextPage, assertErrorMessage);
-							Assert.IsNotNull(queryable.PageInfo.EndCursor, assertErrorMessage);
+								Assert.AreEqual(expectedCount % outputPageSize, queryable.Nodes.Count, AssertErrorMessage());
+							Assert.AreEqual(!isLastIteration, queryable.PageInfo.HasNextPage, AssertErrorMessage());
+							Assert.IsNotNull(queryable.PageInfo.EndCursor, AssertErrorMessage());
 
 							cursor = queryable.PageInfo.EndCursor;
+
+							totalNames.AddRange(queryable.Nodes.Select(user => $"#{user.Id} {user.Name}"));
 						}
 					}
 
