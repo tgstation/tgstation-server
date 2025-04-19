@@ -223,6 +223,10 @@ Components:
       WebControlPanel: 6.10.0
     Changes: []
     Unreleased: true
+  - Version: 6.16.2
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.16.1
     ComponentVersions:
       HttpApi: 10.13.0
@@ -244,7 +248,6 @@ Components:
       - Fixed DMAPI test merge timestamp fallback behavior relaying a stringified Unix timestamp instead of an ISO-8601 timestamp.
       Author: Cyberboss
       PullRequest: 2214
-    Unreleased: true
   - Version: 6.16.0
     ComponentVersions:
       Core: 6.16.0
