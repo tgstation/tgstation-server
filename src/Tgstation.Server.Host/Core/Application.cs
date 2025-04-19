@@ -338,13 +338,6 @@ namespace Tgstation.Server.Host.Core
 							builder => builder
 								.RequireAuthenticatedUser()
 								.RequireRole(TgsAuthorizeAttribute.UserEnabledRole));
-						options.AddPolicy(
-							"testingasdf",
-							builder =>
-							{
-								builder.RequireAuthenticatedUser();
-								builder.AuthenticationSchemes.Add(CookieAuthenticationDefaults.AuthenticationScheme);
-							});
 					})
 				.ModifyOptions(options =>
 				{
