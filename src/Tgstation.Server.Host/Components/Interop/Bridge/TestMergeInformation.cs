@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 using Tgstation.Server.Api.Models.Internal;
 
@@ -40,7 +39,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		public TestMergeInformation(Models.TestMerge testMerge, RevisionInformation revision)
 			: base(testMerge)
 		{
-			TimeMerged = testMerge?.MergedAt.Ticks.ToString(CultureInfo.InvariantCulture) ?? throw new ArgumentNullException(nameof(testMerge));
+			TimeMerged = testMerge?.MergedAt.ToString("O") ?? throw new ArgumentNullException(nameof(testMerge));
 			Revision = revision ?? throw new ArgumentNullException(nameof(revision));
 		}
 	}
