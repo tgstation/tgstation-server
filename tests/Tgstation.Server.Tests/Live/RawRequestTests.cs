@@ -506,16 +506,19 @@ namespace Tgstation.Server.Tests.Live
 			Assert.IsNotNull(loginError.AdditionalData);
 		}
 
-		public static Task Run(IRestServerClientFactory clientFactory, IRestServerClient serverClient, CancellationToken cancellationToken)
-			=> Task.WhenAll(
+		public static Task Run(IRestServerClientFactory clientFactory, IRestServerClient serverClient, CancellationToken cancellationToken, out Task signalRTestTask)
+		{
+			signalRTestTask = TestSignalRUsage(clientFactory, serverClient, cancellationToken);
+			return Task.WhenAll(
 				TestRequestValidation(serverClient, cancellationToken),
 				TestGraphQLLogin(clientFactory, serverClient, cancellationToken),
 				TestOAuthFails(serverClient, cancellationToken),
 				TestServerInformation(clientFactory, serverClient, cancellationToken),
 				TestInvalidTransfers(serverClient, cancellationToken),
 				RegressionTestForLeakedPasswordHashesBug(serverClient, cancellationToken),
-				TestSignalRUsage(clientFactory, serverClient, cancellationToken),
+				signalRTestTask,
 				TestHealthChecks(serverClient, cancellationToken),
 				TestPrometheusMetrics(serverClient, cancellationToken));
+		}
 	}
 }

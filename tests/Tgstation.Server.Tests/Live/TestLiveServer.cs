@@ -1599,9 +1599,9 @@ namespace Tgstation.Server.Tests.Live
 								cancellationToken);
 
 						jobsHubTestTask = FailFast(await jobsHubTest.Run(cancellationToken)); // returns Task<Task>
-						var rootTest = FailFast(RawRequestTests.Run(restClientFactory, firstAdminRestClient, cancellationToken));
+						var rootTest = FailFast(RawRequestTests.Run(restClientFactory, firstAdminRestClient, cancellationToken, out var signalRTestTask));
 						var adminTest = FailFast(new AdministrationTest(firstAdminMultiClient).Run(cancellationToken));
-						var usersTest = FailFast(new UsersTest(firstAdminMultiClient).Run(cancellationToken).AsTask());
+						var usersTest = FailFast(new UsersTest(firstAdminMultiClient).Run(cancellationToken, signalRTestTask).AsTask());
 
 						var instanceManagerTest = new InstanceManagerTest(firstAdminRestClient, server.Directory);
 						var compatInstanceTask = instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);

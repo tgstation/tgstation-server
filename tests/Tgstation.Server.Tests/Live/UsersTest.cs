@@ -1,15 +1,13 @@
-﻿using Elastic.CommonSchema;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using StrawberryShake;
-
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using StrawberryShake;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -32,7 +30,7 @@ namespace Tgstation.Server.Tests.Live
 			this.serverClient = serverClient ?? throw new ArgumentNullException(nameof(serverClient));
 		}
 
-		public async ValueTask Run(CancellationToken cancellationToken)
+		public async ValueTask Run(CancellationToken cancellationToken, Task additionalUserCreationTask)
 		{
 			var observer = new HoldLastObserver<IOperationResult<ISubscribeUsersResult>>();
 			using var subscription = await serverClient.Subscribe(
@@ -45,6 +43,8 @@ namespace Tgstation.Server.Tests.Live
 			await ValueTaskExtensions.WhenAll(
 				TestCreateSysUser(cancellationToken),
 				TestSpamCreation(cancellationToken));
+
+			await additionalUserCreationTask;
 
 			await TestPagination(cancellationToken);
 
