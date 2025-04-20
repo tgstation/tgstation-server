@@ -682,7 +682,7 @@ namespace Tgstation.Server.Tests.Live
 
 						List<string> totalNames = new List<string>();
 
-						string AssertErrorMessage() => $"Failed with input page size {inputPageSize?.ToString() ?? "(NULL)"}. Expected {String.Join(", ", totalNames.OrderBy(name => name))}";
+						string AssertErrorMessage() => $"Failed with input page size {inputPageSize?.ToString() ?? "(NULL)"}.{Environment.NewLine}Actual: {String.Join(", ", totalNames.OrderBy(name => name))}";
 						for (int i = 0; i < expectedIterations; ++i)
 						{
 							var isLastIteration = i == expectedIterations - 1;
@@ -693,6 +693,8 @@ namespace Tgstation.Server.Tests.Live
 								.Users
 								.QueryableUsers;
 
+							totalNames.AddRange(queryable.Nodes.Select(user => user.Name));
+
 							if (!isLastIteration || exactMatch)
 								Assert.AreEqual(outputPageSize, queryable.Nodes.Count, AssertErrorMessage());
 							else
@@ -701,8 +703,6 @@ namespace Tgstation.Server.Tests.Live
 							Assert.IsNotNull(queryable.PageInfo.EndCursor, AssertErrorMessage());
 
 							cursor = queryable.PageInfo.EndCursor;
-
-							totalNames.AddRange(queryable.Nodes.Select(user => user.Name));
 						}
 					}
 
