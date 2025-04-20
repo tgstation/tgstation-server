@@ -63,14 +63,14 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UseFiltering]
 		[UseSorting]
 		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserAuthority.Queryable))]
-		public IQueryable<User> QueryableUsersByGroup(
+		public async ValueTask<IQueryable<User>> QueryableUsersByGroup(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			var dtoQueryable = userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(
+			var dtoQueryable = await userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(
 				authority => authority
-					.Queryable(false)
-					.Where(user => user.GroupId == Id));
+					.Queryable(false),
+				queryable => queryable.Where(user => user.GroupId == Id));
 			return dtoQueryable;
 		}
 	}

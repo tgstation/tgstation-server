@@ -30,8 +30,10 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <returns>A <see cref="uint"/> specifying the minimumn valid password length for TGS users.</returns>
 		[TgsGraphQLAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword)]
 		public uint MinimumPasswordLength(
+			[Service] IAuthorizationService authorizationService,
 			[Service] IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions)
 		{
+			ArgumentNullException.ThrowIfNull(authorizationService);
 			ArgumentNullException.ThrowIfNull(generalConfigurationOptions);
 			return generalConfigurationOptions.Value.MinimumPasswordLength;
 		}

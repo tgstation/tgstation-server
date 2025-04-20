@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -103,7 +104,6 @@ namespace Tgstation.Server.Host.Authority
 		/// <summary>
 		/// Initializes a new instance of the <see cref="LoginAuthority"/> class.
 		/// </summary>
-		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> to use.</param>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to use.</param>
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
 		/// <param name="apiHeadersProvider">The value of <see cref="apiHeadersProvider"/>.</param>
@@ -115,7 +115,6 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="sessionInvalidationTracker">The value of <see cref="sessionInvalidationTracker"/>.</param>
 		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="securityConfiguration"/>.</param>
 		public LoginAuthority(
-			IAuthenticationContext authenticationContext,
 			IDatabaseContext databaseContext,
 			ILogger<LoginAuthority> logger,
 			IApiHeadersProvider apiHeadersProvider,
@@ -127,7 +126,6 @@ namespace Tgstation.Server.Host.Authority
 			ISessionInvalidationTracker sessionInvalidationTracker,
 			IOptions<SecurityConfiguration> securityConfigurationOptions)
 			: base(
-				  authenticationContext,
 				  databaseContext,
 				  logger)
 		{
@@ -142,7 +140,44 @@ namespace Tgstation.Server.Host.Authority
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<AuthorityResponse<LoginResult>> AttemptLogin(CancellationToken cancellationToken)
+		public RequirementsGated<AuthorityResponse<LoginResult>> AttemptLogin(CancellationToken cancellationToken)
+			=> new(
+				() => (IAuthorizationRequirement?)null,
+				() => AttemptLoginImpl(cancellationToken));
+
+		/// <inheritdoc />
+		public RequirementsGated<AuthorityResponse<OAuthGatewayLoginResult>> AttemptOAuthGatewayLogin(CancellationToken cancellationToken)
+			=> new(
+				() => (IAuthorizationRequirement?)null,
+				async () =>
+				{
+					var headers = apiHeadersProvider.ApiHeaders;
+					if (headers == null)
+						return GenerateHeadersExceptionResponse<OAuthGatewayLoginResult>(apiHeadersProvider.HeadersException!);
+
+					var oAuthProvider = headers.OAuthProvider;
+					if (!oAuthProvider.HasValue)
+						return BadRequest<OAuthGatewayLoginResult>(ErrorCode.BadHeaders);
+
+					var (errorResponse, oAuthResult) = await TryOAuthenticate<OAuthGatewayLoginResult>(headers, oAuthProvider.Value, false, cancellationToken);
+					if (errorResponse != null)
+						return errorResponse;
+
+					Logger.LogDebug("Generated {provider} OAuth AccessCode", oAuthProvider.Value);
+
+					return new(
+						new OAuthGatewayLoginResult
+						{
+							AccessCode = oAuthResult!.Value.AccessCode,
+						});
+				});
+
+		/// <summary>
+		/// Login process.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="AuthorityResponse{TResult}"/> for the <see cref="LoginResult"/>.</returns>
+		private async ValueTask<AuthorityResponse<LoginResult>> AttemptLoginImpl(CancellationToken cancellationToken)
 		{
 			// password and oauth logins disabled
 			if (securityConfiguration.OidcStrictMode)
@@ -276,30 +311,6 @@ namespace Tgstation.Server.Host.Authority
 
 				return new AuthorityResponse<LoginResult>(payload);
 			}
-		}
-
-		/// <inheritdoc />
-		public async ValueTask<AuthorityResponse<OAuthGatewayLoginResult>> AttemptOAuthGatewayLogin(CancellationToken cancellationToken)
-		{
-			var headers = apiHeadersProvider.ApiHeaders;
-			if (headers == null)
-				return GenerateHeadersExceptionResponse<OAuthGatewayLoginResult>(apiHeadersProvider.HeadersException!);
-
-			var oAuthProvider = headers.OAuthProvider;
-			if (!oAuthProvider.HasValue)
-				return BadRequest<OAuthGatewayLoginResult>(ErrorCode.BadHeaders);
-
-			var (errorResponse, oAuthResult) = await TryOAuthenticate<OAuthGatewayLoginResult>(headers, oAuthProvider.Value, false, cancellationToken);
-			if (errorResponse != null)
-				return errorResponse;
-
-			Logger.LogDebug("Generated {provider} OAuth AccessCode", oAuthProvider.Value);
-
-			return new AuthorityResponse<OAuthGatewayLoginResult>(
-				new OAuthGatewayLoginResult
-				{
-					AccessCode = oAuthResult!.Value.AccessCode,
-				});
 		}
 
 		/// <summary>

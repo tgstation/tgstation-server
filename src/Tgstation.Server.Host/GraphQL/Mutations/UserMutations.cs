@@ -9,7 +9,6 @@ using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Api.Models.Request;
-using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.GraphQL.Mutations.Payloads;
 using Tgstation.Server.Host.GraphQL.Types;
@@ -38,7 +37,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The created <see cref="User"/>.</returns>
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<User> CreateUserByPasswordAndPermissionSet(
 			string name,
@@ -99,7 +97,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The created <see cref="User"/>.</returns>
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<User> CreateUserByPasswordAndGroup(
 			string name,
@@ -156,7 +153,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The created <see cref="User"/>.</returns>
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<User> CreateUserByServiceConnectionAndPermissionSet(
 			string name,
@@ -215,7 +211,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The created <see cref="User"/>.</returns>
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<User> CreateUserByServiceConnectionAndGroup(
 			string name,
@@ -271,7 +266,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The created <see cref="User"/>.</returns>
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<User> CreateUserBySystemIDAndPermissionSet(
 			string systemIdentifier,
@@ -328,7 +322,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The created <see cref="User"/>.</returns>
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<User> CreateUserBySystemIDAndGroup(
 			string systemIdentifier,
@@ -379,7 +372,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The updated current <see cref="User"/>.</returns>
-		[TgsGraphQLAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword)]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<User> SetCurrentUserPassword(
 			string newPassword,
@@ -390,7 +382,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			ArgumentNullException.ThrowIfNull(newPassword);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
-				async authority => await authority.Update(
+				authority => authority.Update(
 					new UserUpdateRequest
 					{
 						Id = authenticationContext.User.Id,
@@ -408,7 +400,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The updated current <see cref="User"/>.</returns>
-		[TgsGraphQLAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnServiceConnections)]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<User> SetCurrentServiceConnections(
 			IEnumerable<OAuthConnection>? newOAuthConnections,
@@ -420,7 +411,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			ArgumentNullException.ThrowIfNull(newOAuthConnections);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
-				async authority => await authority.Update(
+				authority => authority.Update(
 					new UserUpdateRequest
 					{
 						Id = authenticationContext.User.Id,
@@ -454,7 +445,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The updated <see cref="User"/>.</returns>
-		[TgsGraphQLAuthorize(AdministrationRights.WriteUsers)]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<User> UpdateUser(
 			[ID(nameof(User))] long id,
@@ -493,7 +483,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The updated <see cref="User"/>.</returns>
-		[TgsGraphQLAuthorize(AdministrationRights.WriteUsers)]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<User> UpdateUserSetOwnedPermissionSet(
 			[ID(nameof(User))] long id,
@@ -533,7 +522,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The updated <see cref="User"/>.</returns>
-		[TgsGraphQLAuthorize(AdministrationRights.WriteUsers)]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<User> UpdateUserSetGroup(
 			[ID(nameof(User))] long id,
@@ -586,7 +574,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 			=> userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(
-				async authority => await authority.Update(
+				authority => authority.Update(
 					new UserUpdateRequest
 					{
 						Id = id,

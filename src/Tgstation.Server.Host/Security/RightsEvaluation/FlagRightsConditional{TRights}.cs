@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Security.RightsEvaluation
 		where TRights : Enum
 	{
 		/// <summary>
-		/// The single bit flag of the.
+		/// The single bit flag of the <typeparamref name="TRights"/>.
 		/// </summary>
 		readonly TRights flag;
 

@@ -81,11 +81,12 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UseFiltering]
 		[UseSorting]
 		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Queryable))]
-		public IQueryable<User> QueryableUsers(
+		public async ValueTask<IQueryable<User>> QueryableUsers(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			var dtoQueryable = userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(authority => authority.Queryable(false));
+			var dtoQueryable = await userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(
+				authority => authority.Queryable(false));
 			return dtoQueryable;
 		}
 	}

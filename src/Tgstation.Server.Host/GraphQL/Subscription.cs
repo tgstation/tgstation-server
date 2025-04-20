@@ -63,7 +63,6 @@ namespace Tgstation.Server.Host.GraphQL
 		/// <param name="sessionInvalidationReason">The <see cref="SessionInvalidationReason"/> received from the publisher.</param>
 		/// <returns>The <see cref="SessionInvalidationReason"/>.</returns>
 		[Subscribe(With = nameof(SessionInvalidatedStream))]
-		[TgsGraphQLAuthorize]
 		public SessionInvalidationReason SessionInvalidated([EventMessage] SessionInvalidationReason sessionInvalidationReason)
 			=> sessionInvalidationReason;
 	}

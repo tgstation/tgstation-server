@@ -6,10 +6,8 @@ using HotChocolate;
 using HotChocolate.Types;
 
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.GraphQL.Scalars;
-using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.GraphQL.Mutations
 {
@@ -25,7 +23,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// </summary>
 		/// <param name="administrationAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IAdministrationAuthority"/>.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		[TgsGraphQLAuthorize<IAdministrationAuthority>(nameof(IAdministrationAuthority.TriggerServerRestart))]
 		[Error(typeof(ErrorMessageException))]
 		public async ValueTask<Query> RestartServerNode(
 			[Service] IGraphQLAuthorityInvoker<IAdministrationAuthority> administrationAuthority)
@@ -44,7 +41,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="administrationAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IAdministrationAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		[TgsGraphQLAuthorize(AdministrationRights.ChangeVersion)]
 		[Error(typeof(ErrorMessageException))]
 		public async ValueTask<Query> ChangeServerNodeVersionViaTrackedRepository(
 			Version targetVersion,
@@ -65,7 +61,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="administrationAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IAdministrationAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A FileTicket that should be used to upload a zip containing the update data to the file transfer service.</returns>
-		[TgsGraphQLAuthorize(AdministrationRights.UploadVersion)]
 		[Error(typeof(ErrorMessageException))]
 		[GraphQLType<FileUploadTicketType>]
 		public async ValueTask<string> ChangeServerNodeVersionViaUpload(

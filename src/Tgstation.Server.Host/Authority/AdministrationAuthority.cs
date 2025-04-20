@@ -90,154 +90,163 @@ namespace Tgstation.Server.Host.Authority
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<AuthorityResponse<AdministrationResponse>> GetUpdateInformation(bool forceFresh, CancellationToken cancellationToken)
-		{
-			try
-			{
-				async Task<AdministrationResponse> CacheFactory()
+		public RequirementsGated<AuthorityResponse<AdministrationResponse>> GetUpdateInformation(bool forceFresh, CancellationToken cancellationToken)
+			=> new(
+				() => Flag(AdministrationRights.ChangeVersion),
+				async () =>
 				{
-					Version? greatestVersion = null;
-					Uri? repoUrl = null;
-					var scopeCancellationToken = CancellationToken.None; // DCT: None available
 					try
 					{
-						var gitHubService = await gitHubServiceFactory.CreateService(scopeCancellationToken);
-						var repositoryUrlTask = gitHubService.GetUpdatesRepositoryUrl(scopeCancellationToken);
-						var releases = await gitHubService.GetTgsReleases(scopeCancellationToken);
-
-						foreach (var kvp in releases)
+						async Task<AdministrationResponse> CacheFactory()
 						{
-							var version = kvp.Key;
-							var release = kvp.Value;
-							if (version.Major > 3 // Forward/backward compatible but not before TGS4
-								&& (greatestVersion == null || version > greatestVersion))
-								greatestVersion = version;
+							Version? greatestVersion = null;
+							Uri? repoUrl = null;
+							var scopeCancellationToken = CancellationToken.None; // DCT: None available
+							try
+							{
+								var gitHubService = await gitHubServiceFactory.CreateService(scopeCancellationToken);
+								var repositoryUrlTask = gitHubService.GetUpdatesRepositoryUrl(scopeCancellationToken);
+								var releases = await gitHubService.GetTgsReleases(scopeCancellationToken);
+
+								foreach (var kvp in releases)
+								{
+									var version = kvp.Key;
+									var release = kvp.Value;
+									if (version.Major > 3 // Forward/backward compatible but not before TGS4
+										&& (greatestVersion == null || version > greatestVersion))
+										greatestVersion = version;
+								}
+
+								repoUrl = await repositoryUrlTask;
+							}
+							catch (NotFoundException e)
+							{
+								Logger.LogWarning(e, "Not found exception while retrieving upstream repository info!");
+							}
+
+							return new AdministrationResponse
+							{
+								LatestVersion = greatestVersion,
+								TrackedRepositoryUrl = repoUrl,
+								GeneratedAt = DateTimeOffset.UtcNow,
+							};
 						}
 
-						repoUrl = await repositoryUrlTask;
+						var ttl = TimeSpan.FromMinutes(30);
+						Task<AdministrationResponse> task;
+						if (forceFresh || !cacheService.TryGetValue(ReadCacheKey, out var rawCacheObject))
+						{
+							using var entry = cacheService.CreateEntry(ReadCacheKey);
+							entry.AbsoluteExpirationRelativeToNow = ttl;
+							entry.Value = task = CacheFactory();
+						}
+						else
+							task = (Task<AdministrationResponse>)rawCacheObject!;
+
+						var result = await task.WaitAsync(cancellationToken);
+						return new AuthorityResponse<AdministrationResponse>(result);
 					}
-					catch (NotFoundException e)
+					catch (RateLimitExceededException e)
 					{
-						Logger.LogWarning(e, "Not found exception while retrieving upstream repository info!");
+						return RateLimit<AdministrationResponse>(e);
 					}
-
-					return new AdministrationResponse
+					catch (ApiException e)
 					{
-						LatestVersion = greatestVersion,
-						TrackedRepositoryUrl = repoUrl,
-						GeneratedAt = DateTimeOffset.UtcNow,
-					};
-				}
-
-				var ttl = TimeSpan.FromMinutes(30);
-				Task<AdministrationResponse> task;
-				if (forceFresh || !cacheService.TryGetValue(ReadCacheKey, out var rawCacheObject))
-				{
-					using var entry = cacheService.CreateEntry(ReadCacheKey);
-					entry.AbsoluteExpirationRelativeToNow = ttl;
-					entry.Value = task = CacheFactory();
-				}
-				else
-					task = (Task<AdministrationResponse>)rawCacheObject!;
-
-				var result = await task.WaitAsync(cancellationToken);
-				return new AuthorityResponse<AdministrationResponse>(result);
-			}
-			catch (RateLimitExceededException e)
-			{
-				return RateLimit<AdministrationResponse>(e);
-			}
-			catch (ApiException e)
-			{
-				Logger.LogWarning(e, OctokitException);
-				return new AuthorityResponse<AdministrationResponse>(
-					new ErrorMessageResponse(ErrorCode.RemoteApiError)
-					{
-						AdditionalData = e.Message,
-					},
-					HttpFailureResponse.FailedDependency);
-			}
-		}
+						Logger.LogWarning(e, OctokitException);
+						return new AuthorityResponse<AdministrationResponse>(
+							new ErrorMessageResponse(ErrorCode.RemoteApiError)
+							{
+								AdditionalData = e.Message,
+							},
+							HttpFailureResponse.FailedDependency);
+					}
+				});
 
 		/// <inheritdoc />
-		public async ValueTask<AuthorityResponse<ServerUpdateResponse>> TriggerServerVersionChange(Version targetVersion, bool uploadZip, CancellationToken cancellationToken)
+		public RequirementsGated<AuthorityResponse<ServerUpdateResponse>> TriggerServerVersionChange(Version targetVersion, bool uploadZip, CancellationToken cancellationToken)
 		{
 			var attemptingUpload = uploadZip == true;
-			if (attemptingUpload)
-			{
-				if (!AuthenticationContext.PermissionSet.AdministrationRights!.Value.HasFlag(AdministrationRights.UploadVersion))
-					return Forbid<ServerUpdateResponse>();
-			}
-			else if (!AuthenticationContext.PermissionSet.AdministrationRights!.Value.HasFlag(AdministrationRights.ChangeVersion))
-				return Forbid<ServerUpdateResponse>();
-
-			if (targetVersion.Major < 4)
-				return BadRequest<ServerUpdateResponse>(ErrorCode.CannotChangeServerSuite);
-
-			if (!serverControl.WatchdogPresent)
-				return new AuthorityResponse<ServerUpdateResponse>(
-					new ErrorMessageResponse(ErrorCode.MissingHostWatchdog),
-					HttpFailureResponse.UnprocessableEntity);
-
-			IFileUploadTicket? uploadTicket = attemptingUpload
-				? fileTransferService.CreateUpload(FileUploadStreamKind.None)
-				: null;
-
-			ServerUpdateResult updateResult;
-			try
-			{
-				try
-				{
-					updateResult = await serverUpdateInitiator.InitiateUpdate(uploadTicket, targetVersion, cancellationToken);
-				}
-				catch
+			return new(
+				() =>
 				{
 					if (attemptingUpload)
-						await uploadTicket!.DisposeAsync();
+						return Flag(AdministrationRights.UploadVersion);
 
-					throw;
-				}
-			}
-			catch (RateLimitExceededException ex)
-			{
-				return RateLimit<ServerUpdateResponse>(ex);
-			}
-			catch (ApiException e)
-			{
-				Logger.LogWarning(e, OctokitException);
-				return new AuthorityResponse<ServerUpdateResponse>(
-					new ErrorMessageResponse(ErrorCode.RemoteApiError)
+					return Flag(AdministrationRights.ChangeVersion);
+				},
+				async () =>
+				{
+					if (targetVersion.Major < 4)
+						return BadRequest<ServerUpdateResponse>(ErrorCode.CannotChangeServerSuite);
+
+					if (!serverControl.WatchdogPresent)
+						return new AuthorityResponse<ServerUpdateResponse>(
+							new ErrorMessageResponse(ErrorCode.MissingHostWatchdog),
+							HttpFailureResponse.UnprocessableEntity);
+
+					IFileUploadTicket? uploadTicket = attemptingUpload
+						? fileTransferService.CreateUpload(FileUploadStreamKind.None)
+						: null;
+
+					ServerUpdateResult updateResult;
+					try
 					{
-						AdditionalData = e.Message,
-					},
-					HttpFailureResponse.FailedDependency);
-			}
+						try
+						{
+							updateResult = await serverUpdateInitiator.InitiateUpdate(uploadTicket, targetVersion, cancellationToken);
+						}
+						catch
+						{
+							if (attemptingUpload)
+								await uploadTicket!.DisposeAsync();
 
-			return updateResult switch
-			{
-				ServerUpdateResult.Started => new AuthorityResponse<ServerUpdateResponse>(new ServerUpdateResponse(targetVersion, uploadTicket?.Ticket.FileTicket), HttpSuccessResponse.Accepted),
-				ServerUpdateResult.ReleaseMissing => Gone<ServerUpdateResponse>(),
-				ServerUpdateResult.UpdateInProgress => BadRequest<ServerUpdateResponse>(ErrorCode.ServerUpdateInProgress),
-				ServerUpdateResult.SwarmIntegrityCheckFailed => new AuthorityResponse<ServerUpdateResponse>(
-					new ErrorMessageResponse(ErrorCode.SwarmIntegrityCheckFailed),
-					HttpFailureResponse.FailedDependency),
-				_ => throw new InvalidOperationException($"Unexpected ServerUpdateResult: {updateResult}"),
-			};
+							throw;
+						}
+					}
+					catch (RateLimitExceededException ex)
+					{
+						return RateLimit<ServerUpdateResponse>(ex);
+					}
+					catch (ApiException e)
+					{
+						Logger.LogWarning(e, OctokitException);
+						return new AuthorityResponse<ServerUpdateResponse>(
+							new ErrorMessageResponse(ErrorCode.RemoteApiError)
+							{
+								AdditionalData = e.Message,
+							},
+							HttpFailureResponse.FailedDependency);
+					}
+
+					return updateResult switch
+					{
+						ServerUpdateResult.Started => new AuthorityResponse<ServerUpdateResponse>(new ServerUpdateResponse(targetVersion, uploadTicket?.Ticket.FileTicket), HttpSuccessResponse.Accepted),
+						ServerUpdateResult.ReleaseMissing => Gone<ServerUpdateResponse>(),
+						ServerUpdateResult.UpdateInProgress => BadRequest<ServerUpdateResponse>(ErrorCode.ServerUpdateInProgress),
+						ServerUpdateResult.SwarmIntegrityCheckFailed => new AuthorityResponse<ServerUpdateResponse>(
+							new ErrorMessageResponse(ErrorCode.SwarmIntegrityCheckFailed),
+							HttpFailureResponse.FailedDependency),
+						_ => throw new InvalidOperationException($"Unexpected ServerUpdateResult: {updateResult}"),
+					};
+				});
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<AuthorityResponse> TriggerServerRestart()
-		{
-			if (!serverControl.WatchdogPresent)
-			{
-				Logger.LogDebug("Restart request failed due to lack of host watchdog!");
-				return new AuthorityResponse(
-					new ErrorMessageResponse(ErrorCode.MissingHostWatchdog),
-					HttpFailureResponse.UnprocessableEntity);
-			}
+		public RequirementsGated<AuthorityResponse> TriggerServerRestart()
+			=> new(
+				() => Flag(AdministrationRights.RestartHost),
+				async () =>
+				{
+					if (!serverControl.WatchdogPresent)
+					{
+						Logger.LogDebug("Restart request failed due to lack of host watchdog!");
+						return new AuthorityResponse(
+							new ErrorMessageResponse(ErrorCode.MissingHostWatchdog),
+							HttpFailureResponse.UnprocessableEntity);
+					}
 
-			await serverControl.Restart();
-			return new AuthorityResponse();
-		}
+					await serverControl.Restart();
+					return new AuthorityResponse();
+				});
 	}
 }

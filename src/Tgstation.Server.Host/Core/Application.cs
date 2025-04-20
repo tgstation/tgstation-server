@@ -330,15 +330,6 @@ namespace Tgstation.Server.Host.Core
 			services
 				.AddScoped<GraphQL.Subscriptions.ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
 				.AddGraphQLServer()
-				.AddAuthorization(
-					options =>
-					{
-						options.AddPolicy(
-							TgsAuthorizeAttribute.PolicyName,
-							builder => builder
-								.RequireAuthenticatedUser()
-								.RequireRole(TgsAuthorizeAttribute.UserEnabledRole));
-					})
 				.ModifyOptions(options =>
 				{
 					options.EnsureAllNodesCanBeResolved = true;
@@ -863,6 +854,17 @@ namespace Tgstation.Server.Host.Core
 									.RequestAborted),
 					};
 				});
+
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(
+					TgsAuthorizeAttribute.PolicyName,
+					builder => builder
+						.RequireAuthenticatedUser()
+						.RequireRole(TgsAuthorizeAttribute.UserEnabledRole));
+
+				options.DefaultPolicy = options.GetPolicy(TgsAuthorizeAttribute.PolicyName)!;
+			});
 
 			var oidcConfig = securityConfiguration.OpenIDConnect;
 			if (oidcConfig == null || oidcConfig.Count == 0)

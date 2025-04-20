@@ -113,11 +113,15 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(PaginatedResponse<UserResponse>), 200)]
 		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<User, UserResponse>(
-				() => ValueTask.FromResult(
-					new PaginatableResult<User>(
-						userAuthority.InvokeQueryable(
-							authority => authority.Queryable(true))
-							.OrderBy(x => x.Id))),
+				async () =>
+				{
+					var queryable = await userAuthority.InvokeQueryable(
+						authority => authority.Queryable(true));
+					if (queryable == null)
+						return null;
+
+					return new PaginatableResult<User>(queryable.OrderBy(x => x.Id));
+				},
 				null,
 				page,
 				pageSize,

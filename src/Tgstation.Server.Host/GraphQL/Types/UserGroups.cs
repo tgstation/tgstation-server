@@ -23,12 +23,14 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// Gets the current <see cref="User"/>.
 		/// </summary>
 		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the current <see cref="User"/>'s <see cref="UserGroup"/>.</returns>
 		public ValueTask<UserGroup?> Current(
-			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority)
+			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority,
+			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userGroupAuthority);
-			return userGroupAuthority.InvokeTransformableAllowMissing<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(authority => authority.Read());
+			return userGroupAuthority.InvokeTransformableAllowMissing<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(authority => authority.Read(cancellationToken));
 		}
 
 		/// <summary>
@@ -54,11 +56,12 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UseFiltering]
 		[UseSorting]
 		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.Queryable))]
-		public IQueryable<UserGroup> QueryableGroups(
+		public async ValueTask<IQueryable<UserGroup>> QueryableGroups(
 			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userGroupAuthority);
-			var dtoQueryable = userGroupAuthority.InvokeTransformableQueryable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(authority => authority.Queryable(false));
+			var dtoQueryable = await userGroupAuthority.InvokeTransformableQueryable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(
+				authority => authority.Queryable(false));
 			return dtoQueryable;
 		}
 
@@ -72,15 +75,15 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UseFiltering]
 		[UseSorting]
 		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserAuthority.Queryable))]
-		public IQueryable<User> QueryableUsersByGroupId(
+		public async ValueTask<IQueryable<User>> QueryableUsersByGroupId(
 			[ID(nameof(UserGroup))]long groupId,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			var dtoQueryable = userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(
+			var dtoQueryable = await userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(
 				authority => authority
-					.Queryable(false)
-					.Where(user => user.GroupId == groupId));
+					.Queryable(false),
+				queryable => queryable.Where(user => user.GroupId == groupId));
 			return dtoQueryable;
 		}
 	}
