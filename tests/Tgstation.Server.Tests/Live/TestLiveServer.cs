@@ -1807,7 +1807,7 @@ namespace Tgstation.Server.Tests.Live
 					}
 					catch (SocketException ex)
 					{
-						Assert.AreEqual(SocketError.AddressAlreadyInUse, ex.SocketErrorCode);
+						Assert.AreEqual(SocketError.AccessDenied, ex.SocketErrorCode);
 					}
 					finally
 					{
