@@ -210,18 +210,21 @@ Components:
     Unreleased: true
   - Version: 6.17.0
     ComponentVersions:
-      Core: 6.16.0
       HttpApi: 10.13.0
       GraphQLApi: 0.6.0
-      DreamMakerApi: 7.3.1
+      DreamMakerApi: 7.3.3
       Configuration: 5.7.0
-      InteropApi: 5.10.0
+      InteropApi: 5.10.1
       HostWatchdog: 1.6.0
       NugetCommon: 7.0.0
       NugetApi: 18.0.0
       NugetClient: 21.0.0
       WebControlPanel: 6.10.0
-    Changes: []
+    Changes:
+    - Descriptions:
+      - Event scripts are now executed with the `TGS_INSTANCE_ROOT` environment variable set to the path of the main directory of the instance.
+      Author: Cyberboss
+      PullRequest: 2215
     Unreleased: true
   - Version: 6.16.2
     ComponentVersions: {}

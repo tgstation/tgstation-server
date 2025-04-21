@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Components.StaticFiles.Configuration" name="Tgstation.Server.Host.Components.StaticFiles.Configuration">
-<area shape="rect" id="Node000001" title=" " alt="" coords="983,602,1209,642"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="983,634,1209,675"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory." alt="" coords="627,79,728,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="743,93,796,101,854,117,911,143,937,160,961,180,1001,231,1033,288,1057,349,1074,411,1085,470,1092,523,1097,601,1092,602,1087,524,1080,471,1069,412,1052,351,1028,291,997,234,957,184,934,164,908,147,852,122,795,107,742,98"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="743,92,796,101,854,116,911,141,937,158,961,179,1004,234,1037,296,1061,362,1078,429,1089,493,1095,550,1098,633,1092,633,1089,551,1083,493,1073,430,1056,364,1032,298,999,237,957,183,934,163,909,146,852,121,795,106,743,98"/>
 <area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="176,5,311,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="327,26,537,58,628,77,627,82,536,63,326,31"/>
 <area shape="rect" id="Node000004" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
@@ -10,46 +10,48 @@
 <area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="318,69,627,86,627,91,317,74"/>
 <area shape="rect" id="Node000006" href="$class_i_disposable.html" title=" " alt="" coords="199,104,288,130"/>
 <area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="303,111,627,92,627,97,304,116"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="199,920,287,946"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="303,934,419,940,562,943,698,937,753,930,794,919,845,893,893,859,937,821,977,780,1040,701,1080,641,1085,644,1045,704,981,784,941,825,896,864,848,898,796,924,754,935,698,943,562,948,419,945,303,940"/>
-<area shape="rect" id="Node000017" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="563,193,792,233"/>
-<area shape="poly" id="edge18_Node000017_Node000007" title=" " alt="" coords="264,906,321,836,396,733,473,608,506,540,534,472,538,450,540,422,540,355,542,290,548,263,558,243,571,232,574,235,562,246,553,265,548,290,545,355,545,422,543,451,539,473,511,542,477,610,401,736,325,840,268,910"/>
-<area shape="rect" id="Node000022" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html" title="Configuration options for the game sessions." alt="" coords="563,981,792,1021"/>
-<area shape="poly" id="edge23_Node000022_Node000007" title=" " alt="" coords="293,949,345,964,457,982,563,993,562,998,456,988,344,969,292,954"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="199,971,287,996"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="303,984,419,989,562,992,697,986,753,980,794,970,848,944,897,909,942,868,981,824,1044,738,1082,674,1086,676,1048,741,985,828,946,872,900,913,850,948,796,975,754,985,698,992,562,997,419,995,303,990"/>
+<area shape="rect" id="Node000018" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="563,193,792,233"/>
+<area shape="poly" id="edge19_Node000018_Node000007" title=" " alt="" coords="262,957,318,879,394,763,471,623,506,548,534,472,539,422,539,355,542,290,548,263,558,243,571,232,574,235,562,246,553,265,548,290,545,355,545,422,539,473,511,550,476,625,398,766,323,882,266,960"/>
+<area shape="rect" id="Node000023" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html" title="Configuration options for the game sessions." alt="" coords="563,1031,792,1072"/>
+<area shape="poly" id="edge24_Node000023_Node000007" title=" " alt="" coords="293,999,345,1015,457,1033,563,1043,562,1049,456,1038,344,1020,292,1005"/>
 <area shape="rect" id="Node000008" title=" " alt="" coords="608,257,747,283"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="763,274,877,289,926,301,960,317,993,349,1020,385,1042,425,1060,466,1083,543,1094,601,1089,602,1078,545,1055,468,1038,427,1016,388,989,352,957,322,925,306,876,294,762,279"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="763,273,877,287,927,299,960,315,996,350,1025,392,1048,437,1065,483,1087,570,1096,633,1090,634,1081,571,1060,485,1043,439,1020,394,992,354,957,319,925,304,876,292,763,278"/>
 <area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="594,307,761,348"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="777,329,822,336,870,348,917,365,960,391,987,414,1010,440,1048,499,1075,556,1091,600,1086,602,1070,558,1044,502,1006,444,983,417,957,395,915,370,869,353,821,341,776,334"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="777,327,823,333,871,344,918,362,960,388,990,415,1015,447,1054,516,1079,582,1093,633,1088,634,1074,584,1049,518,1010,450,986,419,957,392,915,367,869,349,822,338,776,332"/>
 <area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html" title="For accessing the disk in a synchronous manner." alt="" coords="594,373,761,413"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="777,401,869,423,916,441,960,464,1001,495,1036,533,1084,600,1080,603,1032,536,997,499,957,468,914,446,867,428,776,406"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="777,399,822,407,870,420,917,438,960,463,1005,502,1042,549,1070,595,1088,632,1083,635,1065,598,1037,552,1001,506,957,467,914,443,868,425,821,412,776,404"/>
 <area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html" title="For creating filesystem symbolic links." alt="" coords="594,438,761,479"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="777,472,867,494,960,528,1021,563,1071,599,1068,603,1019,567,958,533,866,499,776,477"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="777,471,868,494,915,511,960,532,996,555,1029,582,1079,632,1075,635,1025,586,993,559,957,537,913,516,866,499,776,476"/>
 <area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="579,503,776,544"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="792,541,959,578,1031,599,1030,604,958,583,791,547"/>
-<area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html" title="Handles changing file modes/permissions after writing." alt="" coords="594,568,761,609"/>
-<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="777,594,982,610,982,616,776,599"/>
-<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="579,634,776,674"/>
-<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="791,643,958,631,982,629,982,634,959,636,792,649"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="792,544,875,565,960,590,1055,631,1053,636,958,595,873,570,791,549"/>
+<area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html" title="Handles changing file modes/permissions after writing." alt="" coords="594,569,761,609"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="777,602,983,634,982,639,776,607"/>
+<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="579,634,776,675"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="792,652,982,652,982,657,792,657"/>
 <area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html" title="Service for temporarily storing files to be downloaded or uploaded." alt="" coords="577,699,778,740"/>
-<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="793,698,958,663,1033,641,1034,646,959,668,794,703"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="793,699,982,669,983,674,794,704"/>
 <area shape="rect" id="Node000016" title=" " alt="" coords="560,764,795,819"/>
-<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="809,763,884,742,958,713,1019,678,1068,641,1072,645,1022,682,960,718,886,747,811,768"/>
-<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="808,198,847,202,887,210,926,224,960,245,999,285,1030,331,1054,382,1071,434,1091,531,1097,601,1091,602,1085,532,1066,435,1049,384,1026,334,995,288,957,250,923,229,886,215,847,207,807,204"/>
-<area shape="rect" id="Node000018" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="166,385,320,411"/>
-<area shape="poly" id="edge17_Node000017_Node000018" title=" " alt="" coords="313,412,367,418,427,417,456,412,484,403,511,391,534,374,546,359,550,344,547,312,543,278,547,260,558,243,572,231,575,236,562,247,552,262,549,278,552,311,556,345,551,362,538,377,514,395,486,408,457,417,427,422,367,423,313,417"/>
-<area shape="rect" id="Node000019" title=" " alt="" coords="197,153,289,179"/>
-<area shape="poly" id="edge19_Node000017_Node000019" title=" " alt="" coords="305,169,537,193,563,196,563,201,536,198,304,174"/>
-<area shape="rect" id="Node000020" title=" " alt="" coords="222,336,264,362"/>
-<area shape="poly" id="edge20_Node000017_Node000020" title=" " alt="" coords="280,355,335,364,403,366,438,363,473,355,505,343,535,324,542,315,546,306,547,286,547,265,550,254,558,243,573,232,576,236,562,247,555,256,552,266,552,286,551,307,547,318,538,328,508,347,474,360,439,368,403,372,335,369,279,360"/>
-<area shape="rect" id="Node000021" title=" " alt="" coords="168,203,319,228"/>
-<area shape="poly" id="edge21_Node000017_Node000021" title=" " alt="" coords="334,212,563,211,563,216,334,218"/>
-<area shape="poly" id="edge22_Node000001_Node000022" title=" " alt="" coords="807,1010,846,1006,886,998,923,985,957,964,993,930,1022,888,1045,843,1062,796,1083,707,1091,643,1096,643,1088,708,1067,797,1049,845,1026,891,997,933,960,969,926,990,887,1004,847,1012,808,1015"/>
-<area shape="rect" id="Node000023" title=" " alt="" coords="221,1016,266,1042"/>
-<area shape="poly" id="edge24_Node000022_Node000023" title=" " alt="" coords="281,1028,395,1030,536,1024,575,1019,576,1024,537,1029,395,1036,281,1033"/>
-<area shape="rect" id="Node000024" title=" " alt="" coords="595,1045,760,1071"/>
-<area shape="poly" id="edge25_Node000001_Node000024" title=" " alt="" coords="767,1070,815,1072,865,1068,914,1054,957,1030,999,988,1031,937,1055,882,1071,825,1082,769,1089,719,1092,643,1098,643,1094,719,1088,770,1076,826,1060,884,1035,940,1003,991,960,1034,916,1059,866,1073,815,1077,767,1076"/>
-<area shape="rect" id="Node000025" title=" " alt="" coords="588,1095,767,1136"/>
-<area shape="poly" id="edge26_Node000001_Node000025" title=" " alt="" coords="783,1132,828,1134,874,1129,918,1117,957,1094,983,1061,1006,1011,1027,948,1046,878,1074,740,1089,643,1094,643,1079,741,1051,879,1033,949,1011,1013,987,1064,960,1098,920,1122,875,1135,828,1139,783,1138"/>
-<area shape="rect" id="Node000026" title=" " alt="" coords="652,1160,703,1186"/>
-<area shape="poly" id="edge27_Node000001_Node000026" title=" " alt="" coords="719,1181,771,1190,835,1193,868,1190,900,1183,930,1171,957,1154,971,1138,985,1117,1010,1059,1032,987,1050,907,1076,751,1090,643,1095,643,1082,752,1055,908,1037,988,1015,1061,990,1119,976,1142,960,1158,932,1176,901,1188,869,1196,835,1199,771,1195,718,1186"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="809,759,883,739,958,715,1053,673,1055,678,960,720,885,744,810,764"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="646,844,709,870"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="724,849,775,840,835,826,898,806,957,778,993,753,1026,725,1075,673,1079,677,1029,729,996,757,960,782,900,811,836,831,776,846,725,854"/>
+<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="808,197,848,200,888,208,926,222,960,244,1002,287,1035,339,1059,394,1076,452,1087,507,1093,558,1097,633,1092,634,1088,559,1082,508,1070,453,1054,396,1030,341,998,291,957,248,924,227,886,213,847,206,807,202"/>
+<area shape="rect" id="Node000019" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="166,385,320,411"/>
+<area shape="poly" id="edge18_Node000018_Node000019" title=" " alt="" coords="313,412,367,418,427,417,456,412,484,403,511,391,534,374,546,359,550,344,547,312,543,278,547,260,558,243,572,231,575,236,562,247,552,262,549,278,552,311,556,345,551,362,538,377,514,395,486,408,457,417,427,422,367,423,313,417"/>
+<area shape="rect" id="Node000020" title=" " alt="" coords="197,153,289,179"/>
+<area shape="poly" id="edge20_Node000018_Node000020" title=" " alt="" coords="305,169,537,193,563,196,563,201,536,198,304,174"/>
+<area shape="rect" id="Node000021" title=" " alt="" coords="222,336,264,362"/>
+<area shape="poly" id="edge21_Node000018_Node000021" title=" " alt="" coords="280,355,335,364,403,366,438,363,473,355,505,343,535,324,542,315,546,306,547,286,547,265,550,254,558,243,573,232,576,236,562,247,555,256,552,266,552,286,551,307,547,318,538,328,508,347,474,360,439,368,403,372,335,369,279,360"/>
+<area shape="rect" id="Node000022" title=" " alt="" coords="168,203,319,228"/>
+<area shape="poly" id="edge22_Node000018_Node000022" title=" " alt="" coords="334,212,563,211,563,216,334,218"/>
+<area shape="poly" id="edge23_Node000001_Node000023" title=" " alt="" coords="807,1061,846,1057,886,1049,923,1036,957,1015,994,978,1024,934,1047,886,1064,836,1084,742,1091,675,1096,675,1090,743,1070,837,1052,888,1029,937,999,981,960,1019,926,1041,887,1055,847,1063,807,1066"/>
+<area shape="rect" id="Node000024" title=" " alt="" coords="221,1067,266,1092"/>
+<area shape="poly" id="edge25_Node000023_Node000024" title=" " alt="" coords="281,1079,395,1081,536,1075,575,1070,576,1075,537,1080,395,1086,281,1084"/>
+<area shape="rect" id="Node000025" title=" " alt="" coords="595,1096,760,1122"/>
+<area shape="poly" id="edge26_Node000001_Node000025" title=" " alt="" coords="762,1121,811,1124,862,1120,913,1107,936,1096,957,1082,1000,1037,1033,984,1057,926,1074,866,1085,807,1090,754,1093,675,1098,675,1096,754,1090,808,1079,867,1062,928,1038,987,1004,1041,960,1086,938,1101,914,1112,863,1125,811,1129,762,1127"/>
+<area shape="rect" id="Node000026" title=" " alt="" coords="588,1146,767,1187"/>
+<area shape="poly" id="edge27_Node000001_Node000026" title=" " alt="" coords="783,1184,828,1186,874,1181,918,1169,957,1146,971,1132,984,1112,1008,1059,1029,993,1047,919,1075,775,1089,674,1095,675,1080,776,1053,920,1034,994,1013,1061,988,1114,975,1135,960,1150,920,1174,875,1187,828,1191,782,1189"/>
+<area shape="rect" id="Node000027" title=" " alt="" coords="652,1211,703,1236"/>
+<area shape="poly" id="edge28_Node000001_Node000027" title=" " alt="" coords="718,1232,771,1241,835,1245,868,1242,900,1235,930,1223,957,1206,972,1190,986,1167,1012,1107,1034,1031,1052,949,1077,786,1090,674,1095,675,1083,787,1057,950,1039,1033,1017,1108,991,1170,976,1193,960,1210,932,1228,901,1240,868,1248,835,1250,770,1247,717,1237"/>
 </map>
