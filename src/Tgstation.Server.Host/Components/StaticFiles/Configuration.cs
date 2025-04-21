@@ -125,6 +125,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly ILogger<Configuration> logger;
 
 		/// <summary>
+		/// The <see cref="Api.Models.Instance"/> the <see cref="Configuration"/> belongs to.
+		/// </summary>
+		readonly Models.Instance metadata;
+
+		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for <see cref="Configuration"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -159,6 +164,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
+		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
@@ -171,6 +177,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			IPlatformIdentifier platformIdentifier,
 			IFileTransferTicketProvider fileTransferService,
 			ILogger<Configuration> logger,
+			Models.Instance metadata,
 			GeneralConfiguration generalConfiguration,
 			SessionConfiguration sessionConfiguration)
 		{
@@ -182,6 +189,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
 			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
 
@@ -844,6 +852,10 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 								return $"\"{arg}\"";
 							})),
 						cancellationToken,
+						new Dictionary<string, string>
+						{
+							{ "TGS_INSTANCE_ROOT", metadata.Path! },
+						},
 						readStandardHandles: true,
 						noShellExecute: true))
 					using (cancellationToken.Register(() => script.Terminate()))
