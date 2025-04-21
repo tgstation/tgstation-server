@@ -53,6 +53,10 @@ namespace Tgstation.Server.Host.Components.StaticFiles.Tests
 					Mock.Of<IPlatformIdentifier>(),
 					Mock.Of<IFileTransferTicketProvider>(),
 					loggerFactory.CreateLogger<Configuration>(),
+					new Models.Instance
+					{
+						Path = "Some path",
+					},
 					new GeneralConfiguration(),
 					new SessionConfiguration());
 
