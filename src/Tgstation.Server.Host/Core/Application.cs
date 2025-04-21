@@ -743,7 +743,7 @@ namespace Tgstation.Server.Host.Core
 
 				swarmHosts = SwarmEndpointsBuilder.Map(endpoints, swarmConfiguration);
 
-				Task ProcessBridgeRequest(HttpContext context) => context.RequestServices.GetRequiredService<BridgeController>().Process(context);
+				static Task ProcessBridgeRequest(HttpContext context) => context.RequestServices.GetRequiredService<BridgeController>().Process(context);
 
 				endpoints.MapGet(
 					$"/{BridgeController.RouteExtension}",
