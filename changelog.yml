@@ -208,6 +208,14 @@ Components:
       WebControlPanel: 6.10.0
     Changes: []
     Unreleased: true
+  - Version: 6.18.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.17.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.17.0
     ComponentVersions:
       HttpApi: 10.13.0
@@ -225,11 +233,6 @@ Components:
       - Event scripts are now executed with the `TGS_INSTANCE_ROOT` environment variable set to the path of the main directory of the instance.
       Author: Cyberboss
       PullRequest: 2215
-    Unreleased: true
-  - Version: 6.16.2
-    ComponentVersions: {}
-    Changes: []
-    Unreleased: true
   - Version: 6.16.1
     ComponentVersions:
       HttpApi: 10.13.0
