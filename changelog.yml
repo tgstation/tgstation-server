@@ -213,8 +213,22 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 6.17.1
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.13.0
+      GraphQLApi: 0.6.0
+      DreamMakerApi: 7.3.3
+      Configuration: 5.7.0
+      InteropApi: 5.10.1
+      HostWatchdog: 1.6.0
+      NugetCommon: 7.0.0
+      NugetApi: 18.0.0
+      NugetClient: 21.0.0
+      WebControlPanel: 6.10.0
+    Changes:
+    - Descriptions:
+      - "Nix: BYOND executable patching now uses the `TGS_INSTANCE_ROOT` environment variable to navigate to the instance's Byond directory."
+      Author: Cyberboss
+      PullRequest: 2216
     Unreleased: true
   - Version: 6.17.0
     ComponentVersions:
