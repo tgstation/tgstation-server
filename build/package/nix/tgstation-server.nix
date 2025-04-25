@@ -23,12 +23,13 @@ let
 
   byond-patcher = pkgs-i686.writeShellScriptBin "EngineInstallComplete-050-TgsPatchELFByond.sh" ''
     # If the file doesn't exist, assume OD
-    if [[ ! -f ../../Byond/$1/byond/bin/DreamDaemon ]] ; then
+    BYOND_BIN_PATH="''${TGS_INSTANCE_ROOT}/Byond/$1/byond/bin/"
+    if [[ ! -f "''${BYOND_BIN_PATH}DreamDaemon" ]] ; then
       echo "DreamDaemon doesn't appear to exist. Assuming OD install"
       exit
     fi
 
-    BYOND_PATH=$(realpath ../../Byond/$1/byond/bin/)
+    BYOND_PATH=$(realpath $BYOND_BIN_PATH)
 
     ${pkgs.patchelf}/bin/patchelf --set-interpreter "$(cat ${stdenv.cc}/nix-support/dynamic-linker)" \
       --set-rpath "$BYOND_PATH:${rpath}" \
