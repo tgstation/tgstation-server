@@ -1188,6 +1188,9 @@ namespace Tgstation.Server.Tests.Live
 				var ioManager = new Host.IO.DefaultIOManager();
 				var repoPath = ioManager.ConcatPath(instance.Path, "Repository");
 				await using var jobsTest = new JobsRequiredTest(instanceClient.Jobs);
+
+				await jobsTest.HubConnectionTask;
+
 				var postWriteHandler = (Host.IO.IPostWriteHandler)(new PlatformIdentifier().IsWindows
 					? new Host.IO.WindowsPostWriteHandler()
 					: new Host.IO.PosixPostWriteHandler(loggerFactory.CreateLogger<Host.IO.PosixPostWriteHandler>()));
@@ -1843,6 +1846,9 @@ namespace Tgstation.Server.Tests.Live
 					}
 
 					await using var jrt = new JobsRequiredTest(instanceClient.Jobs);
+
+					await jrt.HubConnectionTask;
+
 					foreach (var job in jobs)
 					{
 						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
@@ -1920,6 +1926,9 @@ namespace Tgstation.Server.Tests.Live
 						jobs = jobs.Where(x => x.JobCode.Value.IsServerStartupJob()).ToList();
 
 					await using var jrt = new JobsRequiredTest(instanceClient.Jobs);
+
+					await jrt.HubConnectionTask;
+
 					foreach (var job in jobs)
 					{
 						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
