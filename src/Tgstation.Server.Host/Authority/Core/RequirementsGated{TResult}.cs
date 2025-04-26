@@ -135,7 +135,7 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// </summary>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IAuthorizationRequirement"/>s for the request.</returns>
 		public async ValueTask<IEnumerable<IAuthorizationRequirement>> GetRequirements()
-			=> (await getRequirements()).Concat([new UserSessionValidRequirement()]);
+			=> UserSessionValidRequirement.InstanceAsEnumerable.Concat(await getRequirements());
 
 		/// <summary>
 		/// Executes the request.

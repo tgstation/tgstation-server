@@ -2,8 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using HotChocolate;
+
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.GraphQL;
 using Tgstation.Server.Host.Security;
 
@@ -14,11 +15,14 @@ namespace Tgstation.Server.Host.Authority.Core
 		where TAuthority : IAuthority
 	{
 		/// <summary>
-		/// Create a new <see cref="ErrorMessageException"/> to be thrown when a forbidden error occurs.
+		/// Create a new <see cref="GraphQLException"/> to be thrown when a forbidden error occurs.
 		/// </summary>
-		/// <returns>A new <see cref="ErrorMessageException"/>.</returns>
-		static ErrorMessageException ForbiddenGraphQLError()
-			=> new(new ErrorMessageResponse(), HttpFailureResponse.Forbidden.ToString());
+		/// <returns>A new <see cref="GraphQLException"/>.</returns>
+		static GraphQLException ForbiddenGraphQLException()
+			=> new(ErrorBuilder.New()
+				.SetMessage("The current user is not authorized to access this resource.") // Copied from graphql-platform: AuthorizeMiddleware.cs
+				.SetCode(ErrorCodes.Authentication.NotAuthorized)
+				.Build());
 
 		/// <summary>
 		/// Throws a <see cref="ErrorMessageException"/> for errored <paramref name="authorityResponse"/>s.
@@ -31,7 +35,7 @@ namespace Tgstation.Server.Host.Authority.Core
 			where TAuthorityResponse : AuthorityResponse
 		{
 			if (authorityResponse == null)
-				throw ForbiddenGraphQLError();
+				throw ForbiddenGraphQLException();
 
 			if (authorityResponse.Success
 				|| ((authorityResponse.FailureResponse.Value == HttpFailureResponse.NotFound
@@ -97,7 +101,7 @@ namespace Tgstation.Server.Host.Authority.Core
 
 			var requirementsGate = authorityInvoker(Authority);
 			var queryable = await ExecuteIfRequirementsSatisfied(requirementsGate)
-				?? throw ForbiddenGraphQLError();
+				?? throw ForbiddenGraphQLException();
 
 			if (preTransformer != null)
 				queryable = preTransformer(queryable);

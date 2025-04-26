@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Collections.Generic;
+
+using Microsoft.AspNetCore.Authorization;
 
 namespace Tgstation.Server.Host.Security
 {
@@ -7,5 +9,19 @@ namespace Tgstation.Server.Host.Security
 	/// </summary>
 	sealed class UserSessionValidRequirement : IAuthorizationRequirement
 	{
+		/// <summary>
+		/// The singleton instance of this class.
+		/// </summary>
+		public static IEnumerable<UserSessionValidRequirement> InstanceAsEnumerable { get; } = new List<UserSessionValidRequirement>
+		{
+			new(),
+		};
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="UserSessionValidRequirement"/> class.
+		/// </summary>
+		private UserSessionValidRequirement()
+		{
+		}
 	}
 }
