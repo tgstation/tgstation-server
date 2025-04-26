@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 using HotChocolate;
 using HotChocolate.Types.Relay;
@@ -51,15 +52,19 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// Node resolver for <see cref="SwarmNode"/>s.
 		/// </summary>
 		/// <param name="identifier">The <see cref="Identifier"/>.</param>
+		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <param name="swarmService">The <see cref="ISwarmService"/> to load from.</param>
 		/// <returns>A new <see cref="SwarmNode"/> with the matching <paramref name="identifier"/> if found, <see langword="null"/> otherwise.</returns>
-		[TgsGraphQLAuthorize]
-		public static SwarmNode? GetSwarmNode(
+		public static async ValueTask<SwarmNode?> GetSwarmNode(
 			string identifier,
+			[Service] IAuthorizationService authorizationService,
 			[Service] ISwarmService swarmService)
 		{
 			ArgumentNullException.ThrowIfNull(identifier);
+			ArgumentNullException.ThrowIfNull(authorizationService);
 			ArgumentNullException.ThrowIfNull(swarmService);
+
+			await authorizationService.CheckGraphQLAuthorized();
 			var info = swarmService
 				.GetSwarmServers()
 				?.FirstOrDefault(x => x.Identifier == identifier);
@@ -68,12 +73,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 				return null;
 
 			return new SwarmNode(info);
-		}
-
-		/// <inheritdoc />
-		public IQueryable<Instance> Instances()
-		{
-			throw new NotImplementedException();
 		}
 
 		/// <summary>

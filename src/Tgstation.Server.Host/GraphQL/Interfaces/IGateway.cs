@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.GraphQL.Interfaces
 		/// <summary>
 		/// Queries all <see cref="Instance"/>s in the <see cref="IGateway"/>.
 		/// </summary>
-		/// <returns>Queryable <see cref="Instance"/>s.</returns>
+		/// <returns>Queryable <see cref="Instance"/>s in the <see cref="IGateway"/>.</returns>
 		IQueryable<Instance> Instances();
 	}
 }

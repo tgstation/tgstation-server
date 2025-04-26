@@ -366,7 +366,6 @@ namespace Tgstation.Server.Host.Core
 				.AddErrorFilter<ErrorMessageFilter>()
 				.AddType<StandaloneNode>()
 				.AddType<LocalGateway>()
-				.AddType<RemoteGateway>()
 				.AddType<GraphQL.Types.UserName>()
 				.AddType<UnsignedIntType>()
 				.BindRuntimeType<Version, SemverType>()

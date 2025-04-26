@@ -10,7 +10,6 @@ using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Models.Transformers;
-using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
@@ -40,7 +39,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="UserGroup"/> represented by <paramref name="id"/>, if any.</returns>
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserGroupAuthority.GetId))]
 		public ValueTask<UserGroup?> ById(
 			[ID(nameof(UserGroup))] long id,
 			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority,
@@ -55,7 +53,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UsePaging]
 		[UseFiltering]
 		[UseSorting]
-		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.Queryable))]
 		public async ValueTask<IQueryable<UserGroup>> QueryableGroups(
 			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority)
 		{
@@ -74,7 +71,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UsePaging]
 		[UseFiltering]
 		[UseSorting]
-		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserAuthority.Queryable))]
 		public async ValueTask<IQueryable<User>> QueryableUsersByGroupId(
 			[ID(nameof(UserGroup))]long groupId,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)

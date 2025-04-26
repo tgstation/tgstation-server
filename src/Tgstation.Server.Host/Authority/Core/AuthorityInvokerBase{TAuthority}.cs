@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
-
-using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Authority.Core
 {
