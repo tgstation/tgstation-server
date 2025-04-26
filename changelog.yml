@@ -1,5 +1,16 @@
 Components:
   Configuration:
+  - Version: 6.0.0
+    Changes:
+    - Descriptions:
+      - '**BREAKING: Added `Session:BridgePort` which is the port the game uses to talk to TGS.**'
+      - Added `HostingSpecification` objects. These have two keys `IPAddress` and `Port` which define an IP endpoint the server listens on. All `HostingSpecifcation`s can use the same port as others in TGS (excluding game servers) unless explicitly specified otherwise.
+      - '**BREAKING: Replaced `General:ApiPort` with `General:ApiEndPoints` `HostingSpecifcation` array.**'
+      - '**BREAKING: Replaced `General:PrometheusPort` with `General:MetricEndPoints` `HostingSpecifcation` array.**'
+      - '**BREAKING: Swarm configuration now requires a `Swarm:EndPoints` `HostingSpecifcation` array. The ports in these specs CANNOT overlap with any other ports in use by TGS.**'
+      Author: Cyberboss
+      PullRequest: 2212
+    Unreleased: true
   - Version: 5.7.0
     Changes:
     - Descriptions:
@@ -195,18 +206,25 @@ Components:
   Core:
   - Version: 7.0.0
     ComponentVersions:
-      Core: 7.0.0
       HttpApi: 10.13.0
       GraphQLApi: 0.6.0
-      DreamMakerApi: 7.3.1
-      Configuration: 5.7.0
-      InteropApi: 5.10.0
+      DreamMakerApi: 7.3.3
+      Configuration: 6.0.0
+      InteropApi: 5.10.1
       HostWatchdog: 1.6.0
       NugetCommon: 7.0.0
-      NugetApi: 18.0.0
-      NugetClient: 21.0.0
+      NugetApi: 19.0.0
+      NugetClient: 22.0.0
       WebControlPanel: 6.10.0
-    Changes: []
+    Changes:
+    - Descriptions:
+      - '**BREAKING: TGS now requires the ASP.NET 10 runtime.**'
+      - Health, metrics, and swarm endpoints are no longer accessible through the HTTP API unless configured otherwise.
+      - The bridge request endpoint is now exclusively only available via localhost.
+      - Removed undocumented IIS hosting support.
+      - Added configuration validation system.
+      Author: Cyberboss
+      PullRequest: 2212
     Unreleased: true
   - Version: 6.18.0
     ComponentVersions:
