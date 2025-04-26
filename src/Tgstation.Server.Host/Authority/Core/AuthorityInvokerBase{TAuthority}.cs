@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Authorization;
 
 using Tgstation.Server.Host.Security;
 
@@ -16,9 +19,9 @@ namespace Tgstation.Server.Host.Authority.Core
 		protected TAuthority Authority { get; }
 
 		/// <summary>
-		/// The <see cref="Microsoft.AspNetCore.Authorization.IAuthorizationService"/> for the <see cref="AuthorityInvokerBase{TAuthority}"/>.
+		/// The authorization service for the <see cref="AuthorityInvokerBase{TAuthority}"/>.
 		/// </summary>
-		readonly IAuthorizationService authorizationService;
+		readonly Security.IAuthorizationService authorizationService;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthorityInvokerBase{TAuthority}"/> class.
@@ -27,7 +30,7 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// <param name="authorizationService">The value of <see cref="authorizationService"/>.</param>
 		public AuthorityInvokerBase(
 			TAuthority authority,
-			IAuthorizationService authorizationService)
+			Security.IAuthorizationService authorizationService)
 		{
 			Authority = authority ?? throw new ArgumentNullException(nameof(authority));
 			this.authorizationService = authorizationService ?? throw new ArgumentNullException(nameof(authorizationService));
@@ -54,10 +57,21 @@ namespace Tgstation.Server.Host.Authority.Core
 			var requirements = await requirementsGate.GetRequirements();
 			var authorizationResult = await authorizationService.AuthorizeAsync(requirements);
 
-			if (!authorizationResult)
+			if (!authorizationResult.Succeeded)
+			{
+				OnRequirementsFailure(authorizationResult.Failure);
 				return null;
+			}
 
 			return await requirementsGate.Execute(authorizationService);
+		}
+
+		/// <summary>
+		/// Called to handle generic behavior when requirements evaluation fails.
+		/// </summary>
+		/// <param name="authFailure">The <see cref="AuthorizationFailure"/>.</param>
+		protected virtual void OnRequirementsFailure(AuthorizationFailure authFailure)
+		{
 		}
 	}
 }

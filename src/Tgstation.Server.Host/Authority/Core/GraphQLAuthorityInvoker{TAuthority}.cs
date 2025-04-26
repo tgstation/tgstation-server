@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 
 using HotChocolate;
 
+using Microsoft.AspNetCore.Authorization;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.GraphQL;
-using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Authority.Core
 {
@@ -15,28 +16,15 @@ namespace Tgstation.Server.Host.Authority.Core
 		where TAuthority : IAuthority
 	{
 		/// <summary>
-		/// Create a new <see cref="GraphQLException"/> to be thrown when a forbidden error occurs.
-		/// </summary>
-		/// <returns>A new <see cref="GraphQLException"/>.</returns>
-		static GraphQLException ForbiddenGraphQLException()
-			=> new(ErrorBuilder.New()
-				.SetMessage("The current user is not authorized to access this resource.") // Copied from graphql-platform: AuthorizeMiddleware.cs
-				.SetCode(ErrorCodes.Authentication.NotAuthorized)
-				.Build());
-
-		/// <summary>
 		/// Throws a <see cref="ErrorMessageException"/> for errored <paramref name="authorityResponse"/>s.
 		/// </summary>
 		/// <typeparam name="TAuthorityResponse">The <see cref="AuthorityResponse"/> <see cref="Type"/> being checked.</typeparam>
 		/// <param name="authorityResponse">The potentially errored <paramref name="authorityResponse"/> or <see langword="null"/> if requirements evaluation failed.</param>
 		/// <param name="errorOnMissing">If an error should be raised for <see cref="HttpFailureResponse.NotFound"/> and <see cref="HttpFailureResponse.Gone"/> failures.</param>
 		/// <returns><paramref name="authorityResponse"/> if an <see cref="ErrorMessageException"/> wasn't thrown.</returns>
-		static TAuthorityResponse ThrowGraphQLErrorIfNecessary<TAuthorityResponse>(TAuthorityResponse? authorityResponse, bool errorOnMissing)
+		static TAuthorityResponse ThrowGraphQLErrorIfNecessary<TAuthorityResponse>(TAuthorityResponse authorityResponse, bool errorOnMissing)
 			where TAuthorityResponse : AuthorityResponse
 		{
-			if (authorityResponse == null)
-				throw ForbiddenGraphQLException();
-
 			if (authorityResponse.Success
 				|| ((authorityResponse.FailureResponse.Value == HttpFailureResponse.NotFound
 				|| authorityResponse.FailureResponse.Value == HttpFailureResponse.Gone) && !errorOnMissing))
@@ -50,8 +38,8 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// Initializes a new instance of the <see cref="GraphQLAuthorityInvoker{TAuthority}"/> class.
 		/// </summary>
 		/// <param name="authority">The <typeparamref name="TAuthority"/>.</param>
-		/// <param name="authorizationService">the <see cref="IAuthorizationService"/> to use.</param>
-		public GraphQLAuthorityInvoker(TAuthority authority, IAuthorizationService authorizationService)
+		/// <param name="authorizationService">the authorization service to use.</param>
+		public GraphQLAuthorityInvoker(TAuthority authority, Security.IAuthorizationService authorizationService)
 			: base(authority, authorizationService)
 		{
 		}
@@ -74,7 +62,9 @@ namespace Tgstation.Server.Host.Authority.Core
 
 			var requirementsGate = authorityInvoker(Authority);
 			var authorityResponse = await ExecuteIfRequirementsSatisfied(requirementsGate);
-			return ThrowGraphQLErrorIfNecessary(authorityResponse, false).Result;
+			ThrowGraphQLErrorIfNecessary(authorityResponse, false);
+
+			return authorityResponse.Result;
 		}
 
 		/// <inheritdoc />
@@ -85,7 +75,8 @@ namespace Tgstation.Server.Host.Authority.Core
 
 			var requirementsGate = authorityInvoker(Authority);
 			var authorityResponse = await ExecuteIfRequirementsSatisfied(requirementsGate);
-			var result = ThrowGraphQLErrorIfNecessary(authorityResponse, false).Result;
+			ThrowGraphQLErrorIfNecessary(authorityResponse, false);
+			var result = authorityResponse.Result;
 			if (result == null)
 				return default;
 
@@ -100,8 +91,7 @@ namespace Tgstation.Server.Host.Authority.Core
 			ArgumentNullException.ThrowIfNull(authorityInvoker);
 
 			var requirementsGate = authorityInvoker(Authority);
-			var queryable = await ExecuteIfRequirementsSatisfied(requirementsGate)
-				?? throw ForbiddenGraphQLException();
+			var queryable = await ExecuteIfRequirementsSatisfied(requirementsGate);
 
 			if (preTransformer != null)
 				queryable = preTransformer(queryable);
@@ -115,11 +105,28 @@ namespace Tgstation.Server.Host.Authority.Core
 		}
 
 		/// <inheritdoc />
-		ValueTask<TApiModel> IGraphQLAuthorityInvoker<TAuthority>.Invoke<TResult, TApiModel>(Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
-			=> ((IGraphQLAuthorityInvoker<TAuthority>)this).InvokeAllowMissing<TResult, TApiModel>(authorityInvoker)!;
+		async ValueTask<TApiModel> IGraphQLAuthorityInvoker<TAuthority>.Invoke<TResult, TApiModel>(Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
+			=> await ((IGraphQLAuthorityInvoker<TAuthority>)this).InvokeAllowMissing<TResult, TApiModel>(authorityInvoker)
+				?? throw new InvalidOperationException("Authority invocation should have returned a non-nullable result!");
 
 		/// <inheritdoc />
-		ValueTask<TApiModel> IGraphQLAuthorityInvoker<TAuthority>.InvokeTransformable<TResult, TApiModel, TTransformer>(Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
-			=> ((IGraphQLAuthorityInvoker<TAuthority>)this).InvokeTransformableAllowMissing<TResult, TApiModel, TTransformer>(authorityInvoker)!;
+		async ValueTask<TApiModel> IGraphQLAuthorityInvoker<TAuthority>.InvokeTransformable<TResult, TApiModel, TTransformer>(Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
+			=> await ((IGraphQLAuthorityInvoker<TAuthority>)this).InvokeTransformableAllowMissing<TResult, TApiModel, TTransformer>(authorityInvoker)
+				?? throw new InvalidOperationException("Authority invocation should have returned a non-nullable result!");
+
+		/// <inheritdoc />
+		protected override void OnRequirementsFailure(AuthorizationFailure authFailure)
+			=> throw authFailure.ForbiddenGraphQLException();
+
+		/// <summary>
+		/// Unwrap a <see cref="RequirementsGated{TResult}"/> result, throwing a <see cref="GraphQLException"/> if they weren't met.
+		/// </summary>
+		/// <typeparam name="TResult">The <see cref="Type"/> contained by the <paramref name="requirementsGate"/>.</typeparam>
+		/// <param name="requirementsGate">The <see cref="RequirementsGated{TResult}"/> result.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <typeparamref name="TResult"/> if the requirements were met.</returns>
+		/// <exception cref="GraphQLException">Throw when requirements were not met.</exception>
+		new async ValueTask<TResult> ExecuteIfRequirementsSatisfied<TResult>(RequirementsGated<TResult> requirementsGate)
+			where TResult : class
+			=> (await base.ExecuteIfRequirementsSatisfied(requirementsGate))!; // base class throws if requirements evaluation fails
 	}
 }

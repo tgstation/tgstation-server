@@ -172,15 +172,15 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="model">The <see cref="UserUpdateRequest"/> to check.</param>
 		/// <param name="newUser">If this is a new <see cref="User"/>.</param>
 		/// <returns><see langword="null"/> if <paramref name="model"/> is valid, an <see cref="AuthorityResponse{TResult}"/> errored otherwise.</returns>
-		static AuthorityResponse<User>? CheckValidName(UserUpdateRequest model, bool newUser)
+		static AuthorityResponse<UpdatedUser>? CheckValidName(UserUpdateRequest model, bool newUser)
 		{
 			var userInvalidWithNullName = newUser && model.Name == null && model.SystemIdentifier == null;
 			if (userInvalidWithNullName || (model.Name != null && String.IsNullOrWhiteSpace(model.Name)))
-				return BadRequest<User>(ErrorCode.UserMissingName);
+				return BadRequest<UpdatedUser>(ErrorCode.UserMissingName);
 
 			model.Name = model.Name?.Trim();
 			if (model.Name != null && model.Name.Contains(':', StringComparison.InvariantCulture))
-				return BadRequest<User>(ErrorCode.UserColonInName);
+				return BadRequest<UpdatedUser>(ErrorCode.UserColonInName);
 			return null;
 		}
 
@@ -241,11 +241,11 @@ namespace Tgstation.Server.Host.Authority
 		static bool BadCreateRequestChecks(
 			UserCreateRequest createRequest,
 			bool? needZeroLengthPasswordWithOAuthConnections,
-			[NotNullWhen(true)] out AuthorityResponse<User>? failResponse)
+			[NotNullWhen(true)] out AuthorityResponse<UpdatedUser>? failResponse)
 		{
 			if (createRequest.OAuthConnections?.Any(x => x == null) == true)
 			{
-				failResponse = BadRequest<User>(ErrorCode.ModelValidationFailure);
+				failResponse = BadRequest<UpdatedUser>(ErrorCode.ModelValidationFailure);
 				return true;
 			}
 
@@ -255,7 +255,7 @@ namespace Tgstation.Server.Host.Authority
 			if ((hasNonNullPassword && hasNonNullSystemIdentifier)
 				|| (!hasNonNullPassword && !hasNonNullSystemIdentifier && !hasOAuthConnections))
 			{
-				failResponse = BadRequest<User>(ErrorCode.UserMismatchPasswordSid);
+				failResponse = BadRequest<UpdatedUser>(ErrorCode.UserMismatchPasswordSid);
 				return true;
 			}
 
@@ -269,20 +269,20 @@ namespace Tgstation.Server.Host.Authority
 
 					if (createRequest.OAuthConnections.Count == 0)
 					{
-						failResponse = BadRequest<User>(ErrorCode.ModelValidationFailure);
+						failResponse = BadRequest<UpdatedUser>(ErrorCode.ModelValidationFailure);
 						return true;
 					}
 				}
 				else if (hasZeroLengthPassword)
 				{
-					failResponse = BadRequest<User>(ErrorCode.ModelValidationFailure);
+					failResponse = BadRequest<UpdatedUser>(ErrorCode.ModelValidationFailure);
 					return true;
 				}
 			}
 
 			if (createRequest.Group != null && createRequest.PermissionSet != null)
 			{
-				failResponse = BadRequest<User>(ErrorCode.UserGroupAndPermissionSet);
+				failResponse = BadRequest<UpdatedUser>(ErrorCode.UserGroupAndPermissionSet);
 				return true;
 			}
 
@@ -292,7 +292,7 @@ namespace Tgstation.Server.Host.Authority
 
 			if (!(createRequest.Name == null ^ createRequest.SystemIdentifier == null))
 			{
-				failResponse = BadRequest<User>(ErrorCode.UserMismatchNameSid);
+				failResponse = BadRequest<UpdatedUser>(ErrorCode.UserMismatchNameSid);
 				return true;
 			}
 
@@ -369,13 +369,13 @@ namespace Tgstation.Server.Host.Authority
 				await oidcConnectionsDataLoader.LoadRequiredAsync(userId, cancellationToken)));
 
 		/// <inheritdoc />
-		public RequirementsGated<AuthorityResponse<User>> Create(
+		public RequirementsGated<AuthorityResponse<UpdatedUser>> Create(
 			UserCreateRequest createRequest,
 			bool? needZeroLengthPasswordWithOAuthConnections,
 			CancellationToken cancellationToken)
 			=> new(
 				() => Flag(AdministrationRights.WriteUsers),
-				async () =>
+				async authorizationService =>
 				{
 					ArgumentNullException.ThrowIfNull(createRequest);
 
@@ -387,27 +387,27 @@ namespace Tgstation.Server.Host.Authority
 						.AsQueryable()
 						.CountAsync(cancellationToken);
 					if (totalUsers >= generalConfigurationOptions.Value.UserLimit)
-						return Conflict<User>(ErrorCode.UserLimitReached);
+						return Conflict<UpdatedUser>(ErrorCode.UserLimitReached);
 
 					var dbUser = await CreateNewUserFromModel(
 						createRequest,
 						cancellationToken);
 					if (dbUser == null)
-						return Gone<User>();
+						return Gone<UpdatedUser>();
 
 					if (createRequest.SystemIdentifier != null)
 						try
 						{
 							using var sysIdentity = await systemIdentityFactory.CreateSystemIdentity(dbUser, cancellationToken);
 							if (sysIdentity == null)
-								return Gone<User>();
+								return Gone<UpdatedUser>();
 							dbUser.Name = sysIdentity.Username;
 							dbUser.SystemIdentifier = sysIdentity.Uid;
 						}
 						catch (NotImplementedException ex)
 						{
 							Logger.LogTrace(ex, "System identities not implemented!");
-							return new AuthorityResponse<User>(
+							return new AuthorityResponse<UpdatedUser>(
 								new ErrorMessageResponse(ErrorCode.RequiresPosixSystemIdentity),
 								HttpFailureResponse.NotImplemented);
 						}
@@ -433,30 +433,20 @@ namespace Tgstation.Server.Host.Authority
 
 					Logger.LogInformation("Created new user {name} ({id})", dbUser.Name, dbUser.Id);
 
+					var responseTask = UpdatedUserResponse(authorizationService, dbUser, HttpSuccessResponse.Created);
+
 					await SendUserUpdatedTopics(dbUser);
 
-					return new AuthorityResponse<User>(dbUser, HttpSuccessResponse.Created);
+					return await responseTask;
 				});
 
 		/// <inheritdoc />
 #pragma warning disable CA1502
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public RequirementsGated<AuthorityResponse<User>> Update(UserUpdateRequest model, CancellationToken cancellationToken)
+		public RequirementsGated<AuthorityResponse<UpdatedUser>> Update(UserUpdateRequest model, CancellationToken cancellationToken)
 #pragma warning restore CA1502
 #pragma warning restore CA1506
-		{
-			var userQuery = DatabaseContext
-				.Users
-				.AsQueryable()
-				.Where(x => x.Id == model.Id)
-				.Include(x => x.CreatedBy)
-				.Include(x => x.OAuthConnections)
-				.Include(x => x.OidcConnections)
-				.Include(x => x.Group!)
-					.ThenInclude(x => x.PermissionSet)
-				.Include(x => x.PermissionSet)
-				.FirstOrDefaultAsync(cancellationToken);
-			return new(
+			=> new(
 				() =>
 				{
 					RightsConditional<AdministrationRights>? conditional = null;
@@ -489,18 +479,30 @@ namespace Tgstation.Server.Host.Authority
 					ArgumentNullException.ThrowIfNull(model);
 
 					if (!model.Id.HasValue || model.OAuthConnections?.Any(x => x == null) == true)
-						return BadRequest<User>(ErrorCode.ModelValidationFailure);
+						return BadRequest<UpdatedUser>(ErrorCode.ModelValidationFailure);
 
 					if (model.Group != null && model.PermissionSet != null)
-						return BadRequest<User>(ErrorCode.UserGroupAndPermissionSet);
+						return BadRequest<UpdatedUser>(ErrorCode.UserGroupAndPermissionSet);
+
+					var userQuery = DatabaseContext
+						.Users
+						.AsQueryable()
+						.Where(x => x.Id == model.Id)
+						.Include(x => x.CreatedBy)
+						.Include(x => x.OAuthConnections)
+						.Include(x => x.OidcConnections)
+						.Include(x => x.Group!)
+							.ThenInclude(x => x.PermissionSet)
+						.Include(x => x.PermissionSet)
+						.FirstOrDefaultAsync(cancellationToken);
 
 					var originalUser = await userQuery;
 
 					if (originalUser == default)
-						return NotFound<User>();
+						return NotFound<UpdatedUser>();
 
 					if (originalUser.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))
-						return Forbid<User>();
+						return Forbid<UpdatedUser>();
 
 					var originalUserHasSid = originalUser.SystemIdentifier != null;
 					var invalidateSessions = false;
@@ -514,12 +516,12 @@ namespace Tgstation.Server.Host.Authority
 					}
 
 					if (model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
-						return BadRequest<User>(ErrorCode.UserSidChange);
+						return BadRequest<UpdatedUser>(ErrorCode.UserSidChange);
 
 					if (model.Password != null)
 					{
 						if (originalUserHasSid)
-							return BadRequest<User>(ErrorCode.UserMismatchPasswordSid);
+							return BadRequest<UpdatedUser>(ErrorCode.UserMismatchPasswordSid);
 
 						var result = TrySetPassword(originalUser, model.Password, false);
 						if (result != null)
@@ -529,20 +531,20 @@ namespace Tgstation.Server.Host.Authority
 					}
 
 					if (model.Name != null && User.CanonicalizeName(model.Name) != originalUser.CanonicalName)
-						return BadRequest<User>(ErrorCode.UserNameChange);
+						return BadRequest<UpdatedUser>(ErrorCode.UserNameChange);
 
 					if (model.OAuthConnections != null
 						&& (model.OAuthConnections.Count != originalUser.OAuthConnections!.Count
 						|| !model.OAuthConnections.All(x => originalUser.OAuthConnections.Any(y => y.Provider == x.Provider && y.ExternalUserId == x.ExternalUserId))))
 					{
 						if (securityConfigurationOptions.Value.OidcStrictMode)
-							return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+							return BadRequest<UpdatedUser>(ErrorCode.BadUserEditDueToOidcStrictMode);
 
 						if (originalUser.CanonicalName == User.CanonicalizeName(DefaultCredentials.AdminUserName))
-							return BadRequest<User>(ErrorCode.AdminUserCannotHaveServiceConnection);
+							return BadRequest<UpdatedUser>(ErrorCode.AdminUserCannotHaveServiceConnection);
 
 						if (model.OAuthConnections.Count == 0 && originalUser.PasswordHash == null && originalUser.SystemIdentifier == null)
-							return BadRequest<User>(ErrorCode.CannotRemoveLastAuthenticationOption);
+							return BadRequest<UpdatedUser>(ErrorCode.CannotRemoveLastAuthenticationOption);
 
 						DatabaseContext.OAuthConnections.RemoveRange(originalUser.OAuthConnections);
 						originalUser.OAuthConnections.Clear();
@@ -560,13 +562,13 @@ namespace Tgstation.Server.Host.Authority
 						|| !model.OidcConnections.All(x => originalUser.OidcConnections.Any(y => y.SchemeKey == x.SchemeKey && y.ExternalUserId == x.ExternalUserId))))
 					{
 						if (securityConfigurationOptions.Value.OidcStrictMode)
-							return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+							return BadRequest<UpdatedUser>(ErrorCode.BadUserEditDueToOidcStrictMode);
 
 						if (originalUser.CanonicalName == User.CanonicalizeName(DefaultCredentials.AdminUserName))
-							return BadRequest<User>(ErrorCode.AdminUserCannotHaveServiceConnection);
+							return BadRequest<UpdatedUser>(ErrorCode.AdminUserCannotHaveServiceConnection);
 
 						if (model.OidcConnections.Count == 0 && originalUser.PasswordHash == null && originalUser.SystemIdentifier == null)
-							return BadRequest<User>(ErrorCode.CannotRemoveLastAuthenticationOption);
+							return BadRequest<UpdatedUser>(ErrorCode.CannotRemoveLastAuthenticationOption);
 
 						DatabaseContext.OidcConnections.RemoveRange(originalUser.OidcConnections);
 						originalUser.OidcConnections.Clear();
@@ -581,7 +583,7 @@ namespace Tgstation.Server.Host.Authority
 					if (model.Group != null)
 					{
 						if (securityConfigurationOptions.Value.OidcStrictMode)
-							return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+							return BadRequest<UpdatedUser>(ErrorCode.BadUserEditDueToOidcStrictMode);
 
 						originalUser.Group = await DatabaseContext
 							.Groups
@@ -591,7 +593,7 @@ namespace Tgstation.Server.Host.Authority
 							.FirstOrDefaultAsync(cancellationToken);
 
 						if (originalUser.Group == default)
-							return Gone<User>();
+							return Gone<UpdatedUser>();
 
 						DatabaseContext.Groups.Attach(originalUser.Group);
 						if (originalUser.PermissionSet != null)
@@ -604,7 +606,7 @@ namespace Tgstation.Server.Host.Authority
 					else if (model.PermissionSet != null)
 					{
 						if (securityConfigurationOptions.Value.OidcStrictMode)
-							return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+							return BadRequest<UpdatedUser>(ErrorCode.BadUserEditDueToOidcStrictMode);
 
 						if (originalUser.PermissionSet == null)
 						{
@@ -628,7 +630,7 @@ namespace Tgstation.Server.Host.Authority
 					if (model.Enabled.HasValue)
 					{
 						if (securityConfigurationOptions.Value.OidcStrictMode)
-							return BadRequest<User>(ErrorCode.BadUserEditDueToOidcStrictMode);
+							return BadRequest<UpdatedUser>(ErrorCode.BadUserEditDueToOidcStrictMode);
 
 						invalidateSessions = originalUser.Require(x => x.Enabled) && !model.Enabled.Value;
 						originalUser.Enabled = model.Enabled.Value;
@@ -641,19 +643,42 @@ namespace Tgstation.Server.Host.Authority
 
 					Logger.LogInformation("Updated user {userName} ({userId})", originalUser.Name, originalUser.Id);
 
+					var responseTask = UpdatedUserResponse(authorizationService, originalUser, HttpSuccessResponse.Ok);
+
+					ValueTask sessionInvalidationTask;
 					if (invalidateSessions)
-						await permissionsUpdateNotifyee.UserDisabled(originalUser, cancellationToken);
+						sessionInvalidationTask = permissionsUpdateNotifyee.UserDisabled(originalUser, cancellationToken);
+					else
+						sessionInvalidationTask = ValueTask.CompletedTask;
 
-					await SendUserUpdatedTopics(originalUser);
+					await ValueTaskExtensions.WhenAll(SendUserUpdatedTopics(originalUser), sessionInvalidationTask);
 
-					// return id only if not a self update and cannot read users
-					var canReadBack = claimsPrincipalAccessor.User.GetTgsUserId() == originalUser.Id
-						|| await authorizationService.AuthorizeAsync(
-							[Flag(AdministrationRights.ReadUsers)]);
-					return canReadBack
-						? new AuthorityResponse<User>(originalUser)
-						: new AuthorityResponse<User>();
+					return await responseTask;
 				});
+
+		/// <summary>
+		/// Create the <see cref="AuthorityResponse{TResult}"/> for an <see cref="UpdatedUser"/>.
+		/// </summary>
+		/// <param name="authorizationService">The authorization service to use.</param>
+		/// <param name="user">The <see cref="User"/> for the result.</param>
+		/// <param name="successResponse">The <see cref="HttpSuccessResponse"/> to use.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="UpdatedUser"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
+		async ValueTask<AuthorityResponse<UpdatedUser>> UpdatedUserResponse(
+			Security.IAuthorizationService authorizationService,
+			User user,
+			HttpSuccessResponse successResponse)
+		{
+			// return id only if not a self update and cannot read users
+			var userId = user.Require(u => u.Id);
+			var canReadBack = claimsPrincipalAccessor.User.GetTgsUserId() == userId
+				|| (await authorizationService.AuthorizeAsync(
+					[Flag(AdministrationRights.ReadUsers)])).Succeeded;
+
+			return new AuthorityResponse<UpdatedUser>(
+				canReadBack
+					? new UpdatedUser(user)
+					: new UpdatedUser(userId),
+				successResponse);
 		}
 
 		/// <summary>
@@ -767,11 +792,11 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="newPassword">The new password.</param>
 		/// <param name="newUser">If this is for a new <see cref="UserResponse"/>.</param>
 		/// <returns><see langword="null"/> on success, an errored <see cref="AuthorityResponse{TResult}"/> if <paramref name="newPassword"/> is too short.</returns>
-		AuthorityResponse<User>? TrySetPassword(User dbUser, string newPassword, bool newUser)
+		AuthorityResponse<UpdatedUser>? TrySetPassword(User dbUser, string newPassword, bool newUser)
 		{
 			newPassword ??= String.Empty;
 			if (newPassword.Length < generalConfigurationOptions.Value.MinimumPasswordLength)
-				return new AuthorityResponse<User>(
+				return new AuthorityResponse<UpdatedUser>(
 					new ErrorMessageResponse(ErrorCode.UserPasswordLength)
 					{
 						AdditionalData = $"Required password length: {generalConfigurationOptions.Value.MinimumPasswordLength}",

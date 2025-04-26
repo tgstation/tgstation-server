@@ -23,7 +23,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// </summary>
 		/// <param name="administrationAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IAdministrationAuthority"/>.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		[Error(typeof(ErrorMessageException))]
 		public async ValueTask<Query> RestartServerNode(
 			[Service] IGraphQLAuthorityInvoker<IAdministrationAuthority> administrationAuthority)
 		{
@@ -41,7 +40,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="administrationAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IAdministrationAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		[Error(typeof(ErrorMessageException))]
 		public async ValueTask<Query> ChangeServerNodeVersionViaTrackedRepository(
 			Version targetVersion,
 			[Service] IGraphQLAuthorityInvoker<IAdministrationAuthority> administrationAuthority,
@@ -61,7 +59,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="administrationAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IAdministrationAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A FileTicket that should be used to upload a zip containing the update data to the file transfer service.</returns>
-		[Error(typeof(ErrorMessageException))]
 		[GraphQLType<FileUploadTicketType>]
 		public async ValueTask<string> ChangeServerNodeVersionViaUpload(
 			Version targetVersion,

@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Security
 		/// Attempt to authorize the current context with a given <paramref name="requirement"/>.
 		/// </summary>
 		/// <param name="requirement">The <see cref="IAuthorizationRequirement"/> to authorize.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if authorization succeeded. <see langword="false"/> otherwise.</returns>
-		ValueTask<bool> AuthorizeAsync(IEnumerable<IAuthorizationRequirement> requirement);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="AuthorizationResult"/>.</returns>
+		ValueTask<AuthorizationResult> AuthorizeAsync(IEnumerable<IAuthorizationRequirement> requirement);
 	}
 }

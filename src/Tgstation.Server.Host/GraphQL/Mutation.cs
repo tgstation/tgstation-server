@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using HotChocolate;
-using HotChocolate.Types;
 
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.GraphQL.Mutations.Payloads;
@@ -28,7 +27,6 @@ namespace Tgstation.Server.Host.GraphQL
 		/// <param name="loginAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="ILoginAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="LoginResult"/>.</returns>
-		[Error(typeof(ErrorMessageException))]
 		public ValueTask<LoginResult> Login(
 			[Service] IGraphQLAuthorityInvoker<ILoginAuthority> loginAuthority,
 			CancellationToken cancellationToken)
@@ -45,7 +43,6 @@ namespace Tgstation.Server.Host.GraphQL
 		/// <param name="loginAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="ILoginAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>An <see cref="OAuthGatewayLoginResult"/>.</returns>
-		[Error(typeof(ErrorMessageException))]
 		public ValueTask<OAuthGatewayLoginResult> OAuthGateway(
 			[Service] IGraphQLAuthorityInvoker<ILoginAuthority> loginAuthority,
 			CancellationToken cancellationToken)

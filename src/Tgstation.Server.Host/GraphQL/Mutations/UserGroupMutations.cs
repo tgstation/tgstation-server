@@ -42,7 +42,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The created <see cref="UserGroup"/>.</returns>
-		[Error(typeof(ErrorMessageException))]
 		public ValueTask<UserGroup> CreateUserGroup(
 			string name,
 			PermissionSetInput? permissionSet,
@@ -65,7 +64,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The updated <see cref="UserGroup"/>.</returns>
-		[Error(typeof(ErrorMessageException))]
 		public ValueTask<UserGroup> UpdateUserGroup(
 			[ID(nameof(UserGroup))] long id,
 			string? newName,
@@ -85,7 +83,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="Query"/> root.</returns>
-		[Error(typeof(ErrorMessageException))]
 		public async ValueTask<Query> DeleteEmptyUserGroup(
 			[ID(nameof(UserGroup))] long id,
 			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority,

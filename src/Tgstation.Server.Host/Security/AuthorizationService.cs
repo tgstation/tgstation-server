@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
 namespace Tgstation.Server.Host.Security
@@ -33,7 +34,7 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<bool> AuthorizeAsync(IEnumerable<Microsoft.AspNetCore.Authorization.IAuthorizationRequirement> requirements)
+		public async ValueTask<AuthorizationResult> AuthorizeAsync(IEnumerable<Microsoft.AspNetCore.Authorization.IAuthorizationRequirement> requirements)
 		{
 			ArgumentNullException.ThrowIfNull(requirements);
 			var result = await aspNetCoreAuthorizationService.AuthorizeAsync(
@@ -41,7 +42,7 @@ namespace Tgstation.Server.Host.Security
 				null,
 				requirements);
 
-			return result.Succeeded;
+			return result;
 		}
 	}
 }

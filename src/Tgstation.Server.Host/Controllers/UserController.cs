@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsRestAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
 		[ProducesResponseType(typeof(UserResponse), 201)]
 		public ValueTask<IActionResult> Create([FromBody] UserCreateRequest model, CancellationToken cancellationToken)
-			=> userAuthority.InvokeTransformable<User, UserResponse>(this, authority => authority.Create(model, null, cancellationToken));
+			=> userAuthority.InvokeTransformable<UpdatedUser, UserResponse>(this, authority => authority.Create(model, null, cancellationToken));
 
 		/// <summary>
 		/// Update a <see cref="User"/>.
@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public ValueTask<IActionResult> Update([FromBody] UserUpdateRequest model, CancellationToken cancellationToken)
-			=> userAuthority.InvokeTransformable<User, UserResponse>(this, authority => authority.Update(model, cancellationToken));
+			=> userAuthority.InvokeTransformable<UpdatedUser, UserResponse>(this, authority => authority.Update(model, cancellationToken));
 
 		/// <summary>
 		/// Get information about the current <see cref="User"/>.
