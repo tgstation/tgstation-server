@@ -16,7 +16,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 {
 	class JobsRequiredTest : IAsyncDisposable
 	{
-		public Task HubConnectionTask => hubConnection;
+		public Task HubConnectionTask => hubConnectionTask;
 
 		protected IJobsClient JobsClient { get; }
 
