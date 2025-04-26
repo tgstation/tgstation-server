@@ -356,7 +356,6 @@ namespace Tgstation.Server.Host.Jobs
 		{
 			ArgumentNullException.ThrowIfNull(instanceCoreProvider);
 
-			logger.LogTrace("Activating job manager...");
 			activationTcs.SetResult(instanceCoreProvider);
 		}
 

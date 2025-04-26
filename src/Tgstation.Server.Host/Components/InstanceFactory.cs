@@ -292,6 +292,7 @@ namespace Tgstation.Server.Host.Components
 				platformIdentifier,
 				fileTransferService,
 				loggerFactory.CreateLogger<StaticFiles.Configuration>(),
+				metadata,
 				generalConfiguration,
 				sessionConfiguration);
 			var eventConsumer = new EventConsumer(configuration);
