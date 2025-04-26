@@ -298,13 +298,13 @@ namespace Tgstation.Server.Tests.Live
 
 					var testUserResult2 = await client.RunMutationEnsureNoErrors(
 						gql => gql.UpdateUserOAuthConnections.ExecuteAsync(
-							testUserResult.User.Id,
+							testUserResult.UpdatedUser.Id,
 							sampleOAuthConnections,
 							cancellationToken),
 						data => data.UpdateUser,
 						cancellationToken);
 
-					var testUser = testUserResult2.User;
+					var testUser = testUserResult2.UpdatedUser.User;
 					Assert.IsNotNull(testUser.OAuthConnections);
 					Assert.AreEqual(1, testUser.OAuthConnections.Count);
 					Assert.AreEqual(sampleOAuthConnections.First().ExternalUserId, testUser.OAuthConnections[0].ExternalUserId);
@@ -451,14 +451,14 @@ namespace Tgstation.Server.Tests.Live
 						data => data.CreateUserByServiceConnectionAndPermissionSet,
 						cancellationToken);
 
-					var testUser2 = oAuthCreateResult.User;
+					var testUser2 = oAuthCreateResult.UpdatedUser;
 
 					var testUser22Result = await client.RunMutationEnsureNoErrors(
 						gql => gql.SetUserGroup.ExecuteAsync(testUser2.Id, group.Id, cancellationToken),
 						data => data.UpdateUserSetGroup,
 						cancellationToken);
 
-					var testUser22 = testUser22Result.User;
+					var testUser22 = testUser22Result.UpdatedUser.User;
 
 					Assert.IsNull(testUser22.OwnedPermissionSet);
 					Assert.IsNotNull(testUser22.Group);
@@ -509,7 +509,7 @@ namespace Tgstation.Server.Tests.Live
 						data => data.UpdateUserSetOwnedPermissionSet,
 						cancellationToken);
 
-					var testUser4 = testUser4Result.User;
+					var testUser4 = testUser4Result.UpdatedUser.User;
 					Assert.IsNull(testUser4.Group);
 					Assert.IsNotNull(testUser4.OwnedPermissionSet);
 				});
@@ -586,7 +586,7 @@ namespace Tgstation.Server.Tests.Live
 									data => data.CreateUserByPasswordAndPermissionSet,
 									cancellationToken);
 
-								ids.Add(result.User.Id);
+								ids.Add(result.UpdatedUser.Id);
 							});
 
 					tasks.Add(CreateSpamUser());

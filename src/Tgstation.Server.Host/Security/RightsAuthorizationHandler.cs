@@ -120,6 +120,9 @@ namespace Tgstation.Server.Host.Security
 
 			if (requirement.Evaluate((TRights)right))
 				context.Succeed(requirement);
+			else
+				context.Fail(
+					new AuthorizationFailureReason(this, $"Failed to successfully evaluate rights requirement: {requirement}"));
 		}
 	}
 }

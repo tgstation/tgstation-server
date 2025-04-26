@@ -1419,6 +1419,9 @@ namespace Tgstation.Server.Tests.Live
 			// main run
 			var serverTask = server.Run(cancellationToken).AsTask();
 
+			if (serverTask.IsFaulted)
+				await serverTask;
+
 			var fileDownloader = ((Host.Server)server.RealServer).Host.Services.GetRequiredService<Host.IO.IFileDownloader>();
 			var graphQLClientFactory = new GraphQLServerClientFactory(restClientFactory);
 			try

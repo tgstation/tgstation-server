@@ -127,7 +127,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Retrieve <see cref="UserGroup"/> successfully.</response>
 		/// <response code="410">The requested <see cref="UserGroup"/> does not currently exist.</response>
 		[HttpGet("{id}")]
-		[TgsRestAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.GetId))]
 		[ProducesResponseType(typeof(UserGroupResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
@@ -142,7 +141,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="UserGroup"/>s successfully.</response>
 		[HttpGet(Routes.List)]
-		[TgsRestAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.Queryable))]
 		[ProducesResponseType(typeof(PaginatedResponse<UserGroupResponse>), 200)]
 		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<UserGroup, UserGroupResponse>(

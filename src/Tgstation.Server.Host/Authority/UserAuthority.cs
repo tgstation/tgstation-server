@@ -369,10 +369,12 @@ namespace Tgstation.Server.Host.Authority
 				await oidcConnectionsDataLoader.LoadRequiredAsync(userId, cancellationToken)));
 
 		/// <inheritdoc />
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public RequirementsGated<AuthorityResponse<UpdatedUser>> Create(
 			UserCreateRequest createRequest,
 			bool? needZeroLengthPasswordWithOAuthConnections,
 			CancellationToken cancellationToken)
+#pragma warning restore CA1506
 			=> new(
 				() => Flag(AdministrationRights.WriteUsers),
 				async authorizationService =>

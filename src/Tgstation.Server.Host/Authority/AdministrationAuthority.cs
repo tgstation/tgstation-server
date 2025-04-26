@@ -13,7 +13,6 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils.GitHub;
 
@@ -60,7 +59,6 @@ namespace Tgstation.Server.Host.Authority
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AdministrationAuthority"/> class.
 		/// </summary>
-		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> to use.</param>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to use.</param>
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
 		/// <param name="gitHubServiceFactory">The value of <see cref="gitHubServiceFactory"/>.</param>
@@ -69,7 +67,6 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="cacheService">The value of <see cref="cacheService"/>.</param>
 		public AdministrationAuthority(
-			IAuthenticationContext authenticationContext,
 			IDatabaseContext databaseContext,
 			ILogger<UserAuthority> logger,
 			IGitHubServiceFactory gitHubServiceFactory,
@@ -78,7 +75,6 @@ namespace Tgstation.Server.Host.Authority
 			IFileTransferTicketProvider fileTransferService,
 			IMemoryCache cacheService)
 			: base(
-				  authenticationContext,
 				  databaseContext,
 				  logger)
 		{

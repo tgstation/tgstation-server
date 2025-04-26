@@ -796,6 +796,9 @@ namespace Tgstation.Server.Host.Core
 			services.AddScoped<AuthenticationContextFactory>();
 			services.AddScoped<ITokenValidator>(provider => provider.GetRequiredService<AuthenticationContextFactory>());
 
+			services.AddScoped<IClaimsPrincipalAccessor, ClaimsPrincipalAccessor>();
+			services.AddScoped<Security.IAuthorizationService, AuthorizationService>();
+
 			var genericRightsAuthHandler = typeof(RightsAuthorizationHandler<>);
 			foreach (var rightType in RightsHelper.AllRightTypes())
 				services.AddScoped(typeof(IAuthorizationHandler), genericRightsAuthHandler.MakeGenericType(rightType));

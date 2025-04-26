@@ -1,5 +1,7 @@
 ﻿using System;
 
+using HotChocolate.Types.Relay;
+
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Models.Transformers;
 
@@ -13,6 +15,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// The <see cref="User"/>'s <see cref="Entity.Id"/>.
 		/// </summary>
+		[ID(nameof(Types.User))]
 		public long Id { get; }
 
 		/// <summary>

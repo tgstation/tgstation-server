@@ -38,6 +38,6 @@ namespace Tgstation.Server.Host.Security.RightsEvaluation
 
 		/// <inheritdoc />
 		public override string ToString()
-			=> flag.ToString();
+			=> $"{typeof(TRights).Name}.{flag}";
 	}
 }
