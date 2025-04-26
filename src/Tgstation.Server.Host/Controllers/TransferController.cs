@@ -22,7 +22,6 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="ApiController"/> for file streaming.
 	/// </summary>
 	[Route(Routes.Transfer)]
-	[RequestSizeLimit(Limits.MaximumFileTransferSize)]
 	public sealed class TransferController : ApiController
 	{
 		/// <summary>
@@ -49,7 +48,7 @@ namespace Tgstation.Server.Host.Controllers
 				  authenticationContext,
 				  apiHeaders,
 				  logger,
-				  true)
+				  false)
 		{
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 		}

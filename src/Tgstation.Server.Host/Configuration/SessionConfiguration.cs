@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Configuration options for the game sessions.
 	/// </summary>
-	sealed class SessionConfiguration
+	public sealed class SessionConfiguration
 	{
 		/// <summary>
 		/// The key for the <see cref="Microsoft.Extensions.Configuration.IConfigurationSection"/> the <see cref="SessionConfiguration"/> resides in.
@@ -34,5 +34,10 @@
 		/// If set dd.exe will not be used on Windows systems in versions where it is present. Instead dreamdaemon.exe will always be used.
 		/// </summary>
 		public bool ForceUseDreamDaemonExe { get; set; }
+
+		/// <summary>
+		/// The IPv4 localhost port that game server access the interop API on.
+		/// </summary>
+		public ushort BridgePort { get; set; }
 	}
 }

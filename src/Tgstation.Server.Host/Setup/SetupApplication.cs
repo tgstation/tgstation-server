@@ -3,9 +3,12 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+
 using Serilog.Events;
 
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Configuration.Validators;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -56,12 +59,14 @@ namespace Tgstation.Server.Host.Setup
 			services.AddSingleton<IAsyncDelayer, AsyncDelayer>();
 
 			// these configs are what's injected into PostSetupServices
-			services.UseStandardConfig<GeneralConfiguration>(Configuration);
+			UseValidatedConfig<GeneralConfiguration, GeneralConfigValidator>(services);
 			services.UseStandardConfig<DatabaseConfiguration>(Configuration);
 			services.UseStandardConfig<SecurityConfiguration>(Configuration);
 			services.UseStandardConfig<FileLoggingConfiguration>(Configuration);
 			services.UseStandardConfig<ElasticsearchConfiguration>(Configuration);
 			services.UseStandardConfig<InternalConfiguration>(Configuration);
+			UseValidatedConfig<SwarmConfiguration, SwarmConfigValidator>(services);
+			UseValidatedConfig<SessionConfiguration, SessionConfigValidator>(services);
 
 			ConfigureHostedService(services);
 		}
@@ -75,5 +80,16 @@ namespace Tgstation.Server.Host.Setup
 			services.AddSingleton<IPostSetupServices, PostSetupServices>();
 			services.AddSingleton<IHostedService, SetupWizard>();
 		}
+
+		/// <summary>
+		/// Configures the <see cref="IHostedService"/>.
+		/// </summary>
+		/// <typeparam name="TConfig">The <see langword="class"/> to bind. Must have a <see langword="public"/> const/static <see cref="string"/> field named "Section".</typeparam>
+		/// <typeparam name="TValidator">The <see cref="IValidateOptions{TOptions}"/> <see cref="Type"/> for <typeparamref name="TConfig"/>s.</typeparam>
+		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
+		protected virtual void UseValidatedConfig<TConfig, TValidator>(IServiceCollection services)
+			where TConfig : class
+			where TValidator : class, IValidateOptions<TConfig>
+			=> services.UseStandardConfig<TConfig>(Configuration); // don't enable config validation during setup
 	}
 }

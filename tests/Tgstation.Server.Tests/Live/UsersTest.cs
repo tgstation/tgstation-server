@@ -1,15 +1,13 @@
-﻿using Elastic.CommonSchema;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using StrawberryShake;
-
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using StrawberryShake;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -32,7 +30,7 @@ namespace Tgstation.Server.Tests.Live
 			this.serverClient = serverClient ?? throw new ArgumentNullException(nameof(serverClient));
 		}
 
-		public async ValueTask Run(CancellationToken cancellationToken)
+		public async ValueTask Run(CancellationToken cancellationToken, Task additionalUserCreationTask)
 		{
 			var observer = new HoldLastObserver<IOperationResult<ISubscribeUsersResult>>();
 			using var subscription = await serverClient.Subscribe(
@@ -45,6 +43,8 @@ namespace Tgstation.Server.Tests.Live
 			await ValueTaskExtensions.WhenAll(
 				TestCreateSysUser(cancellationToken),
 				TestSpamCreation(cancellationToken));
+
+			await additionalUserCreationTask;
 
 			await TestPagination(cancellationToken);
 
@@ -518,7 +518,7 @@ namespace Tgstation.Server.Tests.Live
 		ValueTask TestCreateSysUser(CancellationToken cancellationToken)
 		{
 			var sysId = Environment.UserName;
-
+			Console.WriteLine($"TEST: Attempting to create system user: {sysId}");
 			return serverClient.Execute(
 				async restClient =>
 				{
@@ -535,10 +535,17 @@ namespace Tgstation.Server.Tests.Live
 				{
 					if (new PlatformIdentifier().IsWindows)
 					{
-						await graphQLClient.RunMutationEnsureNoErrors(
+						var user = await graphQLClient.RunMutationEnsureNoErrors(
 							gql => gql.CreateSystemUserWithPermissionSet.ExecuteAsync(sysId, cancellationToken),
 							data => data.CreateUserBySystemIDAndPermissionSet,
 							cancellationToken);
+
+						Assert.IsNotNull(user);
+						Assert.IsNotNull(user.User);
+						Assert.IsNotNull(user.User.Id);
+						Assert.IsNotNull(user.User.Name);
+						Assert.AreEqual(sysId, user.User.Name);
+						Console.WriteLine($"TEST: Created system user: {sysId}");
 					}
 					else
 						await ApiAssert.OperationFails(
@@ -604,7 +611,10 @@ namespace Tgstation.Server.Tests.Live
 
 		ValueTask TestPagination(CancellationToken cancellationToken)
 		{
-			var expectedCount = new PlatformIdentifier().IsWindows ? 106 : 105; // system user
+			var expectedCount = 105;
+			if (new PlatformIdentifier().IsWindows)
+				++expectedCount; // system user
+
 			return serverClient.Execute(
 				async restClient =>
 				{
@@ -669,22 +679,28 @@ namespace Tgstation.Server.Tests.Live
 
 						var exactMatch = (expectedCount % outputPageSize) == 0;
 						var expectedIterations = (expectedCount / outputPageSize) + (exactMatch ? 0 : 1);
+
+						List<string> totalNames = new List<string>();
+
+						string AssertErrorMessage() => $"Failed with input page size {inputPageSize?.ToString() ?? "(NULL)"}.{Environment.NewLine}Actual: {String.Join(", ", totalNames.OrderBy(name => name))}";
 						for (int i = 0; i < expectedIterations; ++i)
 						{
 							var isLastIteration = i == expectedIterations - 1;
 							var queryable = (await graphQLClient.RunQueryEnsureNoErrors(
-								gql => gql.PageUserIds.ExecuteAsync(inputPageSize, cursor, cancellationToken),
+								gql => gql.PageUserNames.ExecuteAsync(inputPageSize, cursor, cancellationToken),
 								cancellationToken))
 								.Swarm
 								.Users
 								.QueryableUsers;
 
+							totalNames.AddRange(queryable.Nodes.Select(user => user.Name));
+
 							if (!isLastIteration || exactMatch)
-								Assert.AreEqual(outputPageSize, queryable.Nodes.Count);
+								Assert.AreEqual(outputPageSize, queryable.Nodes.Count, AssertErrorMessage());
 							else
-								Assert.AreEqual(expectedCount % outputPageSize, queryable.Nodes.Count);
-							Assert.AreEqual(!isLastIteration, queryable.PageInfo.HasNextPage);
-							Assert.IsNotNull(queryable.PageInfo.EndCursor);
+								Assert.AreEqual(expectedCount % outputPageSize, queryable.Nodes.Count, AssertErrorMessage());
+							Assert.AreEqual(!isLastIteration, queryable.PageInfo.HasNextPage, AssertErrorMessage());
+							Assert.IsNotNull(queryable.PageInfo.EndCursor, AssertErrorMessage());
 
 							cursor = queryable.PageInfo.EndCursor;
 						}
@@ -693,7 +709,7 @@ namespace Tgstation.Server.Tests.Live
 					async ValueTask TestBadPageSize(int size)
 					{
 						var result = await graphQLClient.RunOperation(
-							gql => gql.PageUserIds.ExecuteAsync(size, null, cancellationToken),
+							gql => gql.PageUserNames.ExecuteAsync(size, null, cancellationToken),
 							cancellationToken);
 
 						if (size == 0)

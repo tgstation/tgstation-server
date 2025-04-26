@@ -229,6 +229,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await using var jrt = new JobsRequiredTest(instanceClient.Jobs);
 
+			await jrt.HubConnectionTask;
+
 			EngineInstallResponse installJob2;
 			await using (var stableBytesMs = await TestingUtils.ExtractMemoryStreamFromInstallationData(
 				await DownloadEngineVersion(compatVersion, fileDownloader, openDreamUrl, cancellationToken),

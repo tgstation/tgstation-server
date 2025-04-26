@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Components.Interop
 		public const string ParamApiVersion = "server_service_version";
 
 		/// <summary>
-		/// Identifies the <see cref="Core.IServerPortProvider.HttpApiPort"/> of the server.
+		/// Identifies the bridge port of the server.
 		/// </summary>
 		public const string ParamServerPort = "tgs_port";
 

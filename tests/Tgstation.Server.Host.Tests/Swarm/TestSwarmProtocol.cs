@@ -2,19 +2,16 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
-
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Transfer;
 
 namespace Tgstation.Server.Host.Swarm.Tests
 {
@@ -27,8 +24,8 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		static ISeekableFileStreamProvider updateFileStreamProvider;
 
-		[ClassInitialize]
-		public static async Task Initialize(TestContext _)
+		[TestInitialize]
+		public async Task Initialize()
 		{
 			loggerFactory = LoggerFactory.Create(builder =>
 			{
@@ -44,8 +41,8 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			await updateFileStreamProvider.GetResult(default);
 		}
 
-		[ClassCleanup]
-		public static async Task Shutdown()
+		[TestCleanup]
+		public async Task Shutdown()
 		{
 			usedPorts.Clear();
 			loggerFactory.Dispose();
@@ -59,9 +56,6 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			await using var node = GenNode(controller);
 
 			TestableSwarmNode.Link(controller, node);
-
-			controller.RpcMapper.AsyncRequests = false;
-			node.RpcMapper.AsyncRequests = false;
 
 			var controllerInit = controller.TryInit();
 			Assert.IsTrue(controllerInit.IsCompleted);
@@ -100,15 +94,24 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			Assert.AreEqual(SwarmRegistrationResult.Success, await controller.TryInit());
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node2.TryInit());
 
+			logger.LogTrace("Marker 1");
+
 			await DelayMax(() =>
 			{
 				Assert.AreEqual(2, controller.Service.GetSwarmServers().Count);
 				Assert.AreEqual(2, node2.Service.GetSwarmServers().Count);
 			}, 5);
 
+			logger.LogTrace("Marker 2");
+
 			Assert.AreEqual(SwarmPrepareResult.Failure, await controller.Service.PrepareUpdate(updateFileStreamProvider, new Version(4, 3, 2), default));
 
+
+			logger.LogTrace("Marker 3");
+
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node1.TryInit());
+
+			logger.LogTrace("Marker 4");
 
 			await DelayMax(() =>
 			{
@@ -129,9 +132,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			TestableSwarmNode.Link(controller, node1);
 			Assert.AreEqual(SwarmRegistrationResult.Success, await controller.TryInit());
 
-			node1.RpcMapper.AsyncRequests = false;
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node1.TryInit());
-			node1.RpcMapper.AsyncRequests = true;
 
 			Assert.AreEqual(2, controller.Service.GetSwarmServers().Count);
 			Assert.AreEqual(1, node1.Service.GetSwarmServers().Count);
@@ -148,16 +149,16 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			{
 				Assert.AreEqual(2, controller.Service.GetSwarmServers().Count);
 				Assert.AreEqual(2, node1.Service.GetSwarmServers().Count);
-			});
+			}, 5);
 
 			await node1.SimulateReboot(default);
 			// health check timeout
-			await DelayMax(() => Assert.AreEqual(1, controller.Service.GetSwarmServers().Count));
+			await DelayMax(() => Assert.AreEqual(1, controller.Service.GetSwarmServers().Count), 5);
 
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node1.TryInit());
 
-			Assert.AreEqual(2, controller.Service.GetSwarmServers().Count);
-			await DelayMax(() => Assert.AreEqual(2, node1.Service.GetSwarmServers().Count));
+			Assert.AreEqual(2, controller.Service.GetSwarmServers().Count, "thing 1");
+			await DelayMax(() => Assert.AreEqual(2, node1.Service.GetSwarmServers().Count), 5);
 		}
 
 		[TestMethod]
@@ -274,7 +275,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			ushort randPort;
 			do
 			{
-				randPort = (ushort)(Random.Shared.Next() % UInt16.MaxValue);
+				randPort = usedPorts.LastOrDefault() == 0 ? (ushort)16129U: (ushort)(usedPorts.Last() + 1);
 			}
 			while (randPort == 0 || !usedPorts.Add(randPort));
 

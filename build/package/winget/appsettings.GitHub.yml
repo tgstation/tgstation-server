@@ -4,7 +4,8 @@ Database:
   ConnectionString: Data Source=/tgs.sqlite3;Mode=ReadWriteCreate
 General:
   ConfigVersion: 4.6.0
-  ApiPort: 5000
+  ApiEndPoints:
+    - Port: 5000
   GitHubAccessToken:
   SetupWizardMode: Never
   ByondTopicTimeout: 5000
@@ -19,6 +20,8 @@ General:
   UserLimit: 100
   UserGroupLimit: 25
   ValidInstancePaths:
+Session:
+  BridgePort: 5000
 FileLogging:
   Directory:
   Disable: false

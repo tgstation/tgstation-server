@@ -509,12 +509,19 @@ namespace Tgstation.Server.Tests.Live
 
 			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
 
-			var controllerAddress = new Uri("http://localhost:15011");
+			var controllerAddress = new Uri("http://localhost:15111");
 			using (var controller = new LiveTestingServer(new SwarmConfiguration
 			{
 				Address = controllerAddress,
 				Identifier = "controller",
-				PrivateKey = PrivateKey
+				PrivateKey = PrivateKey,
+				EndPoints = new List<HostingSpecification>
+				{
+					new HostingSpecification
+					{
+						Port = 15111,
+					}
+				}
 			}, false, 15011))
 			{
 				using var serverCts = new CancellationTokenSource();
@@ -534,7 +541,7 @@ namespace Tgstation.Server.Tests.Live
 						Assert.AreEqual(1, serverInformation.SwarmServers.Count);
 						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
 						Assert.IsNotNull(controller);
-						Assert.AreEqual(controller.Address, new Uri("http://localhost:15011"));
+						Assert.AreEqual(controller.Address, new Uri("http://localhost:15111"));
 						Assert.IsTrue(controller.Controller);
 					}
 
@@ -602,27 +609,48 @@ namespace Tgstation.Server.Tests.Live
 			new LiveTestingServer(null, false).Dispose();
 			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
 
-			var controllerAddress = new Uri("http://localhost:15011");
+			var controllerAddress = new Uri("http://localhost:15111");
 			using (var controller = new LiveTestingServer(new SwarmConfiguration
 			{
 				Address = controllerAddress,
 				Identifier = "controller",
-				PrivateKey = PrivateKey
+				PrivateKey = PrivateKey,
+				EndPoints = new List<HostingSpecification>
+				{
+					new HostingSpecification
+					{
+						Port = 15111,
+					}
+				}
 			}, false, 15011))
 			{
 				using var node1 = new LiveTestingServer(new SwarmConfiguration
 				{
-					Address = new Uri("http://localhost:15012"),
+					Address = new Uri("http://localhost:15112"),
 					ControllerAddress = controllerAddress,
 					Identifier = "node1",
-					PrivateKey = PrivateKey
+					PrivateKey = PrivateKey,
+					EndPoints = new List<HostingSpecification>
+				{
+					new HostingSpecification
+					{
+						Port = 15112,
+					}
+				}
 				}, false, 15012);
 				using var node2 = new LiveTestingServer(new SwarmConfiguration
 				{
-					Address = new Uri("http://localhost:15013"),
+					Address = new Uri("http://localhost:15113"),
 					ControllerAddress = controllerAddress,
 					Identifier = "node2",
-					PrivateKey = PrivateKey
+					PrivateKey = PrivateKey,
+					EndPoints = new List<HostingSpecification>
+				{
+					new HostingSpecification
+					{
+						Port = 15113,
+					}
+				}
 				}, false, 15013);
 				using var serverCts = new CancellationTokenSource();
 				var cancellationToken = serverCts.Token;
@@ -657,17 +685,17 @@ namespace Tgstation.Server.Tests.Live
 
 						var node1 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node1");
 						Assert.IsNotNull(node1);
-						Assert.AreEqual(node1.Address, new Uri("http://localhost:15012"));
+						Assert.AreEqual(node1.Address, new Uri("http://localhost:15112"));
 						Assert.IsFalse(node1.Controller);
 
 						var node2 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node2");
 						Assert.IsNotNull(node2);
-						Assert.AreEqual(node2.Address, new Uri("http://localhost:15013"));
+						Assert.AreEqual(node2.Address, new Uri("http://localhost:15113"));
 						Assert.IsFalse(node2.Controller);
 
 						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
 						Assert.IsNotNull(controller);
-						Assert.AreEqual(controller.Address, new Uri("http://localhost:15011"));
+						Assert.AreEqual(controller.Address, new Uri("http://localhost:15111"));
 						Assert.IsTrue(controller.Controller);
 					}
 
@@ -700,7 +728,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(newUser.Enabled, node1User.Enabled);
 
 					await using var controllerUserClient = await restClientFactory.CreateFromLogin(
-						controllerAddress,
+						controller.ApiUrl,
 						newUser.Name,
 						"asdfasdfasdfasdf");
 
@@ -774,6 +802,13 @@ namespace Tgstation.Server.Tests.Live
 						Identifier = "controller",
 						PrivateKey = PrivateKey,
 						UpdateRequiredNodeCount = 2,
+						EndPoints = new List<HostingSpecification>
+						{
+							new HostingSpecification
+							{
+								Port = 15111,
+							}
+						}
 					});
 					serverTask = Task.WhenAll(
 						controller.Run(cancellationToken).AsTask(),
@@ -880,7 +915,7 @@ namespace Tgstation.Server.Tests.Live
 
 			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
 
-			var controllerAddress = new Uri("http://localhost:15011");
+			var controllerAddress = new Uri("http://localhost:15111");
 			using (var controller = new LiveTestingServer(new SwarmConfiguration
 			{
 				Address = controllerAddress,
@@ -888,22 +923,43 @@ namespace Tgstation.Server.Tests.Live
 				PublicAddress = new Uri("http://fakecontroller.com"),
 				PrivateKey = PrivateKey,
 				UpdateRequiredNodeCount = 2,
+				EndPoints = new List<HostingSpecification>
+				{
+					new HostingSpecification
+					{
+						Port = 15111,
+					}
+				}
 			}, false, 15011))
 			{
 				using var node1 = new LiveTestingServer(new SwarmConfiguration
 				{
-					Address = new Uri("http://localhost:15012"),
+					Address = new Uri("http://localhost:15112"),
 					ControllerAddress = controllerAddress,
 					PublicAddress = new Uri("http://fakenode1.com"),
 					Identifier = "node1",
-					PrivateKey = PrivateKey
+					PrivateKey = PrivateKey,
+					EndPoints = new List<HostingSpecification>
+					{
+						new HostingSpecification
+						{
+							Port = 15112,
+						}
+					}
 				}, false, 15012);
 				using var node2 = new LiveTestingServer(new SwarmConfiguration
 				{
-					Address = new Uri("http://localhost:15013"),
+					Address = new Uri("http://localhost:15113"),
 					ControllerAddress = controllerAddress,
 					Identifier = "node2",
-					PrivateKey = PrivateKey
+					PrivateKey = PrivateKey,
+					EndPoints = new List<HostingSpecification>
+					{
+						new HostingSpecification
+						{
+							Port = 15113,
+						}
+					}
 				}, false, 15013);
 				using var serverCts = new CancellationTokenSource();
 
@@ -942,19 +998,19 @@ namespace Tgstation.Server.Tests.Live
 
 						var node1 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node1");
 						Assert.IsNotNull(node1);
-						Assert.AreEqual(node1.Address, new Uri("http://localhost:15012"));
+						Assert.AreEqual(node1.Address, new Uri("http://localhost:15112"));
 						Assert.IsFalse(node1.Controller);
 						Assert.AreEqual(node1.PublicAddress, new Uri("http://fakenode1.com"));
 
 						var node2 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node2");
 						Assert.IsNotNull(node2);
-						Assert.AreEqual(node2.Address, new Uri("http://localhost:15013"));
+						Assert.AreEqual(node2.Address, new Uri("http://localhost:15113"));
 						Assert.IsFalse(node2.Controller);
 						Assert.IsNull(node2.PublicAddress);
 
 						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
 						Assert.IsNotNull(controller);
-						Assert.AreEqual(controller.Address, new Uri("http://localhost:15011"));
+						Assert.AreEqual(controller.Address, new Uri("http://localhost:15111"));
 						Assert.IsTrue(controller.Controller);
 						Assert.AreEqual(controller.PublicAddress, new Uri("http://fakecontroller.com"));
 					}
@@ -1132,6 +1188,9 @@ namespace Tgstation.Server.Tests.Live
 				var ioManager = new Host.IO.DefaultIOManager();
 				var repoPath = ioManager.ConcatPath(instance.Path, "Repository");
 				await using var jobsTest = new JobsRequiredTest(instanceClient.Jobs);
+
+				await jobsTest.HubConnectionTask;
+
 				var postWriteHandler = (Host.IO.IPostWriteHandler)(new PlatformIdentifier().IsWindows
 					? new Host.IO.WindowsPostWriteHandler()
 					: new Host.IO.PosixPostWriteHandler(loggerFactory.CreateLogger<Host.IO.PosixPostWriteHandler>()));
@@ -1543,9 +1602,9 @@ namespace Tgstation.Server.Tests.Live
 								cancellationToken);
 
 						jobsHubTestTask = FailFast(await jobsHubTest.Run(cancellationToken)); // returns Task<Task>
-						var rootTest = FailFast(RawRequestTests.Run(restClientFactory, firstAdminRestClient, cancellationToken));
+						var rootTest = FailFast(RawRequestTests.Run(restClientFactory, firstAdminRestClient, cancellationToken, out var signalRTestTask));
 						var adminTest = FailFast(new AdministrationTest(firstAdminMultiClient).Run(cancellationToken));
-						var usersTest = FailFast(new UsersTest(firstAdminMultiClient).Run(cancellationToken).AsTask());
+						var usersTest = FailFast(new UsersTest(firstAdminMultiClient).Run(cancellationToken, signalRTestTask).AsTask());
 
 						var instanceManagerTest = new InstanceManagerTest(firstAdminRestClient, server.Directory);
 						var compatInstanceTask = instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);
@@ -1751,7 +1810,7 @@ namespace Tgstation.Server.Tests.Live
 					}
 					catch (SocketException ex)
 					{
-						Assert.AreEqual(SocketError.AddressAlreadyInUse, ex.SocketErrorCode);
+						Assert.AreEqual(SocketError.AccessDenied, ex.SocketErrorCode);
 					}
 					finally
 					{
@@ -1787,6 +1846,9 @@ namespace Tgstation.Server.Tests.Live
 					}
 
 					await using var jrt = new JobsRequiredTest(instanceClient.Jobs);
+
+					await jrt.HubConnectionTask;
+
 					foreach (var job in jobs)
 					{
 						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
@@ -1864,6 +1926,9 @@ namespace Tgstation.Server.Tests.Live
 						jobs = jobs.Where(x => x.JobCode.Value.IsServerStartupJob()).ToList();
 
 					await using var jrt = new JobsRequiredTest(instanceClient.Jobs);
+
+					await jrt.HubConnectionTask;
+
 					foreach (var job in jobs)
 					{
 						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);

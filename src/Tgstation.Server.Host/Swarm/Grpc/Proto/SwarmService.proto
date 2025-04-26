@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+
+package Tgstation.Server.Host.Swarm.Grpc;
+
+service GrpcSwarmControllerService {
+	rpc RegisterNode(RegisterNodeRequest) returns (RegisterNodeResponse);
+}
+
+service GrpcSwarmNodeService {
+	rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse);
+	rpc UpdateNodeList(UpdateNodeListRequest) returns (UpdateNodeListResponse);
+}
+
+service GrpcSwarmSharedService {
+	rpc PrepareUpdate(PrepareUpdateRequest) returns (PrepareUpdateResponse);
+	rpc CommitUpdate(CommitUpdateRequest) returns (CommitUpdateResponse);
+	rpc AbortUpdate(AbortUpdateRequest) returns (AbortUpdateResponse);
+	rpc UnregisterNode(UnregisterNodeRequest) returns (UnregisterNodeResponse);
+}
+
+message SwarmRegistration {
+	string id = 1;
+}
+
+message SwarmServer {
+	string address = 1;
+	google.protobuf.StringValue publicAddress = 2;
+	string identifier = 3;
+}
+
+message GrpcVersion {
+	int32 major = 1;
+	int32 minor = 2;
+	int32 patch = 3;
+}
+
+message RegisterNodeRequest {
+	SwarmServer registeringNode = 1;
+	GrpcVersion swarmProtocolVersion = 2;
+}
+
+message RegisterNodeResponse {
+	SwarmRegistration registration = 1;
+	bytes tokenSigningKey = 2;
+}
+
+message UnregisterNodeRequest {
+	SwarmRegistration registration = 1;
+}
+
+message UnregisterNodeResponse {
+}
+
+message NodeInformation {
+	SwarmServer swarmServer = 1;
+	bool controller = 2;
+}
+
+message UpdateNodeListRequest {
+	SwarmRegistration registration = 1;
+	repeated NodeInformation nodeList = 2;
+}
+
+message UpdateNodeListResponse {
+	bool registrationAccepted = 1;
+}
+
+message DownloadTicket {
+	string fileTicket = 1;
+}
+
+message PrepareUpdateRequest {
+	SwarmRegistration registration = 1;
+	GrpcVersion updateVersion = 2;
+	string sourceNodeIdentifier = 3;
+	map<string, DownloadTicket> downloadTicketsByNodeIdentifier = 4;
+}
+
+message PrepareUpdateResponse {
+}
+
+message CommitUpdateRequest {
+	SwarmRegistration registration = 1;
+}
+
+message CommitUpdateResponse {
+}
+
+message AbortUpdateRequest {
+	SwarmRegistration registration = 1;
+}
+
+message AbortUpdateResponse {
+}
+
+message HealthCheckRequest {
+	SwarmRegistration registration = 1;
+}
+
+message HealthCheckResponse {
+}

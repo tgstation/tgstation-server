@@ -26,4 +26,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Host.Service.Wix.Extensions\Tgstation.Server.Host.Service.Wix.Extensions.csproj" />
   </ItemGroup>
+  <Target Name="CollectSuggestedVisualStudioComponentIds" />
 </Project>

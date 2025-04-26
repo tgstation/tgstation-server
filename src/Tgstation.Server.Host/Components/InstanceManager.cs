@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,12 +33,14 @@ using Tgstation.Server.Host.Utils;
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc cref="IInstanceManager" />
+#pragma warning disable CA1506 // TODO: Decomplexify
 	sealed class InstanceManager :
 		IInstanceManager,
 		IInstanceCoreProvider,
 		IHostedService,
 		IBridgeRegistrar,
 		IAsyncDisposable
+#pragma warning restore CA1506
 	{
 		/// <inheritdoc />
 		public Task Ready => readyTcs.Task;
@@ -81,11 +84,6 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IAsyncDelayer"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly IAsyncDelayer asyncDelayer;
-
-		/// <summary>
-		/// The <see cref="IServerPortProvider"/> for the <see cref="InstanceManager"/>.
-		/// </summary>
-		readonly IServerPortProvider serverPortProvider;
 
 		/// <summary>
 		/// The <see cref="ISwarmServiceController"/> for the <see cref="InstanceManager"/>.
@@ -138,6 +136,11 @@ namespace Tgstation.Server.Host.Components
 		readonly InternalConfiguration internalConfiguration;
 
 		/// <summary>
+		/// The <see cref="SessionConfiguration"/> for the <see cref="InstanceManager"/>.
+		/// </summary>
+		readonly SessionConfiguration sessionConfiguration;
+
+		/// <summary>
 		/// The <see cref="TaskCompletionSource"/> for <see cref="Ready"/>.
 		/// </summary>
 		readonly TaskCompletionSource readyTcs;
@@ -183,7 +186,6 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
-		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="swarmServiceController">The value of <see cref="swarmServiceController"/>.</param>
 		/// <param name="console">The value of <see cref="console"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
@@ -192,6 +194,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="internalConfiguration"/>.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public InstanceManager(
 			IInstanceFactory instanceFactory,
@@ -202,7 +205,6 @@ namespace Tgstation.Server.Host.Components
 			IServerControl serverControl,
 			ISystemIdentityFactory systemIdentityFactory,
 			IAsyncDelayer asyncDelayer,
-			IServerPortProvider serverPortProvider,
 			ISwarmServiceController swarmServiceController,
 			IConsole console,
 			IPlatformIdentifier platformIdentifier,
@@ -211,6 +213,7 @@ namespace Tgstation.Server.Host.Components
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			IOptions<InternalConfiguration> internalConfigurationOptions,
+			IOptions<SessionConfiguration> sessionConfigurationOptions,
 			ILogger<InstanceManager> logger)
 		{
 			this.instanceFactory = instanceFactory ?? throw new ArgumentNullException(nameof(instanceFactory));
@@ -221,7 +224,6 @@ namespace Tgstation.Server.Host.Components
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
-			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.swarmServiceController = swarmServiceController ?? throw new ArgumentNullException(nameof(swarmServiceController));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
@@ -230,6 +232,7 @@ namespace Tgstation.Server.Host.Components
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
+			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			originalConsoleTitle = console.Title;
@@ -715,9 +718,12 @@ namespace Tgstation.Server.Host.Components
 				}
 			}
 
-			// This runs before the real socket is opened, ensures we don't perform reattaches unless we're fairly certain the bind won't fail
+			// This runs before the real sockets are opened, ensures we don't perform reattaches unless we're fairly certain the bind won't fail
 			// If it does fail, DD will be killed.
-			SocketExtensions.BindTest(platformIdentifier, serverPortProvider.HttpApiPort, true, false);
+			SocketExtensions.BindTest(platformIdentifier, new IPEndPoint(IPAddress.Loopback, sessionConfiguration.BridgePort), false);
+			var allHostingSpecs = generalConfiguration.ApiEndPoints.Concat(generalConfiguration.MetricsEndPoints).Concat(swarmConfiguration.EndPoints);
+			foreach (var hostingSpec in allHostingSpecs)
+				SocketExtensions.BindTest(platformIdentifier, hostingSpec.ParseIPEndPoint(), false);
 		}
 
 		/// <summary>

@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// <summary>
 	/// Information about a server in the swarm.
 	/// </summary>
-	public abstract class SwarmServer
+	public class SwarmServer
 	{
 		/// <summary>
 		/// The public address of the server.
@@ -29,7 +29,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SwarmServer"/> class.
 		/// </summary>
-		protected SwarmServer()
+		public SwarmServer()
 		{
 		}
 
@@ -44,7 +44,9 @@ namespace Tgstation.Server.Api.Models.Internal
 				throw new ArgumentNullException(nameof(copy));
 			}
 
+#pragma warning disable CS0618 // Type or member is obsolete
 			Address = copy.Address;
+#pragma warning restore CS0618 // Type or member is obsolete
 			PublicAddress = copy.PublicAddress;
 			Identifier = copy.Identifier;
 		}

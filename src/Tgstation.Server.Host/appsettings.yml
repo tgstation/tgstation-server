@@ -91,6 +91,8 @@ Swarm: # Should be left empty if using swarm mode is not desired
 # PublicAddress: # The public address of the swarm node
 # ControllerAddress: # Required on non-controller nodes. The internal address of the swarm controller's API'. Should be left empty on the controller itself
 # UpdateRequiredNodeCount: # The number of nodes expected to be in the swarm before initiating an update. This should count every server irrespective of whether or not they are the controller MINUS 1
+# HostingIP: # The IP address the swarm service will be hosted on defaults to 0.0.0.0
+# HostingPort: # The port the swarm service will be hosted on, defaults to ApiPort + 1
 Telemetry:
   DisableVersionReporting: false # Prevents you installation and the version you're using from being reported on the source repository's deployments list
   ServerFriendlyName: null # Sets a friendly name for your server in reported telemetry. Must be unique. First come first serve

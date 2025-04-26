@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Configuration
 		public const string Section = "General";
 
 		/// <summary>
-		/// The default value of <see cref="ApiPort"/>.
+		/// The default API port to use.
 		/// </summary>
 		public const ushort DefaultApiPort = 5000;
 
@@ -85,16 +85,6 @@ namespace Tgstation.Server.Host.Configuration
 		/// The <see cref="Version"/> the file says it is.
 		/// </summary>
 		public Version? ConfigVersion { get; set; }
-
-		/// <summary>
-		/// The port the TGS API listens on.
-		/// </summary>
-		public ushort ApiPort { get; set; }
-
-		/// <summary>
-		/// The port Prometheus metrics are published on, if any.
-		/// </summary>
-		public ushort? PrometheusPort { get; set; }
 
 		/// <summary>
 		/// A classic GitHub personal access token to use for bypassing rate limits on requests. Requires no scopes.
@@ -162,6 +152,16 @@ namespace Tgstation.Server.Host.Configuration
 		/// List of directories that have their contents merged with instance EventScripts directories when executing scripts.
 		/// </summary>
 		public List<string>? AdditionalEventScriptsDirectories { get; set; }
+
+		/// <summary>
+		/// Endpoints used to host the HTTP API.
+		/// </summary>
+		public IReadOnlyList<HostingSpecification> ApiEndPoints { get; set; } = new List<HostingSpecification>();
+
+		/// <summary>
+		/// Endpoints used to host health checks and prometheus metrics.
+		/// </summary>
+		public IReadOnlyList<HostingSpecification> MetricsEndPoints { get; set; } = new List<HostingSpecification>();
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> class.

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Tgstation.Server.Api.Models.Internal;
 
@@ -47,5 +48,10 @@ namespace Tgstation.Server.Host.Configuration
 		/// The number of nodes in addition to the controller required to be connected a server swarm before performing an update.
 		/// </summary>
 		public uint UpdateRequiredNodeCount { get; set; }
+
+		/// <summary>
+		/// Endpoints used to host the swarm API.
+		/// </summary>
+		public IReadOnlyList<HostingSpecification> EndPoints { get; set; } = new List<HostingSpecification>();
 	}
 }

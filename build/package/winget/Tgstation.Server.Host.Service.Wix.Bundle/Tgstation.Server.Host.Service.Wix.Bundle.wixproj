@@ -30,4 +30,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Host.Service.Wix\Tgstation.Server.Host.Service.Wix.wixproj" />
   </ItemGroup>
+  <Target Name="CollectSuggestedVisualStudioComponentIds" />
 </Project>

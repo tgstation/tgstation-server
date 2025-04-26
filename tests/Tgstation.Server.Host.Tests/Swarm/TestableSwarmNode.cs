@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Grpc.Core;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -14,15 +18,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Moq.Language.Flow;
 
-using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Swarm.Grpc;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
@@ -31,11 +34,17 @@ namespace Tgstation.Server.Host.Swarm.Tests
 {
 	sealed class TestableSwarmNode : IAsyncDisposable
 	{
+		const string HttpClientTokenExceptionMessage = "hds7fh7HDUYIHFSG7dsgy7hsufidhdsf";
+
 		public SwarmService Service { get; private set; }
 
 		public SwarmConfiguration Config { get; }
 
-		public SwarmRpcMapper RpcMapper { get; }
+		public SwarmControllerService ControllerService { get; private set; }
+
+		public SwarmNodeService NodeService { get; private set; }
+
+		public SwarmSharedService SharedService { get; private set; }
 
 		public FileTransferService TransferService { get; }
 
@@ -54,6 +63,9 @@ namespace Tgstation.Server.Host.Swarm.Tests
 		readonly Mock<IDatabaseContextFactory> mockDBContextFactory;
 		readonly Mock<IDatabaseSeeder> mockDatabaseSeeder;
 		readonly ISetup<IDatabaseSeeder, ValueTask> mockDatabaseSeederInitialize;
+		readonly Mock<ICallInvokerFactory> mockCallInvokerFactory;
+
+		readonly Dictionary<(Uri, string), CallInvoker> callInvokerMappings;
 
 		readonly Action recreateControllerAndService;
 
@@ -61,19 +73,15 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		public static void Link(params TestableSwarmNode[] nodes)
 		{
-			var configControllerSet = nodes.Select(x => (x.Config, x.TransferService, x)).ToList();
+			var configControllerSet = nodes.Select(x => (x.Config, x.TransferService, TestableNode: x)).ToList();
 
-			_ = configControllerSet.Single(x => x.Config.ControllerAddress == null);
-			Assert.IsTrue(
-				configControllerSet.All(
-					tuple1 => !String.IsNullOrWhiteSpace(tuple1.Config.PrivateKey)
-					&& configControllerSet.All(tuple2 => tuple1.Config.PrivateKey == tuple2.Config.PrivateKey)),
-				"This test doesn't support authentication issues.");
+			var controller = configControllerSet.Single(x => x.Config.ControllerAddress == null);
 
 			foreach (var node in nodes)
 			{
 				node.Config.UpdateRequiredNodeCount = (uint)nodes.Length - 1;
-				node.RpcMapper.Register(configControllerSet);
+				if (node != controller.TestableNode)
+					node.RegisterWithController(controller.TestableNode);
 			}
 		}
 
@@ -102,8 +110,8 @@ namespace Tgstation.Server.Host.Swarm.Tests
 		{
 			this.Config = swarmConfiguration;
 
-			var mockOptions = new Mock<IOptions<SwarmConfiguration>>();
-			mockOptions.SetupGet(x => x.Value).Returns(swarmConfiguration);
+			var mockOptions = new Mock<IOptionsMonitor<SwarmConfiguration>>();
+			mockOptions.SetupGet(x => x.CurrentValue).Returns(swarmConfiguration);
 
 			var realVersion = new AssemblyInformationProvider().Version;
 			var mockAssemblyInformationProvider = new Mock<IAssemblyInformationProvider>();
@@ -124,6 +132,20 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			var mockHttpClientFactory = new Mock<IAbstractHttpClientFactory>();
 			mockHttpClient = new Mock<IHttpClient>();
 			mockHttpClientFactory.Setup(x => x.CreateClient()).Returns(mockHttpClient.Object);
+
+			mockHttpClient.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<HttpCompletionOption>(), It.IsAny<CancellationToken>())).ThrowsAsync(new Exception(HttpClientTokenExceptionMessage));
+
+			mockCallInvokerFactory = new Mock<ICallInvokerFactory>();
+			mockCallInvokerFactory.Setup(x => x.CreateCallInvoker(It.IsAny<Uri>(), It.IsAny<Func<string>>())).Returns<Uri, Func<string>>(
+				(uri, authHeader) =>
+				{
+					if (!callInvokerMappings.TryGetValue((uri, authHeader()), out var invoker))
+						invoker = new UnavailableCallInvoker();
+
+					return invoker;
+				});
+
+			callInvokerMappings = new Dictionary<(Uri, string), CallInvoker>();
 
 			var mockAsyncDelayer = new Mock<IAsyncDelayer>();
 			mockAsyncDelayer.Setup(
@@ -150,19 +172,10 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			TransferService = new FileTransferService(
 				new CryptographySuite(
-					Mock.Of<IPasswordHasher<Models.User>>()),
+					Mock.Of<IPasswordHasher<User>>()),
 				Mock.Of<IIOManager>(),
 				new AsyncDelayer(Mock.Of<ILogger<AsyncDelayer>>()), // use a real one here because otherwise tickets expire too fast
 				CreateLoggerFactoryForLogger(loggerFactory.CreateLogger($"FileTransferService-{swarmConfiguration.Identifier}"), out var mockLoggerFactory).CreateLogger<FileTransferService>());
-
-			RpcMapper = new SwarmRpcMapper(
-				(targetService, targetTransfer) => new SwarmController(
-					targetService,
-					targetTransfer,
-					mockOptions.Object,
-					loggerFactory.CreateLogger<SwarmController>()),
-				mockHttpClient,
-				loggerFactory.CreateLogger($"SwarmRpcMapper-{swarmConfiguration.Identifier}"));
 
 			mockServerUpdater
 				.Setup(x => x.BeginUpdate(It.IsNotNull<ISwarmService>(), It.IsAny<IFileStreamProvider>(), It.IsNotNull<Version>(), It.IsAny<CancellationToken>()))
@@ -202,12 +215,43 @@ namespace Tgstation.Server.Host.Swarm.Tests
 					mockServerUpdater.Object,
 					TransferService,
 					mockTokenFactory,
+					mockCallInvokerFactory.Object,
 					mockOptions.Object,
 					serviceLogger);
+
+				SharedService = new SwarmSharedService(
+					Service);
+
+				if (Config.ControllerAddress == null)
+					ControllerService = new SwarmControllerService(
+						Service,
+						loggerFactory.CreateLogger<SwarmControllerService>());
+				else
+					NodeService = new SwarmNodeService(
+						Service);
 			}
 
 			RecreateControllerAndService();
 			recreateControllerAndService = RecreateControllerAndService;
+		}
+
+		private void RegisterWithController(TestableSwarmNode controllerNode)
+		{
+			var controllerCallInvoker = new SwarmMockCallInvoker(
+				() => controllerNode.ControllerService,
+				() => controllerNode.SharedService,
+				() => !controllerNode.WebServerOpen,
+				logger);
+
+			callInvokerMappings.Add((controllerNode.Config.Address, $"{SwarmConstants.AuthenticationSchemeAndPolicy} {controllerNode.Config.PrivateKey}"), controllerCallInvoker);
+
+			var nodeCallInvoker = new SwarmMockCallInvoker(
+				() => NodeService,
+				() => SharedService,
+				() => !WebServerOpen,
+				controllerNode.logger);
+
+			controllerNode.callInvokerMappings.Add((Config.Address, $"{SwarmConstants.AuthenticationSchemeAndPolicy} {Config.PrivateKey}"), nodeCallInvoker);
 		}
 
 		public async Task SimulateReboot(CancellationToken cancellationToken)
@@ -221,7 +265,6 @@ namespace Tgstation.Server.Host.Swarm.Tests
 		{
 			logger.LogTrace("DisposeAsync...");
 			await ShutdownService(default);
-			RpcMapper.Dispose();
 			CriticalCancellationTokenSource.Dispose();
 		}
 
@@ -240,6 +283,8 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				}
 			UpdateTask = null;
 
+			// prevent inline re-register
+			WebServerOpen = false;
 			await Service.Shutdown(cancellationToken);
 			Service.Dispose();
 		}
@@ -311,8 +356,19 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			logger.LogTrace("ExecuteUpdate...");
 			await Task.Yield(); // Important to simulate some actual kind of asynchronicity here
 
-			var stream = await fileStreamProvider.GetResult(cancellationToken);
+			Stream stream;
+			try
+			{
+				stream = await fileStreamProvider.GetResult(cancellationToken);
+			}
+			catch (Exception ex) when (ex.Message == HttpClientTokenExceptionMessage)
+			{
+				// content of the update stream really doesn't matter
+				stream = new MemoryStream([1, 2, 3, 4]);
+			}
+
 			await using var buffer = new BufferedFileStreamProvider(stream);
+
 			var result = await Service.PrepareUpdate(buffer, version, cancellationToken);
 
 			if (result == SwarmPrepareResult.SuccessProviderNotRequired)

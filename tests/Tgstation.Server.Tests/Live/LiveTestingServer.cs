@@ -135,7 +135,7 @@ namespace Tgstation.Server.Tests.Live
 			{
 				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true), // Replaced after first Run
 				String.Format(CultureInfo.InvariantCulture, "General:ConfigVersion={0}", GeneralConfiguration.CurrentConfigVersion),
-				String.Format(CultureInfo.InvariantCulture, "General:ApiPort={0}", port),
+				String.Format(CultureInfo.InvariantCulture, "General:ApiEndPoints:0:Port={0}", port),
 				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
 				String.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never),
@@ -156,7 +156,8 @@ namespace Tgstation.Server.Tests.Live
 				$"Security:TokenExpiryMinutes=120", // timeouts are useless for us
 				$"General:OpenDreamSuppressInstallOutput={TestingUtils.RunningInGitHubActions}",
 				"Telemetry:DisableVersionReporting=true",
-				$"General:PrometheusPort={port}"
+				$"General:MetricsEndPoints:0:Port={port}",
+				$"Session:BridgePort={port}",
 			};
 
 			if (MultiServerClient.UseGraphQL)
@@ -209,6 +210,9 @@ namespace Tgstation.Server.Tests.Live
 
 			if (swarmConfiguration.UpdateRequiredNodeCount != 0)
 				swarmArgs.Add($"Swarm:UpdateRequiredNodeCount={swarmConfiguration.UpdateRequiredNodeCount}");
+
+			var endpoint = swarmConfiguration.EndPoints.Single();
+			swarmArgs.Add($"Swarm:Endpoints:0:Port={endpoint.Port}");
 
 			swarmNodeId = swarmConfiguration.Identifier;
 		}
