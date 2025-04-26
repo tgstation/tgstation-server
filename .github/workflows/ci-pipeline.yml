@@ -557,7 +557,7 @@ jobs:
         configuration: ["Debug", "Release"]
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
-    runs-on: windows-latest
+    runs-on: windows-2025
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -627,7 +627,7 @@ jobs:
         configuration: ["Debug", "Release"]
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
-    runs-on: windows-latest
+    runs-on: windows-2025
     steps:
       - name: Setup dotnet (TGS)
         uses: actions/setup-dotnet@v4
@@ -1486,16 +1486,11 @@ jobs:
 
   build-msi:
     name: Build Windows Installer .exe
-    runs-on: windows-latest
+    runs-on: windows-2025
     needs: start-gate
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     steps:
-      - name: Install winget
-        uses: Cyberboss/install-winget@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
-
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
@@ -1719,7 +1714,7 @@ jobs:
   deploy-rest:
     name: Deploy REST API
     needs: deployment-gate
-    runs-on: windows-latest
+    runs-on: windows-2025
     permissions:
       id-token: write
       attestations: write
@@ -1800,7 +1795,7 @@ jobs:
   deploy-gql:
     name: Deploy GraphQL API
     needs: deployment-gate
-    runs-on: windows-latest
+    runs-on: windows-2025
     permissions:
       id-token: write
       attestations: write
@@ -1888,7 +1883,7 @@ jobs:
   deploy-dm:
     name: Deploy DreamMaker API
     needs: deployment-gate
-    runs-on: windows-latest
+    runs-on: windows-2025
     permissions:
       id-token: write
       attestations: write
@@ -2058,7 +2053,7 @@ jobs:
   deploy-tgs:
     name: Deploy TGS
     needs: [deploy-dm, deploy-rest, deploy-gql, deployment-gate]
-    runs-on: windows-latest
+    runs-on: windows-2025
     if: (!(cancelled() || failure())) && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]') && needs.deployment-gate.result == 'success'
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
@@ -2475,18 +2470,13 @@ jobs:
     name: Deploy TGS (winget)
     needs: deploy-tgs
     if: (!(cancelled() || failure())) && needs.deploy-tgs.result == 'success'
-    runs-on: windows-latest
+    runs-on: windows-2025
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
           dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
-
-      - name: Install winget
-        uses: Cyberboss/install-winget@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
 
       - name: Install wingetcreate
         run: winget install wingetcreate --version 1.2.8.0 --disable-interactivity --accept-source-agreements # Pinned due to breaking every other version
