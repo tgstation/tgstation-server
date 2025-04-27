@@ -83,10 +83,14 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// </summary>
 		/// <typeparam name="TResult">The <see cref="Type"/> of the <see cref="AuthorityResponse{TResult}.Result"/>.</typeparam>
 		/// <param name="errorCode">The <see cref="ErrorCode"/>.</param>
+		/// <param name="additionalData"><see cref="ErrorMessageResponse.AdditionalData"/> for the error message.</param>
 		/// <returns>A new, errored <see cref="AuthorityResponse{TResult}"/>.</returns>
-		protected static AuthorityResponse<TResult> Conflict<TResult>(ErrorCode errorCode)
+		protected static AuthorityResponse<TResult> Conflict<TResult>(ErrorCode errorCode, string? additionalData = null)
 			=> new(
-				new ErrorMessageResponse(errorCode),
+				new ErrorMessageResponse(errorCode)
+				{
+					AdditionalData = additionalData,
+				},
 				HttpFailureResponse.Conflict);
 
 		/// <summary>

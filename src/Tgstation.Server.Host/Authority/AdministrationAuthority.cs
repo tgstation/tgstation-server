@@ -1,9 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Octokit;
 
@@ -11,8 +14,11 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority.Core;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils.GitHub;
 
@@ -57,6 +63,26 @@ namespace Tgstation.Server.Host.Authority
 		readonly IMemoryCache cacheService;
 
 		/// <summary>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="AdministrationAuthority"/>.
+		/// </summary>
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
+
+		/// <summary>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="AdministrationAuthority"/>.
+		/// </summary>
+		readonly IPlatformIdentifier platformIdentifier;
+
+		/// <summary>
+		/// The <see cref="IIOManager"/> for the <see cref="AdministrationAuthority"/>.
+		/// </summary>
+		readonly IIOManager ioManager;
+
+		/// <summary>
+		/// The <see cref="FileLoggingConfiguration"/> for the <see cref="AdministrationAuthority"/>.
+		/// </summary>
+		readonly IOptionsSnapshot<FileLoggingConfiguration> fileLoggingConfigurationOptions;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="AdministrationAuthority"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to use.</param>
@@ -66,6 +92,10 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="serverUpdateInitiator">The value of <see cref="serverUpdateInitiator"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="cacheService">The value of <see cref="cacheService"/>.</param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="fileLoggingConfigurationOptions">The value of <see cref="fileLoggingConfigurationOptions"/>.</param>
 		public AdministrationAuthority(
 			IDatabaseContext databaseContext,
 			ILogger<UserAuthority> logger,
@@ -73,7 +103,11 @@ namespace Tgstation.Server.Host.Authority
 			IServerControl serverControl,
 			IServerUpdateInitiator serverUpdateInitiator,
 			IFileTransferTicketProvider fileTransferService,
-			IMemoryCache cacheService)
+			IMemoryCache cacheService,
+			IAssemblyInformationProvider assemblyInformationProvider,
+			IPlatformIdentifier platformIdentifier,
+			IIOManager ioManager,
+			IOptionsSnapshot<FileLoggingConfiguration> fileLoggingConfigurationOptions)
 			: base(
 				  databaseContext,
 				  logger)
@@ -83,6 +117,10 @@ namespace Tgstation.Server.Host.Authority
 			this.serverUpdateInitiator = serverUpdateInitiator ?? throw new ArgumentNullException(nameof(serverUpdateInitiator));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			this.cacheService = cacheService ?? throw new ArgumentNullException(nameof(cacheService));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.fileLoggingConfigurationOptions = fileLoggingConfigurationOptions ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -160,7 +198,10 @@ namespace Tgstation.Server.Host.Authority
 
 		/// <inheritdoc />
 		public RequirementsGated<AuthorityResponse<ServerUpdateResponse>> TriggerServerVersionChange(Version targetVersion, bool uploadZip, CancellationToken cancellationToken)
-			=> new(
+		{
+			ArgumentNullException.ThrowIfNull(targetVersion);
+
+			return new(
 				() =>
 				{
 					if (uploadZip)
@@ -223,6 +264,7 @@ namespace Tgstation.Server.Host.Authority
 						_ => throw new InvalidOperationException($"Unexpected ServerUpdateResult: {updateResult}"),
 					};
 				});
+		}
 
 		/// <inheritdoc />
 		public RequirementsGated<AuthorityResponse> TriggerServerRestart()
@@ -241,5 +283,46 @@ namespace Tgstation.Server.Host.Authority
 					await serverControl.Restart();
 					return new AuthorityResponse();
 				});
+
+		/// <inheritdoc />
+		public RequirementsGated<AuthorityResponse<LogFileResponse>> GetLog(string path, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(path);
+			return new(
+				() => Flag(AdministrationRights.DownloadLogs),
+				async () =>
+				{
+					path = HttpUtility.UrlDecode(path);
+
+					// guard against directory navigation
+					var sanitizedPath = ioManager.GetFileName(path);
+					if (path != sanitizedPath)
+						return Forbid<LogFileResponse>();
+
+					var fullPath = ioManager.ConcatPath(
+						fileLoggingConfigurationOptions.Value.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier),
+						path);
+					try
+					{
+						var fileTransferTicket = fileTransferService.CreateDownload(
+							new FileDownloadProvider(
+								() => null,
+								null,
+								fullPath,
+								true));
+
+						return new AuthorityResponse<LogFileResponse>(new LogFileResponse
+						{
+							Name = path,
+							LastModified = await ioManager.GetLastModified(fullPath, cancellationToken),
+							FileTicket = fileTransferTicket.FileTicket,
+						});
+					}
+					catch (IOException ex)
+					{
+						return Conflict<LogFileResponse>(ErrorCode.IOError, ex.ToString());
+					}
+				});
+		}
 	}
 }

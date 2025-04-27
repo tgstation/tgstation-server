@@ -33,5 +33,13 @@ namespace Tgstation.Server.Host.Authority
 		/// </summary>
 		/// <returns>A <see cref="RequirementsGated{TResult}"/> <see cref="AuthorityResponse"/>.</returns>
 		RequirementsGated<AuthorityResponse> TriggerServerRestart();
+
+		/// <summary>
+		/// Get a ticket for downloading a log file at a given <paramref name="path"/>.
+		/// </summary>
+		/// <param name="path">The relative path to the log file in the directory.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="RequirementsGated{TResult}"/> <see cref="LogFileResponse"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
+		RequirementsGated<AuthorityResponse<LogFileResponse>> GetLog(string path, CancellationToken cancellationToken);
 	}
 }

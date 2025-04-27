@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -235,43 +234,9 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(AdministrationRights.DownloadLogs)]
 		[ProducesResponseType(typeof(LogFileResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
-		public async ValueTask<IActionResult> GetLog(string path, CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(path);
-
-			path = HttpUtility.UrlDecode(path);
-
-			// guard against directory navigation
-			var sanitizedPath = ioManager.GetFileName(path);
-			if (path != sanitizedPath)
-				return Forbid();
-
-			var fullPath = ioManager.ConcatPath(
-				fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier),
-				path);
-			try
-			{
-				var fileTransferTicket = fileTransferService.CreateDownload(
-					new FileDownloadProvider(
-						() => null,
-						null,
-						fullPath,
-						true));
-
-				return Ok(new LogFileResponse
-				{
-					Name = path,
-					LastModified = await ioManager.GetLastModified(fullPath, cancellationToken),
-					FileTicket = fileTransferTicket.FileTicket,
-				});
-			}
-			catch (IOException ex)
-			{
-				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
-				{
-					AdditionalData = ex.ToString(),
-				});
-			}
-		}
+		public ValueTask<IActionResult> GetLog(string path, CancellationToken cancellationToken)
+			=> administrationAuthority.Invoke<LogFileResponse, LogFileResponse>(
+				this,
+				authority => authority.GetLog(path, cancellationToken));
 	}
 }
