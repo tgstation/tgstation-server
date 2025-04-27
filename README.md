@@ -639,7 +639,7 @@ Bots have a set of built-in commands that can be triggered via `!tgs`, mentionin
 
 All files in game code deployments are considered transient by default, meaning when new code is deployed, changes will be lost. Static files allow you to specify which files and folders stick around throughout all deployments.
 
-The `StaticFiles` folder contains 3 root folders which cannot be deleted and operate under special rules
+The `Configuration` folder contains 3 root folders which cannot be deleted and operate under special rules
 	- `CodeModifications`
 	- `EventScripts`
 	- `GameStaticFiles`
