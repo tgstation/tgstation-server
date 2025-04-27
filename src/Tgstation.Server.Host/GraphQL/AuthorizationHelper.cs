@@ -50,12 +50,12 @@ namespace Tgstation.Server.Host.GraphQL
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		public static async ValueTask CheckGraphQLAuthorized(
 			this Security.IAuthorizationService authorizationService,
-			IEnumerable<IAuthorizationRequirement>? authorizationRequirements = null,
+			IEnumerable<IAuthorizationRequirement>? authorizationRequirements,
 			bool excludeUserSessionValidRequirement = false)
 		{
 			ArgumentNullException.ThrowIfNull(authorizationService);
+			ArgumentNullException.ThrowIfNull(authorizationRequirements);
 
-			authorizationRequirements ??= Enumerable.Empty<IAuthorizationRequirement>();
 			if (!excludeUserSessionValidRequirement)
 				authorizationRequirements = UserSessionValidRequirement.InstanceAsEnumerable.Concat(authorizationRequirements);
 
