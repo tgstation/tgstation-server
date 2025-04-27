@@ -14,7 +14,6 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components.Deployment;
-using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
@@ -110,20 +109,21 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <inheritdoc />
 		public override string FormatServerArguments(
 			IDmbProvider dmbProvider,
-			IReadOnlyDictionary<string, string> parameters,
+			IReadOnlyDictionary<string, string>? parameters,
 			DreamDaemonLaunchParameters launchParameters,
+			string accessIdentifier,
 			string? logFilePath)
 		{
 			ArgumentNullException.ThrowIfNull(dmbProvider);
-			ArgumentNullException.ThrowIfNull(parameters);
 			ArgumentNullException.ThrowIfNull(launchParameters);
+			ArgumentNullException.ThrowIfNull(accessIdentifier);
 
-			if (!parameters.TryGetValue(DMApiConstants.ParamAccessIdentifier, out var accessIdentifier))
-				throw new ArgumentException($"parameters must have \"{DMApiConstants.ParamAccessIdentifier}\" set!", nameof(parameters));
+			var encodedParameters = EncodeParameters(parameters, launchParameters);
+			var parametersString = !String.IsNullOrEmpty(encodedParameters)
+				? $" --cvar opendream.world_params=\"{encodedParameters}\""
+				: String.Empty;
 
-			var parametersString = EncodeParameters(parameters, launchParameters);
-
-			var arguments = $"{serverDllPath} --cvar {(logFilePath != null ? $"log.path=\"{InstallationIOManager.GetDirectoryName(logFilePath)}\" --cvar log.format=\"{InstallationIOManager.GetFileName(logFilePath)}\"" : "log.enabled=false")} --cvar watchdog.token={accessIdentifier} --cvar log.runtimelog=false --cvar net.port={launchParameters.Port!.Value} --cvar opendream.topic_port={launchParameters.OpenDreamTopicPort!.Value} --cvar opendream.world_params=\"{parametersString}\" --cvar opendream.json_path=\"./{dmbProvider.DmbName}\"";
+			var arguments = $"{serverDllPath} --cvar {(logFilePath != null ? $"log.path=\"{InstallationIOManager.GetDirectoryName(logFilePath)}\" --cvar log.format=\"{InstallationIOManager.GetFileName(logFilePath)}\"" : "log.enabled=false")} --cvar watchdog.token={accessIdentifier} --cvar log.runtimelog=false --cvar net.port={launchParameters.Port!.Value} --cvar opendream.topic_port={launchParameters.OpenDreamTopicPort!.Value}{parametersString} --cvar opendream.json_path=\"./{dmbProvider.DmbName}\"";
 			return arguments;
 		}
 

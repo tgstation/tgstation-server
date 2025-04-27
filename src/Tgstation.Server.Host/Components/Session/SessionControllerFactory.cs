@@ -526,17 +526,23 @@ namespace Tgstation.Server.Host.Components.Session
 			bool apiValidate,
 			CancellationToken cancellationToken)
 		{
-			// important to run on all ports to allow port changing
-			var environment = await engineLock.LoadEnv(logger, false, cancellationToken);
-			var arguments = engineLock.FormatServerArguments(
-				dmbProvider,
-				new Dictionary<string, string>
+			var serverMayHaveDMApi = apiValidate || dmbProvider.CompileJob.DMApiVersion != null;
+
+			var serverArguments = serverMayHaveDMApi
+				? new Dictionary<string, string>
 				{
 					{ DMApiConstants.ParamApiVersion, DMApiConstants.InteropVersion.Semver().ToString() },
 					{ DMApiConstants.ParamServerPort, serverPortProvider.HttpApiPort.ToString(CultureInfo.InvariantCulture) },
 					{ DMApiConstants.ParamAccessIdentifier, accessIdentifier },
-				},
+				}
+				: null;
+
+			var environment = await engineLock.LoadEnv(logger, false, cancellationToken);
+			var arguments = engineLock.FormatServerArguments(
+				dmbProvider,
+				serverArguments,
 				launchParameters,
+				accessIdentifier,
 				!engineLock.HasStandardOutput || engineLock.PreferFileLogging
 					? logFilePath
 					: null);
