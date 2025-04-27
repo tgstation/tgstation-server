@@ -81,7 +81,7 @@ namespace Tgstation.Server.Tests.Live
 					var gqlUser = graphQLResult.Swarm.Users.Current;
 					return restResult.Enabled == gqlUser.Enabled
 						&& restResult.Name == gqlUser.Name
-						&& (restResult.CreatedAt.Value.Ticks / 1000000) == (gqlUser.CreatedAt.Ticks / 1000000)
+						&& (restResult.CreatedAt.Value.Ticks / 10000) == (gqlUser.CreatedAt.Ticks / 10000)
 						&& restResult.SystemIdentifier == gqlUser.SystemIdentifier
 						&& restResult.CreatedBy.Name == gqlUser.CreatedBy.Name;
 				},
