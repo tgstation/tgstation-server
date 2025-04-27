@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -24,6 +25,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="ApiController"/> for managing <see cref="User"/>s.
 	/// </summary>
 	[Route(Routes.User)]
+	[Authorize]
 	public sealed class UserController : ApiController
 	{
 		/// <summary>
@@ -93,6 +95,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">The <see cref="User"/> was retrieved successfully.</response>
 		[HttpGet]
+		[Authorize]
 		[ProducesResponseType(typeof(UserResponse), 200)]
 		public ValueTask<IActionResult> Read(CancellationToken cancellationToken)
 			=> userAuthority.InvokeTransformable<User, UserResponse>(this, authority => authority.Read(cancellationToken));
@@ -132,7 +135,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">The <see cref="User"/> was retrieved successfully.</response>
 		/// <response code="404">The <see cref="User"/> does not exist.</response>
 		[HttpGet("{id}")]
-		[TgsAuthorize]
 		[ProducesResponseType(typeof(UserResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]
 		public async ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)

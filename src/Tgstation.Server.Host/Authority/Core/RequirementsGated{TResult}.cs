@@ -26,6 +26,11 @@ namespace Tgstation.Server.Host.Authority.Core
 		readonly Func<Security.IAuthorizationService, ValueTask<TResult>> getResponse;
 
 		/// <summary>
+		/// If the <see cref="UserSessionValidRequirement"/> should not be added.
+		/// </summary>
+		readonly bool doNotAddUserSessionValidRequirement;
+
+		/// <summary>
 		/// Convert a given <paramref name="result"/> into a <see cref="RequirementsGated{TResult}"/>.
 		/// </summary>
 		/// <param name="result">The <typeparamref name="TResult"/> to convert.</param>
@@ -82,9 +87,11 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// </summary>
 		/// <param name="getRequirement">The value of <see cref="getRequirements"/>. Resulting in a <see langword="null"/> value is eqivalent to returning an empty <see cref="IEnumerable{T}"/> of <see cref="IAuthorizationRequirement"/>s.</param>
 		/// <param name="getResponse">The value of <see cref="getResponse"/>.</param>
+		/// <param name="doNotAddUserSessionValidRequirement">The value of <see cref="doNotAddUserSessionValidRequirement"/>.</param>
 		public RequirementsGated(
 			Func<IAuthorizationRequirement?> getRequirement,
-			Func<ValueTask<TResult>> getResponse)
+			Func<ValueTask<TResult>> getResponse,
+			bool doNotAddUserSessionValidRequirement = false)
 		{
 			ArgumentNullException.ThrowIfNull(getRequirement);
 			ArgumentNullException.ThrowIfNull(getResponse);
@@ -102,6 +109,8 @@ namespace Tgstation.Server.Host.Authority.Core
 			};
 
 			this.getResponse = _ => getResponse();
+
+			this.doNotAddUserSessionValidRequirement = doNotAddUserSessionValidRequirement;
 		}
 
 		/// <summary>
@@ -135,7 +144,13 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// </summary>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IAuthorizationRequirement"/>s for the request.</returns>
 		public async ValueTask<IEnumerable<IAuthorizationRequirement>> GetRequirements()
-			=> UserSessionValidRequirement.InstanceAsEnumerable.Concat(await getRequirements());
+		{
+			var requirements = await getRequirements();
+			if (!doNotAddUserSessionValidRequirement)
+				requirements = UserSessionValidRequirement.InstanceAsEnumerable.Concat(requirements);
+
+			return requirements;
+		}
 
 		/// <summary>
 		/// Executes the request.

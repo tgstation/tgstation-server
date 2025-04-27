@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using HotChocolate;
+using HotChocolate.Authorization;
 using HotChocolate.Types.Relay;
 
 using Microsoft.Extensions.Options;
@@ -55,6 +56,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <param name="swarmService">The <see cref="ISwarmService"/> to load from.</param>
 		/// <returns>A new <see cref="SwarmNode"/> with the matching <paramref name="identifier"/> if found, <see langword="null"/> otherwise.</returns>
+		[Authorize]
 		public static async ValueTask<SwarmNode?> GetSwarmNode(
 			string identifier,
 			[Service] IAuthorizationService authorizationService,

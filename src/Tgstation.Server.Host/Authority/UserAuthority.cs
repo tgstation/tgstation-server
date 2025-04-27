@@ -302,11 +302,9 @@ namespace Tgstation.Server.Host.Authority
 
 		/// <inheritdoc />
 		public RequirementsGated<AuthorityResponse<User>> Read(CancellationToken cancellationToken)
-			=> GetId(
-				claimsPrincipalAccessor.User.GetTgsUserId(),
-				false,
-				false,
-				cancellationToken);
+			=> new(
+				() => Enumerable.Empty<IAuthorizationRequirement>(),
+				() => GetIdImpl(claimsPrincipalAccessor.User.RequireTgsUserId(), false, false, cancellationToken));
 
 		/// <inheritdoc />
 		public RequirementsGated<AuthorityResponse<User>> GetId(long id, bool includeJoins, bool allowSystemUser, CancellationToken cancellationToken)
@@ -321,28 +319,7 @@ namespace Tgstation.Server.Host.Authority
 						Flag(AdministrationRights.ReadUsers),
 					};
 				},
-				async () =>
-				{
-					User? user;
-					if (includeJoins)
-					{
-						var queryable = Queryable(true, true);
-
-						user = await queryable.FirstOrDefaultAsync(
-							dbModel => dbModel.Id == id,
-							cancellationToken);
-					}
-					else
-						user = await usersDataLoader.LoadAsync(id, cancellationToken);
-
-					if (user == default)
-						return NotFound<User>();
-
-					if (!allowSystemUser && user.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))
-						return Forbid<User>();
-
-					return new AuthorityResponse<User>(user);
-				});
+				() => GetIdImpl(id, includeJoins, allowSystemUser, cancellationToken));
 
 		/// <inheritdoc />
 		public RequirementsGated<IQueryable<User>> Queryable(bool includeJoins)
@@ -657,6 +634,37 @@ namespace Tgstation.Server.Host.Authority
 
 					return await responseTask;
 				});
+
+		/// <summary>
+		/// Implementation of retrieving a <see cref="User"/> by ID.
+		/// </summary>
+		/// <param name="id">The <see cref="EntityId.Id"/> of the user to retrieve.</param>
+		/// <param name="includeJoins">If related entities should be loaded.</param>
+		/// <param name="allowSystemUser">If the <see cref="User.TgsSystemUserName"/> may be returned.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="User"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
+		async ValueTask<AuthorityResponse<User>> GetIdImpl(long id, bool includeJoins, bool allowSystemUser, CancellationToken cancellationToken)
+		{
+			User? user;
+			if (includeJoins)
+			{
+				var queryable = Queryable(true, true);
+
+				user = await queryable.FirstOrDefaultAsync(
+					dbModel => dbModel.Id == id,
+					cancellationToken);
+			}
+			else
+				user = await usersDataLoader.LoadAsync(id, cancellationToken);
+
+			if (user == default)
+				return NotFound<User>();
+
+			if (!allowSystemUser && user.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))
+				return Forbid<User>();
+
+			return new AuthorityResponse<User>(user);
+		}
 
 		/// <summary>
 		/// Create the <see cref="AuthorityResponse{TResult}"/> for an <see cref="UpdatedUser"/>.

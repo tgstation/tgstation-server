@@ -46,7 +46,6 @@ using Serilog.Sinks.Elasticsearch;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Authority.Core;
@@ -363,6 +362,7 @@ namespace Tgstation.Server.Host.Core
 				.AddFiltering()
 				.AddSorting()
 				.AddHostTypes()
+				.AddAuthorization()
 				.AddErrorFilter<ErrorMessageFilter>()
 				.AddType<StandaloneNode>()
 				.AddType<LocalGateway>()
@@ -798,10 +798,7 @@ namespace Tgstation.Server.Host.Core
 
 			services.AddScoped<IClaimsPrincipalAccessor, ClaimsPrincipalAccessor>();
 			services.AddScoped<Security.IAuthorizationService, AuthorizationService>();
-
-			var genericRightsAuthHandler = typeof(RightsAuthorizationHandler<>);
-			foreach (var rightType in RightsHelper.AllRightTypes())
-				services.AddScoped(typeof(IAuthorizationHandler), genericRightsAuthHandler.MakeGenericType(rightType));
+			services.AddScoped<IAuthorizationHandler, AuthorizationHandler>();
 
 			// what if you
 			// wanted to just do this:

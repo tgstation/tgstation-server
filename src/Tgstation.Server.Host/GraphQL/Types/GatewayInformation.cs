@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using HotChocolate;
+using HotChocolate.Authorization;
 
 using Microsoft.Extensions.Options;
 
@@ -41,6 +42,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the <see cref="GeneralConfiguration"/>.</param>
 		/// <returns>A <see cref="uint"/> specifying the minimumn valid password length for TGS users.</returns>
+		[Authorize]
 		public async ValueTask<uint> MinimumPasswordLength(
 			[Service] IAuthorizationService authorizationService,
 			[Service] IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions)
@@ -62,6 +64,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the <see cref="GeneralConfiguration"/>.</param>
 		/// <returns>A <see cref="uint"/> specifying the maximum allowed attached instances for the <see cref="SwarmNode"/>.</returns>
+		[Authorize]
 		public async ValueTask<uint> InstanceLimit(
 			[Service] IAuthorizationService authorizationService,
 			[Service] IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions)
@@ -82,6 +85,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="generalConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the <see cref="GeneralConfiguration"/>.</param>
 		/// <returns>A <see cref="uint"/> specifying the maximum allowed registered users for the <see cref="ServerSwarm"/>.</returns>
 		/// <remarks>This limit only applies to user creation attempts made via the current <see cref="SwarmNode"/>.</remarks>
+		[Authorize]
 		public async ValueTask<uint> UserLimit(
 			[Service] IAuthorizationService authorizationService,
 			[Service] IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions)
@@ -102,6 +106,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="generalConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the <see cref="GeneralConfiguration"/>.</param>
 		/// <returns>A <see cref="uint"/> specifying the maximum allowed registered <see cref="UserGroup"/>s for the <see cref="ServerSwarm"/>.</returns>
 		/// <remarks>This limit only applies to <see cref="UserGroup"/> creation attempts made via the current <see cref="SwarmNode"/>.</remarks>
+		[Authorize]
 		public async ValueTask<uint> UserGroupLimit(
 			[Service] IAuthorizationService authorizationService,
 			[Service] IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions)
@@ -120,6 +125,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the <see cref="GeneralConfiguration"/>.</param>
 		/// <returns>The locations <see cref="Instance"/>s may be created or attached from if there are restrictions, <see langword="null"/> otherwise.</returns>
+		[Authorize]
 		public async ValueTask<IReadOnlyCollection<string>?> ValidInstancePaths(
 			[Service] IAuthorizationService authorizationService,
 			[Service] IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions)
@@ -137,17 +143,13 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// Gets a flag indicating whether or not the current <see cref="SwarmNode"/> runs on a Windows operating system.
 		/// </summary>
-		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <param name="platformIdentifier">The <see cref="IPlatformIdentifier"/> to use.</param>
 		/// <returns><see langword="true"/> if the <see cref="SwarmNode"/> runs on a Windows operating system, <see langword="false"/> otherwise.</returns>
-		public async ValueTask<bool> WindowsHost(
-			[Service] IAuthorizationService authorizationService,
+		[Authorize]
+		public bool WindowsHost(
 			[Service] IPlatformIdentifier platformIdentifier)
 		{
-			ArgumentNullException.ThrowIfNull(authorizationService);
 			ArgumentNullException.ThrowIfNull(platformIdentifier);
-
-			await authorizationService.CheckGraphQLAuthorized();
 
 			return platformIdentifier.IsWindows;
 		}
@@ -155,76 +157,46 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// Gets the swarm protocol <see cref="Version"/>.
 		/// </summary>
-		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <returns>The swarm protocol <see cref="global::System.Version"/>.</returns>
-		public async ValueTask<Version> SwarmProtocolVersion(
-			[Service] IAuthorizationService authorizationService)
-		{
-			ArgumentNullException.ThrowIfNull(authorizationService);
-
-			await authorizationService.CheckGraphQLAuthorized();
-			return global::System.Version.Parse(MasterVersionsAttribute.Instance.RawSwarmProtocolVersion);
-		}
+		[Authorize]
+		public Version SwarmProtocolVersion()
+			=> global::System.Version.Parse(MasterVersionsAttribute.Instance.RawSwarmProtocolVersion);
 
 		/// <summary>
 		/// Gets the <see cref="global::System.Version"/> of tgstation-server the <see cref="SwarmNode"/> is running.
 		/// </summary>
-		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to use.</param>
 		/// <returns>The <see cref="global::System.Version"/> of tgstation-server the <see cref="SwarmNode"/> is running.</returns>
-		public async ValueTask<Version> Version(
-			[Service] IAuthorizationService authorizationService,
+		[Authorize]
+		public Version Version(
 			[Service] IAssemblyInformationProvider assemblyInformationProvider)
 		{
-			ArgumentNullException.ThrowIfNull(authorizationService);
 			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
-
-			await authorizationService.CheckGraphQLAuthorized();
 			return assemblyInformationProvider.Version;
 		}
 
 		/// <summary>
 		/// Gets the GraphQL API <see cref="global::System.Version"/> of the <see cref="SwarmNode"/>.
 		/// </summary>
-		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <returns>The GraphQL API <see cref="global::System.Version"/> of the <see cref="SwarmNode"/>.</returns>
-		public async ValueTask<Version> GraphQLApiVersion(
-			[Service] IAuthorizationService authorizationService)
-		{
-			ArgumentNullException.ThrowIfNull(authorizationService);
-
-			await authorizationService.CheckGraphQLAuthorized();
-
-			return GraphQLApiVersionNoAuth;
-		}
+		[Authorize]
+		public Version GraphQLApiVersion()
+			=> GraphQLApiVersionNoAuth;
 
 		/// <summary>
 		/// Gets the REST API <see cref="global::System.Version"/> of the <see cref="SwarmNode"/>.
 		/// </summary>
-		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <returns>The REST API <see cref="global::System.Version"/> of the <see cref="SwarmNode"/>.</returns>
-		public async ValueTask<Version> ApiVersion(
-			[Service] IAuthorizationService authorizationService)
-		{
-			ArgumentNullException.ThrowIfNull(authorizationService);
-
-			await authorizationService.CheckGraphQLAuthorized();
-			return ApiHeaders.Version;
-		}
+		[Authorize]
+		public Version ApiVersion() => ApiHeaders.Version;
 
 		/// <summary>
 		/// Gets the DMAPI interop <see cref="global::System.Version"/> the <see cref="SwarmNode"/> uses.
 		/// </summary>
-		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <returns>Yhe DMAPI interop <see cref="global::System.Version"/> the <see cref="SwarmNode"/> uses.</returns>
-		public async ValueTask<Version> DMApiVersion(
-			[Service] IAuthorizationService authorizationService)
-		{
-			ArgumentNullException.ThrowIfNull(authorizationService);
-
-			await authorizationService.CheckGraphQLAuthorized();
-			return DMApiConstants.InteropVersion;
-		}
+		[Authorize]
+		public Version DMApiVersion()
+			=> DMApiConstants.InteropVersion;
 
 		/// <summary>
 		/// Gets the information needed to perform open authentication with the <see cref="SwarmNode"/>.

@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using HotChocolate;
+using HotChocolate.Authorization;
 using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
@@ -16,6 +17,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// A user registered in the server.
 	/// </summary>
 	[Node]
+	[Authorize]
 	public sealed class User : NamedEntity, IUserName
 	{
 		/// <summary>

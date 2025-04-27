@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
@@ -34,13 +35,19 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<AuthorizationResult> AuthorizeAsync(IEnumerable<Microsoft.AspNetCore.Authorization.IAuthorizationRequirement> requirements)
+		public async ValueTask<AuthorizationResult> AuthorizeAsync(IEnumerable<IAuthorizationRequirement> requirements)
 		{
 			ArgumentNullException.ThrowIfNull(requirements);
+
+			// asp net fails for an empty authorization requirement list
+			var bakedRequirements = requirements.ToList();
+			if (bakedRequirements.Count == 0)
+				return AuthorizationResult.Success();
+
 			var result = await aspNetCoreAuthorizationService.AuthorizeAsync(
 				claimsPrincipalAccessor.User,
 				null,
-				requirements);
+				bakedRequirements);
 
 			return result;
 		}

@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using HotChocolate;
+using HotChocolate.Authorization;
 using HotChocolate.Types;
 
 using Tgstation.Server.Host.Authority;
@@ -14,6 +15,7 @@ namespace Tgstation.Server.Host.GraphQL
 	/// Root type for GraphQL mutations.
 	/// </summary>
 	/// <remarks>Intentionally left mostly empty, use type extensions to properly scope operations to domains.</remarks>
+	[Authorize]
 	[GraphQLDescription(GraphQLDescription)]
 	public sealed class Mutation
 	{
@@ -28,6 +30,7 @@ namespace Tgstation.Server.Host.GraphQL
 		/// <param name="loginAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="ILoginAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="LoginResult"/>.</returns>
+		[AllowAnonymous]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<LoginResult> Login(
 			[Service] IGraphQLAuthorityInvoker<ILoginAuthority> loginAuthority,
@@ -45,6 +48,7 @@ namespace Tgstation.Server.Host.GraphQL
 		/// <param name="loginAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="ILoginAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>An <see cref="OAuthGatewayLoginResult"/>.</returns>
+		[AllowAnonymous]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<OAuthGatewayLoginResult> OAuthGateway(
 			[Service] IGraphQLAuthorityInvoker<ILoginAuthority> loginAuthority,

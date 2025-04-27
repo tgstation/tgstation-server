@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -128,7 +127,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// </returns>
 		/// <response code="200"><see cref="ServerInformationResponse"/> retrieved successfully.</response>
 		[HttpGet]
-		[AllowAnonymous]
 		[ProducesResponseType(typeof(ServerInformationResponse), 200)]
 		public IActionResult ServerInfo()
 		{

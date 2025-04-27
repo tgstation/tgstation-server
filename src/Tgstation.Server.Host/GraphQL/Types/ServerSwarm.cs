@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using HotChocolate;
+using HotChocolate.Authorization;
 
 using Microsoft.Extensions.Options;
 
@@ -25,36 +26,24 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// Access all instances in the <see cref="ServerSwarm"/>.
 		/// </summary>
 		/// <returns>Queryable <see cref="Instance"/> in the <see cref="ServerSwarm"/>.</returns>
+		[Authorize]
 		public IQueryable<Instance> Instances()
 			=> throw new ErrorMessageException(ErrorCode.RemoteGatewaysNotImplemented);
 
 		/// <summary>
 		/// Gets the swarm protocol major version in use.
 		/// </summary>
-		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <returns>The swarm protocol major version in use.</returns>
-		public async ValueTask<int> ProtocolMajorVersion(
-			[Service] IAuthorizationService authorizationService)
-		{
-			ArgumentNullException.ThrowIfNull(authorizationService);
-
-			await authorizationService.CheckGraphQLAuthorized();
-			return Version.Parse(MasterVersionsAttribute.Instance.RawSwarmProtocolVersion).Major;
-		}
+		[Authorize]
+		public int ProtocolMajorVersion()
+			=> Version.Parse(MasterVersionsAttribute.Instance.RawSwarmProtocolVersion).Major;
 
 		/// <summary>
 		/// Gets the swarm's <see cref="Types.Users"/>.
 		/// </summary>
-		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <returns>A new <see cref="Types.Users"/>.</returns>
-		public async ValueTask<Users> Users(
-			[Service] IAuthorizationService authorizationService)
-		{
-			ArgumentNullException.ThrowIfNull(authorizationService);
-
-			await authorizationService.CheckGraphQLAuthorized();
-			return new();
-		}
+		[Authorize]
+		public Users Users() => new();
 
 		/// <summary>
 		/// Gets the connected <see cref="SwarmNode"/> server.
@@ -87,6 +76,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <param name="swarmService">The <see cref="ISwarmService"/> to use.</param>
 		/// <returns>A <see cref="List{T}"/> of <see cref="SwarmNode"/>s if the local node is part of a swarm, <see langword="null"/> otherwise.</returns>
+		[Authorize]
 		public async ValueTask<List<SwarmNode>?> Nodes(
 			[Service] IAuthorizationService authorizationService,
 			[Service] ISwarmService swarmService)
@@ -104,6 +94,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// </summary>
 		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
 		/// <returns>A new <see cref="Types.UpdateInformation"/>.</returns>
+		[Authorize]
 		public async ValueTask<UpdateInformation> UpdateInformation(
 			[Service] IAuthorizationService authorizationService)
 		{
