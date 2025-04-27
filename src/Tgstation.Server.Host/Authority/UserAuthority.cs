@@ -304,7 +304,7 @@ namespace Tgstation.Server.Host.Authority
 		public RequirementsGated<AuthorityResponse<User>> Read(CancellationToken cancellationToken)
 			=> new(
 				() => Enumerable.Empty<IAuthorizationRequirement>(),
-				() => GetIdImpl(claimsPrincipalAccessor.User.RequireTgsUserId(), false, false, cancellationToken));
+				() => GetIdImpl(claimsPrincipalAccessor.User.RequireTgsUserId(), true, false, cancellationToken));
 
 		/// <inheritdoc />
 		public RequirementsGated<AuthorityResponse<User>> GetId(long id, bool includeJoins, bool allowSystemUser, CancellationToken cancellationToken)
