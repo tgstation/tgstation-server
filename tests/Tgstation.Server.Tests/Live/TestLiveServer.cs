@@ -978,6 +978,12 @@ namespace Tgstation.Server.Tests.Live
 					await using var node1Client = await CreateAdminClient(node1.ApiUrl, cancellationToken);
 					await using var node2Client = await CreateAdminClient(node2.ApiUrl, cancellationToken);
 
+					// test a token signed from any one node will work on another
+					var token = node2Client.RestClient.Token;
+					var testNode1Client = restClientFactory.CreateFromToken(node1.ApiUrl, token);
+
+					await testNode1Client.ServerInformation(cancellationToken);
+
 					var controllerInfo = await controllerClient.RestClient.ServerInformation(cancellationToken);
 
 					async Task WaitForSwarmServerUpdate(IRestServerClient client, int currentServerCount)
