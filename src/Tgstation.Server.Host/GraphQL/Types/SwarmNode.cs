@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// Represents a node server in a swarm.
 	/// </summary>
 	[Node]
-	public class SwarmNode : IServerNode
+	public sealed class SwarmNode : IServerNode
 	{
 		/// <summary>
 		/// The node ID.

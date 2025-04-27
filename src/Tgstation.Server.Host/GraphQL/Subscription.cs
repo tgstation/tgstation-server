@@ -17,6 +17,7 @@ namespace Tgstation.Server.Host.GraphQL
 	/// Root type for GraphQL subscriptions.
 	/// </summary>
 	/// <remarks>Intentionally left mostly empty, use type extensions to properly scope operations to domains.</remarks>
+	[Authorize]
 	[GraphQLDescription(GraphQLDescription)]
 	public sealed class Subscription
 	{
@@ -44,7 +45,6 @@ namespace Tgstation.Server.Host.GraphQL
 		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the request.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="ISourceStream{TMessage}"/> of the <see cref="SessionInvalidationReason"/> for the <paramref name="authenticationContext"/>.</returns>
-		[Authorize]
 		public ValueTask<ISourceStream<SessionInvalidationReason>> SessionInvalidatedStream(
 			[Service] HotChocolate.Subscriptions.ITopicEventReceiver receiver, // Intentionally not using our override here, topic callers are built to explicitly handle cases of server shutdown
 			[Service] ISessionInvalidationTracker invalidationTracker,
@@ -65,7 +65,6 @@ namespace Tgstation.Server.Host.GraphQL
 		/// <param name="sessionInvalidationReason">The <see cref="SessionInvalidationReason"/> received from the publisher.</param>
 		/// <returns>The <see cref="SessionInvalidationReason"/>.</returns>
 		[Subscribe(With = nameof(SessionInvalidatedStream))]
-		[Authorize]
 		public SessionInvalidationReason SessionInvalidated([EventMessage] SessionInvalidationReason sessionInvalidationReason)
 			=> sessionInvalidationReason;
 	}
