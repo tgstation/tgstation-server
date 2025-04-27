@@ -758,10 +758,16 @@ namespace Tgstation.Server.Host.Authority
 					InstanceManagerRights = model.PermissionSet?.InstanceManagerRights ?? InstanceManagerRights.None,
 				};
 
+			/*
 			var currentUser = new User
 			{
 				Id = claimsPrincipalAccessor.User.GetTgsUserId(),
 			};
+			*/
+
+			// Temporary workaround while we work to remove authentication context
+			var currentUser = DatabaseContext.Users.Local.First(
+				user => user.Id == claimsPrincipalAccessor.User.GetTgsUserId());
 
 			DatabaseContext.Users.Attach(currentUser);
 
