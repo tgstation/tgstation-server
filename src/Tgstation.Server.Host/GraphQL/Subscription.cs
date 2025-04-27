@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.GraphQL
 	/// Root type for GraphQL subscriptions.
 	/// </summary>
 	/// <remarks>Intentionally left mostly empty, use type extensions to properly scope operations to domains.</remarks>
-	[Authorize]
+	[Authorize(ApplyPolicy.Validation)] // See https://github.com/ChilliCream/graphql-platform/issues/6259
 	[GraphQLDescription(GraphQLDescription)]
 	public sealed class Subscription
 	{
