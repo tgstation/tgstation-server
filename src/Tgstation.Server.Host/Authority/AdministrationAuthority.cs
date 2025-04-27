@@ -160,12 +160,10 @@ namespace Tgstation.Server.Host.Authority
 
 		/// <inheritdoc />
 		public RequirementsGated<AuthorityResponse<ServerUpdateResponse>> TriggerServerVersionChange(Version targetVersion, bool uploadZip, CancellationToken cancellationToken)
-		{
-			var attemptingUpload = uploadZip == true;
-			return new(
+			=> new(
 				() =>
 				{
-					if (attemptingUpload)
+					if (uploadZip)
 						return Flag(AdministrationRights.UploadVersion);
 
 					return Flag(AdministrationRights.ChangeVersion);
@@ -180,7 +178,7 @@ namespace Tgstation.Server.Host.Authority
 							new ErrorMessageResponse(ErrorCode.MissingHostWatchdog),
 							HttpFailureResponse.UnprocessableEntity);
 
-					IFileUploadTicket? uploadTicket = attemptingUpload
+					IFileUploadTicket? uploadTicket = uploadZip
 						? fileTransferService.CreateUpload(FileUploadStreamKind.None)
 						: null;
 
@@ -193,7 +191,7 @@ namespace Tgstation.Server.Host.Authority
 						}
 						catch
 						{
-							if (attemptingUpload)
+							if (uploadZip)
 								await uploadTicket!.DisposeAsync();
 
 							throw;
@@ -225,7 +223,6 @@ namespace Tgstation.Server.Host.Authority
 						_ => throw new InvalidOperationException($"Unexpected ServerUpdateResult: {updateResult}"),
 					};
 				});
-		}
 
 		/// <inheritdoc />
 		public RequirementsGated<AuthorityResponse> TriggerServerRestart()
