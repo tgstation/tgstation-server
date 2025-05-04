@@ -156,7 +156,7 @@
     <!-- Usage: Elasticsearch logging plugin -->
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="10.0.0" />
     <!-- Usage: File logging plugin -->
-    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
     <!-- Usage: OpenAPI spec generator -->
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
