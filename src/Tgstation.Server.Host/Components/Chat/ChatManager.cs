@@ -351,28 +351,11 @@ namespace Tgstation.Server.Host.Components.Chat
 
 		/// <inheritdoc />
 		public void QueueWatchdogMessage(string message)
-		{
-			ArgumentNullException.ThrowIfNull(message);
+			=> QueueMessageGeneric(mapping => mapping.IsWatchdogChannel, message);
 
-			message = String.Format(CultureInfo.InvariantCulture, "WD: {0}", message);
-
-			if (!initialProviderConnectionsTask!.IsCompleted)
-				logger.LogTrace("Waiting for initial provider connections before sending watchdog message...");
-
-			// Reimplementing QueueMessage
-			QueueMessageInternal(
-				new MessageContent
-				{
-					Text = message,
-				},
-				() =>
-				{
-					// so it doesn't change while we're using it
-					lock (mappedChannels)
-						return mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
-				},
-				true);
-		}
+		/// <inheritdoc />
+		public void QueueDeploymentMessage(string message)
+			=> QueueMessageGeneric(mapping => mapping.IsUpdatesChannel, message);
 
 		/// <inheritdoc />
 		public Func<string?, string, Action<bool>> QueueDeploymentMessage(
@@ -1110,6 +1093,35 @@ namespace Tgstation.Server.Host.Components.Chat
 			}
 
 			AddMessageTask(SendMessageTask());
+		}
+
+		/// <summary>
+		/// Queues a message to a selected set of <see cref="ChannelMapping"/>s.
+		/// </summary>
+		/// <param name="channelSelector">A <see cref="Predicate{T}"/> for selecting the <see cref="ChannelMapping"/>s to send to.</param>
+		/// <param name="message">The message to send.</param>
+		void QueueMessageGeneric(Predicate<ChannelMapping> channelSelector, string message)
+		{
+			ArgumentNullException.ThrowIfNull(message);
+
+			message = String.Format(CultureInfo.InvariantCulture, "WD: {0}", message);
+
+			if (!initialProviderConnectionsTask!.IsCompleted)
+				logger.LogTrace("Waiting for initial provider connections before sending watchdog message...");
+
+			// Reimplementing QueueMessage
+			QueueMessageInternal(
+				new MessageContent
+				{
+					Text = message,
+				},
+				() =>
+				{
+					// so it doesn't change while we're using it
+					lock (mappedChannels)
+						return mappedChannels.Where(x => channelSelector(x.Value)).Select(x => x.Key).ToList();
+				},
+				true);
 		}
 	}
 }
