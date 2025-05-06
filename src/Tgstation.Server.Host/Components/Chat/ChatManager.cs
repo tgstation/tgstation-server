@@ -351,11 +351,11 @@ namespace Tgstation.Server.Host.Components.Chat
 
 		/// <inheritdoc />
 		public void QueueWatchdogMessage(string message)
-			=> QueueMessageGeneric(mapping => mapping.IsWatchdogChannel, message);
+			=> QueueMessageGeneric(mapping => mapping.IsWatchdogChannel, message, "WD");
 
 		/// <inheritdoc />
 		public void QueueDeploymentMessage(string message)
-			=> QueueMessageGeneric(mapping => mapping.IsUpdatesChannel, message);
+			=> QueueMessageGeneric(mapping => mapping.IsUpdatesChannel, message, null);
 
 		/// <inheritdoc />
 		public Func<string?, string, Action<bool>> QueueDeploymentMessage(
@@ -1100,14 +1100,18 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		/// <param name="channelSelector">A <see cref="Predicate{T}"/> for selecting the <see cref="ChannelMapping"/>s to send to.</param>
 		/// <param name="message">The message to send.</param>
-		void QueueMessageGeneric(Predicate<ChannelMapping> channelSelector, string message)
+		/// <param name="prefix">The optional prefix to the message to be sent.</param>
+		void QueueMessageGeneric(Predicate<ChannelMapping> channelSelector, string message, string prefix)
 		{
 			ArgumentNullException.ThrowIfNull(message);
 
-			message = String.Format(CultureInfo.InvariantCulture, "WD: {0}", message);
+			if (prefix != null)
+			{
+				message = $"{prefix}: {message}";
+			}
 
 			if (!initialProviderConnectionsTask!.IsCompleted)
-				logger.LogTrace("Waiting for initial provider connections before sending watchdog message...");
+				logger.LogTrace("Waiting for initial provider connections before sending chat message...");
 
 			// Reimplementing QueueMessage
 			QueueMessageInternal(
