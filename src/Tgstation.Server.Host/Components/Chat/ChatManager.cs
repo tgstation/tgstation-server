@@ -1101,7 +1101,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="channelSelector">A <see cref="Predicate{T}"/> for selecting the <see cref="ChannelMapping"/>s to send to.</param>
 		/// <param name="message">The message to send.</param>
 		/// <param name="prefix">The optional prefix to the message to be sent.</param>
-		void QueueMessageGeneric(Predicate<ChannelMapping> channelSelector, string message, string prefix)
+		void QueueMessageGeneric(Predicate<ChannelMapping> channelSelector, string message, string? prefix)
 		{
 			ArgumentNullException.ThrowIfNull(message);
 
