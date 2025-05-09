@@ -967,25 +967,22 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00940" name="l00940"></a><span class="lineno">  940</span>                            options.Scope.Add(OpenIdConnectScope.OpenId);</div>
 <div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span>                            options.Scope.Add(OpenIdConnectScope.OfflineAccess);</div>
 <div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span> </div>
-<div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span><span class="preprocessor">#if DEBUG</span></div>
-<div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span>                            options.RequireHttpsMetadata = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span> </div>
-<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span>                            options.SaveTokens = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00948" name="l00948"></a><span class="lineno">  948</span>                            options.ResponseType = OpenIdConnectResponseType.Code;</div>
-<div class="line"><a id="l00949" name="l00949"></a><span class="lineno">  949</span>                            options.MapInboundClaims = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00950" name="l00950"></a><span class="lineno">  950</span> </div>
-<div class="line"><a id="l00951" name="l00951"></a><span class="lineno">  951</span>                            options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;</div>
-<div class="line"><a id="l00952" name="l00952"></a><span class="lineno">  952</span> </div>
-<div class="line"><a id="l00953" name="l00953"></a><span class="lineno">  953</span>                            var basePath = $<span class="stringliteral">&quot;/oidc/{configName}/&quot;</span>;</div>
-<div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span>                            options.CallbackPath = <span class="keyword">new</span> PathString(basePath + <span class="stringliteral">&quot;signin-callback&quot;</span>);</div>
-<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span>                            options.SignedOutCallbackPath = <span class="keyword">new</span> PathString(basePath + <span class="stringliteral">&quot;signout-callback&quot;</span>);</div>
-<div class="line"><a id="l00956" name="l00956"></a><span class="lineno">  956</span>                            options.RemoteSignOutPath = <span class="keyword">new</span> PathString(basePath + <span class="stringliteral">&quot;signout&quot;</span>);</div>
-<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span>                        });</div>
-<div class="line"><a id="l00958" name="l00958"></a><span class="lineno">  958</span>            }</div>
-<div class="line"><a id="l00959" name="l00959"></a><span class="lineno">  959</span>        }</div>
-<div class="line"><a id="l00960" name="l00960"></a><span class="lineno">  960</span>    }</div>
-<div class="line"><a id="l00961" name="l00961"></a><span class="lineno">  961</span>}</div>
+<div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span>                            options.RequireHttpsMetadata = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span>                            options.SaveTokens = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span>                            options.ResponseType = OpenIdConnectResponseType.Code;</div>
+<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span>                            options.MapInboundClaims = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span> </div>
+<div class="line"><a id="l00948" name="l00948"></a><span class="lineno">  948</span>                            options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;</div>
+<div class="line"><a id="l00949" name="l00949"></a><span class="lineno">  949</span> </div>
+<div class="line"><a id="l00950" name="l00950"></a><span class="lineno">  950</span>                            var basePath = $<span class="stringliteral">&quot;/oidc/{configName}/&quot;</span>;</div>
+<div class="line"><a id="l00951" name="l00951"></a><span class="lineno">  951</span>                            options.CallbackPath = <span class="keyword">new</span> PathString(basePath + <span class="stringliteral">&quot;signin-callback&quot;</span>);</div>
+<div class="line"><a id="l00952" name="l00952"></a><span class="lineno">  952</span>                            options.SignedOutCallbackPath = <span class="keyword">new</span> PathString(basePath + <span class="stringliteral">&quot;signout-callback&quot;</span>);</div>
+<div class="line"><a id="l00953" name="l00953"></a><span class="lineno">  953</span>                            options.RemoteSignOutPath = <span class="keyword">new</span> PathString(basePath + <span class="stringliteral">&quot;signout&quot;</span>);</div>
+<div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span>                        });</div>
+<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span>            }</div>
+<div class="line"><a id="l00956" name="l00956"></a><span class="lineno">  956</span>        }</div>
+<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span>    }</div>
+<div class="line"><a id="l00958" name="l00958"></a><span class="lineno">  958</span>}</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_i_action_result_executor_html"><div class="ttname"><a href="class_i_action_result_executor.html">IActionResultExecutor</a></div></div>
 <div class="ttc" id="aclass_i_claims_transformation_html"><div class="ttname"><a href="class_i_claims_transformation.html">IClaimsTransformation</a></div></div>

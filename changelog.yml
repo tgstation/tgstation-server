@@ -228,7 +228,6 @@ Components:
     Unreleased: true
   - Version: 6.18.0
     ComponentVersions:
-      Core: 6.17.0
       HttpApi: 10.13.0
       GraphQLApi: 0.6.0
       DreamMakerApi: 7.3.3
@@ -239,7 +238,11 @@ Components:
       NugetApi: 18.0.0
       NugetClient: 21.0.0
       WebControlPanel: 6.10.0
-    Changes: []
+    Changes:
+    - Descriptions:
+      - HTTPS is no longer mandatory for an OpenIDConnect authority.
+      Author: Drulikar
+      PullRequest: 2224
     Unreleased: true
   - Version: 6.17.1
     ComponentVersions:
