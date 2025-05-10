@@ -532,7 +532,7 @@ namespace Tgstation.Server.Host.Components
 					}
 					else if (preserveTestMerges)
 					{
-						Chat.QueueDeploymentMessage("Automatic update has failed due to a conflicting testmerge!");
+						Chat.QueueRawDeploymentMessage("Automatic update has failed due to a conflicting testmerge!");
 						throw new JobException(Api.Models.ErrorCode.InstanceUpdateTestMergeConflict);
 					}
 

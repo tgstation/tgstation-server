@@ -354,7 +354,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			=> QueueMessageGeneric(mapping => mapping.IsWatchdogChannel, message, "WD");
 
 		/// <inheritdoc />
-		public void QueueDeploymentMessage(string message)
+		public void QueueRawDeploymentMessage(string message)
 			=> QueueMessageGeneric(mapping => mapping.IsUpdatesChannel, message, null);
 
 		/// <inheritdoc />
