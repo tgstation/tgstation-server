@@ -940,10 +940,7 @@ namespace Tgstation.Server.Host.Core
 							options.Scope.Add(OpenIdConnectScope.OpenId);
 							options.Scope.Add(OpenIdConnectScope.OfflineAccess);
 
-#if DEBUG
 							options.RequireHttpsMetadata = false;
-#endif
-
 							options.SaveTokens = true;
 							options.ResponseType = OpenIdConnectResponseType.Code;
 							options.MapInboundClaims = false;
