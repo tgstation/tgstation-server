@@ -17,7 +17,7 @@ using Tgstation.Server.Client;
 
 async ValueTask<IServerClient> CreateClientWithDefaultCredentials(CancellationToken cancellationToken)
 {
-	
+
 
 	return await clientFactory.CreateFromLogin(
 		url,

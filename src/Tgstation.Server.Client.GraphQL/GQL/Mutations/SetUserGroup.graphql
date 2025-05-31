@@ -8,34 +8,34 @@ mutation SetUserGroup($id: ID!, $newGroupId: ID!) {
       }
     }
     user {
-        ownedPermissionSet {
-            instanceManagerRights {
-                canCreate
-                canDelete
-                canGrantPermissions
-                canList
-                canRead
-                canRelocate
-                canRename
-                canSetAutoUpdate
-                canSetChatBotLimit
-                canSetConfiguration
-                canSetOnline
-            }
-            administrationRights {
-                canChangeVersion
-                canDownloadLogs
-                canEditOwnServiceConnections
-                canEditOwnPassword
-                canReadUsers
-                canRestartHost
-                canUploadVersion
-                canWriteUsers
-            }
+      ownedPermissionSet {
+        instanceManagerRights {
+          canCreate
+          canDelete
+          canGrantPermissions
+          canList
+          canRead
+          canRelocate
+          canRename
+          canSetAutoUpdate
+          canSetChatBotLimit
+          canSetConfiguration
+          canSetOnline
         }
-        group {
-            id
+        administrationRights {
+          canChangeVersion
+          canDownloadLogs
+          canEditOwnServiceConnections
+          canEditOwnPassword
+          canReadUsers
+          canRestartHost
+          canUploadVersion
+          canWriteUsers
         }
+      }
+      group {
+        id
+      }
     }
   }
 }

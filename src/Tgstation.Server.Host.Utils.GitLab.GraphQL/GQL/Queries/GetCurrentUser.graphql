@@ -1,6 +1,5 @@
 query GetCurrentUser {
-    currentUser
-    {
-        username
-    }
+  currentUser {
+    username
+  }
 }

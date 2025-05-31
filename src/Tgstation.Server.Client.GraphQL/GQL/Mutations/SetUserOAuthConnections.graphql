@@ -1,7 +1,8 @@
-mutation SetUserOAuthConnections($id: ID!, $newOAuthConnections: [OAuthConnectionInput!]!) {
-  updateUser(
-    input: { id: $id, newOAuthConnections: $newOAuthConnections }
-  ) {
+mutation SetUserOAuthConnections(
+  $id: ID!
+  $newOAuthConnections: [OAuthConnectionInput!]!
+) {
+  updateUser(input: { id: $id, newOAuthConnections: $newOAuthConnections }) {
     user {
       canonicalName
       createdAt

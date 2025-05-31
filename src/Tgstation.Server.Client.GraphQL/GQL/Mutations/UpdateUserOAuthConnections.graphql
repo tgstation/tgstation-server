@@ -1,4 +1,7 @@
-mutation UpdateUserOAuthConnections($id: ID!, $newOAuthConnections: [OAuthConnectionInput!]) {
+mutation UpdateUserOAuthConnections(
+  $id: ID!
+  $newOAuthConnections: [OAuthConnectionInput!]
+) {
   updateUser(input: { id: $id, newOAuthConnections: $newOAuthConnections }) {
     user {
       id

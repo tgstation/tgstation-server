@@ -20,14 +20,15 @@ From the perspective of `WatchdogBase`
 - We send out the annoucement of launch/reattach to the chat system.
 - The `ActiveLaunchParameters` are made the `LastLaunchParameters` for reference.
 - `InitControllers()` is called, which abstractly creates the `ISessionController`(s) for the watchdog.
-    - For the `BasicWatchdog`, the controller is created normally.
-    - For the `WindowsWatchdog`, we replace the `IDmbProvider` with a `WindowsSwappableDmbProvider` and setup the symlinking before deferring to the `BasicWatchdog`
-    - For reattaching, all three work similarly in that they use `ISessionControllerFactory` to reattach their sessions.
+  - For the `BasicWatchdog`, the controller is created normally.
+  - For the `WindowsWatchdog`, we replace the `IDmbProvider` with a `WindowsSwappableDmbProvider` and setup the symlinking before deferring to the `BasicWatchdog`
+  - For reattaching, all three work similarly in that they use `ISessionControllerFactory` to reattach their sessions.
 - `MonitorLifetimes()` is called which is the "main loop" of the watchdog.
 
 ## Monitoring
 
 Watchdog monitoring takes place in the `MonitorLifetimes()` functiona and is entirely event based. It responds to a set of [MonitorActivationReason](./MonitorActivationReason.cs)s and takes the apporprate action. This includes:
+
 - When a server crashes.
 - When a server calls `/world/prod/Reboot()`.
 - When a new .dmb is deployed.
@@ -39,9 +40,9 @@ Here's how this works.
 - A [MonitorState](./MonitorState.cs) object is created
 - `Task`s are created for all possible activation reasons and an asynchrounous wait is made on them.
 - Each activation reason is processed in a particular order via a call to `HandleMonitorWakeup()`. This function is allowed to mutate `MonitorState`.
-    - How each activation reason is handled depends on the watchdog type. For example, the `BasicWatchdog` will queue a graceful reboot when a new .dmb becomes available, wheras the `WindowsWatchdog` will immediately swap the symlink to it.
-        - Some actions are universal. i.e. if the server crashes, a reboot will occur. Or the server will shutdown on reboot if a graceful stop was queued.
-    - If the state's [MonitorAction](./MonitorAction.cs) changes, what happens after each activation may change
+  - How each activation reason is handled depends on the watchdog type. For example, the `BasicWatchdog` will queue a graceful reboot when a new .dmb becomes available, wheras the `WindowsWatchdog` will immediately swap the symlink to it.
+    - Some actions are universal. i.e. if the server crashes, a reboot will occur. Or the server will shutdown on reboot if a graceful stop was queued.
+  - If the state's [MonitorAction](./MonitorAction.cs) changes, what happens after each activation may change
 
 This continues until `StopMonitor` is called, which triggers the `CancellationToken` in `MonitorLifetimes()` and terminates all `ISessionController`s.
 

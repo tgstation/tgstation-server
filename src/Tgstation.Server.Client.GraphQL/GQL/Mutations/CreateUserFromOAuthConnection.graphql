@@ -1,5 +1,10 @@
-mutation CreateUserFromOAuthConnection($name: String!, $oAuthConnections: [OAuthConnectionInput!]!) {
-  createUserByServiceConnectionAndPermissionSet(input: { name: $name, oAuthConnections: $oAuthConnections }) {
+mutation CreateUserFromOAuthConnection(
+  $name: String!
+  $oAuthConnections: [OAuthConnectionInput!]!
+) {
+  createUserByServiceConnectionAndPermissionSet(
+    input: { name: $name, oAuthConnections: $oAuthConnections }
+  ) {
     errors {
       ... on ErrorMessageError {
         additionalData

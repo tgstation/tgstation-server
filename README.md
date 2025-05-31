@@ -28,7 +28,7 @@ If you're just a hobbyist server host, you can probably get away with using SQLi
 
 _HOWEVER_
 
-SQLite is not a battle-ready relational database. It doesn't scale well for any use case. TGS *strongly* recommends you use one of its supported standalone databases. Setting one of these up is more involved but worth the effort.
+SQLite is not a battle-ready relational database. It doesn't scale well for any use case. TGS _strongly_ recommends you use one of its supported standalone databases. Setting one of these up is more involved but worth the effort.
 
 The supported standalone databases are:
 
@@ -38,8 +38,9 @@ The supported standalone databases are:
 - MySQL
 
 TGS will require either:
+
 - No pre-existing database WITH schema creation permissions.
-or
+  or
 - Exclusive access to a database schema that TGS has full control over.
 
 ### Installation
@@ -63,11 +64,13 @@ Note: If you use the `/silent` or `/passive` arguments to the installer, you wil
 [winget](https://github.com/microsoft/winget-cli) installed is the easiest way to install the latest version of tgstation-server (provided Microsoft has approved the most recent package manifest).
 
 Check if you have `winget` by running the following command.
+
 ```
 winget --version
 ```
 
 If it returns an error that means you don't have winget. You can easily install it by running the following commands in an administrative Windows Powershell instance:
+
 ```
 Import-Module Appx
 Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.3 -OutFile .\microsoft.ui.xaml.2.7.3.zip
@@ -140,6 +143,7 @@ The service will execute as the newly created user: `tgstation-server`. You shou
 ##### Nix Flake
 
 TGS supports being setup on Nix starting with version 6.12.0. Add the [flake](./build/package/nix/flake.nix) to your own system by adding the following code to your flake inputs.
+
 ```nix
     tgstation-server = {
       url = "github:tgstation/tgstation-server/tgstation-server-v${version}?dir=build/package/nix";
@@ -153,6 +157,7 @@ Note that changing this version does not change the core version of TGS used aft
 For maximum game server uptime, do NOT modify this version unless you are doing a major TGS version update in which case it is a requirement.
 
 Configure TGS by setting up its service definition:
+
 ```nix
   services.tgstation-server = {
     enable = true;
@@ -183,6 +188,7 @@ Alternatively, to launch the server in the current shell, run `./tgs.sh` in the 
 tgstation-server supports running in a docker container. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile -t <your tag name>` in the repository root.
 
 To create a container run
+
 ```sh
 docker run \
 	-ti \ # Start with interactive terminal the first time to run the setup wizard
@@ -199,6 +205,7 @@ docker run \
 	-v /path/to/your/log/folder:/tgs_logs \ # Recommended, create a volume mapping for server logs
 	tgstation/server[:<release version>]
 ```
+
 with any additional options you desire (i.e. You'll have to expose more game ports in order to host more than one instance).
 
 When launching the container for the first time, you'll be prompted with the setup wizard and then the container will exit. Start the container again to launch the server.
@@ -224,14 +231,15 @@ OpenDream currently requires [.NET SDK 8.0](https://dotnet.microsoft.com/en-us/d
 <details>
   <summary>How to handle a different SDK version than the ASP.NET runtime of TGS.</summary>
 
-  On Linux, as long as OpenDream and TGS do not use the same .NET major version, you cannot achieve this with the package manager as they will conflict. For example, the 7.0 SDK can be added to an 8.0 runtime installation via the following steps.
+On Linux, as long as OpenDream and TGS do not use the same .NET major version, you cannot achieve this with the package manager as they will conflict. For example, the 7.0 SDK can be added to an 8.0 runtime installation via the following steps.
 
-  1. Install `tgstation-server` using any of the above methods.
-  1. [Download the Linux SDK binaries](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) for your selected architecture.
-  1. Extract everything EXCEPT the `dotnet` executable, `LICENSE.txt`, and `ThirdPartyNotices.txt` in the `.tar.gz` on top of the existing installation directory `/usr/share/dotnet/`
-  1. Run `sudo chown -R root /usr/share/dotnet`
+1. Install `tgstation-server` using any of the above methods.
+1. [Download the Linux SDK binaries](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) for your selected architecture.
+1. Extract everything EXCEPT the `dotnet` executable, `LICENSE.txt`, and `ThirdPartyNotices.txt` in the `.tar.gz` on top of the existing installation directory `/usr/share/dotnet/`
+1. Run `sudo chown -R root /usr/share/dotnet`
 
-  You should now be able to run the `dotnet --list-sdks` command and see an entry for `7.0.XXX [/usr/share/dotnet/sdk]`.
+You should now be able to run the `dotnet --list-sdks` command and see an entry for `7.0.XXX [/usr/share/dotnet/sdk]`.
+
 </details>
 
 ### Configuring
@@ -292,13 +300,14 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `ControlPanel:Enable`: Enable the javascript based control panel to be served from the server via /index.html
 
-- `ControlPanel:AllowAnyOrigin`: Set the Access-Control-Allow-Origin header to * for all responses (also enables all headers and methods)
+- `ControlPanel:AllowAnyOrigin`: Set the Access-Control-Allow-Origin header to \* for all responses (also enables all headers and methods)
 
 - `ControlPanel:AllowedOrigins`: Set the Access-Control-Allow-Origin headers to this list of origins for all responses (also enables all headers and methods). This is overridden by `ControlPanel:AllowAnyOrigin`
 
 - `ControlPanel:PublicPath`: URL from which the webpanel can be accessed, defaults to "/app/". Must be an absolute path (https://example.org/path/to/webpanel) or a path starting from root (/path/to/webpanel). Note that this option does not relocate the webpanel for you; you will need a reverse proxy to relocate the webpanel
 
 - `Elasticsearch`: tgstation-server also supports automatically ingesting its logs to ElasticSearch. You can set this up in the setup wizard, or with the following configuration:
+
   ```yml
   Elasticsearch:
     Enable: true
@@ -330,6 +339,7 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 #### OAuth Configuration
 
 - `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, and `InvisionCommunity`. Setting these fields to `null` disables logins AND gateway auth with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
+
 ```yml
 Security:
   OAuth:
@@ -341,6 +351,7 @@ Security:
 	  Gateway: Disabled # Can be one of `Disabled` disallowing gateway auth (default), `Enabled` allowing gateway auth, or `Only` allowing gateway auth and disabling OAuth logins with this provider
       UserInformationUrlOverride: "..." # For power users, leave out of configuration for most cases. Not supported by GitHub provider.
 ```
+
 The following providers use the `RedirectUrl` setting:
 
 - GitHub
@@ -353,7 +364,9 @@ The following providers use the `ServerUrl` setting:
 Gateway auth simply allows the users to authenticate with the service using the configuration you provide and have their impersonation token passed back to the client. An example of this is using GitHub gateway auth to allow clients to enumerate pull requests without getting rate limited.
 
 #### OpenID Connect Configuration
+
 - `Security:OpenIDConnect:<Scheme Key>`: Sets up an OpenID Connect Provider with given "Scheme Key". Note that you must setup a redirect URI of `/oidc/<scheme key>/sigin-callback` in your provider. Sample entry:
+
 ```yml
 Security:
   OpenIDConnect:
@@ -419,6 +432,7 @@ The DMAPI is fully backwards compatible and should function with any tgstation-s
 Here is a bare minimum example project that implements the essential code changes for integrating the DMAPI
 
 Before `tgs.dm`:
+
 ```dm
 //Remember, every codebase is different, you probably have better methods for these defines than the ones given here
 #define TGS_EXTERNAL_CONFIGURATION
@@ -435,6 +449,7 @@ Before `tgs.dm`:
 ```
 
 Anywhere else:
+
 ```dm
 var/global/client_count = 0
 
@@ -489,11 +504,13 @@ _NOTE: Your reverse proxy setup may interfere with SSE (Server-Sent Events) whic
 
 1. Setup a basic website configuration. Instructions on how to do so are out of scope.
 2. In your Caddyfile, under a server entry, add the following (replace 5000 with the port TGS is hosted on):
+
 ```
 https://your.site.here {
         reverse_proxy localhost:5000
 }
 ```
+
 3. For this setup, your configuration's `ControlPanel:PublicPath` needs to be blank. If you have a path in `PublicPath`, it needs to be in "reverse_proxy PublicPathHere localhost:5000".
 
 See https://caddyserver.com/docs/caddyfile/directives/reverse_proxy
@@ -503,6 +520,7 @@ See https://caddyserver.com/docs/caddyfile/directives/reverse_proxy
 1. Setup a basic website configuration. Instructions on how to do so are out of scope.
 2. Acquire an HTTPS certificate, likely via Let's Encrypt, and configure NGINX to use it.
 3. Setup a path under a server like the following (replace 8080 with the port TGS is hosted on):
+
 ```
 location /tgs {
 	proxy_pass http://127.0.0.1:8080;
@@ -518,6 +536,7 @@ See https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
 2. Setup a basic website configuration. Instructions on how to do so are out of scope.
 3. Acquire an HTTPS certificate, likely via Let's Encrypt, and configure Apache to use it.
 4. Under a VirtualHost entry, setup the following (replace 8080 with the port TGS is hosted on):
+
 ```
 ProxyPass / http://127.0.0.1:8080
 ProxyPassReverse / http://127.0.0.1:8080
@@ -526,6 +545,7 @@ ProxyPassReverse / http://127.0.0.1:8080
 See https://httpd.apache.org/docs/2.4/howto/reverse_proxy.html
 
 Example VirtualHost Entry
+
 ```
 <IfModule mod_ssl.c>
 <VirtualHost *:443>
@@ -639,10 +659,7 @@ Bots have a set of built-in commands that can be triggered via `!tgs`, mentionin
 
 All files in game code deployments are considered transient by default, meaning when new code is deployed, changes will be lost. Static files allow you to specify which files and folders stick around throughout all deployments.
 
-The `Configuration` folder contains 3 root folders which cannot be deleted and operate under special rules
-	- `CodeModifications`
-	- `EventScripts`
-	- `GameStaticFiles`
+The `Configuration` folder contains 3 root folders which cannot be deleted and operate under special rules - `CodeModifications` - `EventScripts` - `GameStaticFiles`
 
 These files can be modified either in host mode or system user mode. In host mode, TGS itself is responsible for reading and writing the files. In system user mode read and write actions are performed using the system account of the logged on User, enabling the use of ACLs to control access to files. Database users will not be able to use the static file system if this mode is configured for an instance.
 
@@ -716,12 +733,12 @@ Feel free to ask for help [on the discussions page](https://github.com/tgstation
 
 ## Contributing
 
-* See [CONTRIBUTING.md](.github/CONTRIBUTING.md)
+- See [CONTRIBUTING.md](.github/CONTRIBUTING.md)
 
 ## Licensing
 
-* The DMAPI for the project is licensed under the MIT license.
-* The /tg/station 13 icon is licensed under [Creative Commons 3.0 BY-SA](http://creativecommons.org/licenses/by-sa/3.0/).
-* The remainder of the project is licensed under [GNU AGPL v3](http://www.gnu.org/licenses/agpl-3.0.html)
+- The DMAPI for the project is licensed under the MIT license.
+- The /tg/station 13 icon is licensed under [Creative Commons 3.0 BY-SA](http://creativecommons.org/licenses/by-sa/3.0/).
+- The remainder of the project is licensed under [GNU AGPL v3](http://www.gnu.org/licenses/agpl-3.0.html)
 
 See the files in the `/src/DMAPI` tree for the MIT license

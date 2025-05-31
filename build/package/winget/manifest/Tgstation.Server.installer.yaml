@@ -4,24 +4,24 @@
 PackageIdentifier: Tgstation.Server
 PackageVersion: 0.22.475 # Do not change. Set before publish by push_manifest.ps1
 Installers:
-- InstallerUrl: https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v0.22.475/tgstation-server-installer.exe # Do not change. Set before publish by push_manifest.ps1
-  InstallerLocale: en-US
-  Architecture: x86
-  InstallerType: burn
-  Scope: machine
-  InstallerSha256: CF0D4D2FD042098D826A226A05A9DAA5C792318CF48FD334F7FC06AF6A8A23B1 # Do not change. Set before publish by push_manifest.ps1
-  InstallModes:
-  - interactive
-  - silent
-  - silentWithProgress
-  ProductCode: '{D24887FA-3228-4509-B5F3-4E07E349F278}'
-  UnsupportedOSArchitectures:
-  - arm
-  - arm64
-  ElevationRequirement: elevatesSelf
-  AppsAndFeaturesEntries:
-  - DisplayName: tgstation-server
-    Publisher: /tg/station 13
-  ReleaseDate: 2023-06-24 # Do not change. Set before publish by push_manifest.ps1
+  - InstallerUrl: https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v0.22.475/tgstation-server-installer.exe # Do not change. Set before publish by push_manifest.ps1
+    InstallerLocale: en-US
+    Architecture: x86
+    InstallerType: burn
+    Scope: machine
+    InstallerSha256: CF0D4D2FD042098D826A226A05A9DAA5C792318CF48FD334F7FC06AF6A8A23B1 # Do not change. Set before publish by push_manifest.ps1
+    InstallModes:
+      - interactive
+      - silent
+      - silentWithProgress
+    ProductCode: "{D24887FA-3228-4509-B5F3-4E07E349F278}"
+    UnsupportedOSArchitectures:
+      - arm
+      - arm64
+    ElevationRequirement: elevatesSelf
+    AppsAndFeaturesEntries:
+      - DisplayName: tgstation-server
+        Publisher: /tg/station 13
+    ReleaseDate: 2023-06-24 # Do not change. Set before publish by push_manifest.ps1
 ManifestType: installer
 ManifestVersion: 1.6.0

@@ -1,33 +1,121 @@
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal" xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx">
-  <Bundle Name="tgstation-server" Manufacturer="/tg/station 13" Version="$(var.ProductVersion)" AboutUrl="https://github.com/tgstation/tgstation-server/blob/tgstation-server-v$(var.ProductVersion)/LICENSE" IconSourceFile="../../../../artifacts/tgs.ico" HelpUrl="https://github.com/tgstation/tgstation-server/discussions/categories/q-a" UpdateUrl="https://github.com/tgstation/tgstation-server/releases/latest" UpgradeCode="542535f4-49ad-45c4-9b96-6d8235ed8b87">
+<Wix
+  xmlns="http://wixtoolset.org/schemas/v4/wxs"
+  xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal"
+  xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx"
+>
+  <Bundle
+    Name="tgstation-server"
+    Manufacturer="/tg/station 13"
+    Version="$(var.ProductVersion)"
+    AboutUrl="https://github.com/tgstation/tgstation-server/blob/tgstation-server-v$(var.ProductVersion)/LICENSE"
+    IconSourceFile="../../../../artifacts/tgs.ico"
+    HelpUrl="https://github.com/tgstation/tgstation-server/discussions/categories/q-a"
+    UpdateUrl="https://github.com/tgstation/tgstation-server/releases/latest"
+    UpgradeCode="542535f4-49ad-45c4-9b96-6d8235ed8b87"
+  >
     <BootstrapperApplication>
-      <bal:WixStandardBootstrapperApplication LicenseUrl="https://github.com/tgstation/tgstation-server/tree/tgstation-server-v$(var.ProductVersion)" LocalizationFile="Theme.wxl" Theme="hyperlinkLicense" LogoFile="../../../../artifacts/tgs.ico" ShowVersion="yes" SuppressOptionsUI="yes" ThemeFile="Theme.xml" LaunchTarget="http://127.0.0.1:5000" />
+      <bal:WixStandardBootstrapperApplication
+        LicenseUrl="https://github.com/tgstation/tgstation-server/tree/tgstation-server-v$(var.ProductVersion)"
+        LocalizationFile="Theme.wxl"
+        Theme="hyperlinkLicense"
+        LogoFile="../../../../artifacts/tgs.ico"
+        ShowVersion="yes"
+        SuppressOptionsUI="yes"
+        ThemeFile="Theme.xml"
+        LaunchTarget="http://127.0.0.1:5000"
+      />
     </BootstrapperApplication>
 
-    <netfx:DotNetCoreSearch RuntimeType="aspnet" Platform="x64" MajorVersion="$(var.NetMajorVersion)" Variable="AspNetCorex64Status" />
-    <netfx:DotNetCoreSearch RuntimeType="aspnet" Platform="x86" MajorVersion="$(var.NetMajorVersion)" Variable="AspNetCorex86Status" />
+    <netfx:DotNetCoreSearch
+      RuntimeType="aspnet"
+      Platform="x64"
+      MajorVersion="$(var.NetMajorVersion)"
+      Variable="AspNetCorex64Status"
+    />
+    <netfx:DotNetCoreSearch
+      RuntimeType="aspnet"
+      Platform="x86"
+      MajorVersion="$(var.NetMajorVersion)"
+      Variable="AspNetCorex86Status"
+    />
 
-    <netfx:DotNetCoreSearch RuntimeType="core" Platform="x64" MajorVersion="$(var.NetMajorVersion)" Variable="NetCorex64Status" />
-    <netfx:DotNetCoreSearch RuntimeType="core" Platform="x86" MajorVersion="$(var.NetMajorVersion)" Variable="NetCorex86Status" />
+    <netfx:DotNetCoreSearch
+      RuntimeType="core"
+      Platform="x64"
+      MajorVersion="$(var.NetMajorVersion)"
+      Variable="NetCorex64Status"
+    />
+    <netfx:DotNetCoreSearch
+      RuntimeType="core"
+      Platform="x86"
+      MajorVersion="$(var.NetMajorVersion)"
+      Variable="NetCorex86Status"
+    />
 
-    <WixVariable Id="AspNetCoreDetectCondition" Value="(NetCorex64Status AND AspNetCorex64Status) OR (NetCorex86Status AND AspNetCorex86Status)" />
+    <WixVariable
+      Id="AspNetCoreDetectCondition"
+      Value="(NetCorex64Status AND AspNetCorex64Status) OR (NetCorex86Status AND AspNetCorex86Status)"
+    />
     <Variable Name="DefaultConfigurationCheckbox" Type="numeric" Value="1" />
     <Variable Name="InstallMariaDBPassword" Value="DreamsOfCheese" />
 
     <Chain>
-      <MsiPackage InstallCondition="InstallMariaDBCheckbox=1" RepairCondition="FALSE" Visible="yes" Permanent="yes" DownloadUrl="$(var.MariaDBRedistUrl)" Compressed="no" SourceFile="mariadb.msi" Cache="remove" bal:DisplayInternalUICondition="DefaultConfigurationCheckbox=0" ForcePerMachine="yes">
-        <MsiProperty Name="HEIDISQLINSTALLED" Value="1" Condition="DefaultConfigurationCheckbox=1" /> <!-- Prevents HeidiSQL installation -->
-        <MsiProperty Name="PASSWORD" Value="[InstallMariaDBPassword]" Condition="DefaultConfigurationCheckbox=1" />
+      <MsiPackage
+        InstallCondition="InstallMariaDBCheckbox=1"
+        RepairCondition="FALSE"
+        Visible="yes"
+        Permanent="yes"
+        DownloadUrl="$(var.MariaDBRedistUrl)"
+        Compressed="no"
+        SourceFile="mariadb.msi"
+        Cache="remove"
+        bal:DisplayInternalUICondition="DefaultConfigurationCheckbox=0"
+        ForcePerMachine="yes"
+      >
+        <MsiProperty
+          Name="HEIDISQLINSTALLED"
+          Value="1"
+          Condition="DefaultConfigurationCheckbox=1"
+        />
+        <MsiProperty
+          Name="PASSWORD"
+          Value="[InstallMariaDBPassword]"
+          Condition="DefaultConfigurationCheckbox=1"
+        />
         <MsiProperty Name="UTF8" Value="1" />
         <MsiProperty Name="SERVICENAME" Value="MariaDB" />
       </MsiPackage>
-      <ExePackage PerMachine="yes" DetectCondition="!(wix.AspNetCoreDetectCondition)" Permanent="yes" Protocol="burn" InstallArguments="/install /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]" RepairArguments="/repair /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]" UninstallArguments="/uninstall /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]" Cache="remove" LogPathVariable="HOSTING_BUNDLE_LOG_PATH" RepairCondition="FALSE" DownloadUrl="$(var.DotnetRedistUrl)" SourceFile="hosting-bundle.exe" Compressed="no" />
+      <ExePackage
+        PerMachine="yes"
+        DetectCondition="!(wix.AspNetCoreDetectCondition)"
+        Permanent="yes"
+        Protocol="burn"
+        InstallArguments="/install /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]"
+        RepairArguments="/repair /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]"
+        UninstallArguments="/uninstall /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]"
+        Cache="remove"
+        LogPathVariable="HOSTING_BUNDLE_LOG_PATH"
+        RepairCondition="FALSE"
+        DownloadUrl="$(var.DotnetRedistUrl)"
+        SourceFile="hosting-bundle.exe"
+        Compressed="no"
+      />
       <MsiPackage SourceFile="$(var.Tgstation.Server.Host.Service.Wix.TargetPath)">
-        <MsiProperty Name="WIX_BOOTSTRAPPER_UILEVEL" Value="[WixBundleUILevel]" />
-        <MsiProperty Name="MARIADB_INSTALLED" Value="TRUE" Condition="InstallMariaDBCheckbox=1" />
-        <MsiProperty Name="MARIADB_PASSWORD" Value="[InstallMariaDBPassword]" Condition="InstallMariaDBCheckbox=1 AND DefaultConfigurationCheckbox=1" />
+        <MsiProperty
+          Name="WIX_BOOTSTRAPPER_UILEVEL"
+          Value="[WixBundleUILevel]"
+        />
+        <MsiProperty
+          Name="MARIADB_INSTALLED"
+          Value="TRUE"
+          Condition="InstallMariaDBCheckbox=1"
+        />
+        <MsiProperty
+          Name="MARIADB_PASSWORD"
+          Value="[InstallMariaDBPassword]"
+          Condition="InstallMariaDBCheckbox=1 AND DefaultConfigurationCheckbox=1"
+        />
       </MsiPackage>
     </Chain>
-
   </Bundle>
-</Wix>
+</Wix>;

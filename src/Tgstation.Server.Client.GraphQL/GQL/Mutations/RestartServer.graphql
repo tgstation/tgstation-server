@@ -1,5 +1,5 @@
-mutation RestartServer() {
-  restartServerNode() {
+mutation RestartServer {
+  restartServerNode {
     errors {
       ... on ErrorMessageError {
         additionalData

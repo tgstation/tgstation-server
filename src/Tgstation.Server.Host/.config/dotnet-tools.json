@@ -1,12 +1,10 @@
 {
-  "version": 1,
-  "isRoot": true,
-  "tools": {
-    "dotnet-ef": {
-      "version": "9.0.4",
-      "commands": [
-        "dotnet-ef"
-      ]
-    }
-  }
+	"version": 1,
+	"isRoot": true,
+	"tools": {
+		"dotnet-ef": {
+			"version": "9.0.4",
+			"commands": ["dotnet-ef"]
+		}
+	}
 }

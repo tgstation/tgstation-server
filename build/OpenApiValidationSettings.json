@@ -1,95 +1,95 @@
 {
-  "shared": {
-    "operations": {
-      "no_operation_id": "error",
-      "operation_id_case_convention": "off",
-      "no_summary": "error",
-      "no_array_responses": "error",
-      "parameter_order": "error",
-      "undefined_tag": "off",
-      "unused_tag": "error",
-      "operation_id_naming_convention": "off"
-    },
-    "pagination": {
-      "pagination_style": "error"
-    },
-    "parameters": {
-      "no_parameter_description": "error",
-      "param_name_case_convention": "off",
-      "invalid_type_format_pair": "off",
-      "content_type_parameter": "error",
-      "accept_type_parameter": "error",
-      "authorization_parameter": "error",
-      "required_param_has_default": "error"
-    },
-    "paths": {
-      "missing_path_parameter": "error",
-      "duplicate_path_parameter": "error",
-      "snake_case_only": "off",
-      "paths_case_convention": "off"
-    },
-    "responses": {
-      "inline_response_schema": "off"
-    },
-    "security_definitions": {
-      "unused_security_schemes": "error",
-      "unused_security_scopes": "error"
-    },
-    "security": {
-      "invalid_non_empty_security_array": "error"
-    },
-    "schemas": {
-      "invalid_type_format_pair": "off",
-      "snake_case_only": "off",
-      "no_schema_description": "off",
-      "no_property_description": "off",
-      "description_mentions_json": "error",
-      "array_of_arrays": "error",
-      "inconsistent_property_type": "error",
-      "property_case_convention": "off",
-      "property_case_collision": "error",
-      "enum_case_convention": "off"
-    },
-    "walker": {
-      "no_empty_descriptions": "error",
-      "has_circular_references": "error",
-      "$ref_siblings": "error",
-      "duplicate_sibling_description": "error",
-      "incorrect_ref_pattern": "error"
-    }
-  },
-  "swagger2": {
-    "operations": {
-      "no_consumes_for_put_or_post": "error",
-      "get_op_has_consumes": "error",
-      "no_produces": "error"
-    }
-  },
-  "oas3": {
-    "operations": {
-      "no_request_body_name": "off"
-    },
-    "responses": {
-      "no_success_response_codes": "error",
-      "no_response_body": "error",
-      "ibm_status_code_guidelines": "off"
-    },
-    "schemas": {
-      "json_or_param_binary_string": "error"
-    }
-  },
-  "spectral": {
-    "rules": {
-      "content-entry-provided": "off",
-      "major-version-in-path": "off",
-      "oas3-api-servers": "off",
-      "openapi-tags": "off",
-      "operation-description": "off",
-      "operation-tag-defined": "off",
-      "request-body-object": "off",
-      "response-error-response-schema": "off",
-      "response-example-provided": "off",
-      "oas3-schema": "off"
-    }
-  }
+	"shared": {
+		"operations": {
+			"no_operation_id": "error",
+			"operation_id_case_convention": "off",
+			"no_summary": "error",
+			"no_array_responses": "error",
+			"parameter_order": "error",
+			"undefined_tag": "off",
+			"unused_tag": "error",
+			"operation_id_naming_convention": "off"
+		},
+		"pagination": {
+			"pagination_style": "error"
+		},
+		"parameters": {
+			"no_parameter_description": "error",
+			"param_name_case_convention": "off",
+			"invalid_type_format_pair": "off",
+			"content_type_parameter": "error",
+			"accept_type_parameter": "error",
+			"authorization_parameter": "error",
+			"required_param_has_default": "error"
+		},
+		"paths": {
+			"missing_path_parameter": "error",
+			"duplicate_path_parameter": "error",
+			"snake_case_only": "off",
+			"paths_case_convention": "off"
+		},
+		"responses": {
+			"inline_response_schema": "off"
+		},
+		"security_definitions": {
+			"unused_security_schemes": "error",
+			"unused_security_scopes": "error"
+		},
+		"security": {
+			"invalid_non_empty_security_array": "error"
+		},
+		"schemas": {
+			"invalid_type_format_pair": "off",
+			"snake_case_only": "off",
+			"no_schema_description": "off",
+			"no_property_description": "off",
+			"description_mentions_json": "error",
+			"array_of_arrays": "error",
+			"inconsistent_property_type": "error",
+			"property_case_convention": "off",
+			"property_case_collision": "error",
+			"enum_case_convention": "off"
+		},
+		"walker": {
+			"no_empty_descriptions": "error",
+			"has_circular_references": "error",
+			"$ref_siblings": "error",
+			"duplicate_sibling_description": "error",
+			"incorrect_ref_pattern": "error"
+		}
+	},
+	"swagger2": {
+		"operations": {
+			"no_consumes_for_put_or_post": "error",
+			"get_op_has_consumes": "error",
+			"no_produces": "error"
+		}
+	},
+	"oas3": {
+		"operations": {
+			"no_request_body_name": "off"
+		},
+		"responses": {
+			"no_success_response_codes": "error",
+			"no_response_body": "error",
+			"ibm_status_code_guidelines": "off"
+		},
+		"schemas": {
+			"json_or_param_binary_string": "error"
+		}
+	},
+	"spectral": {
+		"rules": {
+			"content-entry-provided": "off",
+			"major-version-in-path": "off",
+			"oas3-api-servers": "off",
+			"openapi-tags": "off",
+			"operation-description": "off",
+			"operation-tag-defined": "off",
+			"request-body-object": "off",
+			"response-error-response-schema": "off",
+			"response-example-provided": "off",
+			"oas3-schema": "off"
+		}
+	}
 }

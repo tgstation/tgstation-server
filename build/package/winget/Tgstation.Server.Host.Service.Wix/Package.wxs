@@ -1,90 +1,239 @@
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
-  <Package Name="tgstation-server" Manufacturer="/tg/station 13" Version="$(var.ProductVersion)" UpgradeCode="36912c45-5953-4f16-ad7d-17a150ea3587" Scope="perMachine">
+<Wix
+  xmlns="http://wixtoolset.org/schemas/v4/wxs"
+  xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util"
+>
+  <Package
+    Name="tgstation-server"
+    Manufacturer="/tg/station 13"
+    Version="$(var.ProductVersion)"
+    UpgradeCode="36912c45-5953-4f16-ad7d-17a150ea3587"
+    Scope="perMachine"
+  >
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
 
     <MediaTemplate EmbedCab="yes" />
 
-    <Binary Id="InstallerExtensionsBinary" SourceFile="$(var.Tgstation.Server.Host.Service.Wix.Extensions.TargetName).CA.dll" />
+    <Binary
+      Id="InstallerExtensionsBinary"
+      SourceFile="$(var.Tgstation.Server.Host.Service.Wix.Extensions.TargetName).CA.dll"
+    />
 
-    <CustomAction Id="DetachStopTgsServiceIfRunningAction" BinaryRef="InstallerExtensionsBinary" DllEntry="DetachStopTgsServiceIfRunning" Execute="deferred" />
-    <CustomAction Id="ApplyProductionAppsettingsIfNonExistantAction" BinaryRef="InstallerExtensionsBinary" DllEntry="ApplyProductionAppsettingsIfNonExistant" Execute="deferred" />
-    <CustomAction Id="RunTgsConfigure" Execute="deferred" FileRef="ServiceExecutableFile" ExeCommand="-c -p=--appsettings-base-path=[APPLICATIONDATADIRECTORY]" />
-    <CustomAction Id="RunTgsConfigureMariaDB" Execute="deferred" FileRef="ServiceExecutableFile" ExeCommand="-c -p=&quot;--appsettings-base-path=[APPLICATIONDATADIRECTORY] --Internal:MariaDBSetup=true --Internal:MariaDBDefaultRootPassword=\&quot;[MARIADB_PASSWORD]\&quot;&quot;" />
+    <CustomAction
+      Id="DetachStopTgsServiceIfRunningAction"
+      BinaryRef="InstallerExtensionsBinary"
+      DllEntry="DetachStopTgsServiceIfRunning"
+      Execute="deferred"
+    />
+    <CustomAction
+      Id="ApplyProductionAppsettingsIfNonExistantAction"
+      BinaryRef="InstallerExtensionsBinary"
+      DllEntry="ApplyProductionAppsettingsIfNonExistant"
+      Execute="deferred"
+    />
+    <CustomAction
+      Id="RunTgsConfigure"
+      Execute="deferred"
+      FileRef="ServiceExecutableFile"
+      ExeCommand="-c -p=--appsettings-base-path=[APPLICATIONDATADIRECTORY]"
+    />
+    <CustomAction
+      Id="RunTgsConfigureMariaDB"
+      Execute="deferred"
+      FileRef="ServiceExecutableFile"
+      ExeCommand='-c -p="--appsettings-base-path=[APPLICATIONDATADIRECTORY] --Internal:MariaDBSetup=true --Internal:MariaDBDefaultRootPassword=\"[MARIADB_PASSWORD]\""'
+    />
 
     <Icon Id="tgs.ico" SourceFile="../../../../artifacts/tgs.ico" />
 
-    <SetProperty Id="WIX_BOOTSTRAPPER_UILEVEL" Value="[UILevel]" After="CostFinalize" Condition="WIX_BOOTSTRAPPER_UILEVEL=&quot;&quot;" />
+    <SetProperty
+      Id="WIX_BOOTSTRAPPER_UILEVEL"
+      Value="[UILevel]"
+      After="CostFinalize"
+      Condition='WIX_BOOTSTRAPPER_UILEVEL=""'
+    />
 
     <InstallExecuteSequence>
-      <Custom Action="DetachStopTgsServiceIfRunningAction" Condition="UPGRADINGPRODUCTCODE OR REINSTALL" Before="StopServices" />
-      <Custom Action="ApplyProductionAppsettingsIfNonExistantAction" Condition="NOT ((NOT REMOVE~=&quot;ALL&quot;) AND (NOT PRODUCTIONAPPSETTINGSPRESENT) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4)))" Before="StartServices" />
-      <Custom Action="RunTgsConfigure" Before="StartServices" Condition="(NOT MARIADB_INSTALLED) AND (NOT REMOVE~=&quot;ALL&quot;) AND (NOT PRODUCTIONAPPSETTINGSPRESENT) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4))"/>
-      <Custom Action="RunTgsConfigureMariaDB" Before="StartServices" Condition="MARIADB_INSTALLED AND (NOT REMOVE~=&quot;ALL&quot;) AND (NOT PRODUCTIONAPPSETTINGSPRESENT) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4))"/>
-      <StartServices Condition="(NOT REMOVE~=&quot;ALL&quot;) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4) OR PRODUCTIONAPPSETTINGSPRESENT)"/>
+      <Custom
+        Action="DetachStopTgsServiceIfRunningAction"
+        Condition="UPGRADINGPRODUCTCODE OR REINSTALL"
+        Before="StopServices"
+      />
+      <Custom
+        Action="ApplyProductionAppsettingsIfNonExistantAction"
+        Condition='NOT ((NOT REMOVE~="ALL") AND (NOT PRODUCTIONAPPSETTINGSPRESENT) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4)))'
+        Before="StartServices"
+      />
+      <Custom
+        Action="RunTgsConfigure"
+        Before="StartServices"
+        Condition='(NOT MARIADB_INSTALLED) AND (NOT REMOVE~="ALL") AND (NOT PRODUCTIONAPPSETTINGSPRESENT) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4))'
+      />
+      <Custom
+        Action="RunTgsConfigureMariaDB"
+        Before="StartServices"
+        Condition='MARIADB_INSTALLED AND (NOT REMOVE~="ALL") AND (NOT PRODUCTIONAPPSETTINGSPRESENT) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4))'
+      />
+      <StartServices Condition='(NOT REMOVE~="ALL") AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4) OR PRODUCTIONAPPSETTINGSPRESENT)' />
     </InstallExecuteSequence>
 
-    <Feature Id="MainServerFeature" AllowAbsent="no" Description="!(loc.MainServerFeatureDescription)">
-      <ComponentGroupRef Id="InitialHostComponentGroup"/>
-      <ComponentGroupRef Id="ServiceHostWatchdogComponentGroup"/>
-      <ComponentRef Id="StoreApplicationDataDirectoryPathComponent"/>
-      <ComponentRef Id="ServiceHostWatchdogExeComponent"/>
-      <ComponentRef Id="PurgeLibDirectoryComponent"/>
-      <ComponentRef Id="BaseAppSettingsComponent"/>
-      <ComponentRef Id="ProductionAppSettingsComponent"/>
+    <Feature
+      Id="MainServerFeature"
+      AllowAbsent="no"
+      Description="!(loc.MainServerFeatureDescription)"
+    >
+      <ComponentGroupRef Id="InitialHostComponentGroup" />
+      <ComponentGroupRef Id="ServiceHostWatchdogComponentGroup" />
+      <ComponentRef Id="StoreApplicationDataDirectoryPathComponent" />
+      <ComponentRef Id="ServiceHostWatchdogExeComponent" />
+      <ComponentRef Id="PurgeLibDirectoryComponent" />
+      <ComponentRef Id="BaseAppSettingsComponent" />
+      <ComponentRef Id="ProductionAppSettingsComponent" />
     </Feature>
 
     <Property Id="LIBDIRECTORY">
-      <RegistrySearch Key="SOFTWARE\tgstation\tgstation-server" Root="HKLM" Type="raw" Id="StoredLibDirectory" Name="LibDirectory" />
+      <RegistrySearch
+        Key="SOFTWARE\tgstation\tgstation-server"
+        Root="HKLM"
+        Type="raw"
+        Id="StoredLibDirectory"
+        Name="LibDirectory"
+      />
     </Property>
 
     <Property Id="APPLICATIONDATADIRECTORY">
-      <RegistrySearch Key="SOFTWARE\tgstation\tgstation-server" Root="HKLM" Type="raw" Id="StoredProgramDataDirectory" Name="ProgramDataDirectory" />
+      <RegistrySearch
+        Key="SOFTWARE\tgstation\tgstation-server"
+        Root="HKLM"
+        Type="raw"
+        Id="StoredProgramDataDirectory"
+        Name="ProgramDataDirectory"
+      />
     </Property>
 
     <Property Id="PRODUCTIONAPPSETTINGSPRESENT">
-      <DirectorySearch Path="[CommonAppDataFolder]" Depth="0" Id="ProgramDataDirectorySearcher">
-        <DirectorySearch Path="!(bind.Property.ProductName)" Depth="0" Id="ApplicationDataDirectorySearcher">
+      <DirectorySearch
+        Path="[CommonAppDataFolder]"
+        Depth="0"
+        Id="ProgramDataDirectorySearcher"
+      >
+        <DirectorySearch
+          Path="!(bind.Property.ProductName)"
+          Depth="0"
+          Id="ApplicationDataDirectorySearcher"
+        >
           <FileSearch Name="appsettings.Production.yml" />
         </DirectorySearch>
       </DirectorySearch>
     </Property>
-    
+
     <ComponentGroup Id="ServiceHostWatchdogComponentGroup">
-      <Files Include="../../../../artifacts/Tgstation.Server.Host.Service/**" Directory="ApplicationDirectory" />
+      <Files
+        Include="../../../../artifacts/Tgstation.Server.Host.Service/**"
+        Directory="ApplicationDirectory"
+      />
     </ComponentGroup>
 
     <StandardDirectory Id="ProgramFiles6432Folder">
       <Directory Id="ApplicationDirectory" Name="!(bind.Property.ProductName)">
         <Directory Id="LIBDIRECTORY" Name="lib">
           <Directory Id="DefaultLibDirectory" Name="Default" />
-          <Component Id="PurgeLibDirectoryComponent" Guid="38E323E2-0404-4ACB-ACDD-80F5525538FB">
-            <RegistryValue Root="HKLM" Key="SOFTWARE\tgstation\tgstation-server" Name="LibDirectory" Type="string" Value="[LIBDIRECTORY]" KeyPath="yes" />
-            <util:RemoveFolderEx Id="PurgeLibDirectory" On="both" Property="LIBDIRECTORY" />
+          <Component
+            Id="PurgeLibDirectoryComponent"
+            Guid="38E323E2-0404-4ACB-ACDD-80F5525538FB"
+          >
+            <RegistryValue
+              Root="HKLM"
+              Key="SOFTWARE\tgstation\tgstation-server"
+              Name="LibDirectory"
+              Type="string"
+              Value="[LIBDIRECTORY]"
+              KeyPath="yes"
+            />
+            <util:RemoveFolderEx
+              Id="PurgeLibDirectory"
+              On="both"
+              Property="LIBDIRECTORY"
+            />
           </Component>
         </Directory>
-        <Component Id="ServiceHostWatchdogExeComponent" Guid="9430D56D-EEBF-4026-9EC1-693668A6EC7C" >
-          <File Id="ServiceExecutableFile" Source="Tgstation.Server.Host.Service.exe" KeyPath="yes" />
-          <Shortcut Advertise="yes" Arguments="-c -x -r -p=--appsettings-base-path=[APPLICATIONDATADIRECTORY]" Description="!(loc.ConfigureRestartDescription)" Name="!(loc.ConfigureRestartName)" Directory="DesktopFolder" Icon="tgs.ico" />
-          <Shortcut Advertise="yes" Arguments="-c -x -r -p=--appsettings-base-path=[APPLICATIONDATADIRECTORY]" Description="!(loc.ConfigureRestartDescription)" Name="!(loc.ConfigureRestartName)" Directory="StartMenuFolder" Icon="tgs.ico"  />
-          <ServiceInstall Name="!(bind.Property.ProductName)" DisplayName="!(bind.Property.ProductName)" Description="!(loc.ServerServiceDescription)" Start="auto" Type="ownProcess" ErrorControl="normal" Account="LocalSystem" Vital="yes" Interactive="no" Arguments="-p=--appsettings-base-path=[APPLICATIONDATADIRECTORY]">
+        <Component
+          Id="ServiceHostWatchdogExeComponent"
+          Guid="9430D56D-EEBF-4026-9EC1-693668A6EC7C"
+        >
+          <File
+            Id="ServiceExecutableFile"
+            Source="Tgstation.Server.Host.Service.exe"
+            KeyPath="yes"
+          />
+          <Shortcut
+            Advertise="yes"
+            Arguments="-c -x -r -p=--appsettings-base-path=[APPLICATIONDATADIRECTORY]"
+            Description="!(loc.ConfigureRestartDescription)"
+            Name="!(loc.ConfigureRestartName)"
+            Directory="DesktopFolder"
+            Icon="tgs.ico"
+          />
+          <Shortcut
+            Advertise="yes"
+            Arguments="-c -x -r -p=--appsettings-base-path=[APPLICATIONDATADIRECTORY]"
+            Description="!(loc.ConfigureRestartDescription)"
+            Name="!(loc.ConfigureRestartName)"
+            Directory="StartMenuFolder"
+            Icon="tgs.ico"
+          />
+          <ServiceInstall
+            Name="!(bind.Property.ProductName)"
+            DisplayName="!(bind.Property.ProductName)"
+            Description="!(loc.ServerServiceDescription)"
+            Start="auto"
+            Type="ownProcess"
+            ErrorControl="normal"
+            Account="LocalSystem"
+            Vital="yes"
+            Interactive="no"
+            Arguments="-p=--appsettings-base-path=[APPLICATIONDATADIRECTORY]"
+          >
             <ServiceDependency Id="Tcpip" />
             <ServiceDependency Id="Dhcp" />
             <ServiceDependency Id="Dnscache" />
           </ServiceInstall>
-          <ServiceControl Name="!(bind.Property.ProductName)" Remove="uninstall" Start="install" Stop="uninstall" Wait="yes" />
+          <ServiceControl
+            Name="!(bind.Property.ProductName)"
+            Remove="uninstall"
+            Start="install"
+            Stop="uninstall"
+            Wait="yes"
+          />
         </Component>
       </Directory>
     </StandardDirectory>
 
     <StandardDirectory Id="CommonAppDataFolder">
-      <Directory Id="APPLICATIONDATADIRECTORY" Name="!(bind.Property.ProductName)">
-        <Component Id="StoreApplicationDataDirectoryPathComponent" Guid="86B0EB79-DAC9-4325-8965-42089ABED375">
-          <RegistryValue Root="HKLM" Key="SOFTWARE\tgstation\tgstation-server" Name="ProgramDataDirectory" Type="string" Value="[APPLICATIONDATADIRECTORY]" KeyPath="yes" />
+      <Directory
+        Id="APPLICATIONDATADIRECTORY"
+        Name="!(bind.Property.ProductName)"
+      >
+        <Component
+          Id="StoreApplicationDataDirectoryPathComponent"
+          Guid="86B0EB79-DAC9-4325-8965-42089ABED375"
+        >
+          <RegistryValue
+            Root="HKLM"
+            Key="SOFTWARE\tgstation\tgstation-server"
+            Name="ProgramDataDirectory"
+            Type="string"
+            Value="[APPLICATIONDATADIRECTORY]"
+            KeyPath="yes"
+          />
         </Component>
         <Component Id="BaseAppSettingsComponent" Guid="" NeverOverwrite="yes">
           <File Source="../../../../src/Tgstation.Server.Host/appsettings.yml" />
         </Component>
-        <Component Id="ProductionAppSettingsComponent" Guid="" NeverOverwrite="yes">
+        <Component
+          Id="ProductionAppSettingsComponent"
+          Guid=""
+          NeverOverwrite="yes"
+        >
           <File Source="../../appsettings.Initial.yml">
             <PermissionEx Sddl="D:PAI(A;;FA;;;SY)(A;;FA;;;BA)" />
           </File>
@@ -92,4 +241,4 @@
       </Directory>
     </StandardDirectory>
   </Package>
-</Wix>
+</Wix>;

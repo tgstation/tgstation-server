@@ -1,5 +1,7 @@
 mutation SetUserPermissionSet($id: ID!, $permissionSet: PermissionSetInput!) {
-  updateUserSetOwnedPermissionSet(input: { newPermissionSet: $permissionSet, id: $id }) {
+  updateUserSetOwnedPermissionSet(
+    input: { newPermissionSet: $permissionSet, id: $id }
+  ) {
     errors {
       ... on ErrorMessageError {
         additionalData

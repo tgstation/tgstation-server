@@ -8,11 +8,11 @@ Server startup can be a bit complicated so here's a walkthrough
 
 1. The `Main` method in [Program.cs](./Program.cs) is called.
 1. The default [IServerFactory](./IServerFactory) instance is created via a static method in the [Application](./Core/Application.cs) class.
-    - The `Application` class is what's called the composition root. A good article on this principle can be found [here](https://freecontent.manning.com/dependency-injection-in-net-2nd-edition-understanding-the-composition-root/).
+   - The `Application` class is what's called the composition root. A good article on this principle can be found [here](https://freecontent.manning.com/dependency-injection-in-net-2nd-edition-understanding-the-composition-root/).
 1. `CreateServer()` is called on the `IServerFactory` to get the `IServer` instance.
-    - The factory pattern is used throughout TGS to construct implementations where the composition root is not sufficient. `ServerFactory` is somewhat of an exception to this because it exists outside of the dependency injection umbrella.
+   - The factory pattern is used throughout TGS to construct implementations where the composition root is not sufficient. `ServerFactory` is somewhat of an exception to this because it exists outside of the dependency injection umbrella.
 1. Inside `CreateServer()` we run the [setup code](./Setup) if need be.
-    - This is implemented as a separate [dotnet host](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-8.0) to the main server.
+   - This is implemented as a separate [dotnet host](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-8.0) to the main server.
 1. Still inside `CreateServer()` we configure the main [dotnet host (IHostBuilder)](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-8.0) using the application [Application](./Core/Application.cs) class as the [Startup class](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-8.0#the-startup-class).
 1. The `IHostBuilder` is used to construct the return `Server` implementation.
 1. `Run()` is called on the `IServer` instance.

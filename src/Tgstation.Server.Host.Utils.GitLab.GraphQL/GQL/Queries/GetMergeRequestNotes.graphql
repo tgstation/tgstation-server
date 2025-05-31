@@ -1,15 +1,17 @@
 query GetMergeRequestNotes($project: ID!, $number: String!) {
-    project(fullPath: $project) {
-        mergeRequest(iid: $number) {
-            iid
-            id
-            notes {
-                nodes {
-                  author { username }
-                  body
-                  id
-                }
-            }
+  project(fullPath: $project) {
+    mergeRequest(iid: $number) {
+      iid
+      id
+      notes {
+        nodes {
+          author {
+            username
+          }
+          body
+          id
         }
+      }
     }
+  }
 }

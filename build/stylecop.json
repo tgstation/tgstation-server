@@ -1,47 +1,38 @@
 {
-  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
-  "settings": {
-    "documentationRules": {
-      "documentPrivateElements": true,
-      "documentPrivateFields": true,
-      "excludeFromPunctuationCheck": [
-        "remarks",
-        "example"
-      ]
-    },
-    "indentation": {
-      "tabSize": 4,
-      "useTabs": true
-    },
-    "layoutRules": {
-      "newlineAtEndOfFile": "require"
-    },
-    "maintainabilityRules": {
-      "topLevelTypes": [
-        "class",
-        "delegate",
-        "enum",
-        "interface",
-        "struct"
-      ]
-    },
-    "orderingRules": {
-      "blankLinesBetweenUsingGroups": "require",
-      "elementOrder": [
-        "constant",
-        "kind",
-        "static",
-        "readonly",
-        "accessibility"
-      ],
-      "usingDirectivesPlacement": "outsideNamespace"
-    },
-    "namingRules": {
-      "allowCommonHungarianPrefixes": false,
-      "includeInferredTupleElementNames": true
-    },
-    "readabilityRules": {
-      "allowBuiltInTypeAliases": true
-    }
-  }
+	"$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+	"settings": {
+		"documentationRules": {
+			"documentPrivateElements": true,
+			"documentPrivateFields": true,
+			"excludeFromPunctuationCheck": ["remarks", "example"]
+		},
+		"indentation": {
+			"tabSize": 4,
+			"useTabs": true
+		},
+		"layoutRules": {
+			"newlineAtEndOfFile": "require"
+		},
+		"maintainabilityRules": {
+			"topLevelTypes": ["class", "delegate", "enum", "interface", "struct"]
+		},
+		"orderingRules": {
+			"blankLinesBetweenUsingGroups": "require",
+			"elementOrder": [
+				"constant",
+				"kind",
+				"static",
+				"readonly",
+				"accessibility"
+			],
+			"usingDirectivesPlacement": "outsideNamespace"
+		},
+		"namingRules": {
+			"allowCommonHungarianPrefixes": false,
+			"includeInferredTupleElementNames": true
+		},
+		"readabilityRules": {
+			"allowBuiltInTypeAliases": true
+		}
+	}
 }

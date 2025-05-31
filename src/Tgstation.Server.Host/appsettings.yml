@@ -1,7 +1,7 @@
 # Base tgstation-server configuration file
 # You SHOULD NOT edit this file. Instead, make changes in its override file: appsettings.Production.yml
 General:
-# ConfigVersion: # Basic semver. Differs from TGS version to version. See changelog for current version
+  # ConfigVersion: # Basic semver. Differs from TGS version to version. See changelog for current version
   MinimumPasswordLength: 15 # Minimum TGS user password length
   GitHubAccessToken: # A classic GitHub personal access token with no scopes used to bypass rate-limits
   SetupWizardMode: AutoDetect # If the interactive TGS setup wizard should run
@@ -62,13 +62,13 @@ Security:
   TokenSigningKeyByteAmount: 256 # Length of generated token signing key in bytes. Ignored if CustomTokenSigningKeyBase64 is set
   CustomTokenSigningKeyBase64: #
   OAuth:
-#    Example:
-#     RedirectUrl: # Return URL for OAuth handshake. For a server hosted at `https://domain.com/tgs`, this should be in the format `https://domain.com/tgs/app/`
-#     ClientId: # OAuth client ID
-#     ClientSecret: # OAuth client secret
-#     ServerUrl: # Only used by Keycloak and InvisionCommunity. Server URL (Includes Keycloak realm)
-#     Gateway: # Can be one of `Disabled` disallowing gateway auth (default), `Enabled` allowing gateway auth, or `Only` allowing gateway auth and disabling OAuth logins with this provider
-#     UserInformationUrlOverride: # Not supported by GitHub. Overrides the URL TGS uses to retrieve a user's information
+    #    Example:
+    #     RedirectUrl: # Return URL for OAuth handshake. For a server hosted at `https://domain.com/tgs`, this should be in the format `https://domain.com/tgs/app/`
+    #     ClientId: # OAuth client ID
+    #     ClientSecret: # OAuth client secret
+    #     ServerUrl: # Only used by Keycloak and InvisionCommunity. Server URL (Includes Keycloak realm)
+    #     Gateway: # Can be one of `Disabled` disallowing gateway auth (default), `Enabled` allowing gateway auth, or `Only` allowing gateway auth and disabling OAuth logins with this provider
+    #     UserInformationUrlOverride: # Not supported by GitHub. Overrides the URL TGS uses to retrieve a user's information
     GitHub: # https://github.com OAuth configuration
     Discord: # https://discord.com OAuth configuration
     TGForums: # https://tgstation13.org OAuth configuration
