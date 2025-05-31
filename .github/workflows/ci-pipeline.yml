@@ -150,6 +150,20 @@ jobs:
         with:
           category: "/language:csharp"
 
+  prettier-check:
+    name: Check Formatting (Prettier)
+    needs: start-gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+      - name: Install dependencies
+        run: bun install
+      - name: Check formatting
+        run: bun prettier:check
+
   dmapi-build:
     name: Build DMAPI
     needs: start-gate

@@ -5,7 +5,6 @@ _ReSharper.*
 packages/
 artifacts/
 .vs/
-.vscode/
 *.user
 *.suo
 *.userprefs
@@ -33,3 +32,4 @@ changelog.yml
 packaging/
 yarn-error.log*
 .graphqlrc.json
+node_modules

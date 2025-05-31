@@ -1,0 +1,13 @@
+{
+	"name": "tgstation-server",
+	"type": "module",
+	"private": true,
+	"dependencies": {},
+	"devDependencies": {
+		"prettier": "^3.5.3"
+	},
+	"scripts": {
+		"prettier:check": "prettier --check .",
+		"prettier:write": "prettier --write ."
+	}
+}
