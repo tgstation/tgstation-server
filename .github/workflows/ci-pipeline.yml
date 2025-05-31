@@ -1679,6 +1679,7 @@ jobs:
         check-winget-pr-template,
         efcore-version-match,
         code-scanning,
+        prettier-check,
       ]
     runs-on: ubuntu-latest
     steps:
