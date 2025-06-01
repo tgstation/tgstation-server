@@ -14,12 +14,12 @@ ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 RUN . $NVM_DIR/nvm.sh \
-    && nvm install $NODE_VERSION \
+	&& nvm install $NODE_VERSION \
 	&& nvm use $NODE_VERSION \
 	&& apt-get update \
 	&& apt-get install -y \
-		dos2unix \
-		libgdiplus \
+	dos2unix \
+	libgdiplus \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& corepack enable
 
@@ -33,7 +33,7 @@ WORKDIR /repo/src/Tgstation.Server.Host
 COPY src/Tgstation.Server.Host/Tgstation.Server.Host.csproj ./
 
 # I cant figure out how to run npm as non root so eh
-RUN dotnet msbuild -target:NpmBuild
+RUN dotnet msbuild -target:BunBuild
 
 WORKDIR /repo
 
@@ -61,9 +61,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim
 #needed for byond, curl for healthchecks
 RUN apt-get update \
 	&& apt-get install -y \
-		gcc-multilib \
-		gdb \
-		curl \
+	gcc-multilib \
+	gdb \
+	curl \
 	&& rm -rf /var/lib/apt/lists/*
 
 EXPOSE 5000

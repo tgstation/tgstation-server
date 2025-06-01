@@ -3,5 +3,5 @@
   "devDependencies": {
     "apollo": "^2.34.0"
   },
-  "packageManager": "yarn@4.7.0"
+  "packageManager": "bun@1.2.15"
 }

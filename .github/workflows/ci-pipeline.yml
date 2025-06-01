@@ -39,7 +39,7 @@ env:
   OD_MIN_COMPAT_DOTNET_VERSION: 7
   OD_DOTNET_VERSION: 9
   TGS_DOTNET_QUALITY: ga
-  TGS_NODE_VERSION: 20.x
+  TGS_BUN_VERSION: 1.2.15
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
 
@@ -110,10 +110,10 @@ jobs:
           dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
           dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-      - name: Setup Node.JS
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: ${{ env.TGS_NODE_VERSION }}
+          bun-version: ${{ env.TGS_BUN_VERSION }}
 
       - name: Enable Corepack
         run: corepack enable
@@ -157,7 +157,15 @@ jobs:
       fail-fast: false
       matrix:
         byond:
-          ["510.1346", "511.1385", "512.1488", "513.1542", "514.1589", "515.1647", "EDGE"]
+          [
+            "510.1346",
+            "511.1385",
+            "512.1488",
+            "513.1542",
+            "514.1589",
+            "515.1647",
+            "EDGE",
+          ]
     runs-on: ubuntu-latest
     steps:
       - name: Install Native x86 libc Dependencies # Name checked in rerunFlakyTests.js
@@ -481,10 +489,10 @@ jobs:
           dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
           dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-      - name: Setup Node.JS
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: ${{ env.TGS_NODE_VERSION }}
+          bun-version: ${{ env.TGS_BUN_VERSION }}
 
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -548,10 +556,10 @@ jobs:
           dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
           dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-      - name: Setup Node.JS
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: ${{ env.TGS_NODE_VERSION }}
+          bun-version: ${{ env.TGS_BUN_VERSION }}
 
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -628,10 +636,10 @@ jobs:
           Write-Host "Checking"
           sqlcmd -l 600 -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"
 
-      - name: Setup Node.JS
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: ${{ env.TGS_NODE_VERSION }}
+          bun-version: ${{ env.TGS_BUN_VERSION }}
 
       - name: Set TGS_TEST_DUMP_API_SPEC
         if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
@@ -886,10 +894,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386 libgdiplus
 
-      - name: Setup Node.JS
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: ${{ env.TGS_NODE_VERSION }}
+          bun-version: ${{ env.TGS_BUN_VERSION }}
 
       - name: Set Sqlite Connection Info
         if: ${{ matrix.database-type == 'Sqlite' }}
@@ -1005,7 +1013,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install IBM OpenAPI Validator
-        run: npm i -g ibm-openapi-validator@0.51.3
+        run: bun add -g ibm-openapi-validator@0.51.3
 
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -1460,10 +1468,10 @@ jobs:
           dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
           dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-      - name: Setup Node.JS
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: ${{ env.TGS_NODE_VERSION }}
+          bun-version: ${{ env.TGS_BUN_VERSION }}
 
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -2030,10 +2038,10 @@ jobs:
           dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
           dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-      - name: Setup Node.JS
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: ${{ env.TGS_NODE_VERSION }}
+          bun-version: ${{ env.TGS_BUN_VERSION }}
 
       - name: Checkout
         uses: actions/checkout@v4

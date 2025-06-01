@@ -8,7 +8,7 @@
     <UseAppHost>false</UseAppHost>
     <NoWarn>API1000;ASP0019</NoWarn>
     <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
-    <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
+    <BunInstallStampFile>ClientApp/node_modules/.install-stamp</BunInstallStampFile>
     <Nullable>enable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
@@ -23,19 +23,19 @@
     <DefineConstants>$(DefineConstants);NO_WEBPANEL</DefineConstants>
   </PropertyGroup>
 
-  <Target Condition="'$(TGS_HOST_NO_WEBPANEL)' != 'true'" Name="ClientInstall" BeforeTargets="ResolveAssemblyReferences" Inputs="../../build/WebpanelVersion.props" Outputs="$(NpmInstallStampFile)">
+  <Target Condition="'$(TGS_HOST_NO_WEBPANEL)' != 'true'" Name="ClientInstall" BeforeTargets="ResolveAssemblyReferences" Inputs="../../build/WebpanelVersion.props" Outputs="$(BunInstallStampFile)">
     <Message Text="Pulling web control panel..." Importance="high" />
     <RemoveDir Directories="ClientApp" />
     <Exec Command="git clone https://github.com/tgstation/tgstation-server-webpanel --branch v$(TgsWebpanelVersion) --depth 1 ClientApp" />
     <RemoveDir Directories="ClientApp/.git" /> <!-- Allows git clean to clean it out -->
-    <Message Text="Restoring yarn packages..." Importance="high" />
-    <Exec WorkingDirectory="ClientApp" Command="yarn install --immutable" />
-    <Touch Files="$(NpmInstallStampFile)" AlwaysCreate="true" />
+    <Message Text="Restoring bun packages..." Importance="high" />
+    <Exec WorkingDirectory="ClientApp" Command="bun install --frozen-lockfile" />
+    <Touch Files="$(BunInstallStampFile)" AlwaysCreate="true" />
   </Target>
 
-  <Target Condition="'$(TGS_HOST_NO_WEBPANEL)' != 'true'" Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="ClientInstall" Inputs="../../build/WebpanelVersion.props" Outputs="wwwroot\index.html">
+  <Target Condition="'$(TGS_HOST_NO_WEBPANEL)' != 'true'" Name="BunBuild" BeforeTargets="BeforeBuild" DependsOnTargets="ClientInstall" Inputs="../../build/WebpanelVersion.props" Outputs="wwwroot\index.html">
     <Message Text="Building web control panel..." Importance="high" />
-    <Exec WorkingDirectory="ClientApp" Command="yarn run msbuild" />
+    <Exec WorkingDirectory="ClientApp" Command="bun run msbuild" />
   </Target>
 
   <Target Name="ExportGraphQLApiSchema" AfterTargets="AfterBuild" Outputs="../../artifacts/tgs-api.graphql">

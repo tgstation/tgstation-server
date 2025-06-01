@@ -34,7 +34,7 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-You need the .NET 8.0 SDK, node>=v20, and npm>=v5.7 (in your PATH) to compile the server. On Linux, you also need the `libgdiplus` package installed to generate icons.
+You need the .NET 8.0 SDK, bun>=1.2 (in your PATH) to compile the server. On Linux, you also need the `libgdiplus` package installed to generate icons.
 
 You need to run `corepack enable` to configure node to correctly build the webpanel.
 
