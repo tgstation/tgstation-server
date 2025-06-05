@@ -13,9 +13,9 @@
 
   <ItemGroup>
     <!-- Usage: Identifying if we're running under SystemD -->
-    <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="9.0.5" />
     <!-- Usage: Console logging plugin -->
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.5" />
   </ItemGroup>
 
   <ItemGroup>
