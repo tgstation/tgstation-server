@@ -13,14 +13,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <!-- Usage: Hard to say what exactly this is for, but not including it removes the test icon and breaks vstest.console.exe for some reason -->
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" Condition="'$(TgsTestNoSdk)' != 'true'" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" Condition="'$(TgsTestNoSdk)' != 'true'" />
     <!-- Usage: Dependency mocking for tests -->
     <!-- Pinned: Be VERY careful about updating https://github.com/moq/moq/issues/1372 -->
     <PackageReference Include="Moq" Version="4.20.72" />
     <!-- Usage: MSTest execution -->
-    <PackageReference Include="MSTest.TestAdapter" Version="3.8.3" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.9.2" />
     <!-- Usage: MSTest asserts etc... -->
-    <PackageReference Include="MSTest.TestFramework" Version="3.8.3" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.9.2" />
   </ItemGroup>
 
 </Project>
