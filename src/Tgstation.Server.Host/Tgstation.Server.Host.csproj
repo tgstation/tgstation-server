@@ -26,7 +26,7 @@
   <Target Condition="'$(TGS_HOST_NO_WEBPANEL)' != 'true'" Name="ClientInstall" BeforeTargets="ResolveAssemblyReferences" Inputs="../../build/WebpanelVersion.props" Outputs="$(NpmInstallStampFile)">
     <Message Text="Pulling web control panel..." Importance="high" />
     <RemoveDir Directories="ClientApp" />
-    <Exec Command="git clone https://github.com/tgstation/tgstation-server-webpanel --branch v$(TgsWebpanelVersion) --depth 1 ClientApp" />
+    <Exec Command="git clone https://github.com/Drulikar/tgstation-server-webpanel --branch local_api_override --depth 1 ClientApp" />
     <RemoveDir Directories="ClientApp/.git" /> <!-- Allows git clean to clean it out -->
     <Message Text="Restoring yarn packages..." Importance="high" />
     <Exec WorkingDirectory="ClientApp" Command="yarn install --immutable" />

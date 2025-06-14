@@ -141,7 +141,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="202">Created deployment <see cref="JobResponse"/> successfully.</response>
-		[HttpPut]
+		[HttpPost(Routes.Deploy)]
 		[TgsAuthorize(DreamMakerRights.Compile)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
 		public async ValueTask<IActionResult> Create(CancellationToken cancellationToken)

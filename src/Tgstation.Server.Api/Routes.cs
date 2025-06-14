@@ -113,6 +113,16 @@ namespace Tgstation.Server.Api
 		public const string List = "List";
 
 		/// <summary>
+		/// The postfix for deploy operations.
+		/// </summary>
+		public const string Deploy = "Deploy";
+
+		/// <summary>
+		/// The postfix for launch operations.
+		/// </summary>
+		public const string Launch = "Launch";
+
+		/// <summary>
 		/// The root route of all hubs.
 		/// </summary>
 		public const string JobsHub = HubsRoot + "/jobs";
