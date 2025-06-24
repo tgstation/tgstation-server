@@ -17,7 +17,7 @@ General:
   HostApiDocumentation: false # Make HTTP API documentation available at /api/doc/tgs_api.json and /api/graphql
   SkipAddingByondFirewallException: false # Windows Only: Prevent running netsh.exe to add a firewall exception for installed engine binaries
   DeploymentDirectoryCopyTasksPerCore: 100 # Maximum number of concurrent file copy operations PER available CPU core
-  ByondZipDownloadTemplate: https://spacestation13.github.io/byond-builds/${Major}/${Major}.${Minor}_byond${Linux:_linux}.zip # URL of a plaintext file used to identify the curr
+  ByondZipDownloadTemplate: https://spacestation13.github.io/byond-builds/${Major}/${Major}.${Minor}_byond${Linux:_linux}.zip # Template for downloading official byond versions
   OpenDreamGitUrl: https://github.com/OpenDreamProject/OpenDream # The repository to retrieve OpenDream from
   OpenDreamGitTagPrefix: v # The prefix to the OpenDream semver as tags appear in the git repository
   OpenDreamSuppressInstallOutput: false # Suppress the dotnet output of creating an OpenDream installation. Known to cause hangs in CI.
