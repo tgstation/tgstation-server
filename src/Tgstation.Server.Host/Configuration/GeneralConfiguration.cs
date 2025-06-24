@@ -149,6 +149,17 @@ namespace Tgstation.Server.Host.Configuration
 		public Uri OpenDreamGitUrl { get; set; } = new Uri(DefaultOpenDreamGitUrl);
 
 		/// <summary>
+		/// The formatter used to download official byond zip files for a given version
+		/// - ${Major} is substituted with the major version number
+		/// - ${Minor} is substituted with the minor version number
+		/// - ${Linux:xxx}, where xxx is any string, will be substituted with xxx if running under Linux.
+		/// - ${Windows:xxx}, where xxx is any string, will be substituted with xxx if running under Windows.
+		/// - $$ will evaluate to a literal $ and not be used for substitutions.
+		/// - Any inapplicable ${xxx} string will be removed.
+		/// </summary>
+		public string ByondZipDownloadTemplate { get; set; } = "https://www.byond.com/download/build/${Major}/${Major}.{Minor}_byond${Linux:_linux}.zip";
+
+		/// <summary>
 		/// The prefix to the OpenDream semver as tags appear in the git repository.
 		/// </summary>
 		public string OpenDreamGitTagPrefix { get; set; } = DefaultOpenDreamGitTagPrefix;
