@@ -87,7 +87,7 @@ namespace Tgstation.Server.Tests
 			};
 
 			var url = new Uri(
-				$"https://www.byond.com/download/build/{version.Version.Major}/{version.Version.Major}.{version.Version.Minor}_byond{(!windows ? "_linux" : string.Empty)}.zip");
+				$"https://spacestation13.github.io/byond-builds/{version.Version.Major}/{version.Version.Major}.{version.Version.Minor}_byond{(!windows ? "_linux" : string.Empty)}.zip");
 			string path = null;
 			if (TestingUtils.RunningInGitHubActions)
 			{

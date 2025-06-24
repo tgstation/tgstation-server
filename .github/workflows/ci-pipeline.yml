@@ -166,19 +166,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
 
-      - name: Cache BYOND .zips
-        uses: actions/cache@v4
-        id: cache-byond
-        with:
-          path: ~/byond-zips-cache
-          key: byond-zips
-
       - name: Setup BYOND Cache if Necessary and Install
         run: |
           echo "Setting up BYOND."
           FULL_VERSION=${{ matrix.byond }}
           if [[ "$FULL_VERSION" = "EDGE" ]] ; then
-              VERSIONS=$(curl https://www.byond.com/download/version.txt)
+              VERSIONS=$(curl https://spacestation13.github.io/byond-builds/version.txt)
               FULL_VERSION=$(echo "$VERSIONS" | tail -n1)
               echo "EDGE version evaluated to $FULL_VERSION"
 
@@ -193,7 +186,7 @@ jobs:
           if [[ ! -f $HOME/byond-zips-cache/linux/$FULL_VERSION.zip ]] ; then
               BYOND_MAJOR=${FULL_VERSION%.*}
               mkdir -p $HOME/byond-zips-cache/linux
-              curl "https://www.byond.com/download/build/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip" -o $HOME/byond-zips-cache/linux/$FULL_VERSION.zip
+              curl "https://spacestation13.github.io/byond-builds/${FULL_VERSION}_byond_linux.zip" -o $HOME/byond-zips-cache/linux/$FULL_VERSION.zip
           fi
           mkdir -p "$HOME/BYOND"
           cd "$HOME/BYOND"
@@ -509,13 +502,6 @@ jobs:
         if: always()
         run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-      - name: Cache BYOND .zips
-        uses: actions/cache@v4
-        id: cache-byond
-        with:
-          path: ~/byond-zips-cache
-          key: byond-zips
-
       - name: Run Unit Tests
         run: sudo dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
         env:
@@ -577,13 +563,6 @@ jobs:
         shell: bash
         if: always()
         run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
-      - name: Cache BYOND .zips
-        uses: actions/cache@v4
-        id: cache-byond
-        with:
-          path: ~/byond-zips-cache
-          key: byond-zips
 
       - name: Run Unit Tests
         run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
@@ -716,13 +695,6 @@ jobs:
         shell: bash
         if: always()
         run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
-      - name: Cache BYOND .zips
-        uses: actions/cache@v4
-        id: cache-byond
-        with:
-          path: ~/byond-zips-cache
-          key: byond-zips
 
       - name: Run Live Tests # Logging here is weird because printing massive amounts of text on Windows runners is SLOW AS SHIT!!!
         id: live-tests
@@ -944,13 +916,6 @@ jobs:
       - name: Delete Telemetry Key File
         if: always()
         run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
-      - name: Cache BYOND .zips
-        uses: actions/cache@v4
-        id: cache-byond
-        with:
-          path: ~/byond-zips-cache
-          key: byond-zips
 
       - name: Run Live Tests
         run: |
