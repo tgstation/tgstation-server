@@ -186,7 +186,7 @@ jobs:
           if [[ ! -f $HOME/byond-zips-cache/linux/$FULL_VERSION.zip ]] ; then
               BYOND_MAJOR=${FULL_VERSION%.*}
               mkdir -p $HOME/byond-zips-cache/linux
-              curl "https://spacestation13.github.io/byond-builds/${FULL_VERSION}_byond_linux.zip" -o $HOME/byond-zips-cache/linux/$FULL_VERSION.zip
+              curl "https://spacestation13.github.io/byond-builds/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip" -o $HOME/byond-zips-cache/linux/$FULL_VERSION.zip
           fi
           mkdir -p "$HOME/BYOND"
           cd "$HOME/BYOND"
