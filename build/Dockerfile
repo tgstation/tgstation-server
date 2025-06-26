@@ -59,7 +59,7 @@ RUN export TGS_TELEMETRY_KEY_FILE="../../${TGS_TELEMETRY_KEY_FILE}" \
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim
 
 #needed for byond, curl for healthchecks
-RUN pkg --add-architecture i386 \
+RUN dpkg --add-architecture i386 \
 	&& apt-get update \
 	&& apt-get install -y \
 		gcc-multilib \
