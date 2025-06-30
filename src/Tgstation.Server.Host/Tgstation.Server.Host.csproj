@@ -98,15 +98,15 @@
     <!-- Usage: Text formatter for Elasticsearch logging plugin -->
     <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.12.3" />
     <!-- Usage: GraphQL API Engine -->
-    <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.3" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.7" />
     <!-- Usage: GraphQL Authorization Plugin -->
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.1.3" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.1.7" />
     <!-- Usage: GraphQL IDatabaseContext support -->
-    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="15.1.3" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="15.1.7" />
     <!-- Usage: DataLoader source generation -->
-    <PackageReference Include="HotChocolate.Types.Analyzers" Version="15.1.3" />
+    <PackageReference Include="HotChocolate.Types.Analyzers" Version="15.1.7" />
     <!-- Usage: GraphQL additional scalar type definitions -->
-    <PackageReference Include="HotChocolate.Types.Scalars" Version="15.1.3" />
+    <PackageReference Include="HotChocolate.Types.Scalars" Version="15.1.7" />
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
     <!-- Usage: OpenID Connect support -->
