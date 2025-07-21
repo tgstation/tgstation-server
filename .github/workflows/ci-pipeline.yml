@@ -168,9 +168,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
 
-      - name: Evaluate EDGE BYOND version
-        if: ${{ matrix.byond == 'EDGE' }}
-        id: edge_version_evaluation
+      - name: Evaluate BYOND version
+        id: version_evaluation
         run: |
           FULL_VERSION=${{ matrix.byond }}
           if [[ "$FULL_VERSION" = "EDGE" ]] ; then
@@ -186,22 +185,19 @@ jobs:
                   FULL_VERSION=${bad_linux_releases[$FULL_VERSION]}
               fi
           fi
-          echo "EVALUATED_EDGE_VERSION=$FULL_VERSION" >> $GITHUB_OUTPUT
+          echo "EVALUATED_VERSION=$FULL_VERSION" >> $GITHUB_OUTPUT
 
       - name: Cache BYOND .zips
         uses: actions/cache@v4
         id: cache-byond
         with:
-          path: ~/byond-zips-cache/linux/${{ steps.edge_version_evaluation.outputs.EVALUATED_EDGE_VERSION }}
-          key: byond-zips-linux-${{ steps.edge_version_evaluation.outputs.EVALUATED_EDGE_VERSION }}
+          path: ~/byond-zips-cache/linux/${{ steps.version_evaluation.outputs.EVALUATED_VERSION }}
+          key: byond-zips-linux-${{ steps.version_evaluation.outputs.EVALUATED_VERSION }}
 
       - name: Setup BYOND Cache if Necessary and Install
         run: |
           echo "Setting up BYOND."
-          FULL_VERSION=${{ matrix.byond }}
-          if [[ "$FULL_VERSION" = "EDGE" ]] ; then
-              FULL_VERSION=${{ steps.edge_version_evaluation.outputs.EVALUATED_EDGE_VERSION }}
-          fi
+          FULL_VERSION=${{ steps.version_evaluation.outputs.EVALUATED_VERSION }}
           if [[ ! -f $HOME/byond-zips-cache/linux/$FULL_VERSION/$FULL_VERSION.zip ]] ; then
               BYOND_MAJOR=${FULL_VERSION%.*}
               mkdir -p $HOME/byond-zips-cache/linux
