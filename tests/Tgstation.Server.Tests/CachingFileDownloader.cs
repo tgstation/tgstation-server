@@ -92,15 +92,21 @@ namespace Tgstation.Server.Tests
 
 			var url = ByondInstallerBase.GetDownloadZipUrl(byondVersion, urlTemplate, new PlatformIdentifier().IsWindows ? "Windows" : "Linux");
 			string path = null;
-			if (TestingUtils.RunningInGitHubActions)
+			string basePath = Environment.GetEnvironmentVariable("TGS_TEST_BYOND_ZIPS_BASE_PATH");
+			if (basePath == null && TestingUtils.RunningInGitHubActions)
 			{
-				// actions is supposed to cache BYOND for us
-
-				var dir = Path.Combine(
+				// actions is supposed to cache BYOND for us here
+				basePath = Path.Combine(
 					Environment.GetFolderPath(
 						Environment.SpecialFolder.UserProfile,
 						Environment.SpecialFolderOption.DoNotVerify),
-					"byond-zips-cache",
+					"byond-zips-cache");
+			}
+
+			if (basePath != null)
+			{
+				var dir = Path.Combine(
+					basePath,
 					"live",
 					windows ? "windows" : "linux");
 				path = Path.Combine(
@@ -109,15 +115,23 @@ namespace Tgstation.Server.Tests
 					$"{version.Version.Major}.{version.Version.Minor}.zip");
 			}
 
+			Uri overrideUrl = null;
+			if (urlCacheOverrideTemplate != null)
+			{
+				overrideUrl = url;
+				url = ByondInstallerBase.GetDownloadZipUrl(byondVersion, urlCacheOverrideTemplate, new PlatformIdentifier().IsWindows ? "Windows" : "Linux");
+			}
+
 			await (await CacheFile(
 				logger,
-				urlCacheOverrideTemplate != null
-					? ByondInstallerBase.GetDownloadZipUrl(byondVersion, urlCacheOverrideTemplate, new PlatformIdentifier().IsWindows ? "Windows" : "Linux")
-					: url,
+				url,
 				null,
 				path,
 				cancellationToken))
 				.DisposeAsync();
+
+			if (overrideUrl != null)
+				cachedPaths[overrideUrl.ToString()] = cachedPaths[url.ToString()];
 		}
 
 		public static void Cleanup()

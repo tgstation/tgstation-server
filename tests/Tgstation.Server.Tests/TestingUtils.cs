@@ -136,7 +136,7 @@ namespace Tgstation.Server.Tests
 				const string DefaultMirror = "https://www.byond.com/download/version.txt";
 				edgeVersion = await GetVersionFromResponse(DefaultMirror);
 
-				logger.LogInformation("Downloading edge version from BYOND.com");
+				logger.LogInformation("Downloading edge version from BYOND.com {edge}", edgeVersion);
 
 				// if we got the result from byond.com, make sure the cache grabs the zip from there as well
 				await CachingFileDownloader.InitializeByondVersion(logger, Version.Parse(edgeVersion), new PlatformIdentifier().IsWindows, cancellationToken, GeneralConfiguration.DefaultByondZipDownloadTemplate);

@@ -42,6 +42,8 @@ env:
   TGS_NODE_VERSION: 20.x
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
+  TGS_TEST_BYOND_ZIP_DOWNLOAD_TEMPLATE: https://mocha.affectedarc07.co.uk/tgs_byond_mirrors/${Major}.${Minor}_byond${Linux:_linux}.zip
+  TGS_TEST_BYOND_MIRROR_VERSION_TXT: https://mocha.affectedarc07.co.uk/tgs_byond_mirrors/version.txt
 
 concurrency:
   group: "ci-${{ (github.event_name != 'push' && github.event_name != 'schedule' && github.event.inputs.pull_request_number) || github.run_id }}-${{ github.event_name }}"

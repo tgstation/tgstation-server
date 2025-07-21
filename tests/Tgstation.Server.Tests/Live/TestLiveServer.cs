@@ -1626,6 +1626,16 @@ namespace Tgstation.Server.Tests.Live
 						if (openDreamOnly)
 							return;
 
+						var windowsMinCompat = new Version(510, 1346);
+						var linuxMinCompat = new Version(512, 1451); // http://www.byond.com/forum/?forum=5&command=search&scope=local&text=resolved%3a512.1451
+						await CachingFileDownloader.InitializeByondVersion(
+							GetLogger(),
+							new PlatformIdentifier().IsWindows
+								? windowsMinCompat
+								: linuxMinCompat,
+							new PlatformIdentifier().IsWindows,
+							cancellationToken);
+
 						var compatTests = FailFast(
 							instanceTest
 								.RunCompatTests(
@@ -1633,8 +1643,8 @@ namespace Tgstation.Server.Tests.Live
 									{
 										Engine = EngineType.Byond,
 										Version = new PlatformIdentifier().IsWindows
-											? new Version(510, 1346)
-											: new Version(512, 1451) // http://www.byond.com/forum/?forum=5&command=search&scope=local&text=resolved%3a512.1451
+											? windowsMinCompat
+											: linuxMinCompat,
 									},
 									server.OpenDreamUrl,
 									firstAdminRestClient.Instances.CreateClient(compatInstance),
