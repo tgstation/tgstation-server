@@ -44,6 +44,7 @@ env:
   PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
   TGS_TEST_BYOND_ZIP_DOWNLOAD_TEMPLATE: https://mocha.affectedarc07.co.uk/tgs_byond_mirrors/${Major}.${Minor}_byond${Linux:_linux}.zip
   TGS_TEST_BYOND_MIRROR_VERSION_TXT: https://mocha.affectedarc07.co.uk/tgs_byond_mirrors/version.txt
+  DMAPI_BYOND_BUILD_MIRROR_DOWNLOAD_TEMPLATE: https://mocha.affectedarc07.co.uk/tgs_byond_mirrors/${FULL_VERSION}_byond_linux.zip # Available vars are $BYOND_MAJOR (i.e. 516) and $FULL_VERSION (i.e. 516.1666)
 
 concurrency:
   group: "ci-${{ (github.event_name != 'push' && github.event_name != 'schedule' && github.event.inputs.pull_request_number) || github.run_id }}-${{ github.event_name }}"
@@ -200,8 +201,12 @@ jobs:
           FULL_VERSION=${{ steps.version_evaluation.outputs.EVALUATED_VERSION }}
           if [[ ! -f $HOME/byond-zips-cache/linux/$FULL_VERSION/$FULL_VERSION.zip ]] ; then
               BYOND_MAJOR=${FULL_VERSION%.*}
-              mkdir -p $HOME/byond-zips-cache/linux
-              curl "https://www.byond.com/download/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip" -o $HOME/byond-zips-cache/linux/$FULL_VERSION/$FULL_VERSION.zip
+              mkdir -p $HOME/byond-zips-cache/linux/$FULL_VERSION
+              DOWNLOAD_URL="${{ env.DMAPI_BYOND_BUILD_MIRROR_DOWNLOAD_TEMPLATE }}"
+              if [[ "$FULL_VERSION" = "EDGE" ]] ; then
+                DOWNLOAD_URL="https://www.byond.com/download/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip"
+              fi
+              curl "$DOWNLOAD_URL" -o $HOME/byond-zips-cache/linux/$FULL_VERSION/$FULL_VERSION.zip
           fi
           mkdir -p "$HOME/BYOND"
           cd "$HOME/BYOND"
