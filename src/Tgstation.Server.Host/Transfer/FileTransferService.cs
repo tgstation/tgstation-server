@@ -212,7 +212,7 @@ namespace Tgstation.Server.Host.Transfer
 				if (downloadProvider.StreamProvider != null)
 					stream = await downloadProvider.StreamProvider(cancellationToken);
 				else
-					stream = ioManager.GetFileStream(downloadProvider.FilePath, downloadProvider.ShareWrite);
+					stream = ioManager.CreateAsyncReadStream(downloadProvider.FilePath, false, downloadProvider.ShareWrite);
 			}
 			catch (IOException ex)
 			{

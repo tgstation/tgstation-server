@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -58,7 +59,7 @@ namespace Tgstation.Server.Tests
 			}
 			finally
 			{
-				await new DefaultIOManager().DeleteDirectory(
+				await new DefaultIOManager(new FileSystem()).DeleteDirectory(
 					Path.GetDirectoryName(tempPath),
 					CancellationToken.None);
 			}
@@ -75,7 +76,7 @@ namespace Tgstation.Server.Tests
 			using var manager = new RepositoryManager(
 				repoFac,
 				commands,
-				new DefaultIOManager().CreateResolverForSubdirectory(
+				new DefaultIOManager(new FileSystem()).CreateResolverForSubdirectory(
 					tempPath),
 				Mock.Of<IEventConsumer>(),
 				new WindowsPostWriteHandler(),
@@ -130,7 +131,7 @@ namespace Tgstation.Server.Tests
 			}
 			finally
 			{
-				await new DefaultIOManager().DeleteDirectory(
+				await new DefaultIOManager(new FileSystem()).DeleteDirectory(
 					Path.GetDirectoryName(tempPath),
 					CancellationToken.None);
 			}

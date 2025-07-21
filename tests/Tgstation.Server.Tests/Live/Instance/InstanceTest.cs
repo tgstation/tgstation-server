@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -89,7 +90,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Uri openDreamUrl,
 			CancellationToken cancellationToken)
 		{
-			var ioManager = new DefaultIOManager();
+			var ioManager = new DefaultIOManager(new FileSystem());
 			var odRepoDir = ioManager.ConcatPath(
 				Environment.GetFolderPath(
 					Environment.SpecialFolder.LocalApplicationData,
@@ -107,7 +108,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			IEngineInstaller byondInstaller =
 				compatVersion.Engine == EngineType.OpenDream
 				? new OpenDreamInstaller(
-					new DefaultIOManager(),
+					ioManager,
 					Mock.Of<ILogger<OpenDreamInstaller>>(),
 					new PlatformIdentifier(),
 					Mock.Of<IProcessExecutor>(),

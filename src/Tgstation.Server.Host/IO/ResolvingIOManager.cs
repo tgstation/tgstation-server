@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO.Abstractions;
 
 namespace Tgstation.Server.Host.IO
 {
@@ -15,8 +16,12 @@ namespace Tgstation.Server.Host.IO
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ResolvingIOManager"/> class.
 		/// </summary>
+		/// <param name="fileSystem">The <see cref="IFileSystem"/> for the <see cref="DefaultIOManager"/>.</param>
 		/// <param name="subdirectory">The value of <see cref="subdirectory"/>.</param>
-		public ResolvingIOManager(string subdirectory)
+		public ResolvingIOManager(
+			IFileSystem fileSystem,
+			string subdirectory)
+			: base(fileSystem)
 		{
 			this.subdirectory = subdirectory ?? throw new ArgumentNullException(nameof(subdirectory));
 		}

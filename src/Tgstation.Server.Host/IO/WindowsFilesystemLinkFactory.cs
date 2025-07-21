@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
+using System.IO.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,6 +16,20 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public bool SymlinkedDirectoriesAreDeletedAsFiles => false;
 
+		/// <summary>
+		/// The <see cref="IFileSystem"/> to use.
+		/// </summary>
+		readonly IFileSystem fileSystem;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WindowsFilesystemLinkFactory"/> class.
+		/// </summary>
+		/// <param name="fileSystem">The value of <see cref="fileSystem"/>.</param>
+		public WindowsFilesystemLinkFactory(IFileSystem fileSystem)
+		{
+			this.fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+		}
+
 		/// <inheritdoc />
 		public Task CreateHardLink(string targetPath, string linkPath, CancellationToken cancellationToken)
 			=> throw new NotSupportedException();
@@ -28,7 +42,7 @@ namespace Tgstation.Server.Host.IO
 				ArgumentNullException.ThrowIfNull(linkPath);
 
 				// check if its not a file
-				var flags = File.Exists(targetPath) ? NativeMethods.CreateSymbolicLinkFlags.None : NativeMethods.CreateSymbolicLinkFlags.Directory;
+				var flags = fileSystem.File.Exists(targetPath) ? NativeMethods.CreateSymbolicLinkFlags.None : NativeMethods.CreateSymbolicLinkFlags.Directory;
 
 				/*
 				 * no don't fucking use this

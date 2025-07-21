@@ -63,5 +63,12 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="path">The path to check.</param>
 		/// <returns><see langword="true"/> if <paramref name="path"/> is a directory, <see langword="false"/> otherwise.</returns>
 		bool IsDirectory(string path);
+
+		/// <summary>
+		/// Gets the <see cref="Stream"/> for a given file <paramref name="path"/> without write share.
+		/// </summary>
+		/// <param name="path">The path of the file.</param>
+		/// <returns>The <see cref="Stream"/> of the file.</returns>
+		Stream GetFileStream(string path);
 	}
 }

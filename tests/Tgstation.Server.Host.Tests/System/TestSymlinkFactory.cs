@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,8 +14,10 @@ namespace Tgstation.Server.Host.System.Tests
 	public sealed class TestSymlinkFactory
 	{
 		readonly IFilesystemLinkFactory factory = new PlatformIdentifier().IsWindows
-			? new WindowsFilesystemLinkFactory()
-			: new PosixFilesystemLinkFactory();
+			? new WindowsFilesystemLinkFactory(
+				new FileSystem())
+			: new PosixFilesystemLinkFactory(
+				new FileSystem());
 
 		[TestMethod]
 		public async Task TestSymlinks()

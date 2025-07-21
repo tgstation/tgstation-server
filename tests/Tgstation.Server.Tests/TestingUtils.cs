@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Abstractions;
 using System.IO.Compression;
 using System.Reflection;
 using System.Threading;
@@ -67,7 +68,7 @@ namespace Tgstation.Server.Tests
 			}
 			finally
 			{
-				await new DefaultIOManager().DeleteDirectory(tempFolder, cancellationToken);
+				await new DefaultIOManager(new FileSystem()).DeleteDirectory(tempFolder, cancellationToken);
 			}
 		}
 	}

@@ -168,8 +168,8 @@ namespace Tgstation.Server.Host.System
 			{
 				// can't use ReadAllBytes here, /proc files have 0 length so the buffer is initialized to empty
 				// https://stackoverflow.com/questions/12237712/how-can-i-show-the-size-of-files-in-proc-it-should-not-be-size-zero
-				await using var fileStream = ioManager.CreateAsyncSequentialReadStream(
-					"/proc/self/oom_score_adj");
+				await using var fileStream = ioManager.CreateAsyncReadStream(
+					"/proc/self/oom_score_adj", true, true);
 				using var reader = new StreamReader(fileStream, Encoding.UTF8, leaveOpen: true);
 				originalString = await reader.ReadToEndAsync(cancellationToken);
 			}

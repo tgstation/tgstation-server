@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,9 +32,10 @@ namespace Tgstation.Server.Host.Components.StaticFiles.Tests
 				builder.SetMinimumLevel(LogLevel.Trace);
 			});
 
+			var mockFs = new MockFileSystem();
 			var tempPath = Path.GetTempFileName();
 			File.Delete(tempPath);
-			var ioManager = new DefaultIOManager().CreateResolverForSubdirectory(tempPath);
+			var ioManager = new DefaultIOManager(mockFs).CreateResolverForSubdirectory(tempPath);
 			await ioManager.CreateDirectory(".", CancellationToken.None);
 			try
 			{
@@ -46,7 +48,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles.Tests
 
 				var configuration = new Configuration(
 					ioManager,
-					new SynchronousIOManager(loggerFactory.CreateLogger<SynchronousIOManager>()),
+					new SynchronousIOManager(
+						mockFs,
+						loggerFactory.CreateLogger<SynchronousIOManager>()),
 					Mock.Of<IFilesystemLinkFactory>(),
 					Mock.Of<IProcessExecutor>(),
 					Mock.Of<IPostWriteHandler>(),

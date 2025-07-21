@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -195,7 +196,7 @@ namespace Tgstation.Server.Tests
 						try
 						{
 							Directory.CreateDirectory(Path.GetDirectoryName(path));
-							await using var fs = new DefaultIOManager().CreateAsyncSequentialWriteStream(path);
+							await using var fs = new DefaultIOManager(new FileSystem()).CreateAsyncSequentialWriteStream(path);
 							await ms.CopyToAsync(fs, cancellationToken);
 
 							cachedPaths.Add(url.ToString(), Tuple.Create(path, temporal));

@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.IO.Abstractions.TestingHelpers;
 using System.Runtime.InteropServices;
 
 using Tgstation.Server.Host.IO;
@@ -21,7 +22,7 @@ namespace Tgstation.Server.Host.System.Tests
 		{
 			features = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
 				? (IProcessFeatures)new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
-				: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => null), new DefaultIOManager(), Mock.Of<ILogger<PosixProcessFeatures>>());
+				: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => null), new DefaultIOManager(new MockFileSystem()), Mock.Of<ILogger<PosixProcessFeatures>>());
 		}
 
 		[TestMethod]

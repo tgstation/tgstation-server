@@ -336,7 +336,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 								Stream? result = null;
 								void GetFileStream()
 								{
-									result = ioManager.GetFileStream(path, false);
+									result = synchronousIOManager.GetFileStream(path);
 								}
 
 								if (systemIdentity == null)

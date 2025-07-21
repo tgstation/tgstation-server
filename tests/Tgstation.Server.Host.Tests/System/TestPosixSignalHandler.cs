@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Abstractions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -58,7 +59,8 @@ namespace Tgstation.Server.Host.System.Tests
 			processExecutor = new ProcessExecutor(
 				new PosixProcessFeatures(
 					new Lazy<IProcessExecutor>(() => processExecutor),
-					new DefaultIOManager(),
+					new DefaultIOManager(
+						new FileSystem()),
 					loggerFactory.CreateLogger<PosixProcessFeatures>()),
 				Mock.Of<IIOManager>(),
 				loggerFactory.CreateLogger<ProcessExecutor>(),

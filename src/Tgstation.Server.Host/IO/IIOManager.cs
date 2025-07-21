@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -134,15 +135,17 @@ namespace Tgstation.Server.Host.IO
 		/// Creates an asynchronous <see cref="FileStream"/> for sequential writing.
 		/// </summary>
 		/// <param name="path">The path of the file to write, will be truncated.</param>
-		/// <returns>The open <see cref="FileStream"/>.</returns>
-		FileStream CreateAsyncSequentialWriteStream(string path);
+		/// <returns>The open <see cref="Stream"/>.</returns>
+		Stream CreateAsyncSequentialWriteStream(string path);
 
 		/// <summary>
 		/// Creates an asynchronous <see cref="FileStream"/> for sequential reading.
 		/// </summary>
 		/// <param name="path">The path of the file to write, will be truncated.</param>
-		/// <returns>The open <see cref="FileStream"/>.</returns>
-		FileStream CreateAsyncSequentialReadStream(string path);
+		/// <param name="sequential">If the sequential read flag should be added.</param>
+		/// <param name="shareWrite">If <see cref="FileShare.Write"/> should be used.</param>
+		/// <returns>The open <see cref="Stream"/>.</returns>
+		Stream CreateAsyncReadStream(string path, bool sequential, bool shareWrite);
 
 		/// <summary>
 		/// Writes some <paramref name="contents"/> to a file at <paramref name="path"/> overwriting previous content.
@@ -247,20 +250,12 @@ namespace Tgstation.Server.Host.IO
 		Task<DateTimeOffset> GetLastModified(string path, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Gets the <see cref="Stream"/> for a given file <paramref name="path"/>.
+		/// Gets a <see cref="IDirectoryInfo"/> for the given <paramref name="path"/>.
 		/// </summary>
-		/// <param name="path">The path of the file.</param>
-		/// <param name="shareWrite">If <see cref="FileShare.Write"/> should be used.</param>
-		/// <returns>The <see cref="Stream"/> of the file.</returns>
-		/// <remarks>This function is sychronous.</remarks>
-		Stream GetFileStream(string path, bool shareWrite);
-
-		/// <summary>
-		/// Gets a <see cref="global::System.IO.DirectoryInfo"/> for the given <paramref name="path"/>.
-		/// </summary>
-		/// <param name="path">The path to get <see cref="global::System.IO.DirectoryInfo"/> for.</param>
-		/// <returns>A new <see cref="global::System.IO.DirectoryInfo"/>.</returns>
-		DirectoryInfo DirectoryInfo(string path);
+		/// <param name="path">The path to get <see cref="IDirectoryInfo"/> for.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IDirectoryInfo"/> of the <paramref name="path"/>.</returns>
+		Task<IDirectoryInfo> DirectoryInfo(string path, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Check if a given <paramref name="path"/> is at the root level of the filesystem.
