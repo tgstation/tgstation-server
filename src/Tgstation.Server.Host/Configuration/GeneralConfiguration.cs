@@ -32,6 +32,11 @@ namespace Tgstation.Server.Host.Configuration
 		public const ushort DefaultApiPort = 5000;
 
 		/// <summary>
+		/// Default vale for <see cref="ByondZipDownloadTemplate"/>.
+		/// </summary>
+		public const string DefaultByondZipDownloadTemplate = "https://www.byond.com/download/build/${Major}/${Major}.${Minor}_byond${Linux:_linux}.zip";
+
+		/// <summary>
 		/// The default value for <see cref="ServerInformationBase.MinimumPasswordLength"/>.
 		/// </summary>
 		const uint DefaultMinimumPasswordLength = 15;
@@ -157,7 +162,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// - $$ will evaluate to a literal $ and not be used for substitutions.
 		/// - Any inapplicable ${xxx} string will be removed.
 		/// </summary>
-		public string ByondZipDownloadTemplate { get; set; } = "https://www.byond.com/download/build/${Major}/${Major}.{Minor}_byond${Linux:_linux}.zip";
+		public string ByondZipDownloadTemplate { get; set; } = DefaultByondZipDownloadTemplate;
 
 		/// <summary>
 		/// The prefix to the OpenDream semver as tags appear in the git repository.

@@ -166,12 +166,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
 
-      - name: Setup BYOND Cache if Necessary and Install
+      - name: Evaluate EDGE BYOND version
+        id: edge_version_evaluation
         run: |
-          echo "Setting up BYOND."
           FULL_VERSION=${{ matrix.byond }}
           if [[ "$FULL_VERSION" = "EDGE" ]] ; then
-              VERSIONS=$(curl https://spacestation13.github.io/byond-builds/version.txt)
+              VERSIONS=$(curl https://www.byond.com/download/version.txt)
               FULL_VERSION=$(echo "$VERSIONS" | tail -n1)
               echo "EDGE version evaluated to $FULL_VERSION"
 
@@ -183,14 +183,27 @@ jobs:
                   FULL_VERSION=${bad_linux_releases[$FULL_VERSION]}
               fi
           fi
-          if [[ ! -f $HOME/byond-zips-cache/linux/$FULL_VERSION.zip ]] ; then
+          run: echo "EVALUATED_EDGE_VERSION=$FULL_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Cache BYOND .zips
+        uses: actions/cache@v4
+        id: cache-byond
+        with:
+          path: ~/byond-zips-cache/linux/${{ steps.edge_version_evaluation.outputs.EVALUATED_EDGE_VERSION }}
+          key: byond-zips-linux-${{ steps.edge_version_evaluation.outputs.EVALUATED_EDGE_VERSION }}
+
+      - name: Setup BYOND Cache if Necessary and Install
+        run: |
+          echo "Setting up BYOND."
+          FULL_VERSION=${{ steps.edge_version_evaluation.outputs.EVALUATED_EDGE_VERSION }}
+          if [[ ! -f $HOME/byond-zips-cache/linux/$FULL_VERSION/$FULL_VERSION.zip ]] ; then
               BYOND_MAJOR=${FULL_VERSION%.*}
               mkdir -p $HOME/byond-zips-cache/linux
-              curl "https://spacestation13.github.io/byond-builds/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip" -o $HOME/byond-zips-cache/linux/$FULL_VERSION.zip
+              curl "https://www.byond.com/download/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip" -o $HOME/byond-zips-cache/linux/$FULL_VERSION/$FULL_VERSION.zip
           fi
           mkdir -p "$HOME/BYOND"
           cd "$HOME/BYOND"
-          cp $HOME/byond-zips-cache/linux/$FULL_VERSION.zip byond.zip
+          cp $HOME/byond-zips-cache/linux/$FULL_VERSION/$FULL_VERSION.zip byond.zip
           unzip byond.zip
           cd byond
           make here
@@ -612,6 +625,13 @@ jobs:
         with:
           node-version: ${{ env.TGS_NODE_VERSION }}
 
+      - name: Cache BYOND .zips
+        uses: actions/cache@v4
+        id: cache-byond
+        with:
+          path: ~/byond-zips-cache/live/windows
+          key: byond-zips-windows-live
+
       - name: Set TGS_TEST_DUMP_API_SPEC
         if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
         run: echo "TGS_TEST_DUMP_API_SPEC=yes" >> $Env:GITHUB_ENV
@@ -862,6 +882,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.TGS_NODE_VERSION }}
+
+      - name: Cache BYOND .zips
+        uses: actions/cache@v4
+        id: cache-byond
+        with:
+          path: ~/byond-zips-cache/live/linux
+          key: byond-zips-linux-live
 
       - name: Set Sqlite Connection Info
         if: ${{ matrix.database-type == 'Sqlite' }}

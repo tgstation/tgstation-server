@@ -12,6 +12,8 @@ using Moq;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Http;
+using Tgstation.Server.Host.Components.Engine;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
@@ -44,9 +46,9 @@ namespace Tgstation.Server.Tests
 			var logger = loggerFactory.CreateLogger("CachingFileDownloader");
 
 			var cfd = new CachingFileDownloader(loggerFactory.CreateLogger<CachingFileDownloader>());
-			var edgeVersion = await EngineTest.GetEdgeVersion(Api.Models.EngineType.Byond, cfd, cancellationToken);
 
-			await InitializeByondVersion(logger, edgeVersion.Version, new PlatformIdentifier().IsWindows, cancellationToken);
+			// this also will inject the edge version
+			var edgeVersion = await EngineTest.GetEdgeVersion(Api.Models.EngineType.Byond, logger, cfd, cancellationToken);
 
 			// predownload the target github release update asset
 			var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
@@ -78,7 +80,7 @@ namespace Tgstation.Server.Tests
 			ServiceCollectionExtensions.UseFileDownloader<CachingFileDownloader>();
 		}
 
-		public static async ValueTask InitializeByondVersion(ILogger logger, Version byondVersion, bool windows, CancellationToken cancellationToken)
+		public static async ValueTask InitializeByondVersion(ILogger logger, Version byondVersion, bool windows, CancellationToken cancellationToken, string urlCacheOverrideTemplate = null)
 		{
 			var version = new EngineVersion
 			{
@@ -86,8 +88,9 @@ namespace Tgstation.Server.Tests
 				Version = byondVersion,
 			};
 
-			var url = new Uri(
-				$"https://spacestation13.github.io/byond-builds/{version.Version.Major}/{version.Version.Major}.{version.Version.Minor}_byond{(!windows ? "_linux" : string.Empty)}.zip");
+			var urlTemplate = TestingUtils.ByondZipDownloadTemplate;
+
+			var url = ByondInstallerBase.GetDownloadZipUrl(byondVersion, urlTemplate, new PlatformIdentifier().IsWindows ? "Windows" : "Linux");
 			string path = null;
 			if (TestingUtils.RunningInGitHubActions)
 			{
@@ -98,13 +101,23 @@ namespace Tgstation.Server.Tests
 						Environment.SpecialFolder.UserProfile,
 						Environment.SpecialFolderOption.DoNotVerify),
 					"byond-zips-cache",
+					"live",
 					windows ? "windows" : "linux");
 				path = Path.Combine(
 					dir,
+					$"{version.Version.Major}.{version.Version.Minor}",
 					$"{version.Version.Major}.{version.Version.Minor}.zip");
 			}
 
-			await (await CacheFile(logger, url, null, path, cancellationToken)).DisposeAsync();
+			await (await CacheFile(
+				logger,
+				urlCacheOverrideTemplate != null
+					? ByondInstallerBase.GetDownloadZipUrl(byondVersion, urlCacheOverrideTemplate, new PlatformIdentifier().IsWindows ? "Windows" : "Linux")
+					: url,
+				null,
+				path,
+				cancellationToken))
+				.DisposeAsync();
 		}
 
 		public static void Cleanup()

@@ -55,8 +55,14 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 			var mockPostWriteHandler = new Mock<IPostWriteHandler>();
 			var mockLogger = new Mock<ILogger<PosixByondInstaller>>();
 			var mockFileDownloader = new Mock<IFileDownloader>();
-			var mockOptions = Mock.Of<IOptionsMonitor<GeneralConfiguration>>();
-			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader.Object, mockOptions, mockLogger.Object);
+			var mockOptions = new Mock<IOptionsMonitor<GeneralConfiguration>>();
+			const string TestUrl = "https://chumb.is";
+			mockOptions.SetupGet(x => x.CurrentValue).Returns(new GeneralConfiguration
+			{
+				ByondZipDownloadTemplate = TestUrl,
+			});
+
+			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader.Object, mockOptions.Object, mockLogger.Object);
 
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.DownloadVersion(null, null, default).AsTask());
 
@@ -64,7 +70,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 			mockFileDownloader
 				.Setup(
 					x => x.DownloadFile(
-						It.Is<Uri>(uri => uri == new Uri("https://www.byond.com/download/build/511/511.1385_byond_linux.zip")),
+						It.Is<Uri>(uri => uri == new Uri(TestUrl)),
 						null))
 				.Returns(
 					new BufferedFileStreamProvider(

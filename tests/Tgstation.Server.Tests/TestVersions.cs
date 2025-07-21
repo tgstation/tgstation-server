@@ -103,10 +103,14 @@ namespace Tgstation.Server.Tests
 		}
 
 		[TestMethod]
+		[TestCategory("RequiresDatabase")]
 		public async Task TestDDExeByondVersion()
 		{
-			var mockGeneralConfigurationOptions = new Mock<IOptions<GeneralConfiguration>>();
-			mockGeneralConfigurationOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
+			var mockGeneralConfigurationOptions = new Mock<IOptionsMonitor<GeneralConfiguration>>();
+			mockGeneralConfigurationOptions.SetupGet(x => x.CurrentValue).Returns(new GeneralConfiguration
+			{
+				ByondZipDownloadTemplate = TestingUtils.ByondZipDownloadTemplate,
+			});
 			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
 			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
 
@@ -165,12 +169,14 @@ namespace Tgstation.Server.Tests
 		static Version MapThreadsVersion() => (Version)typeof(ByondInstallerBase).GetField("MapThreadsVersion", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) ?? throw new InvalidOperationException("Couldn't find MapThreadsVersion");
 
 		[TestMethod]
+		[TestCategory("RequiresDatabase")]
 		public async Task TestMapThreadsByondVersion()
 		{
-			var mockGeneralConfigurationOptions = new Mock<IOptions<GeneralConfiguration>>();
-			mockGeneralConfigurationOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration
+			var mockGeneralConfigurationOptions = new Mock<IOptionsMonitor<GeneralConfiguration>>();
+			mockGeneralConfigurationOptions.SetupGet(x => x.CurrentValue).Returns(new GeneralConfiguration
 			{
 				SkipAddingByondFirewallException = true,
+				ByondZipDownloadTemplate = TestingUtils.ByondZipDownloadTemplate,
 			});
 			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
 			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
@@ -209,6 +215,7 @@ namespace Tgstation.Server.Tests
 					new PosixPostWriteHandler(loggerFactory.CreateLogger<PosixPostWriteHandler>()),
 					new DefaultIOManager(),
 					fileDownloader,
+					mockGeneralConfigurationOptions.Object,
 					loggerFactory.CreateLogger<PosixByondInstaller>());
 			using var disposable = byondInstaller as IDisposable;
 

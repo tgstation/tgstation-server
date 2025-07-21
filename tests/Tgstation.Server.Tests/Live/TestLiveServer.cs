@@ -1421,6 +1421,7 @@ namespace Tgstation.Server.Tests.Live
 				await Task.Yield();
 
 			InstanceManager GetInstanceManager() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<InstanceManager>();
+			ILogger GetLogger() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<ILogger<TestLiveServer>>();
 
 			// main run
 			var serverTask = server.Run(cancellationToken).AsTask();
@@ -1590,7 +1591,7 @@ namespace Tgstation.Server.Tests.Live
 						var testSerialized = TestingUtils.RunningInGitHubActions; // they only have 2 cores, can't handle intense parallelization
 						async Task ODCompatTests()
 						{
-							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, fileDownloader, cancellationToken);
+							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, GetLogger(), fileDownloader, cancellationToken);
 
 							var ex = await Assert.ThrowsExceptionAsync<JobException>(
 								() => InstanceTest.DownloadEngineVersion(
@@ -1649,6 +1650,7 @@ namespace Tgstation.Server.Tests.Live
 						await FailFast(
 							instanceTest
 								.RunTests(
+									GetLogger(),
 									instanceClient,
 									mainDMPort.Value,
 									mainDDPort.Value,
@@ -1881,7 +1883,7 @@ namespace Tgstation.Server.Tests.Live
 				preStartupTime = DateTimeOffset.UtcNow;
 				serverTask = server.Run(cancellationToken).AsTask();
 				long expectedCompileJobId, expectedStaged;
-				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
+				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, GetLogger(), fileDownloader, cancellationToken);
 				await using (var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
 				{
 					var restAdminClient = adminClient.RestClient;
