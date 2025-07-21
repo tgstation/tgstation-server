@@ -485,8 +485,7 @@ namespace Tgstation.Server.Host.Core
 				services => services
 					.GetRequiredService<IRepositoryManagerFactory>()
 					.CreateRepositoryManager(
-						new ResolvingIOManager(
-							services.GetRequiredService<IIOManager>(),
+						services.GetRequiredService<IIOManager>().CreateResolverForSubdirectory(
 							openDreamRepositoryDirectory),
 						new NoopEventConsumer()));
 

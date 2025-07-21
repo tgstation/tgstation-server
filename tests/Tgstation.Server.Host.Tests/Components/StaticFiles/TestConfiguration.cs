@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles.Tests
 
 			var tempPath = Path.GetTempFileName();
 			File.Delete(tempPath);
-			var ioManager = new ResolvingIOManager(new DefaultIOManager(), tempPath);
+			var ioManager = new DefaultIOManager().CreateResolverForSubdirectory(tempPath);
 			await ioManager.CreateDirectory(".", CancellationToken.None);
 			try
 			{

@@ -22,6 +22,13 @@ namespace Tgstation.Server.Host.IO
 		char AltDirectorySeparatorChar { get; }
 
 		/// <summary>
+		/// Create a new <see cref="IIOManager"/> that resolves paths to the specified <paramref name="subdirectoryPath"/>.
+		/// </summary>
+		/// <param name="subdirectoryPath">A relative or absolute path that the new <see cref="IIOManager"/> will resolve as its current directory.</param>
+		/// <returns>A new <see cref="IIOManager"/>.</returns>
+		IIOManager CreateResolverForSubdirectory(string subdirectoryPath);
+
+		/// <summary>
 		/// Retrieve the full path of the current working directory.
 		/// </summary>
 		/// <returns>The full path of the current working directory.</returns>

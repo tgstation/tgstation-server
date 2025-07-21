@@ -75,8 +75,7 @@ namespace Tgstation.Server.Tests
 			using var manager = new RepositoryManager(
 				repoFac,
 				commands,
-				new ResolvingIOManager(
-					new DefaultIOManager(),
+				new DefaultIOManager().CreateResolverForSubdirectory(
 					tempPath),
 				Mock.Of<IEventConsumer>(),
 				new WindowsPostWriteHandler(),

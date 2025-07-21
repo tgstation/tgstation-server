@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		{
 			CheckVersionValidity(version);
 
-			var installationIOManager = new ResolvingIOManager(IOManager, path);
+			var installationIOManager = IOManager.CreateResolverForSubdirectory(path);
 			var supportsMapThreads = version.Version >= MapThreadsVersion;
 
 			return ValueTask.FromResult<IEngineInstallation>(

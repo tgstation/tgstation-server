@@ -400,6 +400,17 @@ namespace Tgstation.Server.Host.IO
 		public bool IsPathRooted(string path)
 			=> Path.IsPathRooted(path);
 
+		/// <inheritdoc />
+		public IIOManager CreateResolverForSubdirectory(string subdirectoryPath)
+		{
+			ArgumentNullException.ThrowIfNull(subdirectoryPath);
+
+			return new ResolvingIOManager(
+				ConcatPath(
+					ResolvePath(),
+					subdirectoryPath));
+		}
+
 		/// <summary>
 		/// Copies a directory from <paramref name="src"/> to <paramref name="dest"/>.
 		/// </summary>

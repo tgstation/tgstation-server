@@ -96,7 +96,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					Environment.SpecialFolderOption.DoNotVerify),
 				new AssemblyInformationProvider().VersionPrefix,
 				"OpenDreamRepository");
-			var odRepoIoManager = new ResolvingIOManager(ioManager, odRepoDir);
+			var odRepoIoManager = ioManager.CreateResolverForSubdirectory(odRepoDir);
 
 			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
 			var genConfig = new GeneralConfiguration

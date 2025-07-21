@@ -15,14 +15,10 @@ namespace Tgstation.Server.Host.IO
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ResolvingIOManager"/> class.
 		/// </summary>
-		/// <param name="parent">The <see cref="IIOManager"/> that resolves to the directory to work out of.</param>
 		/// <param name="subdirectory">The value of <see cref="subdirectory"/>.</param>
-		public ResolvingIOManager(IIOManager parent, string subdirectory)
+		public ResolvingIOManager(string subdirectory)
 		{
-			ArgumentNullException.ThrowIfNull(parent);
-			ArgumentNullException.ThrowIfNull(subdirectory);
-
-			this.subdirectory = ConcatPath(parent.ResolvePath(), subdirectory);
+			this.subdirectory = subdirectory ?? throw new ArgumentNullException(nameof(subdirectory));
 		}
 
 		/// <inheritdoc />
