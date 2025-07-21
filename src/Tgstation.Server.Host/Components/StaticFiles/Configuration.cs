@@ -333,7 +333,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							},
 							async cancellationToken =>
 							{
-								FileStream? result = null;
+								Stream? result = null;
 								void GetFileStream()
 								{
 									result = ioManager.GetFileStream(path, false);
@@ -771,7 +771,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			var nullOrEmptyCheck = String.IsNullOrEmpty(configurationRelativePath);
 			if (nullOrEmptyCheck)
 				configurationRelativePath = DefaultIOManager.CurrentDirectory;
-			if (configurationRelativePath![0] == Path.DirectorySeparatorChar || configurationRelativePath[0] == Path.AltDirectorySeparatorChar)
+			if (configurationRelativePath![0] == ioManager.DirectorySeparatorChar || configurationRelativePath[0] == ioManager.AltDirectorySeparatorChar)
 				configurationRelativePath = DefaultIOManager.CurrentDirectory + configurationRelativePath;
 			var resolved = ioManager.ResolvePath(configurationRelativePath);
 			var local = !nullOrEmptyCheck ? ioManager.ResolvePath() : null;

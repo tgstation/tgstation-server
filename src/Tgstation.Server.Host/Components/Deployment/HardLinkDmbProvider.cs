@@ -239,12 +239,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <remarks>I genuinely don't know how this will work with symlinked files. Waiting for the issue report I guess.</remarks>
 		IEnumerable<Task> MirrorDirectoryImpl(string src, string dest, SemaphoreSlim? semaphore, DreamDaemonSecurity securityLevel, CancellationToken cancellationToken)
 		{
-			var dir = new DirectoryInfo(src);
+			var dir = IOManager.DirectoryInfo(src);
 			Task? subdirCreationTask = null;
 			var dreamDaemonWillAcceptOutOfDirectorySymlinks = securityLevel == DreamDaemonSecurity.Trusted;
 			foreach (var subDirectory in dir.EnumerateDirectories())
 			{
-				var mirroredName = Path.Combine(dest, subDirectory.Name);
+				var mirroredName = IOManager.ConcatPath(dest, subDirectory.Name);
 
 				// check if we are a symbolic link
 				if (subDirectory.Attributes.HasFlag(FileAttributes.ReparsePoint))

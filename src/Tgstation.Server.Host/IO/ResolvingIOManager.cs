@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 namespace Tgstation.Server.Host.IO
 {
@@ -29,7 +28,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public override string ResolvePath(string path)
 		{
-			if (!Path.IsPathRooted(path))
+			if (!IsPathRooted(path))
 				return base.ResolvePath(ConcatPath(subdirectory, path));
 			return path;
 		}

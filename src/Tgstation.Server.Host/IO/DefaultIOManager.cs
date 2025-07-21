@@ -30,6 +30,12 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		public const TaskCreationOptions BlockingTaskCreationOptions = TaskCreationOptions.None;
 
+		/// <inheritdoc />
+		public char DirectorySeparatorChar => Path.DirectorySeparatorChar;
+
+		/// <inheritdoc />
+		public char AltDirectorySeparatorChar => Path.AltDirectorySeparatorChar;
+
 		/// <summary>
 		/// Recursively empty a directory.
 		/// </summary>
@@ -350,13 +356,14 @@ namespace Tgstation.Server.Host.IO
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public FileStream GetFileStream(string path, bool shareWrite) => new(
-			ResolvePath(path),
-			FileMode.Open,
-			FileAccess.Read,
-			FileShare.Read | FileShare.Delete | (shareWrite ? FileShare.Write : FileShare.None),
-			DefaultBufferSize,
-			true);
+		public Stream GetFileStream(string path, bool shareWrite)
+			=> new FileStream(
+				ResolvePath(path),
+				FileMode.Open,
+				FileAccess.Read,
+				FileShare.Read | FileShare.Delete | (shareWrite ? FileShare.Write : FileShare.None),
+				DefaultBufferSize,
+				true);
 
 		/// <inheritdoc />
 		public Task<bool> PathIsChildOf(string parentPath, string childPath, CancellationToken cancellationToken) => Task.Factory.StartNew(
@@ -384,6 +391,14 @@ namespace Tgstation.Server.Host.IO
 			cancellationToken,
 			BlockingTaskCreationOptions,
 			TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public DirectoryInfo DirectoryInfo(string path)
+			=> new(ResolvePath(path)); // Consider async
+
+		/// <inheritdoc />
+		public bool IsPathRooted(string path)
+			=> Path.IsPathRooted(path);
 
 		/// <summary>
 		/// Copies a directory from <paramref name="src"/> to <paramref name="dest"/>.

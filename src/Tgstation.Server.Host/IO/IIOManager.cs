@@ -12,6 +12,16 @@ namespace Tgstation.Server.Host.IO
 	public interface IIOManager
 	{
 		/// <summary>
+		/// Gets the primary directory separator character.
+		/// </summary>
+		char DirectorySeparatorChar { get; }
+
+		/// <summary>
+		/// Gets the alternative directory separator character.
+		/// </summary>
+		char AltDirectorySeparatorChar { get; }
+
+		/// <summary>
 		/// Retrieve the full path of the current working directory.
 		/// </summary>
 		/// <returns>The full path of the current working directory.</returns>
@@ -234,8 +244,22 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="path">The path of the file.</param>
 		/// <param name="shareWrite">If <see cref="FileShare.Write"/> should be used.</param>
-		/// <returns>The <see cref="FileStream"/> of the file.</returns>
+		/// <returns>The <see cref="Stream"/> of the file.</returns>
 		/// <remarks>This function is sychronous.</remarks>
-		FileStream GetFileStream(string path, bool shareWrite);
+		Stream GetFileStream(string path, bool shareWrite);
+
+		/// <summary>
+		/// Gets a <see cref="global::System.IO.DirectoryInfo"/> for the given <paramref name="path"/>.
+		/// </summary>
+		/// <param name="path">The path to get <see cref="global::System.IO.DirectoryInfo"/> for.</param>
+		/// <returns>A new <see cref="global::System.IO.DirectoryInfo"/>.</returns>
+		DirectoryInfo DirectoryInfo(string path);
+
+		/// <summary>
+		/// Check if a given <paramref name="path"/> is at the root level of the filesystem.
+		/// </summary>
+		/// <param name="path">The path to check.</param>
+		/// <returns><see langword="true"/> if the path is rooted, <see langword="false"/> otherwise.</returns>
+		bool IsPathRooted(string path);
 	}
 }
