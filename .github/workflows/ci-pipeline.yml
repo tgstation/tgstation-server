@@ -121,12 +121,9 @@ jobs:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
       - name: Replace current TGS version with test version
-        run:
-          ls -al
-          ls -al build
+        run: |
           CURRENT_TGS_VERSION="$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)"
           sed -i -e "s/<TgsCoreVersion>${CURRENT_TGS_VERSION}/<TgsCoreVersion>${{ env.TEST_TGS_VERSION }}/g" build/Version.props
-          cat build/Version.props
 
       - name: Retrieve ServerConsole.zip Artifact
         run: |
