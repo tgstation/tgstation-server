@@ -86,7 +86,7 @@ stdenv.mkDerivation {
     gcc_multi
     glibc
     bash
-    libcurl4
+    curl
   ];
   nativeBuildInputs = with pkgs; [
     makeWrapper
