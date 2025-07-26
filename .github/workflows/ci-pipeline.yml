@@ -174,7 +174,7 @@ jobs:
         run: |
           FULL_VERSION=${{ matrix.byond }}
           if [[ "$FULL_VERSION" = "EDGE" ]] ; then
-              VERSIONS=$(curl https://www.byond.com/download/version.txt)
+              VERSIONS=$(curl https://spacestation13.github.io/byond-builds/version.txt)
               FULL_VERSION=$(echo "$VERSIONS" | tail -n1)
               echo "EDGE version evaluated to $FULL_VERSION"
 
@@ -203,8 +203,8 @@ jobs:
               BYOND_MAJOR=${FULL_VERSION%.*}
               mkdir -p $HOME/byond-zips-cache/linux/$FULL_VERSION
               DOWNLOAD_URL="${{ env.DMAPI_BYOND_BUILD_MIRROR_DOWNLOAD_TEMPLATE }}"
-              if [[ "$FULL_VERSION" = "EDGE" ]] ; then
-                DOWNLOAD_URL="https://www.byond.com/download/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip"
+              if [[ "${{ matrix.byond }}" = "EDGE" ]] ; then
+                DOWNLOAD_URL="https://spacestation13.github.io/byond-builds/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip"
               fi
               curl "$DOWNLOAD_URL" -o $HOME/byond-zips-cache/linux/$FULL_VERSION/$FULL_VERSION.zip
           fi
@@ -597,9 +597,50 @@ jobs:
           name: windows-unit-test-coverage-${{ matrix.configuration }}
           path: ./TestResults/
 
+  prep-edge-versions:
+    name: Prepare Live Tests Cache of EDGE Versions
+    needs: start-gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache BYOND .zips (Linux)
+        uses: actions/cache@v4
+        with:
+          path: ~/byond-zips-cache/live/linux
+          key: byond-zips-linux-live
+
+      - name: Cache BYOND .zips (Windows)
+        uses: actions/cache@v4
+        with:
+          path: ~/byond-zips-cache/live/windows
+          key: byond-zips-windows-live
+
+      - name: Evaluate BYOND version
+        id: version_evaluation
+        run: |
+          VERSIONS=$(curl https://spacestation13.github.io/byond-builds/version.txt)
+          FULL_VERSION=$(echo "$VERSIONS" | tail -n1)
+          echo "EDGE version evaluated to $FULL_VERSION"
+          echo "EVALUATED_VERSION=$FULL_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Setup BYOND Cache if Necessary and Install
+        run: |
+          echo "Downloading BYOND."
+          FULL_VERSION=${{ steps.version_evaluation.outputs.EVALUATED_VERSION }}
+          BYOND_MAJOR=${FULL_VERSION%.*}
+          if [[ ! -f $HOME/byond-zips-cache/live/linux/$FULL_VERSION/$FULL_VERSION.zip ]] ; then
+              mkdir -p $HOME/byond-zips-cache/live/linux/$FULL_VERSION
+              DOWNLOAD_URL="https://spacestation13.github.io/byond-builds/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip"
+              curl "$DOWNLOAD_URL" -o $HOME/byond-zips-cache/live/linux/$FULL_VERSION/$FULL_VERSION.zip
+          fi
+          if [[ ! -f $HOME/byond-zips-cache/live/windows/$FULL_VERSION/$FULL_VERSION.zip ]] ; then
+              mkdir -p $HOME/byond-zips-cache/live/windows/$FULL_VERSION
+              DOWNLOAD_URL="https://spacestation13.github.io/byond-builds/$BYOND_MAJOR/${FULL_VERSION}_byond.zip"
+              curl "$DOWNLOAD_URL" -o $HOME/byond-zips-cache/live/windows/$FULL_VERSION/$FULL_VERSION.zip
+          fi
+
   windows-integration-tests:
     name: Windows Live Tests
-    needs: [dmapi-build, opendream-build]
+    needs: [dmapi-build, opendream-build, prep-edge-versions]
     strategy:
       fail-fast: false
       matrix:
@@ -634,7 +675,6 @@ jobs:
 
       - name: Cache BYOND .zips
         uses: actions/cache@v4
-        id: cache-byond
         with:
           path: ~/byond-zips-cache/live/windows
           key: byond-zips-windows-live
@@ -815,7 +855,7 @@ jobs:
 
   linux-integration-tests:
     name: Linux Live Tests
-    needs: [dmapi-build, opendream-build]
+    needs: [dmapi-build, opendream-build, prep-edge-versions]
     services: # We start all dbs here so we can just code the stuff once
       mssql:
         image: ${{ (matrix.database-type == 'SqlServer') && 'mcr.microsoft.com/mssql/server:2019-latest' || '' }}
@@ -892,7 +932,6 @@ jobs:
 
       - name: Cache BYOND .zips
         uses: actions/cache@v4
-        id: cache-byond
         with:
           path: ~/byond-zips-cache/live/linux
           key: byond-zips-linux-live
