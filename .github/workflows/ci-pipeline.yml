@@ -100,6 +100,11 @@ jobs:
     env:
       TEST_TGS_VERSION: "6.17.0" # Version we use here doesn't matter as it won't be executed. Just used to download a zip and calc hash
     steps:
+      - name: Install Native Packages # Name checked in rerunFlakyTests.js
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xmlstarlet
+
       - name: Setup Nix
         uses: cachix/install-nix-action@v31
         with:
