@@ -1,5 +1,4 @@
-na*(@$&UQ!*@)(*$!U)U$!
- ASLDKme: CI Security
+name: CI Security
 
 on:
   pull_request:
@@ -22,7 +21,7 @@ concurrency:
   group: "ci-security-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
   cancel-in-progress: true
 
-job1231s:
+jobs:
   security-checkpoint:
     name: Check CI Clearance
     if: github.event_name == 'pull_request_target' && (github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id || github.event.pull_request.user.id == 49699333) && github.event.pull_request.state == 'open'
