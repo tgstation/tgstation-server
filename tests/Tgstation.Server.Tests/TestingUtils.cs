@@ -133,13 +133,19 @@ namespace Tgstation.Server.Tests
 			try
 			{
 				// always check byond.com first for latest up-to-date, mirror should ALWAYS have stable versions
-				const string DefaultMirror = "https://www.byond.com/download/version.txt";
+				// except byond hates all CI runners now
+				const string DefaultMirror = "https://spacestation13.github.io/byond-builds/version.txt";
 				edgeVersion = await GetVersionFromResponse(DefaultMirror);
 
-				logger.LogInformation("Downloading edge version from BYOND.com {edge}", edgeVersion);
+				logger.LogInformation("Downloading edge version from SS13 mirror {edge}", edgeVersion);
 
 				// if we got the result from byond.com, make sure the cache grabs the zip from there as well
-				await CachingFileDownloader.InitializeByondVersion(logger, Version.Parse(edgeVersion), new PlatformIdentifier().IsWindows, cancellationToken, GeneralConfiguration.DefaultByondZipDownloadTemplate);
+				await CachingFileDownloader.InitializeByondVersion(
+					logger,
+					Version.Parse(edgeVersion),
+					new PlatformIdentifier().IsWindows,
+					cancellationToken,
+					"https://spacestation13.github.io/byond-builds/${Major}/${Major}.${Minor}_byond${Linux:_linux}.zip");
 			}
 			catch (Exception ex)
 			{
