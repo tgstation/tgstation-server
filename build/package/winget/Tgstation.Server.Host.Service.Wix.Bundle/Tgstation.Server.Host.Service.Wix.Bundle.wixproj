@@ -1,4 +1,4 @@
-<Project Sdk="WixToolset.Sdk/6.0.1" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+<Project Sdk="WixToolset.Sdk/5.0.2" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
   <Import Project="../../../Common.props" />
   <PropertyGroup>
     <DefineConstants>ProductVersion=$(TgsCoreVersion);NetMajorVersion=$(TgsNetMajorVersion);DotnetRedistUrl=$(TgsDotnetRedistUrl);MariaDBRedistUrl=https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v$(TgsCoreVersion)/mariadb-$(TgsMariaDBRedistVersion)-winx64.msi</DefineConstants>
@@ -24,8 +24,8 @@
     <Content Include="Theme.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="WixToolset.Bal.wixext" Version="6.0.1" />
-    <PackageReference Include="WixToolset.Netfx.wixext" Version="6.0.1" />
+    <PackageReference Include="WixToolset.Bal.wixext" Version="5.0.2" />
+    <PackageReference Include="WixToolset.Netfx.wixext" Version="5.0.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Host.Service.Wix\Tgstation.Server.Host.Service.Wix.wixproj" />
