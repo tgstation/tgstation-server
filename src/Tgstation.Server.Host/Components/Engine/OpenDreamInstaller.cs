@@ -126,7 +126,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			var dotnetPath = (await DotnetHelper.GetDotnetPath(platformIdentifier, IOManager, cancellationToken))
 				?? throw new JobException("Failed to find dotnet path!");
 			return new OpenDreamInstallation(
-				new ResolvingIOManager(IOManager, path),
+				IOManager.CreateResolverForSubdirectory(path),
 				asyncDelayer,
 				httpClientFactory,
 				dotnetPath,

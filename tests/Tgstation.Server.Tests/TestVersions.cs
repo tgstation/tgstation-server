@@ -33,6 +33,7 @@ using Tgstation.Server.Host.System;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Tests.Live;
 using Tgstation.Server.Host.Properties;
+using System.IO.Abstractions;
 
 namespace Tgstation.Server.Tests
 {
@@ -213,7 +214,7 @@ namespace Tgstation.Server.Tests
 					loggerFactory.CreateLogger<WindowsByondInstaller>())
 				: new PosixByondInstaller(
 					new PosixPostWriteHandler(loggerFactory.CreateLogger<PosixPostWriteHandler>()),
-					new DefaultIOManager(),
+					new DefaultIOManager(new FileSystem()),
 					fileDownloader,
 					mockGeneralConfigurationOptions.Object,
 					loggerFactory.CreateLogger<PosixByondInstaller>());
@@ -224,13 +225,13 @@ namespace Tgstation.Server.Tests
 					? new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
 					: new PosixProcessFeatures(
 						new Lazy<IProcessExecutor>(() => null),
-						new DefaultIOManager(),
+						new DefaultIOManager(new FileSystem()),
 						loggerFactory.CreateLogger<PosixProcessFeatures>()),
 					Mock.Of<IIOManager>(),
 					loggerFactory.CreateLogger<ProcessExecutor>(),
 					loggerFactory);
 
-			var ioManager = new DefaultIOManager();
+			var ioManager = new DefaultIOManager(new FileSystem());
 			var tempPath = ioManager.ConcatPath(LiveTestingServer.BaseDirectory, "mapthreads");
 			await ioManager.CreateDirectory(tempPath, default);
 			try

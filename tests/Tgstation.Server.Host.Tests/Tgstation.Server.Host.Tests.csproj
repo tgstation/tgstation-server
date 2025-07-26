@@ -8,6 +8,7 @@
   <ItemGroup>
     <!-- Usage: Creating mock database implementations -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.4" />
+    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="22.0.15" />
   </ItemGroup>
 
   <ItemGroup>

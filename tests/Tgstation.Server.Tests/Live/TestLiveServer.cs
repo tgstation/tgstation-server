@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Management;
 using System.Net;
@@ -415,7 +416,7 @@ namespace Tgstation.Server.Tests.Live
 				var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
 				if (String.IsNullOrWhiteSpace(gitHubToken))
 					gitHubToken = null;
-				await new Host.IO.DefaultIOManager().DeleteDirectory(server.UpdatePath, cancellationToken);
+				await new Host.IO.DefaultIOManager(new FileSystem()).DeleteDirectory(server.UpdatePath, cancellationToken);
 				serverTask = server.Run(cancellationToken).AsTask();
 
 				await using (var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
@@ -1135,7 +1136,7 @@ namespace Tgstation.Server.Tests.Live
 					ApiValidationSecurityLevel = DreamDaemonSecurity.Trusted,
 				}, cancellationToken);
 
-				var ioManager = new Host.IO.DefaultIOManager();
+				var ioManager = new Host.IO.DefaultIOManager(new FileSystem());
 				var repoPath = ioManager.ConcatPath(instance.Path, "Repository");
 				await using var jobsTest = new JobsRequiredTest(instanceClient.Jobs);
 				var postWriteHandler = (Host.IO.IPostWriteHandler)(new PlatformIdentifier().IsWindows

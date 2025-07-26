@@ -161,6 +161,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="8.1.1" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.4" />
+    <PackageReference Include="System.IO.Abstractions" Version="22.0.15" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
     <PackageReference Include="System.Management" Version="9.0.4" />
   </ItemGroup>

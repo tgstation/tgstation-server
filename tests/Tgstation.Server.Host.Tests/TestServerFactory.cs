@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.IO.Abstractions.TestingHelpers;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Host.Core;
@@ -20,11 +21,13 @@ namespace Tgstation.Server.Host.Tests
 		[TestMethod]
 		public void TestConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerFactory(null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerFactory(null, null, null));
 			IAssemblyInformationProvider assemblyInformationProvider = Mock.Of<IAssemblyInformationProvider>();
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerFactory(assemblyInformationProvider, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerFactory(assemblyInformationProvider, null, null));
 			IIOManager ioManager = Mock.Of<IIOManager>();
-			_ = new ServerFactory(assemblyInformationProvider, ioManager);
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerFactory(assemblyInformationProvider, ioManager, null));
+			var mockFileSystem = new MockFileSystem();
+			_ = new ServerFactory(assemblyInformationProvider, ioManager, mockFileSystem);
 		}
 
 		[TestMethod]

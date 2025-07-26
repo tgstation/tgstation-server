@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
@@ -14,6 +15,11 @@ namespace Tgstation.Server.Host.IO
 	sealed class SynchronousIOManager : ISynchronousIOManager
 	{
 		/// <summary>
+		/// The <see cref="IFileSystem"/> to use.
+		/// </summary>
+		readonly IFileSystem fileSystem;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SynchronousIOManager"/>.
 		/// </summary>
 		readonly ILogger<SynchronousIOManager> logger;
@@ -21,9 +27,11 @@ namespace Tgstation.Server.Host.IO
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SynchronousIOManager"/> class.
 		/// </summary>
+		/// <param name="fileSystem">The value of <see cref="fileSystem"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public SynchronousIOManager(ILogger<SynchronousIOManager> logger)
+		public SynchronousIOManager(IFileSystem fileSystem, ILogger<SynchronousIOManager> logger)
 		{
+			this.fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -33,32 +41,32 @@ namespace Tgstation.Server.Host.IO
 			if (IsDirectory(path))
 				return true;
 			cancellationToken.ThrowIfCancellationRequested();
-			Directory.CreateDirectory(path);
+			fileSystem.Directory.CreateDirectory(path);
 			return false;
 		}
 
 		/// <inheritdoc />
 		public bool DeleteDirectory(string path)
 		{
-			if (File.Exists(path))
+			if (fileSystem.File.Exists(path))
 				return false;
 
-			if (!Directory.Exists(path))
+			if (!fileSystem.Directory.Exists(path))
 				return true;
 
-			if (Directory.EnumerateFileSystemEntries(path).Any())
+			if (fileSystem.Directory.EnumerateFileSystemEntries(path).Any())
 				return false;
 
-			Directory.Delete(path);
+			fileSystem.Directory.Delete(path);
 			return true;
 		}
 
 		/// <inheritdoc />
 		public IEnumerable<string> GetDirectories(string path, CancellationToken cancellationToken)
 		{
-			foreach (var directoryName in Directory.EnumerateDirectories(path))
+			foreach (var directoryName in fileSystem.Directory.EnumerateDirectories(path))
 			{
-				yield return Path.GetFileName(directoryName);
+				yield return fileSystem.Path.GetFileName(directoryName);
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 		}
@@ -66,9 +74,9 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public IEnumerable<string> GetFiles(string path, CancellationToken cancellationToken)
 		{
-			foreach (var fileName in Directory.EnumerateFiles(path))
+			foreach (var fileName in fileSystem.Directory.EnumerateFiles(path))
 			{
-				yield return Path.GetFileName(fileName);
+				yield return fileSystem.Path.GetFileName(fileName);
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 		}
@@ -77,14 +85,14 @@ namespace Tgstation.Server.Host.IO
 		public bool IsDirectory(string path)
 		{
 			ArgumentNullException.ThrowIfNull(path);
-			return Directory.Exists(path);
+			return fileSystem.Directory.Exists(path);
 		}
 
 		/// <inheritdoc />
 		public byte[] ReadFile(string path)
 		{
 			ArgumentNullException.ThrowIfNull(path);
-			return File.ReadAllBytes(path);
+			return fileSystem.File.ReadAllBytes(path);
 		}
 
 		/// <inheritdoc />
@@ -94,16 +102,16 @@ namespace Tgstation.Server.Host.IO
 			ArgumentNullException.ThrowIfNull(data);
 
 			cancellationToken.ThrowIfCancellationRequested();
-			var directory = Path.GetDirectoryName(path) ?? throw new ArgumentException("path cannot be rooted!", nameof(path));
-			Directory.CreateDirectory(directory);
+			var directory = fileSystem.Path.GetDirectoryName(path) ?? throw new ArgumentException("path cannot be rooted!", nameof(path));
+			fileSystem.Directory.CreateDirectory(directory);
 
-			var newFile = !File.Exists(path);
+			var newFile = !fileSystem.File.Exists(path);
 
 			cancellationToken.ThrowIfCancellationRequested();
 
 			logger.LogTrace("Starting checked write to {path} ({fileType} file)", path, newFile ? "New" : "Pre-existing");
 
-			using (var file = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
+			using (var file = fileSystem.File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
 			{
 				cancellationToken.ThrowIfCancellationRequested();
 
@@ -160,10 +168,20 @@ namespace Tgstation.Server.Host.IO
 			if (data.Length == 0)
 			{
 				logger.LogDebug("Stream is empty, deleting file");
-				File.Delete(path);
+				fileSystem.File.Delete(path);
 			}
 
 			return true;
 		}
+
+		/// <inheritdoc />
+		public Stream GetFileStream(string path)
+			=> fileSystem.FileStream.New(
+				path,
+				FileMode.Open,
+				FileAccess.Read,
+				FileShare.Read | FileShare.Delete,
+				DefaultIOManager.DefaultBufferSize,
+				true);
 	}
 }

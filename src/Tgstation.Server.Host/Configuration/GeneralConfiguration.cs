@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 using Microsoft.Extensions.Logging;
@@ -9,6 +8,7 @@ using Newtonsoft.Json.Converters;
 
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Setup;
 
@@ -194,7 +194,8 @@ namespace Tgstation.Server.Host.Configuration
 		/// Validates the current <see cref="ConfigVersion"/>'s compatibility and provides migration instructions.
 		/// </summary>
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
-		public void CheckCompatibility(ILogger logger)
+		/// <param name="ioManager">The <see cref="IIOManager"/> to use.</param>
+		public void CheckCompatibility(ILogger logger, IIOManager ioManager)
 		{
 			ArgumentNullException.ThrowIfNull(logger);
 
@@ -220,7 +221,7 @@ namespace Tgstation.Server.Host.Configuration
 			if (ByondTopicTimeout <= 1000)
 				logger.LogWarning("The timeout for sending BYOND topics is very low ({ms}ms). Topic calls may fail to complete at all!", ByondTopicTimeout);
 
-			if (AdditionalEventScriptsDirectories?.Any(path => !Path.IsPathRooted(path)) == true)
+			if (AdditionalEventScriptsDirectories?.Any(path => !ioManager.IsPathRooted(path)) == true)
 				logger.LogWarning($"Config option \"{nameof(AdditionalEventScriptsDirectories)}\" contains non-rooted paths. These will be evaluated relative to each instances \"Configuration\" directory!");
 		}
 	}
