@@ -46,7 +46,6 @@ using Serilog.Sinks.Elasticsearch;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Components;
@@ -311,8 +310,12 @@ namespace Tgstation.Server.Host.Core
 			services.AddCors();
 
 			// Enable managed HTTP clients
-			services.AddHttpClient();
-			services.AddSingleton<IAbstractHttpClientFactory, AbstractHttpClientFactory>();
+			services
+				.AddHttpClient()
+				.ConfigureHttpClientDefaults(
+					builder => builder.ConfigureHttpClient(
+						client => client.DefaultRequestHeaders.UserAgent.Add(
+							assemblyInformationProvider.ProductInfoHeaderValue)));
 
 			// configure metrics
 			var prometheusPort = postSetupServices.GeneralConfiguration.PrometheusPort;

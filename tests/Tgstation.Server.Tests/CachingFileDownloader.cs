@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -174,16 +175,26 @@ namespace Tgstation.Server.Tests
 
 		public IFileStreamProvider DownloadFile(Uri url, string bearerToken) => new ProviderPackage(logger, url, bearerToken);
 
-		static FileDownloader CreateRealDownloader(ILogger logger)
-			=> new(
-				new HttpClientFactory(
-					new AssemblyInformationProvider().ProductInfoHeaderValue),
+		public static FileDownloader CreateRealDownloader(ILogger logger)
+		{
+			var mockHttpClientFactory = new Mock<IHttpClientFactory>();
+			mockHttpClientFactory.Setup(x => x.CreateClient(String.Empty)).Returns(
+				() =>
+				{
+					var client = new HttpClient();
+					client.DefaultRequestHeaders.UserAgent.Add(new AssemblyInformationProvider().ProductInfoHeaderValue);
+					return client;
+				});
+
+			return new (
+				mockHttpClientFactory.Object,
 				logger != null
 					? new Logger<FileDownloader>(
 						TestingUtils.CreateLoggerFactoryForLogger(
 							logger,
 							out _))
 					: Mock.Of<ILogger<FileDownloader>>());
+		}
 
 		static async Task<MemoryStream> CacheFile(ILogger logger, Uri url, string bearerToken, string path, CancellationToken cancellationToken)
 		{

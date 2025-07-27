@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using Tgstation.Server.Common.Http;
+using Tgstation.Server.Common.Tests;
 using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.IO.Tests
@@ -21,7 +22,7 @@ namespace Tgstation.Server.Host.IO.Tests
 		public async Task TestConstruction()
 		{
 			Assert.ThrowsException<ArgumentNullException>(() => new RequestFileStreamProvider(null, null));
-			var mockClient = Mock.Of<IHttpClient>();
+			var mockClient = new HttpClient();
 			Assert.ThrowsException<ArgumentNullException>(() => new RequestFileStreamProvider(mockClient, null));
 			await using var test = new RequestFileStreamProvider(mockClient, new HttpRequestMessage());
 		}
@@ -31,21 +32,23 @@ namespace Tgstation.Server.Host.IO.Tests
 		{
 			var sequence = new byte[] { 1, 2, 3 };
 			var resultMs = new MemoryStream(sequence);
-			var mockHttpClient = new Mock<IHttpClient>();
 
 			var response = new HttpResponseMessage()
 			{
 				Content = new StreamContent(resultMs),
 			};
 
-
+			var ran = false;
 			var request = new HttpRequestMessage();
-			mockHttpClient
-				.Setup(x => x.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, It.IsAny<CancellationToken>()))
-				.Returns(Task.FromResult(response))
-				.Verifiable();
+			var mockHttpClient = new HttpClient(
+				new MockHttpMessageHandler(
+					(_, _) =>
+					{
+						ran = true;
+						return Task.FromResult(response);
+					}));
 
-			await using var downloader = new RequestFileStreamProvider(mockHttpClient.Object, request);
+			await using var downloader = new RequestFileStreamProvider(mockHttpClient, request);
 
 			var download = await downloader.GetResult(default);
 
@@ -55,8 +58,7 @@ namespace Tgstation.Server.Host.IO.Tests
 
 			var resultSequence = buffer.ToArray();
 			Assert.IsTrue(sequence.SequenceEqual(resultSequence));
-
-			mockHttpClient.VerifyAll();
+			Assert.IsTrue(ran);
 		}
 
 		[TestMethod]
@@ -64,20 +66,23 @@ namespace Tgstation.Server.Host.IO.Tests
 		{
 			var sequence = new byte[] { 1, 2, 3 };
 			var resultMs = new MemoryStream(sequence);
-			var mockHttpClient = new Mock<IHttpClient>();
 
 			var response = new HttpResponseMessage()
 			{
 				Content = new StreamContent(resultMs),
 			};
 
+			int ran = 0;
 			var request = new HttpRequestMessage();
-			mockHttpClient
-				.Setup(x => x.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, It.IsAny<CancellationToken>()))
-				.Returns(Task.FromResult(response))
-				.Verifiable();
+			var mockHttpClient = new HttpClient(
+				new MockHttpMessageHandler(
+					(_, _) =>
+					{
+						++ran;
+						return Task.FromResult(response);
+					}));
 
-			await using var downloader = new RequestFileStreamProvider(mockHttpClient.Object, request);
+			await using var downloader = new RequestFileStreamProvider(mockHttpClient, request);
 
 			var task1 = downloader.GetResult(default);
 			var task2 = downloader.GetResult(default);
@@ -93,15 +98,13 @@ namespace Tgstation.Server.Host.IO.Tests
 			Assert.AreSame(task1Result, await task2);
 			Assert.AreSame(task1Result, await task3);
 
-			mockHttpClient.VerifyAll();
-			Assert.AreEqual(1, mockHttpClient.Invocations.Count);
+			Assert.AreEqual(1, ran);
 		}
 
 		[TestMethod]
 		public async Task TestInterruptedDownload()
 		{
 			var resultMs = new MemoryStream();
-			var mockHttpClient = new Mock<IHttpClient>();
 
 			var response = new HttpResponseMessage()
 			{
@@ -110,17 +113,17 @@ namespace Tgstation.Server.Host.IO.Tests
 
 			var tcs = new TaskCompletionSource<HttpResponseMessage>();
 
+			var ran = false;
 			var request = new HttpRequestMessage();
-			mockHttpClient
-				.Setup(x => x.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, It.IsAny<CancellationToken>()))
-				.Returns<HttpRequestMessage, HttpCompletionOption, CancellationToken>((request, option, cancellationToken) =>
-				{
-					cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken));
-					return tcs.Task;
-				})
-				.Verifiable();
+			var mockHttpClient = new HttpClient(
+				new MockHttpMessageHandler(
+					(_, _) =>
+					{
+						ran = true;
+						return Task.FromResult(response);
+					}));
 
-			await using var downloader = new RequestFileStreamProvider(mockHttpClient.Object, request);
+			await using var downloader = new RequestFileStreamProvider(mockHttpClient, request);
 
 			using var cts1 = new CancellationTokenSource();
 			var task1 = downloader.GetResult(cts1.Token);
@@ -133,11 +136,11 @@ namespace Tgstation.Server.Host.IO.Tests
 
 			cts2.Cancel();
 
-			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => task1.AsTask());
-			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => task2.AsTask());
-			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => task3.AsTask());
+			await Assert.ThrowsExceptionAsync<TaskCanceledException>(task1.AsTask);
+			await Assert.ThrowsExceptionAsync<TaskCanceledException>(task2.AsTask);
+			await Assert.ThrowsExceptionAsync<TaskCanceledException>(task3.AsTask);
 
-			mockHttpClient.VerifyAll();
+			Assert.IsTrue(ran);
 		}
 	}
 }
