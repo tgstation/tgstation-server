@@ -164,7 +164,7 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="instanceIOManager">The instance's <see cref="IIOManager"/>.</param>
 		/// <returns>The <see cref="IIOManager"/> for the instance's "Game" directory.</returns>
-		static ResolvingIOManager CreateGameIOManager(IIOManager instanceIOManager) => new(instanceIOManager, "Game");
+		static IIOManager CreateGameIOManager(IIOManager instanceIOManager) => instanceIOManager.CreateResolverForSubdirectory("Game");
 
 #pragma warning disable CA1502 // TODO: Decomplexify
 		/// <summary>
@@ -270,11 +270,11 @@ namespace Tgstation.Server.Host.Components
 			var instanceIoManager = CreateInstanceIOManager(metadata);
 
 			// various other ioManagers
-			var repoIoManager = new ResolvingIOManager(instanceIoManager, "Repository");
-			var byondIOManager = new ResolvingIOManager(instanceIoManager, "Byond");
+			var repoIoManager = instanceIoManager.CreateResolverForSubdirectory("Repository");
+			var byondIOManager = instanceIoManager.CreateResolverForSubdirectory("Byond");
 			var gameIoManager = CreateGameIOManager(instanceIoManager);
-			var diagnosticsIOManager = new ResolvingIOManager(instanceIoManager, "Diagnostics");
-			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
+			var diagnosticsIOManager = instanceIoManager.CreateResolverForSubdirectory("Diagnostics");
+			var configurationIoManager = instanceIoManager.CreateResolverForSubdirectory("Configuration");
 
 			var metricFactory = this.metricFactory.WithLabels(
 				new Dictionary<string, string>
@@ -441,6 +441,6 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="metadata">The <see cref="Models.Instance"/>.</param>
 		/// <returns>The <see cref="IIOManager"/> for the <paramref name="metadata"/>.</returns>
-		ResolvingIOManager CreateInstanceIOManager(Models.Instance metadata) => new(ioManager, metadata.Path!);
+		IIOManager CreateInstanceIOManager(Models.Instance metadata) => ioManager.CreateResolverForSubdirectory(metadata.Path!);
 	}
 }

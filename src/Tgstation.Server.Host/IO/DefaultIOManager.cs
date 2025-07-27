@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Abstractions;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading;
@@ -30,12 +31,32 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		public const TaskCreationOptions BlockingTaskCreationOptions = TaskCreationOptions.None;
 
+		/// <inheritdoc />
+		public char DirectorySeparatorChar => fileSystem.Path.DirectorySeparatorChar;
+
+		/// <inheritdoc />
+		public char AltDirectorySeparatorChar => fileSystem.Path.AltDirectorySeparatorChar;
+
+		/// <summary>
+		/// The backing <see cref="IFileSystem"/>.
+		/// </summary>
+		readonly IFileSystem fileSystem;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DefaultIOManager"/> class.
+		/// </summary>
+		/// <param name="fileSystem">The value of <see cref="fileSystem"/>.</param>
+		public DefaultIOManager(IFileSystem fileSystem)
+		{
+			this.fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+		}
+
 		/// <summary>
 		/// Recursively empty a directory.
 		/// </summary>
 		/// <param name="dir"><see cref="DirectoryInfo"/> of the directory to empty.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		static void NormalizeAndDelete(DirectoryInfo dir, CancellationToken cancellationToken)
+		static void NormalizeAndDelete(IDirectoryInfo dir, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -111,7 +132,7 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public string ConcatPath(params string[] paths) => Path.Combine(paths);
+		public string ConcatPath(params string[] paths) => fileSystem.Path.Combine(paths);
 
 		/// <inheritdoc />
 		public async ValueTask CopyFile(string src, string dest, CancellationToken cancellationToken)
@@ -120,7 +141,7 @@ namespace Tgstation.Server.Host.IO
 			ArgumentNullException.ThrowIfNull(dest);
 
 			// tested to hell and back, these are the optimal buffer sizes
-			await using var srcStream = new FileStream(
+			await using var srcStream = fileSystem.FileStream.New(
 				ResolvePath(src),
 				FileMode.Open,
 				FileAccess.Read,
@@ -134,41 +155,40 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public Task CreateDirectory(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => Directory.CreateDirectory(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
+		public Task CreateDirectory(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => fileSystem.Directory.CreateDirectory(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task DeleteDirectory(string path, CancellationToken cancellationToken)
-		{
-			path = ResolvePath(path);
-			var di = new DirectoryInfo(path);
-			if (!di.Exists)
-				return Task.CompletedTask;
-
-			return Task.Factory.StartNew(
-				() => NormalizeAndDelete(di, cancellationToken),
+			=> Task.Factory.StartNew(
+				() =>
+				{
+					var di = fileSystem.DirectoryInfo.New(
+						ResolvePath(path));
+					if (di.Exists)
+						NormalizeAndDelete(di, cancellationToken);
+				},
 				cancellationToken,
 				BlockingTaskCreationOptions,
 				TaskScheduler.Current);
-		}
 
 		/// <inheritdoc />
-		public Task DeleteFile(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => File.Delete(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
+		public Task DeleteFile(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => fileSystem.File.Delete(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task<bool> FileExists(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => File.Exists(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
+		public Task<bool> FileExists(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => fileSystem.File.Exists(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task<bool> DirectoryExists(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => Directory.Exists(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
+		public Task<bool> DirectoryExists(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => fileSystem.Directory.Exists(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public string GetDirectoryName(string path) => Path.GetDirectoryName(path ?? throw new ArgumentNullException(nameof(path)))
+		public string GetDirectoryName(string path) => fileSystem.Path.GetDirectoryName(path ?? throw new ArgumentNullException(nameof(path)))
 			?? throw new InvalidOperationException($"Null was returned. Path ({path}) must be rooted. This is not supported!");
 
 		/// <inheritdoc />
-		public string GetFileName(string path) => Path.GetFileName(path ?? throw new ArgumentNullException(nameof(path)));
+		public string GetFileName(string path) => fileSystem.Path.GetFileName(path ?? throw new ArgumentNullException(nameof(path)));
 
 		/// <inheritdoc />
-		public string GetFileNameWithoutExtension(string path) => Path.GetFileNameWithoutExtension(path ?? throw new ArgumentNullException(nameof(path)));
+		public string GetFileNameWithoutExtension(string path) => fileSystem.Path.GetFileNameWithoutExtension(path ?? throw new ArgumentNullException(nameof(path)));
 
 		/// <inheritdoc />
 		public Task<List<string>> GetFilesWithExtension(string path, string extension, bool recursive, CancellationToken cancellationToken) => Task.Factory.StartNew(
@@ -177,7 +197,7 @@ namespace Tgstation.Server.Host.IO
 				path = ResolvePath(path);
 				ArgumentNullException.ThrowIfNull(extension);
 				var results = new List<string>();
-				foreach (var fileName in Directory.EnumerateFiles(
+				foreach (var fileName in fileSystem.Directory.EnumerateFiles(
 					path,
 					$"*.{extension}",
 					recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))
@@ -199,7 +219,7 @@ namespace Tgstation.Server.Host.IO
 				ArgumentNullException.ThrowIfNull(destination);
 				source = ResolvePath(source ?? throw new ArgumentNullException(nameof(source)));
 				destination = ResolvePath(destination);
-				File.Move(source, destination);
+				fileSystem.File.Move(source, destination);
 			},
 			cancellationToken,
 			BlockingTaskCreationOptions,
@@ -212,7 +232,7 @@ namespace Tgstation.Server.Host.IO
 				ArgumentNullException.ThrowIfNull(destination);
 				source = ResolvePath(source ?? throw new ArgumentNullException(nameof(source)));
 				destination = ResolvePath(destination);
-				Directory.Move(source, destination);
+				fileSystem.Directory.Move(source, destination);
 			},
 			cancellationToken,
 			BlockingTaskCreationOptions,
@@ -221,7 +241,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async ValueTask<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken)
 		{
-			await using var file = CreateAsyncSequentialReadStream(path);
+			await using var file = CreateAsyncReadStream(path, true, true);
 			byte[] buf;
 			buf = new byte[file.Length];
 			await file.ReadAsync(buf, cancellationToken);
@@ -229,10 +249,12 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public string ResolvePath() => ResolvePath(CurrentDirectory);
+		public string ResolvePath()
+			=> ResolvePath(CurrentDirectory);
 
 		/// <inheritdoc />
-		public virtual string ResolvePath(string path) => Path.GetFullPath(path ?? throw new ArgumentNullException(nameof(path)));
+		public virtual string ResolvePath(string path)
+			=> fileSystem.Path.GetFullPath(path ?? throw new ArgumentNullException(nameof(path)));
 
 		/// <inheritdoc />
 		public async ValueTask WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)
@@ -242,10 +264,10 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public FileStream CreateAsyncSequentialWriteStream(string path)
+		public Stream CreateAsyncSequentialWriteStream(string path)
 		{
 			path = ResolvePath(path);
-			return new FileStream(
+			return fileSystem.FileStream.New(
 				path,
 				FileMode.Create,
 				FileAccess.Write,
@@ -255,16 +277,18 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public FileStream CreateAsyncSequentialReadStream(string path)
+		public Stream CreateAsyncReadStream(string path, bool sequental, bool shareWrite)
 		{
 			path = ResolvePath(path);
-			return new FileStream(
+			return fileSystem.FileStream.New(
 				path,
 				FileMode.Open,
 				FileAccess.Read,
-				FileShare.ReadWrite | FileShare.Delete,
+				FileShare.ReadWrite | FileShare.Delete | (shareWrite ? FileShare.Write : FileShare.None),
 				DefaultBufferSize,
-				FileOptions.Asynchronous | FileOptions.SequentialScan);
+				sequental
+					? FileOptions.Asynchronous | FileOptions.SequentialScan
+					: FileOptions.Asynchronous);
 		}
 
 		/// <inheritdoc />
@@ -274,7 +298,7 @@ namespace Tgstation.Server.Host.IO
 				path = ResolvePath(path);
 				var results = new List<string>();
 				cancellationToken.ThrowIfCancellationRequested();
-				foreach (var directoryName in Directory.EnumerateDirectories(path))
+				foreach (var directoryName in fileSystem.Directory.EnumerateDirectories(path))
 				{
 					results.Add(directoryName);
 					cancellationToken.ThrowIfCancellationRequested();
@@ -293,7 +317,7 @@ namespace Tgstation.Server.Host.IO
 				path = ResolvePath(path);
 				var results = new List<string>();
 				cancellationToken.ThrowIfCancellationRequested();
-				foreach (var fileName in Directory.EnumerateFiles(path))
+				foreach (var fileName in fileSystem.Directory.EnumerateFiles(path))
 				{
 					results.Add(fileName);
 					cancellationToken.ThrowIfCancellationRequested();
@@ -331,8 +355,8 @@ namespace Tgstation.Server.Host.IO
 		public bool PathContainsParentAccess(string path) => path
 			?.Split(
 				[
-					Path.DirectorySeparatorChar,
-					Path.AltDirectorySeparatorChar,
+					fileSystem.Path.DirectorySeparatorChar,
+					fileSystem.Path.AltDirectorySeparatorChar,
 				])
 			.Any(x => x == "..")
 			?? throw new ArgumentNullException(nameof(path));
@@ -342,21 +366,12 @@ namespace Tgstation.Server.Host.IO
 			() =>
 			{
 				path = ResolvePath(path ?? throw new ArgumentNullException(nameof(path)));
-				var fileInfo = new FileInfo(path);
+				var fileInfo = fileSystem.FileInfo.New(path);
 				return new DateTimeOffset(fileInfo.LastWriteTimeUtc);
 			},
 			cancellationToken,
 			BlockingTaskCreationOptions,
 			TaskScheduler.Current);
-
-		/// <inheritdoc />
-		public FileStream GetFileStream(string path, bool shareWrite) => new(
-			ResolvePath(path),
-			FileMode.Open,
-			FileAccess.Read,
-			FileShare.Read | FileShare.Delete | (shareWrite ? FileShare.Write : FileShare.None),
-			DefaultBufferSize,
-			true);
 
 		/// <inheritdoc />
 		public Task<bool> PathIsChildOf(string parentPath, string childPath, CancellationToken cancellationToken) => Task.Factory.StartNew(
@@ -369,8 +384,8 @@ namespace Tgstation.Server.Host.IO
 					return true;
 
 				// https://stackoverflow.com/questions/5617320/given-full-path-check-if-path-is-subdirectory-of-some-other-path-or-otherwise?lq=1
-				var di1 = new DirectoryInfo(parentPath);
-				var di2 = new DirectoryInfo(childPath);
+				var di1 = fileSystem.DirectoryInfo.New(parentPath);
+				var di2 = fileSystem.DirectoryInfo.New(childPath);
 				while (di2.Parent != null)
 				{
 					if (di2.Parent.FullName == di1.FullName)
@@ -384,6 +399,33 @@ namespace Tgstation.Server.Host.IO
 			cancellationToken,
 			BlockingTaskCreationOptions,
 			TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public Task<IDirectoryInfo> DirectoryInfo(string path, CancellationToken cancellationToken)
+			=> Task.Factory.StartNew(
+				() => fileSystem.DirectoryInfo.New(ResolvePath(path)),
+				cancellationToken,
+				BlockingTaskCreationOptions,
+				TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public bool IsPathRooted(string path)
+			=> fileSystem.Path.IsPathRooted(path);
+
+		/// <inheritdoc />
+		public IIOManager CreateResolverForSubdirectory(string subdirectoryPath)
+		{
+			ArgumentNullException.ThrowIfNull(subdirectoryPath);
+
+			if (!Path.IsPathRooted(subdirectoryPath))
+				subdirectoryPath = ConcatPath(
+					ResolvePath(),
+					subdirectoryPath);
+
+			return new ResolvingIOManager(
+				fileSystem,
+				subdirectoryPath);
+		}
 
 		/// <summary>
 		/// Copies a directory from <paramref name="src"/> to <paramref name="dest"/>.
@@ -403,7 +445,7 @@ namespace Tgstation.Server.Host.IO
 			SemaphoreSlim? semaphore,
 			CancellationToken cancellationToken)
 		{
-			var dir = new DirectoryInfo(src);
+			var dir = fileSystem.DirectoryInfo.New(src);
 			Task? subdirCreationTask = null;
 			foreach (var subDirectory in dir.EnumerateDirectories())
 			{
@@ -411,7 +453,7 @@ namespace Tgstation.Server.Host.IO
 					continue;
 
 				var checkingSubdirCreationTask = true;
-				foreach (var copyTask in CopyDirectoryImpl(subDirectory.FullName, Path.Combine(dest, subDirectory.Name), null, postCopyCallback, semaphore, cancellationToken))
+				foreach (var copyTask in CopyDirectoryImpl(subDirectory.FullName, fileSystem.Path.Combine(dest, subDirectory.Name), null, postCopyCallback, semaphore, cancellationToken))
 				{
 					if (subdirCreationTask == null)
 					{

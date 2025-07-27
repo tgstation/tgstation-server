@@ -12,7 +12,18 @@ namespace Tgstation.Server.Host.Components.Deployment
 	sealed class DmbProvider : DmbProviderBase, IDmbProvider
 	{
 		/// <inheritdoc />
-		public override string Directory => ioManager.ResolvePath(CompileJob.DirectoryName!.Value.ToString() + directoryAppend);
+		public override string Directory
+		{
+			get
+			{
+				var stringifiedCompileJobDirectory = CompileJob.DirectoryName!.Value.ToString();
+
+				if (directoryAppend != null)
+					stringifiedCompileJobDirectory = ioManager.ConcatPath(stringifiedCompileJobDirectory, directoryAppend);
+
+				return ioManager.ResolvePath(stringifiedCompileJobDirectory);
+			}
+		}
 
 		/// <inheritdoc />
 		public override Models.CompileJob CompileJob { get; }
@@ -28,7 +39,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// Extra path to add to the end of <see cref="CompileJob.DirectoryName"/>.
 		/// </summary>
-		readonly string directoryAppend;
+		readonly string? directoryAppend;
 
 		/// <summary>
 		/// The <see cref="Action"/> to run when <see cref="DisposeAsync"/> is called.
@@ -49,7 +60,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			EngineVersion = engineVersion ?? throw new ArgumentNullException(nameof(engineVersion));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
-			this.directoryAppend = directoryAppend ?? String.Empty;
+			this.directoryAppend = directoryAppend;
 		}
 
 		/// <inheritdoc />

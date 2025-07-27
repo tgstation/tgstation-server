@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +13,8 @@ using Moq;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Http;
+using Tgstation.Server.Host.Components.Engine;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
@@ -44,9 +47,9 @@ namespace Tgstation.Server.Tests
 			var logger = loggerFactory.CreateLogger("CachingFileDownloader");
 
 			var cfd = new CachingFileDownloader(loggerFactory.CreateLogger<CachingFileDownloader>());
-			var edgeVersion = await EngineTest.GetEdgeVersion(Api.Models.EngineType.Byond, cfd, cancellationToken);
 
-			await InitializeByondVersion(logger, edgeVersion.Version, new PlatformIdentifier().IsWindows, cancellationToken);
+			// this also will inject the edge version
+			var edgeVersion = await EngineTest.GetEdgeVersion(Api.Models.EngineType.Byond, logger, cfd, cancellationToken);
 
 			// predownload the target github release update asset
 			var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
@@ -78,7 +81,7 @@ namespace Tgstation.Server.Tests
 			ServiceCollectionExtensions.UseFileDownloader<CachingFileDownloader>();
 		}
 
-		public static async ValueTask InitializeByondVersion(ILogger logger, Version byondVersion, bool windows, CancellationToken cancellationToken)
+		public static async ValueTask InitializeByondVersion(ILogger logger, Version byondVersion, bool windows, CancellationToken cancellationToken, string urlCacheOverrideTemplate = null)
 		{
 			var version = new EngineVersion
 			{
@@ -86,25 +89,50 @@ namespace Tgstation.Server.Tests
 				Version = byondVersion,
 			};
 
-			var url = new Uri(
-				$"https://www.byond.com/download/build/{version.Version.Major}/{version.Version.Major}.{version.Version.Minor}_byond{(!windows ? "_linux" : string.Empty)}.zip");
-			string path = null;
-			if (TestingUtils.RunningInGitHubActions)
-			{
-				// actions is supposed to cache BYOND for us
+			var urlTemplate = TestingUtils.ByondZipDownloadTemplate;
 
-				var dir = Path.Combine(
+			var url = ByondInstallerBase.GetDownloadZipUrl(byondVersion, urlTemplate, new PlatformIdentifier().IsWindows ? "Windows" : "Linux");
+			string path = null;
+			string basePath = Environment.GetEnvironmentVariable("TGS_TEST_BYOND_ZIPS_BASE_PATH");
+			if (basePath == null && TestingUtils.RunningInGitHubActions)
+			{
+				// actions is supposed to cache BYOND for us here
+				basePath = Path.Combine(
 					Environment.GetFolderPath(
 						Environment.SpecialFolder.UserProfile,
 						Environment.SpecialFolderOption.DoNotVerify),
-					"byond-zips-cache",
+					"byond-zips-cache");
+			}
+
+			if (basePath != null)
+			{
+				var dir = Path.Combine(
+					basePath,
+					"live",
 					windows ? "windows" : "linux");
 				path = Path.Combine(
 					dir,
+					$"{version.Version.Major}.{version.Version.Minor}",
 					$"{version.Version.Major}.{version.Version.Minor}.zip");
 			}
 
-			await (await CacheFile(logger, url, null, path, cancellationToken)).DisposeAsync();
+			Uri overrideUrl = null;
+			if (urlCacheOverrideTemplate != null)
+			{
+				overrideUrl = url;
+				url = ByondInstallerBase.GetDownloadZipUrl(byondVersion, urlCacheOverrideTemplate, new PlatformIdentifier().IsWindows ? "Windows" : "Linux");
+			}
+
+			await (await CacheFile(
+				logger,
+				url,
+				null,
+				path,
+				cancellationToken))
+				.DisposeAsync();
+
+			if (overrideUrl != null)
+				cachedPaths[overrideUrl.ToString()] = cachedPaths[url.ToString()];
 		}
 
 		public static void Cleanup()
@@ -195,7 +223,7 @@ namespace Tgstation.Server.Tests
 						try
 						{
 							Directory.CreateDirectory(Path.GetDirectoryName(path));
-							await using var fs = new DefaultIOManager().CreateAsyncSequentialWriteStream(path);
+							await using var fs = new DefaultIOManager(new FileSystem()).CreateAsyncSequentialWriteStream(path);
 							await ms.CopyToAsync(fs, cancellationToken);
 
 							cachedPaths.Add(url.ToString(), Tuple.Create(path, temporal));

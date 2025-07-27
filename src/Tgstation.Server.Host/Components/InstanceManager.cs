@@ -702,7 +702,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			logger.LogDebug("Running as user: {username}", Environment.UserName);
 
-			generalConfiguration.CheckCompatibility(logger);
+			generalConfiguration.CheckCompatibility(logger, ioManager);
 
 			using (var systemIdentity = systemIdentityFactory.GetCurrent())
 			{

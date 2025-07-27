@@ -2,6 +2,7 @@
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO.Abstractions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -106,10 +107,12 @@ namespace Tgstation.Server.Host.Core
 		public static IServerFactory CreateDefaultServerFactory()
 		{
 			var assemblyInformationProvider = new AssemblyInformationProvider();
-			var ioManager = new DefaultIOManager();
+			var fileSystem = new FileSystem();
+			var ioManager = new DefaultIOManager(fileSystem);
 			return new ServerFactory(
 				assemblyInformationProvider,
-				ioManager);
+				ioManager,
+				fileSystem);
 		}
 
 		/// <summary>
@@ -155,11 +158,13 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> needed for configuration.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> needed for configuration.</param>
 		/// <param name="postSetupServices">The <see cref="IPostSetupServices"/> needed for configuration.</param>
+		/// <param name="fileSystem">The <see cref="IFileSystem"/> needed for configuration.</param>
 		public void ConfigureServices(
 			IServiceCollection services,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager,
-			IPostSetupServices postSetupServices)
+			IPostSetupServices postSetupServices,
+			IFileSystem fileSystem)
 		{
 			ConfigureServices(services, assemblyInformationProvider, ioManager);
 
@@ -470,8 +475,7 @@ namespace Tgstation.Server.Host.Core
 				services => services
 					.GetRequiredService<IRepositoryManagerFactory>()
 					.CreateRepositoryManager(
-						new ResolvingIOManager(
-							services.GetRequiredService<IIOManager>(),
+						services.GetRequiredService<IIOManager>().CreateResolverForSubdirectory(
 							openDreamRepositoryDirectory),
 						new NoopEventConsumer()));
 
@@ -527,6 +531,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
+			services.AddSingleton(fileSystem);
 			services.AddHostedService<CommandPipeManager>();
 			services.AddHostedService<VersionReportingService>();
 
@@ -940,10 +945,7 @@ namespace Tgstation.Server.Host.Core
 							options.Scope.Add(OpenIdConnectScope.OpenId);
 							options.Scope.Add(OpenIdConnectScope.OfflineAccess);
 
-#if DEBUG
 							options.RequireHttpsMetadata = false;
-#endif
-
 							options.SaveTokens = true;
 							options.ResponseType = OpenIdConnectResponseType.Code;
 							options.MapInboundClaims = false;

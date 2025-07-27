@@ -304,7 +304,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the SQLite database path to store in the configuration.</returns>
 		async ValueTask<string?> ValidateNonExistantSqliteDBName(string databaseName, CancellationToken cancellationToken)
 		{
-			var dbPathIsRooted = Path.IsPathRooted(databaseName);
+			var dbPathIsRooted = ioManager.IsPathRooted(databaseName);
 			var resolvedPath = ioManager.ResolvePath(
 				dbPathIsRooted
 					? databaseName

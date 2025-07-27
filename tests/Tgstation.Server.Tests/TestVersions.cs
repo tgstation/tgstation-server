@@ -33,6 +33,7 @@ using Tgstation.Server.Host.System;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Tests.Live;
 using Tgstation.Server.Host.Properties;
+using System.IO.Abstractions;
 
 namespace Tgstation.Server.Tests
 {
@@ -103,10 +104,14 @@ namespace Tgstation.Server.Tests
 		}
 
 		[TestMethod]
+		[TestCategory("RequiresDatabase")]
 		public async Task TestDDExeByondVersion()
 		{
-			var mockGeneralConfigurationOptions = new Mock<IOptions<GeneralConfiguration>>();
-			mockGeneralConfigurationOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
+			var mockGeneralConfigurationOptions = new Mock<IOptionsMonitor<GeneralConfiguration>>();
+			mockGeneralConfigurationOptions.SetupGet(x => x.CurrentValue).Returns(new GeneralConfiguration
+			{
+				ByondZipDownloadTemplate = TestingUtils.ByondZipDownloadTemplate,
+			});
 			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
 			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
 
@@ -165,12 +170,14 @@ namespace Tgstation.Server.Tests
 		static Version MapThreadsVersion() => (Version)typeof(ByondInstallerBase).GetField("MapThreadsVersion", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) ?? throw new InvalidOperationException("Couldn't find MapThreadsVersion");
 
 		[TestMethod]
+		[TestCategory("RequiresDatabase")]
 		public async Task TestMapThreadsByondVersion()
 		{
-			var mockGeneralConfigurationOptions = new Mock<IOptions<GeneralConfiguration>>();
-			mockGeneralConfigurationOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration
+			var mockGeneralConfigurationOptions = new Mock<IOptionsMonitor<GeneralConfiguration>>();
+			mockGeneralConfigurationOptions.SetupGet(x => x.CurrentValue).Returns(new GeneralConfiguration
 			{
 				SkipAddingByondFirewallException = true,
+				ByondZipDownloadTemplate = TestingUtils.ByondZipDownloadTemplate,
 			});
 			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
 			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
@@ -207,8 +214,9 @@ namespace Tgstation.Server.Tests
 					loggerFactory.CreateLogger<WindowsByondInstaller>())
 				: new PosixByondInstaller(
 					new PosixPostWriteHandler(loggerFactory.CreateLogger<PosixPostWriteHandler>()),
-					new DefaultIOManager(),
+					new DefaultIOManager(new FileSystem()),
 					fileDownloader,
+					mockGeneralConfigurationOptions.Object,
 					loggerFactory.CreateLogger<PosixByondInstaller>());
 			using var disposable = byondInstaller as IDisposable;
 
@@ -217,13 +225,13 @@ namespace Tgstation.Server.Tests
 					? new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
 					: new PosixProcessFeatures(
 						new Lazy<IProcessExecutor>(() => null),
-						new DefaultIOManager(),
+						new DefaultIOManager(new FileSystem()),
 						loggerFactory.CreateLogger<PosixProcessFeatures>()),
 					Mock.Of<IIOManager>(),
 					loggerFactory.CreateLogger<ProcessExecutor>(),
 					loggerFactory);
 
-			var ioManager = new DefaultIOManager();
+			var ioManager = new DefaultIOManager(new FileSystem());
 			var tempPath = ioManager.ConcatPath(LiveTestingServer.BaseDirectory, "mapthreads");
 			await ioManager.CreateDirectory(tempPath, default);
 			try

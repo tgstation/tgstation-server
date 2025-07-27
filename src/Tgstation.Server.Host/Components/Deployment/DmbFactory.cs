@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -431,7 +430,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					// Don't dispose it
 					logger.LogDebug("Creating legacy two folder .dmb provider targeting {aDirName} directory...", LegacyADirectoryName);
 #pragma warning disable CA2000 // Dispose objects before losing scope (false positive)
-					newProvider = new DmbProvider(compileJob, engineVersion, ioManager, new DisposeInvoker(CleanupAction), Path.DirectorySeparatorChar + LegacyADirectoryName);
+					newProvider = new DmbProvider(compileJob, engineVersion, ioManager, new DisposeInvoker(CleanupAction), LegacyADirectoryName);
 #pragma warning restore CA2000 // Dispose objects before losing scope
 				}
 
