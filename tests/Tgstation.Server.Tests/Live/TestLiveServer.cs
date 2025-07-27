@@ -97,7 +97,7 @@ namespace Tgstation.Server.Tests.Live
 					var potentialProcesses = System.Diagnostics.Process.GetProcessesByName("dotnet")
 						.Where(process =>
 						{
-							if (GetCommandLine(process).Contains("Robust.Server"))
+							if (GetCommandLine(process)?.Contains("Robust.Server") == true)
 								return true;
 
 							process.Dispose();
@@ -1486,7 +1486,7 @@ namespace Tgstation.Server.Tests.Live
 			// main run
 			var serverTask = server.Run(cancellationToken).AsTask();
 
-			var fileDownloader = ((Host.Server)server.RealServer).Host.Services.GetRequiredService<Host.IO.IFileDownloader>();
+			Host.IO.IFileDownloader GetFileDownloader() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<Host.IO.IFileDownloader>();
 			var graphQLClientFactory = new GraphQLServerClientFactory(restClientFactory);
 			try
 			{
@@ -1642,7 +1642,7 @@ namespace Tgstation.Server.Tests.Live
 
 					var instanceTest = new InstanceTest(
 						firstAdminRestClient.Instances,
-						fileDownloader,
+						GetFileDownloader(),
 						GetInstanceManager(),
 						(ushort)server.ApiUrl.Port);
 
@@ -1651,7 +1651,7 @@ namespace Tgstation.Server.Tests.Live
 						var testSerialized = TestingUtils.RunningInGitHubActions; // they only have 2 cores, can't handle intense parallelization
 						async Task ODCompatTests()
 						{
-							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, GetLogger(), fileDownloader, cancellationToken);
+							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, GetLogger(), GetFileDownloader(), cancellationToken);
 
 							var ex = await Assert.ThrowsExceptionAsync<JobException>(
 								() => InstanceTest.DownloadEngineVersion(
@@ -1660,7 +1660,7 @@ namespace Tgstation.Server.Tests.Live
 										Engine = EngineType.OpenDream,
 										SourceSHA = "f1dc153caf9d84cd1d0056e52286cc0163e3f4d3", // 1b4 verified version
 									},
-									fileDownloader,
+									GetFileDownloader(),
 									server.OpenDreamUrl,
 									cancellationToken).AsTask());
 
@@ -1959,7 +1959,7 @@ namespace Tgstation.Server.Tests.Live
 				preStartupTime = DateTimeOffset.UtcNow;
 				serverTask = server.Run(cancellationToken).AsTask();
 				long expectedCompileJobId, expectedStaged;
-				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, GetLogger(), fileDownloader, cancellationToken);
+				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, GetLogger(), GetFileDownloader(), cancellationToken);
 				await using (var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
 				{
 					var restAdminClient = adminClient.RestClient;
