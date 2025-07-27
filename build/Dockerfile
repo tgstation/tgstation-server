@@ -59,11 +59,13 @@ RUN export TGS_TELEMETRY_KEY_FILE="../../${TGS_TELEMETRY_KEY_FILE}" \
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-preview-trixie-slim
 
 #needed for byond, curl for healthchecks
-RUN apt-get update \
+RUN dpkg --add-architecture i386 \
+	&& apt-get update \
 	&& apt-get install -y \
 		gcc-multilib \
 		gdb \
 		curl \
+		libcurl4:i386 \
 	&& rm -rf /var/lib/apt/lists/*
 
 EXPOSE 5000

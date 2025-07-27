@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -30,23 +31,33 @@ namespace Tgstation.Server.Host
 		/// </summary>
 		public const string AppSettings = "appsettings";
 
+		/// <inheritdoc />
+		public IIOManager IOManager { get; }
+
 		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="ServerFactory"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
-		/// <inheritdoc />
-		public IIOManager IOManager { get; }
+		/// <summary>
+		/// The <see cref="IFileSystem"/> for the <see cref="ServerFactory"/>.
+		/// </summary>
+		readonly IFileSystem fileSystem;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerFactory"/> class.
 		/// </summary>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="ioManager">The value of <see cref="IOManager"/>.</param>
-		internal ServerFactory(IAssemblyInformationProvider assemblyInformationProvider, IIOManager ioManager)
+		/// <param name="fileSystem">The value of <see cref="fileSystem"/>.</param>
+		internal ServerFactory(
+			IAssemblyInformationProvider assemblyInformationProvider,
+			IIOManager ioManager,
+			IFileSystem fileSystem)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			IOManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
 		}
 
 		/// <inheritdoc />
@@ -183,7 +194,7 @@ namespace Tgstation.Server.Host
 							// with 515 we lost the ability to test this effectively. Just bump it slightly above the default and let the existing limit hold us back
 							kestrelOptions.Limits.MaxRequestLineSize = 8400;
 						})
-						.UseApplication(assemblyInformationProvider, IOManager, postSetupServices)
+						.UseApplication(assemblyInformationProvider, IOManager, postSetupServices, fileSystem)
 						.SuppressStatusMessages(true)
 						.UseShutdownTimeout(
 							TimeSpan.FromMinutes(

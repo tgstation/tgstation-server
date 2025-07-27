@@ -50,6 +50,9 @@ You must also have the following environment variables set. To run them more acc
 - `TGS_TEST_DATABASE_TYPE`: `MySql`, `MariaDB`, `PostgresSql`, or `SqlServer`.
 - `TGS_TEST_CONNECTION_STRING`: To a valid database connection string. You can use the setup wizard to create one.
 - (Optional) `TGS_TEST_GITHUB_TOKEN`: A GitHub personal access token with no scopes used to bypass rate limits.
+- (Optional) `TGS_TEST_BYOND_ZIP_DOWNLOAD_TEMPLATE`: Template URL for downloading BYOND zip files from a non-official mirror.
+- (Optional) `TGS_TEST_BYOND_MIRROR_VERSION_TXT`: version.txt for a BYOND zip mirror. Requires `TGS_TEST_BYOND_ZIP_DOWNLOAD_TEMPLATE`.
+- (Optional) `TGS_TEST_BYOND_ZIPS_BASE_PATH`: Directory on disk to cache BYOND zip files.
 - (Optional) The following variables are all interdependent, so if one is set they all must be.
   - `TGS_TEST_DISCORD_TOKEN`: To a valid discord bot token.
   - `TGS_TEST_DISCORD_CHANNEL`: To a valid discord channel ID that the above bot can access.

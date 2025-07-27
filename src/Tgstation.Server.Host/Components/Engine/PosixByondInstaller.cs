@@ -5,9 +5,11 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Engine
@@ -39,7 +41,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected override string DreamMakerName => DreamMakerExecutableName + ShellScriptExtension;
 
 		/// <inheritdoc />
-		protected override string ByondRevisionsUrlTemplate => "https://www.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
+		protected override string OSMarkerTemplate => "Linux";
 
 		/// <summary>
 		/// The <see cref="IPostWriteHandler"/> for the <see cref="PosixByondInstaller"/>.
@@ -52,13 +54,15 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="fileDownloader">The <see cref="IFileDownloader"/> for the <see cref="ByondInstallerBase"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="GeneralConfiguration"/> <see cref="IOptionsMonitor{TOptions}"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ByondInstallerBase"/>.</param>
 		public PosixByondInstaller(
 			IPostWriteHandler postWriteHandler,
 			IIOManager ioManager,
 			IFileDownloader fileDownloader,
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<PosixByondInstaller> logger)
-			: base(ioManager, logger, fileDownloader)
+			: base(ioManager, logger, fileDownloader, generalConfigurationOptions)
 		{
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 using Microsoft.Extensions.Logging;
@@ -9,6 +8,7 @@ using Newtonsoft.Json.Converters;
 
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Setup;
 
@@ -30,6 +30,11 @@ namespace Tgstation.Server.Host.Configuration
 		/// The default API port to use.
 		/// </summary>
 		public const ushort DefaultApiPort = 5000;
+
+		/// <summary>
+		/// Default vale for <see cref="ByondZipDownloadTemplate"/>.
+		/// </summary>
+		public const string DefaultByondZipDownloadTemplate = "https://www.byond.com/download/build/${Major}/${Major}.${Minor}_byond${Linux:_linux}.zip";
 
 		/// <summary>
 		/// The default value for <see cref="ServerInformationBase.MinimumPasswordLength"/>.
@@ -139,6 +144,17 @@ namespace Tgstation.Server.Host.Configuration
 		public Uri OpenDreamGitUrl { get; set; } = new Uri(DefaultOpenDreamGitUrl);
 
 		/// <summary>
+		/// The formatter used to download official byond zip files for a given version
+		/// - ${Major} is substituted with the major version number
+		/// - ${Minor} is substituted with the minor version number
+		/// - ${Linux:xxx}, where xxx is any string, will be substituted with xxx if running under Linux.
+		/// - ${Windows:xxx}, where xxx is any string, will be substituted with xxx if running under Windows.
+		/// - $$ will evaluate to a literal $ and not be used for substitutions.
+		/// - Any inapplicable ${xxx} string will be removed.
+		/// </summary>
+		public string ByondZipDownloadTemplate { get; set; } = DefaultByondZipDownloadTemplate;
+
+		/// <summary>
 		/// The prefix to the OpenDream semver as tags appear in the git repository.
 		/// </summary>
 		public string OpenDreamGitTagPrefix { get; set; } = DefaultOpenDreamGitTagPrefix;
@@ -178,7 +194,8 @@ namespace Tgstation.Server.Host.Configuration
 		/// Validates the current <see cref="ConfigVersion"/>'s compatibility and provides migration instructions.
 		/// </summary>
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
-		public void CheckCompatibility(ILogger logger)
+		/// <param name="ioManager">The <see cref="IIOManager"/> to use.</param>
+		public void CheckCompatibility(ILogger logger, IIOManager ioManager)
 		{
 			ArgumentNullException.ThrowIfNull(logger);
 
@@ -204,7 +221,7 @@ namespace Tgstation.Server.Host.Configuration
 			if (ByondTopicTimeout <= 1000)
 				logger.LogWarning("The timeout for sending BYOND topics is very low ({ms}ms). Topic calls may fail to complete at all!", ByondTopicTimeout);
 
-			if (AdditionalEventScriptsDirectories?.Any(path => !Path.IsPathRooted(path)) == true)
+			if (AdditionalEventScriptsDirectories?.Any(path => !ioManager.IsPathRooted(path)) == true)
 				logger.LogWarning($"Config option \"{nameof(AdditionalEventScriptsDirectories)}\" contains non-rooted paths. These will be evaluated relative to each instances \"Configuration\" directory!");
 		}
 	}

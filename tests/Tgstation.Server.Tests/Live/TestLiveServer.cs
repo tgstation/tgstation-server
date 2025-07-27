@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Management;
 using System.Net;
@@ -415,7 +416,7 @@ namespace Tgstation.Server.Tests.Live
 				var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
 				if (String.IsNullOrWhiteSpace(gitHubToken))
 					gitHubToken = null;
-				await new Host.IO.DefaultIOManager().DeleteDirectory(server.UpdatePath, cancellationToken);
+				await new Host.IO.DefaultIOManager(new FileSystem()).DeleteDirectory(server.UpdatePath, cancellationToken);
 				serverTask = server.Run(cancellationToken).AsTask();
 
 				await using (var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
@@ -1191,7 +1192,7 @@ namespace Tgstation.Server.Tests.Live
 					ApiValidationSecurityLevel = DreamDaemonSecurity.Trusted,
 				}, cancellationToken);
 
-				var ioManager = new Host.IO.DefaultIOManager();
+				var ioManager = new Host.IO.DefaultIOManager(new FileSystem());
 				var repoPath = ioManager.ConcatPath(instance.Path, "Repository");
 				await using var jobsTest = new JobsRequiredTest(instanceClient.Jobs);
 
@@ -1480,6 +1481,7 @@ namespace Tgstation.Server.Tests.Live
 				await Task.Yield();
 
 			InstanceManager GetInstanceManager() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<InstanceManager>();
+			ILogger GetLogger() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<ILogger<TestLiveServer>>();
 
 			// main run
 			var serverTask = server.Run(cancellationToken).AsTask();
@@ -1649,7 +1651,7 @@ namespace Tgstation.Server.Tests.Live
 						var testSerialized = TestingUtils.RunningInGitHubActions; // they only have 2 cores, can't handle intense parallelization
 						async Task ODCompatTests()
 						{
-							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, fileDownloader, cancellationToken);
+							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, GetLogger(), fileDownloader, cancellationToken);
 
 							var ex = await Assert.ThrowsExceptionAsync<JobException>(
 								() => InstanceTest.DownloadEngineVersion(
@@ -1684,6 +1686,16 @@ namespace Tgstation.Server.Tests.Live
 						if (openDreamOnly)
 							return;
 
+						var windowsMinCompat = new Version(510, 1346);
+						var linuxMinCompat = new Version(512, 1451); // http://www.byond.com/forum/?forum=5&command=search&scope=local&text=resolved%3a512.1451
+						await CachingFileDownloader.InitializeByondVersion(
+							GetLogger(),
+							new PlatformIdentifier().IsWindows
+								? windowsMinCompat
+								: linuxMinCompat,
+							new PlatformIdentifier().IsWindows,
+							cancellationToken);
+
 						var compatTests = FailFast(
 							instanceTest
 								.RunCompatTests(
@@ -1691,8 +1703,8 @@ namespace Tgstation.Server.Tests.Live
 									{
 										Engine = EngineType.Byond,
 										Version = new PlatformIdentifier().IsWindows
-											? new Version(510, 1346)
-											: new Version(512, 1451) // http://www.byond.com/forum/?forum=5&command=search&scope=local&text=resolved%3a512.1451
+											? windowsMinCompat
+											: linuxMinCompat,
 									},
 									server.OpenDreamUrl,
 									firstAdminRestClient.Instances.CreateClient(compatInstance),
@@ -1708,6 +1720,7 @@ namespace Tgstation.Server.Tests.Live
 						await FailFast(
 							instanceTest
 								.RunTests(
+									GetLogger(),
 									instanceClient,
 									mainDMPort.Value,
 									mainDDPort.Value,
@@ -1946,7 +1959,7 @@ namespace Tgstation.Server.Tests.Live
 				preStartupTime = DateTimeOffset.UtcNow;
 				serverTask = server.Run(cancellationToken).AsTask();
 				long expectedCompileJobId, expectedStaged;
-				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
+				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, GetLogger(), fileDownloader, cancellationToken);
 				await using (var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
 				{
 					var restAdminClient = adminClient.RestClient;

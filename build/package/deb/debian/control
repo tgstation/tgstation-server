@@ -21,6 +21,7 @@ Depends:
  libstdc++6:i386 [amd64],
  libstdc++6 [i386],
  gcc-multilib [amd64],
+ libcurl4 [i386],
 Recommends:
  libsystemd0,
  gdb,

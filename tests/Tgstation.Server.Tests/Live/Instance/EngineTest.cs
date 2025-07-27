@@ -41,13 +41,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 		EngineVersion testVersion;
 		readonly EngineType testEngine = engineType;
 
-		public Task Run(CancellationToken cancellationToken, out Task firstInstall)
+		public Task Run(ILogger logger, CancellationToken cancellationToken, out Task firstInstall)
 		{
-			firstInstall = RunPartOne(cancellationToken);
+			firstInstall = RunPartOne(logger, cancellationToken);
 			return RunContinued(firstInstall, cancellationToken);
 		}
 
-		public static async ValueTask<EngineVersion> GetEdgeVersion(EngineType engineType, IFileDownloader fileDownloader, CancellationToken cancellationToken)
+		public static async ValueTask<EngineVersion> GetEdgeVersion(EngineType engineType, ILogger logger, IFileDownloader fileDownloader, CancellationToken cancellationToken)
 		{
 			var edgeVersion = edgeVersions[engineType];
 
@@ -57,26 +57,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			EngineVersion engineVersion;
 			if (engineType == EngineType.Byond)
 			{
-				await using var provider = fileDownloader.DownloadFile(new Uri("https://www.byond.com/download/version.txt"), null);
-				var stream = await provider.GetResult(cancellationToken);
-				using var reader = new StreamReader(stream, Encoding.UTF8, false, -1, true);
-				var text = await reader.ReadToEndAsync(cancellationToken);
-				var splits = text.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-
-				var targetVersion = splits.Last();
-
-				var badVersionMap = new PlatformIdentifier().IsWindows
-					? []
-					// linux map also needs updating in CI
-					: new Dictionary<string, string>()
-					{
-						{ "515.1612", "515.1611" }
-					};
-
-				badVersionMap.Add("515.1617", "515.1616");
-
-				if (badVersionMap.TryGetValue(targetVersion, out var remappedVersion))
-					targetVersion = remappedVersion;
+				var targetVersion = await TestingUtils.GetByondEdgeVersion(logger, fileDownloader, cancellationToken);
 
 				Assert.IsTrue(EngineVersion.TryParse(targetVersion, out engineVersion), $"Bad version: {targetVersion}");
 			}
@@ -112,9 +93,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			return edgeVersions[engineType] = engineVersion;
 		}
 
-		async Task RunPartOne(CancellationToken cancellationToken)
+		async Task RunPartOne(ILogger logger, CancellationToken cancellationToken)
 		{
-			testVersion = await GetEdgeVersion(testEngine, fileDownloader, cancellationToken);
+			testVersion = await GetEdgeVersion(testEngine, logger, fileDownloader, cancellationToken);
 			await TestNoVersion(cancellationToken);
 			await TestInstallNullVersion(cancellationToken);
 			await TestInstallStable(cancellationToken);
@@ -284,8 +265,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task TestCustomInstalls(CancellationToken cancellationToken)
 		{
-			var generalConfigOptionsMock = new Mock<IOptions<GeneralConfiguration>>();
-			generalConfigOptionsMock.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
+			var generalConfigOptionsMock = new Mock<IOptionsMonitor<GeneralConfiguration>>();
+			generalConfigOptionsMock.SetupGet(x => x.CurrentValue).Returns(new GeneralConfiguration
+			{
+				ByondZipDownloadTemplate = TestingUtils.ByondZipDownloadTemplate,
+			});
 			var sessionConfigOptionsMock = new Mock<IOptions<SessionConfiguration>>();
 			sessionConfigOptionsMock.SetupGet(x => x.Value).Returns(new SessionConfiguration());
 
@@ -303,6 +287,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					Mock.Of<IPostWriteHandler>(),
 					Mock.Of<IIOManager>(),
 					fileDownloader,
+					generalConfigOptionsMock.Object,
 					Mock.Of<ILogger<PosixByondInstaller>>());
 
 			using var windowsByondInstaller = byondInstaller as WindowsByondInstaller;

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.IO.Abstractions;
+using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,27 +16,34 @@ namespace Tgstation.Server.Host.IO.Tests
 	[TestClass]
 	public sealed class TestIOManager
 	{
-		readonly IIOManager ioManager = new DefaultIOManager();
+		readonly IFileSystem fileSystem;
+		readonly IIOManager ioManager;
+
+		public TestIOManager()
+		{
+			fileSystem = new MockFileSystem();
+			ioManager = new DefaultIOManager(fileSystem);
+		}
 
 		[TestMethod]
 		public async Task TestDeleteDirectory()
 		{
-			var tempPath = Path.GetTempFileName();
-			File.Delete(tempPath);
-			Directory.CreateDirectory(tempPath);
+			var tempPath = fileSystem.Path.Combine(fileSystem.Path.GetTempPath(), fileSystem.Path.GetRandomFileName());
+			fileSystem.File.Delete(tempPath);
+			fileSystem.Directory.CreateDirectory(tempPath);
 			try
 			{
-				await File.WriteAllTextAsync(Path.Combine(tempPath, "file.txt"), "asdf");
-				var subDir = Path.Combine(tempPath, "subdir");
-				Directory.CreateDirectory(subDir);
-				await File.WriteAllTextAsync(Path.Combine(subDir, "file2.txt"), "fdsa");
+				await fileSystem.File.WriteAllTextAsync(Path.Combine(tempPath, "file.txt"), "asdf");
+				var subDir = fileSystem.Path.Combine(tempPath, "subdir");
+				fileSystem.Directory.CreateDirectory(subDir);
+				await fileSystem.File.WriteAllTextAsync(Path.Combine(subDir, "file2.txt"), "fdsa");
 				await ioManager.DeleteDirectory(tempPath, default);
 
-				Assert.IsFalse(Directory.Exists(tempPath));
+				Assert.IsFalse(fileSystem.Directory.Exists(tempPath));
 			}
 			catch
 			{
-				Directory.Delete(tempPath, true);
+				fileSystem.Directory.Delete(tempPath, true);
 				throw;
 			}
 		}
@@ -42,13 +51,17 @@ namespace Tgstation.Server.Host.IO.Tests
 		[TestMethod]
 		public async Task TestDeleteDirectoryWithSymlinkInsideDoesntRecurse()
 		{
-			var linkFactory = (IFilesystemLinkFactory)(new PlatformIdentifier().IsWindows
-				? new WindowsFilesystemLinkFactory()
-				: new PosixFilesystemLinkFactory());
+			// need a real FS here
+			var fileSystem = new FileSystem();
+			var ioManager = new DefaultIOManager(fileSystem);
 
-			var tempPath = Path.GetTempFileName();
-			File.Delete(tempPath);
-			Directory.CreateDirectory(tempPath);
+			var linkFactory = (IFilesystemLinkFactory)(new PlatformIdentifier().IsWindows
+				? new WindowsFilesystemLinkFactory(fileSystem)
+				: new PosixFilesystemLinkFactory(fileSystem));
+
+			var tempPath = fileSystem.Path.Combine(fileSystem.Path.GetTempPath(), fileSystem.Path.GetRandomFileName());
+			fileSystem.File.Delete(tempPath);
+			fileSystem.Directory.CreateDirectory(tempPath);
 			try
 			{
 				var targetDir = ioManager.ConcatPath(tempPath, "targetdir");
@@ -81,7 +94,7 @@ namespace Tgstation.Server.Host.IO.Tests
 			}
 			catch
 			{
-				Directory.Delete(tempPath, true);
+				fileSystem.Directory.Delete(tempPath, true);
 				throw;
 			}
 		}
@@ -89,14 +102,15 @@ namespace Tgstation.Server.Host.IO.Tests
 		[TestMethod]
 		public async Task TestFileExists()
 		{
-			var tempPath = Path.GetTempFileName();
+			var tempPath = fileSystem.Path.Combine(fileSystem.Path.GetTempPath(), fileSystem.Path.GetRandomFileName());
+			await fileSystem.File.WriteAllBytesAsync(tempPath, Array.Empty<byte>());
 			try
 			{
 				Assert.IsTrue(await ioManager.FileExists(tempPath, default));
 			}
 			finally
 			{
-				File.Delete(tempPath);
+				fileSystem.File.Delete(tempPath);
 			}
 
 			Assert.IsFalse(await ioManager.FileExists(tempPath, default));
@@ -105,12 +119,12 @@ namespace Tgstation.Server.Host.IO.Tests
 		[TestMethod]
 		public async Task TestDirectoryExists()
 		{
-			var tempPath = Path.GetTempFileName();
-			File.Delete(tempPath);
+			var tempPath = fileSystem.Path.Combine(fileSystem.Path.GetTempPath(), fileSystem.Path.GetRandomFileName());
+			fileSystem.File.Delete(tempPath);
 
 			Assert.IsFalse(await ioManager.DirectoryExists(tempPath, default));
 
-			Directory.CreateDirectory(tempPath);
+			fileSystem.Directory.CreateDirectory(tempPath);
 
 			try
 			{
@@ -118,7 +132,7 @@ namespace Tgstation.Server.Host.IO.Tests
 			}
 			catch
 			{
-				Directory.Delete(tempPath);
+				fileSystem.Directory.Delete(tempPath);
 				throw;
 			}
 		}
@@ -180,18 +194,18 @@ namespace Tgstation.Server.Host.IO.Tests
 
 		async Task TestCopyDirectory(int? throttle)
 		{
-			var tempPath = Path.GetTempFileName();
-			File.Delete(tempPath);
-			Directory.CreateDirectory(tempPath);
+			var tempPath = fileSystem.Path.Combine(fileSystem.Path.GetTempPath(), fileSystem.Path.GetRandomFileName());
+			fileSystem.File.Delete(tempPath);
+			fileSystem.Directory.CreateDirectory(tempPath);
 			try
 			{
-				var tempPath2 = Path.GetTempFileName();
-				File.Delete(tempPath2);
+				var tempPath2 = fileSystem.Path.Combine(fileSystem.Path.GetTempPath(), fileSystem.Path.GetRandomFileName());
+				fileSystem.File.Delete(tempPath2);
 
-				await File.WriteAllTextAsync(Path.Combine(tempPath, "file.txt"), "asdf");
-				var subDir = Path.Combine(tempPath, "subdir");
-				Directory.CreateDirectory(subDir);
-				await File.WriteAllTextAsync(Path.Combine(subDir, "file2.txt"), "fdsa");
+				await fileSystem.File.WriteAllTextAsync(fileSystem.Path.Combine(tempPath, "file.txt"), "asdf");
+				var subDir = fileSystem.Path.Combine(tempPath, "subdir");
+				fileSystem.Directory.CreateDirectory(subDir);
+				await fileSystem.File.WriteAllTextAsync(fileSystem.Path.Combine(subDir, "file2.txt"), "fdsa");
 
 				try
 				{
@@ -203,26 +217,26 @@ namespace Tgstation.Server.Host.IO.Tests
 						throttle,
 						default);
 
-					Assert.IsTrue(Directory.Exists(tempPath2));
-					var newFilePath = Path.Combine(tempPath2, "file.txt");
-					Assert.IsTrue(File.Exists(newFilePath));
-					var newFileText = await File.ReadAllTextAsync(newFilePath);
+					Assert.IsTrue(fileSystem.Directory.Exists(tempPath2));
+					var newFilePath = fileSystem.Path.Combine(tempPath2, "file.txt");
+					Assert.IsTrue(fileSystem.File.Exists(newFilePath));
+					var newFileText = await fileSystem.File.ReadAllTextAsync(newFilePath);
 					Assert.AreEqual("asdf", newFileText);
-					var newDirPath = Path.Combine(tempPath2, "subdir");
-					Assert.IsTrue(Directory.Exists(newDirPath));
-					var newFile2Path = Path.Combine(newDirPath, "file2.txt");
-					Assert.IsTrue(File.Exists(newFile2Path));
-					var newFile2Text = await File.ReadAllTextAsync(newFile2Path);
+					var newDirPath = fileSystem.Path.Combine(tempPath2, "subdir");
+					Assert.IsTrue(fileSystem.Directory.Exists(newDirPath));
+					var newFile2Path = fileSystem.Path.Combine(newDirPath, "file2.txt");
+					Assert.IsTrue(fileSystem.File.Exists(newFile2Path));
+					var newFile2Text = await fileSystem.File.ReadAllTextAsync(newFile2Path);
 					Assert.AreEqual("fdsa", newFile2Text);
 				}
 				finally
 				{
-					Directory.Delete(tempPath2, true);
+					fileSystem.Directory.Delete(tempPath2, true);
 				}
 			}
 			finally
 			{
-				Directory.Delete(tempPath, true);
+				fileSystem.Directory.Delete(tempPath, true);
 			}
 		}
 	}

@@ -22,11 +22,6 @@ apt-get install -y \
     xmlstarlet \
     libgdiplus
 
-declare repo_version=$(if command -v lsb_release &> /dev/null; then lsb_release -r -s; else grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"'; fi)
-curl -L https://packages.microsoft.com/config/ubuntu/$repo_version/packages-microsoft-prod.deb -o packages-microsoft-prod.deb
-dpkg -i ./packages-microsoft-prod.deb
-rm packages-microsoft-prod.deb
-
 # https://github.com/nodesource/distributions
 mkdir -p /etc/apt/keyrings
 curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg

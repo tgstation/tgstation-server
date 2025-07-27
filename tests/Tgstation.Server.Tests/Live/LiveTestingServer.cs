@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace Tgstation.Server.Tests.Live
 			for (int i = 0; i < 5; ++i)
 				try
 				{
-					new DefaultIOManager().DeleteDirectory(directory, default).GetAwaiter().GetResult();
+					new DefaultIOManager(new FileSystem()).DeleteDirectory(directory, default).GetAwaiter().GetResult();
 				}
 				catch
 				{
@@ -158,6 +159,8 @@ namespace Tgstation.Server.Tests.Live
 				"Telemetry:DisableVersionReporting=true",
 				$"General:MetricsEndPoints:0:Port={port}",
 				$"Session:BridgePort={port}",
+				$"General:PrometheusPort={port}",
+				$"General:ByondZipDownloadTemplate={TestingUtils.ByondZipDownloadTemplate}"
 			};
 
 			if (MultiServerClient.UseGraphQL)

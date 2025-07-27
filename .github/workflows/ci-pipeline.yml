@@ -43,6 +43,9 @@ env:
   TGS_NODE_VERSION: 20.x
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
+  TGS_TEST_BYOND_ZIP_DOWNLOAD_TEMPLATE: https://mocha.affectedarc07.co.uk/tgs_byond_mirrors/${Major}.${Minor}_byond${Linux:_linux}.zip
+  TGS_TEST_BYOND_MIRROR_VERSION_TXT: https://mocha.affectedarc07.co.uk/tgs_byond_mirrors/version.txt
+  DMAPI_BYOND_BUILD_MIRROR_DOWNLOAD_TEMPLATE: https://mocha.affectedarc07.co.uk/tgs_byond_mirrors/${FULL_VERSION}_byond_linux.zip # Available vars are $BYOND_MAJOR (i.e. 516) and $FULL_VERSION (i.e. 516.1666)
 
 concurrency:
   group: "ci-${{ (github.event_name != 'push' && github.event_name != 'schedule' && github.event.inputs.pull_request_number) || github.run_id }}-${{ github.event_name }}"
@@ -90,6 +93,56 @@ jobs:
         with:
           name: release_notes_bins
           path: ./release_notes_bins/
+
+  validate-nix-flake:
+    name: Validate Nix Flake
+    needs: start-gate
+    runs-on: ubuntu-latest
+    env:
+      TEST_TGS_VERSION: "6.17.0" # Version we use here doesn't matter as it won't be executed. Just used to download a zip and calc hash
+    steps:
+      - name: Install Native Packages # Name checked in rerunFlakyTests.js
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xmlstarlet
+
+      - name: Setup Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
+
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+
+      - name: Replace current TGS version with test version
+        run: |
+          CURRENT_TGS_VERSION="$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)"
+          sed -i -e "s/<TgsCoreVersion>${CURRENT_TGS_VERSION}/<TgsCoreVersion>${{ env.TEST_TGS_VERSION }}/g" build/Version.props
+
+      - name: Retrieve ServerConsole.zip Artifact
+        run: |
+          mkdir release
+          curl -L https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v${{ env.TEST_TGS_VERSION }}/ServerConsole.zip -f -o release/ServerConsole.zip
+
+      - name: Regenerate Nix Hash
+        run: |
+          nix hash path ./release > build/package/nix/ServerConsole.sha256
+          cat build/package/nix/ServerConsole.sha256
+
+      - name: Cleanup Download
+        run: rm -rf ./release
+
+      - name: Check Flake
+        run: |
+          cd build/package/nix
+          nix flake check
 
   code-scanning:
     name: Run CodeQL
@@ -173,21 +226,14 @@ jobs:
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update
-          sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
+          sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386 libcurl4:i386
 
-      - name: Cache BYOND .zips
-        uses: actions/cache@v4
-        id: cache-byond
-        with:
-          path: ~/byond-zips-cache
-          key: byond-zips
-
-      - name: Setup BYOND Cache if Necessary and Install
+      - name: Evaluate BYOND version
+        id: version_evaluation
         run: |
-          echo "Setting up BYOND."
           FULL_VERSION=${{ matrix.byond }}
           if [[ "$FULL_VERSION" = "EDGE" ]] ; then
-              VERSIONS=$(curl https://www.byond.com/download/version.txt)
+              VERSIONS=$(curl https://spacestation13.github.io/byond-builds/version.txt)
               FULL_VERSION=$(echo "$VERSIONS" | tail -n1)
               echo "EDGE version evaluated to $FULL_VERSION"
 
@@ -199,14 +245,31 @@ jobs:
                   FULL_VERSION=${bad_linux_releases[$FULL_VERSION]}
               fi
           fi
-          if [[ ! -f $HOME/byond-zips-cache/linux/$FULL_VERSION.zip ]] ; then
+          echo "EVALUATED_VERSION=$FULL_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Cache BYOND .zips
+        uses: actions/cache@v4
+        id: cache-byond
+        with:
+          path: ~/byond-zips-cache/linux/${{ steps.version_evaluation.outputs.EVALUATED_VERSION }}
+          key: byond-zips-linux-${{ steps.version_evaluation.outputs.EVALUATED_VERSION }}
+
+      - name: Setup BYOND Cache if Necessary and Install
+        run: |
+          echo "Setting up BYOND."
+          FULL_VERSION=${{ steps.version_evaluation.outputs.EVALUATED_VERSION }}
+          if [[ ! -f $HOME/byond-zips-cache/linux/$FULL_VERSION/$FULL_VERSION.zip ]] ; then
               BYOND_MAJOR=${FULL_VERSION%.*}
-              mkdir -p $HOME/byond-zips-cache/linux
-              curl "https://www.byond.com/download/build/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip" -o $HOME/byond-zips-cache/linux/$FULL_VERSION.zip
+              mkdir -p $HOME/byond-zips-cache/linux/$FULL_VERSION
+              DOWNLOAD_URL="${{ env.DMAPI_BYOND_BUILD_MIRROR_DOWNLOAD_TEMPLATE }}"
+              if [[ "${{ matrix.byond }}" = "EDGE" ]] ; then
+                DOWNLOAD_URL="https://spacestation13.github.io/byond-builds/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip"
+              fi
+              curl "$DOWNLOAD_URL" -o $HOME/byond-zips-cache/linux/$FULL_VERSION/$FULL_VERSION.zip
           fi
           mkdir -p "$HOME/BYOND"
           cd "$HOME/BYOND"
-          cp $HOME/byond-zips-cache/linux/$FULL_VERSION.zip byond.zip
+          cp $HOME/byond-zips-cache/linux/$FULL_VERSION/$FULL_VERSION.zip byond.zip
           unzip byond.zip
           cd byond
           make here
@@ -526,13 +589,6 @@ jobs:
         if: always()
         run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-      - name: Cache BYOND .zips
-        uses: actions/cache@v4
-        id: cache-byond
-        with:
-          path: ~/byond-zips-cache
-          key: byond-zips
-
       - name: Run Unit Tests
         run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
         env:
@@ -595,13 +651,6 @@ jobs:
         if: always()
         run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-      - name: Cache BYOND .zips
-        uses: actions/cache@v4
-        id: cache-byond
-        with:
-          path: ~/byond-zips-cache
-          key: byond-zips
-
       - name: Run Unit Tests
         run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
         env:
@@ -615,9 +664,50 @@ jobs:
           name: windows-unit-test-coverage-${{ matrix.configuration }}
           path: ./TestResults/
 
+  prep-edge-versions:
+    name: Prepare Live Tests Cache of EDGE Versions
+    needs: start-gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache BYOND .zips (Linux)
+        uses: actions/cache@v4
+        with:
+          path: ~/byond-zips-cache/live/linux
+          key: byond-zips-linux-live
+
+      - name: Cache BYOND .zips (Windows)
+        uses: actions/cache@v4
+        with:
+          path: ~/byond-zips-cache/live/windows
+          key: byond-zips-windows-live
+
+      - name: Evaluate BYOND version
+        id: version_evaluation
+        run: |
+          VERSIONS=$(curl https://spacestation13.github.io/byond-builds/version.txt)
+          FULL_VERSION=$(echo "$VERSIONS" | tail -n1)
+          echo "EDGE version evaluated to $FULL_VERSION"
+          echo "EVALUATED_VERSION=$FULL_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Setup BYOND Cache if Necessary and Install
+        run: |
+          echo "Downloading BYOND."
+          FULL_VERSION=${{ steps.version_evaluation.outputs.EVALUATED_VERSION }}
+          BYOND_MAJOR=${FULL_VERSION%.*}
+          if [[ ! -f $HOME/byond-zips-cache/live/linux/$FULL_VERSION/$FULL_VERSION.zip ]] ; then
+              mkdir -p $HOME/byond-zips-cache/live/linux/$FULL_VERSION
+              DOWNLOAD_URL="https://spacestation13.github.io/byond-builds/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip"
+              curl "$DOWNLOAD_URL" -o $HOME/byond-zips-cache/live/linux/$FULL_VERSION/$FULL_VERSION.zip
+          fi
+          if [[ ! -f $HOME/byond-zips-cache/live/windows/$FULL_VERSION/$FULL_VERSION.zip ]] ; then
+              mkdir -p $HOME/byond-zips-cache/live/windows/$FULL_VERSION
+              DOWNLOAD_URL="https://spacestation13.github.io/byond-builds/$BYOND_MAJOR/${FULL_VERSION}_byond.zip"
+              curl "$DOWNLOAD_URL" -o $HOME/byond-zips-cache/live/windows/$FULL_VERSION/$FULL_VERSION.zip
+          fi
+
   windows-integration-tests:
     name: Windows Live Tests
-    needs: [dmapi-build, opendream-build]
+    needs: [dmapi-build, opendream-build, prep-edge-versions]
     strategy:
       fail-fast: false
       matrix:
@@ -655,6 +745,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.TGS_NODE_VERSION }}
+
+      - name: Cache BYOND .zips
+        uses: actions/cache@v4
+        with:
+          path: ~/byond-zips-cache/live/windows
+          key: byond-zips-windows-live
 
       - name: Set TGS_TEST_DUMP_API_SPEC
         if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
@@ -739,13 +835,6 @@ jobs:
         shell: bash
         if: always()
         run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
-      - name: Cache BYOND .zips
-        uses: actions/cache@v4
-        id: cache-byond
-        with:
-          path: ~/byond-zips-cache
-          key: byond-zips
 
       - name: Run Live Tests # Logging here is weird because printing massive amounts of text on Windows runners is SLOW AS SHIT!!!
         id: live-tests
@@ -839,7 +928,7 @@ jobs:
 
   linux-integration-tests:
     name: Linux Live Tests
-    needs: [dmapi-build, opendream-build]
+    needs: [dmapi-build, opendream-build, prep-edge-versions]
     services: # We start all dbs here so we can just code the stuff once
       mssql:
         image: ${{ (matrix.database-type == 'SqlServer') && 'mcr.microsoft.com/mssql/server:2019-latest' || '' }}
@@ -913,12 +1002,18 @@ jobs:
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update
-          sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386 libgdiplus
+          sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386 libgdiplus libcurl4:i386
 
       - name: Setup Node.JS
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.TGS_NODE_VERSION }}
+
+      - name: Cache BYOND .zips
+        uses: actions/cache@v4
+        with:
+          path: ~/byond-zips-cache/live/linux
+          key: byond-zips-linux-live
 
       - name: Set Sqlite Connection Info
         if: ${{ matrix.database-type == 'Sqlite' }}
@@ -973,13 +1068,6 @@ jobs:
       - name: Delete Telemetry Key File
         if: always()
         run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
-      - name: Cache BYOND .zips
-        uses: actions/cache@v4
-        id: cache-byond
-        with:
-          path: ~/byond-zips-cache
-          key: byond-zips
 
       - name: Run Live Tests
         run: |
@@ -1694,6 +1782,7 @@ jobs:
         check-winget-pr-template,
         efcore-version-match,
         code-scanning,
+        validate-nix-flake,
       ]
     runs-on: ubuntu-latest
     steps:

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,6 +37,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		readonly ushort serverPort = serverPort;
 
 		public async Task RunTests(
+			ILogger logger,
 			IInstanceClient instanceClient,
 			ushort dmPort,
 			ushort ddPort,
@@ -44,14 +46,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 			bool usingBasicWatchdog,
 			CancellationToken cancellationToken)
 		{
-			var testVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
+			var testVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, logger, fileDownloader, cancellationToken);
 			await using var engineTest = new EngineTest(instanceClient.Engine, instanceClient.Jobs, fileDownloader, instanceClient.Metadata, testVersion.Engine.Value);
 			await using var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Jobs, instanceClient.Metadata);
 			var configTest = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata);
 			await using var repoTest = new RepositoryTest(instanceClient, instanceClient.Repository, instanceClient.Jobs);
 			await using var dmTest = new DeploymentTest(instanceClient, instanceClient.Jobs, dmPort, ddPort, lowPrioDeployment, testVersion);
 
-			var byondTask = engineTest.Run(cancellationToken, out var firstInstall);
+			var byondTask = engineTest.Run(logger, cancellationToken, out var firstInstall);
 			var chatTask = chatTest.RunPreWatchdog(cancellationToken);
 
 			var repoLongJob = await repoTest.RunLongClone(cancellationToken);
@@ -89,25 +91,26 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Uri openDreamUrl,
 			CancellationToken cancellationToken)
 		{
-			var ioManager = new DefaultIOManager();
+			var ioManager = new DefaultIOManager(new FileSystem());
 			var odRepoDir = ioManager.ConcatPath(
 				Environment.GetFolderPath(
 					Environment.SpecialFolder.LocalApplicationData,
 					Environment.SpecialFolderOption.DoNotVerify),
 				new AssemblyInformationProvider().VersionPrefix,
 				"OpenDreamRepository");
-			var odRepoIoManager = new ResolvingIOManager(ioManager, odRepoDir);
+			var odRepoIoManager = ioManager.CreateResolverForSubdirectory(odRepoDir);
 
-			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
+			var mockOptionsMonitor = new Mock<IOptionsMonitor<GeneralConfiguration>>();
 			var genConfig = new GeneralConfiguration
 			{
 				OpenDreamGitUrl = openDreamUrl,
+				ByondZipDownloadTemplate = TestingUtils.ByondZipDownloadTemplate,
 			};
-			mockOptions.SetupGet(x => x.Value).Returns(genConfig);
+			mockOptionsMonitor.SetupGet(x => x.CurrentValue).Returns(genConfig);
 			IEngineInstaller byondInstaller =
 				compatVersion.Engine == EngineType.OpenDream
 				? new OpenDreamInstaller(
-					new DefaultIOManager(),
+					ioManager,
 					Mock.Of<ILogger<OpenDreamInstaller>>(),
 					new PlatformIdentifier(),
 					Mock.Of<IProcessExecutor>(),
@@ -124,20 +127,21 @@ namespace Tgstation.Server.Tests.Live.Instance
 						genConfig),
 					Mock.Of<IAsyncDelayer>(),
 					Mock.Of<IAbstractHttpClientFactory>(),
-					mockOptions.Object,
+					Options.Create(genConfig),
 					Options.Create(new SessionConfiguration()))
 				: new PlatformIdentifier().IsWindows
 					? new WindowsByondInstaller(
 						Mock.Of<IProcessExecutor>(),
 						Mock.Of<IIOManager>(),
 						fileDownloader,
-						Options.Create(genConfig),
+						mockOptionsMonitor.Object,
 						Options.Create(new SessionConfiguration()),
 						Mock.Of<ILogger<WindowsByondInstaller>>())
 					: new PosixByondInstaller(
 						Mock.Of<IPostWriteHandler>(),
 						Mock.Of<IIOManager>(),
 						fileDownloader,
+						mockOptionsMonitor.Object,
 						Mock.Of<ILogger<PosixByondInstaller>>());
 
 			using var windowsByondInstaller = byondInstaller as WindowsByondInstaller;

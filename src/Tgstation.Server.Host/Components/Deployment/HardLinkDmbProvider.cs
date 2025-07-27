@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.IO.Abstractions;
 using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
@@ -187,8 +188,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 				dest = IOManager.ResolvePath(mirrorGuid.ToString());
 
 				using var semaphore = taskThrottle.HasValue ? new SemaphoreSlim(taskThrottle.Value) : null;
+
+				var dir = await IOManager.DirectoryInfo(src, cancellationToken);
 				await Task.WhenAll(MirrorDirectoryImpl(
-					src,
+					dir,
 					dest,
 					semaphore,
 					securityLevel,
@@ -230,21 +233,20 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// Recursively create tasks to create a hard link directory mirror of <paramref name="src"/> to <paramref name="dest"/>.
 		/// </summary>
-		/// <param name="src">The source directory path.</param>
+		/// <param name="src">The source <see cref="IDirectoryInfo"/>.</param>
 		/// <param name="dest">The destination directory path.</param>
 		/// <param name="semaphore">Optional <see cref="SemaphoreSlim"/> used to limit degree of parallelism.</param>
 		/// <param name="securityLevel">The launch <see cref="DreamDaemonSecurity"/> level.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operations. The first <see cref="Task"/> returned is always the necessary call to <see cref="IIOManager.CreateDirectory(string, CancellationToken)"/>.</returns>
+		/// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operations. The first <see cref="Task"/> returned is always the necessary call to <see cref="IIOManager.CreateDirectory(string, CancellationToken)"/>.</returns>
 		/// <remarks>I genuinely don't know how this will work with symlinked files. Waiting for the issue report I guess.</remarks>
-		IEnumerable<Task> MirrorDirectoryImpl(string src, string dest, SemaphoreSlim? semaphore, DreamDaemonSecurity securityLevel, CancellationToken cancellationToken)
+		IEnumerable<Task> MirrorDirectoryImpl(IDirectoryInfo src, string dest, SemaphoreSlim? semaphore, DreamDaemonSecurity securityLevel, CancellationToken cancellationToken)
 		{
-			var dir = new DirectoryInfo(src);
 			Task? subdirCreationTask = null;
 			var dreamDaemonWillAcceptOutOfDirectorySymlinks = securityLevel == DreamDaemonSecurity.Trusted;
-			foreach (var subDirectory in dir.EnumerateDirectories())
+			foreach (var subDirectory in src.EnumerateDirectories())
 			{
-				var mirroredName = Path.Combine(dest, subDirectory.Name);
+				var mirroredName = IOManager.ConcatPath(dest, subDirectory.Name);
 
 				// check if we are a symbolic link
 				if (subDirectory.Attributes.HasFlag(FileAttributes.ReparsePoint))
@@ -275,7 +277,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						logger.LogDebug("Recreating symlinked directory {name} as hard links...", subDirectory.Name);
 
 				var checkingSubdirCreationTask = true;
-				foreach (var copyTask in MirrorDirectoryImpl(subDirectory.FullName, mirroredName, semaphore, securityLevel, cancellationToken))
+				foreach (var copyTask in MirrorDirectoryImpl(subDirectory, mirroredName, semaphore, securityLevel, cancellationToken))
 				{
 					if (subdirCreationTask == null)
 					{
@@ -289,7 +291,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 			}
 
-			foreach (var fileInfo in dir.EnumerateFiles())
+			foreach (var fileInfo in src.EnumerateFiles())
 			{
 				if (subdirCreationTask == null)
 				{
