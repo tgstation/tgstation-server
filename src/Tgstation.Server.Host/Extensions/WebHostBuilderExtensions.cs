@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO.Abstractions;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,24 +27,27 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="builder">The <see cref="IWebHostBuilder"/> to configure.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to use.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> to use.</param>
-		/// <returns>The configured <paramref name="builder"/>.</returns>
 		/// <param name="postSetupServices">The <see cref="IPostSetupServices"/> to use.</param>
+		/// <param name="fileSystem">The <see cref="IFileSystem"/> to use.</param>
+		/// <returns>The configured <paramref name="builder"/>.</returns>
 		public static IWebHostBuilder UseApplication(
 			this IWebHostBuilder builder,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager,
-			IPostSetupServices postSetupServices)
+			IPostSetupServices postSetupServices,
+			IFileSystem fileSystem)
 		{
 			ArgumentNullException.ThrowIfNull(builder);
 			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 			ArgumentNullException.ThrowIfNull(ioManager);
 			ArgumentNullException.ThrowIfNull(postSetupServices);
+			ArgumentNullException.ThrowIfNull(fileSystem);
 
 			return builder.ConfigureServices(
 				(context, services) =>
 				{
 					var application = new Application(context.Configuration, context.HostingEnvironment);
-					application.ConfigureServices(services, assemblyInformationProvider, ioManager, postSetupServices);
+					application.ConfigureServices(services, assemblyInformationProvider, ioManager, postSetupServices, fileSystem);
 					services.AddSingleton(application);
 				})
 				.Configure(ConfigureApplication);

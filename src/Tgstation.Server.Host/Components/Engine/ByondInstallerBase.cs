@@ -6,8 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
@@ -42,6 +44,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected override EngineType TargetEngineType => EngineType.Byond;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> <see cref="IOptionsMonitor{TOptions}"/> for the <see cref="ByondInstallerBase"/>.
+		/// </summary>
+		protected IOptionsMonitor<GeneralConfiguration> GeneralConfigurationOptions { get; }
+
+		/// <summary>
 		/// Path to the system user's local BYOND folder.
 		/// </summary>
 		protected abstract string PathToUserFolder { get; }
@@ -52,9 +59,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected abstract string DreamMakerName { get; }
 
 		/// <summary>
-		/// Gets the URL formatter string for downloading a byond version of {0:Major} {1:Minor}.
+		/// Template to do ${Marker:xxx} replacements in <see cref="GeneralConfiguration.ByondZipDownloadTemplate"/>.
 		/// </summary>
-		protected abstract string ByondRevisionsUrlTemplate { get; }
+		protected abstract string OSMarkerTemplate { get; }
 
 		/// <summary>
 		/// The <see cref="IFileDownloader"/> for the <see cref="ByondInstallerBase"/>.
@@ -62,15 +69,75 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly IFileDownloader fileDownloader;
 
 		/// <summary>
+		/// Format a given <paramref name="byondZipDownloadTemplate"/>.
+		/// </summary>
+		/// <param name="semver">The BYOND version to download.</param>
+		/// <param name="byondZipDownloadTemplate">The template.</param>
+		/// <param name="osMarkerTemplate">The <see cref="OSMarkerTemplate"/>.</param>
+		/// <returns>The formatted byond download <see cref="Uri"/>.</returns>
+		/// <remarks>Exposed only for testability.</remarks>
+		internal static Uri GetDownloadZipUrl(Version semver, string byondZipDownloadTemplate, string osMarkerTemplate)
+		{
+			// god forbid
+			var guardGuid = Guid.NewGuid();
+
+			var url = byondZipDownloadTemplate
+				.Replace("$$", guardGuid.ToString(), StringComparison.Ordinal)
+				.Replace("${Major}", semver.Major.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
+				.Replace("${Minor}", semver.Minor.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);
+
+			var osMarkerPrefix = $"${{{osMarkerTemplate}:";
+			var osMarkerIndex = url.IndexOf(osMarkerPrefix);
+			while (osMarkerIndex != -1)
+			{
+				var start = osMarkerIndex + osMarkerPrefix.Length;
+				var end = url.IndexOf('}', start);
+				if (end == -1)
+					break;
+
+				var substitution = url.Substring(start, end - start);
+				url = url.Replace($"{osMarkerPrefix}{substitution}}}", substitution, StringComparison.Ordinal);
+
+				osMarkerIndex = url.IndexOf(osMarkerPrefix);
+			}
+
+			// at this point, any other substitution attempts should be removed
+			var otherMarkerPrefix = "${";
+			var otherMarkerIndex = url.IndexOf(otherMarkerPrefix);
+			while (otherMarkerIndex != -1)
+			{
+				var start = otherMarkerIndex + otherMarkerPrefix.Length;
+				var end = url.IndexOf('}', start);
+				if (end == -1)
+					break;
+
+				var substitution = url.Substring(start, end - start);
+				url = url.Replace($"{otherMarkerPrefix}{substitution}}}", String.Empty, StringComparison.Ordinal);
+
+				otherMarkerIndex = url.IndexOf(otherMarkerPrefix);
+			}
+
+			url = url.Replace(guardGuid.ToString(), "$", StringComparison.Ordinal);
+
+			return new Uri(url);
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ByondInstallerBase"/> class.
 		/// </summary>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="EngineInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="EngineInstallerBase"/>.</param>
 		/// <param name="fileDownloader">The value of <see cref="fileDownloader"/>.</param>
-		protected ByondInstallerBase(IIOManager ioManager, ILogger<ByondInstallerBase> logger, IFileDownloader fileDownloader)
+		/// <param name="generalConfigurationOptions">The value of <see cref="GeneralConfigurationOptions"/>.</param>
+		protected ByondInstallerBase(
+			IIOManager ioManager,
+			ILogger<ByondInstallerBase> logger,
+			IFileDownloader fileDownloader,
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions)
 			: base(ioManager, logger)
 		{
 			this.fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
+			GeneralConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -78,7 +145,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		{
 			CheckVersionValidity(version);
 
-			var installationIOManager = new ResolvingIOManager(IOManager, path);
+			var installationIOManager = IOManager.CreateResolverForSubdirectory(path);
 			var supportsMapThreads = version.Version >= MapThreadsVersion;
 
 			return ValueTask.FromResult<IEngineInstallation>(
@@ -195,8 +262,12 @@ namespace Tgstation.Server.Host.Components.Engine
 		Uri GetDownloadZipUrl(EngineVersion version)
 		{
 			CheckVersionValidity(version);
-			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Version!.Major, version.Version.Minor);
-			return new Uri(url);
+
+			var guardGuid = Guid.NewGuid();
+
+			var semver = version.Version!;
+			var template = GeneralConfigurationOptions.CurrentValue.ByondZipDownloadTemplate;
+			return GetDownloadZipUrl(semver, template, OSMarkerTemplate);
 		}
 	}
 }

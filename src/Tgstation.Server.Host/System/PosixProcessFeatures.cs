@@ -64,39 +64,6 @@ namespace Tgstation.Server.Host.System
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
-		/// <summary>
-		/// Gets potential paths to the gcore executable.
-		/// </summary>
-		/// <returns>The potential paths to the gcore executable.</returns>
-		static IEnumerable<string> GetPotentialGCorePaths()
-		{
-			var enviromentPath = Environment.GetEnvironmentVariable("PATH");
-			IEnumerable<string> enumerator;
-			if (enviromentPath == null)
-				enumerator = Enumerable.Empty<string>();
-			else
-			{
-				var paths = enviromentPath.Split(';');
-				enumerator = paths
-					.Select(x => x.Split(':'))
-					.SelectMany(x => x);
-			}
-
-			var exeName = "gcore";
-
-			enumerator = enumerator
-				.Concat(new List<string>(2)
-				{
-					"/usr/bin",
-					"/usr/share/bin",
-					"/bin",
-				});
-
-			enumerator = enumerator.Select(x => Path.Combine(x, exeName));
-
-			return enumerator;
-		}
-
 		/// <inheritdoc />
 		public void ResumeProcess(global::System.Diagnostics.Process process)
 		{
@@ -201,8 +168,8 @@ namespace Tgstation.Server.Host.System
 			{
 				// can't use ReadAllBytes here, /proc files have 0 length so the buffer is initialized to empty
 				// https://stackoverflow.com/questions/12237712/how-can-i-show-the-size-of-files-in-proc-it-should-not-be-size-zero
-				await using var fileStream = ioManager.CreateAsyncSequentialReadStream(
-					"/proc/self/oom_score_adj");
+				await using var fileStream = ioManager.CreateAsyncReadStream(
+					"/proc/self/oom_score_adj", true, true);
 				using var reader = new StreamReader(fileStream, Encoding.UTF8, leaveOpen: true);
 				originalString = await reader.ReadToEndAsync(cancellationToken);
 			}
@@ -254,6 +221,39 @@ namespace Tgstation.Server.Host.System
 				$"/proc/{pidStr}/oom_score_adj",
 				Encoding.UTF8.GetBytes(adjustedValue.ToString(CultureInfo.InvariantCulture)),
 				cancellationToken);
+		}
+
+		/// <summary>
+		/// Gets potential paths to the gcore executable.
+		/// </summary>
+		/// <returns>The potential paths to the gcore executable.</returns>
+		IEnumerable<string> GetPotentialGCorePaths()
+		{
+			var enviromentPath = Environment.GetEnvironmentVariable("PATH");
+			IEnumerable<string> enumerator;
+			if (enviromentPath == null)
+				enumerator = Enumerable.Empty<string>();
+			else
+			{
+				var paths = enviromentPath.Split(';');
+				enumerator = paths
+					.Select(x => x.Split(':'))
+					.SelectMany(x => x);
+			}
+
+			var exeName = "gcore";
+
+			enumerator = enumerator
+				.Concat(new List<string>(2)
+				{
+					"/usr/bin",
+					"/usr/share/bin",
+					"/bin",
+				});
+
+			enumerator = enumerator.Select(x => ioManager.ConcatPath(x, exeName));
+
+			return enumerator;
 		}
 	}
 }

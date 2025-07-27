@@ -58,6 +58,12 @@ namespace Tgstation.Server.Host.Components.Chat
 		void QueueWatchdogMessage(string message);
 
 		/// <summary>
+		/// Queue a chat <paramref name="message"/> to configured deployment channels.
+		/// </summary>
+		/// <param name="message">The message being sent.</param>
+		void QueueRawDeploymentMessage(string message);
+
+		/// <summary>
 		/// Send the message for a deployment to configured deployment channels.
 		/// </summary>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/> of the deployment.</param>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Abstractions;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading;
@@ -17,10 +18,11 @@ namespace Tgstation.Server.Host.IO.Tests
 		[ClassInitialize]
 		public static void SelectFactory(TestContext _)
 		{
+			var fileSystem = new FileSystem();
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-				linkFactory = new WindowsFilesystemLinkFactory();
+				linkFactory = new WindowsFilesystemLinkFactory(fileSystem);
 			else
-				linkFactory = new PosixFilesystemLinkFactory();
+				linkFactory = new PosixFilesystemLinkFactory(fileSystem);
 		}
 
 		public static bool HasPermissionToMakeSymlinks()
