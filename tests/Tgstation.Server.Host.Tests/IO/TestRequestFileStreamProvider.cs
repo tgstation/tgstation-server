@@ -39,7 +39,7 @@ namespace Tgstation.Server.Host.IO.Tests
 			};
 
 			var ran = false;
-			var request = new HttpRequestMessage();
+			var request = new HttpRequestMessage(HttpMethod.Get, "https://example.com");
 			var mockHttpClient = new HttpClient(
 				new MockHttpMessageHandler(
 					(_, _) =>
@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.IO.Tests
 			};
 
 			int ran = 0;
-			var request = new HttpRequestMessage();
+			var request = new HttpRequestMessage(HttpMethod.Get, "https://example.com");
 			var mockHttpClient = new HttpClient(
 				new MockHttpMessageHandler(
 					(_, _) =>
@@ -114,13 +114,14 @@ namespace Tgstation.Server.Host.IO.Tests
 			var tcs = new TaskCompletionSource<HttpResponseMessage>();
 
 			var ran = false;
-			var request = new HttpRequestMessage();
+			var request = new HttpRequestMessage(HttpMethod.Get, "https://example.com");
 			var mockHttpClient = new HttpClient(
 				new MockHttpMessageHandler(
-					(_, _) =>
+					(_, cancellationToken) =>
 					{
 						ran = true;
-						return Task.FromResult(response);
+						cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken));
+						return tcs.Task;
 					}));
 
 			await using var downloader = new RequestFileStreamProvider(mockHttpClient, request);
