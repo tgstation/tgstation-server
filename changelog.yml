@@ -17,7 +17,6 @@ Components:
       - You can now configure the URL TGS downloads official BYOND releases from with `General:ByondZipDownloadTemplate`.
       Author: Cyberboss
       PullRequest: 2291
-    Unreleased: true
   - Version: 5.7.0
     Changes:
     - Descriptions:
@@ -233,8 +232,17 @@ Components:
       Author: Cyberboss
       PullRequest: 2212
     Unreleased: true
+  - Version: 6.19.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.18.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.18.0
     ComponentVersions:
+      Core: 6.18.0
       HttpApi: 10.13.0
       GraphQLApi: 0.6.0
       DreamMakerApi: 7.3.3
@@ -258,25 +266,6 @@ Components:
       - adds libcurl4:i386 for byond 1664
       Author: Kashargul
       PullRequest: 2293
-    Unreleased: true
-  - Version: 6.17.1
-    ComponentVersions:
-      HttpApi: 10.13.0
-      GraphQLApi: 0.6.0
-      DreamMakerApi: 7.3.3
-      Configuration: 5.7.0
-      InteropApi: 5.10.1
-      HostWatchdog: 1.6.0
-      NugetCommon: 7.0.0
-      NugetApi: 18.0.0
-      NugetClient: 21.0.0
-      WebControlPanel: 6.10.0
-    Changes:
-    - Descriptions:
-      - "Nix: BYOND executable patching now uses the `TGS_INSTANCE_ROOT` environment variable to navigate to the instance's Byond directory."
-      Author: Cyberboss
-      PullRequest: 2216
-    Unreleased: true
   - Version: 6.17.0
     ComponentVersions:
       HttpApi: 10.13.0
