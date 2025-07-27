@@ -98,7 +98,7 @@
     <!-- Usage: Text formatter for Elasticsearch logging plugin -->
     <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.18.2" />
     <!-- Usage: Swarm API implemented in gRPC -->
-    <PackageReference Include="Grpc.AspNetCore" Version="2.70.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
     <!-- Usage: GraphQL API Engine -->
     <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.8" />
     <!-- Usage: GraphQL Authorization Plugin -->
