@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncReadStream" name="Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncReadStream">
+<area shape="rect" id="Node000001" title="Creates an asynchronous FileStream for sequential reading.The open Stream." alt="" coords="5,5,239,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory.The full path of the current working director..." alt="" coords="287,13,490,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="239,31,271,31,271,36,239,36"/>
+</map>

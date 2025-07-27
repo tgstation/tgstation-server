@@ -1,9 +1,11 @@
 <map id="Tgstation.Server.Host.ServerFactory" name="Tgstation.Server.Host.ServerFactory">
-<area shape="rect" id="Node000001" title="Implementation of IServerFactory." alt="" coords="422,47,610,88"/>
+<area shape="rect" id="Node000001" title="Implementation of IServerFactory." alt="" coords="422,77,610,117"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html" title="For creating IServers." alt="" coords="51,5,157,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,21,398,45,422,48,421,54,397,50,173,26"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,21,280,34,398,56,459,73,458,79,397,61,279,39,173,27"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="60,55,148,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="164,65,421,65,421,70,164,70"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="164,69,421,87,421,93,164,74"/>
 <area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="5,105,203,145"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="218,109,397,85,421,81,422,87,398,90,219,114"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="218,119,397,109,421,107,422,112,398,114,218,125"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="33,169,175,195"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="190,173,290,161,397,140,468,115,470,120,398,145,291,166,190,179"/>
 </map>

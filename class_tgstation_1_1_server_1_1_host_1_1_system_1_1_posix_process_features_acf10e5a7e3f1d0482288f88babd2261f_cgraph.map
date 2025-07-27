@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync" name="Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,53,225,94"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79" title="Set oom_score_adj for a given pid ." alt="" coords="273,5,500,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,54,257,50,257,55,226,60"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a242901443eb2726593c80d91c1b5b870" title="Creates an asynchronous FileStream for sequential reading." alt="" coords="273,85,500,141"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="226,87,257,91,257,97,225,92"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="548,13,718,54"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="500,31,532,31,532,36,500,36"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,49,225,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79" title="Set oom_score_adj for a given pid ." alt="" coords="278,5,506,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,52,263,47,263,53,225,58"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a055862f1ac46e7aaf3b68a936fedb9c1" title="Creates an asynchronous FileStream for sequential reading." alt="" coords="273,85,511,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="225,81,258,85,257,90,225,86"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="559,13,729,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="506,31,543,31,543,36,506,36"/>
 </map>

@@ -1,17 +1,17 @@
 <map id="Tgstation.Server.Host.Core.ServerPortProivder" name="Tgstation.Server.Host.Core.ServerPortProivder">
-<area shape="rect" id="Node000001" title=" " alt="" coords="168,288,349,328"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="170,192,305,217"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,232,257,287,252,288,240,233"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="328,184,557,225"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="395,235,295,290,293,285,392,230"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="194,288,374,328"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="195,192,330,217"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="271,232,282,287,277,288,266,233"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="354,184,582,225"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="420,235,320,290,318,285,418,230"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,5,160,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="101,42,150,101,184,132,221,158,260,168,328,181,327,187,259,173,219,162,180,136,146,105,97,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="101,42,150,102,183,133,221,158,354,182,353,187,219,162,180,137,146,105,97,46"/>
 <area shape="rect" id="Node000005" title=" " alt="" coords="184,5,272,31"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="227,47,227,73,230,103,239,133,255,158,282,169,334,181,333,186,281,174,251,162,234,135,225,104,221,74,222,47"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="396,5,489,31"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="445,46,445,184,440,184,440,46"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="539,5,581,31"/>
-<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="564,47,558,103,548,134,533,162,519,175,503,186,500,181,516,171,528,158,544,132,553,102,558,46"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="707,5,858,31"/>
-<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="788,46,788,74,784,105,774,136,755,162,722,179,674,191,558,203,557,198,673,186,721,174,751,158,769,133,779,104,783,73,783,46"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="227,47,227,73,230,103,239,133,255,158,289,170,354,183,353,188,288,175,252,162,234,135,225,104,221,73,222,46"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="422,5,514,31"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="471,46,471,184,465,184,465,46"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="564,5,606,31"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="589,47,583,103,574,134,558,162,544,175,528,186,525,181,541,171,554,158,569,132,578,102,584,46"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="732,5,884,31"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="813,46,813,74,809,105,799,136,780,162,748,179,699,191,583,203,582,198,698,186,746,174,777,158,794,133,804,104,808,73,808,46"/>
 </map>

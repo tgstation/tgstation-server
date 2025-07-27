@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.17.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.18.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -335,7 +335,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  251</span>            handle.StartInfo.RedirectStandardError = <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">  252</span> </div>
 <div class="line"><span class="lineno">  253</span>            <span class="keywordtype">bool</span> writingToFile;</div>
-<div class="line"><span class="lineno">  254</span>            await <span class="keyword">using </span>var fileStream = (writingToFile = fileRedirect != <span class="keyword">null</span>) ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a6c39ac4d0ea053857825a8f874e871b1">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8">CreateAsyncSequentialWriteStream</a>(fileRedirect!) : <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  254</span>            await <span class="keyword">using </span>var fileStream = (writingToFile = fileRedirect != <span class="keyword">null</span>) ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a6c39ac4d0ea053857825a8f874e871b1">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9d01b47120756f55a482c198a85bf45f">CreateAsyncSequentialWriteStream</a>(fileRedirect!) : <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  255</span>            await <span class="keyword">using </span>var fileWriter = fileStream != <span class="keyword">null</span> ? <span class="keyword">new</span> StreamWriter(fileStream) : null;</div>
 <div class="line"><span class="lineno">  256</span> </div>
 <div class="line"><span class="lineno">  257</span>            var stringBuilder = fileStream == <span class="keyword">null</span> ? <span class="keyword">new</span> StringBuilder() : null;</div>
@@ -425,9 +425,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  341</span> </div>
 <div class="line"><span class="lineno">  342</span>            <span class="keywordflow">return</span> stringBuilder?.ToString();</div>
 <div class="line"><span class="lineno">  343</span>        }</div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a98d1ad47e4ba1c1f7407f5dd50a81de8"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8">Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialWriteStream</a></div><div class="ttdeci">FileStream CreateAsyncSequentialWriteStream(string path)</div><div class="ttdoc">Creates an asynchronous FileStream for sequential writing.</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a9d01b47120756f55a482c198a85bf45f"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9d01b47120756f55a482c198a85bf45f">Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialWriteStream</a></div><div class="ttdeci">Stream CreateAsyncSequentialWriteStream(string path)</div><div class="ttdoc">Creates an asynchronous FileStream for sequential writing.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8">Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialWriteStream()</a>, <a class="el" href="_process_executor_8cs_source.html#l00033">Tgstation.Server.Host.System.ProcessExecutor.ioManager</a>, and <a class="el" href="_process_executor_8cs_source.html#l00038">Tgstation.Server.Host.System.ProcessExecutor.logger</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9d01b47120756f55a482c198a85bf45f">Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialWriteStream()</a>, <a class="el" href="_process_executor_8cs_source.html#l00033">Tgstation.Server.Host.System.ProcessExecutor.ioManager</a>, and <a class="el" href="_process_executor_8cs_source.html#l00038">Tgstation.Server.Host.System.ProcessExecutor.logger</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00108">Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess()</a>.</p>
 <div class="dynheader">
@@ -436,7 +436,7 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_a2306b74b2bb7f77e8e6880c681d8c12f_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_a2306b74b2bb7f77e8e6880c681d8c12f_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_a2306b74b2bb7f77e8e6880c681d8c12f_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_a2306b74b2bb7f77e8e6880c681d8c12f_cgraph">
 <area shape="rect" title="Consume the stdout/stderr streams into a Task." alt="" coords="5,13,231,54"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="279,5,506,61"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9d01b47120756f55a482c198a85bf45f" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="279,5,506,61"/>
 <area shape="poly" title=" " alt="" coords="231,31,263,31,263,36,231,36"/>
 </map>
 </div>
@@ -889,7 +889,7 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="219,51,261,46,261,51,220,56"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac820fe814014b12333133450d6843d93" title="Run events on starting a process." alt="" coords="267,78,511,119"/>
 <area shape="poly" title=" " alt="" coords="220,76,251,80,251,85,219,82"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="559,5,786,61"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9d01b47120756f55a482c198a85bf45f" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="559,5,786,61"/>
 <area shape="poly" title=" " alt="" coords="502,31,543,31,543,36,502,36"/>
 </map>
 </div>

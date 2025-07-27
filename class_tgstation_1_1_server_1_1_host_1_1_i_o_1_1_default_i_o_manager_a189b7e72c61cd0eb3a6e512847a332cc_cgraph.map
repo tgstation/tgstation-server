@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager.ReadAllBytes" name="Tgstation.Server.Host.IO.DefaultIOManager.ReadAllBytes">
 <area shape="rect" id="Node000001" title="Returns all the contents of a file at path &#160;as a byte array.A ValueTask that results in the contents ..." alt="" coords="5,13,213,54"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a91fd292666bf9e7aef7fbbade6b7eaf1" title="Creates an asynchronous FileStream for sequential reading.The open FileStream." alt="" coords="261,5,525,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8debf0c60f8fea29022e61e85a3229dc" title="Creates an asynchronous FileStream for sequential reading.The open Stream." alt="" coords="261,5,494,61"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,31,245,31,245,36,213,36"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory.The full path of the current working director..." alt="" coords="573,13,776,54"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="526,31,557,31,557,36,526,36"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory.The full path of the current working director..." alt="" coords="542,13,745,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="494,31,527,31,527,36,494,36"/>
 </map>

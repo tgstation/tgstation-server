@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialWriteStream" name="Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialWriteStream">
-<area shape="rect" id="Node000001" title="Creates an asynchronous FileStream for sequential writing.The open FileStream." alt="" coords="800,55,1065,111"/>
+<area shape="rect" id="Node000001" title="Creates an asynchronous FileStream for sequential writing.The open Stream." alt="" coords="800,55,1065,111"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a4a19eba6ec1164aff77fe737dd979338" title="Copy a file from src &#160;to dest .A ValueTask representing the running operation." alt="" coords="559,29,738,70"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="785,68,738,63,739,58,785,63"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a6c82a1e8625f86797f961e220d7b0f03" title="Writes some contents &#160;to a file at path &#160;overwriting previous content.A ValueTask representing the ru..." alt="" coords="545,95,752,135"/>

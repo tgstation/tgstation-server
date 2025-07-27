@@ -1,12 +1,12 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager.ConcatPath" name="Tgstation.Server.Host.IO.DefaultIOManager.ConcatPath">
-<area shape="rect" id="Node000001" title="Combines an array of strings into a path.The combined path." alt="" coords="577,95,774,135"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc" title="Copies a directory from src &#160;to dest ." alt="" coords="279,29,513,70"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="570,93,485,73,487,68,571,88"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a50b2302533637090939afbb9dee042ee" title="Retrieve the full path of some path &#160;given a relative path. Must be used before passing relative path..." alt="" coords="286,95,506,135"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="561,118,506,118,506,112,561,112"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a4e9c20b01d6d66f04eb106365f9d7a1a" title="Initializes a new instance of the ResolvingIOManager class." alt="" coords="263,160,529,201"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="571,142,487,162,485,157,570,137"/>
-<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="442,16,425,10,396,8,369,10,352,15,346,21,349,28,344,29,341,19,350,10,368,5,396,3,426,5,444,11"/>
+<area shape="rect" id="Node000001" title="Combines an array of strings into a path.The combined path." alt="" coords="545,101,742,142"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc" title="Copies a directory from src &#160;to dest ." alt="" coords="263,29,497,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="551,99,457,73,458,68,553,94"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5f0d4752a1290de54c4a08473b653300" title="Create a new IIOManager that resolves paths to the specified subdirectoryPath .A new IIOManager." alt="" coords="271,94,489,150"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="529,124,489,124,489,119,529,119"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a50b2302533637090939afbb9dee042ee" title="Retrieve the full path of some path &#160;given a relative path. Must be used before passing relative path..." alt="" coords="270,173,490,214"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="553,149,458,175,457,170,551,144"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="423,16,407,10,380,8,355,10,339,15,333,21,336,28,331,29,328,19,336,10,354,5,380,3,408,5,425,11"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a80c967c4b5eba7fc884348a79c1733aa" title="Copies a directory from src &#160;to dest .A ValueTask representing the running operation." alt="" coords="5,29,215,70"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="263,52,215,52,215,47,263,47"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="247,52,215,52,215,47,247,47"/>
 </map>

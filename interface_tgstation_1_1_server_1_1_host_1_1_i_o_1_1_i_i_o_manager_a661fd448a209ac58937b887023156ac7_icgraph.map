@@ -1,0 +1,13 @@
+<map id="Tgstation.Server.Host.IO.IIOManager.IsPathRooted" name="Tgstation.Server.Host.IO.IIOManager.IsPathRooted">
+<area shape="rect" id="Node000001" title="Check if a given path &#160;is at the root level of the filesystem." alt="" coords="1132,41,1303,82"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a6b72da3c30d5bc5ad7bbad3d5a95970e" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="828,5,1084,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1116,50,1084,46,1084,41,1117,45"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ae58857460fa04099734e5b2ec6d0e2c7" title="Check that a given SQLite databaseName &#160;is can be accessed. Also prompts the user if they want to use..." alt="" coords="849,70,1063,126"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1117,78,1064,86,1063,80,1116,73"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a799f1f7613771ef7c9d9f5ff55fb8b47" title="Check we have a valid system and configuration." alt="" coords="554,5,780,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="813,28,781,28,781,23,813,23"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="280,5,506,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="538,28,507,28,507,23,538,23"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="5,5,232,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="264,28,232,28,232,23,264,23"/>
+</map>

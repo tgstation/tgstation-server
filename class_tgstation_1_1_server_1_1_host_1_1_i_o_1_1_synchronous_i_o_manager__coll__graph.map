@@ -1,7 +1,9 @@
 <map id="Tgstation.Server.Host.IO.SynchronousIOManager" name="Tgstation.Server.Host.IO.SynchronousIOManager">
-<area shape="rect" id="Node000001" title=" " alt="" coords="352,27,519,68"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="377,47,544,88"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html" title="For accessing the disk in a synchronous manner." alt="" coords="53,5,218,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,25,352,37,351,42,233,30"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,55,266,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="281,59,351,53,351,58,282,65"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,28,353,45,377,49,376,54,352,50,233,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="65,55,206,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="222,65,376,65,376,70,222,70"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,105,266,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="276,99,352,85,376,81,377,86,353,90,277,104"/>
 </map>

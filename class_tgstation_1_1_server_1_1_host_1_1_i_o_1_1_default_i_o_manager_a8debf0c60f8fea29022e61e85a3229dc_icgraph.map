@@ -1,5 +1,5 @@
-<map id="Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialReadStream" name="Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialReadStream">
-<area shape="rect" id="Node000001" title="Creates an asynchronous FileStream for sequential reading.The open FileStream." alt="" coords="261,5,525,61"/>
+<map id="Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncReadStream" name="Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncReadStream">
+<area shape="rect" id="Node000001" title="Creates an asynchronous FileStream for sequential reading.The open Stream." alt="" coords="261,5,494,61"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a189b7e72c61cd0eb3a6e512847a332cc" title="Returns all the contents of a file at path &#160;as a byte array.A ValueTask that results in the contents ..." alt="" coords="5,13,213,54"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,36,213,36,213,31,245,31"/>
 </map>

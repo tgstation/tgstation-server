@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility" name="Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility">
+<area shape="rect" id="Node000001" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="5,5,261,46"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a661fd448a209ac58937b887023156ac7" title="Check if a given path &#160;is at the root level of the filesystem." alt="" coords="309,5,480,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="261,23,293,23,293,28,261,28"/>
+</map>

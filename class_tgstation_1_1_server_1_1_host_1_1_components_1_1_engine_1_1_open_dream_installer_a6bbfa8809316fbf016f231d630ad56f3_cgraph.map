@@ -34,6 +34,6 @@
 <area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="526,693,600,685,600,690,526,698"/>
 <area shape="rect" id="Node000016" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac820fe814014b12333133450d6843d93" title="Run events on starting a process." alt="" coords="606,720,850,760"/>
 <area shape="poly" id="edge15_Node000013_Node000016" title=" " alt="" coords="526,715,591,722,590,728,526,721"/>
-<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="898,647,1126,702"/>
+<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9d01b47120756f55a482c198a85bf45f" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="898,647,1126,702"/>
 <area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="841,672,882,672,882,677,841,677"/>
 </map>

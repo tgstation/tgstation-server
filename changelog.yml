@@ -11,6 +11,13 @@ Components:
       Author: Cyberboss
       PullRequest: 2212
     Unreleased: true
+  - Version: 5.8.0
+    Changes:
+    - Descriptions:
+      - You can now configure the URL TGS downloads official BYOND releases from with `General:ByondZipDownloadTemplate`.
+      Author: Cyberboss
+      PullRequest: 2291
+    Unreleased: true
   - Version: 5.7.0
     Changes:
     - Descriptions:
@@ -231,7 +238,7 @@ Components:
       HttpApi: 10.13.0
       GraphQLApi: 0.6.0
       DreamMakerApi: 7.3.3
-      Configuration: 5.7.0
+      Configuration: 5.8.0
       InteropApi: 5.10.1
       HostWatchdog: 1.6.0
       NugetCommon: 7.0.0
@@ -240,9 +247,17 @@ Components:
       WebControlPanel: 6.10.0
     Changes:
     - Descriptions:
+      - A deployment chat message will now be sent during the instance auto-update process if it failed due to a conflicting test merge.
+      Author: Cyberboss
+      PullRequest: 2223
+    - Descriptions:
       - HTTPS is no longer mandatory for an OpenIDConnect authority.
       Author: Drulikar
       PullRequest: 2224
+    - Descriptions:
+      - adds libcurl4:i386 for byond 1664
+      Author: Kashargul
+      PullRequest: 2293
     Unreleased: true
   - Version: 6.17.1
     ComponentVersions:

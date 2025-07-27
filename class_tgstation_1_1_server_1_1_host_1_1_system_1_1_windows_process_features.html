@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.17.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.18.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -274,39 +274,40 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  145</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.GameServerOffline, ex);</div>
 <div class="line"><span class="lineno">  146</span>            }</div>
 <div class="line"><span class="lineno">  147</span> </div>
-<div class="line"><span class="lineno">  148</span>            await <span class="keyword">using </span>var fileStream = <span class="keyword">new</span> FileStream(outputFile, FileMode.CreateNew);</div>
-<div class="line"><span class="lineno">  149</span> </div>
-<div class="line"><span class="lineno">  150</span>            await Task.Factory.StartNew(</div>
-<div class="line"><span class="lineno">  151</span>                () =&gt;</div>
-<div class="line"><span class="lineno">  152</span>                {</div>
-<div class="line"><span class="lineno">  153</span>                    var flags = NativeMethods.MiniDumpType.WithHandleData</div>
-<div class="line"><span class="lineno">  154</span>                        | NativeMethods.MiniDumpType.WithThreadInfo</div>
-<div class="line"><span class="lineno">  155</span>                        | NativeMethods.MiniDumpType.WithUnloadedModules;</div>
-<div class="line"><span class="lineno">  156</span> </div>
-<div class="line"><span class="lineno">  157</span>                    <span class="keywordflow">if</span> (!minidump)</div>
-<div class="line"><span class="lineno">  158</span>                        flags |= NativeMethods.MiniDumpType.WithDataSegs</div>
-<div class="line"><span class="lineno">  159</span>                            | NativeMethods.MiniDumpType.WithFullMemory;</div>
-<div class="line"><span class="lineno">  160</span> </div>
-<div class="line"><span class="lineno">  161</span>                    <span class="keywordflow">if</span> (!NativeMethods.MiniDumpWriteDump(</div>
-<div class="line"><span class="lineno">  162</span>                        process.Handle,</div>
-<div class="line"><span class="lineno">  163</span>                        (uint)process.Id,</div>
-<div class="line"><span class="lineno">  164</span>                        fileStream.SafeFileHandle,</div>
-<div class="line"><span class="lineno">  165</span>                        flags,</div>
-<div class="line"><span class="lineno">  166</span>                        IntPtr.Zero,</div>
+<div class="line"><span class="lineno">  148</span>            <span class="comment">// Windows API so has to be a real FS</span></div>
+<div class="line"><span class="lineno">  149</span>            await <span class="keyword">using </span>var fileStream = <span class="keyword">new</span> FileStream(outputFile, FileMode.CreateNew);</div>
+<div class="line"><span class="lineno">  150</span> </div>
+<div class="line"><span class="lineno">  151</span>            await Task.Factory.StartNew(</div>
+<div class="line"><span class="lineno">  152</span>                () =&gt;</div>
+<div class="line"><span class="lineno">  153</span>                {</div>
+<div class="line"><span class="lineno">  154</span>                    var flags = NativeMethods.MiniDumpType.WithHandleData</div>
+<div class="line"><span class="lineno">  155</span>                        | NativeMethods.MiniDumpType.WithThreadInfo</div>
+<div class="line"><span class="lineno">  156</span>                        | NativeMethods.MiniDumpType.WithUnloadedModules;</div>
+<div class="line"><span class="lineno">  157</span> </div>
+<div class="line"><span class="lineno">  158</span>                    <span class="keywordflow">if</span> (!minidump)</div>
+<div class="line"><span class="lineno">  159</span>                        flags |= NativeMethods.MiniDumpType.WithDataSegs</div>
+<div class="line"><span class="lineno">  160</span>                            | NativeMethods.MiniDumpType.WithFullMemory;</div>
+<div class="line"><span class="lineno">  161</span> </div>
+<div class="line"><span class="lineno">  162</span>                    <span class="keywordflow">if</span> (!NativeMethods.MiniDumpWriteDump(</div>
+<div class="line"><span class="lineno">  163</span>                        process.Handle,</div>
+<div class="line"><span class="lineno">  164</span>                        (uint)process.Id,</div>
+<div class="line"><span class="lineno">  165</span>                        fileStream.SafeFileHandle,</div>
+<div class="line"><span class="lineno">  166</span>                        flags,</div>
 <div class="line"><span class="lineno">  167</span>                        IntPtr.Zero,</div>
-<div class="line"><span class="lineno">  168</span>                        IntPtr.Zero))</div>
-<div class="line"><span class="lineno">  169</span>                        <span class="keywordflow">throw</span> <span class="keyword">new</span> Win32Exception();</div>
-<div class="line"><span class="lineno">  170</span>                },</div>
-<div class="line"><span class="lineno">  171</span>                cancellationToken,</div>
-<div class="line"><span class="lineno">  172</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">DefaultIOManager</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">BlockingTaskCreationOptions</a>,</div>
-<div class="line"><span class="lineno">  173</span>                TaskScheduler.Current);</div>
-<div class="line"><span class="lineno">  174</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">Tgstation.Server.Host.IO.DefaultIOManager</a></div><div class="ttdoc">IIOManager that resolves paths to Environment.CurrentDirectory.</div><div class="ttdef"><b>Definition</b> <a href="_default_i_o_manager_8cs_source.html#l00016">DefaultIOManager.cs:17</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_ac6dfeef4e622bb46047169215099995d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">Tgstation.Server.Host.IO.DefaultIOManager.BlockingTaskCreationOptions</a></div><div class="ttdeci">const TaskCreationOptions BlockingTaskCreationOptions</div><div class="ttdoc">The TaskCreationOptions used to spawn Tasks for potentially long running, blocking operations.</div><div class="ttdef"><b>Definition</b> <a href="_default_i_o_manager_8cs_source.html#l00031">DefaultIOManager.cs:31</a></div></div>
+<div class="line"><span class="lineno">  168</span>                        IntPtr.Zero,</div>
+<div class="line"><span class="lineno">  169</span>                        IntPtr.Zero))</div>
+<div class="line"><span class="lineno">  170</span>                        <span class="keywordflow">throw</span> <span class="keyword">new</span> Win32Exception();</div>
+<div class="line"><span class="lineno">  171</span>                },</div>
+<div class="line"><span class="lineno">  172</span>                cancellationToken,</div>
+<div class="line"><span class="lineno">  173</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">DefaultIOManager</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">BlockingTaskCreationOptions</a>,</div>
+<div class="line"><span class="lineno">  174</span>                TaskScheduler.Current);</div>
+<div class="line"><span class="lineno">  175</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">Tgstation.Server.Host.IO.DefaultIOManager</a></div><div class="ttdoc">IIOManager that resolves paths to Environment.CurrentDirectory.</div><div class="ttdef"><b>Definition</b> <a href="_default_i_o_manager_8cs_source.html#l00017">DefaultIOManager.cs:18</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_ac6dfeef4e622bb46047169215099995d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">Tgstation.Server.Host.IO.DefaultIOManager.BlockingTaskCreationOptions</a></div><div class="ttdeci">const TaskCreationOptions BlockingTaskCreationOptions</div><div class="ttdoc">The TaskCreationOptions used to spawn Tasks for potentially long running, blocking operations.</div><div class="ttdef"><b>Definition</b> <a href="_default_i_o_manager_8cs_source.html#l00032">DefaultIOManager.cs:32</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">Tgstation.Server.Host.Jobs.JobException</a></div><div class="ttdoc">Operation exceptions thrown from the context of a Models.Job.</div><div class="ttdef"><b>Definition</b> <a href="_job_exception_8cs_source.html#l00010">JobException.cs:11</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition</b> <a href="_error_code_8cs_source.html#l00011">ErrorCode.cs:12</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_default_i_o_manager_8cs_source.html#l00031">Tgstation.Server.Host.IO.DefaultIOManager.BlockingTaskCreationOptions</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a58ae40ae048891db7c2c1855e9213563">Tgstation.Server.Host.System.NativeMethods.MiniDumpWriteDump()</a>.</p>
+<p class="reference">References <a class="el" href="_default_i_o_manager_8cs_source.html#l00032">Tgstation.Server.Host.IO.DefaultIOManager.BlockingTaskCreationOptions</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a58ae40ae048891db7c2c1855e9213563">Tgstation.Server.Host.System.NativeMethods.MiniDumpWriteDump()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

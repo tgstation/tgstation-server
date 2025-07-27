@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialReadStream" name="Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialReadStream">
-<area shape="rect" id="Node000001" title="Creates an asynchronous FileStream for sequential reading." alt="" coords="273,5,500,61"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#acf10e5a7e3f1d0482288f88babd2261f" title=" " alt="" coords="5,13,225,54"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="257,36,225,36,225,31,257,31"/>
-</map>

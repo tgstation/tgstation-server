@@ -1,22 +1,24 @@
 <map id="Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.HardLinkDmbProvider" name="Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.HardLinkDmbProvider">
-<area shape="rect" id="Node000001" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,129,257,184"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#ad08ecabc53051ac3615beccdd91e8bf6" title="Mirror the Models.CompileJob." alt="" coords="305,129,561,184"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="257,154,289,154,289,159,257,159"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="647,40,827,81"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="506,125,608,90,632,83,634,88,610,95,508,130"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35" title="Recursively create tasks to create a hard link directory mirror of src &#160;to dest ." alt="" coords="609,129,865,184"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="562,154,594,154,594,159,562,159"/>
-<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="654,208,821,249"/>
-<area shape="poly" id="edge10_Node000002_Node000010" title=" " alt="" coords="554,182,639,202,638,208,553,187"/>
-<area shape="poly" id="edge9_Node000004_Node000004" title=" " alt="" coords="678,128,679,118,690,109,709,104,737,102,769,104,789,111,787,116,768,110,737,107,710,109,692,114,684,120,684,128"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="967,5,1135,46"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="798,126,864,90,887,72,912,57,952,42,953,47,915,61,890,77,867,95,800,130"/>
-<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="960,71,1142,111"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="865,127,945,110,946,116,867,132"/>
-<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a1928b5f0f5dd2e3e36ce03c7850a2f49" title="Creates a hard link." alt="" coords="926,136,1176,177"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="866,154,910,154,910,159,866,159"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a0c13f92b0cab9a0e3028ec6eedbc38d9" title="Create a symbolic link." alt="" coords="913,201,1189,242"/>
-<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="867,180,936,195,935,200,865,186"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="956,267,1146,307"/>
-<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="846,182,867,194,883,209,891,224,900,238,915,251,943,265,941,270,912,256,896,242,887,227,878,212,864,198,843,187"/>
+<area shape="rect" id="Node000001" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,111,257,167"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#ad08ecabc53051ac3615beccdd91e8bf6" title="Mirror the Models.CompileJob." alt="" coords="305,111,561,167"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="257,136,289,136,289,142,257,142"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="647,5,827,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="489,108,546,82,608,56,633,48,635,53,610,62,548,86,491,113"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a22cfc99f22f5d6d338d307a6ed7d6e70" title="Gets a IDirectoryInfo for the given path ." alt="" coords="654,71,821,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="561,116,638,104,639,109,562,121"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a8f4c03ccca824130892631533adee3ed" title="Recursively create tasks to create a hard link directory mirror of src &#160;to dest ." alt="" coords="609,159,865,215"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="562,157,594,162,593,167,561,162"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="654,239,821,279"/>
+<area shape="poly" id="edge11_Node000002_Node000011" title=" " alt="" coords="485,165,544,196,610,225,639,234,638,239,608,229,541,201,482,170"/>
+<area shape="poly" id="edge10_Node000005_Node000005" title=" " alt="" coords="678,159,679,148,690,140,709,134,737,133,769,135,789,142,787,147,768,140,737,138,710,140,692,145,684,151,684,159"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="967,36,1135,77"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="798,156,864,121,887,103,912,87,952,73,953,78,915,92,890,108,867,125,800,161"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="960,101,1142,142"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="865,158,945,141,946,146,867,163"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a1928b5f0f5dd2e3e36ce03c7850a2f49" title="Creates a hard link." alt="" coords="926,167,1176,207"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="866,184,910,184,910,190,866,190"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a0c13f92b0cab9a0e3028ec6eedbc38d9" title="Create a symbolic link." alt="" coords="913,232,1189,273"/>
+<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="867,211,936,226,935,231,865,216"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="956,297,1146,338"/>
+<area shape="poly" id="edge9_Node000005_Node000010" title=" " alt="" coords="846,213,867,225,883,240,891,255,900,269,915,282,943,296,941,301,912,287,896,272,887,257,878,243,864,229,843,218"/>
 </map>

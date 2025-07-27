@@ -9,7 +9,7 @@
 <area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="241,135,272,139,272,144,240,141"/>
 <area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="302,201,492,242"/>
 <area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="176,143,289,186,312,194,310,199,287,191,174,148"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a38ca4ff226c098355ef1b316aa32421d" title="Creates an asynchronous FileStream for sequential writing.The open FileStream." alt="" coords="554,31,818,87"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#aebda71f8cf48cf1d28fcd618544b2721" title="Creates an asynchronous FileStream for sequential writing.The open Stream." alt="" coords="554,31,818,87"/>
 <area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="487,78,538,73,539,78,487,84"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory.The full path of the current working director..." alt="" coords="866,72,1070,113"/>
 <area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="487,94,554,96,686,98,818,96,850,95,851,101,818,102,686,104,554,102,487,99"/>

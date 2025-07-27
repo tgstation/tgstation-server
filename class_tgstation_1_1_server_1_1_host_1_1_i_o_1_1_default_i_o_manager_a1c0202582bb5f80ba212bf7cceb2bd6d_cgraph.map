@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager.DeleteDirectory" name="Tgstation.Server.Host.IO.DefaultIOManager.DeleteDirectory">
 <area shape="rect" id="Node000001" title="Recursively delete a directory, removes and does not enter any symlinks encounterd...." alt="" coords="5,63,223,103"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#acba7d5b4654f5a2358fef05ede3c5dd5" title="Recursively empty a directory." alt="" coords="271,29,518,70"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ad53c1414d4f2ebaf7bb1a8887bfcb8e0" title="Recursively empty a directory." alt="" coords="271,29,518,70"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,67,255,64,255,69,223,73"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory.The full path of the current working director..." alt="" coords="293,95,496,135"/>
 <area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="223,93,278,99,277,104,223,98"/>

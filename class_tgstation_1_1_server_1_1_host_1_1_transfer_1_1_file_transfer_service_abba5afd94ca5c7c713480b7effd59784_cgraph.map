@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Transfer.FileTransferService.RetrieveDownloadStream" name="Tgstation.Server.Host.Transfer.FileTransferService.RetrieveDownloadStream">
 <area shape="rect" id="Node000001" title="Gets the the Stream for a given ticketResponse &#160;associated with a pending download...." alt="" coords="5,5,290,46"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aa1c0f513935124018845b41e158ad3a6" title="Gets the Stream for a given file path ." alt="" coords="338,5,514,46"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a055862f1ac46e7aaf3b68a936fedb9c1" title="Creates an asynchronous FileStream for sequential reading." alt="" coords="338,5,576,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="290,23,322,23,322,28,290,28"/>
 </map>

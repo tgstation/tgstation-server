@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.System.ProcessExecutor.ConsumeReaders" name="Tgstation.Server.Host.System.ProcessExecutor.ConsumeReaders">
 <area shape="rect" id="Node000001" title="Consume the stdout/stderr streams into a Task." alt="" coords="5,13,231,54"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="279,5,506,61"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9d01b47120756f55a482c198a85bf45f" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="279,5,506,61"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,31,263,31,263,36,231,36"/>
 </map>

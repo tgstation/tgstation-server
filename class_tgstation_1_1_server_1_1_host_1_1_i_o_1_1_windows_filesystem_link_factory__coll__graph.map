@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.IO.WindowsFilesystemLinkFactory" name="Tgstation.Server.Host.IO.WindowsFilesystemLinkFactory">
-<area shape="rect" id="Node000001" title="IFilesystemLinkFactory for windows systems." alt="" coords="5,79,211,120"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html" title="For creating filesystem symbolic links." alt="" coords="30,5,186,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,46,111,79,105,79,105,46"/>
+<area shape="rect" id="Node000001" title="IFilesystemLinkFactory for windows systems." alt="" coords="68,94,273,135"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html" title="For creating filesystem symbolic links." alt="" coords="5,5,162,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,40,154,92,150,95,103,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="186,5,328,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="238,44,190,95,186,92,234,40"/>
 </map>

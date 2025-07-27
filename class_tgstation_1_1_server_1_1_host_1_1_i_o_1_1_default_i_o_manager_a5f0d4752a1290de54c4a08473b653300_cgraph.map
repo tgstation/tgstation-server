@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.IO.DefaultIOManager.CreateResolverForSubdirectory" name="Tgstation.Server.Host.IO.DefaultIOManager.CreateResolverForSubdirectory">
+<area shape="rect" id="Node000001" title="Create a new IIOManager that resolves paths to the specified subdirectoryPath .A new IIOManager." alt="" coords="5,31,224,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e" title="Combines an array of strings into a path.The combined path." alt="" coords="275,5,472,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,42,259,38,259,43,224,48"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory.The full path of the current working director..." alt="" coords="272,71,475,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="224,70,256,74,256,79,224,75"/>
+</map>

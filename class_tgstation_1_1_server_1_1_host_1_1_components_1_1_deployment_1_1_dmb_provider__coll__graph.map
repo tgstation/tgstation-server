@@ -9,8 +9,8 @@
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="146,16,184,16,184,21,146,21"/>
 <area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="429,85,596,125"/>
 <area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="612,102,746,102,746,108,612,108"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="460,149,565,175"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="579,149,746,121,747,126,580,154"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="457,149,568,175"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="583,148,746,121,747,126,584,153"/>
 <area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker.html" title="Runs a given disposeAction on Dispose." alt="" coords="422,199,603,240"/>
 <area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="615,192,722,160,813,123,815,128,724,165,616,197"/>
 <area shape="rect" id="Node000008" href="$class_i_disposable.html" title=" " alt="" coords="190,157,279,183"/>

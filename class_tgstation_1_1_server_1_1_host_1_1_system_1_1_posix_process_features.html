@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.17.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.18.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -77,7 +77,6 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
-<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features-members.html">List of all members</a>  </div>
@@ -189,12 +188,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:aa7edd56e392dfb1ec1b1b34fd9b56e79" id="r_aa7edd56e392dfb1ec1b1b34fd9b56e79"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79">AdjustOutOfMemoryScore</a> (int? pid, short adjustment, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aa7edd56e392dfb1ec1b1b34fd9b56e79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set oom_score_adj for a given <em>pid</em> .  <br /></td></tr>
 <tr class="separator:aa7edd56e392dfb1ec1b1b34fd9b56e79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
-Static Private Member Functions</h2></td></tr>
-<tr class="memitem:ab02db9972be61c083ad062f36b95b33f" id="r_ab02db9972be61c083ad062f36b95b33f"><td class="memItemLeft" align="right" valign="top">static IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ab02db9972be61c083ad062f36b95b33f">GetPotentialGCorePaths</a> ()</td></tr>
-<tr class="memdesc:ab02db9972be61c083ad062f36b95b33f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets potential paths to the gcore executable.  <br /></td></tr>
-<tr class="separator:ab02db9972be61c083ad062f36b95b33f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4192ddc001b09818f387ce5d85e23266" id="r_a4192ddc001b09818f387ce5d85e23266"><td class="memItemLeft" align="right" valign="top">IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a4192ddc001b09818f387ce5d85e23266">GetPotentialGCorePaths</a> ()</td></tr>
+<tr class="memdesc:a4192ddc001b09818f387ce5d85e23266"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets potential paths to the gcore executable.  <br /></td></tr>
+<tr class="separator:a4192ddc001b09818f387ce5d85e23266"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -332,26 +328,26 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00244">244</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  245</span>        {</div>
-<div class="line"><span class="lineno">  246</span>            var adjustedValue = Math.Clamp(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">baselineOomAdjust</a> + adjustment, -1000, 1000);</div>
-<div class="line"><span class="lineno">  247</span> </div>
-<div class="line"><span class="lineno">  248</span>            var pidStr = pid.HasValue</div>
-<div class="line"><span class="lineno">  249</span>                ? pid.Value.ToString(CultureInfo.InvariantCulture)</div>
-<div class="line"><span class="lineno">  250</span>                : <span class="stringliteral">&quot;self&quot;</span>;</div>
-<div class="line"><span class="lineno">  251</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogTrace(</div>
-<div class="line"><span class="lineno">  252</span>                <span class="stringliteral">&quot;Setting oom_score_adj of {pid} to {adjustment}...&quot;</span>, pidStr, adjustedValue);</div>
-<div class="line"><span class="lineno">  253</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1de594c25d7d9e7e5d159675b2c03873">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">WriteAllBytes</a>(</div>
-<div class="line"><span class="lineno">  254</span>                $<span class="stringliteral">&quot;/proc/{pidStr}/oom_score_adj&quot;</span>,</div>
-<div class="line"><span class="lineno">  255</span>                Encoding.UTF8.GetBytes(adjustedValue.ToString(CultureInfo.InvariantCulture)),</div>
-<div class="line"><span class="lineno">  256</span>                cancellationToken);</div>
-<div class="line"><span class="lineno">  257</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00211">211</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  212</span>        {</div>
+<div class="line"><span class="lineno">  213</span>            var adjustedValue = Math.Clamp(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">baselineOomAdjust</a> + adjustment, -1000, 1000);</div>
+<div class="line"><span class="lineno">  214</span> </div>
+<div class="line"><span class="lineno">  215</span>            var pidStr = pid.HasValue</div>
+<div class="line"><span class="lineno">  216</span>                ? pid.Value.ToString(CultureInfo.InvariantCulture)</div>
+<div class="line"><span class="lineno">  217</span>                : <span class="stringliteral">&quot;self&quot;</span>;</div>
+<div class="line"><span class="lineno">  218</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogTrace(</div>
+<div class="line"><span class="lineno">  219</span>                <span class="stringliteral">&quot;Setting oom_score_adj of {pid} to {adjustment}...&quot;</span>, pidStr, adjustedValue);</div>
+<div class="line"><span class="lineno">  220</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1de594c25d7d9e7e5d159675b2c03873">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">WriteAllBytes</a>(</div>
+<div class="line"><span class="lineno">  221</span>                $<span class="stringliteral">&quot;/proc/{pidStr}/oom_score_adj&quot;</span>,</div>
+<div class="line"><span class="lineno">  222</span>                Encoding.UTF8.GetBytes(adjustedValue.ToString(CultureInfo.InvariantCulture)),</div>
+<div class="line"><span class="lineno">  223</span>                cancellationToken);</div>
+<div class="line"><span class="lineno">  224</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_html_a1a771719cebd9c87aaa3101c666de5fb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">Tgstation.Server.Host.System.PosixProcessFeatures.baselineOomAdjust</a></div><div class="ttdeci">short baselineOomAdjust</div><div class="ttdoc">The original value of oom_score_adj as read from the /proc/ filesystem. Inherited from parent process...</div><div class="ttdef"><b>Definition</b> <a href="_posix_process_features_8cs_source.html#l00052">PosixProcessFeatures.cs:52</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a9aeb8b83ea3f4b13a183b6ac55b35a70"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">Tgstation.Server.Host.IO.IIOManager.WriteAllBytes</a></div><div class="ttdeci">ValueTask WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)</div><div class="ttdoc">Writes some contents  to a file at path  overwriting previous content.</div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_posix_process_features_8cs_source.html#l00052">Tgstation.Server.Host.System.PosixProcessFeatures.baselineOomAdjust</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00042">Tgstation.Server.Host.System.PosixProcessFeatures.ioManager</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00047">Tgstation.Server.Host.System.PosixProcessFeatures.logger</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">Tgstation.Server.Host.IO.IIOManager.WriteAllBytes()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00179">Tgstation.Server.Host.System.PosixProcessFeatures.HandleProcessStart()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00197">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00146">Tgstation.Server.Host.System.PosixProcessFeatures.HandleProcessStart()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00164">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -429,69 +425,69 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a62e862994d11a56a415e6a02475f4067">Tgstation.Server.Host.System.IProcessFeatures</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00121">121</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  122</span>        {</div>
-<div class="line"><span class="lineno">  123</span>            ArgumentNullException.ThrowIfNull(process);</div>
-<div class="line"><span class="lineno">  124</span>            ArgumentNullException.ThrowIfNull(outputFile);</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>            <span class="keywordtype">string</span>? gcorePath = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  127</span>            <span class="keywordflow">foreach</span> (var path <span class="keywordflow">in</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ab02db9972be61c083ad062f36b95b33f">GetPotentialGCorePaths</a>())</div>
-<div class="line"><span class="lineno">  128</span>                <span class="keywordflow">if</span> (await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1de594c25d7d9e7e5d159675b2c03873">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">FileExists</a>(path, cancellationToken))</div>
-<div class="line"><span class="lineno">  129</span>                {</div>
-<div class="line"><span class="lineno">  130</span>                    gcorePath = path;</div>
-<div class="line"><span class="lineno">  131</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  132</span>                }</div>
+<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00088">88</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   89</span>        {</div>
+<div class="line"><span class="lineno">   90</span>            ArgumentNullException.ThrowIfNull(process);</div>
+<div class="line"><span class="lineno">   91</span>            ArgumentNullException.ThrowIfNull(outputFile);</div>
+<div class="line"><span class="lineno">   92</span> </div>
+<div class="line"><span class="lineno">   93</span>            <span class="keywordtype">string</span>? gcorePath = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   94</span>            <span class="keywordflow">foreach</span> (var path <span class="keywordflow">in</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a4192ddc001b09818f387ce5d85e23266">GetPotentialGCorePaths</a>())</div>
+<div class="line"><span class="lineno">   95</span>                <span class="keywordflow">if</span> (await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1de594c25d7d9e7e5d159675b2c03873">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">FileExists</a>(path, cancellationToken))</div>
+<div class="line"><span class="lineno">   96</span>                {</div>
+<div class="line"><span class="lineno">   97</span>                    gcorePath = path;</div>
+<div class="line"><span class="lineno">   98</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   99</span>                }</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span>            <span class="keywordflow">if</span> (gcorePath == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  102</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.MissingGCore);</div>
+<div class="line"><span class="lineno">  103</span> </div>
+<div class="line"><span class="lineno">  104</span>            <span class="keywordtype">int</span> pid;</div>
+<div class="line"><span class="lineno">  105</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  106</span>            {</div>
+<div class="line"><span class="lineno">  107</span>                <span class="keywordflow">if</span> (process.HasExited)</div>
+<div class="line"><span class="lineno">  108</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.GameServerOffline);</div>
+<div class="line"><span class="lineno">  109</span> </div>
+<div class="line"><span class="lineno">  110</span>                pid = process.Id;</div>
+<div class="line"><span class="lineno">  111</span>            }</div>
+<div class="line"><span class="lineno">  112</span>            <span class="keywordflow">catch</span> (InvalidOperationException ex)</div>
+<div class="line"><span class="lineno">  113</span>            {</div>
+<div class="line"><span class="lineno">  114</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.GameServerOffline, ex);</div>
+<div class="line"><span class="lineno">  115</span>            }</div>
+<div class="line"><span class="lineno">  116</span> </div>
+<div class="line"><span class="lineno">  117</span>            <span class="keywordtype">string</span>? output;</div>
+<div class="line"><span class="lineno">  118</span>            <span class="keywordtype">int</span> exitCode;</div>
+<div class="line"><span class="lineno">  119</span>            await <span class="keyword">using</span> (var gcoreProc = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a3a2559612f724db16314713f64da1d2f">lazyLoadedProcessExecutor</a>.Value.LaunchProcess(</div>
+<div class="line"><span class="lineno">  120</span>                gcorePath,</div>
+<div class="line"><span class="lineno">  121</span>                Environment.CurrentDirectory,</div>
+<div class="line"><span class="lineno">  122</span>                $<span class="stringliteral">&quot;{(!minidump ? &quot;</span>-a <span class="stringliteral">&quot; : String.Empty)}-o {outputFile} {process.Id}&quot;</span>,</div>
+<div class="line"><span class="lineno">  123</span>                cancellationToken,</div>
+<div class="line"><span class="lineno">  124</span>                readStandardHandles: true,</div>
+<div class="line"><span class="lineno">  125</span>                noShellExecute: true))</div>
+<div class="line"><span class="lineno">  126</span>            {</div>
+<div class="line"><span class="lineno">  127</span>                <span class="keyword">using</span> (cancellationToken.Register(() =&gt; gcoreProc.Terminate()))</div>
+<div class="line"><span class="lineno">  128</span>                    exitCode = (await gcoreProc.Lifetime).Value;</div>
+<div class="line"><span class="lineno">  129</span> </div>
+<div class="line"><span class="lineno">  130</span>                output = await gcoreProc.GetCombinedOutput(cancellationToken);</div>
+<div class="line"><span class="lineno">  131</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogDebug(<span class="stringliteral">&quot;gcore output:{newline}{output}&quot;</span>, Environment.NewLine, output);</div>
+<div class="line"><span class="lineno">  132</span>            }</div>
 <div class="line"><span class="lineno">  133</span> </div>
-<div class="line"><span class="lineno">  134</span>            <span class="keywordflow">if</span> (gcorePath == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  135</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.MissingGCore);</div>
-<div class="line"><span class="lineno">  136</span> </div>
-<div class="line"><span class="lineno">  137</span>            <span class="keywordtype">int</span> pid;</div>
-<div class="line"><span class="lineno">  138</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  139</span>            {</div>
-<div class="line"><span class="lineno">  140</span>                <span class="keywordflow">if</span> (process.HasExited)</div>
-<div class="line"><span class="lineno">  141</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.GameServerOffline);</div>
-<div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>                pid = process.Id;</div>
-<div class="line"><span class="lineno">  144</span>            }</div>
-<div class="line"><span class="lineno">  145</span>            <span class="keywordflow">catch</span> (InvalidOperationException ex)</div>
-<div class="line"><span class="lineno">  146</span>            {</div>
-<div class="line"><span class="lineno">  147</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.GameServerOffline, ex);</div>
-<div class="line"><span class="lineno">  148</span>            }</div>
-<div class="line"><span class="lineno">  149</span> </div>
-<div class="line"><span class="lineno">  150</span>            <span class="keywordtype">string</span>? output;</div>
-<div class="line"><span class="lineno">  151</span>            <span class="keywordtype">int</span> exitCode;</div>
-<div class="line"><span class="lineno">  152</span>            await <span class="keyword">using</span> (var gcoreProc = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a3a2559612f724db16314713f64da1d2f">lazyLoadedProcessExecutor</a>.Value.LaunchProcess(</div>
-<div class="line"><span class="lineno">  153</span>                gcorePath,</div>
-<div class="line"><span class="lineno">  154</span>                Environment.CurrentDirectory,</div>
-<div class="line"><span class="lineno">  155</span>                $<span class="stringliteral">&quot;{(!minidump ? &quot;</span>-a <span class="stringliteral">&quot; : String.Empty)}-o {outputFile} {process.Id}&quot;</span>,</div>
-<div class="line"><span class="lineno">  156</span>                cancellationToken,</div>
-<div class="line"><span class="lineno">  157</span>                readStandardHandles: true,</div>
-<div class="line"><span class="lineno">  158</span>                noShellExecute: true))</div>
-<div class="line"><span class="lineno">  159</span>            {</div>
-<div class="line"><span class="lineno">  160</span>                <span class="keyword">using</span> (cancellationToken.Register(() =&gt; gcoreProc.Terminate()))</div>
-<div class="line"><span class="lineno">  161</span>                    exitCode = (await gcoreProc.Lifetime).Value;</div>
-<div class="line"><span class="lineno">  162</span> </div>
-<div class="line"><span class="lineno">  163</span>                output = await gcoreProc.GetCombinedOutput(cancellationToken);</div>
-<div class="line"><span class="lineno">  164</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogDebug(<span class="stringliteral">&quot;gcore output:{newline}{output}&quot;</span>, Environment.NewLine, output);</div>
-<div class="line"><span class="lineno">  165</span>            }</div>
-<div class="line"><span class="lineno">  166</span> </div>
-<div class="line"><span class="lineno">  167</span>            <span class="keywordflow">if</span> (exitCode != 0)</div>
-<div class="line"><span class="lineno">  168</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(</div>
-<div class="line"><span class="lineno">  169</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.GCoreFailure,</div>
-<div class="line"><span class="lineno">  170</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(</div>
-<div class="line"><span class="lineno">  171</span>                        $<span class="stringliteral">&quot;Exit Code: {exitCode}{Environment.NewLine}Output:{Environment.NewLine}{output}&quot;</span>));</div>
-<div class="line"><span class="lineno">  172</span> </div>
-<div class="line"><span class="lineno">  173</span>            <span class="comment">// gcore outputs name.pid so remove the pid part</span></div>
-<div class="line"><span class="lineno">  174</span>            var generatedGCoreFile = $<span class="stringliteral">&quot;{outputFile}.{pid}&quot;</span>;</div>
-<div class="line"><span class="lineno">  175</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1de594c25d7d9e7e5d159675b2c03873">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd">MoveFile</a>(generatedGCoreFile, outputFile, cancellationToken);</div>
-<div class="line"><span class="lineno">  176</span>        }</div>
+<div class="line"><span class="lineno">  134</span>            <span class="keywordflow">if</span> (exitCode != 0)</div>
+<div class="line"><span class="lineno">  135</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(</div>
+<div class="line"><span class="lineno">  136</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.GCoreFailure,</div>
+<div class="line"><span class="lineno">  137</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(</div>
+<div class="line"><span class="lineno">  138</span>                        $<span class="stringliteral">&quot;Exit Code: {exitCode}{Environment.NewLine}Output:{Environment.NewLine}{output}&quot;</span>));</div>
+<div class="line"><span class="lineno">  139</span> </div>
+<div class="line"><span class="lineno">  140</span>            <span class="comment">// gcore outputs name.pid so remove the pid part</span></div>
+<div class="line"><span class="lineno">  141</span>            var generatedGCoreFile = $<span class="stringliteral">&quot;{outputFile}.{pid}&quot;</span>;</div>
+<div class="line"><span class="lineno">  142</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1de594c25d7d9e7e5d159675b2c03873">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd">MoveFile</a>(generatedGCoreFile, outputFile, cancellationToken);</div>
+<div class="line"><span class="lineno">  143</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">Tgstation.Server.Host.Jobs.JobException</a></div><div class="ttdoc">Operation exceptions thrown from the context of a Models.Job.</div><div class="ttdef"><b>Definition</b> <a href="_job_exception_8cs_source.html#l00010">JobException.cs:11</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_html_ab02db9972be61c083ad062f36b95b33f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ab02db9972be61c083ad062f36b95b33f">Tgstation.Server.Host.System.PosixProcessFeatures.GetPotentialGCorePaths</a></div><div class="ttdeci">static IEnumerable&lt; string &gt; GetPotentialGCorePaths()</div><div class="ttdoc">Gets potential paths to the gcore executable.</div><div class="ttdef"><b>Definition</b> <a href="_posix_process_features_8cs_source.html#l00071">PosixProcessFeatures.cs:71</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_html_a4192ddc001b09818f387ce5d85e23266"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a4192ddc001b09818f387ce5d85e23266">Tgstation.Server.Host.System.PosixProcessFeatures.GetPotentialGCorePaths</a></div><div class="ttdeci">IEnumerable&lt; string &gt; GetPotentialGCorePaths()</div><div class="ttdoc">Gets potential paths to the gcore executable.</div><div class="ttdef"><b>Definition</b> <a href="_posix_process_features_8cs_source.html#l00230">PosixProcessFeatures.cs:230</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a2dff052035f4d3d0c689d0e89d8deecd"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd">Tgstation.Server.Host.IO.IIOManager.MoveFile</a></div><div class="ttdeci">Task MoveFile(string source, string destination, CancellationToken cancellationToken)</div><div class="ttdoc">Moves a file at source  to destination .</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_ad4de873180481f7afa206b6282158d62"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">Tgstation.Server.Host.IO.IIOManager.FileExists</a></div><div class="ttdeci">Task&lt; bool &gt; FileExists(string path, CancellationToken cancellationToken)</div><div class="ttdoc">Check that the file at path  exists.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition</b> <a href="_error_code_8cs_source.html#l00011">ErrorCode.cs:12</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">Tgstation.Server.Host.IO.IIOManager.FileExists()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00071">Tgstation.Server.Host.System.PosixProcessFeatures.GetPotentialGCorePaths()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00042">Tgstation.Server.Host.System.PosixProcessFeatures.ioManager</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00037">Tgstation.Server.Host.System.PosixProcessFeatures.lazyLoadedProcessExecutor</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00047">Tgstation.Server.Host.System.PosixProcessFeatures.logger</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd">Tgstation.Server.Host.IO.IIOManager.MoveFile()</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">Tgstation.Server.Host.IO.IIOManager.FileExists()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00230">Tgstation.Server.Host.System.PosixProcessFeatures.GetPotentialGCorePaths()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00042">Tgstation.Server.Host.System.PosixProcessFeatures.ioManager</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00037">Tgstation.Server.Host.System.PosixProcessFeatures.lazyLoadedProcessExecutor</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00047">Tgstation.Server.Host.System.PosixProcessFeatures.logger</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd">Tgstation.Server.Host.IO.IIOManager.MoveFile()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -500,10 +496,12 @@ Here is the call graph for this function:</div>
 <area shape="rect" title="Create a dump file for a given process .A ValueTask representing the running operation." alt="" coords="5,77,233,118"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="311,5,478,46"/>
 <area shape="poly" title=" " alt="" coords="199,74,298,48,300,53,200,79"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ab02db9972be61c083ad062f36b95b33f" title="Gets potential paths to the gcore executable." alt="" coords="281,70,508,126"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a4192ddc001b09818f387ce5d85e23266" title="Gets potential paths to the gcore executable." alt="" coords="281,70,508,126"/>
 <area shape="poly" title=" " alt="" coords="233,95,265,95,265,100,233,100"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd" title="Moves a file at source &#160;to destination ." alt="" coords="311,149,478,190"/>
 <area shape="poly" title=" " alt="" coords="200,116,300,142,298,147,199,121"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="556,77,723,118"/>
+<area shape="poly" title=" " alt="" coords="508,95,540,95,540,100,508,100"/>
 </map>
 </div>
 
@@ -538,8 +536,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="ab02db9972be61c083ad062f36b95b33f" name="ab02db9972be61c083ad062f36b95b33f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab02db9972be61c083ad062f36b95b33f">&#9670;&#160;</a></span>GetPotentialGCorePaths()</h2>
+<a id="a4192ddc001b09818f387ce5d85e23266" name="a4192ddc001b09818f387ce5d85e23266"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4192ddc001b09818f387ce5d85e23266">&#9670;&#160;</a></span>GetPotentialGCorePaths()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -548,7 +546,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static IEnumerable&lt; string &gt; Tgstation.Server.Host.System.PosixProcessFeatures.GetPotentialGCorePaths </td>
+          <td class="memname">IEnumerable&lt; string &gt; Tgstation.Server.Host.System.PosixProcessFeatures.GetPotentialGCorePaths </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -556,7 +554,7 @@ Here is the call graph for this function:</div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -564,41 +562,54 @@ Here is the call graph for this function:</div>
 <p>Gets potential paths to the gcore executable. </p>
 <dl class="section return"><dt>Returns</dt><dd>The potential paths to the gcore executable.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00071">71</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   72</span>        {</div>
-<div class="line"><span class="lineno">   73</span>            var enviromentPath = Environment.GetEnvironmentVariable(<span class="stringliteral">&quot;PATH&quot;</span>);</div>
-<div class="line"><span class="lineno">   74</span>            IEnumerable&lt;string&gt; enumerator;</div>
-<div class="line"><span class="lineno">   75</span>            <span class="keywordflow">if</span> (enviromentPath == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   76</span>                enumerator = Enumerable.Empty&lt;<span class="keywordtype">string</span>&gt;();</div>
-<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   78</span>            {</div>
-<div class="line"><span class="lineno">   79</span>                var paths = enviromentPath.Split(<span class="charliteral">&#39;;&#39;</span>);</div>
-<div class="line"><span class="lineno">   80</span>                enumerator = paths</div>
-<div class="line"><span class="lineno">   81</span>                    .Select(x =&gt; x.Split(<span class="charliteral">&#39;:&#39;</span>))</div>
-<div class="line"><span class="lineno">   82</span>                    .SelectMany(x =&gt; x);</div>
-<div class="line"><span class="lineno">   83</span>            }</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>            var exeName = <span class="stringliteral">&quot;gcore&quot;</span>;</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>            enumerator = enumerator</div>
-<div class="line"><span class="lineno">   88</span>                .Concat(<span class="keyword">new</span> List&lt;string&gt;(2)</div>
-<div class="line"><span class="lineno">   89</span>                {</div>
-<div class="line"><span class="lineno">   90</span>                    <span class="stringliteral">&quot;/usr/bin&quot;</span>,</div>
-<div class="line"><span class="lineno">   91</span>                    <span class="stringliteral">&quot;/usr/share/bin&quot;</span>,</div>
-<div class="line"><span class="lineno">   92</span>                    <span class="stringliteral">&quot;/bin&quot;</span>,</div>
-<div class="line"><span class="lineno">   93</span>                });</div>
-<div class="line"><span class="lineno">   94</span> </div>
-<div class="line"><span class="lineno">   95</span>            enumerator = enumerator.Select(x =&gt; Path.Combine(x, exeName));</div>
-<div class="line"><span class="lineno">   96</span> </div>
-<div class="line"><span class="lineno">   97</span>            <span class="keywordflow">return</span> enumerator;</div>
-<div class="line"><span class="lineno">   98</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00230">230</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  231</span>        {</div>
+<div class="line"><span class="lineno">  232</span>            var enviromentPath = Environment.GetEnvironmentVariable(<span class="stringliteral">&quot;PATH&quot;</span>);</div>
+<div class="line"><span class="lineno">  233</span>            IEnumerable&lt;string&gt; enumerator;</div>
+<div class="line"><span class="lineno">  234</span>            <span class="keywordflow">if</span> (enviromentPath == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  235</span>                enumerator = Enumerable.Empty&lt;<span class="keywordtype">string</span>&gt;();</div>
+<div class="line"><span class="lineno">  236</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  237</span>            {</div>
+<div class="line"><span class="lineno">  238</span>                var paths = enviromentPath.Split(<span class="charliteral">&#39;;&#39;</span>);</div>
+<div class="line"><span class="lineno">  239</span>                enumerator = paths</div>
+<div class="line"><span class="lineno">  240</span>                    .Select(x =&gt; x.Split(<span class="charliteral">&#39;:&#39;</span>))</div>
+<div class="line"><span class="lineno">  241</span>                    .SelectMany(x =&gt; x);</div>
+<div class="line"><span class="lineno">  242</span>            }</div>
+<div class="line"><span class="lineno">  243</span> </div>
+<div class="line"><span class="lineno">  244</span>            var exeName = <span class="stringliteral">&quot;gcore&quot;</span>;</div>
+<div class="line"><span class="lineno">  245</span> </div>
+<div class="line"><span class="lineno">  246</span>            enumerator = enumerator</div>
+<div class="line"><span class="lineno">  247</span>                .Concat(<span class="keyword">new</span> List&lt;string&gt;(2)</div>
+<div class="line"><span class="lineno">  248</span>                {</div>
+<div class="line"><span class="lineno">  249</span>                    <span class="stringliteral">&quot;/usr/bin&quot;</span>,</div>
+<div class="line"><span class="lineno">  250</span>                    <span class="stringliteral">&quot;/usr/share/bin&quot;</span>,</div>
+<div class="line"><span class="lineno">  251</span>                    <span class="stringliteral">&quot;/bin&quot;</span>,</div>
+<div class="line"><span class="lineno">  252</span>                });</div>
+<div class="line"><span class="lineno">  253</span> </div>
+<div class="line"><span class="lineno">  254</span>            enumerator = enumerator.Select(x =&gt; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1de594c25d7d9e7e5d159675b2c03873">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(x, exeName));</div>
+<div class="line"><span class="lineno">  255</span> </div>
+<div class="line"><span class="lineno">  256</span>            <span class="keywordflow">return</span> enumerator;</div>
+<div class="line"><span class="lineno">  257</span>        }</div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a286f4eb5c679683b7e519847a6c3574e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath</a></div><div class="ttdeci">string ConcatPath(params string[] paths)</div><div class="ttdoc">Combines an array of strings into a path.</div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00121">Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump()</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00042">Tgstation.Server.Host.System.PosixProcessFeatures.ioManager</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00088">Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_a4192ddc001b09818f387ce5d85e23266_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_a4192ddc001b09818f387ce5d85e23266_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_a4192ddc001b09818f387ce5d85e23266_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_a4192ddc001b09818f387ce5d85e23266_cgraph">
+<area shape="rect" title="Gets potential paths to the gcore executable." alt="" coords="5,5,233,61"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="281,13,448,54"/>
+<area shape="poly" title=" " alt="" coords="233,31,265,31,265,36,233,36"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_ab02db9972be61c083ad062f36b95b33f_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_ab02db9972be61c083ad062f36b95b33f_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_ab02db9972be61c083ad062f36b95b33f_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_ab02db9972be61c083ad062f36b95b33f_icgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_a4192ddc001b09818f387ce5d85e23266_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_a4192ddc001b09818f387ce5d85e23266_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_a4192ddc001b09818f387ce5d85e23266_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_a4192ddc001b09818f387ce5d85e23266_icgraph">
 <area shape="rect" title="Gets potential paths to the gcore executable." alt="" coords="281,5,508,61"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a41eeadd8f3fa1380151384ec76881d7f" title="Create a dump file for a given process .A ValueTask representing the running operation." alt="" coords="5,13,233,54"/>
 <area shape="poly" title=" " alt="" coords="265,36,233,36,233,31,265,31"/>
@@ -645,27 +656,27 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac820fe814014b12333133450d6843d93">Tgstation.Server.Host.System.IProcessFeatures</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00179">179</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  180</span>        {</div>
-<div class="line"><span class="lineno">  181</span>            ArgumentNullException.ThrowIfNull(process);</div>
-<div class="line"><span class="lineno">  182</span>            var pid = process.Id;</div>
-<div class="line"><span class="lineno">  183</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  184</span>            {</div>
-<div class="line"><span class="lineno">  185</span>                <span class="comment">// make sure all processes we spawn are killed _before_ us</span></div>
-<div class="line"><span class="lineno">  186</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79">AdjustOutOfMemoryScore</a>(pid, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a59d18c936ead8cb55ded4f7506675dfb">ChildProcessOomAdjust</a>, cancellationToken);</div>
-<div class="line"><span class="lineno">  187</span>            }</div>
-<div class="line"><span class="lineno">  188</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
-<div class="line"><span class="lineno">  189</span>            {</div>
-<div class="line"><span class="lineno">  190</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Failed to adjust OOM killer score for pid {pid}!&quot;</span>, pid);</div>
-<div class="line"><span class="lineno">  191</span>            }</div>
-<div class="line"><span class="lineno">  192</span> </div>
-<div class="line"><span class="lineno">  193</span>            <span class="keywordflow">return</span> pid;</div>
-<div class="line"><span class="lineno">  194</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00146">146</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  147</span>        {</div>
+<div class="line"><span class="lineno">  148</span>            ArgumentNullException.ThrowIfNull(process);</div>
+<div class="line"><span class="lineno">  149</span>            var pid = process.Id;</div>
+<div class="line"><span class="lineno">  150</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  151</span>            {</div>
+<div class="line"><span class="lineno">  152</span>                <span class="comment">// make sure all processes we spawn are killed _before_ us</span></div>
+<div class="line"><span class="lineno">  153</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79">AdjustOutOfMemoryScore</a>(pid, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a59d18c936ead8cb55ded4f7506675dfb">ChildProcessOomAdjust</a>, cancellationToken);</div>
+<div class="line"><span class="lineno">  154</span>            }</div>
+<div class="line"><span class="lineno">  155</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
+<div class="line"><span class="lineno">  156</span>            {</div>
+<div class="line"><span class="lineno">  157</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Failed to adjust OOM killer score for pid {pid}!&quot;</span>, pid);</div>
+<div class="line"><span class="lineno">  158</span>            }</div>
+<div class="line"><span class="lineno">  159</span> </div>
+<div class="line"><span class="lineno">  160</span>            <span class="keywordflow">return</span> pid;</div>
+<div class="line"><span class="lineno">  161</span>        }</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_html_a59d18c936ead8cb55ded4f7506675dfb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a59d18c936ead8cb55ded4f7506675dfb">Tgstation.Server.Host.System.PosixProcessFeatures.ChildProcessOomAdjust</a></div><div class="ttdeci">const short ChildProcessOomAdjust</div><div class="ttdoc">Difference from baselineOomAdjust to set the oom_score_adj of child processes to. 1 higher than ourse...</div><div class="ttdef"><b>Definition</b> <a href="_posix_process_features_8cs_source.html#l00032">PosixProcessFeatures.cs:32</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_html_aa7edd56e392dfb1ec1b1b34fd9b56e79"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore</a></div><div class="ttdeci">ValueTask AdjustOutOfMemoryScore(int? pid, short adjustment, CancellationToken cancellationToken)</div><div class="ttdoc">Set oom_score_adj for a given pid .</div><div class="ttdef"><b>Definition</b> <a href="_posix_process_features_8cs_source.html#l00244">PosixProcessFeatures.cs:244</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_html_aa7edd56e392dfb1ec1b1b34fd9b56e79"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore</a></div><div class="ttdeci">ValueTask AdjustOutOfMemoryScore(int? pid, short adjustment, CancellationToken cancellationToken)</div><div class="ttdoc">Set oom_score_adj for a given pid .</div><div class="ttdef"><b>Definition</b> <a href="_posix_process_features_8cs_source.html#l00211">PosixProcessFeatures.cs:211</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_posix_process_features_8cs_source.html#l00244">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00032">Tgstation.Server.Host.System.PosixProcessFeatures.ChildProcessOomAdjust</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00047">Tgstation.Server.Host.System.PosixProcessFeatures.logger</a>.</p>
+<p class="reference">References <a class="el" href="_posix_process_features_8cs_source.html#l00211">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00032">Tgstation.Server.Host.System.PosixProcessFeatures.ChildProcessOomAdjust</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00047">Tgstation.Server.Host.System.PosixProcessFeatures.logger</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -707,12 +718,12 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad7b3670db0f89899889687e13a33f7c6">Tgstation.Server.Host.System.IProcessFeatures</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00101">101</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  102</span>        {</div>
-<div class="line"><span class="lineno">  103</span>            var result = Syscall.kill(process.Id, Signum.SIGCONT);</div>
-<div class="line"><span class="lineno">  104</span>            <span class="keywordflow">if</span> (result != 0)</div>
-<div class="line"><span class="lineno">  105</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(Stdlib.GetLastError());</div>
-<div class="line"><span class="lineno">  106</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00068">68</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   69</span>        {</div>
+<div class="line"><span class="lineno">   70</span>            var result = Syscall.kill(process.Id, Signum.SIGCONT);</div>
+<div class="line"><span class="lineno">   71</span>            <span class="keywordflow">if</span> (result != 0)</div>
+<div class="line"><span class="lineno">   72</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(Stdlib.GetLastError());</div>
+<div class="line"><span class="lineno">   73</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -734,58 +745,58 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00197">197</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  198</span>        {</div>
-<div class="line"><span class="lineno">  199</span>            <span class="comment">// let this all throw</span></div>
-<div class="line"><span class="lineno">  200</span>            <span class="keywordtype">string</span> originalString;</div>
-<div class="line"><span class="lineno">  201</span>            {</div>
-<div class="line"><span class="lineno">  202</span>                <span class="comment">// can&#39;t use ReadAllBytes here, /proc files have 0 length so the buffer is initialized to empty</span></div>
-<div class="line"><span class="lineno">  203</span>                <span class="comment">// https://stackoverflow.com/questions/12237712/how-can-i-show-the-size-of-files-in-proc-it-should-not-be-size-zero</span></div>
-<div class="line"><span class="lineno">  204</span>                await <span class="keyword">using </span>var fileStream = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1de594c25d7d9e7e5d159675b2c03873">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a242901443eb2726593c80d91c1b5b870">CreateAsyncSequentialReadStream</a>(</div>
-<div class="line"><span class="lineno">  205</span>                    <span class="stringliteral">&quot;/proc/self/oom_score_adj&quot;</span>);</div>
-<div class="line"><span class="lineno">  206</span>                <span class="keyword">using </span>var reader = <span class="keyword">new</span> StreamReader(fileStream, Encoding.UTF8, leaveOpen: true);</div>
-<div class="line"><span class="lineno">  207</span>                originalString = await reader.ReadToEndAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  208</span>            }</div>
-<div class="line"><span class="lineno">  209</span> </div>
-<div class="line"><span class="lineno">  210</span>            var trimmedString = originalString.Trim();</div>
-<div class="line"><span class="lineno">  211</span> </div>
-<div class="line"><span class="lineno">  212</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogTrace(<span class="stringliteral">&quot;Original oom_score_adj is \&quot;{original}\&quot;&quot;</span>, trimmedString);</div>
-<div class="line"><span class="lineno">  213</span> </div>
-<div class="line"><span class="lineno">  214</span>            var originalOomAdjust = Int16.Parse(trimmedString, CultureInfo.InvariantCulture);</div>
-<div class="line"><span class="lineno">  215</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">baselineOomAdjust</a> = Math.Clamp(originalOomAdjust, (<span class="keywordtype">short</span>)-1000, (<span class="keywordtype">short</span>)1000);</div>
-<div class="line"><span class="lineno">  216</span> </div>
-<div class="line"><span class="lineno">  217</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">baselineOomAdjust</a> == 1000)</div>
-<div class="line"><span class="lineno">  218</span>                <span class="keywordflow">if</span> (originalOomAdjust != <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">baselineOomAdjust</a>)</div>
-<div class="line"><span class="lineno">  219</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogWarning(<span class="stringliteral">&quot;oom_score_adj is at it&#39;s limit of 1000 (Clamped from {original}). TGS cannot guarantee the kill order of its parent/child processes!&quot;</span>, originalOomAdjust);</div>
-<div class="line"><span class="lineno">  220</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  221</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogWarning(<span class="stringliteral">&quot;oom_score_adj is at it&#39;s limit of 1000. TGS cannot guarantee the kill order of its parent/child processes!&quot;</span>);</div>
-<div class="line"><span class="lineno">  222</span> </div>
-<div class="line"><span class="lineno">  223</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  224</span>            {</div>
-<div class="line"><span class="lineno">  225</span>                <span class="comment">// we do not want to be killed before the host watchdog</span></div>
-<div class="line"><span class="lineno">  226</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79">AdjustOutOfMemoryScore</a>(<span class="keyword">null</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a69fb163df991e3c562e552d712f99d45">SelfOomAdjust</a>, cancellationToken);</div>
-<div class="line"><span class="lineno">  227</span>            }</div>
-<div class="line"><span class="lineno">  228</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
-<div class="line"><span class="lineno">  229</span>            {</div>
-<div class="line"><span class="lineno">  230</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Could not increase oom_score_adj!&quot;</span>);</div>
-<div class="line"><span class="lineno">  231</span>            }</div>
-<div class="line"><span class="lineno">  232</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00164">164</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  165</span>        {</div>
+<div class="line"><span class="lineno">  166</span>            <span class="comment">// let this all throw</span></div>
+<div class="line"><span class="lineno">  167</span>            <span class="keywordtype">string</span> originalString;</div>
+<div class="line"><span class="lineno">  168</span>            {</div>
+<div class="line"><span class="lineno">  169</span>                <span class="comment">// can&#39;t use ReadAllBytes here, /proc files have 0 length so the buffer is initialized to empty</span></div>
+<div class="line"><span class="lineno">  170</span>                <span class="comment">// https://stackoverflow.com/questions/12237712/how-can-i-show-the-size-of-files-in-proc-it-should-not-be-size-zero</span></div>
+<div class="line"><span class="lineno">  171</span>                await <span class="keyword">using </span>var fileStream = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1de594c25d7d9e7e5d159675b2c03873">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a055862f1ac46e7aaf3b68a936fedb9c1">CreateAsyncReadStream</a>(</div>
+<div class="line"><span class="lineno">  172</span>                    <span class="stringliteral">&quot;/proc/self/oom_score_adj&quot;</span>, <span class="keyword">true</span>, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  173</span>                <span class="keyword">using </span>var reader = <span class="keyword">new</span> StreamReader(fileStream, Encoding.UTF8, leaveOpen: true);</div>
+<div class="line"><span class="lineno">  174</span>                originalString = await reader.ReadToEndAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  175</span>            }</div>
+<div class="line"><span class="lineno">  176</span> </div>
+<div class="line"><span class="lineno">  177</span>            var trimmedString = originalString.Trim();</div>
+<div class="line"><span class="lineno">  178</span> </div>
+<div class="line"><span class="lineno">  179</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogTrace(<span class="stringliteral">&quot;Original oom_score_adj is \&quot;{original}\&quot;&quot;</span>, trimmedString);</div>
+<div class="line"><span class="lineno">  180</span> </div>
+<div class="line"><span class="lineno">  181</span>            var originalOomAdjust = Int16.Parse(trimmedString, CultureInfo.InvariantCulture);</div>
+<div class="line"><span class="lineno">  182</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">baselineOomAdjust</a> = Math.Clamp(originalOomAdjust, (<span class="keywordtype">short</span>)-1000, (<span class="keywordtype">short</span>)1000);</div>
+<div class="line"><span class="lineno">  183</span> </div>
+<div class="line"><span class="lineno">  184</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">baselineOomAdjust</a> == 1000)</div>
+<div class="line"><span class="lineno">  185</span>                <span class="keywordflow">if</span> (originalOomAdjust != <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">baselineOomAdjust</a>)</div>
+<div class="line"><span class="lineno">  186</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogWarning(<span class="stringliteral">&quot;oom_score_adj is at it&#39;s limit of 1000 (Clamped from {original}). TGS cannot guarantee the kill order of its parent/child processes!&quot;</span>, originalOomAdjust);</div>
+<div class="line"><span class="lineno">  187</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  188</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogWarning(<span class="stringliteral">&quot;oom_score_adj is at it&#39;s limit of 1000. TGS cannot guarantee the kill order of its parent/child processes!&quot;</span>);</div>
+<div class="line"><span class="lineno">  189</span> </div>
+<div class="line"><span class="lineno">  190</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  191</span>            {</div>
+<div class="line"><span class="lineno">  192</span>                <span class="comment">// we do not want to be killed before the host watchdog</span></div>
+<div class="line"><span class="lineno">  193</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79">AdjustOutOfMemoryScore</a>(<span class="keyword">null</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a69fb163df991e3c562e552d712f99d45">SelfOomAdjust</a>, cancellationToken);</div>
+<div class="line"><span class="lineno">  194</span>            }</div>
+<div class="line"><span class="lineno">  195</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
+<div class="line"><span class="lineno">  196</span>            {</div>
+<div class="line"><span class="lineno">  197</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Could not increase oom_score_adj!&quot;</span>);</div>
+<div class="line"><span class="lineno">  198</span>            }</div>
+<div class="line"><span class="lineno">  199</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_html_a69fb163df991e3c562e552d712f99d45"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a69fb163df991e3c562e552d712f99d45">Tgstation.Server.Host.System.PosixProcessFeatures.SelfOomAdjust</a></div><div class="ttdeci">const short SelfOomAdjust</div><div class="ttdoc">Difference from baselineOomAdjust to set our own oom_score_adj to. 1 higher host watchdog.</div><div class="ttdef"><b>Definition</b> <a href="_posix_process_features_8cs_source.html#l00027">PosixProcessFeatures.cs:27</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a242901443eb2726593c80d91c1b5b870"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a242901443eb2726593c80d91c1b5b870">Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialReadStream</a></div><div class="ttdeci">FileStream CreateAsyncSequentialReadStream(string path)</div><div class="ttdoc">Creates an asynchronous FileStream for sequential reading.</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a055862f1ac46e7aaf3b68a936fedb9c1"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a055862f1ac46e7aaf3b68a936fedb9c1">Tgstation.Server.Host.IO.IIOManager.CreateAsyncReadStream</a></div><div class="ttdeci">Stream CreateAsyncReadStream(string path, bool sequential, bool shareWrite)</div><div class="ttdoc">Creates an asynchronous FileStream for sequential reading.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_posix_process_features_8cs_source.html#l00244">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00052">Tgstation.Server.Host.System.PosixProcessFeatures.baselineOomAdjust</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a242901443eb2726593c80d91c1b5b870">Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialReadStream()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00042">Tgstation.Server.Host.System.PosixProcessFeatures.ioManager</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00047">Tgstation.Server.Host.System.PosixProcessFeatures.logger</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00027">Tgstation.Server.Host.System.PosixProcessFeatures.SelfOomAdjust</a>.</p>
+<p class="reference">References <a class="el" href="_posix_process_features_8cs_source.html#l00211">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00052">Tgstation.Server.Host.System.PosixProcessFeatures.baselineOomAdjust</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a055862f1ac46e7aaf3b68a936fedb9c1">Tgstation.Server.Host.IO.IIOManager.CreateAsyncReadStream()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00042">Tgstation.Server.Host.System.PosixProcessFeatures.ioManager</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00047">Tgstation.Server.Host.System.PosixProcessFeatures.logger</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00027">Tgstation.Server.Host.System.PosixProcessFeatures.SelfOomAdjust</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_acf10e5a7e3f1d0482288f88babd2261f_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_acf10e5a7e3f1d0482288f88babd2261f_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_acf10e5a7e3f1d0482288f88babd2261f_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_acf10e5a7e3f1d0482288f88babd2261f_cgraph">
-<area shape="rect" title=" " alt="" coords="5,53,225,94"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79" title="Set oom_score_adj for a given pid ." alt="" coords="273,5,500,61"/>
-<area shape="poly" title=" " alt="" coords="225,54,257,50,257,55,226,60"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a242901443eb2726593c80d91c1b5b870" title="Creates an asynchronous FileStream for sequential reading." alt="" coords="273,85,500,141"/>
-<area shape="poly" title=" " alt="" coords="226,87,257,91,257,97,225,92"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="548,13,718,54"/>
-<area shape="poly" title=" " alt="" coords="500,31,532,31,532,36,500,36"/>
+<area shape="rect" title=" " alt="" coords="5,49,225,90"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79" title="Set oom_score_adj for a given pid ." alt="" coords="278,5,506,61"/>
+<area shape="poly" title=" " alt="" coords="225,52,263,47,263,53,225,58"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a055862f1ac46e7aaf3b68a936fedb9c1" title="Creates an asynchronous FileStream for sequential reading." alt="" coords="273,85,511,126"/>
+<area shape="poly" title=" " alt="" coords="225,81,258,85,257,90,225,86"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="559,13,729,54"/>
+<area shape="poly" title=" " alt="" coords="506,31,543,31,543,36,506,36"/>
 </map>
 </div>
 
@@ -837,12 +848,12 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac6b97694917044ddce0c3ba9c8478246">Tgstation.Server.Host.System.IProcessFeatures</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00109">109</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  110</span>        {</div>
-<div class="line"><span class="lineno">  111</span>            var result = Syscall.kill(process.Id, Signum.SIGSTOP);</div>
-<div class="line"><span class="lineno">  112</span>            <span class="keywordflow">if</span> (result != 0)</div>
-<div class="line"><span class="lineno">  113</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(Stdlib.GetLastError());</div>
-<div class="line"><span class="lineno">  114</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00076">76</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   77</span>        {</div>
+<div class="line"><span class="lineno">   78</span>            var result = Syscall.kill(process.Id, Signum.SIGSTOP);</div>
+<div class="line"><span class="lineno">   79</span>            <span class="keywordflow">if</span> (result != 0)</div>
+<div class="line"><span class="lineno">   80</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(Stdlib.GetLastError());</div>
+<div class="line"><span class="lineno">   81</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -871,7 +882,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00052">52</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00244">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00197">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00211">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00164">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
 
 </div>
 </div>
@@ -899,7 +910,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00032">32</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00179">Tgstation.Server.Host.System.PosixProcessFeatures.HandleProcessStart()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00146">Tgstation.Server.Host.System.PosixProcessFeatures.HandleProcessStart()</a>.</p>
 
 </div>
 </div>
@@ -927,7 +938,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00042">42</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00244">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00121">Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00060">Tgstation.Server.Host.System.PosixProcessFeatures.PosixProcessFeatures()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00197">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00211">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00088">Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00230">Tgstation.Server.Host.System.PosixProcessFeatures.GetPotentialGCorePaths()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00060">Tgstation.Server.Host.System.PosixProcessFeatures.PosixProcessFeatures()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00164">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
 
 </div>
 </div>
@@ -955,7 +966,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00037">37</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00121">Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00060">Tgstation.Server.Host.System.PosixProcessFeatures.PosixProcessFeatures()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00088">Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00060">Tgstation.Server.Host.System.PosixProcessFeatures.PosixProcessFeatures()</a>.</p>
 
 </div>
 </div>
@@ -983,7 +994,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00047">47</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00244">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00121">Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00179">Tgstation.Server.Host.System.PosixProcessFeatures.HandleProcessStart()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00060">Tgstation.Server.Host.System.PosixProcessFeatures.PosixProcessFeatures()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00197">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00211">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00088">Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00146">Tgstation.Server.Host.System.PosixProcessFeatures.HandleProcessStart()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00060">Tgstation.Server.Host.System.PosixProcessFeatures.PosixProcessFeatures()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00164">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
 
 </div>
 </div>
@@ -1011,7 +1022,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00027">27</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00197">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00164">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
 
 </div>
 </div>

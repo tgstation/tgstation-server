@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.System.PosixProcessFeatures.GetPotentialGCorePaths" name="Tgstation.Server.Host.System.PosixProcessFeatures.GetPotentialGCorePaths">
+<area shape="rect" id="Node000001" title="Gets potential paths to the gcore executable." alt="" coords="5,5,233,61"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="281,13,448,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,31,265,31,265,36,233,36"/>
+</map>

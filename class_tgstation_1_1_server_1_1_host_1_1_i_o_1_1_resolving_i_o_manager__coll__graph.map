@@ -1,15 +1,17 @@
 <map id="Tgstation.Server.Host.IO.ResolvingIOManager" name="Tgstation.Server.Host.IO.ResolvingIOManager">
-<area shape="rect" id="Node000001" title="An IIOManager that resolve relative paths from another IIOManager to a subdirectory of that." alt="" coords="212,183,379,223"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html" title="IIOManager that resolves paths to Environment.CurrentDirectory." alt="" coords="163,94,289,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,131,283,181,279,184,242,134"/>
+<area shape="rect" id="Node000001" title="An IIOManager that resolve relative paths from another IIOManager to a subdirectory of that." alt="" coords="276,183,443,223"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html" title="IIOManager that resolves paths to Environment.CurrentDirectory." alt="" coords="227,94,353,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="310,131,347,181,343,184,306,134"/>
 <area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="5,5,95,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="90,36,202,91,200,96,87,41"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="92,35,174,67,247,91,245,96,172,73,90,40"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="119,5,208,31"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="162,46,167,69,178,82,193,91,190,96,175,86,162,71,157,47"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="174,44,191,68,210,81,232,91,230,96,208,86,187,72,170,47"/>
 <area shape="rect" id="Node000005" title=" " alt="" coords="271,5,309,31"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="279,46,263,72,241,95,237,92,259,68,275,43"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="293,47,293,94,287,94,287,47"/>
 <area shape="rect" id="Node000006" title=" " alt="" coords="334,5,513,31"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="409,45,397,60,381,72,343,86,290,97,289,92,341,81,378,68,393,56,405,42"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="314,94,418,120"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="350,134,312,184,308,181,346,131"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="415,47,396,72,374,86,350,96,348,91,371,81,392,68,411,44"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="558,5,699,31"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="616,46,603,60,587,72,567,80,541,85,478,91,366,97,354,98,353,93,366,91,478,86,540,80,565,75,585,68,600,56,612,42"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="378,94,482,120"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="414,134,376,184,372,181,410,131"/>
 </map>

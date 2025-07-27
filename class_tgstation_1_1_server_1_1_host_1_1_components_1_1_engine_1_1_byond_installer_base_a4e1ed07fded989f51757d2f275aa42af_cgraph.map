@@ -1,7 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Engine.ByondInstallerBase.CreateInstallation" name="Tgstation.Server.Host.Components.Engine.ByondInstallerBase.CreateInstallation">
-<area shape="rect" id="Node000001" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in the IEngineInst..." alt="" coords="5,49,285,90"/>
+<area shape="rect" id="Node000001" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in the IEngineInst..." alt="" coords="5,85,285,126"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="362,5,624,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="285,52,346,46,347,51,286,57"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a1f643204410dec1056257be64eb0be1a" title="Get the file name of the DreamDaemon executable." alt="" coords="333,85,653,126"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="286,81,318,84,317,90,285,86"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,82,346,61,347,66,247,87"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#abddea227bd7f20e50d57e258571a6ea4" title="Create a new IIOManager that resolves paths to the specified subdirectoryPath ." alt="" coords="357,85,629,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="285,103,341,103,341,108,285,108"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a1f643204410dec1056257be64eb0be1a" title="Get the file name of the DreamDaemon executable." alt="" coords="333,150,653,191"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="257,123,366,144,365,149,256,129"/>
 </map>

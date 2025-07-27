@@ -1,21 +1,23 @@
 <map id="Tgstation.Server.Host.Components.Instance.RepositoryAutoUpdateJob" name="Tgstation.Server.Host.Components.Instance.RepositoryAutoUpdateJob">
-<area shape="rect" id="Node000001" title="The JobEntrypoint for updating the repository." alt="" coords="5,150,232,191"/>
+<area shape="rect" id="Node000001" title="The JobEntrypoint for updating the repository." alt="" coords="5,186,232,227"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html#a4115cea1f220c4fdaede74566aa848d3" title="Creates a IRemoteDeploymentManager for a given remoteGitProvider ." alt="" coords="280,5,598,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,148,206,109,279,71,296,64,298,69,281,76,208,113,149,152"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,184,196,127,236,97,278,71,291,65,293,70,281,76,239,101,200,131,141,187"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="325,85,553,126"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,147,320,127,321,132,222,152"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="162,183,217,159,279,136,310,127,311,132,280,141,219,164,164,188"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a7240bff5e7feecd1e71018b1d6fab7bc" title="Attempt to load the IRepository from the default location.A ValueTask&lt;TResult&gt; resulting in the loade..." alt="" coords="294,150,584,191"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="232,168,279,168,279,173,232,173"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a132eec6aaf11a390b857b6eed5ea7567" title="Get the updated list of TestMerges for an origin merge." alt="" coords="310,215,568,270"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="213,189,298,208,296,213,212,194"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ade7f7da8e9b448bd2a9b1b7eb0ecbe75" title="Initializes a new instance of the Repository class." alt="" coords="326,294,552,335"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="145,189,204,236,241,260,281,280,312,291,310,296,279,285,239,264,201,240,141,193"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="232,191,279,186,279,191,233,196"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#ab858dc2dc89a8db5fe4d2ed3775b1c83" title="Queue a chat message &#160;to configured deployment channels." alt="" coords="305,215,573,270"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="233,217,290,223,290,228,232,222"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a132eec6aaf11a390b857b6eed5ea7567" title="Get the updated list of TestMerges for an origin merge." alt="" coords="310,295,568,350"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="160,225,216,253,281,280,302,287,300,292,279,285,214,258,157,230"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ade7f7da8e9b448bd2a9b1b7eb0ecbe75" title="Initializes a new instance of the Repository class." alt="" coords="326,374,552,415"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="136,225,194,293,235,330,281,360,312,373,310,378,278,365,232,334,191,297,132,229"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="661,63,880,118"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="553,97,645,93,645,99,553,103"/>
 <area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa2a092f96f2408453c2a1b5d5b0a4f30" title="Load a LibGit2Sharp.IRepository from a given path ." alt="" coords="651,143,889,198"/>
 <area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="584,168,636,168,636,173,584,173"/>
 <area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="687,222,854,263"/>
 <area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="547,189,599,200,672,217,671,222,597,205,545,194"/>
-<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ac68dccad767316b6c071ca0687bf3b9f" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="646,287,894,342"/>
-<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="552,312,631,312,631,317,552,317"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ac68dccad767316b6c071ca0687bf3b9f" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="646,367,894,422"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="552,392,631,392,631,397,552,397"/>
 </map>
