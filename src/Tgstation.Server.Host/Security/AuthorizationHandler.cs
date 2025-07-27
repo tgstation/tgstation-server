@@ -151,8 +151,8 @@ namespace Tgstation.Server.Host.Security
 			return databaseContextFactory.UseContext(async databaseContext =>
 			{
 				var queryableUsers = databaseContext
-				.Users
-				.AsQueryable();
+					.Users
+					.AsQueryable();
 
 				var matchingUniquePermissionSetIds = queryableUsers
 					.Where(user => user.Id == userId && user.PermissionSet != null)
