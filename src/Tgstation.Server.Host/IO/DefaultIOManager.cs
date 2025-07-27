@@ -162,7 +162,8 @@ namespace Tgstation.Server.Host.IO
 			=> Task.Factory.StartNew(
 				() =>
 				{
-					var di = fileSystem.DirectoryInfo.New(path);
+					var di = fileSystem.DirectoryInfo.New(
+						ResolvePath(path));
 					if (di.Exists)
 						NormalizeAndDelete(di, cancellationToken);
 				},
@@ -416,11 +417,14 @@ namespace Tgstation.Server.Host.IO
 		{
 			ArgumentNullException.ThrowIfNull(subdirectoryPath);
 
+			if (!Path.IsPathRooted(subdirectoryPath))
+				subdirectoryPath = ConcatPath(
+					ResolvePath(),
+					subdirectoryPath);
+
 			return new ResolvingIOManager(
 				fileSystem,
-				ConcatPath(
-					ResolvePath(),
-					subdirectoryPath));
+				subdirectoryPath);
 		}
 
 		/// <summary>
