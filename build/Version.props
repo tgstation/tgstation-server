@@ -5,7 +5,7 @@
   <PropertyGroup>
     <TgsCoreVersion>6.18.0</TgsCoreVersion>
     <TgsConfigVersion>5.8.0</TgsConfigVersion>
-    <TgsRestVersion>10.13.0</TgsRestVersion>
+    <TgsRestVersion>10.13.1</TgsRestVersion>
     <TgsGraphQLVersion>0.6.0</TgsGraphQLVersion>
     <TgsCommonLibraryVersion>7.0.0</TgsCommonLibraryVersion>
     <TgsApiLibraryVersion>18.1.0</TgsApiLibraryVersion>

@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
@@ -55,9 +54,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
-		/// The <see cref="IAbstractHttpClientFactory"/> for the <see cref="OpenDreamInstallation"/>.
+		/// The <see cref="IHttpClientFactory"/> for the <see cref="OpenDreamInstallation"/>.
 		/// </summary>
-		readonly IAbstractHttpClientFactory httpClientFactory;
+		readonly IHttpClientFactory httpClientFactory;
 
 		/// <summary>
 		/// Path to the Robust.Server.dll.
@@ -83,7 +82,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		public OpenDreamInstallation(
 			IIOManager installationIOManager,
 			IAsyncDelayer asyncDelayer,
-			IAbstractHttpClientFactory httpClientFactory,
+			IHttpClientFactory httpClientFactory,
 			string dotnetPath,
 			string serverDllPath,
 			string compilerDllPath,

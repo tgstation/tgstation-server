@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,7 +9,6 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
@@ -77,9 +77,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
-		/// The <see cref="IAbstractHttpClientFactory"/> for the <see cref="OpenDreamInstaller"/>.
+		/// The <see cref="IHttpClientFactory"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
-		readonly IAbstractHttpClientFactory httpClientFactory;
+		readonly IHttpClientFactory httpClientFactory;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenDreamInstaller"/> class.
@@ -100,7 +100,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			IProcessExecutor processExecutor,
 			IRepositoryManager repositoryManager,
 			IAsyncDelayer asyncDelayer,
-			IAbstractHttpClientFactory httpClientFactory,
+			IHttpClientFactory httpClientFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SessionConfiguration> sessionConfigurationOptions)
 			: base(ioManager, logger)

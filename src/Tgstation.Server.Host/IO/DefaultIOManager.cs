@@ -253,8 +253,13 @@ namespace Tgstation.Server.Host.IO
 			=> ResolvePath(CurrentDirectory);
 
 		/// <inheritdoc />
-		public virtual string ResolvePath(string path)
-			=> fileSystem.Path.GetFullPath(path ?? throw new ArgumentNullException(nameof(path)));
+		public string ResolvePath(string path)
+		{
+			if (Path.IsPathRooted(path ?? throw new ArgumentNullException(nameof(path))))
+				return path;
+
+			return ResolvePathCore(path);
+		}
 
 		/// <inheritdoc />
 		public async ValueTask WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)
@@ -426,6 +431,14 @@ namespace Tgstation.Server.Host.IO
 				fileSystem,
 				subdirectoryPath);
 		}
+
+		/// <summary>
+		/// Resolve a given, non-rooted, <paramref name="path"/>.
+		/// </summary>
+		/// <param name="path">The non-rooted path to resolve.</param>
+		/// <returns>The fully resolved path.</returns>
+		protected virtual string ResolvePathCore(string path)
+			=> fileSystem.Path.GetFullPath(path ?? throw new ArgumentNullException(nameof(path)));
 
 		/// <summary>
 		/// Copies a directory from <paramref name="src"/> to <paramref name="dest"/>.

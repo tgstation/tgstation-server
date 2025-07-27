@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-using Tgstation.Server.Common.Http;
+using Tgstation.Server.Common.Tests;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.IO.Tests
@@ -27,8 +29,8 @@ Please see the following for more context:
 		public void TestConstructor()
 		{
 			Assert.ThrowsException<ArgumentNullException>(() => new FileDownloader(null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new FileDownloader(Mock.Of<IAbstractHttpClientFactory>(), null));
-			_ = new FileDownloader(Mock.Of<IAbstractHttpClientFactory>(), Mock.Of<ILogger<FileDownloader>>());
+			Assert.ThrowsException<ArgumentNullException>(() => new FileDownloader(Mock.Of<IHttpClientFactory>(), null));
+			_ = new FileDownloader(Mock.Of<IHttpClientFactory>(), Mock.Of<ILogger<FileDownloader>>());
 		}
 
 		[TestMethod]
@@ -65,11 +67,21 @@ Please see the following for more context:
 				builder.SetMinimumLevel(LogLevel.Trace);
 			});
 
+			var mockHttpClientFactory = new Mock<IHttpClientFactory>();
+			var httpClient = new HttpClient(
+				new MockHttpMessageHandler(
+					(_, __) => Task.FromResult(
+						new HttpResponseMessage(HttpStatusCode.OK)
+						{
+							Content = new StringContent(ExpectedData),
+						})));
+
+			mockHttpClientFactory.Setup(x => x.CreateClient(String.Empty)).Returns(httpClient);
+
 			try
 			{
 				return new FileDownloader(
-					new HttpClientFactory(
-						new AssemblyInformationProvider().ProductInfoHeaderValue),
+					mockHttpClientFactory.Object,
 					loggerFactory.CreateLogger<FileDownloader>());
 			}
 			catch
