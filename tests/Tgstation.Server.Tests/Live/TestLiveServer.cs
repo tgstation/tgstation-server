@@ -97,7 +97,7 @@ namespace Tgstation.Server.Tests.Live
 					var potentialProcesses = System.Diagnostics.Process.GetProcessesByName("dotnet")
 						.Where(process =>
 						{
-							if (GetCommandLine(process).Contains("Robust.Server"))
+							if (GetCommandLine(process)?.Contains("Robust.Server") == true)
 								return true;
 
 							process.Dispose();
