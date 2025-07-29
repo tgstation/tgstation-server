@@ -299,12 +299,6 @@ namespace Tgstation.Server.Host.Components
 			var repoManager = repositoryManagerFactory.CreateRepositoryManager(repoIoManager, eventConsumer);
 			try
 			{
-				var engineManager = new EngineManager(
-					byondIOManager,
-					engineInstaller,
-					eventConsumer,
-					loggerFactory.CreateLogger<EngineManager>());
-
 				var dmbFactory = new DmbFactory(
 					databaseContextFactory,
 					gameIoManager,
@@ -315,6 +309,13 @@ namespace Tgstation.Server.Host.Components
 					metadata);
 				try
 				{
+					var engineManager = new EngineManager(
+						byondIOManager,
+						engineInstaller,
+						eventConsumer,
+						dmbFactory,
+						loggerFactory.CreateLogger<EngineManager>());
+
 					var commandFactory = new CommandFactory(assemblyInformationProvider, engineManager, repoManager, databaseContextFactory, dmbFactory, metadata);
 
 					var chatManager = chatFactory.CreateChatManager(commandFactory, metadata.ChatSettings);

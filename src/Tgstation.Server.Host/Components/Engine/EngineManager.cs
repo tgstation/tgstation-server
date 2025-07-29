@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
+using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -60,6 +61,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
+		/// The <see cref="IDmbFactory"/> for the <see cref="EngineManager"/>.
+		/// </summary>
+		readonly IDmbFactory dmbFactory;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="EngineManager"/>.
 		/// </summary>
 		readonly ILogger<EngineManager> logger;
@@ -100,12 +106,19 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="engineInstaller">The value of <see cref="engineInstaller"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
+		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public EngineManager(IIOManager ioManager, IEngineInstaller engineInstaller, IEventConsumer eventConsumer, ILogger<EngineManager> logger)
+		public EngineManager(
+			IIOManager ioManager,
+			IEngineInstaller engineInstaller,
+			IEventConsumer eventConsumer,
+			IDmbFactory dmbFactory,
+			ILogger<EngineManager> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.engineInstaller = engineInstaller ?? throw new ArgumentNullException(nameof(engineInstaller));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			installedVersions = new Dictionary<EngineVersion, ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock>>();
@@ -228,6 +241,9 @@ namespace Tgstation.Server.Host.Components.Engine
 					activeVersionUpdate = activeVersionChanged.Task;
 
 				logger.LogTrace("Waiting for container.OnZeroReferences or switch of active version...");
+				if (!containerTask.IsCompleted)
+					dmbFactory.LogLockStates();
+
 				await Task.WhenAny(
 					containerTask,
 					activeVersionUpdate)
