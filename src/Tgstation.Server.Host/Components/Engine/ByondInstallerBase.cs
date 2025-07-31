@@ -141,7 +141,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override ValueTask<IEngineInstallation> CreateInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken)
+		public sealed override ValueTask<IEngineInstallation> GetInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 
@@ -168,7 +168,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async Task CleanCache(CancellationToken cancellationToken)
+		public sealed override async Task CleanCache(CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -214,7 +214,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter progressReporter, CancellationToken cancellationToken)
+		public sealed override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter progressReporter, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 

@@ -131,29 +131,6 @@ namespace Tgstation.Server.Host.Components.Engine
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public override ValueTask Install(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
-		{
-			CheckVersionValidity(version);
-			ArgumentNullException.ThrowIfNull(path);
-
-			var noPromptTrustedTask = SetNoPromptTrusted(path, cancellationToken);
-			var installDirectXTask = InstallDirectX(path, cancellationToken);
-			var tasks = new List<ValueTask>(3)
-			{
-				noPromptTrustedTask,
-				installDirectXTask,
-			};
-
-			if (!GeneralConfigurationOptions.CurrentValue.SkipAddingByondFirewallException)
-			{
-				var firewallTask = AddDreamDaemonToFirewall(version, path, deploymentPipelineProcesses, cancellationToken);
-				tasks.Add(firewallTask);
-			}
-
-			return ValueTaskExtensions.WhenAll(tasks);
-		}
-
-		/// <inheritdoc />
 		public override async ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
@@ -213,6 +190,26 @@ namespace Tgstation.Server.Host.Components.Engine
 
 				await IOManager.WriteAllBytes(trustedFilePath, newTrustedFileBytes, cancellationToken);
 			}
+		}
+
+		/// <inheritdoc />
+		protected override ValueTask InstallImpl(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
+		{
+			var noPromptTrustedTask = SetNoPromptTrusted(path, cancellationToken);
+			var installDirectXTask = InstallDirectX(path, cancellationToken);
+			var tasks = new List<ValueTask>(3)
+			{
+				noPromptTrustedTask,
+				installDirectXTask,
+			};
+
+			if (!GeneralConfigurationOptions.CurrentValue.SkipAddingByondFirewallException)
+			{
+				var firewallTask = AddDreamDaemonToFirewall(version, path, deploymentPipelineProcesses, cancellationToken);
+				tasks.Add(firewallTask);
+			}
+
+			return ValueTaskExtensions.WhenAll(tasks);
 		}
 
 		/// <inheritdoc />

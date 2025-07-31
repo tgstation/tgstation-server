@@ -353,7 +353,7 @@ namespace Tgstation.Server.Host.Components.Engine
 
 				try
 				{
-					var installation = await engineInstaller.CreateInstallation(version, path, Task.CompletedTask, cancellationToken);
+					var installation = await engineInstaller.GetInstallation(version, path, Task.CompletedTask, cancellationToken);
 					AddInstallationContainer(installation);
 					logger.LogDebug("Added detected BYOND version {versionKey}...", version);
 				}
@@ -444,7 +444,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					}
 				}
 
-				var potentialInstallation = await engineInstaller.CreateInstallation(
+				var potentialInstallation = await engineInstaller.GetInstallation(
 					version,
 					ioManager.ResolvePath(version.ToString()),
 					ourTcs.Task,
@@ -614,7 +614,21 @@ namespace Tgstation.Server.Host.Components.Engine
 
 					remainingReporter.StageName = "Running installation actions";
 
-					await engineInstaller.Install(version, installFullPath, deploymentPipelineProcesses, cancellationToken);
+					var installation = await engineInstaller.Install(version, installFullPath, deploymentPipelineProcesses, cancellationToken);
+
+					// some minor validation
+					var serverInstallTask = ioManager.FileExists(installation.ServerExePath, cancellationToken);
+					if (!await ioManager.FileExists(installation.CompilerExePath, cancellationToken))
+					{
+						logger.LogError("Compiler executable does not exist after engine installation!");
+						throw new JobException(ErrorCode.EngineDownloadFail);
+					}
+
+					if (!await serverInstallTask)
+					{
+						logger.LogError("Server executable does not exist after engine installation!");
+						throw new JobException(ErrorCode.EngineDownloadFail);
+					}
 
 					remainingReporter.ReportProgress(0.9);
 					remainingReporter.StageName = "Writing version file";
