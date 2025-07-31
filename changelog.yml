@@ -233,7 +233,18 @@ Components:
       PullRequest: 2212
     Unreleased: true
   - Version: 6.19.0
-    ComponentVersions: {}
+    ComponentVersions:
+      Core: 6.18.0
+      HttpApi: 10.13.0
+      GraphQLApi: 0.6.0
+      DreamMakerApi: 7.3.3
+      Configuration: 5.8.0
+      InteropApi: 5.10.1
+      HostWatchdog: 1.6.0
+      NugetCommon: 7.0.0
+      NugetApi: 18.0.0
+      NugetClient: 21.0.0
+      WebControlPanel: 6.10.0
     Changes: []
     Unreleased: true
   - Version: 6.18.1
