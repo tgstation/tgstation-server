@@ -257,7 +257,12 @@ namespace Tgstation.Server.Host.IO
 		public string ResolvePath(string path)
 		{
 			if (fileSystem.Path.IsPathRooted(path ?? throw new ArgumentNullException(nameof(path))))
-				return path;
+			{
+				// Important to evaluate the path anyway to normalize front slashes to backslashes on Windows
+				// Some tools (looking at you netsh.exe) bitch if you pass them forward slashes as directory separators
+				// Can't rely on ResolvePathCore to do this either because its contract stipulates a relative path
+				return fileSystem.Path.GetFullPath(path);
+			}
 
 			return ResolvePathCore(path);
 		}
