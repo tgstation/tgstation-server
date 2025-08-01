@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="dmbLock">The <see cref="DmbLock"/> to get a description of.</param>
 		/// <returns>A verbose description of <paramref name="dmbLock"/>.</returns>
-		static string GetFullLockDescriptor(DmbLock dmbLock) => $"{dmbLock.LockID} {dmbLock.Descriptor} (Created at {dmbLock.LockTime}){(dmbLock.KeptAlive ? " (RELEASED)" : String.Empty)}";
+		static string GetFullLockDescriptor(DmbLock dmbLock) => $"{dmbLock.LockID} {dmbLock.EngineVersion} {dmbLock.Descriptor} (Created at {dmbLock.LockTime}){(dmbLock.KeptAlive ? " (RELEASED)" : String.Empty)}";
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DeploymentLockManager"/> class.
