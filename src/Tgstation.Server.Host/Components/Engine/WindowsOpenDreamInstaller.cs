@@ -66,9 +66,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override ValueTask Install(EngineVersion version, string installPath, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
+		protected override ValueTask InstallImpl(EngineVersion version, string installPath, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 		{
-			var installTask = base.Install(
+			var installTask = base.InstallImpl(
 				version,
 				installPath,
 				deploymentPipelineProcesses,
