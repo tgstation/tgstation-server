@@ -23,8 +23,8 @@ namespace Tgstation.Server.Host.IO.Tests
 			else
 				postWriteHandler = new PosixPostWriteHandler(Mock.Of<ILogger<PosixPostWriteHandler>>());
 
-			Assert.ThrowsException<ArgumentNullException>(() => postWriteHandler.HandleWrite(null));
-			Assert.ThrowsException<ArgumentNullException>(() => postWriteHandler.NeedsPostWrite(null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => postWriteHandler.HandleWrite(null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => postWriteHandler.NeedsPostWrite(null));
 		}
 
 		[TestMethod]
@@ -75,7 +75,7 @@ namespace Tgstation.Server.Host.IO.Tests
 			var postWriteHandler = new PosixPostWriteHandler(Mock.Of<ILogger<PosixPostWriteHandler>>());
 			var tmpFile = Path.GetTempFileName();
 			File.Delete(tmpFile);
-			Assert.ThrowsException<UnixIOException>(() => postWriteHandler.HandleWrite(tmpFile));
+			Assert.ThrowsExactly<UnixIOException>(() => postWriteHandler.HandleWrite(tmpFile));
 		}
 	}
 }

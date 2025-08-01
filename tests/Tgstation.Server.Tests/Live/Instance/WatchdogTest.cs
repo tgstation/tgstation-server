@@ -175,17 +175,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await Task.WhenAll(
 				UpdateDDSettings(),
 				CheckByondVersions(),
-				ApiAssert.ThrowsException<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				ApiAssert.ThrowsExactly<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{
 					SoftShutdown = true,
 					SoftRestart = true
 				}, cancellationToken), ErrorCode.GameServerDoubleSoft).AsTask(),
-				ApiAssert.ThrowsException<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				ApiAssert.ThrowsExactly<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{
 					Port = 0
 				}, cancellationToken), ErrorCode.ModelValidationFailure).AsTask(),
-				ApiAssert.ThrowsException<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.CreateDump(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask(),
-				ApiAssert.ThrowsException<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.Restart(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask());
+				ApiAssert.ThrowsExactly<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.CreateDump(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask(),
+				ApiAssert.ThrowsExactly<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.Restart(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask());
 
 			await RunBasicTest(false, cancellationToken);
 
@@ -344,7 +344,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			await RegressionTest1686(cancellationToken);
 
-			await ApiAssert.ThrowsException<ConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+			await ApiAssert.ThrowsExactly<ConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				BroadcastMessage = "ksjfdksjf",
 			}, cancellationToken), ErrorCode.BroadcastFailure);

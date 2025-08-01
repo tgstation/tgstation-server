@@ -115,7 +115,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(true, dmSettings.RequireDMApiValidation);
 #pragma warning restore CS0618 // Type or member is obsolete
 
-			await ApiAssert.ThrowsException<ApiConflictException, DreamMakerResponse>(() => dreamMakerClient.Update(new DreamMakerRequest
+			await ApiAssert.ThrowsExactly<ApiConflictException, DreamMakerResponse>(() => dreamMakerClient.Update(new DreamMakerRequest
 			{
 #pragma warning disable CS0618 // Type or member is obsolete
 				RequireDMApiValidation = true,
@@ -232,12 +232,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await CheckDreamDaemonPriority(deploymentJobWaitTask, cancellationToken);
 
 			Console.WriteLine($"PORT REUSE BUG 2: Expect Conflict, Setting I-{instanceClient.Metadata.Id} DD to {dmPort}");
-			var t1 = ApiAssert.ThrowsException<ConflictException, DreamDaemonResponse>(() => dreamDaemonClient.Update(new DreamDaemonRequest
+			var t1 = ApiAssert.ThrowsExactly<ConflictException, DreamDaemonResponse>(() => dreamDaemonClient.Update(new DreamDaemonRequest
 			{
 				Port = dmPort,
 			}, cancellationToken), ErrorCode.PortNotAvailable);
 			Console.WriteLine($"PORT REUSE BUG 3: Expect Conflict, Setting I-{instanceClient.Metadata.Id} DM to {ddPort}");
-			var t2 = ApiAssert.ThrowsException<ConflictException, DreamMakerResponse>(() => dreamMakerClient.Update(new DreamMakerRequest
+			var t2 = ApiAssert.ThrowsExactly<ConflictException, DreamMakerResponse>(() => dreamMakerClient.Update(new DreamMakerRequest
 			{
 				ApiValidationPort = ddPort
 			}, cancellationToken), ErrorCode.PortNotAvailable);
@@ -309,7 +309,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}, cancellationToken);
 			Assert.IsFalse((updatedPS.DreamDaemonRights.Value & DreamDaemonRights.SetVisibility) != 0);
 
-			await ApiAssert.ThrowsException<InsufficientPermissionsException, DreamDaemonResponse>(() => dreamDaemonClient.Update(new DreamDaemonRequest
+			await ApiAssert.ThrowsExactly<InsufficientPermissionsException, DreamDaemonResponse>(() => dreamDaemonClient.Update(new DreamDaemonRequest
 			{
 				Visibility = DreamDaemonVisibility.Private
 			}, cancellationToken));

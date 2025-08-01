@@ -24,15 +24,15 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 		[TestMethod]
 		public void TestConstruction()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixByondInstaller(null, null, null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new PosixByondInstaller(null, null, null, null, null));
 			var mockPostWriteHandler = new Mock<IPostWriteHandler>();
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixByondInstaller(mockPostWriteHandler.Object, null, null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new PosixByondInstaller(mockPostWriteHandler.Object, null, null, null, null));
 			var mockIOManager = new Mock<IIOManager>();
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, null, null, null));
 			var mockFileDownloader = Mock.Of<IFileDownloader>();
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader, null, null));
 			var mockOptions = Mock.Of<IOptionsMonitor<GeneralConfiguration>>();
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader, mockOptions, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader, mockOptions, null));
 
 			var mockLogger = new Mock<ILogger<PosixByondInstaller>>();
 			_ = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader, mockOptions, mockLogger.Object);
@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 
 			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader.Object, mockOptions.Object, mockLogger.Object);
 
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.DownloadVersion(null, null, default).AsTask());
+			await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => installer.DownloadVersion(null, null, default).AsTask());
 
 			var ourArray = Array.Empty<byte>();
 			mockFileDownloader
@@ -110,7 +110,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader, mockOptions, mockLogger.Object);
 
 			const string FakePath = "fake";
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.Install(null, null, false, default).AsTask());
+			await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => installer.Install(null, null, false, default).AsTask());
 
 			var byondVersion = new EngineVersion
 			{
@@ -118,7 +118,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 				Version = new Version(123, 252345),
 			};
 
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.Install(byondVersion, null, false, default).AsTask());
+			await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => installer.Install(byondVersion, null, false, default).AsTask());
 
 			byondVersion.Version = new Version(511, 1385);
 			await installer.Install(byondVersion, FakePath, false, default);

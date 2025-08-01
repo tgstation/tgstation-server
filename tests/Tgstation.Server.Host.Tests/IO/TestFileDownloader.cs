@@ -28,8 +28,8 @@ Please see the following for more context:
 		[TestMethod]
 		public void TestConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new FileDownloader(null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new FileDownloader(Mock.Of<IHttpClientFactory>(), null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new FileDownloader(null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new FileDownloader(Mock.Of<IHttpClientFactory>(), null));
 			_ = new FileDownloader(Mock.Of<IHttpClientFactory>(), Mock.Of<ILogger<FileDownloader>>());
 		}
 
@@ -55,7 +55,7 @@ Please see the following for more context:
 			var downloader = CreateDownloader(out var loggerFactory);
 			using (loggerFactory)
 			{
-				Assert.ThrowsException<ArgumentNullException>(() => downloader.DownloadFile(null, null));
+				Assert.ThrowsExactly<ArgumentNullException>(() => downloader.DownloadFile(null, null));
 			}
 		}
 

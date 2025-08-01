@@ -322,7 +322,7 @@ namespace Tgstation.Server.Tests.Live
 					update.PermissionSet.AdministrationRights &= ~right;
 					await client.Users.Update(update, cancellationToken);
 
-					await ApiAssert.ThrowsException<InsufficientPermissionsException, ServerUpdateResponse>(action);
+					await ApiAssert.ThrowsExactly<InsufficientPermissionsException, ServerUpdateResponse>(action);
 
 					update.PermissionSet.AdministrationRights |= right;
 					await client.Users.Update(update, cancellationToken);
@@ -473,7 +473,7 @@ namespace Tgstation.Server.Tests.Live
 			{
 				var testUpdateVersion = new Version(5, 11, 20);
 				await using var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken);
-				await ApiAssert.ThrowsException<ConflictException, ServerUpdateResponse>(
+				await ApiAssert.ThrowsExactly<ConflictException, ServerUpdateResponse>(
 					() => adminClient.RestClient.Administration.Update(
 						new ServerUpdateRequest
 						{
@@ -730,8 +730,8 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(controllerInstance.Id, controllerInstanceList[0].Id);
 					Assert.IsNotNull(await controllerClient.RestClient.Instances.GetId(controllerInstance, cancellationToken));
 
-					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => controllerClient.RestClient.Instances.GetId(node2Instance, cancellationToken), Api.Models.ErrorCode.ResourceNotPresent);
-					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => node1Client.RestClient.Instances.GetId(controllerInstance, cancellationToken), Api.Models.ErrorCode.ResourceNotPresent);
+					await ApiAssert.ThrowsExactly<ConflictException, InstanceResponse>(() => controllerClient.RestClient.Instances.GetId(node2Instance, cancellationToken), Api.Models.ErrorCode.ResourceNotPresent);
+					await ApiAssert.ThrowsExactly<ConflictException, InstanceResponse>(() => node1Client.RestClient.Instances.GetId(controllerInstance, cancellationToken), Api.Models.ErrorCode.ResourceNotPresent);
 
 					// test update
 					await node1Client.Execute(
@@ -781,7 +781,7 @@ namespace Tgstation.Server.Tests.Live
 					await using var node1Client2 = await CreateAdminClient(node1.ApiUrl, cancellationToken);
 
 					await controllerClient2.Execute(
-						async restClient => await ApiAssert.ThrowsException<ApiConflictException, ServerUpdateResponse>(
+						async restClient => await ApiAssert.ThrowsExactly<ApiConflictException, ServerUpdateResponse>(
 							() => restClient.Administration.Update(
 								new ServerUpdateRequest
 								{
@@ -1040,7 +1040,7 @@ namespace Tgstation.Server.Tests.Live
 
 					// update should fail
 					await controllerClient2.Execute(
-						async restClient => await ApiAssert.ThrowsException<ApiConflictException, ServerUpdateResponse>(
+						async restClient => await ApiAssert.ThrowsExactly<ApiConflictException, ServerUpdateResponse>(
 							() => restClient.Administration.Update(
 								new ServerUpdateRequest
 								{
@@ -1453,7 +1453,7 @@ namespace Tgstation.Server.Tests.Live
 						Password = DefaultCredentials.DefaultAdminUserPassword,
 					}, cancellationToken);
 
-					await ApiAssert.ThrowsException<UnauthorizedException, UserResponse>(() => tokenOnlyRestClient.Users.Read(cancellationToken), null);
+					await ApiAssert.ThrowsExactly<UnauthorizedException, UserResponse>(() => tokenOnlyRestClient.Users.Read(cancellationToken), null);
 				}
 
 				// basic graphql test, to be used everywhere eventually
@@ -1591,7 +1591,7 @@ namespace Tgstation.Server.Tests.Live
 						{
 							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, GetLogger(), fileDownloader, cancellationToken);
 
-							var ex = await Assert.ThrowsExceptionAsync<JobException>(
+							var ex = await Assert.ThrowsExactlyAsync<JobException>(
 								() => InstanceTest.DownloadEngineVersion(
 									new EngineVersion
 									{
@@ -2023,7 +2023,7 @@ namespace Tgstation.Server.Tests.Live
 				try
 				{
 					Console.WriteLine($"TEST: CreateAdminClient attempt {I}...");
-					
+
 					restClientTask = restClientFactory.CreateFromLogin(
 						url,
 						username,

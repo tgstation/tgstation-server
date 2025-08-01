@@ -43,12 +43,12 @@ namespace Tgstation.Server.Tests.Live
 			Assert.IsTrue(logFile.LastModified <= downloadedTuple.Item1.LastModified);
 			Assert.IsNull(logFile.FileTicket);
 
-			await ApiAssert.ThrowsException<ConflictException, Tuple<LogFileResponse, Stream>>(() => restClient.GetLog(new LogFileResponse
+			await ApiAssert.ThrowsExactly<ConflictException, Tuple<LogFileResponse, Stream>>(() => restClient.GetLog(new LogFileResponse
 			{
 				Name = "very_fake_path.log"
 			}, cancellationToken), ErrorCode.IOError);
 
-			await ApiAssert.ThrowsException<InsufficientPermissionsException, Tuple<LogFileResponse, Stream>>(() => restClient.GetLog(new LogFileResponse
+			await ApiAssert.ThrowsExactly<InsufficientPermissionsException, Tuple<LogFileResponse, Stream>>(() => restClient.GetLog(new LogFileResponse
 			{
 				Name = "../out_of_bounds.file"
 			}, cancellationToken));

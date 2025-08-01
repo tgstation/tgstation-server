@@ -21,9 +21,9 @@ namespace Tgstation.Server.Host.IO.Tests
 		[TestMethod]
 		public async Task TestConstruction()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new RequestFileStreamProvider(null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new RequestFileStreamProvider(null, null));
 			var mockClient = new HttpClient();
-			Assert.ThrowsException<ArgumentNullException>(() => new RequestFileStreamProvider(mockClient, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new RequestFileStreamProvider(mockClient, null));
 			await using var test = new RequestFileStreamProvider(mockClient, new HttpRequestMessage());
 		}
 
@@ -137,9 +137,9 @@ namespace Tgstation.Server.Host.IO.Tests
 
 			cts2.Cancel();
 
-			await Assert.ThrowsExceptionAsync<TaskCanceledException>(task1.AsTask);
-			await Assert.ThrowsExceptionAsync<TaskCanceledException>(task2.AsTask);
-			await Assert.ThrowsExceptionAsync<TaskCanceledException>(task3.AsTask);
+			await Assert.ThrowsExactlyAsync<TaskCanceledException>(task1.AsTask);
+			await Assert.ThrowsExactlyAsync<TaskCanceledException>(task2.AsTask);
+			await Assert.ThrowsExactlyAsync<TaskCanceledException>(task3.AsTask);
 
 			Assert.IsTrue(ran);
 		}

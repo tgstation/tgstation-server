@@ -263,7 +263,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			SwarmRegistrationResult? result;
 			if (cancel)
 			{
-				await Assert.ThrowsExceptionAsync<OperationCanceledException>(Invoke);
+				await Assert.ThrowsExactlyAsync<OperationCanceledException>(Invoke);
 				result = null;
 			}
 			else
