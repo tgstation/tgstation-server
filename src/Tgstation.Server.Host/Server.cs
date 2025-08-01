@@ -432,7 +432,8 @@ namespace Tgstation.Server.Host
 		{
 			logger?.LogTrace("FileSystemWatcher triggered.");
 
-			if (eventArgs.FullPath == ioManager.ResolvePath(updatePath!) && await ioManager.FileExists(eventArgs.FullPath, CancellationToken.None)) // DCT: None available
+			// DCT: None available
+			if (eventArgs.FullPath == ioManager.ResolvePath(updatePath!) && await ioManager.FileExists(eventArgs.FullPath, CancellationToken.None))
 			{
 				logger?.LogInformation("Host watchdog appears to be requesting server termination!");
 				lock (restartLock)

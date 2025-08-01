@@ -98,7 +98,7 @@ namespace Tgstation.Server.Client.Tests
 				null,
 				false);
 
-			await Assert.ThrowsExceptionAsync<UnrecognizedResponseException>(() => client.Read<EngineResponse>(Routes.Engine, default).AsTask());
+			await Assert.ThrowsExactlyAsync<UnrecognizedResponseException>(() => client.Read<EngineResponse>(Routes.Engine, default).AsTask());
 		}
 	}
 }
