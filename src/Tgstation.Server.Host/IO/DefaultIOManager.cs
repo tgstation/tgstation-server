@@ -256,7 +256,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public string ResolvePath(string path)
 		{
-			if (Path.IsPathRooted(path ?? throw new ArgumentNullException(nameof(path))))
+			if (fileSystem.Path.IsPathRooted(path ?? throw new ArgumentNullException(nameof(path))))
 				return path;
 
 			return ResolvePathCore(path);
@@ -443,7 +443,7 @@ namespace Tgstation.Server.Host.IO
 		{
 			ArgumentNullException.ThrowIfNull(subdirectoryPath);
 
-			if (!Path.IsPathRooted(subdirectoryPath))
+			if (!fileSystem.Path.IsPathRooted(subdirectoryPath))
 				subdirectoryPath = ConcatPath(
 					ResolvePath(),
 					subdirectoryPath);
