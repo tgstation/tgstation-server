@@ -1,15 +1,18 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
+﻿using System;
 using System.IO;
+using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Moq;
+
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 
@@ -96,6 +99,10 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 		public async Task TestInstallByond()
 		{
 			var mockIOManager = new Mock<IIOManager>();
+			mockIOManager.Setup(x => x.FileExists(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(true);
+			mockIOManager.Setup(x => x.CreateResolverForSubdirectory(It.IsNotNull<string>())).Returns(mockIOManager.Object);
+			mockIOManager.Setup(x => x.ConcatPath(It.IsNotNull<string[]>())).Returns<string[]>(Path.Combine);
+			mockIOManager.Setup(x => x.ResolvePath(It.IsNotNull<string>())).Returns<string>(path => path);
 			var mockPostWriteHandler = new Mock<IPostWriteHandler>();
 			var mockLogger = new Mock<ILogger<PosixByondInstaller>>();
 			var mockFileDownloader = Mock.Of<IFileDownloader>();
