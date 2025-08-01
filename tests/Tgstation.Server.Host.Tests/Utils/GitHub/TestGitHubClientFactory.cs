@@ -201,8 +201,8 @@ vTdVAoGBAI/jjUMdjkY43zhe3w2piwT0fhGfqm9ikdAB9IcgcptuS0ML0ZaWV/eO
 			var client2 = await factory.CreateClient("asdf", CancellationToken.None);
 			var client3 = await factory.CreateClient(CancellationToken.None);
 			var client4 = await factory.CreateClient("asdf", CancellationToken.None);
-			Assert.ReferenceEquals(client1, client3);
-			Assert.ReferenceEquals(client2, client4);
+			Assert.AreSame(client1, client3);
+			Assert.AreSame(client2, client4);
 		}
 	}
 }
