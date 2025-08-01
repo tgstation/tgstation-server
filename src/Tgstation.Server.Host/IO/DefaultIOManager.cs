@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.IO
@@ -335,26 +336,46 @@ namespace Tgstation.Server.Host.IO
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task ZipToDirectory(string path, Stream zipFile, CancellationToken cancellationToken) => Task.Factory.StartNew(
-			() =>
-			{
-				path = ResolvePath(path);
-				ArgumentNullException.ThrowIfNull(zipFile);
+		public async ValueTask ZipToDirectory(string path, Stream zipFile, CancellationToken cancellationToken)
+		{
+			path = ResolvePath(path);
+			ArgumentNullException.ThrowIfNull(zipFile);
 
 #if NET9_0_OR_GREATER
 #error Check if zip file seeking has been addressesed. See https://github.com/tgstation/tgstation-server/issues/1531
 #endif
 
-				// ZipArchive does a synchronous copy on unseekable streams we want to avoid
-				if (!zipFile.CanSeek)
-					throw new ArgumentException("Stream does not support seeking!", nameof(zipFile));
+			// ZipArchive does a synchronous copy on unseekable streams we want to avoid
+			if (!zipFile.CanSeek)
+				throw new ArgumentException("Stream does not support seeking!", nameof(zipFile));
 
-				using var archive = new ZipArchive(zipFile, ZipArchiveMode.Read, true);
-				archive.ExtractToDirectory(path);
-			},
-			cancellationToken,
-			BlockingTaskCreationOptions,
-			TaskScheduler.Current);
+			using var archive = new ZipArchive(zipFile, ZipArchiveMode.Read, true);
+
+			// start async context
+			await Task.Yield();
+			foreach (var entry in archive.Entries)
+			{
+				var entryPath = fileSystem.Path.Combine(path, entry.FullName);
+
+				if (string.IsNullOrEmpty(entry.Name))
+				{
+					fileSystem.Directory.CreateDirectory(entryPath);
+					continue;
+				}
+
+				var directoryPath = fileSystem.Path.GetDirectoryName(entryPath);
+				if (directoryPath == null)
+				{
+					throw new JobException("Zip archive concatenation resulted in a null directory path!");
+				}
+
+				fileSystem.Directory.CreateDirectory(directoryPath);
+
+				using var entryStream = entry.Open();
+				using var outputStream = fileSystem.File.Create(entryPath);
+				await entryStream.CopyToAsync(outputStream, cancellationToken);
+			}
+		}
 
 		/// <inheritdoc />
 		public bool PathContainsParentAccess(string path) => path
