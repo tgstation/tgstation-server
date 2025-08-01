@@ -148,21 +148,25 @@ namespace Tgstation.Server.Host.Components.Engine
 			var installationIOManager = IOManager.CreateResolverForSubdirectory(path);
 			var supportsMapThreads = version.Version >= MapThreadsVersion;
 
+			var dreamDaemonName = GetDreamDaemonName(
+				version.Version!,
+				out var supportsCli);
+			var dreamDaemonPath = installationIOManager.ResolvePath(
+				installationIOManager.ConcatPath(
+					ByondBinPath,
+					dreamDaemonName));
+			var dreamMakerPath = installationIOManager.ResolvePath(
+				installationIOManager.ConcatPath(
+					ByondBinPath,
+					DreamMakerName));
+
 			return ValueTask.FromResult<IEngineInstallation>(
 				new ByondInstallation(
 					installationIOManager,
 					installationTask,
 					version,
-					installationIOManager.ResolvePath(
-						installationIOManager.ConcatPath(
-							ByondBinPath,
-							GetDreamDaemonName(
-								version.Version!,
-								out var supportsCli))),
-					installationIOManager.ResolvePath(
-						installationIOManager.ConcatPath(
-							ByondBinPath,
-							DreamMakerName)),
+					dreamDaemonPath,
+					dreamMakerPath,
 					supportsCli,
 					supportsMapThreads));
 		}
