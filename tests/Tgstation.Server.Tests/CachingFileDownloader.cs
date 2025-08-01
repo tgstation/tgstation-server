@@ -50,7 +50,7 @@ namespace Tgstation.Server.Tests
 			var cfd = new CachingFileDownloader(loggerFactory.CreateLogger<CachingFileDownloader>());
 
 			// this also will inject the edge version
-			var edgeVersion = await EngineTest.GetEdgeVersion(Api.Models.EngineType.Byond, logger, cfd, cancellationToken);
+			await EngineTest.GetEdgeVersion(Api.Models.EngineType.Byond, logger, cfd, cancellationToken);
 
 			// predownload the target github release update asset
 			var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
@@ -84,6 +84,11 @@ namespace Tgstation.Server.Tests
 
 		public static async ValueTask InitializeByondVersion(ILogger logger, Version byondVersion, bool windows, CancellationToken cancellationToken, string urlCacheOverrideTemplate = null)
 		{
+			if (Boolean.TryParse(Environment.GetEnvironmentVariable("TGS_TEST_OD_EXCLUSIVE"), out var odExclusive) && odExclusive)
+			{
+				return;
+			}
+
 			var version = new EngineVersion
 			{
 				Engine = Api.Models.EngineType.Byond,
