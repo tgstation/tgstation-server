@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// </summary>
 		/// <param name="path">The full path to extract to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task ExtractToPath(string path, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask ExtractToPath(string path, CancellationToken cancellationToken);
 	}
 }

@@ -49,5 +49,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask CleanUnusedCompileJobs(CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Log the states of all active <see cref="IDmbProvider"/>s.
+		/// </summary>
+		void LogLockStates();
 	}
 }

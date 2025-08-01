@@ -97,7 +97,7 @@ namespace Tgstation.Server.Tests.Live
 					var potentialProcesses = System.Diagnostics.Process.GetProcessesByName("dotnet")
 						.Where(process =>
 						{
-							if (GetCommandLine(process).Contains("Robust.Server"))
+							if (GetCommandLine(process)?.Contains("Robust.Server") == true)
 								return true;
 
 							process.Dispose();
@@ -409,10 +409,7 @@ namespace Tgstation.Server.Tests.Live
 				await CheckUpdate();
 
 				// Second pass, uploaded updates
-				var downloader = new Host.IO.FileDownloader(
-					new Common.Http.HttpClientFactory(
-						new AssemblyInformationProvider().ProductInfoHeaderValue),
-					Mock.Of<ILogger<Host.IO.FileDownloader>>());
+				var downloader = CachingFileDownloader.CreateRealDownloader(Mock.Of<ILogger<Host.IO.FileDownloader>>());
 				var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
 				if (String.IsNullOrWhiteSpace(gitHubToken))
 					gitHubToken = null;
@@ -828,10 +825,7 @@ namespace Tgstation.Server.Tests.Live
 					CheckInfo(node2Info2);
 
 					// also test with uploaded updates this time
-					var downloader = new Host.IO.FileDownloader(
-						new Common.Http.HttpClientFactory(
-							new AssemblyInformationProvider().ProductInfoHeaderValue),
-						Mock.Of<ILogger<Host.IO.FileDownloader>>());
+					var downloader = CachingFileDownloader.CreateRealDownloader(Mock.Of<ILogger<Host.IO.FileDownloader>>());
 					var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
 					if (String.IsNullOrWhiteSpace(gitHubToken))
 						gitHubToken = null;

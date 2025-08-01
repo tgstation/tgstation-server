@@ -141,34 +141,38 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override ValueTask<IEngineInstallation> CreateInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken)
+		public sealed override ValueTask<IEngineInstallation> GetInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 
 			var installationIOManager = IOManager.CreateResolverForSubdirectory(path);
 			var supportsMapThreads = version.Version >= MapThreadsVersion;
 
+			var dreamDaemonName = GetDreamDaemonName(
+				version.Version!,
+				out var supportsCli);
+			var dreamDaemonPath = installationIOManager.ResolvePath(
+				installationIOManager.ConcatPath(
+					ByondBinPath,
+					dreamDaemonName));
+			var dreamMakerPath = installationIOManager.ResolvePath(
+				installationIOManager.ConcatPath(
+					ByondBinPath,
+					DreamMakerName));
+
 			return ValueTask.FromResult<IEngineInstallation>(
 				new ByondInstallation(
 					installationIOManager,
 					installationTask,
 					version,
-					installationIOManager.ResolvePath(
-						installationIOManager.ConcatPath(
-							ByondBinPath,
-							GetDreamDaemonName(
-								version.Version!,
-								out var supportsCli))),
-					installationIOManager.ResolvePath(
-						installationIOManager.ConcatPath(
-							ByondBinPath,
-							DreamMakerName)),
+					dreamDaemonPath,
+					dreamMakerPath,
 					supportsCli,
 					supportsMapThreads));
 		}
 
 		/// <inheritdoc />
-		public override async Task CleanCache(CancellationToken cancellationToken)
+		public sealed override async Task CleanCache(CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -214,7 +218,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter progressReporter, CancellationToken cancellationToken)
+		public sealed override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter progressReporter, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 

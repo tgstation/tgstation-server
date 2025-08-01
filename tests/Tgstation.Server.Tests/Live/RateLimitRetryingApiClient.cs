@@ -14,7 +14,7 @@ namespace Tgstation.Server.Tests.Live
 	sealed class RateLimitRetryingApiClient : ApiClient
 	{
 		public RateLimitRetryingApiClient(
-			IHttpClient httpClient,
+			HttpClient httpClient,
 			Uri url,
 			ApiHeaders apiHeaders,
 			ApiHeaders tokenRefreshHeaders,

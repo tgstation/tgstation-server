@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -50,7 +51,6 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		public bool Shutdown { get; private set; }
 
-		readonly Mock<IHttpClient> mockHttpClient;
 		readonly Mock<IDatabaseContextFactory> mockDBContextFactory;
 		readonly Mock<IDatabaseSeeder> mockDatabaseSeeder;
 		readonly ISetup<IDatabaseSeeder, ValueTask> mockDatabaseSeederInitialize;
@@ -121,10 +121,6 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				.Setup(x => x.UseContextTaskReturn(It.IsNotNull<Func<IDatabaseContext, Task>>()))
 				.Callback<Func<IDatabaseContext, Task>>((func) => func(mockDatabaseContext));
 
-			var mockHttpClientFactory = new Mock<IAbstractHttpClientFactory>();
-			mockHttpClient = new Mock<IHttpClient>();
-			mockHttpClientFactory.Setup(x => x.CreateClient()).Returns(mockHttpClient.Object);
-
 			var mockAsyncDelayer = new Mock<IAsyncDelayer>();
 			mockAsyncDelayer.Setup(
 				x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>()))
@@ -161,8 +157,8 @@ namespace Tgstation.Server.Host.Swarm.Tests
 					targetTransfer,
 					mockOptions.Object,
 					loggerFactory.CreateLogger<SwarmController>()),
-				mockHttpClient,
-				loggerFactory.CreateLogger($"SwarmRpcMapper-{swarmConfiguration.Identifier}"));
+				loggerFactory.CreateLogger($"SwarmRpcMapper-{swarmConfiguration.Identifier}"),
+				out var mockMessageHandler);
 
 			mockServerUpdater
 				.Setup(x => x.BeginUpdate(It.IsNotNull<ISwarmService>(), It.IsAny<IFileStreamProvider>(), It.IsNotNull<Version>(), It.IsAny<CancellationToken>()))
@@ -174,6 +170,9 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			logger = loggerFactory.CreateLogger($"TestableSwarmNode-{swarmConfiguration.Identifier}");
 
 			var mockTokenFactory = new MockTokenFactory();
+
+			var mockHttpClientFactory = new Mock<IHttpClientFactory>();
+			mockHttpClientFactory.Setup(x => x.CreateClient(String.Empty)).Returns(() => new HttpClient(mockMessageHandler));
 
 			var runCount = 0;
 			void RecreateControllerAndService()

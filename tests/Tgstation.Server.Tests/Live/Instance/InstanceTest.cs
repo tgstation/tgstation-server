@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,7 +17,6 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Events;
@@ -126,7 +126,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 						Mock.Of<ILogger<RepositoryManager>>(),
 						genConfig),
 					Mock.Of<IAsyncDelayer>(),
-					Mock.Of<IAbstractHttpClientFactory>(),
+					Mock.Of<IHttpClientFactory>(),
 					Options.Create(genConfig),
 					Options.Create(new SessionConfiguration()))
 				: new PlatformIdentifier().IsWindows

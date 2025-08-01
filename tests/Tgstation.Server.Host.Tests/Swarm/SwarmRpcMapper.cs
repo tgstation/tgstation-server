@@ -21,7 +21,7 @@ using Moq;
 
 using Newtonsoft.Json;
 
-using Tgstation.Server.Common.Http;
+using Tgstation.Server.Common.Tests;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Controllers.Results;
@@ -41,12 +41,10 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		int serverErrorCount;
 
-		public SwarmRpcMapper(Func<SwarmService, FileTransferService, SwarmController> createSwarmController, Mock<IHttpClient> clientMock, ILogger logger)
+		public SwarmRpcMapper(Func<SwarmService, FileTransferService, SwarmController> createSwarmController, ILogger logger, out HttpMessageHandler handlerMock)
 		{
 			this.createSwarmController = createSwarmController;
-			clientMock
-				.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<HttpCompletionOption>(), It.IsAny<CancellationToken>()))
-				.Returns(MapRequest);
+			handlerMock = new MockHttpMessageHandler(MapRequest);
 			this.logger = logger;
 			AsyncRequests = true;
 		}
@@ -63,7 +61,6 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		async Task<HttpResponseMessage> MapRequest(
 			HttpRequestMessage request,
-			HttpCompletionOption httpCompletionOption,
 			CancellationToken cancellationToken)
 		{
 			var (config, transferService, node) = configToNodes.FirstOrDefault(

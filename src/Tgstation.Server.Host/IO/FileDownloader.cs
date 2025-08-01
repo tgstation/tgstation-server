@@ -5,7 +5,6 @@ using System.Net.Http.Headers;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api;
-using Tgstation.Server.Common.Http;
 
 namespace Tgstation.Server.Host.IO
 {
@@ -13,9 +12,9 @@ namespace Tgstation.Server.Host.IO
 	public sealed class FileDownloader : IFileDownloader
 	{
 		/// <summary>
-		/// The <see cref="IAbstractHttpClientFactory"/> for the <see cref="FileDownloader"/>.
+		/// The <see cref="IHttpClientFactory"/> for the <see cref="FileDownloader"/>.
 		/// </summary>
-		readonly IAbstractHttpClientFactory httpClientFactory;
+		readonly IHttpClientFactory httpClientFactory;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="FileDownloader"/>.
@@ -27,7 +26,7 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public FileDownloader(IAbstractHttpClientFactory httpClientFactory, ILogger<FileDownloader> logger)
+		public FileDownloader(IHttpClientFactory httpClientFactory, ILogger<FileDownloader> logger)
 		{
 			this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));

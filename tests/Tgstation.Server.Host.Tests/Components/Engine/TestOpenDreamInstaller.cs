@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -8,8 +9,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
@@ -76,7 +75,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 				Mock.Of<IProcessExecutor>(),
 				mockRepositoryManager.Object,
 				Mock.Of<IAsyncDelayer>(),
-				Mock.Of<IAbstractHttpClientFactory>(),
+				Mock.Of<IHttpClientFactory>(),
 				mockGeneralConfigOptions.Object,
 				mockSessionConfigOptions.Object);
 
