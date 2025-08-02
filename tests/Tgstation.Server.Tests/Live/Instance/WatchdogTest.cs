@@ -556,59 +556,57 @@ namespace Tgstation.Server.Tests.Live.Instance
 			File.Delete(dumpFiles.Single());
 
 			// fuck this test, it's flakey as a motherfucker
-			if (Environment.NewLine != null)
+			if (Environment.NewLine == null)
 			{
-				return;
-			}
-
-			if (testVersion.Engine != EngineType.OpenDream)
-			{
-				JobResponse job;
-				while (true)
+				if (testVersion.Engine != EngineType.OpenDream)
 				{
-					KillDD(true);
-					var jobTcs = new TaskCompletionSource();
-					var killTaskStarted = new TaskCompletionSource();
-					var killThread = new Thread(() =>
+					JobResponse job;
+					while (true)
 					{
-						killTaskStarted.SetResult();
-						while (!jobTcs.Task.IsCompleted)
-							KillDD(false);
-					})
-					{
-						Priority = ThreadPriority.AboveNormal
-					};
+						KillDD(true);
+						var jobTcs = new TaskCompletionSource();
+						var killTaskStarted = new TaskCompletionSource();
+						var killThread = new Thread(() =>
+						{
+							killTaskStarted.SetResult();
+							while (!jobTcs.Task.IsCompleted)
+								KillDD(false);
+						})
+						{
+							Priority = ThreadPriority.AboveNormal
+						};
 
-					killThread.Start();
-					try
-					{
-						await killTaskStarted.Task;
-						var dumpTask = instanceClient.DreamDaemon.CreateDump(cancellationToken);
-						job = await WaitForJob(await dumpTask, 20, true, null, cancellationToken);
+						killThread.Start();
+						try
+						{
+							await killTaskStarted.Task;
+							var dumpTask = instanceClient.DreamDaemon.CreateDump(cancellationToken);
+							job = await WaitForJob(await dumpTask, 20, true, null, cancellationToken);
+						}
+						finally
+						{
+							jobTcs.SetResult();
+							killThread.Join();
+						}
+
+						// these can also happen
+
+						if (!(new PlatformIdentifier().IsWindows
+							&& (job.ExceptionDetails.Contains("Access is denied.")
+							|| job.ExceptionDetails.Contains("The handle is invalid.")
+							|| job.ExceptionDetails.Contains("Unknown error")
+							|| job.ExceptionDetails.Contains("No process is associated with this object.")
+							|| job.ExceptionDetails.Contains("The program issued a command but the command length is incorrect.")
+							|| job.ExceptionDetails.Contains("Only part of a ReadProcessMemory or WriteProcessMemory request was completed.")
+							|| job.ExceptionDetails.Contains("Unknown error"))))
+							break;
+
+						var restartJob = await instanceClient.DreamDaemon.Restart(cancellationToken);
+						await WaitForJob(restartJob, 20, false, null, cancellationToken);
 					}
-					finally
-					{
-						jobTcs.SetResult();
-						killThread.Join();
-					}
 
-					// these can also happen
-
-					if (!(new PlatformIdentifier().IsWindows
-						&& (job.ExceptionDetails.Contains("Access is denied.")
-						|| job.ExceptionDetails.Contains("The handle is invalid.")
-						|| job.ExceptionDetails.Contains("Unknown error")
-						|| job.ExceptionDetails.Contains("No process is associated with this object.")
-						|| job.ExceptionDetails.Contains("The program issued a command but the command length is incorrect.")
-						|| job.ExceptionDetails.Contains("Only part of a ReadProcessMemory or WriteProcessMemory request was completed.")
-						|| job.ExceptionDetails.Contains("Unknown error"))))
-						break;
-
-					var restartJob = await instanceClient.DreamDaemon.Restart(cancellationToken);
-					await WaitForJob(restartJob, 20, false, null, cancellationToken);
+					Assert.IsTrue(job.ErrorCode == ErrorCode.GameServerOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
 				}
-
-				Assert.IsTrue(job.ErrorCode == ErrorCode.GameServerOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
 			}
 
 			var restartJob2 = await instanceClient.DreamDaemon.Restart(cancellationToken);
