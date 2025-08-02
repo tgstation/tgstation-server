@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,7 +9,6 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
@@ -77,9 +77,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
-		/// The <see cref="IAbstractHttpClientFactory"/> for the <see cref="OpenDreamInstaller"/>.
+		/// The <see cref="IHttpClientFactory"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
-		readonly IAbstractHttpClientFactory httpClientFactory;
+		readonly IHttpClientFactory httpClientFactory;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenDreamInstaller"/> class.
@@ -100,7 +100,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			IProcessExecutor processExecutor,
 			IRepositoryManager repositoryManager,
 			IAsyncDelayer asyncDelayer,
-			IAbstractHttpClientFactory httpClientFactory,
+			IHttpClientFactory httpClientFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SessionConfiguration> sessionConfigurationOptions)
 			: base(ioManager, logger)
@@ -115,10 +115,10 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override Task CleanCache(CancellationToken cancellationToken) => Task.CompletedTask;
+		public sealed override Task CleanCache(CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
-		public override async ValueTask<IEngineInstallation> CreateInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken)
+		public sealed override async ValueTask<IEngineInstallation> GetInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			GetExecutablePaths(path, out var serverExePath, out var compilerExePath);
@@ -137,7 +137,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
+		public sealed override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(jobProgressReporter);
@@ -216,10 +216,26 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask Install(EngineVersion version, string installPath, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
+		public override ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
-			ArgumentNullException.ThrowIfNull(installPath);
+			ArgumentNullException.ThrowIfNull(path);
+			return ValueTask.CompletedTask;
+		}
+
+		/// <inheritdoc />
+		public override ValueTask TrustDmbPath(EngineVersion engineVersion, string fullDmbPath, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(engineVersion);
+			ArgumentNullException.ThrowIfNull(fullDmbPath);
+
+			Logger.LogTrace("TrustDmbPath is a no-op: {path}", fullDmbPath);
+			return ValueTask.CompletedTask;
+		}
+
+		/// <inheritdoc />
+		protected override async ValueTask InstallImpl(EngineVersion version, string installPath, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
+		{
 			var sourcePath = IOManager.ConcatPath(installPath, InstallationSourceSubDirectory);
 
 			if (!await IOManager.DirectoryExists(sourcePath, cancellationToken))
@@ -333,24 +349,6 @@ namespace Tgstation.Server.Host.Components.Engine
 			var outputFilesMoveTask = MoveFiles();
 			await ValueTaskExtensions.WhenAll(dirsMoveTask, outputFilesMoveTask);
 			await IOManager.DeleteDirectory(sourcePath, cancellationToken);
-		}
-
-		/// <inheritdoc />
-		public override ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken)
-		{
-			CheckVersionValidity(version);
-			ArgumentNullException.ThrowIfNull(path);
-			return ValueTask.CompletedTask;
-		}
-
-		/// <inheritdoc />
-		public override ValueTask TrustDmbPath(EngineVersion engineVersion, string fullDmbPath, CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(engineVersion);
-			ArgumentNullException.ThrowIfNull(fullDmbPath);
-
-			Logger.LogTrace("TrustDmbPath is a no-op: {path}", fullDmbPath);
-			return ValueTask.CompletedTask;
 		}
 
 		/// <summary>

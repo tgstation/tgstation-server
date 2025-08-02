@@ -57,13 +57,15 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="launchParameters">The active <see cref="DreamDaemonLaunchParameters"/>.</param>
 		/// <returns>The formatted parameters <see cref="string"/>.</returns>
 		protected static string EncodeParameters(
-			IReadOnlyDictionary<string, string> parameters,
+			IReadOnlyDictionary<string, string>? parameters,
 			DreamDaemonLaunchParameters launchParameters)
 		{
-			var parametersString = String.Join('&', parameters.Select(kvp => $"{HttpUtility.UrlEncode(kvp.Key)}={HttpUtility.UrlEncode(kvp.Value)}"));
+			var parametersString = parameters != null
+				? $"{String.Join('&', parameters.Select(kvp => $"{HttpUtility.UrlEncode(kvp.Key)}={HttpUtility.UrlEncode(kvp.Value)}"))}&"
+				: String.Empty;
 
 			if (!String.IsNullOrEmpty(launchParameters.AdditionalParameters))
-				parametersString = $"{parametersString}&{launchParameters.AdditionalParameters}";
+				parametersString += launchParameters.AdditionalParameters;
 
 			return parametersString;
 		}
@@ -83,8 +85,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <inheritdoc />
 		public abstract string FormatServerArguments(
 			IDmbProvider dmbProvider,
-			IReadOnlyDictionary<string, string> parameters,
+			IReadOnlyDictionary<string, string>? parameters,
 			DreamDaemonLaunchParameters launchParameters,
+			string accessIdentifier,
 			string? logFilePath);
 
 		/// <inheritdoc />

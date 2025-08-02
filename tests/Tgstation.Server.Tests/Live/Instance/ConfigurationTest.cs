@@ -70,7 +70,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Assert.AreEqual(TestString, Encoding.UTF8.GetString(downloadMemoryStream.ToArray()).Trim());
 			}
 
-			await ApiAssert.ThrowsException<ConflictException>(() => configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken), ErrorCode.ConfigurationDirectoryNotEmpty);
+			await ApiAssert.ThrowsExactly<ConflictException>(() => configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken), ErrorCode.ConfigurationDirectoryNotEmpty);
 
 			file.FileTicket = null;
 			await configurationClient.Write(new ConfigurationFileRequest

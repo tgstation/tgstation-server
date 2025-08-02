@@ -7,11 +7,11 @@ ARG TGS_TELEMETRY_KEY_FILE=
 # replace shell with bash so we can source files
 RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | sh
 
-ENV NODE_VERSION 20.5.1
+ENV NODE_VERSION=20.5.1
 
-ENV NVM_DIR /root/.nvm
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+ENV NVM_DIR=/root/.nvm
+ENV NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 RUN . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
@@ -70,9 +70,9 @@ RUN dpkg --add-architecture i386 \
 
 EXPOSE 5000
 
-ENV General__ValidInstancePaths__0 /tgs_instances
-ENV FileLogging__Directory /tgs_logs
-ENV Internal__UsingDocker true
+ENV General__ValidInstancePaths__0=/tgs_instances
+ENV FileLogging__Directory=/tgs_logs
+ENV Internal__UsingDocker=true
 
 WORKDIR /app
 

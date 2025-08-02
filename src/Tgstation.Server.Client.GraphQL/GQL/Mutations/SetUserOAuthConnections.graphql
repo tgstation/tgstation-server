@@ -2,17 +2,19 @@ mutation SetUserOAuthConnections($id: ID!, $newOAuthConnections: [OAuthConnectio
   updateUser(
     input: { id: $id, newOAuthConnections: $newOAuthConnections }
   ) {
-    user {
-      canonicalName
-      createdAt
-      enabled
-      id
-      name
-      systemIdentifier
-      oAuthConnections {
-        externalUserId
-        provider
-      }
+    updatedUser {
+        user {
+          canonicalName
+          createdAt
+          enabled
+          id
+          name
+          systemIdentifier
+          oAuthConnections {
+            externalUserId
+            provider
+          }
+        }
     }
     errors {
       ... on ErrorMessageError {

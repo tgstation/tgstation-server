@@ -76,14 +76,14 @@ namespace Tgstation.Server.Tests.Live
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			var firstClient = instanceManagerClient.CreateClient(firstTest);
-			await ApiAssert.ThrowsException<ConflictException, JobResponse>(() => firstClient.DreamDaemon.Start(cancellationToken), ErrorCode.InstanceOffline);
+			await ApiAssert.ThrowsExactly<ConflictException, JobResponse>(() => firstClient.DreamDaemon.Start(cancellationToken), ErrorCode.InstanceOffline);
 
 			//cant create instances in existent directories
 			var testNonEmpty = Path.Combine(testRootPath, Guid.NewGuid().ToString());
 			Directory.CreateDirectory(testNonEmpty);
 			var testFile = Path.Combine(testNonEmpty, "asdf");
 			await File.WriteAllBytesAsync(testFile, Array.Empty<byte>(), cancellationToken);
-			await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
+			await ApiAssert.ThrowsExactly<ConflictException, InstanceResponse>(() => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
 			{
 				Path = testNonEmpty,
 				Name = "NonEmptyTest"
@@ -97,18 +97,18 @@ namespace Tgstation.Server.Tests.Live
 				Name = "NonEmptyTest"
 			}, cancellationToken);
 
-			await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => instanceManagerClient.CreateOrAttach(FromResponse<InstanceCreateRequest>(firstTest), cancellationToken), ErrorCode.InstanceAtConflictingPath);
+			await ApiAssert.ThrowsExactly<ConflictException, InstanceResponse>(() => instanceManagerClient.CreateOrAttach(FromResponse<InstanceCreateRequest>(firstTest), cancellationToken), ErrorCode.InstanceAtConflictingPath);
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			//can't create instances in installation directory
-			await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
+			await ApiAssert.ThrowsExactly<ConflictException, InstanceResponse>(() => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
 			{
 				Path = "./A/Local/Path",
 				Name = "NoInstallDirTest"
 			}, cancellationToken), ErrorCode.InstanceAtConflictingPath);
 
 			//can't create instances as children of other instances
-			await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
+			await ApiAssert.ThrowsExactly<ConflictException, InstanceResponse>(() => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
 			{
 				Path = Path.Combine(firstTest.Path, "subdir"),
 				Name = "NoOtherInstanceDirTest"
@@ -116,19 +116,19 @@ namespace Tgstation.Server.Tests.Live
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			//can't move to existent directories
-			await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => instanceManagerClient.Update(new InstanceUpdateRequest
+			await ApiAssert.ThrowsExactly<ConflictException, InstanceResponse>(() => instanceManagerClient.Update(new InstanceUpdateRequest
 			{
 				Id = firstTest.Id,
 				Path = testNonEmpty
 			}, cancellationToken), ErrorCode.InstanceAtExistingPath);
 
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.GrantPermissions(new InstanceUpdateRequest
+			await ApiAssert.ThrowsExactly<ConflictException>(() => instanceManagerClient.GrantPermissions(new InstanceUpdateRequest
 			{
 				Id = 3482974,
 			}, cancellationToken), ErrorCode.ResourceNotPresent);
 
 			// test can't create instance outside of whitelist
-			await ApiAssert.ThrowsException<ApiConflictException, InstanceResponse>(() => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
+			await ApiAssert.ThrowsExactly<ApiConflictException, InstanceResponse>(() => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
 			{
 				Name = "TestInstanceOutsideOfWhitelist",
 				Path = Path.Combine(testRootPath, "..", Guid.NewGuid().ToString()),
@@ -164,7 +164,7 @@ namespace Tgstation.Server.Tests.Live
 
 			// a couple data validation checks
 			// check setting both fails
-			await ApiAssert.ThrowsException<ApiConflictException, InstanceResponse>(() => instanceManagerClient.Update(new InstanceUpdateRequest
+			await ApiAssert.ThrowsExactly<ApiConflictException, InstanceResponse>(() => instanceManagerClient.Update(new InstanceUpdateRequest
 			{
 				Id = firstTest.Id,
 				AutoUpdateInterval = 9999,
@@ -172,7 +172,7 @@ namespace Tgstation.Server.Tests.Live
 			}, cancellationToken), ErrorCode.ModelValidationFailure);
 
 			// check bad crons fail
-			await ApiAssert.ThrowsException<ApiConflictException, InstanceResponse>(() => instanceManagerClient.Update(new InstanceUpdateRequest
+			await ApiAssert.ThrowsExactly<ApiConflictException, InstanceResponse>(() => instanceManagerClient.Update(new InstanceUpdateRequest
 			{
 				Id = firstTest.Id,
 				AutoUpdateCron = "not a cron"
@@ -199,7 +199,7 @@ namespace Tgstation.Server.Tests.Live
 			Assert.AreEqual(0U, updated.AutoUpdateInterval);
 
 			//can't move online instance
-			await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => instanceManagerClient.Update(new InstanceUpdateRequest
+			await ApiAssert.ThrowsExactly<ConflictException, InstanceResponse>(() => instanceManagerClient.Update(new InstanceUpdateRequest
 			{
 				Id = firstTest.Id,
 				Path = initialPath
@@ -264,7 +264,7 @@ namespace Tgstation.Server.Tests.Live
 			firstTest = await instanceManagerClient.GetId(firstTest, cancellationToken);
 			Assert.IsFalse(firstTest.Accessible);
 
-			await ApiAssert.ThrowsException<InsufficientPermissionsException, InstancePermissionSetResponse>(() => instanceClient.PermissionSets.Read(cancellationToken));
+			await ApiAssert.ThrowsExactly<InsufficientPermissionsException, InstancePermissionSetResponse>(() => instanceClient.PermissionSets.Read(cancellationToken));
 
 			await instanceManagerClient.GrantPermissions(new InstanceUpdateRequest
 			{
@@ -279,7 +279,7 @@ namespace Tgstation.Server.Tests.Live
 			Assert.AreEqual(RightsHelper.AllRights<DreamDaemonRights>(), ourInstanceUser.DreamDaemonRights.Value);
 
 			//can't detach online instance
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Detach(firstTest, cancellationToken), ErrorCode.InstanceDetachOnline);
+			await ApiAssert.ThrowsExactly<ConflictException>(() => instanceManagerClient.Detach(firstTest, cancellationToken), ErrorCode.InstanceDetachOnline);
 
 			firstTest.Online = false;
 			firstTest = await instanceManagerClient.Update(FromResponse<InstanceUpdateRequest>(firstTest), cancellationToken);
@@ -317,7 +317,7 @@ namespace Tgstation.Server.Tests.Live
 			//but only if the attach file exists
 			await instanceManagerClient.Detach(firstTest, cancellationToken);
 			File.Delete(attachPath);
-			await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => instanceManagerClient.CreateOrAttach(FromResponse<InstanceCreateRequest>(firstTest), cancellationToken), ErrorCode.InstanceAtExistingPath);
+			await ApiAssert.ThrowsExactly<ConflictException, InstanceResponse>(() => instanceManagerClient.CreateOrAttach(FromResponse<InstanceCreateRequest>(firstTest), cancellationToken), ErrorCode.InstanceAtExistingPath);
 		}
 	}
 }

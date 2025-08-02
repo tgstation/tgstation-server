@@ -144,28 +144,28 @@ namespace Tgstation.Server.Host.IO.Tests
 			var tempPath1 = Guid.NewGuid().ToString();
 			var tempPath2 = Guid.NewGuid().ToString();
 
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ioManager.CopyDirectory(
+			await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => ioManager.CopyDirectory(
 				null,
 				null,
 				null,
 				tempPath2,
 				throttle,
 				default).AsTask());
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ioManager.CopyDirectory(
+			await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => ioManager.CopyDirectory(
 				null,
 				null,
 				tempPath1,
 				null,
 				throttle,
 				default).AsTask());
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ioManager.CopyDirectory(
+			await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => ioManager.CopyDirectory(
 				null,
 				null,
 				null,
 				null,
 				throttle,
 				default).AsTask());
-			await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(() => ioManager.CopyDirectory(
+			await Assert.ThrowsExactlyAsync<ArgumentOutOfRangeException>(() => ioManager.CopyDirectory(
 				null,
 				null,
 				tempPath1,

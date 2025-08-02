@@ -81,7 +81,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly CancellationTokenSource cleanupCts;
 
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> for <see cref="LogLockStates"/>.
+		/// The <see cref="CancellationTokenSource"/> for <see cref="LogLockStatesLoop"/>.
 		/// </summary>
 		readonly CancellationTokenSource lockLogCts;
 
@@ -224,7 +224,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 
 			// we dont do CleanUnusedCompileJobs here because the watchdog may have plans for them yet
-			cleanupTask = Task.WhenAll(cleanupTask, LogLockStates());
+			cleanupTask = Task.WhenAll(cleanupTask, LogLockStatesLoop());
 		}
 
 		/// <inheritdoc />
@@ -329,6 +329,18 @@ namespace Tgstation.Server.Host.Components.Deployment
 			await using IDmbProvider provider = LockNextDmb("Checking latest CompileJob");
 
 			return provider.CompileJob;
+		}
+
+		/// <inheritdoc />
+		public void LogLockStates()
+		{
+			var builder = new StringBuilder();
+
+			lock (jobLockManagers)
+				foreach (var lockManager in jobLockManagers.Values)
+					lockManager.LogLockStats(builder);
+
+			logger.LogTrace("Periodic deployment log states report:{newLine}{report}", Environment.NewLine, builder);
 		}
 
 		/// <summary>
@@ -517,7 +529,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Lock all <see cref="DeploymentLockManager"/>s states.
 		/// </summary>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task LogLockStates()
+		async Task LogLockStatesLoop()
 		{
 			logger.LogTrace("Entering lock logging loop");
 			CancellationToken cancellationToken = lockLogCts.Token;
@@ -525,14 +537,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			while (!cancellationToken.IsCancellationRequested)
 				try
 				{
-					var builder = new StringBuilder();
-
-					lock (jobLockManagers)
-						foreach (var lockManager in jobLockManagers.Values)
-							lockManager.LogLockStats(builder);
-
-					logger.LogTrace("Periodic deployment log states report:{newLine}{report}", Environment.NewLine, builder);
-
+					LogLockStates();
 					await asyncDelayer.Delay(TimeSpan.FromMinutes(10), cancellationToken);
 				}
 				catch (OperationCanceledException ex)

@@ -113,19 +113,24 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <inheritdoc />
 		public override string FormatServerArguments(
 			IDmbProvider dmbProvider,
-			IReadOnlyDictionary<string, string> parameters,
+			IReadOnlyDictionary<string, string>? parameters,
 			DreamDaemonLaunchParameters launchParameters,
+			string accessIdentifier,
 			string? logFilePath)
 		{
 			ArgumentNullException.ThrowIfNull(dmbProvider);
-			ArgumentNullException.ThrowIfNull(parameters);
 			ArgumentNullException.ThrowIfNull(launchParameters);
+			ArgumentNullException.ThrowIfNull(accessIdentifier);
 
-			var parametersString = EncodeParameters(parameters, launchParameters);
+			var encodedParameters = EncodeParameters(parameters, launchParameters);
+			var parametersString = !String.IsNullOrEmpty(encodedParameters)
+				? $" -params \"{encodedParameters}\""
+				: String.Empty;
 
+			// important to run on all ports to allow port changing
 			var arguments = String.Format(
 				CultureInfo.InvariantCulture,
-				"\"{0}\" -port {1} -ports 1-65535 {2}-close -verbose -{3} -{4}{5}{6}{7} -params \"{8}\"",
+				"\"{0}\" -port {1} -ports 1-65535 {2}-close -verbose -{3} -{4}{5}{6}{7}{8}",
 				dmbProvider.DmbName,
 				launchParameters.Port!.Value,
 				launchParameters.AllowWebClient!.Value

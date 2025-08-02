@@ -126,7 +126,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(PaginatedResponse<CompileJobResponse>), 200)]
 		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<CompileJob, CompileJobResponse>(
-				() => ValueTask.FromResult(
+				() => ValueTask.FromResult<PaginatableResult<CompileJob>?>(
 					new PaginatableResult<CompileJob>(
 						BaseCompileJobsQuery()
 							.OrderByDescending(x => x.Job.StoppedAt))),

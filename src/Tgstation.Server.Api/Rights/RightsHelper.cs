@@ -34,6 +34,12 @@ namespace Tgstation.Server.Api.Rights
 		public static Type RightToType(RightsType rightsType) => TypeMap[rightsType];
 
 		/// <summary>
+		/// Iterate the <see cref="Type"/> of each right.
+		/// </summary>
+		/// <returns>An <see cref="IEnumerable{T}"/> of each <see cref="Type"/> of right.</returns>
+		public static IEnumerable<Type> AllRightTypes() => TypeMap.Values;
+
+		/// <summary>
 		/// Map a given <typeparamref name="TRight"/> to its respective <see cref="RightsType"/>.
 		/// </summary>
 		/// <typeparam name="TRight">The <see cref="Type"/> of the right.</typeparam>

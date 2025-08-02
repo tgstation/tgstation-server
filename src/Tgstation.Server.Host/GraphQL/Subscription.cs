@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using HotChocolate;
+using HotChocolate.Authorization;
 using HotChocolate.Execution;
 using HotChocolate.Subscriptions;
 using HotChocolate.Types;
@@ -16,6 +17,7 @@ namespace Tgstation.Server.Host.GraphQL
 	/// Root type for GraphQL subscriptions.
 	/// </summary>
 	/// <remarks>Intentionally left mostly empty, use type extensions to properly scope operations to domains.</remarks>
+	[Authorize(ApplyPolicy.Validation)] // See https://github.com/ChilliCream/graphql-platform/issues/6259
 	[GraphQLDescription(GraphQLDescription)]
 	public sealed class Subscription
 	{
@@ -63,7 +65,6 @@ namespace Tgstation.Server.Host.GraphQL
 		/// <param name="sessionInvalidationReason">The <see cref="SessionInvalidationReason"/> received from the publisher.</param>
 		/// <returns>The <see cref="SessionInvalidationReason"/>.</returns>
 		[Subscribe(With = nameof(SessionInvalidatedStream))]
-		[TgsGraphQLAuthorize]
 		public SessionInvalidationReason SessionInvalidated([EventMessage] SessionInvalidationReason sessionInvalidationReason)
 			=> sessionInvalidationReason;
 	}

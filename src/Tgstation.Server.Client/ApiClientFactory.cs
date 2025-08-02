@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Net.Http;
 
 using Tgstation.Server.Api;
-using Tgstation.Server.Common.Http;
 
 namespace Tgstation.Server.Client
 {
@@ -15,6 +15,20 @@ namespace Tgstation.Server.Client
 			ApiHeaders? tokenRefreshHeaders,
 			bool authless) => new ApiClient(
 				new HttpClient(),
+				url,
+				apiHeaders,
+				tokenRefreshHeaders,
+				authless);
+
+		/// <inheritdoc />
+		public IApiClient CreateApiClient(
+			Uri url,
+			ApiHeaders apiHeaders,
+			ApiHeaders? tokenRefreshHeaders,
+			HttpMessageHandler handler,
+			bool disposeHandler,
+			bool authless) => new ApiClient(
+				new HttpClient(handler, disposeHandler),
 				url,
 				apiHeaders,
 				tokenRefreshHeaders,

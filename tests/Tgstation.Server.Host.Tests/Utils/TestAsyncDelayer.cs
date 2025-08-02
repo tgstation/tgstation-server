@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Utils.Tests
 			var delayer = new AsyncDelayer(Mock.Of<ILogger<AsyncDelayer>>());
 			using var cts = new CancellationTokenSource();
 			cts.Cancel();
-			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => delayer.Delay(TimeSpan.FromSeconds(1), cts.Token).AsTask());
+			await Assert.ThrowsExactlyAsync<TaskCanceledException>(() => delayer.Delay(TimeSpan.FromSeconds(1), cts.Token).AsTask());
 		}
 	}
 }

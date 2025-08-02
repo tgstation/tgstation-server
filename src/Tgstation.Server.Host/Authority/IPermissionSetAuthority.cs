@@ -1,10 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Models;
-using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Authority
 {
@@ -20,7 +18,6 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="lookupType">The <see cref="PermissionSetLookupType"/> of <paramref name="id"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="PermissionSet"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
-		[TgsAuthorize(AdministrationRights.ReadUsers)]
-		ValueTask<AuthorityResponse<PermissionSet>> GetId(long id, PermissionSetLookupType lookupType, CancellationToken cancellationToken);
+		RequirementsGated<AuthorityResponse<PermissionSet>> GetId(long id, PermissionSetLookupType lookupType, CancellationToken cancellationToken);
 	}
 }

@@ -8,7 +8,6 @@ using HotChocolate.Execution;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 
-using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.GraphQL.Types;
 using Tgstation.Server.Host.Security;
 
@@ -68,7 +67,6 @@ namespace Tgstation.Server.Host.GraphQL.Subscriptions
 		/// <param name="user">The <see cref="Models.User"/> received from the publisher.</param>
 		/// <returns>The updated <see cref="User"/>.</returns>
 		[Subscribe(With = nameof(UserUpdatedStream))]
-		[TgsGraphQLAuthorize(AdministrationRights.ReadUsers)]
 		public User UserUpdated([EventMessage] User user)
 		{
 			ArgumentNullException.ThrowIfNull(user);
@@ -98,7 +96,6 @@ namespace Tgstation.Server.Host.GraphQL.Subscriptions
 		/// <param name="user">The <see cref="Models.User"/> received from the publisher.</param>
 		/// <returns>The updated <see cref="User"/>.</returns>
 		[Subscribe(With = nameof(CurrentUserUpdatedStream))]
-		[TgsGraphQLAuthorize]
 		public User CurrentUserUpdated([EventMessage] User user)
 		{
 			ArgumentNullException.ThrowIfNull(user);

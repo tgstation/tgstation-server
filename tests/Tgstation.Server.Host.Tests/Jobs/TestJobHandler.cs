@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Jobs.Tests
 		public void TestConstructionAndDisposal()
 		{
 			cancelled = false;
-			Assert.ThrowsException<ArgumentNullException>(() => new JobHandler(null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new JobHandler(null));
 
 			currentWaitTask = Task.CompletedTask;
 			new JobHandler(TestJob).Dispose();
@@ -40,9 +40,9 @@ namespace Tgstation.Server.Host.Jobs.Tests
 				currentWaitTask = tcs.Task;
 				cts.Cancel();
 				using var handler = new JobHandler(TestJob);
-				await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => handler.Wait(cts.Token));
+				await Assert.ThrowsExactlyAsync<InvalidOperationException>(() => handler.Wait(cts.Token));
 				handler.Start();
-				await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => handler.Wait(cts.Token));
+				await Assert.ThrowsExactlyAsync<TaskCanceledException>(() => handler.Wait(cts.Token));
 				tcs.SetResult();
 				await handler.Wait(default);
 			}

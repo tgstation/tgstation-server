@@ -40,7 +40,7 @@ namespace Tgstation.Server.Api.Models.Internal.Tests
 
 			Assert.IsFalse(EngineVersion.TryParse("x", out version));
 			Assert.IsNull(version);
-			Assert.ThrowsException<InvalidOperationException>(() => EngineVersion.Parse("x"));
+			Assert.ThrowsExactly<InvalidOperationException>(() => EngineVersion.Parse("x"));
 		}
 	}
 }

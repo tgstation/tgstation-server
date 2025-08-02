@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -10,7 +11,6 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
@@ -24,6 +24,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="ApiController"/> for managing <see cref="UserGroupResponse"/>s.
 	/// </summary>
 	[Route(Routes.UserGroup)]
+	[Authorize]
 	public class UserGroupController : ApiController
 	{
 		/// <summary>
@@ -77,7 +78,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="201"><see cref="UserGroup"/> created successfully.</response>
 		[HttpPut]
-		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(typeof(UserGroupResponse), 201)]
 		public async ValueTask<IActionResult> Create([FromBody] UserGroupCreateRequest model, CancellationToken cancellationToken)
 		{
@@ -103,7 +103,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200"><see cref="UserGroup"/> updated successfully.</response>
 		/// <response code="410">The requested <see cref="UserGroup"/> does not currently exist.</response>
 		[HttpPost]
-		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(typeof(UserGroupResponse), 200)]
 		public ValueTask<IActionResult> Update([FromBody] UserGroupUpdateRequest model, CancellationToken cancellationToken)
 		{
@@ -127,7 +126,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Retrieve <see cref="UserGroup"/> successfully.</response>
 		/// <response code="410">The requested <see cref="UserGroup"/> does not currently exist.</response>
 		[HttpGet("{id}")]
-		[TgsRestAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.GetId))]
 		[ProducesResponseType(typeof(UserGroupResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
@@ -142,15 +140,18 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="UserGroup"/>s successfully.</response>
 		[HttpGet(Routes.List)]
-		[TgsRestAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.Queryable))]
 		[ProducesResponseType(typeof(PaginatedResponse<UserGroupResponse>), 200)]
 		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<UserGroup, UserGroupResponse>(
-				() => ValueTask.FromResult(
-					new PaginatableResult<UserGroup>(
-						userGroupAuthority
-							.InvokeQueryable(authority => authority.Queryable(true))
-							.OrderBy(x => x.Id))),
+				async () =>
+				{
+					var queryable = await userGroupAuthority
+						.InvokeQueryable(authority => authority.Queryable(true));
+					if (queryable == null)
+						return null;
+
+					return new PaginatableResult<UserGroup>(queryable.OrderBy(x => x.Id));
+				},
 				null,
 				page,
 				pageSize,
@@ -166,7 +167,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="409">The <see cref="UserGroup"/> is not empty.</response>
 		/// <response code="410">The <see cref="UserGroup"/> didn't exist.</response>
 		[HttpDelete("{id}")]
-		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]

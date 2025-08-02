@@ -15,6 +15,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Common.Http;
+using Tgstation.Server.Common.Tests;
 
 namespace Tgstation.Server.Client.Tests
 {
@@ -44,11 +45,10 @@ namespace Tgstation.Server.Client.Tests
 				Content = new StringContent(sampleJson)
 			};
 
-			var httpClient = new Mock<IHttpClient>();
-			httpClient.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<HttpCompletionOption>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(response));
+			var handler = new MockHttpMessageHandler((_, __) => Task.FromResult(response));
 
 			var client = new ApiClient(
-				httpClient.Object,
+				new HttpClient(handler),
 				new Uri("http://fake.com"),
 				new ApiHeaders(
 					new ProductHeaderValue("fake"),
@@ -84,11 +84,10 @@ namespace Tgstation.Server.Client.Tests
 				Content = new StringContent(fakeJson)
 			};
 
-			var httpClient = new Mock<IHttpClient>();
-			httpClient.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<HttpCompletionOption>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(response));
+			var handler = new MockHttpMessageHandler((_, __) => Task.FromResult(response));
 
 			var client = new ApiClient(
-				httpClient.Object,
+				new HttpClient(handler),
 				new Uri("http://fake.com"),
 				new ApiHeaders(
 					new ProductHeaderValue("fake"),
@@ -99,7 +98,7 @@ namespace Tgstation.Server.Client.Tests
 				null,
 				false);
 
-			await Assert.ThrowsExceptionAsync<UnrecognizedResponseException>(() => client.Read<EngineResponse>(Routes.Engine, default).AsTask());
+			await Assert.ThrowsExactlyAsync<UnrecognizedResponseException>(() => client.Read<EngineResponse>(Routes.Engine, default).AsTask());
 		}
 	}
 }

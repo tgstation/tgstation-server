@@ -16,13 +16,13 @@ namespace Tgstation.Server.Host.Authority
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="LoginResult"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
-		ValueTask<AuthorityResponse<LoginResult>> AttemptLogin(CancellationToken cancellationToken);
+		RequirementsGated<AuthorityResponse<LoginResult>> AttemptLogin(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempt to login to an OAuth service with the current OAuth credentials.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in an <see cref="OAuthGatewayLoginResult"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
-		ValueTask<AuthorityResponse<OAuthGatewayLoginResult>> AttemptOAuthGatewayLogin(CancellationToken cancellationToken);
+		RequirementsGated<AuthorityResponse<OAuthGatewayLoginResult>> AttemptOAuthGatewayLogin(CancellationToken cancellationToken);
 	}
 }

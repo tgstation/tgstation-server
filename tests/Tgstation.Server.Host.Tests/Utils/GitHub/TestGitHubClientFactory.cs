@@ -44,10 +44,10 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 		[TestMethod]
 		public void TestContructionThrows()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new GitHubClientFactory(null, null, null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new GitHubClientFactory(Mock.Of<IAssemblyInformationProvider>(), null, null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new GitHubClientFactory(Mock.Of<IAssemblyInformationProvider>(), Mock.Of<IHttpMessageHandlerFactory>(), null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new GitHubClientFactory(Mock.Of<IAssemblyInformationProvider>(), Mock.Of<IHttpMessageHandlerFactory>(), Mock.Of<ILogger<GitHubClientFactory>>(), null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new GitHubClientFactory(null, null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new GitHubClientFactory(Mock.Of<IAssemblyInformationProvider>(), null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new GitHubClientFactory(Mock.Of<IAssemblyInformationProvider>(), Mock.Of<IHttpMessageHandlerFactory>(), null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new GitHubClientFactory(Mock.Of<IAssemblyInformationProvider>(), Mock.Of<IHttpMessageHandlerFactory>(), Mock.Of<ILogger<GitHubClientFactory>>(), null));
 		}
 
 		[TestMethod]
@@ -89,7 +89,7 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
 			var factory = new GitHubClientFactory(mockApp.Object, new BasicHttpMessageHandlerFactory(), loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
 
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateClient(null, CancellationToken.None).AsTask());
+			await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => factory.CreateClient(null, CancellationToken.None).AsTask());
 
 			var client = await factory.CreateClient("asdf", CancellationToken.None);
 			Assert.IsNotNull(client);
@@ -149,7 +149,7 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
 			var factory = new GitHubClientFactory(mockApp.Object, new BasicHttpMessageHandlerFactory(), loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
 
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateClient(null, CancellationToken.None).AsTask());
+			await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => factory.CreateClient(null, CancellationToken.None).AsTask());
 
 			const string FakePrivateKey = @"-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAq3oP6NMRwRZY8eMbm4GRLyfJ07LNpHzjRcjTvMf8LGGSVb8v

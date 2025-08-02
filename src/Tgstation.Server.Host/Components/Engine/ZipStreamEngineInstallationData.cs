@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		public ValueTask DisposeAsync() => zipStream.DisposeAsync();
 
 		/// <inheritdoc />
-		public Task ExtractToPath(string path, CancellationToken cancellationToken)
+		public ValueTask ExtractToPath(string path, CancellationToken cancellationToken)
 			=> ioManager.ZipToDirectory(path, zipStream, cancellationToken);
 	}
 }

@@ -20,9 +20,9 @@ namespace Tgstation.Server.Host.Authority
 		/// Invoke a <typeparamref name="TAuthority"/> method with no success result.
 		/// </summary>
 		/// <param name="controller">The <see cref="ApiController"/> invoking the <typeparamref name="TAuthority"/>.</param>
-		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> returning a <see cref="ValueTask{TResult}"/> resulting in the <see cref="AuthorityResponse"/>.</param>
+		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> resulting in the <see cref="RequirementsGated{TResult}"/> <see cref="AuthorityResponse"/>.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> generated for the resulting <see cref="AuthorityResponse"/>.</returns>
-		ValueTask<IActionResult> Invoke(ApiController controller, Func<TAuthority, ValueTask<AuthorityResponse>> authorityInvoker);
+		ValueTask<IActionResult> Invoke(ApiController controller, Func<TAuthority, RequirementsGated<AuthorityResponse>> authorityInvoker);
 
 		/// <summary>
 		/// Invoke a <typeparamref name="TAuthority"/> method and get the result.
@@ -30,9 +30,9 @@ namespace Tgstation.Server.Host.Authority
 		/// <typeparam name="TResult">The <see cref="AuthorityResponse{TResult}.Result"/> <see cref="Type"/>.</typeparam>
 		/// <typeparam name="TApiModel">The resulting <see cref="Type"/> of the <see cref="IActionResult"/>.</typeparam>
 		/// <param name="controller">The <see cref="ApiController"/> invoking the <typeparamref name="TAuthority"/>.</param>
-		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> returning a <see cref="ValueTask{TResult}"/> resulting in the <see cref="AuthorityResponse{TResult}"/>.</param>
+		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> resulting in the <see cref="RequirementsGated{TResult}"/> <see cref="AuthorityResponse{TResult}"/>.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> generated for the resulting <see cref="AuthorityResponse{TResult}"/>.</returns>
-		ValueTask<IActionResult> Invoke<TResult, TApiModel>(ApiController controller, Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
+		ValueTask<IActionResult> Invoke<TResult, TApiModel>(ApiController controller, Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
 			where TResult : TApiModel
 			where TApiModel : notnull;
 
@@ -42,9 +42,9 @@ namespace Tgstation.Server.Host.Authority
 		/// <typeparam name="TResult">The <see cref="AuthorityResponse{TResult}.Result"/> <see cref="Type"/>.</typeparam>
 		/// <typeparam name="TApiModel">The returned REST <see cref="Type"/>.</typeparam>
 		/// <param name="controller">The <see cref="ApiController"/> invoking the <typeparamref name="TAuthority"/>.</param>
-		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> returning a <see cref="ValueTask{TResult}"/> resulting in the <see cref="AuthorityResponse{TResult}"/>.</param>
+		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> resulting in the <see cref="RequirementsGated{TResult}"/> <see cref="AuthorityResponse{TResult}"/>.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> generated for the resulting <see cref="AuthorityResponse{TResult}"/>.</returns>
-		ValueTask<IActionResult> InvokeTransformable<TResult, TApiModel>(ApiController controller, Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
+		ValueTask<IActionResult> InvokeTransformable<TResult, TApiModel>(ApiController controller, Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
 			where TResult : notnull, ILegacyApiTransformable<TApiModel>
 			where TApiModel : notnull;
 	}

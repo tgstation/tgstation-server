@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Components.Repository.Tests
 			.CreateFromPath(path, default));
 
 		[TestMethod]
-		public void TestConstructionThrows() => Assert.ThrowsException<ArgumentNullException>(() => new LibGit2RepositoryFactory(null));
+		public void TestConstructionThrows() => Assert.ThrowsExactly<ArgumentNullException>(() => new LibGit2RepositoryFactory(null));
 
 		[TestMethod]
 		public void TestInMemoryRepoCreation()

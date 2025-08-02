@@ -208,7 +208,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (ulong)ChatBotRights.ReadConnectionString) != 0;
 			return Paginated<ChatBot, ChatBotResponse>(
-				() => ValueTask.FromResult(
+				() => ValueTask.FromResult<PaginatableResult<ChatBot>?>(
 					new PaginatableResult<ChatBot>(
 						DatabaseContext
 							.ChatBots

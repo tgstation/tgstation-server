@@ -27,7 +27,7 @@ namespace Tgstation.Server.Tests.Live
 		/// <param name="action">A <see cref="Func{TResult}"/> resulting in a <see cref="Task"/>.</param>
 		/// <param name="expectedErrorCode">The expected <see cref="ApiException.ErrorCode"/>.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation,</returns>
-		public static async ValueTask ThrowsException<TApiException>(Func<ValueTask> action, Api.Models.ErrorCode? expectedErrorCode = null)
+		public static async ValueTask ThrowsExactly<TApiException>(Func<ValueTask> action, Api.Models.ErrorCode? expectedErrorCode = null)
 			where TApiException : ApiException
 		{
 			try
@@ -51,7 +51,7 @@ namespace Tgstation.Server.Tests.Live
 		/// <param name="action">A <see cref="Func{TResult}"/> resulting in a <see cref="Task"/>.</param>
 		/// <param name="expectedErrorCode">The expected <see cref="ApiException.ErrorCode"/>.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation,</returns>
-		public static async ValueTask ThrowsException<TApiException, TResult>(Func<ValueTask<TResult>> action, Api.Models.ErrorCode? expectedErrorCode = null)
+		public static async ValueTask ThrowsExactly<TApiException, TResult>(Func<ValueTask<TResult>> action, Api.Models.ErrorCode? expectedErrorCode = null)
 			where TApiException : ApiException
 		{
 			try

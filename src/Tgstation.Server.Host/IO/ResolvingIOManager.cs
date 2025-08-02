@@ -27,11 +27,8 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public override string ResolvePath(string path)
-		{
-			if (!IsPathRooted(path))
-				return base.ResolvePath(ConcatPath(subdirectory, path));
-			return path;
-		}
+		protected override string ResolvePathCore(string path)
+			=> base.ResolvePathCore(
+				ConcatPath(subdirectory, path));
 	}
 }

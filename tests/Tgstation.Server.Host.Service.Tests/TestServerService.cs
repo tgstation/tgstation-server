@@ -19,9 +19,9 @@ namespace Tgstation.Server.Host.Service.Tests
 		[TestMethod]
 		public void TestConstructionAndDisposal()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(null, null, default));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new ServerService(null, null, default));
 			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(mockWatchdogFactory.Object, null, default));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new ServerService(mockWatchdogFactory.Object, null, default));
 			new ServerService(mockWatchdogFactory.Object, Array.Empty<string>(), default).Dispose();
 		}
 

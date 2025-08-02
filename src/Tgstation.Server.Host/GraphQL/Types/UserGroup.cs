@@ -4,13 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using HotChocolate;
+using HotChocolate.Authorization;
 using HotChocolate.Data;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 using Tgstation.Server.Host.Authority;
 
 using Tgstation.Server.Host.Models.Transformers;
-using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
@@ -18,6 +18,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// Represents a group of <see cref="User"/>s.
 	/// </summary>
 	[Node]
+	[Authorize]
 	public sealed class UserGroup : NamedEntity
 	{
 		/// <summary>
@@ -27,7 +28,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> resulting in the queried <see cref="User"/>, if present.</returns>
-		[TgsGraphQLAuthorize]
 		public static ValueTask<UserGroup?> GetUserGroup(
 			long id,
 			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority,
@@ -62,15 +62,14 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UsePaging]
 		[UseFiltering]
 		[UseSorting]
-		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserAuthority.Queryable))]
-		public IQueryable<User> QueryableUsersByGroup(
+		public async ValueTask<IQueryable<User>> QueryableUsersByGroup(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			var dtoQueryable = userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(
+			var dtoQueryable = await userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(
 				authority => authority
-					.Queryable(false)
-					.Where(user => user.GroupId == Id));
+					.Queryable(false),
+				queryable => queryable.Where(user => user.GroupId == Id));
 			return dtoQueryable;
 		}
 	}

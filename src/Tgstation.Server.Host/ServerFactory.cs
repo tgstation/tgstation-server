@@ -182,7 +182,7 @@ namespace Tgstation.Server.Host
 					IOManager.ResolvePath(
 						IOManager.GetDirectoryName(assemblyInformationProvider.Path)));
 
-			return new Server(hostBuilder, updatePath);
+			return new Server(IOManager, hostBuilder, updatePath);
 		}
 #pragma warning restore CA1506
 	}

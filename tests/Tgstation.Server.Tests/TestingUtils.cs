@@ -4,7 +4,6 @@ using System.IO;
 using System.IO.Abstractions;
 using System.IO.Compression;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -24,7 +23,13 @@ namespace Tgstation.Server.Tests
 {
 	static class TestingUtils
 	{
-		public static bool RunningInGitHubActions { get; } = !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("GITHUB_RUN_ID"));
+		static TestingUtils()
+		{
+			RunningInGitHubActions = !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("GITHUB_RUN_ID"));
+			System.Console.WriteLine($"RunningInGitHubAction: {RunningInGitHubActions}");
+		}
+
+		public static bool RunningInGitHubActions { get; }
 
 		public static ILoggerFactory CreateLoggerFactoryForLogger(ILogger logger, out Mock<ILoggerFactory> mockLoggerFactory)
 		{

@@ -612,7 +612,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var needsUpdate = false;
 			var result = await Paginated<Models.Instance, InstanceResponse>(
-				() => ValueTask.FromResult(
+				() => ValueTask.FromResult<PaginatableResult<Models.Instance>?>(
 					new PaginatableResult<Models.Instance>(
 						GetBaseQuery()
 							.OrderBy(x => x.Id))),

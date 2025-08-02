@@ -216,8 +216,8 @@ namespace Tgstation.Server.Tests.Live
 			};
 
 			var badClient = clientFactory.CreateFromToken(serverClient.Url, newToken);
-			await ApiAssert.ThrowsException<UnauthorizedException, AdministrationResponse>(() => badClient.Administration.Read(false, cancellationToken));
-			await ApiAssert.ThrowsException<UnauthorizedException, ServerInformationResponse>(() => badClient.ServerInformation(cancellationToken));
+			await ApiAssert.ThrowsExactly<UnauthorizedException, AdministrationResponse>(() => badClient.Administration.Read(false, cancellationToken));
+			await ApiAssert.ThrowsExactly<UnauthorizedException, ServerInformationResponse>(() => badClient.ServerInformation(cancellationToken));
 		}
 
 		static async Task TestOAuthFails(IRestServerClient serverClient, CancellationToken cancellationToken)
@@ -408,7 +408,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(HubConnectionState.Disconnected, hubConnection.State);
 					hubConnection.ProxyOn<IJobsHub>(proxy);
 
-					var exception = await Assert.ThrowsExceptionAsync<HttpRequestException>(() => hubConnection.StartAsync(cancellationToken));
+					var exception = await Assert.ThrowsExactlyAsync<HttpRequestException>(() => hubConnection.StartAsync(cancellationToken));
 
 					Assert.AreEqual(HttpStatusCode.Unauthorized, exception.StatusCode);
 					Assert.AreEqual(HubConnectionState.Disconnected, hubConnection.State);
@@ -444,7 +444,7 @@ namespace Tgstation.Server.Tests.Live
 
 				Assert.AreNotEqual(HubConnectionState.Connected, testUserConn1.State);
 
-				await ApiAssert.ThrowsException<InsufficientPermissionsException>(async () => await testUserClient.SubscribeToJobUpdates(proxy, cancellationToken: cancellationToken));
+				await ApiAssert.ThrowsExactly<InsufficientPermissionsException>(async () => await testUserClient.SubscribeToJobUpdates(proxy, cancellationToken: cancellationToken));
 			}
 			finally
 			{

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -49,7 +50,7 @@ namespace Tgstation.Server.Tests
 			var cfd = new CachingFileDownloader(loggerFactory.CreateLogger<CachingFileDownloader>());
 
 			// this also will inject the edge version
-			var edgeVersion = await EngineTest.GetEdgeVersion(Api.Models.EngineType.Byond, logger, cfd, cancellationToken);
+			await EngineTest.GetEdgeVersion(Api.Models.EngineType.Byond, logger, cfd, cancellationToken);
 
 			// predownload the target github release update asset
 			var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
@@ -83,6 +84,11 @@ namespace Tgstation.Server.Tests
 
 		public static async ValueTask InitializeByondVersion(ILogger logger, Version byondVersion, bool windows, CancellationToken cancellationToken, string urlCacheOverrideTemplate = null)
 		{
+			if (Boolean.TryParse(Environment.GetEnvironmentVariable("TGS_TEST_OD_EXCLUSIVE"), out var odExclusive) && odExclusive)
+			{
+				return;
+			}
+
 			var version = new EngineVersion
 			{
 				Engine = Api.Models.EngineType.Byond,
@@ -174,16 +180,26 @@ namespace Tgstation.Server.Tests
 
 		public IFileStreamProvider DownloadFile(Uri url, string bearerToken) => new ProviderPackage(logger, url, bearerToken);
 
-		static FileDownloader CreateRealDownloader(ILogger logger)
-			=> new(
-				new HttpClientFactory(
-					new AssemblyInformationProvider().ProductInfoHeaderValue),
+		public static FileDownloader CreateRealDownloader(ILogger logger)
+		{
+			var mockHttpClientFactory = new Mock<IHttpClientFactory>();
+			mockHttpClientFactory.Setup(x => x.CreateClient(String.Empty)).Returns(
+				() =>
+				{
+					var client = new HttpClient();
+					client.DefaultRequestHeaders.UserAgent.Add(new AssemblyInformationProvider().ProductInfoHeaderValue);
+					return client;
+				});
+
+			return new (
+				mockHttpClientFactory.Object,
 				logger != null
 					? new Logger<FileDownloader>(
 						TestingUtils.CreateLoggerFactoryForLogger(
 							logger,
 							out _))
 					: Mock.Of<ILogger<FileDownloader>>());
+		}
 
 		static async Task<MemoryStream> CacheFile(ILogger logger, Uri url, string bearerToken, string path, CancellationToken cancellationToken)
 		{

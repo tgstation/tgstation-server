@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -37,12 +37,12 @@ namespace Tgstation.Server.Host.Extensions.Tests
 			var serviceCollection = new ServiceCollection();
 			var mockConfig = new Mock<IConfigurationSection>();
 			mockConfig.Setup(x => x.GetSection(It.IsNotNull<string>())).Returns(mockConfig.Object).Verifiable();
-			Assert.ThrowsException<ArgumentNullException>(() => ServiceCollectionExtensions.UseStandardConfig<GoodConfig>(null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => serviceCollection.UseStandardConfig<GoodConfig>(null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => ServiceCollectionExtensions.UseStandardConfig<GoodConfig>(null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => serviceCollection.UseStandardConfig<GoodConfig>(null));
 			serviceCollection.UseStandardConfig<GoodConfig>(mockConfig.Object);
-			Assert.ThrowsException<InvalidOperationException>(() => serviceCollection.UseStandardConfig<BadConfig1>(mockConfig.Object));
-			Assert.ThrowsException<InvalidOperationException>(() => serviceCollection.UseStandardConfig<BadConfig2>(mockConfig.Object));
-			Assert.ThrowsException<InvalidOperationException>(() => serviceCollection.UseStandardConfig<BadConfig3>(mockConfig.Object));
+			Assert.ThrowsExactly<InvalidOperationException>(() => serviceCollection.UseStandardConfig<BadConfig1>(mockConfig.Object));
+			Assert.ThrowsExactly<InvalidOperationException>(() => serviceCollection.UseStandardConfig<BadConfig2>(mockConfig.Object));
+			Assert.ThrowsExactly<InvalidOperationException>(() => serviceCollection.UseStandardConfig<BadConfig3>(mockConfig.Object));
 			mockConfig.Verify();
 		}
 	}

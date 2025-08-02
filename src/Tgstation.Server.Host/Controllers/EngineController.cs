@@ -110,7 +110,7 @@ namespace Tgstation.Server.Host.Controllers
 		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> WithComponentInstance(
 				instance => Paginated(
-					() => ValueTask.FromResult(
+					() => ValueTask.FromResult<PaginatableResult<EngineResponse>?>(
 						new PaginatableResult<EngineResponse>(
 							instance
 								.EngineManager

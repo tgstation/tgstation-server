@@ -23,15 +23,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		[TestMethod]
 		public async Task TestConstructionAndDisposal()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(null, null, null, null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new IrcProvider(null, null, null, null, null, null));
 			var mockJobManager = new Mock<IJobManager>();
-			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, null, null, null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, null, null, null, null, null));
 			var mockAsyncDelayer = new Mock<IAsyncDelayer>();
-			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, null, null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, null, null, null, null));
 			var mockLogger = new Mock<ILogger<IrcProvider>>();
-			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, null, null, null));
 			var mockAss = new Mock<IAssemblyInformationProvider>();
-			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, null, null));
 
 			var mockBot = new ChatBot
 			{
@@ -39,10 +39,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				Instance = new Models.Instance(),
 				Provider = ChatProvider.Irc
 			};
-			Assert.ThrowsException<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, mockBot, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, mockBot, null));
 
 			var mockLogConf = new FileLoggingConfiguration();
-			Assert.ThrowsException<InvalidOperationException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, mockBot, mockLogConf));
+			Assert.ThrowsExactly<InvalidOperationException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, mockBot, mockLogConf));
 
 			mockBot.ConnectionString = new IrcConnectionStringBuilder
 			{

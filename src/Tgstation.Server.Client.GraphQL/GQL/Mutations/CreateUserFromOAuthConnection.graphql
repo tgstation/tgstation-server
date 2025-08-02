@@ -7,7 +7,7 @@ mutation CreateUserFromOAuthConnection($name: String!, $oAuthConnections: [OAuth
         message
       }
     }
-    user {
+    updatedUser {
       id
     }
   }

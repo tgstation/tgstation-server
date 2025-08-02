@@ -13,9 +13,9 @@ namespace Tgstation.Server.Host.Watchdog.Tests
 		[TestMethod]
 		public void TestConstruction()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new Watchdog(null, null));
 			var mockSignalChecker = Mock.Of<ISignalChecker>();
-			Assert.ThrowsException<ArgumentNullException>(() => new Watchdog(mockSignalChecker, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new Watchdog(mockSignalChecker, null));
 			var mockLogger = Mock.Of<ILogger<Watchdog>>();
 			var wd = new Watchdog(mockSignalChecker, mockLogger);
 		}

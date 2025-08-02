@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,7 +8,6 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
@@ -36,7 +36,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="processExecutor">The <see cref="IProcessExecutor"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="repositoryManager">The <see cref="IRepositoryManager"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="OpenDreamInstaller"/>.</param>
-		/// <param name="httpClientFactory">The <see cref="IAbstractHttpClientFactory"/> for the <see cref="OpenDreamInstaller"/>.</param>
+		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> of <see cref="SessionConfiguration"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="linkFactory">The value of <see cref="linkFactory"/>.</param>
@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			IProcessExecutor processExecutor,
 			IRepositoryManager repositoryManager,
 			IAsyncDelayer asyncDelayer,
-			IAbstractHttpClientFactory httpClientFactory,
+			IHttpClientFactory httpClientFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SessionConfiguration> sessionConfigurationOptions,
 			IFilesystemLinkFactory linkFactory)
@@ -66,9 +66,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override ValueTask Install(EngineVersion version, string installPath, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
+		protected override ValueTask InstallImpl(EngineVersion version, string installPath, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 		{
-			var installTask = base.Install(
+			var installTask = base.InstallImpl(
 				version,
 				installPath,
 				deploymentPipelineProcesses,
