@@ -1,6 +1,7 @@
 {
   pkgs,
   buildDotnetModule,
+  dotnetCorePackages,
   ...
 }:
 
