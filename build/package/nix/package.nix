@@ -65,19 +65,26 @@ stdenv.mkDerivation {
   };
 
   buildInputs = with pkgs; [
+    dotnetCorePackages.sdk_8_0
+    gdb
+    systemd
+    zlib
     gcc_multi
     glibc
+    bash
     curl
   ];
   nativeBuildInputs = with pkgs; [
     makeWrapper
+    tgstation-server-host-console
+    versionParse
   ];
 
   src = ./.;
 
   installPhase = ''
-    rm -rf "$out/bin"
-    ln -s "${tgstation-server-host-console}/out/lib/Tgstation.Server.Host.Console" $out/bin
+    mkdir -p $out/bin
+    cp -r "${tgstation-server-host-console}/out/lib/Tgstation.Server.Host.Console/*" $out/bin/
     makeWrapper ${pkgs.dotnetCorePackages.sdk_8_0}/bin/dotnet $out/bin/tgstation-server --suffix PATH : ${
       lib.makeBinPath (
         with pkgs;
