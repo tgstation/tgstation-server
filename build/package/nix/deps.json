@@ -1,5 +1,10 @@
 [
   {
+    "pname": "ExCSS",
+    "version": "4.2.3",
+    "hash": "sha256-M/H6P5p7qqdFz/fgAI2MMBWQ7neN/GIieYSSxxjsM9I="
+  },
+  {
     "pname": "Microsoft.Build.Tasks.Git",
     "version": "8.0.0",
     "hash": "sha256-vX6/kPij8vNAu8f7rrvHHhPrNph20IcufmrBgZNxpQA="
@@ -150,6 +155,11 @@
     "hash": "sha256-FeM40ktcObQJk4nMYShB61H/E8B7tIKfl9ObJ0IOcCM="
   },
   {
+    "pname": "Microsoft.NETCore.Platforms",
+    "version": "5.0.0",
+    "hash": "sha256-LIcg1StDcQLPOABp4JRXIs837d7z0ia6+++3SF3jl1c="
+  },
+  {
     "pname": "Microsoft.NETFramework.ReferenceAssemblies",
     "version": "1.0.3",
     "hash": "sha256-FBoJP5DHZF0QHM0xLm9yd4HJZVQOuSpSKA+VQRpphEE="
@@ -168,6 +178,11 @@
     "pname": "Microsoft.SourceLink.GitHub",
     "version": "8.0.0",
     "hash": "sha256-hNTkpKdCLY5kIuOmznD1mY+pRdJ0PKu2HypyXog9vb0="
+  },
+  {
+    "pname": "Microsoft.Win32.SystemEvents",
+    "version": "5.0.0",
+    "hash": "sha256-mGUKg+bmB5sE/DCwsTwCsbe00MCwpgxsVW3nCtQiSmo="
   },
   {
     "pname": "Mono.Posix.NETStandard",
@@ -190,6 +205,11 @@
     "hash": "sha256-aVop7a9r+X2RsZETgngBm3qQPEIiPBWgHzicGSTEymc="
   },
   {
+    "pname": "Svg",
+    "version": "3.4.7",
+    "hash": "sha256-WfPF1RwwKBDErYvK4CncgbDGEeLWYo76ayE1PcGSorQ="
+  },
+  {
     "pname": "System.Diagnostics.DiagnosticSource",
     "version": "9.0.7",
     "hash": "sha256-vp2oxUmhI0UJBXdLTR6sX1ESmvZupErTUi/qzXKeLoU="
@@ -198,6 +218,11 @@
     "pname": "System.Diagnostics.EventLog",
     "version": "9.0.7",
     "hash": "sha256-bc0v/V0Qs3ENMlK/oGOkvUtP6jj3fMQOiF6Jk2NQUwM="
+  },
+  {
+    "pname": "System.Drawing.Common",
+    "version": "5.0.3",
+    "hash": "sha256-nr1bSJoGA97IfrQQTyakVIx3r0bpoZfs6xtrDgvE2+Y="
   },
   {
     "pname": "System.IO.Pipelines",
