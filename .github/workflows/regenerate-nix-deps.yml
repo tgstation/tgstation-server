@@ -1,0 +1,53 @@
+name: Regenerate Nix Nuget Dependencies
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+    branches:
+      - dev
+      - master
+      - V7
+
+concurrency:
+  group: "regenerate-nix-dependencies-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
+  cancel-in-progress: true
+
+jobs:
+  regenerate-nix-dependencies:
+    name: Regenerate Nix Dependencies
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id
+    steps:
+      - name: Setup Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: Generate App Token
+        id: app-token-generation
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        with:
+          ref: "refs/pull/${{ github.event.pull_request.number }}/head"
+
+      - name: Regenerate Dependencies
+        run: |
+          cd build/package/nix
+          nix shell nixpkgs#nuget-to-json nixpkgs#dotnetCorePackages.sdk_8_0 -c "./GenDeps.sh"
+
+      - name: Commit
+        run: |
+          git config user.name "tgstation-server-ci[bot]"
+          git config user.email "161980869+tgstation-server-ci[bot]@users.noreply.github.com"
+          git add build/package/nix/deps.json
+          git diff-index --quiet HEAD || git commit -m "Regenerate Nix Hashes based on Nuget Packages"
+
+      - name: Push
+        run: |
+          git config --global push.default simple
+          git push -u origin ${{ github.event.pull_request.head.ref }} "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/tgstation/tgstation-server" 2>&1

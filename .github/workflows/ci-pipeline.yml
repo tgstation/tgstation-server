@@ -2411,13 +2411,6 @@ jobs:
           asset_name: tgstation-server-installer.exe
           asset_content_type: application/octet-stream
 
-  update-nix:
-    name: Nix Deployment
-    needs: changelog-regen
-    if: (!(cancelled() || failure())) && needs.changelog-regen.result == 'success'
-    uses: ./.github/workflows/nix-deployment.yml
-    secrets: inherit
-
   changelog-regen:
     name: Regenerate Changelog
     runs-on: ubuntu-latest
