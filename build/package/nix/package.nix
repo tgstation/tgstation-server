@@ -31,8 +31,6 @@ let
   };
   version = (builtins.readFile "${versionParse}/tgs_version.txt");
 
-  rpath = lib.makeLibraryPath [ pkgs.stdenv_32bit.cc.cc.lib ];
-
   tgstation-server-host-console = pkgs.buildDotnetModule {
     pname = "Tgstation.Server.Host.Console";
     version =  (builtins.readFile "${versionParse}/tgs_version.txt");
