@@ -1,6 +1,6 @@
 #!/bin/sh
 
-function gen_dep() {
+gen_dep () {
     nuget-to-json ../../../src/$1/$1.csproj > deps/$1.json
 }
 
