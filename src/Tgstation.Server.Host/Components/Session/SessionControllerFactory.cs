@@ -618,11 +618,11 @@ namespace Tgstation.Server.Host.Components.Session
 				if (cliSupported)
 					ddOutput = (await process.GetCombinedOutput(cancellationToken))!;
 
-				if (ddOutput == null)
+				if (String.IsNullOrWhiteSpace(ddOutput) && outputFilePath != null)
 					try
 					{
 						var dreamDaemonLogBytes = await gameIOManager.ReadAllBytes(
-							outputFilePath!,
+							outputFilePath,
 							cancellationToken);
 
 						ddOutput = Encoding.UTF8.GetString(dreamDaemonLogBytes);
@@ -633,7 +633,7 @@ namespace Tgstation.Server.Host.Components.Session
 							try
 							{
 								logger.LogTrace("Deleting temporary log file {path}...", outputFilePath);
-								await gameIOManager.DeleteFile(outputFilePath!, cancellationToken);
+								await gameIOManager.DeleteFile(outputFilePath, cancellationToken);
 							}
 							catch (Exception ex)
 							{
