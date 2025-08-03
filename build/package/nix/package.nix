@@ -93,6 +93,7 @@ stdenv.mkDerivation {
   };
 
   buildInputs = with pkgs; [
+    tgstation-server-common
     dotnetCorePackages.sdk_8_0
     gdb
     systemd
