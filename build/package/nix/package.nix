@@ -74,7 +74,7 @@ let
 
     src = ./../../..;
 
-    projectFile = "src/Tgstation.Server.Common.csproj";
+    projectFile = "src/Tgstation.Server.Common/Tgstation.Server.Common.csproj";
     nugetDeps = ./deps/Tgstation.Server.Common.json; # see "Generating and updating NuGet dependencies" section for details
 
     dotnet-sdk = dotnetCorePackages.sdk_8_0;
