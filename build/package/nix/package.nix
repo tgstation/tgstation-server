@@ -1,7 +1,5 @@
 {
   pkgs,
-  buildDotnetModule,
-  dotnetCorePackages,
   ...
 }:
 
@@ -35,7 +33,7 @@ let
 
   rpath = lib.makeLibraryPath [ pkgs.stdenv_32bit.cc.cc.lib ];
 
-  tgstation-server-host-console = buildDotnetModule {
+  tgstation-server-host-console = pkgs.buildDotnetModule {
     pname = "Tgstation.Server.Host.Console";
     version =  (builtins.readFile "${versionParse}/tgs_version.txt");
 
@@ -48,8 +46,8 @@ let
 
     executables = [];
 
-    dotnet-sdk = dotnetCorePackages.sdk_8_0;
-    dotnet-runtime = dotnetCorePackages.runtime_8_0;
+    dotnet-sdk = pkgs.dotnetCorePackages.sdk_8_0;
+    dotnet-runtime = pkgs.dotnetCorePackages.runtime_8_0;
   };
 in
 stdenv.mkDerivation {
@@ -65,7 +63,7 @@ stdenv.mkDerivation {
   };
 
   buildInputs = with pkgs; [
-    dotnetCorePackages.sdk_8_0
+    pkgs.dotnetCorePackages.sdk_8_0
     gdb
     systemd
     zlib
@@ -88,7 +86,7 @@ stdenv.mkDerivation {
       lib.makeBinPath (
         with pkgs;
         [
-          dotnetCorePackages.sdk_8_0
+          pkgs.dotnetCorePackages.sdk_8_0
           gdb
           bash
         ]

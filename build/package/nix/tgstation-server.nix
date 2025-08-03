@@ -5,8 +5,6 @@ inputs@{
   nixpkgs,
   pkgs,
   writeShellScriptBin,
-  buildDotnetModule,
-  dotnetCorePackages,
   ...
 }:
 
