@@ -27,13 +27,13 @@ let
     installPhase = ''
       mkdir -p $out
       xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion ./Version.props > $out/tgs_version.txt
+      xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsHostWatchdogVersion ./Version.props > $out/watchdog_version.txt
     '';
   };
-  version = (builtins.readFile "${versionParse}/tgs_version.txt");
 
   tgstation-server-host-console = pkgs.buildDotnetModule {
     pname = "Tgstation.Server.Host.Console";
-    version =  (builtins.readFile "${versionParse}/tgs_version.txt");
+    version =  (builtins.readFile "${versionParse}/watchdog_version.txt"); # Be careful, this influences the assembly version
 
     src = ./../../..;
 
