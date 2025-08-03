@@ -1,7 +1,7 @@
 #!/bin/sh
 
 gen_dep () {
-    nuget-to-json ../../../src/$1/$1.csproj > deps/$1.json
+    nuget-to-json ../../../src/$1 > deps/$1.json
 }
 
 gen_dep "Tgstation.Server.Common"
