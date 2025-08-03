@@ -54,6 +54,7 @@ jobs:
   start-gate:
     name: CI Start Gate
     runs-on: ubuntu-latest
+    timeout-minutes: 1
     steps:
       - name: GitHub Requires at Least One Step for a Job
         run: exit 0
@@ -62,6 +63,7 @@ jobs:
     name: Build ReleaseNotes for Other Jobs
     needs: start-gate
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Install Native Dependencies
         run: |
@@ -97,6 +99,7 @@ jobs:
     name: Validate Nix Flake
     needs: start-gate
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     env:
       TEST_TGS_VERSION: "6.17.0" # Version we use here doesn't matter as it won't be executed. Just used to download a zip and calc hash
     steps:
@@ -147,6 +150,7 @@ jobs:
     name: Run CodeQL
     needs: start-gate
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       security-events: write
     env:
@@ -206,6 +210,7 @@ jobs:
   dmapi-build:
     name: Build DMAPI
     needs: start-gate
+    timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
@@ -305,6 +310,7 @@ jobs:
   opendream-build:
     name: Build DMAPI (OpenDream)
     needs: start-gate
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -362,6 +368,7 @@ jobs:
     name: Check Nuget Versions Match Tools
     runs-on: ubuntu-latest
     needs: start-gate
+    timeout-minutes: 1
     steps:
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -419,6 +426,7 @@ jobs:
     name: Build gh-pages
     needs: build-releasenotes
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -497,6 +505,7 @@ jobs:
     name: Build Docker Image
     runs-on: ubuntu-latest
     needs: start-gate
+    timeout-minutes: 10
     env:
       TGS_TELEMETRY_KEY_FILE: tgs_telemetry_key.txt
     steps:
@@ -524,6 +533,7 @@ jobs:
   linux-unit-tests:
     name: Linux Tests
     needs: start-gate
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -590,6 +600,7 @@ jobs:
   windows-unit-tests:
     name: Windows Tests
     needs: start-gate
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -651,6 +662,7 @@ jobs:
     name: Prepare Live Tests Cache of EDGE Versions
     needs: start-gate
     runs-on: ubuntu-latest
+    timeout-minutes: 1
     steps:
       - name: Cache BYOND .zips (Linux)
         uses: actions/cache@v4
@@ -691,6 +703,7 @@ jobs:
   windows-integration-tests:
     name: Windows Live Tests
     needs: [dmapi-build, opendream-build, prep-edge-versions]
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -906,6 +919,7 @@ jobs:
   linux-integration-tests:
     name: Linux Live Tests
     needs: [dmapi-build, opendream-build, prep-edge-versions]
+    timeout-minutes: 60
     services: # We start all dbs here so we can just code the stuff once
       mssql:
         image: ${{ (matrix.database-type == 'SqlServer') && 'mcr.microsoft.com/mssql/server:2019-latest' || '' }}
@@ -1091,6 +1105,7 @@ jobs:
     name: OpenAPI Spec Validation
     needs: windows-integration-tests
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Install IBM OpenAPI Validator
         run: npm i -g ibm-openapi-validator@0.51.3
@@ -1116,6 +1131,7 @@ jobs:
 
   upload-code-coverage:
     name: Upload Code Coverage
+    timeout-minutes: 5
     needs:
       [
         linux-unit-tests,
@@ -1382,6 +1398,7 @@ jobs:
     name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
     needs: build-releasenotes
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     steps:
@@ -1539,6 +1556,7 @@ jobs:
     name: Build Windows Installer .exe
     runs-on: windows-2025
     needs: start-gate
+    timeout-minutes: 15
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     steps:
@@ -1684,6 +1702,7 @@ jobs:
     name: Check winget-pkgs Pull Request Template is up to date
     needs: build-releasenotes
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -1734,6 +1753,7 @@ jobs:
   ci-completion-gate:
     if: always() && !cancelled()
     name: CI Completion Gate
+    timeout-minutes: 1
     needs:
       [
         pages-build,
