@@ -44,6 +44,10 @@ let
     projectFile = "src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj";
     nugetDeps = ./deps.json; # see "Generating and updating NuGet dependencies" section for details
 
+    nativeBuildInputs = with pkgs; [
+      libgdiplus
+    ];
+
     executables = [];
 
     dotnet-sdk = dotnetCorePackages.sdk_8_0;
