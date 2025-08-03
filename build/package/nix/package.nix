@@ -76,7 +76,7 @@ stdenv.mkDerivation {
   src = ./.;
 
   installPhase = ''
-    mkdir -p $out
+    rm -rf "$out/bin"
     ln -s "${tgstation-server-host-console}/out/lib/Tgstation.Server.Host.Console" $out/bin
     makeWrapper ${pkgs.dotnetCorePackages.sdk_8_0}/bin/dotnet $out/bin/tgstation-server --suffix PATH : ${
       lib.makeBinPath (
