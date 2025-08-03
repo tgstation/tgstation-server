@@ -1596,7 +1596,7 @@ namespace Tgstation.Server.Tests.Live
 									new EngineVersion
 									{
 										Engine = EngineType.OpenDream,
-										SourceSHA = "f1dc153caf9d84cd1d0056e52286cc0163e3f4d3", // 1b4 verified version
+										SourceSHA = "f1dc153caf9d84cd1d0056e52286cc0163e3f4d3", // 1 before verified version
 									},
 									fileDownloader,
 									server.OpenDreamUrl,
