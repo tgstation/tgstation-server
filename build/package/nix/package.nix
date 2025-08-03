@@ -69,10 +69,6 @@ stdenv.mkDerivation {
   ];
   nativeBuildInputs = with pkgs; [
     makeWrapper
-    unzip
-    fixedOutput
-    versionParse
-    tgstation-server-host-console
   ];
 
   src = ./.;
