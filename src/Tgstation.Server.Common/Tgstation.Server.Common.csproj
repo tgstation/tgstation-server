@@ -15,7 +15,7 @@
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
   </ItemGroup>
 
-  <Target Name="IconGeneration" BeforeTargets="ResolveAssemblyReferences" Inputs="../../build/logo.svg" Outputs="../../artifacts/tgs.ico;../../artifacts/tgs.png;../../tools/Tgstation.Server.LogoGenerator/Program.cs">
+  <Target Name="IconGeneration" BeforeTargets="ResolveAssemblyReferences" Condition="'$(TGS_NIX_BUILD)' == ''" Inputs="../../build/logo.svg" Outputs="../../artifacts/tgs.ico;../../artifacts/tgs.png;../../tools/Tgstation.Server.LogoGenerator/Program.cs">
     <Message Text="Generating icons from SVG..." Importance="high" />
     <Exec Command="dotnet run --project tools/Tgstation.Server.LogoGenerator -c $(Configuration)" WorkingDirectory="../.." />
   </Target>
