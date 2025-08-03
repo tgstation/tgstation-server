@@ -69,7 +69,7 @@ let
 
   tgstation-server-common = buildDotnetModule {
     pname = "Tgstation.Server.Common";
-    version =  (builtins.readFile "${versionParse}/tgs_version.txt");;
+    version =  (builtins.readFile "${versionParse}/tgs_version.txt");
 
     src = ./../../..;
 
