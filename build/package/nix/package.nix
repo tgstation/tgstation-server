@@ -1,5 +1,6 @@
 {
   pkgs,
+  buildDotnetModule,
   ...
 }:
 
@@ -65,6 +66,19 @@ let
     outputHash = (builtins.readFile ./ServerConsole.sha256);
   };
   rpath = lib.makeLibraryPath [ pkgs.stdenv_32bit.cc.cc.lib ];
+
+  tgstation-server-common = buildDotnetModule {
+    pname = "Tgstation.Server.Common";
+    version =  (builtins.readFile "${versionParse}/tgs_version.txt");;
+
+    src = ./../../..;
+
+    projectFile = "src/Tgstation.Server.Common.csproj";
+    nugetDeps = ./deps/Tgstation.Server.Common.json; # see "Generating and updating NuGet dependencies" section for details
+
+    dotnet-sdk = dotnetCorePackages.sdk_8_0;
+    dotnet-runtime = dotnetCorePackages.runtime_8_0;
+  };
 in
 stdenv.mkDerivation {
   pname = "tgstation-server";
