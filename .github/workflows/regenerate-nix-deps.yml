@@ -29,10 +29,8 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Checkout (PR Merge)
-        uses: actions/checkout@v4
-        with:
-          ref: "refs/pull/${{ github.event.pull_request.number }}/head"
+      - name: Clone PR Branch
+        run: git clone -b ${{ github.event.pull_request.head.ref }} --depth 1 "https://git@github.com/tgstation/tgstation-server" .
 
       - name: Regenerate Dependencies
         run: |
