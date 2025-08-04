@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Tests.Signals
 
 			Assert.IsFalse(tcs.Task.IsCompleted);
 
-			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => signalHandler.StartAsync(default));
+			await Assert.ThrowsExactlyAsync<InvalidOperationException>(() => signalHandler.StartAsync(default));
 
 			Assert.IsFalse(tcs.Task.IsCompleted);
 

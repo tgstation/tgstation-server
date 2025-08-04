@@ -13,7 +13,6 @@ using Newtonsoft.Json.Serialization;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
 
@@ -53,7 +52,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// <summary>
 		/// The <see cref="IHttpClientFactory"/> for the <see cref="GenericOAuthValidator"/>.
 		/// </summary>
-		readonly IAbstractHttpClientFactory httpClientFactory;
+		readonly IHttpClientFactory httpClientFactory;
 
 		/// <summary>
 		/// Gets <see cref="JsonSerializerSettings"/> that should be used.
@@ -74,7 +73,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
 		/// <param name="oAuthConfiguration">The value of <see cref="OAuthConfiguration"/>.</param>
 		public GenericOAuthValidator(
-			IAbstractHttpClientFactory httpClientFactory,
+			IHttpClientFactory httpClientFactory,
 			ILogger<GenericOAuthValidator> logger,
 			OAuthConfiguration oAuthConfiguration)
 		{
@@ -178,10 +177,10 @@ namespace Tgstation.Server.Host.Security.OAuth
 		protected abstract OAuthTokenRequest CreateTokenRequest(string code);
 
 		/// <summary>
-		/// Create a new configured <see cref="IHttpClient"/>.
+		/// Create a new configured <see cref="HttpClient"/>.
 		/// </summary>
-		/// <returns>A new configured <see cref="IHttpClient"/>.</returns>
-		IHttpClient CreateHttpClient()
+		/// <returns>A new configured <see cref="HttpClient"/>.</returns>
+		HttpClient CreateHttpClient()
 		{
 			var httpClient = httpClientFactory.CreateClient();
 			try

@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Tests
 		[TestMethod]
 		public async Task TestIncompatibleWatchdog()
 		{
-			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => Program.Main(new string[] { "garbage", "0.0.1" }));
+			await Assert.ThrowsExactlyAsync<InvalidOperationException>(() => Program.Main(new string[] { "garbage", "0.0.1" }));
 		}
 
 		[TestMethod]
@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Tests
 				ServerFactory = mockServerFactory.Object
 			};
 
-			await Assert.ThrowsExceptionAsync<DivideByZeroException>(() => program.Main(Array.Empty<string>(), null).AsTask());
+			await Assert.ThrowsExactlyAsync<DivideByZeroException>(() => program.Main(Array.Empty<string>(), null).AsTask());
 		}
 
 		[TestMethod]

@@ -36,7 +36,7 @@ namespace Tgstation.Server.Common.Http
 				response.Content = null;
 				try
 				{
-					// don't cry about the missing CancellationToken overload: https://github.com/dotnet/runtime/issues/916
+					// don't cry about the missing CancellationToken overload: https://github.com/dotnet/corefx/issues/32615#issuecomment-562083237
 					var responseStream = await content.ReadAsStreamAsync().ConfigureAwait(false);
 					return new CachedResponseStream(content, responseStream);
 				}

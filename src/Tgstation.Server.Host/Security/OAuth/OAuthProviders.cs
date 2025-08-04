@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Utils.GitHub;
 
@@ -24,12 +24,12 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// Initializes a new instance of the <see cref="OAuthProviders"/> class.
 		/// </summary>
 		/// <param name="gitHubServiceFactory">The <see cref="IGitHubServiceFactory"/> to use.</param>
-		/// <param name="httpClientFactory">The <see cref="IAbstractHttpClientFactory"/> to use.</param>
+		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> to use.</param>
 		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to use.</param>
 		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SecurityConfiguration"/> to use.</param>
 		public OAuthProviders(
 			IGitHubServiceFactory gitHubServiceFactory,
-			IAbstractHttpClientFactory httpClientFactory,
+			IHttpClientFactory httpClientFactory,
 			ILoggerFactory loggerFactory,
 			IOptions<SecurityConfiguration> securityConfigurationOptions)
 		{

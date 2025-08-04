@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -46,7 +47,6 @@ using Serilog.Sinks.Elasticsearch;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Components;
@@ -311,8 +311,12 @@ namespace Tgstation.Server.Host.Core
 			services.AddCors();
 
 			// Enable managed HTTP clients
-			services.AddHttpClient();
-			services.AddSingleton<IAbstractHttpClientFactory, AbstractHttpClientFactory>();
+			services
+				.AddHttpClient()
+				.ConfigureHttpClientDefaults(
+					builder => builder.ConfigureHttpClient(
+						client => client.DefaultRequestHeaders.UserAgent.Add(
+							assemblyInformationProvider.ProductInfoHeaderValue)));
 
 			// configure metrics
 			var prometheusPort = postSetupServices.GeneralConfiguration.PrometheusPort;
@@ -333,22 +337,6 @@ namespace Tgstation.Server.Host.Core
 			services
 				.AddScoped<GraphQL.Subscriptions.ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
 				.AddGraphQLServer()
-				.AddAuthorization(
-					options =>
-					{
-						options.AddPolicy(
-							TgsAuthorizeAttribute.PolicyName,
-							builder => builder
-								.RequireAuthenticatedUser()
-								.RequireRole(TgsAuthorizeAttribute.UserEnabledRole));
-						options.AddPolicy(
-							"testingasdf",
-							builder =>
-							{
-								builder.RequireAuthenticatedUser();
-								builder.AuthenticationSchemes.Add(CookieAuthenticationDefaults.AuthenticationScheme);
-							});
-					})
 				.ModifyOptions(options =>
 				{
 					options.EnsureAllNodesCanBeResolved = true;
@@ -382,10 +370,10 @@ namespace Tgstation.Server.Host.Core
 				.AddFiltering()
 				.AddSorting()
 				.AddHostTypes()
+				.AddAuthorization()
 				.AddErrorFilter<ErrorMessageFilter>()
 				.AddType<StandaloneNode>()
 				.AddType<LocalGateway>()
-				.AddType<RemoteGateway>()
 				.AddType<GraphQL.Types.UserName>()
 				.AddType<UnsignedIntType>()
 				.BindRuntimeType<Version, SemverType>()
@@ -816,6 +804,10 @@ namespace Tgstation.Server.Host.Core
 			services.AddScoped<AuthenticationContextFactory>();
 			services.AddScoped<ITokenValidator>(provider => provider.GetRequiredService<AuthenticationContextFactory>());
 
+			services.AddScoped<IClaimsPrincipalAccessor, ClaimsPrincipalAccessor>();
+			services.AddScoped<Security.IAuthorizationService, AuthorizationService>();
+			services.AddScoped<IAuthorizationHandler, AuthorizationHandler>();
+
 			// what if you
 			// wanted to just do this:
 			// return provider.GetRequiredService<AuthenticationContextFactory>().CurrentAuthenticationContext
@@ -869,6 +861,17 @@ namespace Tgstation.Server.Host.Core
 									.RequestAborted),
 					};
 				});
+
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(
+					TgsAuthorizeAttribute.PolicyName,
+					builder => builder
+						.RequireAuthenticatedUser()
+						.RequireRole(TgsAuthorizeAttribute.UserEnabledRole));
+
+				options.DefaultPolicy = options.GetPolicy(TgsAuthorizeAttribute.PolicyName)!;
+			});
 
 			var oidcConfig = securityConfiguration.OpenIDConnect;
 			if (oidcConfig == null || oidcConfig.Count == 0)

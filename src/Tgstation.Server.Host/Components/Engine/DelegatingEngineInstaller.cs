@@ -33,15 +33,15 @@ namespace Tgstation.Server.Host.Components.Engine
 			=> Task.WhenAll(delegatedInstallers.Values.Select(installer => installer.CleanCache(cancellationToken)));
 
 		/// <inheritdoc />
-		public ValueTask<IEngineInstallation> CreateInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken)
-			=> DelegateCall(version, installer => installer.CreateInstallation(version, path, installationTask, cancellationToken));
+		public ValueTask<IEngineInstallation> GetInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken)
+			=> DelegateCall(version, installer => installer.GetInstallation(version, path, installationTask, cancellationToken));
 
 		/// <inheritdoc />
 		public ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
 			=> DelegateCall(version, installer => installer.DownloadVersion(version, jobProgressReporter, cancellationToken));
 
 		/// <inheritdoc />
-		public ValueTask Install(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
+		public ValueTask<IEngineInstallation> Install(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 			=> DelegateCall(version, installer => installer.Install(version, path, deploymentPipelineProcesses, cancellationToken));
 
 		/// <inheritdoc />

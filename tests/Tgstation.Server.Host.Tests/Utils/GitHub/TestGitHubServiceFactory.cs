@@ -20,9 +20,9 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 		[TestMethod]
 		public void TestConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new GitHubServiceFactory(null, null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new GitHubServiceFactory(Mock.Of<IGitHubClientFactory>(), null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new GitHubServiceFactory(Mock.Of<IGitHubClientFactory>(), Mock.Of<ILoggerFactory>(), null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new GitHubServiceFactory(null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new GitHubServiceFactory(Mock.Of<IGitHubClientFactory>(), null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new GitHubServiceFactory(Mock.Of<IGitHubClientFactory>(), Mock.Of<ILoggerFactory>(), null));
 			var mockOptions = new Mock<IOptions<UpdatesConfiguration>>();
 			mockOptions.SetupGet(x => x.Value).Returns(new UpdatesConfiguration());
 
@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 
 			var factory = new GitHubServiceFactory(mockFactory.Object, Mock.Of<ILoggerFactory>(), mockOptions.Object);
 
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateService(null, CancellationToken.None).AsTask());
+			await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => factory.CreateService(null, CancellationToken.None).AsTask());
 			Assert.AreEqual(0, mockFactory.Invocations.Count);
 
 			var result1 = await factory.CreateService(CancellationToken.None);
