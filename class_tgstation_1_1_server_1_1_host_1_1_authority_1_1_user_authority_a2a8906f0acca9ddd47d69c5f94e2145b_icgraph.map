@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Authority.UserAuthority.CheckValidName" name="Tgstation.Server.Host.Authority.UserAuthority.CheckValidName">
+<area shape="rect" id="Node000001" title="Check if a given model &#160;has a valid UserName.Name specified." alt="" coords="562,5,766,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ac3966745fae3ffed5c975e4e0e212a49" title="Checks if a createRequest &#160;should return a bad request AuthorityResponse&lt;TResult&gt;." alt="" coords="258,5,514,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="546,28,514,28,514,23,546,23"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#abfec2e2d38650d7d7c764c6fdd757ce5" title="Creates a User.A RequirementsGated&lt;TResult&gt; AuthorityResponse&lt;TResult&gt; for the created UpdatedUser." alt="" coords="5,5,210,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="242,28,210,28,210,23,242,23"/>
+</map>

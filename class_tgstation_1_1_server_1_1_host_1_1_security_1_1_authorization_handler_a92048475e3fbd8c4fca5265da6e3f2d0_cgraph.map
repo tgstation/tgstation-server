@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Security.AuthorizationHandler.HandleRightsConditionalRequirement&lt; TRights &gt;" name="Tgstation.Server.Host.Security.AuthorizationHandler.HandleRightsConditionalRequirement&lt; TRights &gt;">
+<area shape="rect" id="Node000001" title="Handle RightsConditional&lt;TRights&gt; authorization requirements." alt="" coords="5,31,292,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="364,5,554,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="292,41,348,35,348,40,292,46"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="340,71,578,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="292,71,324,74,324,80,292,76"/>
+</map>

@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Security.TgsGraphQLAuthorizeAttribute&lt; TAuthority &gt;" name="Tgstation.Server.Host.Security.TgsGraphQLAuthorizeAttribute&lt; TAuthority &gt;">
-<area shape="rect" id="Node000001" title="Helper for using the AuthorizeAttribute with the Api.Rights system." alt="" coords="5,79,206,135"/>
-<area shape="rect" id="Node000002" href="$class_authorize_attribute.html" title=" " alt="" coords="43,5,168,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,46,100,78,94,78,94,46"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="117,46,117,78,111,78,111,46"/>
-</map>

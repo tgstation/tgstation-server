@@ -270,7 +270,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   36</span>                response.Content = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">   37</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">   38</span>                {</div>
-<div class="line"><span class="lineno">   39</span>                    <span class="comment">// don&#39;t cry about the missing CancellationToken overload: https://github.com/dotnet/runtime/issues/916</span></div>
+<div class="line"><span class="lineno">   39</span>                    <span class="comment">// don&#39;t cry about the missing CancellationToken overload: https://github.com/dotnet/corefx/issues/32615#issuecomment-562083237</span></div>
 <div class="line"><span class="lineno">   40</span>                    var <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a9abc138148342dd9de5abd0bbff88a56">responseStream</a> = await content.ReadAsStreamAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
 <div class="line"><span class="lineno">   41</span>                    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#aa92a3573c985c8bbded9616a033472f0">CachedResponseStream</a>(content, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a9abc138148342dd9de5abd0bbff88a56">responseStream</a>);</div>
 <div class="line"><span class="lineno">   42</span>                }</div>

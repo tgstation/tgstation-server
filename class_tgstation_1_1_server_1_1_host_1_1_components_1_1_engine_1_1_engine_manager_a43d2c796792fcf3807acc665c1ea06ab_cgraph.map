@@ -6,16 +6,16 @@
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="121,444,136,383,165,300,186,255,211,212,242,171,278,136,313,117,316,121,281,141,246,175,216,215,191,258,170,302,141,385,126,445"/>
 <area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="323,150,504,191"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="124,443,143,394,174,328,219,260,247,229,278,202,307,186,310,190,281,206,251,232,224,263,179,331,148,396,129,445"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a4c56e45c9dbd09180811ac5f5c6ffd70" title="Creates an IEngineInstallation for a given version ." alt="" coords="285,216,542,256"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="128,443,151,405,185,357,227,308,278,267,289,261,291,266,281,271,231,312,189,360,156,408,133,446"/>
-<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="323,281,504,322"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="137,443,197,387,236,358,278,332,307,320,309,325,281,337,239,362,200,392,141,447"/>
-<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a" title="Deletes a file at path ." alt="" coords="330,346,497,387"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="323,216,504,256"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="128,443,151,405,185,357,227,308,278,267,307,253,309,257,281,271,231,312,189,360,156,408,133,446"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a" title="Deletes a file at path ." alt="" coords="330,281,497,322"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="137,443,197,387,236,358,278,332,313,318,315,323,281,337,239,362,200,392,141,447"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="330,346,497,387"/>
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="165,442,279,397,314,387,316,392,281,402,167,447"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="330,412,497,452"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="232,450,314,440,314,446,232,455"/>
-<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2" title="Returns full directory names in a given path ." alt="" coords="326,477,501,518"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="232,475,310,483,310,489,232,480"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2" title="Returns full directory names in a given path ." alt="" coords="326,412,501,452"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="232,450,310,441,310,446,232,455"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a8837818bbe2661f312360491c4f795f7" title="Creates an IEngineInstallation for a given version ." alt="" coords="294,477,533,518"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="232,475,279,480,278,485,232,480"/>
 <area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a267b549fab5803c199a7d37100650e85" title="Returns all the contents of a file at path &#160;as a byte array." alt="" coords="328,542,499,583"/>
 <area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="168,484,281,527,314,536,312,542,279,532,166,489"/>
 <area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="330,608,497,648"/>

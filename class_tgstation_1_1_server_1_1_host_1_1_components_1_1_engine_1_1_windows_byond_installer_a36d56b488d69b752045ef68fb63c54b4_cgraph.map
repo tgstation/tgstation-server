@@ -1,0 +1,31 @@
+<map id="Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.InstallImpl" name="Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.InstallImpl">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,209,267,250"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a4b1078675acc49bd3beea10b2dcf0075" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="324,242,586,297"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="268,243,308,249,307,254,267,249"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#abfbb08c2eb8e00b430ef4cf683468c90" title="Attempt to install the DirectX redistributable included with BYOND." alt="" coords="337,56,573,112"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="182,206,377,117,379,122,184,211"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#abf544ff92a28679177759cf0a0f16a31" title="Creates the BYOND cfg file that prevents the trusted mode dialog from appearing when launching DreamD..." alt="" coords="315,162,595,217"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="267,211,299,207,300,212,268,216"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="347,322,563,377"/>
+<area shape="poly" id="edge16_Node000001_Node000013" title=" " alt="" coords="180,248,244,278,316,307,335,314,333,319,314,312,241,283,178,253"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_firewall_helper.html#aa446ef24242576e5459ccaa30d473a59" title="Add an executable exception to the Windows firewall." alt="" coords="659,299,887,355"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="587,291,644,301,643,306,586,296"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="690,104,857,145"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="575,239,593,228,609,211,616,192,624,174,641,156,673,139,676,144,645,160,629,177,621,195,613,213,597,232,578,243"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a0cd9b73db73414af3553f16b5bc4bc37" title=" " alt="" coords="643,379,903,435"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="575,296,597,307,612,322,621,337,630,351,645,365,652,369,649,374,641,369,626,354,617,340,608,325,593,312,573,300"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="690,459,857,499"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="582,296,597,308,611,325,618,343,621,378,625,413,631,429,645,445,676,464,673,468,641,449,627,432,619,414,616,379,613,344,606,328,593,312,579,300"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="688,235,858,275"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="586,261,672,257,672,262,587,266"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a17aa8c090377d70ebf0a93f3eb0a0243" title="Launch a IProcess." alt="" coords="951,144,1169,185"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="877,296,902,285,970,240,1025,193,1029,197,973,244,905,289,879,301"/>
+<area shape="poly" id="edge10_Node000009_Node000004" title=" " alt="" coords="524,53,603,28,699,8,751,3,803,4,855,10,904,24,944,45,981,72,1036,130,1032,133,977,76,942,50,902,29,854,16,803,9,751,9,700,14,604,33,525,58"/>
+<area shape="poly" id="edge9_Node000009_Node000005" title=" " alt="" coords="574,96,674,109,674,115,573,102"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="679,39,868,79"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="573,72,663,65,663,70,573,78"/>
+<area shape="poly" id="edge13_Node000011_Node000005" title=" " alt="" coords="593,159,674,142,675,147,594,164"/>
+<area shape="poly" id="edge15_Node000011_Node000008" title=" " alt="" coords="594,215,673,232,672,237,593,221"/>
+<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="683,169,864,210"/>
+<area shape="poly" id="edge14_Node000011_Node000012" title=" " alt="" coords="596,187,667,187,667,192,596,192"/>
+</map>

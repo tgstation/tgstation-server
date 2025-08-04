@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator" name="Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator">
-<area shape="rect" id="Node000001" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="53,109,253,150"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,13,119,39"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,48,137,107,133,110,81,52"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="143,5,346,46"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="219,60,172,110,168,107,215,56"/>
+<area shape="rect" id="Node000001" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="46,94,246,135"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,5,119,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,41,130,92,126,95,81,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="143,5,320,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="212,44,166,95,162,92,208,41"/>
 </map>

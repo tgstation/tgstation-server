@@ -13,5 +13,6 @@ var searchData=
   ['fileuploadprovider_2ecs_10',['FileUploadProvider.cs',['../_file_upload_provider_8cs.html',1,'']]],
   ['fileuploadstreamkind_2ecs_11',['FileUploadStreamKind.cs',['../_file_upload_stream_kind_8cs.html',1,'']]],
   ['fileuploadtickettype_2ecs_12',['FileUploadTicketType.cs',['../_file_upload_ticket_type_8cs.html',1,'']]],
-  ['fulloauthproviderinfo_2ecs_13',['FullOAuthProviderInfo.cs',['../_full_o_auth_provider_info_8cs.html',1,'']]]
+  ['flagrightsconditional_7btrights_7d_2ecs_13',['FlagRightsConditional{TRights}.cs',['../_flag_rights_conditional_02_t_rights_03_8cs.html',1,'']]],
+  ['fulloauthproviderinfo_2ecs_14',['FullOAuthProviderInfo.cs',['../_full_o_auth_provider_info_8cs.html',1,'']]]
 ];

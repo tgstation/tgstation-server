@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Security.ClaimsPrincipalAccessor" name="Tgstation.Server.Host.Security.ClaimsPrincipalAccessor">
+<area shape="rect" id="Node000001" title=" " alt="" coords="94,94,295,135"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_claims_principal_accessor.html" title="Interface for accessing the current request&#39;s ClaimsPrincipal." alt="" coords="5,5,176,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,39,175,91,171,95,113,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="200,5,400,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="277,43,218,95,215,91,274,39"/>
+</map>

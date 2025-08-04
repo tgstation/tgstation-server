@@ -2,8 +2,8 @@
 <area shape="rect" id="Node000001" title="Returns full file names in a given path ." alt="" coords="298,104,465,145"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ab462ce6aa240b963c67cab7d20927060" title="Create or attach an Api.Models.Instance." alt="" coords="20,5,235,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="329,99,249,61,212,49,214,44,251,57,331,94"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="14,71,241,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="282,114,241,109,242,103,283,109"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a753be64e5245a6e97430a9beddec3b15" title=" " alt="" coords="7,71,248,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="282,114,248,110,249,104,283,109"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a3373ed476e620fd7c223185ab4234551" title="List LogFileResponses present." alt="" coords="20,136,235,177"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="282,139,236,145,235,140,282,134"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4bde2bc61aaf361c082bd9de17bf4157" title="Symlinks all directories in the GameData directory to destination .A ValueTask representing the runni..." alt="" coords="5,201,250,256"/>

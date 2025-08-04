@@ -1,5 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_i_hub_filter.html" title=" " alt="" coords="5,13,84,39"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter.html" title="An IHubFilter that denies method calls and connections if the IAuthenticationContext is not valid for..." alt="" coords="132,5,332,46"/>
-<area shape="poly" id="edge283_Node000000_Node000001" title=" " alt="" coords="99,23,131,23,131,28,99,28"/>
+<area shape="rect" id="Node000000" href="$class_i_document_filter.html" title=" " alt="" coords="14,5,128,31"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html" title="Implements various filters for Swashbuckle." alt="" coords="185,73,365,113"/>
+<area shape="poly" id="edge278_Node000000_Node000001" title=" " alt="" coords="123,34,218,69,216,74,122,39"/>
+<area shape="rect" id="Node000002" href="$class_i_operation_filter.html" title=" " alt="" coords="16,55,126,80"/>
+<area shape="poly" id="edge279_Node000002_Node000001" title=" " alt="" coords="142,74,184,79,184,84,141,79"/>
+<area shape="rect" id="Node000003" href="$class_i_request_body_filter.html" title=" " alt="" coords="5,104,137,130"/>
+<area shape="poly" id="edge280_Node000003_Node000001" title=" " alt="" coords="152,105,184,101,185,106,153,110"/>
+<area shape="rect" id="Node000004" href="$class_i_schema_filter.html" title=" " alt="" coords="20,153,122,179"/>
+<area shape="poly" id="edge281_Node000004_Node000001" title=" " alt="" coords="122,145,215,111,217,116,124,150"/>
 </map>

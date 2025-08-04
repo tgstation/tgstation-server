@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Authority.PermissionSetAuthority.GetId" name="Tgstation.Server.Host.Authority.PermissionSetAuthority.GetId">
-<area shape="rect" id="Node000001" title="Gets the User with a given id .A ValueTask&lt;TResult&gt; resulting in a PermissionSet AuthorityResponse&lt;TR..." alt="" coords="5,39,210,79"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="258,39,460,79"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,56,242,56,242,62,210,62"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="508,5,698,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="460,43,492,38,493,43,461,48"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="513,71,694,111"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="461,70,497,74,497,80,460,75"/>
-</map>

@@ -1,13 +1,11 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.Shutdown" name="Tgstation.Server.Host.Swarm.SwarmService.Shutdown">
-<area shape="rect" id="Node000001" title="Deregister with the swarm controller or put clients into querying state.A ValueTask representing the ..." alt="" coords="5,150,200,191"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="266,5,473,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,147,181,109,246,71,259,65,261,70,249,76,184,114,132,152"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a059e028f3fe17ded07c0eb9008d3e5b9" title="Migrate a given databaseContext &#160;down." alt="" coords="265,85,474,126"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,147,268,127,269,132,189,152"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0284d2a7f1508bc31dd208906cfbe4d3" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="248,150,491,191"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="200,168,232,168,232,173,200,173"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="250,216,489,256"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="189,189,269,209,268,214,188,194"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="262,280,477,336"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="132,189,184,227,249,265,261,271,259,276,246,270,181,232,128,194"/>
+<area shape="rect" id="Node000001" title="Deregister with the swarm controller or put clients into querying state.A ValueTask representing the ..." alt="" coords="5,104,200,145"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a059e028f3fe17ded07c0eb9008d3e5b9" title="Migrate a given databaseContext &#160;down." alt="" coords="265,5,474,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,101,247,57,271,48,272,54,249,61,146,106"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0284d2a7f1508bc31dd208906cfbe4d3" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="248,71,491,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,110,232,106,232,111,201,115"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="250,136,489,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="201,133,235,138,234,143,200,139"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="262,201,477,256"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="148,143,249,186,266,192,264,197,247,191,146,148"/>
 </map>

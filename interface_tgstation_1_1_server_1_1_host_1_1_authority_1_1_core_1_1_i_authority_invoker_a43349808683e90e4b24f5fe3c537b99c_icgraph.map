@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Authority.Core.IAuthorityInvoker.InvokeTransformableQueryable&lt; TResult, TApiModel, TTransformer &gt;" name="Tgstation.Server.Host.Authority.Core.IAuthorityInvoker.InvokeTransformableQueryable&lt; TResult, TApiModel, TTransformer &gt;">
-<area shape="rect" id="Node000001" title="Invoke a TAuthority &#160;method and get the transformed result." alt="" coords="303,29,603,85"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html#a65e717d817c581f3398766140bfa0e7b" title="Invoke a TAuthority &#160;method and get the result." alt="" coords="5,29,255,85"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="287,60,255,60,255,55,287,55"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="183,17,163,11,130,8,101,10,82,15,73,21,73,29,68,29,69,19,80,10,100,5,130,3,164,5,185,12"/>
-</map>

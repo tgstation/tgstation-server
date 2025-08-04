@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.IO.DefaultIOManager.ResolvePathCore" name="Tgstation.Server.Host.IO.DefaultIOManager.ResolvePathCore">
+<area shape="rect" id="Node000001" title="Resolve a given, non&#45;rooted, path ." alt="" coords="257,5,487,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a59c157161fe635d317178e8908af59b3" title="Retrieve the full path of some path &#160;given a relative path. Must be used before passing relative path..." alt="" coords="5,5,209,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="241,28,209,28,209,23,241,23"/>
+</map>

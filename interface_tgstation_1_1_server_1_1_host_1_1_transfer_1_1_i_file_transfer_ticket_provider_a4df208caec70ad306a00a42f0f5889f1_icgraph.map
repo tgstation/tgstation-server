@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Transfer.IFileTransferTicketProvider.CreateDownload" name="Tgstation.Server.Host.Transfer.IFileTransferTicketProvider.CreateDownload">
 <area shape="rect" id="Node000001" title="Create a FileTicketResponse for a download." alt="" coords="280,31,499,87"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aab04508f9021893da0268cf94411226f" title="Download a LogFileResponse." alt="" coords="11,5,226,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,46,226,42,227,36,264,41"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#a21094a58d2406bfc482497fb00a3292e" title="Get a ticket for downloading a log file at a given path .A RequirementsGated&lt;TResult&gt; LogFileResponse..." alt="" coords="16,5,221,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,46,221,41,222,36,265,41"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ae6e959ce6c3aab862b59e79b42a72e67" title="Reads a given configurationRelativePath .A ValueTask&lt;TResult&gt; resulting in the ConfigurationFileRespo..." alt="" coords="5,71,232,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="265,76,232,80,232,75,264,71"/>
 </map>

@@ -1,12 +1,12 @@
 var searchData=
 [
-  ['abstracthttpclientfactory_0',['AbstractHttpClientFactory',['../class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_abstract_http_client_factory.html',1,'Tgstation::Server::Host::Utils']]],
-  ['administrationauthority_1',['AdministrationAuthority',['../class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html',1,'Tgstation::Server::Host::Authority']]],
-  ['administrationclient_2',['AdministrationClient',['../class_tgstation_1_1_server_1_1_client_1_1_administration_client.html',1,'Tgstation::Server::Client']]],
-  ['administrationcontroller_3',['AdministrationController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html',1,'Tgstation::Server::Host::Controllers']]],
-  ['administrationmutations_4',['AdministrationMutations',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_administration_mutations.html',1,'Tgstation::Server::Host::GraphQL::Mutations']]],
-  ['administrationresponse_5',['AdministrationResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response.html',1,'Tgstation::Server::Api::Models::Response']]],
-  ['advancedwatchdog_6',['AdvancedWatchdog',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
+  ['administrationauthority_0',['AdministrationAuthority',['../class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html',1,'Tgstation::Server::Host::Authority']]],
+  ['administrationclient_1',['AdministrationClient',['../class_tgstation_1_1_server_1_1_client_1_1_administration_client.html',1,'Tgstation::Server::Client']]],
+  ['administrationcontroller_2',['AdministrationController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html',1,'Tgstation::Server::Host::Controllers']]],
+  ['administrationmutations_3',['AdministrationMutations',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_mutations_1_1_administration_mutations.html',1,'Tgstation::Server::Host::GraphQL::Mutations']]],
+  ['administrationresponse_4',['AdministrationResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response.html',1,'Tgstation::Server::Api::Models::Response']]],
+  ['advancedwatchdog_5',['AdvancedWatchdog',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
+  ['andrightsconditional_6',['AndRightsConditional',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_and_rights_conditional.html',1,'Tgstation::Server::Host::Security::RightsEvaluation']]],
   ['apiclient_7',['ApiClient',['../class_tgstation_1_1_server_1_1_client_1_1_api_client.html',1,'Tgstation::Server::Client']]],
   ['apiclientfactory_8',['ApiClientFactory',['../class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html',1,'Tgstation::Server::Client']]],
   ['apiclienttokenrefreshretrypolicy_9',['ApiClientTokenRefreshRetryPolicy',['../class_tgstation_1_1_server_1_1_client_1_1_api_client_token_refresh_retry_policy.html',1,'Tgstation::Server::Client']]],
@@ -31,6 +31,9 @@ var searchData=
   ['authorityinvokerbase_28',['AuthorityInvokerBase',['../class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_invoker_base.html',1,'Tgstation::Server::Host::Authority::Core']]],
   ['authorityresponse_29',['authorityresponse',['../class_authority_response.html',1,'AuthorityResponse'],['../class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html',1,'Tgstation.Server.Host.Authority.Core.AuthorityResponse&lt; TResult &gt;']]],
   ['authorizationcontexthubfilter_30',['AuthorizationContextHubFilter',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter.html',1,'Tgstation::Server::Host::Security']]],
-  ['authorizationmessagehandler_31',['AuthorizationMessageHandler',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_authorization_message_handler.html',1,'Tgstation::Server::Client::GraphQL']]],
-  ['authorizeattribute_32',['AuthorizeAttribute',['../class_authorize_attribute.html',1,'']]]
+  ['authorizationhandler_31',['AuthorizationHandler',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_handler.html',1,'Tgstation::Server::Host::Security']]],
+  ['authorizationhelper_32',['AuthorizationHelper',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_authorization_helper.html',1,'Tgstation::Server::Host::GraphQL']]],
+  ['authorizationmessagehandler_33',['AuthorizationMessageHandler',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_authorization_message_handler.html',1,'Tgstation::Server::Client::GraphQL']]],
+  ['authorizationservice_34',['AuthorizationService',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service.html',1,'Tgstation::Server::Host::Security']]],
+  ['authorizeattribute_35',['AuthorizeAttribute',['../class_authorize_attribute.html',1,'']]]
 ];

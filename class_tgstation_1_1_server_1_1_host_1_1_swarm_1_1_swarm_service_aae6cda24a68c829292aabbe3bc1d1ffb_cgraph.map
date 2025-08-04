@@ -1,34 +1,29 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.PrepareUpdate" name="Tgstation.Server.Host.Swarm.SwarmService.PrepareUpdate">
-<area shape="rect" id="Node000001" title="Signal to the swarm that an update is requested.A ValueTask&lt;TResult&gt; resulting in true if the update ..." alt="" coords="5,260,202,301"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a6417881aa109cd3b7f5c786e571428c1" title="Implementation of PrepareUpdate(ISeekableFileStreamProvider, Version, CancellationToken),..." alt="" coords="250,260,471,301"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,278,234,278,234,283,202,283"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae8730853752e924741c38443a557c16f" title="Attempt to abort an uncommitted update.A ValueTask representing the running operation...." alt="" coords="535,107,729,147"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="394,257,518,183,575,152,577,157,520,188,396,262"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="1107,151,1314,207"/>
-<area shape="poly" id="edge14_Node000002_Node000005" title=" " alt="" coords="370,258,391,221,424,174,466,129,491,109,518,93,591,57,658,30,720,12,779,4,839,5,901,17,968,39,1042,73,1060,87,1068,104,1076,121,1090,137,1097,141,1094,145,1087,141,1071,124,1063,106,1055,90,1039,77,966,44,900,22,839,11,780,9,721,18,659,35,593,62,520,97,494,113,470,133,428,178,396,223,374,261"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0284d2a7f1508bc31dd208906cfbe4d3" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="1089,252,1332,293"/>
-<area shape="poly" id="edge19_Node000002_Node000006" title=" " alt="" coords="472,276,1073,271,1073,276,472,282"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_updater.html#a1711829b4fdbea1c7840aee23885429b" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="539,448,726,489"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="380,299,438,362,478,397,520,427,544,439,541,444,518,432,474,401,435,366,376,303"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a072bf30b2a5cbce33c3a96e12f6a31c2" title="Send a given updateRequest &#160;out to nodes from the swarm controller." alt="" coords="519,318,745,373"/>
-<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="449,299,505,312,503,317,447,304"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ab8668c1ac98d71d5d4c62ec1276ddf82" title="Create a FileTicketResponse for downloading the content of a given initiatorProvider &#160;for the rest of..." alt="" coords="793,387,1041,427"/>
-<area shape="poly" id="edge15_Node000002_Node000010" title=" " alt="" coords="386,299,444,344,481,366,520,383,584,400,650,410,716,414,778,415,777,420,716,419,650,415,583,405,518,388,478,371,441,348,382,303"/>
-<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa39ac9a4c19649cb778515b4aabebe8e" title="Create the RequestFileStreamProvider for an update package retrieval from a given sourceNode ." alt="" coords="801,151,1033,207"/>
-<area shape="poly" id="edge16_Node000002_Node000013" title=" " alt="" coords="471,258,785,200,786,205,472,263"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2d25eadf43c0a581335ab5f4dba51e5f" title="Sends out remote abort update requests." alt="" coords="803,87,1031,127"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="730,117,788,113,788,119,730,123"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1003,125,1093,147,1092,153,1002,130"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="1024,126,1042,137,1060,157,1068,177,1075,197,1090,217,1131,243,1128,247,1087,221,1070,200,1063,179,1056,159,1039,141,1021,130"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="1103,71,1318,127"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="1031,101,1088,100,1088,105,1031,106"/>
-<area shape="poly" id="edge9_Node000009_Node000005" title=" " alt="" coords="731,314,1095,209,1097,214,733,320"/>
-<area shape="poly" id="edge13_Node000009_Node000006" title=" " alt="" coords="746,339,887,329,1040,311,1120,294,1121,299,1041,316,887,335,746,344"/>
-<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="746,367,805,380,804,385,745,373"/>
-<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html#a911dc864e5e9ba44772382900ad6998b" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="1103,415,1318,471"/>
-<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="1042,419,1088,425,1087,430,1041,425"/>
-<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="1112,351,1309,391"/>
-<area shape="poly" id="edge12_Node000010_Node000012" title=" " alt="" coords="1041,389,1096,382,1097,387,1042,394"/>
-<area shape="poly" id="edge17_Node000013_Node000005" title=" " alt="" coords="1033,176,1091,176,1091,182,1033,182"/>
-<area shape="poly" id="edge18_Node000013_Node000006" title=" " alt="" coords="1008,205,1130,244,1129,249,1006,210"/>
+<area shape="rect" id="Node000001" title="Signal to the swarm that an update is requested.A ValueTask&lt;TResult&gt; resulting in true if the update ..." alt="" coords="5,149,202,190"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a6417881aa109cd3b7f5c786e571428c1" title="Implementation of PrepareUpdate(ISeekableFileStreamProvider, Version, CancellationToken),..." alt="" coords="250,149,471,190"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,167,234,167,234,172,202,172"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae8730853752e924741c38443a557c16f" title="Attempt to abort an uncommitted update.A ValueTask representing the running operation...." alt="" coords="535,5,729,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="387,147,445,105,518,62,546,49,549,54,520,67,448,109,390,151"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0284d2a7f1508bc31dd208906cfbe4d3" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="1089,119,1332,159"/>
+<area shape="poly" id="edge15_Node000002_Node000005" title=" " alt="" coords="471,169,519,170,632,171,745,170,893,163,1040,152,1073,150,1073,155,1041,158,893,169,745,175,632,176,519,175,471,174"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_updater.html#a1711829b4fdbea1c7840aee23885429b" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="539,120,726,161"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="471,155,523,149,524,155,472,160"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a072bf30b2a5cbce33c3a96e12f6a31c2" title="Send a given updateRequest &#160;out to nodes from the swarm controller." alt="" coords="519,235,745,291"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="423,188,535,227,534,232,421,193"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ab8668c1ac98d71d5d4c62ec1276ddf82" title="Create a FileTicketResponse for downloading the content of a given initiatorProvider &#160;for the rest of..." alt="" coords="793,301,1041,342"/>
+<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="380,189,437,248,477,278,520,301,584,320,650,330,716,335,778,334,778,339,716,340,649,336,582,325,518,305,474,282,434,252,376,193"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa39ac9a4c19649cb778515b4aabebe8e" title="Create the RequestFileStreamProvider for an update package retrieval from a given sourceNode ." alt="" coords="801,87,1033,143"/>
+<area shape="poly" id="edge13_Node000002_Node000012" title=" " alt="" coords="401,146,456,124,518,106,587,97,656,93,786,97,786,102,656,98,587,102,520,111,458,129,404,151"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2d25eadf43c0a581335ab5f4dba51e5f" title="Sends out remote abort update requests." alt="" coords="803,15,1031,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="730,26,788,28,788,33,730,32"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="985,53,1042,72,1143,110,1141,115,1040,78,983,58"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="1103,7,1318,63"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="1031,32,1088,32,1088,38,1031,38"/>
+<area shape="poly" id="edge11_Node000008_Node000005" title=" " alt="" coords="746,257,888,244,965,231,1040,214,1102,191,1158,164,1161,169,1105,196,1041,219,966,237,888,249,746,262"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="746,284,800,295,799,300,745,289"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html#a911dc864e5e9ba44772382900ad6998b" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="1103,258,1318,314"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="1041,304,1087,298,1088,303,1042,309"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="1112,337,1309,378"/>
+<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="1042,334,1097,341,1096,346,1041,340"/>
+<area shape="poly" id="edge14_Node000012_Node000005" title=" " alt="" coords="1033,122,1073,125,1073,130,1033,127"/>
 </map>

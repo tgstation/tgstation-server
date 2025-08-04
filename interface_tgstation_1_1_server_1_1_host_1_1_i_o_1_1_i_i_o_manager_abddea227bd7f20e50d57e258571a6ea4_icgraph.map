@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.CreateResolverForSubdirectory" name="Tgstation.Server.Host.IO.IIOManager.CreateResolverForSubdirectory">
-<area shape="rect" id="Node000001" title="Create a new IIOManager that resolves paths to the specified subdirectoryPath ." alt="" coords="336,39,608,79"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a4e1ed07fded989f51757d2f275aa42af" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in the IEngineInst..." alt="" coords="7,5,286,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="320,46,286,43,287,37,320,41"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ab39bc6db3353e20379b3a91dcd98c1c4" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in the IEngineInst..." alt="" coords="5,71,288,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="320,77,288,80,288,74,320,71"/>
+<area shape="rect" id="Node000001" title="Create a new IIOManager that resolves paths to the specified subdirectoryPath ." alt="" coords="319,39,591,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a57734495975820289573b7e5dc6ca9d1" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in a new IEngineIn..." alt="" coords="7,5,269,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="303,46,270,42,270,37,304,40"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a7e9840b6e3a659541c19649374acaaa9" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in a new IEngineIn..." alt="" coords="5,71,271,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="304,77,272,80,271,75,303,72"/>
 </map>

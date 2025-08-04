@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.GetLastModified" name="Tgstation.Server.Host.IO.IIOManager.GetLastModified">
-<area shape="rect" id="Node000001" title="Get the DateTimeOffset of when a given path &#160;was last modified." alt="" coords="269,5,456,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aab04508f9021893da0268cf94411226f" title="Download a LogFileResponse." alt="" coords="5,5,221,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,28,221,28,221,23,253,23"/>
+<area shape="rect" id="Node000001" title="Get the DateTimeOffset of when a given path &#160;was last modified." alt="" coords="258,5,445,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#a21094a58d2406bfc482497fb00a3292e" title="Get a ticket for downloading a log file at a given path .A RequirementsGated&lt;TResult&gt; LogFileResponse..." alt="" coords="5,5,210,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,28,210,28,210,23,242,23"/>
 </map>

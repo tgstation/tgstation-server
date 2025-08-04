@@ -234,7 +234,6 @@ Components:
     Unreleased: true
   - Version: 6.19.0
     ComponentVersions:
-      Core: 6.18.0
       HttpApi: 10.13.0
       GraphQLApi: 0.6.0
       DreamMakerApi: 7.3.3
@@ -245,7 +244,16 @@ Components:
       NugetApi: 18.0.0
       NugetClient: 21.0.0
       WebControlPanel: 6.10.0
-    Changes: []
+    Changes:
+    - Descriptions:
+      - Fixed an issue where a bridge request was returning HTTP 200 with empty content instead of HTTP 401 when it should have.
+      - TGS parameters will no longer be passed to deployments with unconfirmed DMAPIs.
+      Author: Cyberboss
+      PullRequest: 2220
+    - Descriptions:
+      - 'Nix: Tgstation.Server.Host.Console package is now built from source.'
+      Author: Cyberboss
+      PullRequest: 2314
     Unreleased: true
   - Version: 6.18.1
     ComponentVersions: {}
@@ -4330,6 +4338,13 @@ Components:
       Author: alexkar598
       PullRequest: 1133
   HttpApi:
+  - Version: 10.13.1
+    Changes:
+    - Descriptions:
+      - Adjusted the error message for the `WatchdogNotRunning` error code.
+      Author: Cyberboss
+      PullRequest: 2311
+    Unreleased: true
   - Version: 10.13.0
     Changes:
     - Descriptions:
@@ -5216,6 +5231,13 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 18.1.0
+    Changes:
+    - Descriptions:
+      - Adjusted the message for `ErrorCode.WatchdogNotRunning`.
+      Author: Cyberboss
+      PullRequest: 2311
+    Unreleased: true
   - Version: 13.5.0
     Changes:
     - Descriptions:
@@ -5299,4 +5321,11 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient: []
+  NugetClient:
+  - Version: 21.1.0
+    Changes:
+    - Descriptions:
+      - Updated API library version to 18.1.0.
+      Author: Cyberboss
+      PullRequest: 2311
+    Unreleased: true

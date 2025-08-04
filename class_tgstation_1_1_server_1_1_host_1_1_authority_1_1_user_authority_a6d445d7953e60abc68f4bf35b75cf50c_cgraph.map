@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Authority.UserAuthority.GetIdImpl" name="Tgstation.Server.Host.Authority.UserAuthority.GetIdImpl">
+<area shape="rect" id="Node000001" title="Implementation of retrieving a User by ID." alt="" coords="5,39,210,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="262,5,458,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,43,246,38,247,43,210,48"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a932e79442901207ed5b8a0a10b9a0c65" title="Gets all registered Users.A RequirementsGated&lt;TResult&gt; IQueryable&lt;T&gt; of Users." alt="" coords="258,71,462,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="210,69,242,73,242,79,210,75"/>
+</map>

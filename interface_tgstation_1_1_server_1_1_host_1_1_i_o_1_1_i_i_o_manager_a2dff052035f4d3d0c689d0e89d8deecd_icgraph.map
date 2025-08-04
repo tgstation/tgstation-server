@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.MoveFile" name="Tgstation.Server.Host.IO.IIOManager.MoveFile">
-<area shape="rect" id="Node000001" title="Moves a file at source &#160;to destination ." alt="" coords="281,39,448,79"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a41eeadd8f3fa1380151384ec76881d7f" title="Create a dump file for a given process .A ValueTask representing the running operation." alt="" coords="5,5,233,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="265,48,233,44,234,39,265,43"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="6,71,232,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="265,75,233,79,232,74,265,69"/>
+<area shape="rect" id="Node000001" title="Moves a file at source &#160;to destination ." alt="" coords="295,39,462,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a41eeadd8f3fa1380151384ec76881d7f" title="Create a dump file for a given process .A ValueTask representing the running operation." alt="" coords="12,5,240,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="279,49,240,43,241,38,280,43"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a753be64e5245a6e97430a9beddec3b15" title=" " alt="" coords="5,71,247,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="279,74,248,78,247,73,279,69"/>
 </map>

@@ -1,14 +1,16 @@
 <map id="Tgstation.Server.Host.Authority.UserGroupAuthority" name="Tgstation.Server.Host.Authority.UserGroupAuthority">
-<area shape="rect" id="Node000001" title=" " alt="" coords="520,87,725,128"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html" title="Base implementation of IAuthority." alt="" coords="168,5,270,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="286,25,386,41,497,65,562,84,561,89,496,70,385,47,285,30"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="544,105,749,145"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html" title="Base implementation of IAuthority." alt="" coords="180,5,282,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,25,403,44,521,73,599,102,598,107,520,78,402,49,297,30"/>
 <area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority.html" title="Business logic for interating with the server." alt="" coords="5,31,82,56"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="96,33,167,23,168,28,97,39"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_user_group_authority.html" title="IAuthority for managing UserGroups." alt="" coords="150,55,289,80"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="97,48,149,55,149,61,97,53"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="305,73,520,95,520,100,304,79"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="133,105,306,145"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="321,118,496,111,520,109,520,115,496,116,321,123"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="131,170,307,211"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="322,171,496,137,544,126,545,131,497,142,323,176"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="97,34,179,22,180,28,98,39"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_user_group_authority.html" title="IAuthority for managing UserGroups." alt="" coords="162,55,301,80"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="98,48,161,56,161,61,97,53"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="316,75,521,102,544,106,543,111,520,107,316,80"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="145,105,318,145"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="333,122,544,122,544,128,333,128"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_claims_principal_accessor.html" title="Interface for accessing the current request&#39;s ClaimsPrincipal." alt="" coords="131,170,331,211"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="346,170,520,143,544,139,544,144,521,148,347,175"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="143,235,319,276"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="334,237,425,218,519,189,568,167,611,143,614,148,571,172,521,194,427,223,335,243"/>
 </map>

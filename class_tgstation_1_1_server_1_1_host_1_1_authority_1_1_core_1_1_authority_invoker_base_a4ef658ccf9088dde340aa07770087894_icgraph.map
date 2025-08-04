@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Authority.Core.AuthorityInvokerBase.OnRequirementsFailure" name="Tgstation.Server.Host.Authority.Core.AuthorityInvokerBase.OnRequirementsFailure">
+<area shape="rect" id="Node000001" title="Called to handle generic behavior when requirements evaluation fails." alt="" coords="286,5,561,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_invoker_base.html#ad8731b330db3a9e09fe730105eaae939" title="Unwrap a RequirementsGated&lt;TResult&gt; result, returning null if the requirements weren&#39;t satisfied." alt="" coords="5,5,238,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="270,36,238,36,238,31,270,31"/>
+</map>

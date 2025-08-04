@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.UserGroupController.Create" name="Tgstation.Server.Host.Controllers.UserGroupController.Create">
-<area shape="rect" id="Node000001" title="Create a new UserGroup." alt="" coords="5,5,221,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html#a05e1cafe299ac39c5f75954b13a42c7b" title="Transform a Api.Models.PermissionSet into a PermissionSet." alt="" coords="269,5,574,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,23,253,23,253,28,221,28"/>
+<area shape="rect" id="Node000001" title="Create a new UserGroup." alt="" coords="5,39,221,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html#ae0e3b707befe9d0804806ed31a4457f1" title="Lists all UserGroups." alt="" coords="314,5,529,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,45,298,36,298,42,222,50"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html#a05e1cafe299ac39c5f75954b13a42c7b" title="Transform a Api.Models.PermissionSet into a PermissionSet." alt="" coords="269,71,574,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="222,68,253,71,253,76,221,73"/>
 </map>

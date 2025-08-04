@@ -130,19 +130,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab5348c830f68de5996eeef23d240cf5f" id="r_ab5348c830f68de5996eeef23d240cf5f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#ab5348c830f68de5996eeef23d240cf5f">PosixByondInstaller</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html">IPostWriteHandler</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a79e1248b3b5deda304e4278a0dd64607">postWriteHandler</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a> ioManager, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html">IFileDownloader</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a145fc898093212cfd2c9434aafff70db">fileDownloader</a>, IOptionsMonitor&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions, ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html">PosixByondInstaller</a> &gt; logger)</td></tr>
 <tr class="memdesc:ab5348c830f68de5996eeef23d240cf5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the PosixByondInstaller class.  <br /></td></tr>
 <tr class="separator:ab5348c830f68de5996eeef23d240cf5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98b3d4659e9a7927e6661cca2e08ec8f" id="r_a98b3d4659e9a7927e6661cca2e08ec8f"><td class="memItemLeft" align="right" valign="top">override ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a98b3d4659e9a7927e6661cca2e08ec8f">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a98b3d4659e9a7927e6661cca2e08ec8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working.<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">version</td><td>The EngineVersion being installed.</td></tr>
-    <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
-    <tr><td class="paramname">deploymentPipelineProcesses</td><td>If the operation should consider processes it launches to be part of the deployment pipeline.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
-  <br /></td></tr>
-<tr class="separator:a98b3d4659e9a7927e6661cca2e08ec8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf04ab6522fece6e8cc094da605b826e" id="r_acf04ab6522fece6e8cc094da605b826e"><td class="memItemLeft" align="right" valign="top">override ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#acf04ab6522fece6e8cc094da605b826e">UpgradeInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:acf04ab6522fece6e8cc094da605b826e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get upgrade a version installed by a previous version of TGS.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -168,8 +155,8 @@ Public Member Functions</h2></td></tr>
   <br /></td></tr>
 <tr class="separator:a1d2248adb5f7414b131fcbe373656448"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html">Tgstation.Server.Host.Components.Engine.ByondInstallerBase</a></td></tr>
-<tr class="memitem:a4e1ed07fded989f51757d2f275aa42af inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base" id="r_a4e1ed07fded989f51757d2f275aa42af"><td class="memItemLeft" align="right" valign="top">override ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a4e1ed07fded989f51757d2f275aa42af">CreateInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, Task installationTask, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a4e1ed07fded989f51757d2f275aa42af inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a> for a given <em>version</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a57734495975820289573b7e5dc6ca9d1 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base" id="r_a57734495975820289573b7e5dc6ca9d1"><td class="memItemLeft" align="right" valign="top">override ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a57734495975820289573b7e5dc6ca9d1">GetInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, Task installationTask, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a57734495975820289573b7e5dc6ca9d1 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a> for a given <em>version</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion of the installation.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
@@ -178,9 +165,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a> for the given <em>version</em> .</dd></dl>
   <br /></td></tr>
-<tr class="separator:a4e1ed07fded989f51757d2f275aa42af inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a57734495975820289573b7e5dc6ca9d1 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa990fb2d91a22d0fecb013b0238db848 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base" id="r_aa990fb2d91a22d0fecb013b0238db848"><td class="memItemLeft" align="right" valign="top">override async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#aa990fb2d91a22d0fecb013b0238db848">CleanCache</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aa990fb2d91a22d0fecb013b0238db848 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to cleans the engine's cache folder for the system.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -204,8 +191,8 @@ Public Member Functions</h2></td></tr>
   <br /></td></tr>
 <tr class="separator:adf1546f8ef11d749bc75509ce63bdae5 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html">Tgstation.Server.Host.Components.Engine.EngineInstallerBase</a></td></tr>
-<tr class="memitem:a0c64438ad11b15111023cced8146aa47 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base" id="r_a0c64438ad11b15111023cced8146aa47"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a0c64438ad11b15111023cced8146aa47">CreateInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, Task installationTask, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a0c64438ad11b15111023cced8146aa47 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a> for a given <em>version</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:ab2f7cc39dd0972547e3a045dfee25ebb inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base" id="r_ab2f7cc39dd0972547e3a045dfee25ebb"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#ab2f7cc39dd0972547e3a045dfee25ebb">GetInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, Task installationTask, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ab2f7cc39dd0972547e3a045dfee25ebb inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a> for a given <em>version</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion of the installation.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
@@ -214,9 +201,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a> for the given <em>version</em> .</dd></dl>
   <br /></td></tr>
-<tr class="separator:a0c64438ad11b15111023cced8146aa47 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ab2f7cc39dd0972547e3a045dfee25ebb inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fa2145f3b8c5b4f865a6ceccf470834 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base" id="r_a4fa2145f3b8c5b4f865a6ceccf470834"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a4fa2145f3b8c5b4f865a6ceccf470834">CleanCache</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a4fa2145f3b8c5b4f865a6ceccf470834 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to cleans the engine's cache folder for the system.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -227,8 +214,8 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
   <br /></td></tr>
 <tr class="separator:a4fa2145f3b8c5b4f865a6ceccf470834 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a082b6921033c56935fa68cf06de105ee inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base" id="r_a082b6921033c56935fa68cf06de105ee"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a082b6921033c56935fa68cf06de105ee">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a082b6921033c56935fa68cf06de105ee inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working.<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a07be1caeb3ac3c56d9924a0aca4eed56 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base" id="r_a07be1caeb3ac3c56d9924a0aca4eed56"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a07be1caeb3ac3c56d9924a0aca4eed56">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a07be1caeb3ac3c56d9924a0aca4eed56 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion being installed.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
@@ -237,9 +224,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a>.</dd></dl>
   <br /></td></tr>
-<tr class="separator:a082b6921033c56935fa68cf06de105ee inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a07be1caeb3ac3c56d9924a0aca4eed56 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fbd2f849664165c484ddc5e58930fd9 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base" id="r_a3fbd2f849664165c484ddc5e58930fd9"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a3fbd2f849664165c484ddc5e58930fd9">UpgradeInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a3fbd2f849664165c484ddc5e58930fd9 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get upgrade a version installed by a previous version of TGS.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -279,6 +266,8 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:a506edf33fb80f48d788c7194b14748c6" id="r_a506edf33fb80f48d788c7194b14748c6"><td class="memItemLeft" align="right" valign="top">override ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a506edf33fb80f48d788c7194b14748c6">InstallImpl</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
+<tr class="separator:a506edf33fb80f48d788c7194b14748c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa32e9e7a8217a4198fc5d74c5789c78e" id="r_aa32e9e7a8217a4198fc5d74c5789c78e"><td class="memItemLeft" align="right" valign="top">override string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#aa32e9e7a8217a4198fc5d74c5789c78e">GetDreamDaemonName</a> (Version byondVersion, out bool supportsCli)</td></tr>
 <tr class="separator:aa32e9e7a8217a4198fc5d74c5789c78e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html">Tgstation.Server.Host.Components.Engine.ByondInstallerBase</a></td></tr>
@@ -298,6 +287,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a7e0a63f182a77bc1a099f3c7f8cd6849 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base" id="r_a7e0a63f182a77bc1a099f3c7f8cd6849"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version)</td></tr>
 <tr class="memdesc:a7e0a63f182a77bc1a099f3c7f8cd6849 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check that a given <em>version</em>  is of type EngineType.Byond.  <br /></td></tr>
 <tr class="separator:a7e0a63f182a77bc1a099f3c7f8cd6849 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f4c9a4962a6db74a6036e0e76f05ed6 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base" id="r_a9f4c9a4962a6db74a6036e0e76f05ed6"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a9f4c9a4962a6db74a6036e0e76f05ed6">InstallImpl</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a9f4c9a4962a6db74a6036e0e76f05ed6 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working.  <br /></td></tr>
+<tr class="separator:a9f4c9a4962a6db74a6036e0e76f05ed6 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -494,38 +486,41 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00137">137</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  138</span>        {</div>
-<div class="line"><span class="lineno">  139</span>            supportsCli = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  140</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a21947d98b8511e965ae9be414f6f1f22">DreamDaemonExecutableName</a> + <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#aa296421290a3d504d92f464b746b9fe9">ShellScriptExtension</a>;</div>
-<div class="line"><span class="lineno">  141</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00134">134</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  135</span>        {</div>
+<div class="line"><span class="lineno">  136</span>            supportsCli = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  137</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a21947d98b8511e965ae9be414f6f1f22">DreamDaemonExecutableName</a> + <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#aa296421290a3d504d92f464b746b9fe9">ShellScriptExtension</a>;</div>
+<div class="line"><span class="lineno">  138</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_html_a21947d98b8511e965ae9be414f6f1f22"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a21947d98b8511e965ae9be414f6f1f22">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.DreamDaemonExecutableName</a></div><div class="ttdeci">const string DreamDaemonExecutableName</div><div class="ttdoc">The name of the DreamDaemon binary file.</div><div class="ttdef"><b>Definition</b> <a href="_posix_byond_installer_8cs_source.html#l00025">PosixByondInstaller.cs:25</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_html_aa296421290a3d504d92f464b746b9fe9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#aa296421290a3d504d92f464b746b9fe9">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.ShellScriptExtension</a></div><div class="ttdeci">const string ShellScriptExtension</div><div class="ttdoc">File extension for shell scripts.</div><div class="ttdef"><b>Definition</b> <a href="_posix_byond_installer_8cs_source.html#l00035">PosixByondInstaller.cs:35</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_posix_byond_installer_8cs_source.html#l00025">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.DreamDaemonExecutableName</a>, and <a class="el" href="_posix_byond_installer_8cs_source.html#l00035">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.ShellScriptExtension</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00078">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.Install()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00097">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.InstallImpl()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_aa32e9e7a8217a4198fc5d74c5789c78e_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_aa32e9e7a8217a4198fc5d74c5789c78e_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_aa32e9e7a8217a4198fc5d74c5789c78e_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_aa32e9e7a8217a4198fc5d74c5789c78e_icgraph">
-<area shape="rect" title=" " alt="" coords="280,5,519,61"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a98b3d4659e9a7927e6661cca2e08ec8f" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="5,13,232,54"/>
-<area shape="poly" title=" " alt="" coords="264,36,232,36,232,31,264,31"/>
+<area shape="rect" title=" " alt="" coords="294,5,533,61"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a506edf33fb80f48d788c7194b14748c6" title=" " alt="" coords="5,13,246,54"/>
+<area shape="poly" title=" " alt="" coords="278,36,246,36,246,31,278,31"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a98b3d4659e9a7927e6661cca2e08ec8f" name="a98b3d4659e9a7927e6661cca2e08ec8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98b3d4659e9a7927e6661cca2e08ec8f">&#9670;&#160;</a></span>Install()</h2>
+<a id="a506edf33fb80f48d788c7194b14748c6" name="a506edf33fb80f48d788c7194b14748c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a506edf33fb80f48d788c7194b14748c6">&#9670;&#160;</a></span>InstallImpl()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override ValueTask Tgstation.Server.Host.Components.Engine.PosixByondInstaller.Install </td>
+          <td class="memname">override ValueTask Tgstation.Server.Host.Components.Engine.PosixByondInstaller.InstallImpl </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a>&#160;</td>
           <td class="paramname"><em>version</em>, </td>
@@ -554,93 +549,80 @@ Here is the caller graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Does actions necessary to get an extracted installation working.<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">version</td><td>The EngineVersion being installed.</td></tr>
-    <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
-    <tr><td class="paramname">deploymentPipelineProcesses</td><td>If the operation should consider processes it launches to be part of the deployment pipeline.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
- </p>
+<p></p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a96982c374c0d5d56779125fce7c933be">Tgstation.Server.Host.Components.Engine.IEngineInstaller</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00078">78</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   79</span>        {</div>
-<div class="line"><span class="lineno">   80</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a>(version);</div>
-<div class="line"><span class="lineno">   81</span>            ArgumentNullException.ThrowIfNull(path);</div>
-<div class="line"><span class="lineno">   82</span> </div>
-<div class="line"><span class="lineno">   83</span>            <span class="comment">// write the scripts for running the ting</span></div>
-<div class="line"><span class="lineno">   84</span>            <span class="comment">// need to add $ORIGIN to LD_LIBRARY_PATH</span></div>
-<div class="line"><span class="lineno">   85</span>            <span class="keyword">const</span> <span class="keywordtype">string</span> StandardScript = <span class="stringliteral">&quot;#!/bin/sh\nexport LD_LIBRARY_PATH=\&quot;\\$ORIGIN:$LD_LIBRARY_PATH\&quot;\nBASEDIR=$(dirname \&quot;$0\&quot;)\nexec \&quot;$BASEDIR/{0}\&quot; \&quot;$@\&quot;\n&quot;</span>;</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>            var dreamDaemonScript = String.Format(CultureInfo.InvariantCulture, StandardScript, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a21947d98b8511e965ae9be414f6f1f22">DreamDaemonExecutableName</a>);</div>
-<div class="line"><span class="lineno">   88</span>            var dreamMakerScript = String.Format(CultureInfo.InvariantCulture, StandardScript, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a8d5eaf20643153e497ec910338f9e8d1">DreamMakerExecutableName</a>);</div>
-<div class="line"><span class="lineno">   89</span> </div>
-<div class="line"><span class="lineno">   90</span>            async ValueTask WriteAndMakeExecutable(<span class="keywordtype">string</span> pathToScript, <span class="keywordtype">string</span> script)</div>
-<div class="line"><span class="lineno">   91</span>            {</div>
-<div class="line"><span class="lineno">   92</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;Writing script {path}:{newLine}{scriptContents}&quot;</span>, pathToScript, Environment.NewLine, script);</div>
-<div class="line"><span class="lineno">   93</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">WriteAllBytes</a>(pathToScript, Encoding.ASCII.GetBytes(script), cancellationToken);</div>
-<div class="line"><span class="lineno">   94</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a79e1248b3b5deda304e4278a0dd64607">postWriteHandler</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(pathToScript));</div>
-<div class="line"><span class="lineno">   95</span>            }</div>
-<div class="line"><span class="lineno">   96</span> </div>
-<div class="line"><span class="lineno">   97</span>            var basePath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(path, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a5660b81669dbcfd9eb21f8424b4da200">ByondBinPath</a>);</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>            var ddTask = WriteAndMakeExecutable(</div>
-<div class="line"><span class="lineno">  100</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#aa32e9e7a8217a4198fc5d74c5789c78e">GetDreamDaemonName</a>(version.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a4c62808be741c64cc793fb679b04e9c2">Version</a>!, out _)),</div>
-<div class="line"><span class="lineno">  101</span>                dreamDaemonScript);</div>
+<p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00097">97</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   98</span>        {</div>
+<div class="line"><span class="lineno">   99</span>            <span class="comment">// write the scripts for running the ting</span></div>
+<div class="line"><span class="lineno">  100</span>            <span class="comment">// need to add $ORIGIN to LD_LIBRARY_PATH</span></div>
+<div class="line"><span class="lineno">  101</span>            <span class="keyword">const</span> <span class="keywordtype">string</span> StandardScript = <span class="stringliteral">&quot;#!/bin/sh\nexport LD_LIBRARY_PATH=\&quot;\\$ORIGIN:$LD_LIBRARY_PATH\&quot;\nBASEDIR=$(dirname \&quot;$0\&quot;)\nexec \&quot;$BASEDIR/{0}\&quot; \&quot;$@\&quot;\n&quot;</span>;</div>
 <div class="line"><span class="lineno">  102</span> </div>
-<div class="line"><span class="lineno">  103</span>            var dmTask = WriteAndMakeExecutable(</div>
-<div class="line"><span class="lineno">  104</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a2d95580b64589441f0aa25828114c383">DreamMakerName</a>),</div>
-<div class="line"><span class="lineno">  105</span>                dreamMakerScript);</div>
-<div class="line"><span class="lineno">  106</span> </div>
-<div class="line"><span class="lineno">  107</span>            var task = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html">ValueTaskExtensions</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3">WhenAll</a>(</div>
-<div class="line"><span class="lineno">  108</span>                ddTask,</div>
-<div class="line"><span class="lineno">  109</span>                dmTask);</div>
-<div class="line"><span class="lineno">  110</span> </div>
-<div class="line"><span class="lineno">  111</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a79e1248b3b5deda304e4278a0dd64607">postWriteHandler</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a21947d98b8511e965ae9be414f6f1f22">DreamDaemonExecutableName</a>));</div>
-<div class="line"><span class="lineno">  112</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a79e1248b3b5deda304e4278a0dd64607">postWriteHandler</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a8d5eaf20643153e497ec910338f9e8d1">DreamMakerExecutableName</a>));</div>
-<div class="line"><span class="lineno">  113</span> </div>
-<div class="line"><span class="lineno">  114</span>            <span class="keywordflow">return</span> task;</div>
-<div class="line"><span class="lineno">  115</span>        }</div>
+<div class="line"><span class="lineno">  103</span>            var dreamDaemonScript = String.Format(CultureInfo.InvariantCulture, StandardScript, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a21947d98b8511e965ae9be414f6f1f22">DreamDaemonExecutableName</a>);</div>
+<div class="line"><span class="lineno">  104</span>            var dreamMakerScript = String.Format(CultureInfo.InvariantCulture, StandardScript, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a8d5eaf20643153e497ec910338f9e8d1">DreamMakerExecutableName</a>);</div>
+<div class="line"><span class="lineno">  105</span> </div>
+<div class="line"><span class="lineno">  106</span>            async ValueTask WriteAndMakeExecutable(<span class="keywordtype">string</span> pathToScript, <span class="keywordtype">string</span> script)</div>
+<div class="line"><span class="lineno">  107</span>            {</div>
+<div class="line"><span class="lineno">  108</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;Writing script {path}:{newLine}{scriptContents}&quot;</span>, pathToScript, Environment.NewLine, script);</div>
+<div class="line"><span class="lineno">  109</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">WriteAllBytes</a>(pathToScript, Encoding.ASCII.GetBytes(script), cancellationToken);</div>
+<div class="line"><span class="lineno">  110</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a79e1248b3b5deda304e4278a0dd64607">postWriteHandler</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(pathToScript));</div>
+<div class="line"><span class="lineno">  111</span>            }</div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span>            var basePath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(path, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a5660b81669dbcfd9eb21f8424b4da200">ByondBinPath</a>);</div>
+<div class="line"><span class="lineno">  114</span> </div>
+<div class="line"><span class="lineno">  115</span>            var ddTask = WriteAndMakeExecutable(</div>
+<div class="line"><span class="lineno">  116</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#aa32e9e7a8217a4198fc5d74c5789c78e">GetDreamDaemonName</a>(version.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a4c62808be741c64cc793fb679b04e9c2">Version</a>!, out _)),</div>
+<div class="line"><span class="lineno">  117</span>                dreamDaemonScript);</div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span>            var dmTask = WriteAndMakeExecutable(</div>
+<div class="line"><span class="lineno">  120</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a2d95580b64589441f0aa25828114c383">DreamMakerName</a>),</div>
+<div class="line"><span class="lineno">  121</span>                dreamMakerScript);</div>
+<div class="line"><span class="lineno">  122</span> </div>
+<div class="line"><span class="lineno">  123</span>            var task = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html">ValueTaskExtensions</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3">WhenAll</a>(</div>
+<div class="line"><span class="lineno">  124</span>                ddTask,</div>
+<div class="line"><span class="lineno">  125</span>                dmTask);</div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a79e1248b3b5deda304e4278a0dd64607">postWriteHandler</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a21947d98b8511e965ae9be414f6f1f22">DreamDaemonExecutableName</a>));</div>
+<div class="line"><span class="lineno">  128</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a79e1248b3b5deda304e4278a0dd64607">postWriteHandler</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a8d5eaf20643153e497ec910338f9e8d1">DreamMakerExecutableName</a>));</div>
+<div class="line"><span class="lineno">  129</span> </div>
+<div class="line"><span class="lineno">  130</span>            <span class="keywordflow">return</span> task;</div>
+<div class="line"><span class="lineno">  131</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version_html_a4c62808be741c64cc793fb679b04e9c2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a4c62808be741c64cc793fb679b04e9c2">Tgstation.Server.Api.Models.EngineVersion.Version</a></div><div class="ttdeci">Version? Version</div><div class="ttdoc">The System.Version of the engine. Currently only valid when Engine is EngineType.Byond.</div><div class="ttdef"><b>Definition</b> <a href="_engine_version_8cs_source.html#l00031">EngineVersion.cs:31</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html">Tgstation.Server.Common.Extensions.ValueTaskExtensions</a></div><div class="ttdoc">Extension methods for the ValueTask and ValueTask&lt;TResult&gt; classes.</div><div class="ttdef"><b>Definition</b> <a href="_value_task_extensions_8cs_source.html#l00011">ValueTaskExtensions.cs:12</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions_html_a58adbd94d764754bd3e6c566a5fe7fe3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3">Tgstation.Server.Common.Extensions.ValueTaskExtensions.WhenAll</a></div><div class="ttdeci">static async ValueTask WhenAll(IEnumerable&lt; ValueTask &gt; tasks)</div><div class="ttdoc">Fully await a given list of tasks .</div><div class="ttdef"><b>Definition</b> <a href="_value_task_extensions_8cs_source.html#l00099">ValueTaskExtensions.cs:99</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base_html_a5660b81669dbcfd9eb21f8424b4da200"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a5660b81669dbcfd9eb21f8424b4da200">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.ByondBinPath</a></div><div class="ttdeci">const string ByondBinPath</div><div class="ttdoc">The path to the BYOND bin folder.</div><div class="ttdef"><b>Definition</b> <a href="_byond_installer_base_8cs_source.html#l00026">ByondInstallerBase.cs:26</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base_html_a7e0a63f182a77bc1a099f3c7f8cd6849"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity</a></div><div class="ttdeci">void CheckVersionValidity(EngineVersion version)</div><div class="ttdoc">Check that a given version  is of type EngineType.Byond.</div><div class="ttdef"><b>Definition</b> <a href="_engine_installer_base_8cs_source.html#l00064">EngineInstallerBase.cs:64</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base_html_aed7c0130aacc5b088f420e6aa4a270b5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.Logger</a></div><div class="ttdeci">ILogger&lt; EngineInstallerBase &gt; Logger</div><div class="ttdoc">Gets the ILogger for the EngineInstallerBase.</div><div class="ttdef"><b>Definition</b> <a href="_engine_installer_base_8cs_source.html#l00029">EngineInstallerBase.cs:29</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_html_a2d95580b64589441f0aa25828114c383"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a2d95580b64589441f0aa25828114c383">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.DreamMakerName</a></div><div class="ttdeci">override string DreamMakerName</div><div class="ttdef"><b>Definition</b> <a href="_posix_byond_installer_8cs_source.html#l00041">PosixByondInstaller.cs:41</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_html_a8d5eaf20643153e497ec910338f9e8d1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a8d5eaf20643153e497ec910338f9e8d1">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.DreamMakerExecutableName</a></div><div class="ttdeci">const string DreamMakerExecutableName</div><div class="ttdoc">The name of the DreamMaker binary file.</div><div class="ttdef"><b>Definition</b> <a href="_posix_byond_installer_8cs_source.html#l00030">PosixByondInstaller.cs:30</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_html_aa32e9e7a8217a4198fc5d74c5789c78e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#aa32e9e7a8217a4198fc5d74c5789c78e">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.GetDreamDaemonName</a></div><div class="ttdeci">override string GetDreamDaemonName(Version byondVersion, out bool supportsCli)</div><div class="ttdef"><b>Definition</b> <a href="_posix_byond_installer_8cs_source.html#l00137">PosixByondInstaller.cs:137</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_html_aa32e9e7a8217a4198fc5d74c5789c78e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#aa32e9e7a8217a4198fc5d74c5789c78e">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.GetDreamDaemonName</a></div><div class="ttdeci">override string GetDreamDaemonName(Version byondVersion, out bool supportsCli)</div><div class="ttdef"><b>Definition</b> <a href="_posix_byond_installer_8cs_source.html#l00134">PosixByondInstaller.cs:134</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a9aeb8b83ea3f4b13a183b6ac55b35a70"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">Tgstation.Server.Host.IO.IIOManager.WriteAllBytes</a></div><div class="ttdeci">ValueTask WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)</div><div class="ttdoc">Writes some contents  to a file at path  overwriting previous content.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler_html_a977c03596e21a07e06d7bc3735c6884f"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">Tgstation.Server.Host.IO.IPostWriteHandler.HandleWrite</a></div><div class="ttdeci">void HandleWrite(string filePath)</div><div class="ttdoc">For handling system specific necessities after a write.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_byond_installer_base_8cs_source.html#l00026">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.ByondBinPath</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00064">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath()</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00025">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.DreamDaemonExecutableName</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00030">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.DreamMakerExecutableName</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00041">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.DreamMakerName</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00137">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.GetDreamDaemonName()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">Tgstation.Server.Host.IO.IPostWriteHandler.HandleWrite()</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00024">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.IOManager</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00029">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.Logger</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00049">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.postWriteHandler</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">Tgstation.Server.Host.IO.IIOManager.ResolvePath()</a>, <a class="el" href="_engine_version_8cs_source.html#l00031">Tgstation.Server.Api.Models.EngineVersion.Version</a>, <a class="el" href="_value_task_extensions_8cs_source.html#l00099">Tgstation.Server.Common.Extensions.ValueTaskExtensions.WhenAll()</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">Tgstation.Server.Host.IO.IIOManager.WriteAllBytes()</a>.</p>
+<p class="reference">References <a class="el" href="_byond_installer_base_8cs_source.html#l00026">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.ByondBinPath</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath()</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00025">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.DreamDaemonExecutableName</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00030">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.DreamMakerExecutableName</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00041">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.DreamMakerName</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00134">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.GetDreamDaemonName()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">Tgstation.Server.Host.IO.IPostWriteHandler.HandleWrite()</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00024">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.IOManager</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00029">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.Logger</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00049">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.postWriteHandler</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">Tgstation.Server.Host.IO.IIOManager.ResolvePath()</a>, <a class="el" href="_engine_version_8cs_source.html#l00031">Tgstation.Server.Api.Models.EngineVersion.Version</a>, <a class="el" href="_value_task_extensions_8cs_source.html#l00099">Tgstation.Server.Common.Extensions.ValueTaskExtensions.WhenAll()</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">Tgstation.Server.Host.IO.IIOManager.WriteAllBytes()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_a98b3d4659e9a7927e6661cca2e08ec8f_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_a98b3d4659e9a7927e6661cca2e08ec8f_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_a98b3d4659e9a7927e6661cca2e08ec8f_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_a98b3d4659e9a7927e6661cca2e08ec8f_cgraph">
-<area shape="rect" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="5,229,232,270"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="280,5,542,61"/>
-<area shape="poly" title=" " alt="" coords="131,227,189,151,230,108,278,71,286,66,289,71,281,75,234,112,193,155,135,230"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="327,85,495,126"/>
-<area shape="poly" title=" " alt="" coords="142,226,201,180,239,156,279,135,311,123,313,128,281,140,242,160,205,184,145,230"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#aa32e9e7a8217a4198fc5d74c5789c78e" title=" " alt="" coords="291,149,531,205"/>
-<area shape="poly" title=" " alt="" coords="203,226,280,207,281,212,205,231"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f" title="For handling system specific necessities after a write." alt="" coords="310,229,512,270"/>
-<area shape="poly" title=" " alt="" coords="232,247,295,247,295,252,232,252"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="327,294,495,335"/>
-<area shape="poly" title=" " alt="" coords="213,268,313,290,311,295,212,273"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="303,359,519,414"/>
-<area shape="poly" title=" " alt="" coords="151,268,210,306,281,344,295,350,293,355,279,349,207,311,148,272"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="326,438,496,479"/>
-<area shape="poly" title=" " alt="" coords="135,268,158,303,191,345,233,388,281,424,312,438,310,443,278,429,230,392,187,349,154,306,130,271"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_a506edf33fb80f48d788c7194b14748c6_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_a506edf33fb80f48d788c7194b14748c6_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_a506edf33fb80f48d788c7194b14748c6_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_a506edf33fb80f48d788c7194b14748c6_cgraph">
+<area shape="rect" title=" " alt="" coords="5,183,246,223"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="330,5,497,46"/>
+<area shape="poly" title=" " alt="" coords="143,180,205,119,247,85,292,55,314,46,316,50,295,60,250,89,208,123,147,184"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#aa32e9e7a8217a4198fc5d74c5789c78e" title=" " alt="" coords="294,70,533,126"/>
+<area shape="poly" title=" " alt="" coords="177,180,293,135,312,128,313,133,295,140,179,185"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f" title="For handling system specific necessities after a write." alt="" coords="313,149,514,190"/>
+<area shape="poly" title=" " alt="" coords="246,186,297,180,297,186,246,192"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="330,215,497,255"/>
+<area shape="poly" title=" " alt="" coords="246,214,315,221,314,227,246,219"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="306,279,521,335"/>
+<area shape="poly" title=" " alt="" coords="181,221,295,264,313,271,312,276,293,270,179,226"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="328,359,499,399"/>
+<area shape="poly" title=" " alt="" coords="147,222,209,283,250,316,295,345,315,354,313,359,292,349,247,321,205,287,143,226"/>
 </map>
 </div>
 
@@ -691,14 +673,14 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#aa44c85a3e90049f9347d2284654a3c73">Tgstation.Server.Host.Components.Engine.IEngineInstaller</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00127">127</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  128</span>        {</div>
-<div class="line"><span class="lineno">  129</span>            ArgumentNullException.ThrowIfNull(version);</div>
-<div class="line"><span class="lineno">  130</span>            ArgumentNullException.ThrowIfNull(fullDmbPath);</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;No need to trust .dmb path \&quot;{path}\&quot; on POSIX&quot;</span>, fullDmbPath);</div>
-<div class="line"><span class="lineno">  133</span>            <span class="keywordflow">return</span> ValueTask.CompletedTask;</div>
-<div class="line"><span class="lineno">  134</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00087">87</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   88</span>        {</div>
+<div class="line"><span class="lineno">   89</span>            ArgumentNullException.ThrowIfNull(version);</div>
+<div class="line"><span class="lineno">   90</span>            ArgumentNullException.ThrowIfNull(fullDmbPath);</div>
+<div class="line"><span class="lineno">   91</span> </div>
+<div class="line"><span class="lineno">   92</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;No need to trust .dmb path \&quot;{path}\&quot; on POSIX&quot;</span>, fullDmbPath);</div>
+<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">return</span> ValueTask.CompletedTask;</div>
+<div class="line"><span class="lineno">   94</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_engine_installer_base_8cs_source.html#l00029">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.Logger</a>.</p>
 
@@ -749,15 +731,16 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a3406d94bc2e99eacb6ca8f3e811efac6">Tgstation.Server.Host.Components.Engine.IEngineInstaller</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00118">118</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  119</span>        {</div>
-<div class="line"><span class="lineno">  120</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a>(version);</div>
-<div class="line"><span class="lineno">  121</span>            ArgumentNullException.ThrowIfNull(path);</div>
-<div class="line"><span class="lineno">  122</span> </div>
-<div class="line"><span class="lineno">  123</span>            <span class="keywordflow">return</span> ValueTask.CompletedTask;</div>
-<div class="line"><span class="lineno">  124</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00078">78</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   79</span>        {</div>
+<div class="line"><span class="lineno">   80</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a>(version);</div>
+<div class="line"><span class="lineno">   81</span>            ArgumentNullException.ThrowIfNull(path);</div>
+<div class="line"><span class="lineno">   82</span> </div>
+<div class="line"><span class="lineno">   83</span>            <span class="keywordflow">return</span> ValueTask.CompletedTask;</div>
+<div class="line"><span class="lineno">   84</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base_html_a7e0a63f182a77bc1a099f3c7f8cd6849"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity</a></div><div class="ttdeci">void CheckVersionValidity(EngineVersion version)</div><div class="ttdoc">Check that a given version  is of type EngineType.Byond.</div><div class="ttdef"><b>Definition</b> <a href="_engine_installer_base_8cs_source.html#l00072">EngineInstallerBase.cs:72</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_engine_installer_base_8cs_source.html#l00064">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity()</a>.</p>
+<p class="reference">References <a class="el" href="_engine_installer_base_8cs_source.html#l00072">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -796,7 +779,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00025">25</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00137">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.GetDreamDaemonName()</a>, and <a class="el" href="_posix_byond_installer_8cs_source.html#l00078">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.Install()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00134">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.GetDreamDaemonName()</a>, and <a class="el" href="_posix_byond_installer_8cs_source.html#l00097">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.InstallImpl()</a>.</p>
 
 </div>
 </div>
@@ -824,7 +807,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00030">30</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00078">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.Install()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00097">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.InstallImpl()</a>.</p>
 
 </div>
 </div>
@@ -852,7 +835,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00049">49</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00078">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.Install()</a>, and <a class="el" href="_posix_byond_installer_8cs_source.html#l00059">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.PosixByondInstaller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00097">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.InstallImpl()</a>, and <a class="el" href="_posix_byond_installer_8cs_source.html#l00059">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.PosixByondInstaller()</a>.</p>
 
 </div>
 </div>
@@ -880,7 +863,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00035">35</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00137">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.GetDreamDaemonName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00134">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.GetDreamDaemonName()</a>.</p>
 
 </div>
 </div>
@@ -909,7 +892,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00041">41</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00078">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.Install()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00097">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.InstallImpl()</a>.</p>
 
 </div>
 </div>

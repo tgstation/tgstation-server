@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Security.AuthorizationService.AuthorizeAsync" name="Tgstation.Server.Host.Security.AuthorizationService.AuthorizeAsync">
+<area shape="rect" id="Node000001" title="Attempt to authorize the current context with a given requirement .A ValueTask&lt;TResult&gt; resulting in ..." alt="" coords="5,5,239,46"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html#a7bf43bc95ae2ec7bc7e8bb7afd25657f" title="Attempt to authorize the current context with a given requirement ." alt="" coords="287,5,524,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="239,23,271,23,271,28,239,28"/>
+</map>

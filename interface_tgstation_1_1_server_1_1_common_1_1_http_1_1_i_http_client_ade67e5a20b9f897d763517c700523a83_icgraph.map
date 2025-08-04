@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Common.Http.IHttpClient.SendAsync" name="Tgstation.Server.Common.Http.IHttpClient.SendAsync">
-<area shape="rect" id="Node000001" title="Send an HTTP request." alt="" coords="565,13,745,54"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a7c0e96de0b1928972f549ab0d2df882f" title="Initiate the download." alt="" coords="295,5,517,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="549,36,517,36,517,31,549,31"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#afd6294b767b298ace3b91aef1accc5f6" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,13,247,54"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="279,36,247,36,247,31,279,31"/>
-</map>

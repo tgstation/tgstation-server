@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Authority.Core.RestAuthorityInvoker.CreateErroredActionResult" name="Tgstation.Server.Host.Authority.Core.RestAuthorityInvoker.CreateErroredActionResult">
+<area shape="rect" id="Node000001" title="Create an IActionResult for a given authorityResponse &#160;if it is erroring." alt="" coords="351,70,605,126"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#a002328002625dad24dd79f855195d36b" title="Invoke a TAuthority &#160;method with no success result.A ValueTask&lt;TResult&gt; resulting in the IActionResul..." alt="" coords="47,5,261,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="338,68,302,60,252,49,253,44,303,55,339,63"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#a171f177c54d934d0236fbef0380ad7b1" title="Invoke a TAuthority &#160;method and get the result.A ValueTask&lt;TResult&gt; resulting in the IActionResult ge..." alt="" coords="47,70,261,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="335,100,261,100,261,95,335,95"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#a1f3efc031abc0ff004cfb0fdc7fe7aa8" title="Invoke a TAuthority &#160;method and get the result.A ValueTask&lt;TResult&gt; resulting in the IActionResult ge..." alt="" coords="5,150,303,206"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="348,132,270,152,269,147,347,127"/>
+</map>

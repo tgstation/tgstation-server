@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateGameServerProcess" name="Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateGameServerProcess">
 <area shape="rect" id="Node000001" title="Creates the game server IProcess." alt="" coords="5,143,263,198"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a74d779db3a36713e44a4b326673a51c8" title="Return the command line arguments for launching with given launchParameters ." alt="" coords="313,5,565,61"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a16bc1d460e98b09d6f03b6ff9eb5ca03" title="Return the command line arguments for launching with given launchParameters ." alt="" coords="313,5,565,61"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,140,240,105,310,71,325,64,327,69,312,76,243,110,182,144"/>
 <area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="320,85,558,126"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="262,140,325,127,326,132,264,145"/>

@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Engine.EngineInstallationBase.EncodeParameters" name="Tgstation.Server.Host.Components.Engine.EngineInstallationBase.EncodeParameters">
-<area shape="rect" id="Node000001" title="Encode given parameters for passing as world.params on the command line." alt="" coords="298,45,539,101"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installation.html#a765067ed32ffe00d83d539c2a76a0c98" title="Return the command line arguments for launching with given launchParameters .The formatted arguments ..." alt="" coords="5,5,250,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="282,57,250,53,250,47,283,52"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installation.html#a8048078192ce64b52233c41da88f5d25" title="Return the command line arguments for launching with given launchParameters .The formatted arguments ..." alt="" coords="8,85,247,141"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="283,95,248,99,247,94,282,89"/>
-</map>

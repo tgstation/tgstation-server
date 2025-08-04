@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.CreateHttpClient" name="Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.CreateHttpClient">
-<area shape="rect" id="Node000001" title="Create a new configured IHttpClient." alt="" coords="5,5,241,61"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="289,5,495,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="241,31,273,31,273,36,241,36"/>
-</map>

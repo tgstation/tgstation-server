@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Security.AuthorizationHandler" name="Tgstation.Server.Host.Security.AuthorizationHandler">
+<area shape="rect" id="Node000001" title="IAuthorizationHandler for RightsConditional&lt;TRights&gt;s and UserSessionValidRequirements." alt="" coords="5,79,206,120"/>
+<area shape="rect" id="Node000002" href="$class_i_authorization_handler.html" title=" " alt="" coords="33,5,178,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,46,108,79,103,79,103,46"/>
+</map>

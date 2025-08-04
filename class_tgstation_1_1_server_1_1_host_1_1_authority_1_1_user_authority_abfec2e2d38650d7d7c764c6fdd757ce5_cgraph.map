@@ -1,0 +1,25 @@
+<map id="Tgstation.Server.Host.Authority.UserAuthority.Create" name="Tgstation.Server.Host.Authority.UserAuthority.Create">
+<area shape="rect" id="Node000001" title="Creates a User.A RequirementsGated&lt;TResult&gt; AuthorityResponse&lt;TResult&gt; for the created UpdatedUser." alt="" coords="5,244,210,285"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ac3966745fae3ffed5c975e4e0e212a49" title="Checks if a createRequest &#160;should return a bad request AuthorityResponse&lt;TResult&gt;." alt="" coords="260,5,517,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,243,135,203,166,152,206,101,230,77,256,57,266,51,268,56,259,61,234,81,210,104,170,156,140,205,120,245"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="291,71,486,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="123,242,178,182,215,150,256,122,275,113,277,118,259,127,218,154,181,186,127,246"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#aa1c559b133fca84003ff2a8c78da629d" title="Creates a new User from a given model ." alt="" coords="258,136,519,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="143,241,195,213,257,186,276,179,278,184,259,191,198,218,145,246"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a1484aa5361ad7005e1d53606b17f4e9e" title="Create a ISystemIdentity for a given user ." alt="" coords="269,201,508,256"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="210,249,253,243,254,248,210,254"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="284,280,493,321"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="210,275,269,282,268,288,210,280"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ae05b2c5d239ed788911e42c5c8e44663" title="Send topics through the topicEventSender indicating a given user &#160;was created or updated." alt="" coords="264,345,513,386"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="150,283,201,307,259,330,284,338,282,343,257,335,199,312,148,287"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a36e5684b48f8ed476df0389b9c927b85" title="Attempt to change the password of a given dbUser ." alt="" coords="286,411,491,451"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="128,283,183,340,219,370,259,395,273,402,271,407,256,400,216,374,179,344,124,287"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ac51e865fdf82982a9f4261951e73fa04" title="Create the AuthorityResponse&lt;TResult&gt; for an UpdatedUser." alt="" coords="269,476,508,517"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="121,284,141,322,171,370,211,419,259,461,268,466,266,471,256,465,207,423,167,373,136,325,116,286"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a2a8906f0acca9ddd47d69c5f94e2145b" title="Check if a given model &#160;has a valid UserName.Name specified." alt="" coords="571,5,775,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="517,23,555,23,555,28,517,28"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ab4600a378e7d6cd93690c0fc43dfb5ae" title="Gets the GraphQL.Types.OAuth.OAuthConnections for the User with a given userId .A RequirementsGated&lt;T..." alt="" coords="567,104,779,145"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="519,139,551,135,552,141,520,144"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a1c257abde2700fc738bf05aadfeedc2a" title="Gets the GraphQL.Types.OAuth.OidcConnections for the User with a given userId .A RequirementsGated&lt;TR..." alt="" coords="571,169,775,210"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="520,169,556,173,555,179,519,174"/>
+</map>

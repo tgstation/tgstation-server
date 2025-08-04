@@ -1,3 +1,30 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_rest_authority_invoker.html" title=" " alt="" coords="5,5,250,61"/>
+<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority.html" title="Business logic for interating with the server." alt="" coords="5,169,210,210"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html" title="Base implementation of IAuthority." alt="" coords="258,136,462,177"/>
+<area shape="poly" id="edge564_Node000000_Node000001" title=" " alt="" coords="225,172,257,167,258,173,225,177"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_administration_authority.html" title="IAuthority for administrative server operations." alt="" coords="258,5,462,46"/>
+<area shape="poly" id="edge570_Node000000_Node000003" title=" " alt="" coords="135,156,189,106,221,80,256,57,283,44,285,49,259,61,225,84,192,110,139,160"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_login_authority.html" title="IAuthority for authenticating with the server." alt="" coords="258,71,462,111"/>
+<area shape="poly" id="edge572_Node000000_Node000005" title=" " alt="" coords="166,160,257,122,291,109,293,114,259,127,168,165"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_permission_set_authority.html" title="IAuthority for managing PermissionSets." alt="" coords="258,201,462,242"/>
+<area shape="poly" id="edge574_Node000000_Node000007" title=" " alt="" coords="225,202,258,206,257,211,225,207"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_user_authority.html" title="IAuthority for managing Users." alt="" coords="258,267,462,307"/>
+<area shape="poly" id="edge576_Node000000_Node000009" title=" " alt="" coords="170,214,259,251,293,264,292,269,257,256,168,219"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_user_group_authority.html" title="IAuthority for managing UserGroups." alt="" coords="258,332,462,373"/>
+<area shape="poly" id="edge578_Node000000_Node000011" title=" " alt="" coords="140,219,193,269,225,294,259,317,285,329,283,334,256,321,222,299,189,273,136,223"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html" title=" " alt="" coords="510,8,714,49"/>
+<area shape="poly" id="edge565_Node000001_Node000002" title=" " alt="" coords="451,126,460,121,475,107,484,92,493,77,508,62,536,47,539,52,512,66,497,81,488,95,479,110,464,125,454,131"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html" title=" " alt="" coords="510,76,714,117"/>
+<area shape="poly" id="edge566_Node000001_Node000004" title=" " alt="" coords="462,129,523,115,524,120,464,134"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_permission_set_authority.html" title=" " alt="" coords="510,145,714,186"/>
+<area shape="poly" id="edge567_Node000001_Node000006" title=" " alt="" coords="478,158,510,159,509,165,477,163"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html" title=" " alt="" coords="510,219,714,259"/>
+<area shape="poly" id="edge568_Node000001_Node000008" title=" " alt="" coords="440,179,463,187,549,216,547,221,461,192,438,184"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_group_authority.html" title=" " alt="" coords="510,300,714,341"/>
+<area shape="poly" id="edge569_Node000001_Node000010" title=" " alt="" coords="457,182,464,188,481,208,489,229,496,249,512,269,532,285,555,297,553,302,529,289,508,273,492,251,484,230,477,211,460,192,453,187"/>
+<area shape="poly" id="edge571_Node000003_Node000002" title=" " alt="" coords="477,24,510,25,509,30,477,30"/>
+<area shape="poly" id="edge573_Node000005_Node000004" title=" " alt="" coords="477,91,510,92,509,97,477,96"/>
+<area shape="poly" id="edge575_Node000007_Node000006" title=" " alt="" coords="468,195,517,184,518,189,470,200"/>
+<area shape="poly" id="edge577_Node000009_Node000008" title=" " alt="" coords="477,262,509,256,510,261,478,267"/>
+<area shape="poly" id="edge579_Node000011_Node000010" title=" " alt="" coords="477,335,509,331,510,336,478,340"/>
 </map>

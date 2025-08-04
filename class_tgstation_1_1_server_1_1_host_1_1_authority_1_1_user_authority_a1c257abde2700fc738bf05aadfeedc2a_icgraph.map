@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Authority.UserAuthority.OidcConnections" name="Tgstation.Server.Host.Authority.UserAuthority.OidcConnections">
+<area shape="rect" id="Node000001" title="Gets the GraphQL.Types.OAuth.OidcConnections for the User with a given userId .A RequirementsGated&lt;TR..." alt="" coords="567,5,771,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#aa1c559b133fca84003ff2a8c78da629d" title="Creates a new User from a given model ." alt="" coords="258,5,519,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="551,28,519,28,519,23,551,23"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#abfec2e2d38650d7d7c764c6fdd757ce5" title="Creates a User.A RequirementsGated&lt;TResult&gt; AuthorityResponse&lt;TResult&gt; for the created UpdatedUser." alt="" coords="5,5,210,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="242,28,210,28,210,23,242,23"/>
+</map>

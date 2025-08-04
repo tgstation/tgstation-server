@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Components.Engine.ByondInstallerBase.GetInstallation" name="Tgstation.Server.Host.Components.Engine.ByondInstallerBase.GetInstallation">
+<area shape="rect" id="Node000001" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in a new IEngineIn..." alt="" coords="5,85,268,126"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="345,5,607,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,82,329,62,330,67,236,87"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#abddea227bd7f20e50d57e258571a6ea4" title="Create a new IIOManager that resolves paths to the specified subdirectoryPath ." alt="" coords="340,85,612,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="268,103,324,103,324,108,268,108"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a1f643204410dec1056257be64eb0be1a" title="Get the file name of the DreamDaemon executable." alt="" coords="316,150,636,191"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="246,123,352,144,351,149,245,129"/>
+</map>

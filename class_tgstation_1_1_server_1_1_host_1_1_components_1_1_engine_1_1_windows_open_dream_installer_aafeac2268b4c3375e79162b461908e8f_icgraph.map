@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller.AddServerFirewallException" name="Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller.AddServerFirewallException">
-<area shape="rect" id="Node000001" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="323,5,580,61"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#abfd28aaba98525c2eed2f1ff7a670bc1" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="5,13,275,54"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="307,36,275,36,275,31,307,31"/>
+<area shape="rect" id="Node000001" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="348,5,605,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#ab194337b8f97d351773b6f73cd2cc4ea" title=" " alt="" coords="5,13,300,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="332,36,300,36,300,31,332,31"/>
 </map>

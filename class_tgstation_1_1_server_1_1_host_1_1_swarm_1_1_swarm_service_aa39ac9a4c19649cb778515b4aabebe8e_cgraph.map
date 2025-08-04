@@ -1,7 +1,5 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.CreateUpdateStreamProvider" name="Tgstation.Server.Host.Swarm.SwarmService.CreateUpdateStreamProvider">
-<area shape="rect" id="Node000001" title="Create the RequestFileStreamProvider for an update package retrieval from a given sourceNode ." alt="" coords="5,41,237,97"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="303,5,510,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="237,52,287,45,288,51,238,57"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0284d2a7f1508bc31dd208906cfbe4d3" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="285,85,528,126"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="238,81,269,85,269,91,237,86"/>
+<area shape="rect" id="Node000001" title="Create the RequestFileStreamProvider for an update package retrieval from a given sourceNode ." alt="" coords="5,5,237,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0284d2a7f1508bc31dd208906cfbe4d3" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="285,13,528,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="237,31,269,31,269,36,237,36"/>
 </map>

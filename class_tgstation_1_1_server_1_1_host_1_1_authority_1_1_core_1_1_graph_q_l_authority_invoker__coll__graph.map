@@ -1,12 +1,14 @@
 <map id="Tgstation.Server.Host.Authority.Core.GraphQLAuthorityInvoker&lt; TAuthority &gt;" name="Tgstation.Server.Host.Authority.Core.GraphQLAuthorityInvoker&lt; TAuthority &gt;">
-<area shape="rect" id="Node000001" title=" " alt="" coords="467,63,672,119"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_invoker_base.html" title=" " alt="" coords="196,5,341,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="357,42,468,66,466,71,356,47"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html" title="Invokes TAuthority s." alt="" coords="5,39,133,79"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="147,43,195,35,196,40,148,48"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html" title="Invokes TAuthority s from GraphQL endpoints." alt="" coords="182,71,354,111"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="149,69,182,74,181,80,148,74"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="370,88,467,88,467,94,370,94"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="182,136,354,177"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="369,132,466,111,468,116,370,137"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="586,63,790,119"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_invoker_base.html" title=" " alt="" coords="314,71,460,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="475,88,586,88,586,94,475,94"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html" title="Invokes TAuthority s." alt="" coords="5,11,133,51"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="148,43,314,75,313,80,147,48"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html" title="Invokes TAuthority s from GraphQL endpoints." alt="" coords="301,5,473,46"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="148,27,300,24,300,30,148,32"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="35,81,103,107"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="119,91,277,90,314,90,314,95,277,95,119,96"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="489,45,586,66,585,71,487,50"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="301,136,473,177"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="487,132,585,111,586,116,489,137"/>
 </map>

@@ -119,13 +119,28 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API.">IApiClient</a>.</dd></dl>
   <br /></td></tr>
 <tr class="separator:aca41a822cce8517c0ccec8cf409555cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6c19db8ec6f9583463dc6c898951805" id="r_af6c19db8ec6f9583463dc6c898951805"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html">IApiClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#af6c19db8ec6f9583463dc6c898951805">CreateApiClient</a> (Uri url, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a> apiHeaders, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>? tokenRefreshHeaders, HttpMessageHandler handler, bool disposeHandler, bool authless)</td></tr>
+<tr class="memdesc:af6c19db8ec6f9583463dc6c898951805"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API.">IApiClient</a>.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>The base Uri.</td></tr>
+    <tr><td class="paramname">apiHeaders</td><td>The ApiHeaders for the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API.">IApiClient</a>.</td></tr>
+    <tr><td class="paramname">tokenRefreshHeaders</td><td>The ApiHeaders to use to generate a new <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html" title="Represents a JWT returned by the API.">Api.Models.Response.TokenResponse</a>.</td></tr>
+    <tr><td class="paramname">handler</td><td>The HttpMessageHandler to use with the internal HttpClient.</td></tr>
+    <tr><td class="paramname">disposeHandler</td><td>If <em>handler</em>  should be disposed with the created <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API.">IApiClient</a>.</td></tr>
+    <tr><td class="paramname">authless</td><td>If there should be no authentication performed.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API.">IApiClient</a>.</dd></dl>
+  <br /></td></tr>
+<tr class="separator:af6c19db8ec6f9583463dc6c898951805"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="_api_client_factory_8cs_source.html#l00009">9</a> of file <a class="el" href="_api_client_factory_8cs_source.html">ApiClientFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aca41a822cce8517c0ccec8cf409555cd" name="aca41a822cce8517c0ccec8cf409555cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca41a822cce8517c0ccec8cf409555cd">&#9670;&#160;</a></span>CreateApiClient()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aca41a822cce8517c0ccec8cf409555cd">&#9670;&#160;</a></span>CreateApiClient() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -195,6 +210,74 @@ Here is the caller graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="252,134,209,140,209,135,251,128"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="af6c19db8ec6f9583463dc6c898951805" name="af6c19db8ec6f9583463dc6c898951805"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6c19db8ec6f9583463dc6c898951805">&#9670;&#160;</a></span>CreateApiClient() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html">IApiClient</a> Tgstation.Server.Client.ApiClientFactory.CreateApiClient </td>
+          <td>(</td>
+          <td class="paramtype">Uri&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>&#160;</td>
+          <td class="paramname"><em>apiHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>?&#160;</td>
+          <td class="paramname"><em>tokenRefreshHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">HttpMessageHandler&#160;</td>
+          <td class="paramname"><em>handler</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>disposeHandler</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>authless</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create an <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API.">IApiClient</a>.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>The base Uri.</td></tr>
+    <tr><td class="paramname">apiHeaders</td><td>The ApiHeaders for the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API.">IApiClient</a>.</td></tr>
+    <tr><td class="paramname">tokenRefreshHeaders</td><td>The ApiHeaders to use to generate a new <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html" title="Represents a JWT returned by the API.">Api.Models.Response.TokenResponse</a>.</td></tr>
+    <tr><td class="paramname">handler</td><td>The HttpMessageHandler to use with the internal HttpClient.</td></tr>
+    <tr><td class="paramname">disposeHandler</td><td>If <em>handler</em>  should be disposed with the created <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API.">IApiClient</a>.</td></tr>
+    <tr><td class="paramname">authless</td><td>If there should be no authentication performed.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API.">IApiClient</a>.</dd></dl>
+ </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory.html#ac851352e845f7fb28bcef563a899bcb8">Tgstation.Server.Client.IApiClientFactory</a>.</p>
 
 </div>
 </div>

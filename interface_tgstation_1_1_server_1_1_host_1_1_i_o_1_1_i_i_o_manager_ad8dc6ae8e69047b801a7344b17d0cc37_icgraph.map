@@ -4,8 +4,8 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="360,99,277,61,237,49,239,44,279,57,362,94"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a2a702f9141f98d0ba1aae9a70688704c" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="43,71,240,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="310,114,240,106,240,100,311,109"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="28,136,255,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="311,139,255,146,255,140,310,134"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a753be64e5245a6e97430a9beddec3b15" title=" " alt="" coords="21,136,262,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="311,139,263,145,262,139,310,134"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad3dc0cfcb7f415f1dd8a98bfd018f90e" title="Move an IInstance.A ValueTask representing the running operation." alt="" coords="28,201,255,242"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="361,155,279,191,239,203,237,198,277,186,359,150"/>
 </map>

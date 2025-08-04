@@ -14,6 +14,6 @@
 <area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="121,242,164,242,164,248,121,248"/>
 <area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="188,290,368,331"/>
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="383,288,542,249,624,222,625,227,543,254,384,293"/>
-<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="177,355,380,396"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="394,351,468,331,541,301,604,262,654,222,658,226,607,267,544,306,470,336,395,356"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="190,355,367,380"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="381,350,461,331,541,301,604,263,654,222,658,226,608,267,543,306,463,336,382,355"/>
 </map>

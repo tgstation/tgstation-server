@@ -1,7 +1,5 @@
 <map id="Tgstation.Server.Host.IO.RequestFileStreamProvider.InitiateDownload" name="Tgstation.Server.Host.IO.RequestFileStreamProvider.InitiateDownload">
-<area shape="rect" id="Node000001" title="Initiate the download." alt="" coords="5,31,228,87"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a1c106673ce3f96456822b62e75b06774" title="Asyncronously creates a new CachedResponseStream." alt="" coords="276,5,510,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,43,260,39,260,44,228,48"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html#ade67e5a20b9f897d763517c700523a83" title="Send an HTTP request." alt="" coords="303,71,483,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,69,288,76,287,81,228,75"/>
+<area shape="rect" id="Node000001" title="Initiate the download." alt="" coords="5,5,228,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a1c106673ce3f96456822b62e75b06774" title="Asyncronously creates a new CachedResponseStream." alt="" coords="276,13,510,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,31,260,31,260,36,228,36"/>
 </map>

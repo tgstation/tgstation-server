@@ -108,29 +108,72 @@ Collaboration diagram for Tgstation.Server.Host.Authority.IAdministrationAuthori
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8e93f289ed698d089016454d1a30d461" id="r_a8e93f289ed698d089016454d1a30d461"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response.html">AdministrationResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_administration_authority.html#a8e93f289ed698d089016454d1a30d461">GetUpdateInformation</a> (bool forceFresh, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a8e93f289ed698d089016454d1a30d461"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the AdministrationResponse containing server update information.  <br /></td></tr>
-<tr class="separator:a8e93f289ed698d089016454d1a30d461"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5aa7d2ed08f56c6d023972ac6d666b9f" id="r_a5aa7d2ed08f56c6d023972ac6d666b9f"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_administration_authority.html#a5aa7d2ed08f56c6d023972ac6d666b9f">TriggerServerVersionChange</a> (Version targetVersion, bool uploadZip, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a5aa7d2ed08f56c6d023972ac6d666b9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Triggers a restart of tgstation-server without terminating running game instances, setting its version to a given <em>targetVersion</em> .  <br /></td></tr>
-<tr class="separator:a5aa7d2ed08f56c6d023972ac6d666b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e1eef9105116bc61e5f8baaeb0979e6" id="r_a4e1eef9105116bc61e5f8baaeb0979e6"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_administration_authority.html#a4e1eef9105116bc61e5f8baaeb0979e6">TriggerServerRestart</a> ()</td></tr>
-<tr class="memdesc:a4e1eef9105116bc61e5f8baaeb0979e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Triggers a restart of tgstation-server without terminating running game instances.  <br /></td></tr>
-<tr class="separator:a4e1eef9105116bc61e5f8baaeb0979e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a78ea6b81446410b20da3686f7af751" id="r_a6a78ea6b81446410b20da3686f7af751"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_requirements_gated.html">RequirementsGated</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response.html">AdministrationResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_administration_authority.html#a6a78ea6b81446410b20da3686f7af751">GetUpdateInformation</a> (bool forceFresh, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a6a78ea6b81446410b20da3686f7af751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the AdministrationResponse containing server update information.  <br /></td></tr>
+<tr class="separator:a6a78ea6b81446410b20da3686f7af751"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c966d60fd294a5f2ec1281e2bfd1bdb" id="r_a2c966d60fd294a5f2ec1281e2bfd1bdb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_requirements_gated.html">RequirementsGated</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_administration_authority.html#a2c966d60fd294a5f2ec1281e2bfd1bdb">TriggerServerVersionChange</a> (Version targetVersion, bool uploadZip, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a2c966d60fd294a5f2ec1281e2bfd1bdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Triggers a restart of tgstation-server without terminating running game instances, setting its version to a given <em>targetVersion</em> .  <br /></td></tr>
+<tr class="separator:a2c966d60fd294a5f2ec1281e2bfd1bdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4c8bc298f6a25e0d2294b2e2b87840d" id="r_ab4c8bc298f6a25e0d2294b2e2b87840d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_requirements_gated.html">RequirementsGated</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_administration_authority.html#ab4c8bc298f6a25e0d2294b2e2b87840d">TriggerServerRestart</a> ()</td></tr>
+<tr class="memdesc:ab4c8bc298f6a25e0d2294b2e2b87840d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Triggers a restart of tgstation-server without terminating running game instances.  <br /></td></tr>
+<tr class="separator:ab4c8bc298f6a25e0d2294b2e2b87840d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae423770191b18e1b5a47bc434b8ac177" id="r_ae423770191b18e1b5a47bc434b8ac177"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_requirements_gated.html">RequirementsGated</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html">LogFileResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_administration_authority.html#ae423770191b18e1b5a47bc434b8ac177">GetLog</a> (string path, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae423770191b18e1b5a47bc434b8ac177"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a ticket for downloading a log file at a given <em>path</em> .  <br /></td></tr>
+<tr class="separator:ae423770191b18e1b5a47bc434b8ac177"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IAuthority for administrative server operations. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_administration_authority_8cs_source.html#l00015">15</a> of file <a class="el" href="_i_administration_authority_8cs_source.html">IAdministrationAuthority.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_administration_authority_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_administration_authority_8cs_source.html">IAdministrationAuthority.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a8e93f289ed698d089016454d1a30d461" name="a8e93f289ed698d089016454d1a30d461"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e93f289ed698d089016454d1a30d461">&#9670;&#160;</a></span>GetUpdateInformation()</h2>
+<a id="ae423770191b18e1b5a47bc434b8ac177" name="ae423770191b18e1b5a47bc434b8ac177"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae423770191b18e1b5a47bc434b8ac177">&#9670;&#160;</a></span>GetLog()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response.html">AdministrationResponse</a> &gt; &gt; Tgstation.Server.Host.Authority.IAdministrationAuthority.GetUpdateInformation </td>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_requirements_gated.html">RequirementsGated</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html">LogFileResponse</a> &gt; &gt; Tgstation.Server.Host.Authority.IAdministrationAuthority.GetLog </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a ticket for downloading a log file at a given <em>path</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The relative path to the log file in the directory.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A RequirementsGated&lt;TResult&gt; LogFileResponse AuthorityResponse&lt;TResult&gt;.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#a21094a58d2406bfc482497fb00a3292e">Tgstation.Server.Host.Authority.AdministrationAuthority</a>.</p>
+
+</div>
+</div>
+<a id="a6a78ea6b81446410b20da3686f7af751" name="a6a78ea6b81446410b20da3686f7af751"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a78ea6b81446410b20da3686f7af751">&#9670;&#160;</a></span>GetUpdateInformation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_requirements_gated.html">RequirementsGated</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response.html">AdministrationResponse</a> &gt; &gt; Tgstation.Server.Host.Authority.IAdministrationAuthority.GetUpdateInformation </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>forceFresh</em>, </td>
@@ -157,20 +200,20 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">ValueTask&lt;TResult&gt;</a> resulting in the AdministrationResponse <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">AuthorityResponse&lt;TResult&gt;</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A RequirementsGated&lt;TResult&gt; AdministrationResponse AuthorityResponse&lt;TResult&gt;.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#abb626064672de9027fefdc27ba9b3264">Tgstation.Server.Host.Authority.AdministrationAuthority</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#a8688d09f4ee86ada57a763795f14fec4">Tgstation.Server.Host.Authority.AdministrationAuthority</a>.</p>
 
 </div>
 </div>
-<a id="a4e1eef9105116bc61e5f8baaeb0979e6" name="a4e1eef9105116bc61e5f8baaeb0979e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e1eef9105116bc61e5f8baaeb0979e6">&#9670;&#160;</a></span>TriggerServerRestart()</h2>
+<a id="ab4c8bc298f6a25e0d2294b2e2b87840d" name="ab4c8bc298f6a25e0d2294b2e2b87840d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4c8bc298f6a25e0d2294b2e2b87840d">&#9670;&#160;</a></span>TriggerServerRestart()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a> &gt; Tgstation.Server.Host.Authority.IAdministrationAuthority.TriggerServerRestart </td>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_requirements_gated.html">RequirementsGated</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a> &gt; Tgstation.Server.Host.Authority.IAdministrationAuthority.TriggerServerRestart </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -179,20 +222,20 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Triggers a restart of tgstation-server without terminating running game instances. </p>
-<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">ValueTask&lt;TResult&gt;</a> resulting in the <a class="el" href="class_authority_response.html">AuthorityResponse</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A RequirementsGated&lt;TResult&gt; <a class="el" href="class_authority_response.html">AuthorityResponse</a>.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#a8e745f51ea65c78db38d4e4ebad5aad2">Tgstation.Server.Host.Authority.AdministrationAuthority</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#a643d9b36505b75bd1908e8d9515788d2">Tgstation.Server.Host.Authority.AdministrationAuthority</a>.</p>
 
 </div>
 </div>
-<a id="a5aa7d2ed08f56c6d023972ac6d666b9f" name="a5aa7d2ed08f56c6d023972ac6d666b9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5aa7d2ed08f56c6d023972ac6d666b9f">&#9670;&#160;</a></span>TriggerServerVersionChange()</h2>
+<a id="a2c966d60fd294a5f2ec1281e2bfd1bdb" name="a2c966d60fd294a5f2ec1281e2bfd1bdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c966d60fd294a5f2ec1281e2bfd1bdb">&#9670;&#160;</a></span>TriggerServerVersionChange()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a> &gt; &gt; Tgstation.Server.Host.Authority.IAdministrationAuthority.TriggerServerVersionChange </td>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_requirements_gated.html">RequirementsGated</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a> &gt; &gt; Tgstation.Server.Host.Authority.IAdministrationAuthority.TriggerServerVersionChange </td>
           <td>(</td>
           <td class="paramtype">Version&#160;</td>
           <td class="paramname"><em>targetVersion</em>, </td>
@@ -221,14 +264,14 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">targetVersion</td><td>The Version TGS will switch to upon reboot.</td></tr>
-    <tr><td class="paramname">uploadZip</td><td>If <code><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">true</a></code> a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html#a43f0f4dd78a7b1d06b69eebd1d76cfcd" title="The ticket to use to access the Routes.Transfer controller.">FileTicketResponse.FileTicket</a> will be returned and the call must provide an uploaded zip file containing the update data to the file transfer service.</td></tr>
+    <tr><td class="paramname">uploadZip</td><td>If <code>true</code> a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html#a43f0f4dd78a7b1d06b69eebd1d76cfcd" title="The ticket to use to access the Routes.Transfer controller.">FileTicketResponse.FileTicket</a> will be returned and the call must provide an uploaded zip file containing the update data to the file transfer service.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">ValueTask&lt;TResult&gt;</a> resulting in the ServerUpdateResponse <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">AuthorityResponse&lt;TResult&gt;</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A RequirementsGated&lt;TResult&gt; ServerUpdateResponse AuthorityResponse&lt;TResult&gt;.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#a09cd0b0f03abe091807ddc2c732a8cad">Tgstation.Server.Host.Authority.AdministrationAuthority</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#a7e35109188f835607716fd3bb0f9942e">Tgstation.Server.Host.Authority.AdministrationAuthority</a>.</p>
 
 </div>
 </div>

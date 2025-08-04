@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Engine.ByondInstallation.FormatServerArguments" name="Tgstation.Server.Host.Components.Engine.ByondInstallation.FormatServerArguments">
-<area shape="rect" id="Node000001" title="Return the command line arguments for launching with given launchParameters .The formatted arguments ..." alt="" coords="5,77,250,133"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installation_base.html#a0993afa66850d7b7832ae721f29a20a6" title="Encode given parameters for passing as world.params on the command line." alt="" coords="299,5,540,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,74,288,63,290,68,244,79"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installation.html#a2fef4cdf8ab3657b5a2a90aad63cffcd" title="Change a given securityLevel &#160;into the appropriate DreamDaemon command line word." alt="" coords="298,85,541,126"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="250,103,283,103,283,108,250,108"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installation.html#a2a0a64dc8b85a857d839a7ed31cfb591" title="Change a given visibility &#160;into the appropriate DreamDaemon command line word." alt="" coords="298,150,541,191"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="251,130,311,144,310,149,250,135"/>
-</map>

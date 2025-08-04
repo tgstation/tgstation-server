@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Authority.Core.GraphQLAuthorityInvoker.ThrowGraphQLErrorIfNecessary" name="Tgstation.Server.Host.Authority.Core.GraphQLAuthorityInvoker.ThrowGraphQLErrorIfNecessary">
-<area shape="rect" id="Node000001" title="Throws a ErrorMessageException for errored authorityResponse s." alt="" coords="294,70,531,126"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_graph_q_l_authority_invoker.html#ae6073487000fb215be19fb1add10c831" title="Invoke a TAuthority &#160;method with no success result.A ValueTask representing the running operation." alt="" coords="5,5,246,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="283,68,209,49,210,44,285,63"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_graph_q_l_authority_invoker.html#adcadc06a38d40e159728387eb477ed91" title="Invoke a TAuthority &#160;method and get the non&#45;nullable result.A ValueTask&lt;TResult&gt; resulting in the TAp..." alt="" coords="5,70,246,126"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="278,100,246,100,246,95,278,95"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_graph_q_l_authority_invoker.html#ac0ca731843d4d82edd178602fa7ac40a" title="Invoke a TAuthority &#160;method and get the result.A ValueTask&lt;TResult&gt; resulting in the TApiModel &#160;gener..." alt="" coords="5,150,246,206"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="296,133,229,152,227,147,295,128"/>
-</map>

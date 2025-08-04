@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Security.RightsEvaluation.FlagRightsConditional&lt; TRights &gt;" name="Tgstation.Server.Host.Security.RightsEvaluation.FlagRightsConditional&lt; TRights &gt;">
+<area shape="rect" id="Node000001" title="Single flag RightsConditional&lt;TRights&gt;." alt="" coords="42,184,289,240"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_rights_conditional.html" title="An conditional expression of TRights ." alt="" coords="27,80,157,121"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,132,149,182,145,185,111,135"/>
+<area shape="rect" id="Node000003" href="$class_i_authorization_requirement.html" title=" " alt="" coords="5,5,179,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="95,47,95,80,89,80,89,47"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="181,88,299,114"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="226,128,186,185,182,182,221,125"/>
+</map>

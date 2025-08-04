@@ -1,0 +1,13 @@
+<map id="IAuthorizationRequirement" name="IAuthorizationRequirement">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,136,179,162"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_rights_conditional.html" title="An conditional expression of TRights ." alt="" coords="227,85,449,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,132,226,127,227,132,194,137"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_user_session_valid_requirement.html" title="IAuthorizationRequirement for testing if a user is enabled and their session is valid." alt="" coords="238,165,438,206"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="194,161,238,168,237,173,193,167"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_and_rights_conditional.html" title="Logical AND RightsConditional&lt;TRights&gt;." alt="" coords="498,5,743,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="452,78,519,59,520,64,454,83"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html" title="Single flag RightsConditional&lt;TRights&gt;." alt="" coords="497,85,744,141"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="464,111,497,111,497,116,464,116"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_or_rights_conditional.html" title="Logical OR RightsConditional&lt;TRights&gt;." alt="" coords="503,165,739,221"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="454,143,520,162,519,167,452,148"/>
+</map>

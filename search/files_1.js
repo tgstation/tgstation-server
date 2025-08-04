@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['abstracthttpclientfactory_2ecs_0',['AbstractHttpClientFactory.cs',['../_abstract_http_client_factory_8cs.html',1,'']]],
-  ['administrationauthority_2ecs_1',['AdministrationAuthority.cs',['../_administration_authority_8cs.html',1,'']]],
-  ['administrationclient_2ecs_2',['AdministrationClient.cs',['../_administration_client_8cs.html',1,'']]],
-  ['administrationcontroller_2ecs_3',['AdministrationController.cs',['../_administration_controller_8cs.html',1,'']]],
-  ['administrationmutations_2ecs_4',['AdministrationMutations.cs',['../_administration_mutations_8cs.html',1,'']]],
-  ['administrationresponse_2ecs_5',['AdministrationResponse.cs',['../_administration_response_8cs.html',1,'']]],
-  ['administrationrights_2ecs_6',['AdministrationRights.cs',['../_administration_rights_8cs.html',1,'']]],
-  ['advancedwatchdog_2ecs_7',['AdvancedWatchdog.cs',['../_advanced_watchdog_8cs.html',1,'']]],
+  ['administrationauthority_2ecs_0',['AdministrationAuthority.cs',['../_administration_authority_8cs.html',1,'']]],
+  ['administrationclient_2ecs_1',['AdministrationClient.cs',['../_administration_client_8cs.html',1,'']]],
+  ['administrationcontroller_2ecs_2',['AdministrationController.cs',['../_administration_controller_8cs.html',1,'']]],
+  ['administrationmutations_2ecs_3',['AdministrationMutations.cs',['../_administration_mutations_8cs.html',1,'']]],
+  ['administrationresponse_2ecs_4',['AdministrationResponse.cs',['../_administration_response_8cs.html',1,'']]],
+  ['administrationrights_2ecs_5',['AdministrationRights.cs',['../_administration_rights_8cs.html',1,'']]],
+  ['advancedwatchdog_2ecs_6',['AdvancedWatchdog.cs',['../_advanced_watchdog_8cs.html',1,'']]],
+  ['andrightsconditional_7btrights_7d_2ecs_7',['AndRightsConditional{TRights}.cs',['../_and_rights_conditional_02_t_rights_03_8cs.html',1,'']]],
   ['api_2edox_8',['API.dox',['../_a_p_i_8dox.html',1,'']]],
   ['apiclient_2ecs_9',['ApiClient.cs',['../_api_client_8cs.html',1,'']]],
   ['apiclientfactory_2ecs_10',['ApiClientFactory.cs',['../_api_client_factory_8cs.html',1,'']]],
@@ -24,7 +24,7 @@ var searchData=
   ['application_2ecs_21',['Application.cs',['../_application_8cs.html',1,'']]],
   ['applicationbuilderextensions_2ecs_22',['ApplicationBuilderExtensions.cs',['../_application_builder_extensions_8cs.html',1,'']]],
   ['architecture_2edox_23',['Architecture.dox',['../_architecture_8dox.html',1,'']]],
-  ['assemblyinfo_2ecs_24',['assemblyinfo.cs',['../_tgstation_8_server_8_host_2_properties_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_watchdog_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_service_2_properties_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_client_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_client_2_properties_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_console_2_assembly_info_8cs.html',1,'(Global Namespace)']]],
+  ['assemblyinfo_2ecs_24',['assemblyinfo.cs',['../_tgstation_8_server_8_host_2_properties_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_watchdog_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_service_2_properties_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_console_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_client_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_client_2_properties_2_assembly_info_8cs.html',1,'(Global Namespace)']]],
   ['assemblyinformationprovider_2ecs_25',['AssemblyInformationProvider.cs',['../_assembly_information_provider_8cs.html',1,'']]],
   ['asyncdelayer_2ecs_26',['AsyncDelayer.cs',['../_async_delayer_8cs.html',1,'']]],
   ['authenticatedgraphqlserverclient_2ecs_27',['AuthenticatedGraphQLServerClient.cs',['../_authenticated_graph_q_l_server_client_8cs.html',1,'']]],
@@ -37,5 +37,8 @@ var searchData=
   ['authorityresponse_2ecs_34',['AuthorityResponse.cs',['../_authority_response_8cs.html',1,'']]],
   ['authorityresponse_7btresult_7d_2ecs_35',['AuthorityResponse{TResult}.cs',['../_authority_response_02_t_result_03_8cs.html',1,'']]],
   ['authorizationcontexthubfilter_2ecs_36',['AuthorizationContextHubFilter.cs',['../_authorization_context_hub_filter_8cs.html',1,'']]],
-  ['authorizationmessagehandler_2ecs_37',['AuthorizationMessageHandler.cs',['../_authorization_message_handler_8cs.html',1,'']]]
+  ['authorizationhandler_2ecs_37',['AuthorizationHandler.cs',['../_authorization_handler_8cs.html',1,'']]],
+  ['authorizationhelper_2ecs_38',['AuthorizationHelper.cs',['../_authorization_helper_8cs.html',1,'']]],
+  ['authorizationmessagehandler_2ecs_39',['AuthorizationMessageHandler.cs',['../_authorization_message_handler_8cs.html',1,'']]],
+  ['authorizationservice_2ecs_40',['AuthorizationService.cs',['../_authorization_service_8cs.html',1,'']]]
 ];

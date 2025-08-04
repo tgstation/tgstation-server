@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.IO.FileDownloader.DownloadFile" name="Tgstation.Server.Host.IO.FileDownloader.DownloadFile">
-<area shape="rect" id="Node000001" title="Downloads a file from a given url .A new IFileStreamProvider for the downloaded file." alt="" coords="5,13,197,54"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="245,5,451,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,31,229,31,229,36,197,36"/>
-</map>

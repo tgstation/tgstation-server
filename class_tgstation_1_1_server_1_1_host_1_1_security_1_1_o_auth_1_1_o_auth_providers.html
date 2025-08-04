@@ -109,9 +109,9 @@ Collaboration diagram for Tgstation.Server.Host.Security.OAuth.OAuthProviders:</
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1ebdce26518125fe48203650aed6da41" id="r_a1ebdce26518125fe48203650aed6da41"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html#a1ebdce26518125fe48203650aed6da41">OAuthProviders</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html">IGitHubServiceFactory</a> gitHubServiceFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html">IAbstractHttpClientFactory</a> httpClientFactory, ILoggerFactory loggerFactory, IOptions&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html">SecurityConfiguration</a> &gt; securityConfigurationOptions)</td></tr>
-<tr class="memdesc:a1ebdce26518125fe48203650aed6da41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the OAuthProviders class.  <br /></td></tr>
-<tr class="separator:a1ebdce26518125fe48203650aed6da41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cb4c4d538022c333b0306f086dc2716" id="r_a3cb4c4d538022c333b0306f086dc2716"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html#a3cb4c4d538022c333b0306f086dc2716">OAuthProviders</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html">IGitHubServiceFactory</a> gitHubServiceFactory, IHttpClientFactory httpClientFactory, ILoggerFactory loggerFactory, IOptions&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html">SecurityConfiguration</a> &gt; securityConfigurationOptions)</td></tr>
+<tr class="memdesc:a3cb4c4d538022c333b0306f086dc2716"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the OAuthProviders class.  <br /></td></tr>
+<tr class="separator:a3cb4c4d538022c333b0306f086dc2716"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08b551d8a212a7a4d5833c7bbdb9ee68" id="r_a08b551d8a212a7a4d5833c7bbdb9ee68"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html">IOAuthValidator</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html#a08b551d8a212a7a4d5833c7bbdb9ee68">GetValidator</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a> oAuthProvider, bool forLogin)</td></tr>
 <tr class="memdesc:a08b551d8a212a7a4d5833c7bbdb9ee68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider.">IOAuthValidator</a> for a given <em>oAuthProvider</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -138,8 +138,8 @@ Private Attributes</h2></td></tr>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="_o_auth_providers_8cs_source.html#l00016">16</a> of file <a class="el" href="_o_auth_providers_8cs_source.html">OAuthProviders.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a1ebdce26518125fe48203650aed6da41" name="a1ebdce26518125fe48203650aed6da41"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ebdce26518125fe48203650aed6da41">&#9670;&#160;</a></span>OAuthProviders()</h2>
+<a id="a3cb4c4d538022c333b0306f086dc2716" name="a3cb4c4d538022c333b0306f086dc2716"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cb4c4d538022c333b0306f086dc2716">&#9670;&#160;</a></span>OAuthProviders()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -153,7 +153,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html">IAbstractHttpClientFactory</a>&#160;</td>
+          <td class="paramtype">IHttpClientFactory&#160;</td>
           <td class="paramname"><em>httpClientFactory</em>, </td>
         </tr>
         <tr>
@@ -180,7 +180,7 @@ Private Attributes</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">gitHubServiceFactory</td><td>The IGitHubServiceFactory to use.</td></tr>
-    <tr><td class="paramname">httpClientFactory</td><td>The IAbstractHttpClientFactory to use.</td></tr>
+    <tr><td class="paramname">httpClientFactory</td><td>The IHttpClientFactory to use.</td></tr>
     <tr><td class="paramname">loggerFactory</td><td>The ILoggerFactory to use.</td></tr>
     <tr><td class="paramname">securityConfigurationOptions</td><td>The IOptions&lt;TOptions&gt; containing the SecurityConfiguration to use.</td></tr>
   </table>

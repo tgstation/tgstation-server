@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.IO.FileDownloader" name="Tgstation.Server.Host.IO.FileDownloader">
-<area shape="rect" id="Node000001" title=" " alt="" coords="365,55,532,96"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="365,47,532,88"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html" title="Downloads files." alt="" coords="53,5,168,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,27,341,53,364,57,364,62,340,58,183,32"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="9,55,212,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="227,73,365,73,365,78,227,78"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="5,121,216,161"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="230,115,364,89,365,94,231,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,24,341,45,365,49,364,54,340,50,182,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="22,55,199,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="215,65,364,65,364,70,215,70"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,105,216,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="231,104,340,85,364,81,365,86,341,90,232,109"/>
 </map>

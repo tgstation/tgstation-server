@@ -1,55 +1,45 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew" name="Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew">
-<area shape="rect" id="Node000001" title="Create a ISessionController from a freshly launch DreamDaemon instance.A ValueTask&lt;TResult&gt; resulting..." alt="" coords="5,509,295,550"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a3ac5c5fc42697bf3146a1b0fc9271eb1" title="Make sure the BYOND pager is not running." alt="" coords="359,85,616,140"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,508,176,445,214,356,239,307,268,259,302,214,341,173,381,145,384,150,344,177,306,217,273,262,244,310,219,358,181,447,160,510"/>
-<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="404,187,571,227"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="156,508,179,453,218,380,243,341,272,303,305,268,341,238,364,226,388,217,390,222,366,230,344,243,308,272,276,306,247,344,222,382,184,455,161,510"/>
-<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="397,252,578,293"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="160,508,187,464,227,408,279,350,309,324,341,302,381,285,383,290,344,307,313,329,283,354,231,411,191,467,165,510"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a4f44ac08947e06971e21e3f39bdd3683" title="Creates the game server IProcess." alt="" coords="359,317,616,372"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="171,507,243,445,291,411,341,382,354,376,357,381,344,387,294,416,247,450,175,511"/>
-<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a3fa7ac01727101e55cf46b5ba8681982" title="Create RuntimeInformation." alt="" coords="359,397,616,452"/>
-<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="209,506,342,462,366,455,367,460,343,467,211,511"/>
-<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_topic_client_factory.html#a950569e357f1d6e51722d4894792c555" title="Create a ITopicClient." alt="" coords="343,476,632,517"/>
-<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="295,513,327,509,327,515,295,518"/>
-<area shape="rect" id="Node000016" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a5b3b4e9ab7d03bd8020ee9dfa9bebbbe" title="Start tracking Commands.CustomCommands and ChannelRepresentations." alt="" coords="354,541,621,582"/>
-<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="295,541,339,545,338,550,295,546"/>
-<area shape="rect" id="Node000017" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ab49e5041cfb7333ee413c9719046ae37" title="Generates a 40&#45;length secure ascii string." alt="" coords="373,607,602,647"/>
-<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="210,548,343,591,376,600,375,605,342,596,208,553"/>
-<area shape="rect" id="Node000018" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a3d7f74e98cb6a70dbab697f79765226b" title="Attempts to log DreamDaemon output." alt="" coords="367,671,608,727"/>
-<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="178,548,250,602,296,631,344,657,358,663,356,668,342,661,293,636,247,606,175,553"/>
-<area shape="rect" id="Node000022" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a5fceb9618381d05a21cfb3254218f3ff" title="Check if a given port &#160;can be bound to." alt="" coords="366,751,609,807"/>
-<area shape="poly" id="edge21_Node000001_Node000022" title=" " alt="" coords="167,549,194,589,235,640,286,692,344,737,353,742,350,746,341,741,282,696,231,643,190,592,162,552"/>
-<area shape="rect" id="Node000026" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="404,831,571,871"/>
-<area shape="poly" id="edge25_Node000001_Node000026" title=" " alt="" coords="161,549,184,604,222,677,247,716,276,753,308,788,344,817,366,829,389,837,387,842,363,834,341,821,304,791,272,757,243,719,218,680,179,606,156,551"/>
-<area shape="rect" id="Node000027" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_manager.html#ac21fb8c8df8b40c14944282d86c32a66" title="Lock the current installation&#39;s location and return a IEngineExecutableLock." alt="" coords="361,896,614,937"/>
-<area shape="poly" id="edge26_Node000001_Node000027" title=" " alt="" coords="159,550,178,615,214,705,239,753,268,800,304,844,344,881,352,886,348,890,341,885,300,847,264,804,234,756,209,707,173,616,154,551"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a81eeee7944e490c141d2e7b66f651369" title="Get a IProcess representing the running executable." alt="" coords="690,5,927,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="589,81,679,56,711,48,712,53,681,62,590,87"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#ab0fd9874e8cb8977e9f75a0777b924d5" title="Get the name of the account executing the IProcess." alt="" coords="702,71,915,111"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="616,101,686,96,686,102,616,106"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#af30b2a2185a585b02985085d5135a392" title="Get a IProcess with a given name ." alt="" coords="686,136,931,177"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="616,127,670,135,670,140,615,133"/>
-<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a74d779db3a36713e44a4b326673a51c8" title="Return the command line arguments for launching with given launchParameters ." alt="" coords="683,201,934,256"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="604,313,631,302,654,284,679,266,691,260,693,265,681,271,658,289,633,307,606,318"/>
-<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="690,280,927,321"/>
-<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="616,324,673,316,674,321,617,329"/>
-<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a17aa8c090377d70ebf0a93f3eb0a0243" title="Launch a IProcess." alt="" coords="700,345,917,386"/>
-<area shape="poly" id="edge10_Node000008_Node000011" title=" " alt="" coords="616,350,684,355,684,360,616,356"/>
-<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a1f08236db634210e10291a4ffddd0df8" title="Loads the environment settings for either the server or compiler." alt="" coords="695,411,921,451"/>
-<area shape="poly" id="edge11_Node000008_Node000012" title=" " alt="" coords="591,370,681,395,712,404,711,409,679,400,590,375"/>
-<area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html#a3493714e50b54482ee2739479cf02d56" title="Register a given process &#160;for network prompt reaping." alt="" coords="680,476,936,517"/>
-<area shape="poly" id="edge12_Node000008_Node000013" title=" " alt="" coords="615,371,634,382,651,402,658,423,666,443,682,461,689,466,686,470,678,465,661,445,653,425,646,405,630,386,612,375"/>
-<area shape="rect" id="Node000019" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a" title="Deletes a file at path ." alt="" coords="725,563,892,603"/>
-<area shape="poly" id="edge18_Node000018_Node000019" title=" " alt="" coords="606,668,631,657,645,646,654,636,664,625,679,614,708,601,710,606,681,619,667,629,658,639,648,650,633,661,608,673"/>
-<area shape="rect" id="Node000020" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#af0f4b22a2d653f0b1d94190938498a48" title="Get the stderr and stdout output of the IProcess." alt="" coords="710,628,907,669"/>
-<area shape="poly" id="edge19_Node000018_Node000020" title=" " alt="" coords="608,677,693,664,694,669,609,683"/>
-<area shape="rect" id="Node000021" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a267b549fab5803c199a7d37100650e85" title="Returns all the contents of a file at path &#160;as a byte array." alt="" coords="723,693,893,734"/>
-<area shape="poly" id="edge20_Node000018_Node000021" title=" " alt="" coords="609,702,708,706,708,712,608,707"/>
-<area shape="rect" id="Node000023" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="700,759,916,799"/>
-<area shape="poly" id="edge22_Node000022_Node000023" title=" " alt="" coords="609,776,685,776,685,782,609,782"/>
-<area shape="rect" id="Node000025" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce" title="Create a Task that completes after a given timeSpan ." alt="" coords="718,824,898,865"/>
-<area shape="poly" id="edge24_Node000022_Node000025" title=" " alt="" coords="610,801,703,820,702,826,609,806"/>
-<area shape="rect" id="Node000024" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="984,751,1224,807"/>
-<area shape="poly" id="edge23_Node000023_Node000024" title=" " alt="" coords="917,776,969,776,969,782,917,782"/>
+<area shape="rect" id="Node000001" title="Create a ISessionController from a freshly launch DreamDaemon instance.A ValueTask&lt;TResult&gt; resulting..." alt="" coords="5,408,295,448"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a3ac5c5fc42697bf3146a1b0fc9271eb1" title="Make sure the BYOND pager is not running." alt="" coords="359,5,616,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,406,174,341,210,250,235,202,265,154,300,110,341,71,346,68,349,72,344,75,304,113,269,157,240,204,215,253,179,343,159,408"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="404,85,571,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,406,179,351,218,278,243,239,272,201,305,166,341,136,364,124,388,115,390,120,366,129,344,141,308,170,276,205,247,242,222,281,184,354,161,408"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="397,150,578,191"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="160,406,187,362,227,306,279,249,309,223,341,200,381,183,383,188,344,205,313,227,283,252,231,309,191,365,165,409"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a4f44ac08947e06971e21e3f39bdd3683" title="Creates the game server IProcess." alt="" coords="359,215,616,270"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="171,405,243,343,291,310,341,280,354,274,357,279,344,285,294,314,247,348,175,409"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a3fa7ac01727101e55cf46b5ba8681982" title="Create RuntimeInformation." alt="" coords="359,295,616,350"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="209,404,342,360,366,353,367,358,343,365,211,409"/>
+<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_topic_client_factory.html#a950569e357f1d6e51722d4894792c555" title="Create a ITopicClient." alt="" coords="343,374,632,415"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="295,411,327,408,327,413,295,416"/>
+<area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a5b3b4e9ab7d03bd8020ee9dfa9bebbbe" title="Start tracking Commands.CustomCommands and ChannelRepresentations." alt="" coords="354,440,621,480"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="295,439,339,443,338,448,295,444"/>
+<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ab49e5041cfb7333ee413c9719046ae37" title="Generates a 40&#45;length secure ascii string." alt="" coords="373,505,602,546"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="210,446,343,489,376,498,375,503,342,494,208,451"/>
+<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a3d7f74e98cb6a70dbab697f79765226b" title="Attempts to log DreamDaemon output." alt="" coords="367,569,608,625"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="178,447,250,500,296,529,344,555,358,561,356,566,342,560,293,534,247,505,175,451"/>
+<area shape="rect" id="Node000017" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a5fceb9618381d05a21cfb3254218f3ff" title="Check if a given port &#160;can be bound to." alt="" coords="366,649,609,705"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="167,447,194,487,235,538,286,590,344,635,353,640,350,645,341,639,282,594,231,542,190,490,162,450"/>
+<area shape="rect" id="Node000021" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="404,729,571,770"/>
+<area shape="poly" id="edge20_Node000001_Node000021" title=" " alt="" coords="161,448,184,502,222,575,247,614,276,651,308,686,344,715,366,727,389,735,387,740,363,732,341,719,304,690,272,655,243,617,218,578,179,504,156,450"/>
+<area shape="rect" id="Node000022" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_manager.html#ac21fb8c8df8b40c14944282d86c32a66" title="Lock the current installation&#39;s location and return a IEngineExecutableLock." alt="" coords="361,794,614,835"/>
+<area shape="poly" id="edge21_Node000001_Node000022" title=" " alt="" coords="159,448,178,513,214,603,239,652,268,699,304,742,344,779,352,784,348,788,341,783,300,746,264,702,234,654,209,605,173,515,154,449"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a16bc1d460e98b09d6f03b6ff9eb5ca03" title="Return the command line arguments for launching with given launchParameters ." alt="" coords="683,77,934,133"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="610,212,630,200,645,187,654,173,663,158,678,143,686,138,689,143,682,147,667,161,658,175,649,190,634,205,612,216"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="690,157,927,198"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="616,214,689,199,690,204,617,219"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a17aa8c090377d70ebf0a93f3eb0a0243" title="Launch a IProcess." alt="" coords="700,222,917,263"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="616,240,684,240,684,245,616,245"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a1f08236db634210e10291a4ffddd0df8" title="Loads the environment settings for either the server or compiler." alt="" coords="695,288,921,328"/>
+<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="617,266,690,281,689,286,616,271"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html#a3493714e50b54482ee2739479cf02d56" title="Register a given process &#160;for network prompt reaping." alt="" coords="680,353,936,394"/>
+<area shape="poly" id="edge9_Node000005_Node000010" title=" " alt="" coords="612,269,634,280,649,295,658,310,667,324,682,338,692,343,689,348,678,342,663,328,654,313,645,298,630,285,610,273"/>
+<area shape="rect" id="Node000016" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#af0f4b22a2d653f0b1d94190938498a48" title="Get the stderr and stdout output of the IProcess." alt="" coords="710,577,907,618"/>
+<area shape="poly" id="edge15_Node000015_Node000016" title=" " alt="" coords="608,595,694,595,694,600,608,600"/>
+<area shape="rect" id="Node000018" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="700,650,916,691"/>
+<area shape="poly" id="edge17_Node000017_Node000018" title=" " alt="" coords="609,672,685,670,685,676,609,677"/>
+<area shape="rect" id="Node000020" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce" title="Create a Task that completes after a given timeSpan ." alt="" coords="718,716,898,756"/>
+<area shape="poly" id="edge19_Node000017_Node000020" title=" " alt="" coords="610,697,703,714,702,719,609,702"/>
+<area shape="rect" id="Node000019" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="984,643,1224,698"/>
+<area shape="poly" id="edge18_Node000018_Node000019" title=" " alt="" coords="917,668,969,668,969,673,917,673"/>
 </map>

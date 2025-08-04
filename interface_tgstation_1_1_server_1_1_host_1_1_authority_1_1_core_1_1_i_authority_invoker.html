@@ -106,12 +106,9 @@ Inheritance diagram for Tgstation.Server.Host.Authority.Core.IAuthorityInvoker&l
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a65e717d817c581f3398766140bfa0e7b" id="r_a65e717d817c581f3398766140bfa0e7b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html#a65e717d817c581f3398766140bfa0e7b">InvokeQueryable&lt; TResult &gt;</a> (Func&lt; TAuthority, <a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt; &gt; authorityInvoker)</td></tr>
-<tr class="memdesc:a65e717d817c581f3398766140bfa0e7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke a <em>TAuthority</em>  method and get the result.  <br /></td></tr>
-<tr class="separator:a65e717d817c581f3398766140bfa0e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43349808683e90e4b24f5fe3c537b99c" id="r_a43349808683e90e4b24f5fe3c537b99c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TApiModel &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html#a43349808683e90e4b24f5fe3c537b99c">InvokeTransformableQueryable&lt; TResult, TApiModel, TTransformer &gt;</a> (Func&lt; TAuthority, <a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt; &gt; authorityInvoker)</td></tr>
-<tr class="memdesc:a43349808683e90e4b24f5fe3c537b99c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke a <em>TAuthority</em>  method and get the transformed result.  <br /></td></tr>
-<tr class="separator:a43349808683e90e4b24f5fe3c537b99c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a621ae7b25804840f1e64921fac58351a" id="r_a621ae7b25804840f1e64921fac58351a"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt;?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html#a621ae7b25804840f1e64921fac58351a">InvokeQueryable&lt; TResult &gt;</a> (Func&lt; TAuthority, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_requirements_gated.html">RequirementsGated</a>&lt; <a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt; &gt; &gt; authorityInvoker)</td></tr>
+<tr class="memdesc:a621ae7b25804840f1e64921fac58351a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke a <em>TAuthority</em>  method and get the result.  <br /></td></tr>
+<tr class="separator:a621ae7b25804840f1e64921fac58351a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Invokes <em>TAuthority</em> s. </p>
@@ -130,18 +127,18 @@ Public Member Functions</h2></td></tr>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="_i_authority_invoker_02_t_authority_03_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_authority_invoker_02_t_authority_03_8cs_source.html">IAuthorityInvoker{TAuthority}.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_authority_invoker_02_t_authority_03_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_authority_invoker_02_t_authority_03_8cs_source.html">IAuthorityInvoker{TAuthority}.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a65e717d817c581f3398766140bfa0e7b" name="a65e717d817c581f3398766140bfa0e7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65e717d817c581f3398766140bfa0e7b">&#9670;&#160;</a></span>InvokeQueryable&lt; TResult &gt;()</h2>
+<a id="a621ae7b25804840f1e64921fac58351a" name="a621ae7b25804840f1e64921fac58351a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a621ae7b25804840f1e64921fac58351a">&#9670;&#160;</a></span>InvokeQueryable&lt; TResult &gt;()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html">Tgstation.Server.Host.Authority.Core.IAuthorityInvoker</a>&lt; TAuthority &gt;.InvokeQueryable&lt; TResult &gt; </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt;?&gt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html">Tgstation.Server.Host.Authority.Core.IAuthorityInvoker</a>&lt; TAuthority &gt;.InvokeQueryable&lt; TResult &gt; </td>
           <td>(</td>
-          <td class="paramtype">Func&lt; TAuthority, <a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt; &gt;&#160;</td>
+          <td class="paramtype">Func&lt; TAuthority, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_requirements_gated.html">RequirementsGated</a>&lt; <a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt; &gt; &gt;&#160;</td>
           <td class="paramname"><em>authorityInvoker</em></td><td>)</td>
           <td></td>
         </tr>
@@ -157,101 +154,33 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">authorityInvoker</td><td>The <em>TAuthority</em>  Func&lt;T, TResult&gt; returning a IQueryable&lt;T&gt; <em>TResult</em> .</td></tr>
+    <tr><td class="paramname">authorityInvoker</td><td>The authority invocation returning a IQueryable&lt;T&gt; <em>TResult</em> .</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A IQueryable&lt;T&gt; <em>TResult</em>  returned.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the IQueryable&lt;T&gt; <em>TResult</em>  returned on success or <code>null</code> if the requirements weren't satisfied.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_invoker_base.html#aefc7c744a1f84265b932b7a59b2ea342">Tgstation.Server.Host.Authority.Core.AuthorityInvokerBase&lt; TAuthority &gt;</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_invoker_base.html#a90a63a42e7f6b64db688ebf4a38af180">Tgstation.Server.Host.Authority.Core.AuthorityInvokerBase&lt; TAuthority &gt;</a>.</p>
 
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html#a65e717d817c581f3398766140bfa0e7b">Tgstation.Server.Host.Authority.Core.IAuthorityInvoker&lt; TAuthority &gt;.InvokeQueryable&lt; TResult &gt;()</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html#a43349808683e90e4b24f5fe3c537b99c">Tgstation.Server.Host.Authority.Core.IAuthorityInvoker&lt; TAuthority &gt;.InvokeTransformableQueryable&lt; TResult, TApiModel, TTransformer &gt;()</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html#a621ae7b25804840f1e64921fac58351a">Tgstation.Server.Host.Authority.Core.IAuthorityInvoker&lt; TAuthority &gt;.InvokeQueryable&lt; TResult &gt;()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html#a65e717d817c581f3398766140bfa0e7b">Tgstation.Server.Host.Authority.Core.IAuthorityInvoker&lt; TAuthority &gt;.InvokeQueryable&lt; TResult &gt;()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html#a621ae7b25804840f1e64921fac58351a">Tgstation.Server.Host.Authority.Core.IAuthorityInvoker&lt; TAuthority &gt;.InvokeQueryable&lt; TResult &gt;()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a65e717d817c581f3398766140bfa0e7b_cgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a65e717d817c581f3398766140bfa0e7b_cgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a65e717d817c581f3398766140bfa0e7b_cgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a65e717d817c581f3398766140bfa0e7b_cgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a621ae7b25804840f1e64921fac58351a_cgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a621ae7b25804840f1e64921fac58351a_cgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a621ae7b25804840f1e64921fac58351a_cgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a621ae7b25804840f1e64921fac58351a_cgraph">
 <area shape="rect" title="Invoke a TAuthority &#160;method and get the result." alt="" coords="5,29,255,85"/>
-<area shape="poly" title=" " alt="" coords="68,29,69,19,80,10,100,5,130,3,164,5,185,12,183,17,163,11,130,8,101,10,82,15,73,21,73,29"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html#a43349808683e90e4b24f5fe3c537b99c" title="Invoke a TAuthority &#160;method and get the transformed result." alt="" coords="303,29,603,85"/>
-<area shape="poly" title=" " alt="" coords="255,55,287,55,287,60,255,60"/>
+<area shape="poly" title=" " alt="" coords="81,29,82,19,91,10,107,5,130,3,156,5,172,12,170,17,155,10,130,8,108,10,94,15,87,21,87,29"/>
 </map>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a65e717d817c581f3398766140bfa0e7b_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a65e717d817c581f3398766140bfa0e7b_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a65e717d817c581f3398766140bfa0e7b_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a65e717d817c581f3398766140bfa0e7b_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a621ae7b25804840f1e64921fac58351a_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a621ae7b25804840f1e64921fac58351a_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a621ae7b25804840f1e64921fac58351a_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a621ae7b25804840f1e64921fac58351a_icgraph">
 <area shape="rect" title="Invoke a TAuthority &#160;method and get the result." alt="" coords="5,29,255,85"/>
 <area shape="poly" title=" " alt="" coords="170,17,155,10,130,8,108,10,94,15,87,21,87,29,81,29,82,19,91,10,107,5,130,3,156,5,172,12"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a43349808683e90e4b24f5fe3c537b99c" name="a43349808683e90e4b24f5fe3c537b99c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a43349808683e90e4b24f5fe3c537b99c">&#9670;&#160;</a></span>InvokeTransformableQueryable&lt; TResult, TApiModel, TTransformer &gt;()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TApiModel &gt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html">Tgstation.Server.Host.Authority.Core.IAuthorityInvoker</a>&lt; TAuthority &gt;.InvokeTransformableQueryable&lt; TResult, TApiModel, TTransformer &gt; </td>
-          <td>(</td>
-          <td class="paramtype">Func&lt; TAuthority, <a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt; &gt;&#160;</td>
-          <td class="paramname"><em>authorityInvoker</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Invoke a <em>TAuthority</em>  method and get the transformed result. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">TResult</td><td>The Type returned by the <em>TAuthority</em> .</td></tr>
-    <tr><td class="paramname">TApiModel</td><td>The returned Type.</td></tr>
-    <tr><td class="paramname">TTransformer</td><td>The ITransformer&lt;TInput, TOutput&gt; for converting <em>TResult</em> s to <em>TApiModel</em> s.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">authorityInvoker</td><td>The <em>TAuthority</em>  Func&lt;T, TResult&gt; returning a IQueryable&lt;T&gt; <em>TResult</em> .</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A IQueryable&lt;T&gt; <em>TResult</em>  returned.</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_invoker_base.html#a43b0515328fd9e8063cb6d66659d3eef">Tgstation.Server.Host.Authority.Core.AuthorityInvokerBase&lt; TAuthority &gt;</a>.</p>
-<div class="typeconstraint">
-<dl><dt><b>Type Constraints</b></dt><dd>
-<table border="0" cellspacing="2" cellpadding="0">
-<tr><td valign="top"><em>TResult</em></td><td>&#160;:</td><td valign="top"><em>IApiTransformable</em></td><td>&#160;</td></tr>
-<tr><td valign="top"><em>TResult</em></td><td>&#160;:</td><td valign="top"><em>TResult</em></td><td>&#160;</td></tr>
-<tr><td valign="top"><em>TResult</em></td><td>&#160;:</td><td valign="top"><em>TApiModel</em></td><td>&#160;</td></tr>
-<tr><td valign="top"><em>TResult</em></td><td>&#160;:</td><td valign="top"><em>TTransformer</em></td><td>&#160;</td></tr>
-<tr><td valign="top"><em>TApiModel</em></td><td>&#160;:</td><td valign="top"><em>notnull</em></td><td>&#160;</td></tr>
-<tr><td valign="top"><em>TTransformer</em></td><td>&#160;:</td><td valign="top"><em>ITransformer</em></td><td>&#160;</td></tr>
-<tr><td valign="top"><em>TTransformer</em></td><td>&#160;:</td><td valign="top"><em>TResult</em></td><td>&#160;</td></tr>
-<tr><td valign="top"><em>TTransformer</em></td><td>&#160;:</td><td valign="top"><em>TApiModel</em></td><td>&#160;</td></tr>
-<tr><td valign="top"><em>TTransformer</em></td><td>&#160;:</td><td valign="top"><em>new()</em></td><td>&#160;</td></tr>
-</table>
-</dd>
-</dl>
-</div>
-
-<p class="reference">Referenced by <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html#a65e717d817c581f3398766140bfa0e7b">Tgstation.Server.Host.Authority.Core.IAuthorityInvoker&lt; TAuthority &gt;.InvokeQueryable&lt; TResult &gt;()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a43349808683e90e4b24f5fe3c537b99c_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a43349808683e90e4b24f5fe3c537b99c_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a43349808683e90e4b24f5fe3c537b99c_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker_a43349808683e90e4b24f5fe3c537b99c_icgraph">
-<area shape="rect" title="Invoke a TAuthority &#160;method and get the transformed result." alt="" coords="303,29,603,85"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html#a65e717d817c581f3398766140bfa0e7b" title="Invoke a TAuthority &#160;method and get the result." alt="" coords="5,29,255,85"/>
-<area shape="poly" title=" " alt="" coords="287,60,255,60,255,55,287,55"/>
-<area shape="poly" title=" " alt="" coords="183,17,163,11,130,8,101,10,82,15,73,21,73,29,68,29,69,19,80,10,100,5,130,3,164,5,185,12"/>
 </map>
 </div>
 

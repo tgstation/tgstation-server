@@ -1,5 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_i_equatable.html" title=" " alt="" coords="5,13,88,39"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html" title="Information about an engine installation." alt="" coords="136,5,322,46"/>
-<area shape="poly" id="edge281_Node000000_Node000001" title=" " alt="" coords="103,23,135,23,135,28,103,28"/>
+<area shape="rect" id="Node000000" href="$class_i_claims_transformation.html" title=" " alt="" coords="5,13,158,39"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html" title="A IClaimsTransformation that maps Claims using an IAuthenticationContext." alt="" coords="206,5,481,46"/>
+<area shape="poly" id="edge273_Node000000_Node000001" title=" " alt="" coords="173,23,205,23,205,28,173,28"/>
 </map>

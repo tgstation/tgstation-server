@@ -1,7 +1,9 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.GetDirectoryName" name="Tgstation.Server.Host.IO.IIOManager.GetDirectoryName">
-<area shape="rect" id="Node000001" title="Gets the directory portion of a given path ." alt="" coords="268,41,467,82"/>
+<area shape="rect" id="Node000001" title="Gets the directory portion of a given path ." alt="" coords="268,63,467,103"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a4e3f335a21a02440851521e6f3e97d57" title="Create a IServer.A ValueTask&lt;TResult&gt; resulting in a new IServer if it should be run,..." alt="" coords="18,5,207,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="252,48,207,42,208,36,252,43"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ae58857460fa04099734e5b2ec6d0e2c7" title="Check that a given SQLite databaseName &#160;is can be accessed. Also prompts the user if they want to use..." alt="" coords="5,70,220,126"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="252,81,220,85,220,80,252,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="259,61,206,49,207,44,260,56"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a212053f7976ab724d82653b5e8373fd6" title="Runs the IServer.A ValueTask representing the running operation." alt="" coords="5,70,220,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="252,86,220,86,220,80,252,80"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ae58857460fa04099734e5b2ec6d0e2c7" title="Check that a given SQLite databaseName &#160;is can be accessed. Also prompts the user if they want to use..." alt="" coords="5,121,220,176"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="271,110,221,123,219,118,270,105"/>
 </map>

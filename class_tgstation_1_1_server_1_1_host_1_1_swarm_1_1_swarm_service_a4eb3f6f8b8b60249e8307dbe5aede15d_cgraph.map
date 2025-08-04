@@ -1,18 +1,16 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.RemoteCommitReceived" name="Tgstation.Server.Host.Swarm.SwarmService.RemoteCommitReceived">
-<area shape="rect" id="Node000001" title="Notify the controller that the node with the given registrationId &#160;is ready to commit or notify the n..." alt="" coords="5,142,259,183"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae8730853752e924741c38443a557c16f" title="Attempt to abort an uncommitted update.A ValueTask representing the running operation...." alt="" coords="319,56,514,96"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,139,332,99,333,104,202,144"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2d25eadf43c0a581335ab5f4dba51e5f" title="Sends out remote abort update requests." alt="" coords="574,85,801,126"/>
-<area shape="poly" id="edge8_Node000001_Node000003" title=" " alt="" coords="259,147,559,116,559,121,259,152"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_operation.html#abe396a3fee0fc9a7860971f607717271" title="Attempt to commit the update." alt="" coords="312,170,521,211"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="259,172,297,176,296,181,259,178"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0833d2372f5d079819d26aedcae6ddd0" title="Gets the SwarmServer.Identifier from a given registrationId ." alt="" coords="307,235,526,290"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="193,181,322,227,320,232,191,186"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="514,84,559,89,558,94,514,89"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="868,5,1074,61"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="770,82,852,61,853,66,771,87"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0284d2a7f1508bc31dd208906cfbe4d3" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="849,85,1093,126"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="802,103,834,103,834,108,802,108"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="863,149,1079,205"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="771,124,849,143,847,149,770,129"/>
+<area shape="rect" id="Node000001" title="Notify the controller that the node with the given registrationId &#160;is ready to commit or notify the n..." alt="" coords="5,99,259,139"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae8730853752e924741c38443a557c16f" title="Attempt to abort an uncommitted update.A ValueTask representing the running operation...." alt="" coords="319,12,514,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,95,332,55,333,60,202,101"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2d25eadf43c0a581335ab5f4dba51e5f" title="Sends out remote abort update requests." alt="" coords="574,41,801,82"/>
+<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="259,103,559,72,559,78,259,109"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_operation.html#abe396a3fee0fc9a7860971f607717271" title="Attempt to commit the update." alt="" coords="312,127,521,167"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="259,129,297,133,296,138,259,134"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0833d2372f5d079819d26aedcae6ddd0" title="Gets the SwarmServer.Identifier from a given registrationId ." alt="" coords="307,191,526,247"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="193,137,322,183,320,188,191,142"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="514,40,559,45,558,50,514,45"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0284d2a7f1508bc31dd208906cfbe4d3" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="849,5,1093,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="802,45,833,40,834,46,802,50"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="863,70,1079,126"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="802,74,848,79,847,85,802,79"/>
 </map>

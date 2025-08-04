@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Engine.OpenDreamInstallation.FormatServerArguments" name="Tgstation.Server.Host.Components.Engine.OpenDreamInstallation.FormatServerArguments">
-<area shape="rect" id="Node000001" title="Return the command line arguments for launching with given launchParameters .The formatted arguments ..." alt="" coords="5,5,245,61"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installation_base.html#a0993afa66850d7b7832ae721f29a20a6" title="Encode given parameters for passing as world.params on the command line." alt="" coords="293,5,534,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,31,277,31,277,36,245,36"/>
-</map>

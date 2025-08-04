@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Security.ISystemIdentityFactory.CreateSystemIdentity" name="Tgstation.Server.Host.Security.ISystemIdentityFactory.CreateSystemIdentity">
-<area shape="rect" id="Node000001" title="Create a ISystemIdentity for a given user ." alt="" coords="258,31,497,87"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a56db9647140a1a43ebab0642e99a35b6" title="Attempt to login to the server with the current Basic or OAuth credentials.A ValueTask&lt;TResult&gt; resul..." alt="" coords="5,5,210,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,45,210,41,210,36,242,40"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ad2695069d164dde2b12e4fed8718726b" title="Creates a User.A ValueTask&lt;TResult&gt; resulting in am AuthorityResponse&lt;TResult&gt; for the created User." alt="" coords="5,71,210,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="242,78,210,82,210,76,242,72"/>
+<area shape="rect" id="Node000001" title="Create a ISystemIdentity for a given user ." alt="" coords="264,31,503,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html#a1d04846edf18973762f2be1030ddbf1b" title="Login process." alt="" coords="5,5,216,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="248,45,216,41,216,36,248,40"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#abfec2e2d38650d7d7c764c6fdd757ce5" title="Creates a User.A RequirementsGated&lt;TResult&gt; AuthorityResponse&lt;TResult&gt; for the created UpdatedUser." alt="" coords="8,71,213,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="248,77,213,82,213,76,248,72"/>
 </map>

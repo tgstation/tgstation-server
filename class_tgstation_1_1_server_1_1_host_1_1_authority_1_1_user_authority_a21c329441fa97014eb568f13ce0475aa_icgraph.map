@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Authority.UserAuthority.TrySetPassword" name="Tgstation.Server.Host.Authority.UserAuthority.TrySetPassword">
-<area shape="rect" id="Node000001" title="Attempt to change the password of a given dbUser ." alt="" coords="258,39,462,79"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ad2695069d164dde2b12e4fed8718726b" title="Creates a User.A ValueTask&lt;TResult&gt; resulting in am AuthorityResponse&lt;TResult&gt; for the created User." alt="" coords="5,5,210,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,46,210,42,211,37,243,41"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#aef9a577a9544d2da75672eb17a24b94d" title="Updates a User.A ValueTask&lt;TResult&gt; resulting in am AuthorityResponse&lt;TResult&gt; for the created User." alt="" coords="5,71,210,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="243,77,211,81,210,75,242,71"/>
-</map>

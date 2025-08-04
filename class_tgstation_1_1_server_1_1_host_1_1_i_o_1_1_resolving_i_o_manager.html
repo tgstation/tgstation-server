@@ -76,6 +76,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Tgstation.Server.Host.IO.ResolvingIOManager Class Reference<span class="mlabels"><span class="mlabel">sealed</span></span></div></div>
@@ -124,16 +125,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a20c8280c9cef690819666d930a407b6d" id="r_a20c8280c9cef690819666d930a407b6d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a20c8280c9cef690819666d930a407b6d">ResolvingIOManager</a> (IFileSystem <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#af218c7fc36a80662eeb56aaa0c955c77">fileSystem</a>, string <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a02d7c98f480664056ad8dbe912003ae9">subdirectory</a>)</td></tr>
 <tr class="memdesc:a20c8280c9cef690819666d930a407b6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the ResolvingIOManager class.  <br /></td></tr>
 <tr class="separator:a20c8280c9cef690819666d930a407b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50b2302533637090939afbb9dee042ee" id="r_a50b2302533637090939afbb9dee042ee"><td class="memItemLeft" align="right" valign="top">override string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a50b2302533637090939afbb9dee042ee">ResolvePath</a> (string path)</td></tr>
-<tr class="memdesc:a50b2302533637090939afbb9dee042ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the full path of some <em>path</em>  given a relative path. Must be used before passing relative paths to other APIs. All other operations in this <code>interface</code> call this internally on given paths.<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">path</td><td>Some path to retrieve the full path of.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><em>path</em>  as a full path.</dd></dl>
-  <br /></td></tr>
-<tr class="separator:a50b2302533637090939afbb9dee042ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">Tgstation.Server.Host.IO.DefaultIOManager</a></td></tr>
 <tr class="memitem:a3edc2da1b219da1f81495249bd9a6bc2 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager" id="r_a3edc2da1b219da1f81495249bd9a6bc2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a3edc2da1b219da1f81495249bd9a6bc2">DefaultIOManager</a> (IFileSystem <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#af218c7fc36a80662eeb56aaa0c955c77">fileSystem</a>)</td></tr>
 <tr class="memdesc:a3edc2da1b219da1f81495249bd9a6bc2 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the DefaultIOManager class.  <br /></td></tr>
@@ -318,6 +309,16 @@ This function will fail to read files from the /proc filesystem on Linux.  <br /
 <tr class="memdesc:a34087ebccffcf9f51173e01fe4a50be4 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the full path of the current working directory.<dl class="section return"><dt>Returns</dt><dd>The full path of the current working directory.</dd></dl>
   <br /></td></tr>
 <tr class="separator:a34087ebccffcf9f51173e01fe4a50be4 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59c157161fe635d317178e8908af59b3 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager" id="r_a59c157161fe635d317178e8908af59b3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a59c157161fe635d317178e8908af59b3">ResolvePath</a> (string path)</td></tr>
+<tr class="memdesc:a59c157161fe635d317178e8908af59b3 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the full path of some <em>path</em>  given a relative path. Must be used before passing relative paths to other APIs. All other operations in this <code>interface</code> call this internally on given paths.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Some path to retrieve the full path of.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><em>path</em>  as a full path.</dd></dl>
+  <br /></td></tr>
+<tr class="separator:a59c157161fe635d317178e8908af59b3 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c82a1e8625f86797f961e220d7b0f03 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager" id="r_a6c82a1e8625f86797f961e220d7b0f03"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a6c82a1e8625f86797f961e220d7b0f03">WriteAllBytes</a> (string path, byte[] contents, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a6c82a1e8625f86797f961e220d7b0f03 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes some <em>contents</em>  to a file at <em>path</em>  overwriting previous content.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -374,8 +375,8 @@ This function will fail to read files from the /proc filesystem on Linux.  <br /
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the files in <em>path</em> .</dd></dl>
   <br /></td></tr>
 <tr class="separator:a541197a2a0aac0dbe48022dcd95d2bc1 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62a703e04375abfc93020af28fd6b0ef inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager" id="r_a62a703e04375abfc93020af28fd6b0ef"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a62a703e04375abfc93020af28fd6b0ef">ZipToDirectory</a> (string path, <a class="el" href="class_stream.html">Stream</a> zipFile, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a62a703e04375abfc93020af28fd6b0ef inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a set of <em>zipFile</em>  to a given <em>path</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:ae99964d6f8e64c4f02a6d6cb90aabfe1 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager" id="r_ae99964d6f8e64c4f02a6d6cb90aabfe1"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ae99964d6f8e64c4f02a6d6cb90aabfe1">ZipToDirectory</a> (string path, <a class="el" href="class_stream.html">Stream</a> zipFile, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae99964d6f8e64c4f02a6d6cb90aabfe1 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a set of <em>zipFile</em>  to a given <em>path</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The path to unzip to.</td></tr>
     <tr><td class="paramname">zipFile</td><td>The <a class="el" href="class_stream.html">Stream</a> of the global::System.IO.Compression.ZipArchive. Must have Stream.CanSeek set to <code>true</code>. Will be read completely and left open. Stream.Position will be indeterminate.</td></tr>
@@ -383,9 +384,9 @@ This function will fail to read files from the /proc filesystem on Linux.  <br /
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
   <br /></td></tr>
-<tr class="separator:a62a703e04375abfc93020af28fd6b0ef inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ae99964d6f8e64c4f02a6d6cb90aabfe1 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2dfcb05f73420f251547ae0108b3222 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager" id="r_aa2dfcb05f73420f251547ae0108b3222"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#aa2dfcb05f73420f251547ae0108b3222">PathContainsParentAccess</a> (string path)</td></tr>
 <tr class="memdesc:aa2dfcb05f73420f251547ae0108b3222 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <em>path</em>  contains the '..' parent directory accessor.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -450,6 +451,19 @@ This function will fail to read files from the /proc filesystem on Linux.  <br /
 <dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems.">IIOManager</a>.</dd></dl>
   <br /></td></tr>
 <tr class="separator:a5f0d4752a1290de54c4a08473b653300 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:ae4b95dc676a8701981d7bba9ff025eb6" id="r_ae4b95dc676a8701981d7bba9ff025eb6"><td class="memItemLeft" align="right" valign="top">override string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#ae4b95dc676a8701981d7bba9ff025eb6">ResolvePathCore</a> (string path)</td></tr>
+<tr class="memdesc:ae4b95dc676a8701981d7bba9ff025eb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolve a given, non-rooted, <em>path</em> .<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The non-rooted path to resolve.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The fully resolved path.</dd></dl>
+  <br /></td></tr>
+<tr class="separator:ae4b95dc676a8701981d7bba9ff025eb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -523,7 +537,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   25</span>        {</div>
 <div class="line"><span class="lineno">   26</span>            this.subdirectory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a02d7c98f480664056ad8dbe912003ae9">subdirectory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a02d7c98f480664056ad8dbe912003ae9">subdirectory</a>));</div>
 <div class="line"><span class="lineno">   27</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_af218c7fc36a80662eeb56aaa0c955c77"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#af218c7fc36a80662eeb56aaa0c955c77">Tgstation.Server.Host.IO.DefaultIOManager.fileSystem</a></div><div class="ttdeci">readonly IFileSystem fileSystem</div><div class="ttdoc">The backing IFileSystem.</div><div class="ttdef"><b>Definition</b> <a href="_default_i_o_manager_8cs_source.html#l00043">DefaultIOManager.cs:43</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_af218c7fc36a80662eeb56aaa0c955c77"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#af218c7fc36a80662eeb56aaa0c955c77">Tgstation.Server.Host.IO.DefaultIOManager.fileSystem</a></div><div class="ttdeci">readonly IFileSystem fileSystem</div><div class="ttdoc">The backing IFileSystem.</div><div class="ttdef"><b>Definition</b> <a href="_default_i_o_manager_8cs_source.html#l00044">DefaultIOManager.cs:44</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager_html_a02d7c98f480664056ad8dbe912003ae9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a02d7c98f480664056ad8dbe912003ae9">Tgstation.Server.Host.IO.ResolvingIOManager.subdirectory</a></div><div class="ttdeci">readonly string subdirectory</div><div class="ttdoc">Path to the subdirectory attached to path resolutions.</div><div class="ttdef"><b>Definition</b> <a href="_resolving_i_o_manager_8cs_source.html#l00014">ResolvingIOManager.cs:14</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00014">Tgstation.Server.Host.IO.ResolvingIOManager.subdirectory</a>.</p>
@@ -531,8 +545,8 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a50b2302533637090939afbb9dee042ee" name="a50b2302533637090939afbb9dee042ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50b2302533637090939afbb9dee042ee">&#9670;&#160;</a></span>ResolvePath()</h2>
+<a id="ae4b95dc676a8701981d7bba9ff025eb6" name="ae4b95dc676a8701981d7bba9ff025eb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4b95dc676a8701981d7bba9ff025eb6">&#9670;&#160;</a></span>ResolvePathCore()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -541,7 +555,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override string Tgstation.Server.Host.IO.ResolvingIOManager.ResolvePath </td>
+          <td class="memname">override string Tgstation.Server.Host.IO.ResolvingIOManager.ResolvePathCore </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
@@ -550,44 +564,21 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Retrieve the full path of some <em>path</em>  given a relative path. Must be used before passing relative paths to other APIs. All other operations in this <code>interface</code> call this internally on given paths.<dl class="params"><dt>Parameters</dt><dd>
+<p>Resolve a given, non-rooted, <em>path</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">path</td><td>Some path to retrieve the full path of.</td></tr>
+    <tr><td class="paramname">path</td><td>The non-rooted path to resolve.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><em>path</em>  as a full path.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The fully resolved path.</dd></dl>
  </p>
 
-<p>Reimplemented from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a287eaf4e73a4d64e50f1dab24c3b0d3e">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00030">30</a> of file <a class="el" href="_resolving_i_o_manager_8cs_source.html">ResolvingIOManager.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   31</span>        {</div>
-<div class="line"><span class="lineno">   32</span>            <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a9ff3056ca113391ed79465356a6212dd">IsPathRooted</a>(path))</div>
-<div class="line"><span class="lineno">   33</span>                <span class="keywordflow">return</span> base.ResolvePath(<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e">ConcatPath</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a02d7c98f480664056ad8dbe912003ae9">subdirectory</a>, path));</div>
-<div class="line"><span class="lineno">   34</span>            <span class="keywordflow">return</span> path;</div>
-<div class="line"><span class="lineno">   35</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_a9ff3056ca113391ed79465356a6212dd"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a9ff3056ca113391ed79465356a6212dd">Tgstation.Server.Host.IO.DefaultIOManager.IsPathRooted</a></div><div class="ttdeci">bool IsPathRooted(string path)</div><div class="ttdoc">Check if a given path  is at the root level of the filesystem.true if the path is rooted,...</div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_abd68930642dbf40df272b35dc438312e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e">Tgstation.Server.Host.IO.DefaultIOManager.ConcatPath</a></div><div class="ttdeci">string ConcatPath(params string[] paths)</div><div class="ttdoc">Combines an array of strings into a path.The combined path.</div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e">Tgstation.Server.Host.IO.DefaultIOManager.ConcatPath()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a9ff3056ca113391ed79465356a6212dd">Tgstation.Server.Host.IO.DefaultIOManager.IsPathRooted()</a>, and <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00014">Tgstation.Server.Host.IO.ResolvingIOManager.subdirectory</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager_a50b2302533637090939afbb9dee042ee_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager_a50b2302533637090939afbb9dee042ee_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager_a50b2302533637090939afbb9dee042ee_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager_a50b2302533637090939afbb9dee042ee_cgraph">
-<area shape="rect" title="Retrieve the full path of some path &#160;given a relative path. Must be used before passing relative path..." alt="" coords="5,39,225,79"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e" title="Combines an array of strings into a path.The combined path." alt="" coords="278,5,476,46"/>
-<area shape="poly" title=" " alt="" coords="225,42,262,38,263,43,225,48"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a9ff3056ca113391ed79465356a6212dd" title="Check if a given path &#160;is at the root level of the filesystem.true if the path is rooted,..." alt="" coords="273,71,481,111"/>
-<area shape="poly" title=" " alt="" coords="225,70,258,74,257,79,225,75"/>
-</map>
-</div>
+<p>Reimplemented from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a3564ef23180d1f22ff1b6644ed44d655">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
 
 </div>
 </div>
@@ -616,7 +607,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00014">14</a> of file <a class="el" href="_resolving_i_o_manager_8cs_source.html">ResolvingIOManager.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00030">Tgstation.Server.Host.IO.ResolvingIOManager.ResolvePath()</a>, and <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00021">Tgstation.Server.Host.IO.ResolvingIOManager.ResolvingIOManager()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00021">Tgstation.Server.Host.IO.ResolvingIOManager.ResolvingIOManager()</a>.</p>
 
 </div>
 </div>

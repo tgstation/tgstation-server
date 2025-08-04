@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Authority.UserAuthority.BadCreateRequestChecks" name="Tgstation.Server.Host.Authority.UserAuthority.BadCreateRequestChecks">
+<area shape="rect" id="Node000001" title="Checks if a createRequest &#160;should return a bad request AuthorityResponse&lt;TResult&gt;." alt="" coords="5,5,262,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a2a8906f0acca9ddd47d69c5f94e2145b" title="Check if a given model &#160;has a valid UserName.Name specified." alt="" coords="310,5,514,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="262,23,294,23,294,28,262,28"/>
+</map>

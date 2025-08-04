@@ -1,7 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html" title="For generating CredentialsHandlers." alt="" coords="5,5,232,46"/>
-<area shape="rect" id="Node000001" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html" title="Factory for creating LibGit2Sharp.IRepositorys." alt="" coords="280,5,515,46"/>
-<area shape="poly" id="edge619_Node000000_Node000001" title=" " alt="" coords="247,23,279,23,279,28,247,28"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html" title=" " alt="" coords="563,5,794,46"/>
-<area shape="poly" id="edge620_Node000001_Node000002" title=" " alt="" coords="531,23,562,23,562,28,531,28"/>
+<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html" title="Represents a message to send to a chat provider." alt="" coords="5,5,232,46"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_message.html" title="Represents a message to send to one or more Chat.ChannelRepresentations." alt="" coords="280,5,506,46"/>
+<area shape="poly" id="edge619_Node000000_Node000001" title=" " alt="" coords="248,23,279,23,279,28,248,28"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Security.UserSessionValidRequirement" name="Tgstation.Server.Host.Security.UserSessionValidRequirement">
+<area shape="rect" id="Node000001" title="IAuthorizationRequirement for testing if a user is enabled and their session is valid." alt="" coords="5,79,206,120"/>
+<area shape="rect" id="Node000002" href="$class_i_authorization_requirement.html" title=" " alt="" coords="19,5,192,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,46,108,79,103,79,103,46"/>
+</map>

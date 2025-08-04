@@ -5,7 +5,7 @@ var searchData=
   ['enginecommand_2',['EngineCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_engine_command.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]],
   ['enginecontroller_3',['EngineController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['engineexecutablelock_4',['EngineExecutableLock',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_executable_lock.html',1,'Tgstation::Server::Host::Components::Engine']]],
-  ['engineinstallationbase_5',['EngineInstallationBase',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installation_base.html',1,'Tgstation::Server::Host::Components::Engine']]],
+  ['engineinstallationbase_5',['EngineInstallationBase',['../class_engine_installation_base.html',1,'']]],
   ['engineinstallerbase_6',['EngineInstallerBase',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html',1,'Tgstation::Server::Host::Components::Engine']]],
   ['engineinstallresponse_7',['EngineInstallResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_engine_install_response.html',1,'Tgstation::Server::Api::Models::Response']]],
   ['enginemanager_8',['EngineManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html',1,'Tgstation::Server::Host::Components::Engine']]],

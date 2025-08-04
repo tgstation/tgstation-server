@@ -6,8 +6,8 @@
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="399,193,352,158,298,127,259,113,261,108,300,122,355,154,402,189"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ae67fd03e536f1aaed8d8ad6975192344" title="Detach an Api.Models.Instance with the given id ." alt="" coords="44,136,260,177"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="331,200,298,192,245,180,246,175,299,187,332,195"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="39,201,265,242"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="331,224,266,224,266,219,331,219"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a753be64e5245a6e97430a9beddec3b15" title=" " alt="" coords="31,201,273,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="331,224,273,224,273,219,331,219"/>
 <area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4bde2bc61aaf361c082bd9de17bf4157" title="Symlinks all directories in the GameData directory to destination .A ValueTask representing the runni..." alt="" coords="30,266,274,322"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="339,249,265,268,264,263,337,244"/>
 <area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="44,345,260,386"/>

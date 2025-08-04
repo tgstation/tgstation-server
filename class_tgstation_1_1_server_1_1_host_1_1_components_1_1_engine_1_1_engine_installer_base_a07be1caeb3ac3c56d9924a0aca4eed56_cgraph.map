@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Components.Engine.EngineInstallerBase.Install" name="Tgstation.Server.Host.Components.Engine.EngineInstallerBase.Install">
+<area shape="rect" id="Node000001" title="Does actions necessary to get an extracted installation working.A ValueTask&lt;TResult&gt; resulting in the..." alt="" coords="5,85,232,126"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="281,5,544,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,82,280,63,282,68,205,87"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#ab2f7cc39dd0972547e3a045dfee25ebb" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in a new IEngineIn..." alt="" coords="280,85,545,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,103,264,103,264,108,232,108"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a9f4c9a4962a6db74a6036e0e76f05ed6" title="Does actions necessary to get an extracted installation working." alt="" coords="292,150,533,191"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="214,124,304,144,302,149,213,129"/>
+</map>

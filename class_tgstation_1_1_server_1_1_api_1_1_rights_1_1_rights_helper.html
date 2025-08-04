@@ -100,6 +100,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ab694cd1b9b98a6be7d79f236a71b386c" id="r_ab694cd1b9b98a6be7d79f236a71b386c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">static</a> Type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">RightToType</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a> <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightsType</a>)</td></tr>
 <tr class="memdesc:ab694cd1b9b98a6be7d79f236a71b386c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map a given <em>rightsType</em>  to its respective Enum Type.  <br /></td></tr>
 <tr class="separator:ab694cd1b9b98a6be7d79f236a71b386c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f8b394cc8723e98a01c64923c217835" id="r_a4f8b394cc8723e98a01c64923c217835"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">static</a> <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">IEnumerable</a>&lt; Type &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a4f8b394cc8723e98a01c64923c217835">AllRightTypes</a> ()</td></tr>
+<tr class="memdesc:a4f8b394cc8723e98a01c64923c217835"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterate the Type of each right.  <br /></td></tr>
+<tr class="separator:a4f8b394cc8723e98a01c64923c217835"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5766e9717674b0c56c369e75a3c939a1" id="r_a5766e9717674b0c56c369e75a3c939a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">static</a> <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a5766e9717674b0c56c369e75a3c939a1">TypeToRight&lt; TRight &gt;</a> ()</td></tr>
 <tr class="memdesc:a5766e9717674b0c56c369e75a3c939a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map a given <em>TRight</em>  to its respective RightsType.  <br /></td></tr>
 <tr class="separator:a5766e9717674b0c56c369e75a3c939a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,21 +173,21 @@ Static Private Attributes</h2></td></tr>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00083">83</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   84</span>                         : <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a></div>
-<div class="line"><span class="lineno">   85</span>        {</div>
-<div class="line"><span class="lineno">   86</span>            ulong <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rights</a> = 0;</div>
-<div class="line"><span class="lineno">   87</span>            <span class="keywordflow">foreach</span> (<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">right</a> <span class="keywordflow">in</span> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a>.GetValues(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">typeof</a>(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">TRight</a>)))</div>
-<div class="line"><span class="lineno">   88</span>                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rights</a> |= <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Convert</a>.ToUInt64(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">right</a>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">CultureInfo</a>.InvariantCulture);</div>
-<div class="line"><span class="lineno">   89</span> </div>
-<div class="line"><span class="lineno">   90</span>            <span class="comment">// cri evertim</span></div>
-<div class="line"><span class="lineno">   91</span>            <span class="keywordflow">return</span> (<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">TRight</a>)(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">object</a>)<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rights</a>;</div>
-<div class="line"><span class="lineno">   92</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00089">89</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   90</span>                         : <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a></div>
+<div class="line"><span class="lineno">   91</span>        {</div>
+<div class="line"><span class="lineno">   92</span>            ulong <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rights</a> = 0;</div>
+<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">foreach</span> (<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">right</a> <span class="keywordflow">in</span> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a>.GetValues(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">typeof</a>(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">TRight</a>)))</div>
+<div class="line"><span class="lineno">   94</span>                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rights</a> |= <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Convert</a>.ToUInt64(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">right</a>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">CultureInfo</a>.InvariantCulture);</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>            <span class="comment">// cri evertim</span></div>
+<div class="line"><span class="lineno">   97</span>            <span class="keywordflow">return</span> (<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">TRight</a>)(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">object</a>)<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rights</a>;</div>
+<div class="line"><span class="lineno">   98</span>        }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.ConfigurationRights.List</a></div><div class="ttdeci">@ List</div><div class="ttdoc">User may list files if the Models.Instance allows it.</div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_rights_helper_8cs_source.html#l00100">Tgstation.Server.Api.Rights.RightsHelper.Clamp&lt; TRight &gt;()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_rights_helper_8cs_source.html#l00106">Tgstation.Server.Api.Rights.RightsHelper.Clamp&lt; TRight &gt;()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -193,6 +196,46 @@ Here is the caller graph for this function:</div>
 <area shape="rect" title="Get all rights for a given TRight ." alt="" coords="250,5,431,61"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a3ff2a4a6158c2a8f6264fabd88d8cdff" title="Clamps a given set of rights &#160;to their valid range." alt="" coords="5,13,202,54"/>
 <area shape="poly" title=" " alt="" coords="234,36,202,36,202,31,234,31"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a4f8b394cc8723e98a01c64923c217835" name="a4f8b394cc8723e98a01c64923c217835"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f8b394cc8723e98a01c64923c217835">&#9670;&#160;</a></span>AllRightTypes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">static</a> <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">IEnumerable</a>&lt; Type &gt; Tgstation.Server.Api.Rights.RightsHelper.AllRightTypes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Iterate the Type of each right. </p>
+<dl class="section return"><dt>Returns</dt><dd>An IEnumerable&lt;T&gt; of each Type of right.</dd></dl>
+
+<p class="reference">Referenced by <a class="el" href="_authorization_handler_8cs_source.html#l00049">Tgstation.Server.Host.Security.AuthorizationHandler.HandleAsync()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a4f8b394cc8723e98a01c64923c217835_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a4f8b394cc8723e98a01c64923c217835_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a4f8b394cc8723e98a01c64923c217835_icgraph" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a4f8b394cc8723e98a01c64923c217835_icgraph">
+<area shape="rect" title="Iterate the Type of each right." alt="" coords="275,5,456,46"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_handler.html#ad0bbf15fffd20ccbcef778b6f79f99f0" title=" " alt="" coords="5,5,227,46"/>
+<area shape="poly" title=" " alt="" coords="259,28,227,28,227,23,259,23"/>
 </map>
 </div>
 
@@ -245,19 +288,19 @@ Here is the caller graph for this function:</div>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00100">100</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  101</span>                         : <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a></div>
-<div class="line"><span class="lineno">  102</span>        {</div>
-<div class="line"><span class="lineno">  103</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">var</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">allRights</a> = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a0f8605b0068c15bb5e80fae8f858e0db">AllRights&lt;TRight&gt;</a>();</div>
-<div class="line"><span class="lineno">  104</span> </div>
-<div class="line"><span class="lineno">  105</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">var</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">allAsUlong</a> = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Convert</a>.ToUInt64(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">allRights</a>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">CultureInfo</a>.InvariantCulture);</div>
-<div class="line"><span class="lineno">  106</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">var</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightsAsUlong</a> = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Convert</a>.ToUInt64(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rights</a>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">CultureInfo</a>.InvariantCulture);</div>
-<div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  108</span>            <span class="keywordflow">return</span> (<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">TRight</a>)(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">object</a>)(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">allAsUlong</a> &amp; <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightsAsUlong</a>);</div>
-<div class="line"><span class="lineno">  109</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_html_a0f8605b0068c15bb5e80fae8f858e0db"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a0f8605b0068c15bb5e80fae8f858e0db">Tgstation.Server.Api.Rights.RightsHelper.AllRights&lt; TRight &gt;</a></div><div class="ttdeci">static TRight AllRights&lt; TRight &gt;()</div><div class="ttdoc">Get all rights for a given TRight .</div><div class="ttdef"><b>Definition</b> <a href="_rights_helper_8cs_source.html#l00083">RightsHelper.cs:83</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00106">106</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  107</span>                         : <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a></div>
+<div class="line"><span class="lineno">  108</span>        {</div>
+<div class="line"><span class="lineno">  109</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">var</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">allRights</a> = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a0f8605b0068c15bb5e80fae8f858e0db">AllRights&lt;TRight&gt;</a>();</div>
+<div class="line"><span class="lineno">  110</span> </div>
+<div class="line"><span class="lineno">  111</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">var</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">allAsUlong</a> = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Convert</a>.ToUInt64(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">allRights</a>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">CultureInfo</a>.InvariantCulture);</div>
+<div class="line"><span class="lineno">  112</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">var</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightsAsUlong</a> = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Convert</a>.ToUInt64(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rights</a>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">CultureInfo</a>.InvariantCulture);</div>
+<div class="line"><span class="lineno">  113</span> </div>
+<div class="line"><span class="lineno">  114</span>            <span class="keywordflow">return</span> (<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">TRight</a>)(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">object</a>)(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">allAsUlong</a> &amp; <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightsAsUlong</a>);</div>
+<div class="line"><span class="lineno">  115</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_html_a0f8605b0068c15bb5e80fae8f858e0db"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a0f8605b0068c15bb5e80fae8f858e0db">Tgstation.Server.Api.Rights.RightsHelper.AllRights&lt; TRight &gt;</a></div><div class="ttdeci">static TRight AllRights&lt; TRight &gt;()</div><div class="ttdoc">Get all rights for a given TRight .</div><div class="ttdef"><b>Definition</b> <a href="_rights_helper_8cs_source.html#l00089">RightsHelper.cs:89</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_rights_helper_8cs_source.html#l00083">Tgstation.Server.Api.Rights.RightsHelper.AllRights&lt; TRight &gt;()</a>, and <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
+<p class="reference">References <a class="el" href="_rights_helper_8cs_source.html#l00089">Tgstation.Server.Api.Rights.RightsHelper.AllRights&lt; TRight &gt;()</a>, and <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -304,48 +347,42 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if <em>rightsType</em>  is an instance right, <code>false</code> otherwise.</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00103">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, and <a class="el" href="_authentication_context_claims_transformation_8cs_source.html#l00033">Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation.TransformAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00103">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, <a class="el" href="_authorization_handler_8cs_source.html#l00144">Tgstation.Server.Host.Security.AuthorizationHandler.HandleRightsConditionalRequirement&lt; TRights &gt;()</a>, and <a class="el" href="_authentication_context_claims_transformation_8cs_source.html#l00033">Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation.TransformAsync()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a40d32838ff902da852c54215bd8e89fb_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a40d32838ff902da852c54215bd8e89fb_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a40d32838ff902da852c54215bd8e89fb_icgraph" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a40d32838ff902da852c54215bd8e89fb_icgraph">
-<area shape="rect" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="899,499,1090,539"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="611,463,813,503"/>
-<area shape="poly" title=" " alt="" coords="884,508,813,499,814,493,884,502"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html#adbb551c36d69e3afdf072f06fbedc31e" title=" " alt="" coords="573,527,851,583"/>
-<area shape="poly" title=" " alt="" coords="884,536,852,540,851,535,883,530"/>
+<area shape="rect" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="907,404,1098,445"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="615,332,817,373"/>
+<area shape="poly" title=" " alt="" coords="914,402,859,387,813,376,814,371,860,382,916,397"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_handler.html#a92048475e3fbd8c4fca5265da6e3f2d0" title="Handle RightsConditional&lt;TRights&gt; authorization requirements." alt="" coords="573,397,859,452"/>
+<area shape="poly" title=" " alt="" coords="892,427,860,427,860,422,892,422"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html#adbb551c36d69e3afdf072f06fbedc31e" title=" " alt="" coords="577,477,855,532"/>
+<area shape="poly" title=" " alt="" coords="913,452,819,478,818,473,912,447"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="289,5,505,46"/>
-<area shape="poly" title=" " alt="" coords="703,448,687,368,654,263,630,208,601,154,565,104,523,61,504,48,506,44,527,57,570,101,605,151,635,205,659,261,692,366,708,447"/>
+<area shape="poly" title=" " alt="" coords="700,318,675,261,637,192,587,121,557,89,523,61,502,49,505,44,527,57,560,85,591,117,642,189,680,259,705,316"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a3f98fb2e4e46b96258839c5cfe3665c2" title="Cancel a running JobResponse." alt="" coords="289,71,505,111"/>
-<area shape="poly" title=" " alt="" coords="700,448,680,379,645,292,621,247,593,202,561,162,523,126,503,114,506,109,527,122,565,158,598,199,626,244,650,290,685,378,705,447"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a35ad3c9eb6b23b7d832ed209e604454c" title="Gets the User with a given id .A ValueTask&lt;TResult&gt; resulting in a User AuthorityResponse&lt;TResult&gt;." alt="" coords="295,136,499,177"/>
-<area shape="poly" title=" " alt="" coords="696,449,672,392,635,322,586,251,556,220,523,192,498,177,500,173,527,187,560,216,590,248,640,320,677,390,701,447"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_group_authority.html#a79b8cf1618a9a0d3cb077fb0332e88ef" title="Gets the UserGroup with a given id .A ValueTask&lt;TResult&gt; resulting in a User AuthorityResponse&lt;TResul..." alt="" coords="295,201,499,242"/>
-<area shape="poly" title=" " alt="" coords="690,451,663,406,625,354,578,301,524,257,498,244,500,239,526,253,582,298,629,351,668,403,695,448"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a1bd9c6aaf5105f431b51f311754e68ac" title="Get a specific ChatBot." alt="" coords="289,267,505,307"/>
-<area shape="poly" title=" " alt="" coords="681,453,614,387,570,352,524,323,495,310,497,305,526,318,573,348,617,383,685,449"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a2918e163c7813f9862a677da59272edb" title="Get a specific User." alt="" coords="289,332,505,373"/>
-<area shape="poly" title=" " alt="" coords="663,457,598,422,524,388,487,376,489,371,526,383,600,417,665,452"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_permission_set_authority.html#aed8c0ee6dc8feca897e554b5038afb80" title="Gets the User with a given id .A ValueTask&lt;TResult&gt; resulting in a PermissionSet AuthorityResponse&lt;TR..." alt="" coords="295,397,499,438"/>
-<area shape="poly" title=" " alt="" coords="595,462,498,441,499,436,596,456"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a944a576b697c4af886e9f0e675ec8d72" title="List ChatBots." alt="" coords="289,463,505,503"/>
-<area shape="poly" title=" " alt="" coords="595,486,505,486,505,480,595,480"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a8e382cc519b4dfe9247697ad9e726e4f" title="Implementation of Read(CancellationToken)." alt="" coords="287,528,507,569"/>
-<area shape="poly" title=" " alt="" coords="596,510,499,530,498,525,595,504"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#aedb524ec7c65c10a241fc3d177902995" title="Update watchdog settings to be applied at next server reboot." alt="" coords="5,557,221,598"/>
-<area shape="poly" title=" " alt="" coords="598,505,575,517,560,533,552,550,544,568,526,583,485,600,442,611,397,617,352,619,267,614,193,601,194,596,268,608,353,614,397,612,441,606,483,595,524,578,540,564,547,548,555,530,571,513,595,500"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="289,643,505,683"/>
-<area shape="poly" title=" " alt="" coords="598,502,575,517,563,530,556,542,551,570,546,598,539,612,527,626,499,644,496,640,523,622,535,609,541,596,546,569,551,541,559,526,571,513,595,498"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#a80244fbd7a6d0e78ab43d9f38247b1bf" title="Update the permissions for an InstancePermissionSet." alt="" coords="269,708,525,749"/>
-<area shape="poly" title=" " alt="" coords="598,501,575,517,559,538,551,560,550,582,551,605,552,651,544,674,527,697,511,710,507,705,523,693,539,672,546,650,546,605,544,582,546,559,554,536,571,513,595,496"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="289,773,505,814"/>
-<area shape="poly" title=" " alt="" coords="599,500,575,517,554,546,546,576,547,606,551,637,556,668,556,699,548,731,527,762,507,778,504,774,523,759,543,729,551,699,551,668,546,638,541,607,541,575,549,544,571,513,595,495"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="289,839,505,879"/>
-<area shape="poly" title=" " alt="" coords="599,499,575,517,560,536,550,554,541,592,543,631,551,669,559,708,561,748,553,788,542,808,527,828,507,844,503,840,523,824,538,805,548,786,556,748,554,709,546,670,538,631,536,592,545,553,556,533,571,513,595,495"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#aef9a577a9544d2da75672eb17a24b94d" title="Updates a User.A ValueTask&lt;TResult&gt; resulting in am AuthorityResponse&lt;TResult&gt; for the created User." alt="" coords="295,904,499,945"/>
-<area shape="poly" title=" " alt="" coords="599,499,575,517,557,540,546,563,539,586,536,609,540,655,551,702,562,749,566,796,564,821,557,845,545,869,527,893,501,912,498,908,523,889,540,866,552,843,558,819,561,796,557,750,546,703,535,656,531,609,534,585,541,561,553,537,571,513,595,495"/>
-<area shape="poly" title=" " alt="" coords="271,564,221,569,221,564,271,559"/>
+<area shape="poly" title=" " alt="" coords="694,320,666,276,627,223,579,171,524,127,500,114,502,110,526,122,583,167,631,220,670,273,698,317"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a1bd9c6aaf5105f431b51f311754e68ac" title="Get a specific ChatBot." alt="" coords="289,136,505,177"/>
+<area shape="poly" title=" " alt="" coords="684,322,615,256,571,221,524,192,495,180,497,175,526,187,574,217,619,252,688,318"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a2918e163c7813f9862a677da59272edb" title="Get a specific User." alt="" coords="289,201,505,242"/>
+<area shape="poly" title=" " alt="" coords="666,326,599,291,524,257,487,245,488,240,526,253,602,286,668,322"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a944a576b697c4af886e9f0e675ec8d72" title="List ChatBots." alt="" coords="289,267,505,307"/>
+<area shape="poly" title=" " alt="" coords="599,331,499,311,500,305,600,326"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a8e382cc519b4dfe9247697ad9e726e4f" title="Implementation of Read(CancellationToken)." alt="" coords="287,332,507,373"/>
+<area shape="poly" title=" " alt="" coords="600,355,508,355,508,350,600,350"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#aedb524ec7c65c10a241fc3d177902995" title="Update watchdog settings to be applied at next server reboot." alt="" coords="5,361,221,402"/>
+<area shape="poly" title=" " alt="" coords="600,378,525,387,453,391,397,391,269,387,221,386,221,381,269,382,397,386,453,386,525,382,599,372"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="289,447,505,487"/>
+<area shape="poly" title=" " alt="" coords="601,375,574,387,560,397,551,408,541,419,526,431,486,449,484,444,524,426,538,415,547,404,556,393,572,382,599,370"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#a80244fbd7a6d0e78ab43d9f38247b1bf" title="Update the permissions for an InstancePermissionSet." alt="" coords="269,512,525,553"/>
+<area shape="poly" title=" " alt="" coords="602,370,575,386,563,399,556,413,551,442,547,472,540,487,527,501,508,514,505,509,523,497,535,484,542,470,546,441,551,411,558,396,571,382,599,365"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="289,577,505,618"/>
+<area shape="poly" title=" " alt="" coords="602,368,575,386,559,407,551,429,550,451,551,474,551,520,544,543,527,566,506,581,503,577,523,562,539,541,546,519,546,474,544,451,546,428,554,405,571,382,599,364"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="289,643,505,683"/>
+<area shape="poly" title=" " alt="" coords="602,368,575,386,554,416,546,445,546,475,551,506,556,537,556,569,548,600,527,631,507,647,504,643,523,628,543,598,551,568,551,538,546,507,541,476,541,445,549,413,571,382,599,363"/>
+<area shape="poly" title=" " alt="" coords="271,368,221,373,221,368,271,363"/>
 </map>
 </div>
 
@@ -384,51 +421,43 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The Enum Type of the given <em>rightsType</em> .</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00103">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, <a class="el" href="_rights_helper_8cs_source.html#l00065">Tgstation.Server.Api.Rights.RightsHelper.RoleName()</a>, and <a class="el" href="_authentication_context_claims_transformation_8cs_source.html#l00033">Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation.TransformAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00103">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, <a class="el" href="_rights_helper_8cs_source.html#l00071">Tgstation.Server.Api.Rights.RightsHelper.RoleName()</a>, and <a class="el" href="_authentication_context_claims_transformation_8cs_source.html#l00033">Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation.TransformAsync()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_ab694cd1b9b98a6be7d79f236a71b386c_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_ab694cd1b9b98a6be7d79f236a71b386c_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_ab694cd1b9b98a6be7d79f236a71b386c_icgraph" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_ab694cd1b9b98a6be7d79f236a71b386c_icgraph">
-<area shape="rect" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="845,919,1027,959"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="595,496,797,537"/>
-<area shape="poly" title=" " alt="" coords="913,906,707,538,711,536,918,903"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#acbf514eba48e29a2dc177eb5ae34edd7" title="Gets the role claim name used for a given rightsType &#160;and right ." alt="" coords="606,919,787,959"/>
-<area shape="poly" title=" " alt="" coords="830,942,787,942,787,936,830,936"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html#adbb551c36d69e3afdf072f06fbedc31e" title=" " alt="" coords="269,969,547,1024"/>
-<area shape="poly" title=" " alt="" coords="841,966,798,974,670,988,548,995,547,990,669,983,797,968,840,961"/>
+<area shape="rect" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="845,657,1027,698"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="595,361,797,402"/>
+<area shape="poly" title=" " alt="" coords="907,647,712,404,716,401,911,644"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#acbf514eba48e29a2dc177eb5ae34edd7" title="Gets the role claim name used for a given rightsType &#160;and right ." alt="" coords="606,657,787,698"/>
+<area shape="poly" title=" " alt="" coords="830,680,787,680,787,675,830,675"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html#adbb551c36d69e3afdf072f06fbedc31e" title=" " alt="" coords="269,707,547,763"/>
+<area shape="poly" title=" " alt="" coords="841,704,798,712,670,727,548,734,547,729,669,721,797,707,840,699"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="300,5,516,46"/>
-<area shape="poly" title=" " alt="" coords="692,481,685,395,677,341,664,282,645,222,620,163,587,108,545,61,515,42,518,37,549,57,591,105,624,160,650,220,669,280,682,340,690,395,697,481"/>
+<area shape="poly" title=" " alt="" coords="686,347,672,284,645,207,626,167,604,128,577,92,545,61,515,43,517,39,549,57,581,88,608,125,631,164,650,205,677,283,692,345"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a3f98fb2e4e46b96258839c5cfe3665c2" title="Cancel a running JobResponse." alt="" coords="300,71,516,111"/>
-<area shape="poly" title=" " alt="" coords="690,481,679,406,655,310,636,260,612,211,582,166,545,126,515,108,517,103,549,122,586,162,617,208,641,257,660,308,684,405,695,480"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a35ad3c9eb6b23b7d832ed209e604454c" title="Gets the User with a given id .A ValueTask&lt;TResult&gt; resulting in a User AuthorityResponse&lt;TResult&gt;." alt="" coords="306,136,510,177"/>
-<area shape="poly" title=" " alt="" coords="687,481,672,418,646,340,627,299,604,259,577,223,545,192,509,172,512,167,549,188,581,220,609,257,632,296,651,338,677,417,692,480"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_group_authority.html#a79b8cf1618a9a0d3cb077fb0332e88ef" title="Gets the UserGroup with a given id .A ValueTask&lt;TResult&gt; resulting in a User AuthorityResponse&lt;TResul..." alt="" coords="306,201,510,242"/>
-<area shape="poly" title=" " alt="" coords="682,482,664,431,636,370,596,309,572,281,545,257,509,238,512,234,549,253,576,277,601,305,641,367,669,429,687,480"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a1bd9c6aaf5105f431b51f311754e68ac" title="Get a specific ChatBot." alt="" coords="300,267,516,307"/>
-<area shape="poly" title=" " alt="" coords="676,484,655,445,625,402,589,359,546,323,515,307,517,303,548,318,593,355,630,398,659,443,681,481"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a2918e163c7813f9862a677da59272edb" title="Get a specific User." alt="" coords="300,332,516,373"/>
-<area shape="poly" title=" " alt="" coords="666,486,613,435,581,410,546,388,515,375,517,370,548,383,584,405,617,431,669,483"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_permission_set_authority.html#aed8c0ee6dc8feca897e554b5038afb80" title="Gets the User with a given id .A ValueTask&lt;TResult&gt; resulting in a PermissionSet AuthorityResponse&lt;TR..." alt="" coords="306,397,510,438"/>
-<area shape="poly" title=" " alt="" coords="638,491,546,454,505,441,506,436,548,448,640,486"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a944a576b697c4af886e9f0e675ec8d72" title="List ChatBots." alt="" coords="300,463,516,503"/>
-<area shape="poly" title=" " alt="" coords="579,506,516,498,516,493,580,500"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a8e382cc519b4dfe9247697ad9e726e4f" title="Implementation of Read(CancellationToken)." alt="" coords="298,528,518,569"/>
-<area shape="poly" title=" " alt="" coords="580,532,519,539,518,533,579,527"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#aedb524ec7c65c10a241fc3d177902995" title="Update watchdog settings to be applied at next server reboot." alt="" coords="5,557,221,598"/>
-<area shape="poly" title=" " alt="" coords="646,546,599,567,548,583,463,595,376,600,294,598,221,593,221,588,294,593,376,594,462,590,546,578,597,562,644,541"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="300,643,516,683"/>
-<area shape="poly" title=" " alt="" coords="662,549,610,589,548,627,502,645,500,640,546,622,607,585,659,545"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#a80244fbd7a6d0e78ab43d9f38247b1bf" title="Update the permissions for an InstancePermissionSet." alt="" coords="280,708,536,749"/>
-<area shape="poly" title=" " alt="" coords="678,552,656,587,626,626,590,665,548,697,524,710,521,705,546,693,587,661,622,623,652,584,674,549"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="300,773,516,814"/>
-<area shape="poly" title=" " alt="" coords="686,553,667,600,638,657,599,714,575,740,549,763,517,779,515,775,545,758,571,736,594,711,633,655,662,598,681,551"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="300,839,516,879"/>
-<area shape="poly" title=" " alt="" coords="691,553,675,613,648,687,629,726,607,763,580,798,549,828,517,846,515,841,545,824,576,794,602,760,625,723,643,685,670,611,686,551"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#aef9a577a9544d2da75672eb17a24b94d" title="Updates a User.A ValueTask&lt;TResult&gt; resulting in am AuthorityResponse&lt;TResult&gt; for the created User." alt="" coords="306,904,510,945"/>
-<area shape="poly" title=" " alt="" coords="694,553,682,625,657,717,638,765,614,812,585,855,549,893,531,905,511,914,509,909,528,901,545,889,581,852,610,809,634,763,652,715,677,624,689,552"/>
-<area shape="poly" title=" " alt="" coords="283,563,221,570,221,564,282,558"/>
-<area shape="poly" title=" " alt="" coords="591,963,548,971,547,966,589,957"/>
+<area shape="poly" title=" " alt="" coords="682,347,664,297,635,237,596,177,572,150,545,127,515,110,517,105,549,122,576,146,600,174,640,235,669,295,687,346"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a1bd9c6aaf5105f431b51f311754e68ac" title="Get a specific ChatBot." alt="" coords="300,136,516,177"/>
+<area shape="poly" title=" " alt="" coords="676,349,654,312,625,269,588,227,546,192,515,177,517,172,548,187,592,223,629,266,659,309,680,346"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a2918e163c7813f9862a677da59272edb" title="Get a specific User." alt="" coords="300,201,516,242"/>
+<area shape="poly" title=" " alt="" coords="664,351,612,302,580,278,546,257,515,245,517,240,548,253,583,274,615,298,668,348"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a944a576b697c4af886e9f0e675ec8d72" title="List ChatBots." alt="" coords="300,267,516,307"/>
+<area shape="poly" title=" " alt="" coords="635,357,546,323,504,310,505,305,548,318,637,352"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a8e382cc519b4dfe9247697ad9e726e4f" title="Implementation of Read(CancellationToken)." alt="" coords="298,332,518,373"/>
+<area shape="poly" title=" " alt="" coords="579,372,518,366,519,361,580,367"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#aedb524ec7c65c10a241fc3d177902995" title="Update watchdog settings to be applied at next server reboot." alt="" coords="5,361,221,402"/>
+<area shape="poly" title=" " alt="" coords="580,387,547,387,269,387,221,386,221,381,269,382,547,382,580,381"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="300,447,516,487"/>
+<area shape="poly" title=" " alt="" coords="617,410,548,431,486,449,485,444,546,426,615,405"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#a80244fbd7a6d0e78ab43d9f38247b1bf" title="Update the permissions for an InstancePermissionSet." alt="" coords="280,512,536,553"/>
+<area shape="poly" title=" " alt="" coords="666,415,614,460,582,482,548,501,517,514,515,509,546,497,579,478,610,456,662,411"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="300,577,516,618"/>
+<area shape="poly" title=" " alt="" coords="679,417,657,452,627,493,591,533,548,567,517,582,515,577,546,562,587,529,623,490,653,449,675,414"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="300,643,516,683"/>
+<area shape="poly" title=" " alt="" coords="686,418,667,466,638,524,599,583,575,609,549,632,517,649,515,644,545,627,572,605,595,579,634,522,663,464,681,416"/>
+<area shape="poly" title=" " alt="" coords="283,367,221,374,221,368,282,362"/>
+<area shape="poly" title=" " alt="" coords="591,701,548,710,547,705,589,696"/>
 </map>
 </div>
 
@@ -478,11 +507,11 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A string representing the claim role name.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00065">65</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   66</span>        {</div>
-<div class="line"><span class="lineno">   67</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">var</a> enumType = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">RightToType</a>(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightsType</a>);</div>
-<div class="line"><span class="lineno">   68</span>            <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">String</a>.Concat(enumType.Name, <span class="charliteral">&#39;.&#39;</span>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a>.GetName(enumType, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">right</a>));</div>
-<div class="line"><span class="lineno">   69</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00071">71</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   72</span>        {</div>
+<div class="line"><span class="lineno">   73</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">var</a> enumType = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">RightToType</a>(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightsType</a>);</div>
+<div class="line"><span class="lineno">   74</span>            <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">String</a>.Concat(enumType.Name, <span class="charliteral">&#39;.&#39;</span>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a>.GetName(enumType, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">right</a>));</div>
+<div class="line"><span class="lineno">   75</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_html_ab694cd1b9b98a6be7d79f236a71b386c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">Tgstation.Server.Api.Rights.RightsHelper.RightToType</a></div><div class="ttdeci">static Type RightToType(RightsType rightsType)</div><div class="ttdoc">Map a given rightsType  to its respective Enum Type.</div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">Tgstation.Server.Api.Rights.RightsHelper.RightToType()</a>.</p>
@@ -558,13 +587,13 @@ Here is the caller graph for this function:</div>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00051">51</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   52</span>                         : <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a></div>
-<div class="line"><span class="lineno">   53</span>        {</div>
-<div class="line"><span class="lineno">   54</span>            <span class="keywordflow">foreach</span> (<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightValue</a> <span class="keywordflow">in</span> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a>.GetValues(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">right</a>.GetType()))</div>
-<div class="line"><span class="lineno">   55</span>                <span class="keywordflow">if</span> (<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Convert</a>.ToInt32(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightValue</a>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">CultureInfo</a>.InvariantCulture) != 0 &amp;&amp; <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">right</a>.HasFlag(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightValue</a>))</div>
-<div class="line"><span class="lineno">   56</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">yield</a> <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">String</a>.Concat(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">typeof</a>(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">TRight</a>).Name, <span class="charliteral">&#39;.&#39;</span>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightValue</a>.ToString());</div>
-<div class="line"><span class="lineno">   57</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00057">57</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   58</span>                         : <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a></div>
+<div class="line"><span class="lineno">   59</span>        {</div>
+<div class="line"><span class="lineno">   60</span>            <span class="keywordflow">foreach</span> (<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightValue</a> <span class="keywordflow">in</span> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Enum</a>.GetValues(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">right</a>.GetType()))</div>
+<div class="line"><span class="lineno">   61</span>                <span class="keywordflow">if</span> (<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Convert</a>.ToInt32(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightValue</a>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">CultureInfo</a>.InvariantCulture) != 0 &amp;&amp; <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">right</a>.HasFlag(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightValue</a>))</div>
+<div class="line"><span class="lineno">   62</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">yield</a> <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">String</a>.Concat(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">typeof</a>(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">TRight</a>).Name, <span class="charliteral">&#39;.&#39;</span>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">rightValue</a>.ToString());</div>
+<div class="line"><span class="lineno">   63</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
 

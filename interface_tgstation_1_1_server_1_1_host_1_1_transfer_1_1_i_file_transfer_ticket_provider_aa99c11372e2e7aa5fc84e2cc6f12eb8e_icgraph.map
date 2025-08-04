@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Transfer.IFileTransferTicketProvider.CreateUpload" name="Tgstation.Server.Host.Transfer.IFileTransferTicketProvider.CreateUpload">
 <area shape="rect" id="Node000001" title="Create a IFileUploadTicket." alt="" coords="290,49,550,90"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#a09cd0b0f03abe091807ddc2c732a8cad" title="Triggers a restart of tgstation&#45;server without terminating running game instances,..." alt="" coords="5,5,242,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#a7e35109188f835607716fd3bb0f9942e" title="Triggers a restart of tgstation&#45;server without terminating running game instances,..." alt="" coords="5,5,242,61"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="274,54,242,50,242,45,274,49"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html#ab7f273fdf713f726bdc0ebdbf75d9e4a" title="Changes the active engine version to the one specified in a given model ." alt="" coords="16,85,231,126"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="275,89,232,95,231,89,274,84"/>

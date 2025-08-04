@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Authority.UserAuthority.CreateNewUserFromModel" name="Tgstation.Server.Host.Authority.UserAuthority.CreateNewUserFromModel">
 <area shape="rect" id="Node000001" title="Creates a new User from a given model ." alt="" coords="5,39,267,79"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a56e8c3826bd0907cf7aeb18aa468610b" title="Gets the GraphQL.Types.OAuth.OAuthConnections for the User with a given userId .A ValueTask&lt;TResult&gt; ..." alt="" coords="315,5,527,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ab4600a378e7d6cd93690c0fc43dfb5ae" title="Gets the GraphQL.Types.OAuth.OAuthConnections for the User with a given userId .A RequirementsGated&lt;T..." alt="" coords="315,5,527,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="267,41,299,37,300,42,268,46"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a473ac45404cca37f783b4575ee401b80" title="Gets the GraphQL.Types.OAuth.OidcConnections for the User with a given userId .A ValueTask&lt;TResult&gt; r..." alt="" coords="319,71,523,111"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a1c257abde2700fc738bf05aadfeedc2a" title="Gets the GraphQL.Types.OAuth.OidcConnections for the User with a given userId .A RequirementsGated&lt;TR..." alt="" coords="319,71,523,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="268,71,304,75,303,80,267,76"/>
 </map>

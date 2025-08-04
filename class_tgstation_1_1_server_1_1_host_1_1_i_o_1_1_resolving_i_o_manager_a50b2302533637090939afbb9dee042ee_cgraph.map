@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.IO.ResolvingIOManager.ResolvePath" name="Tgstation.Server.Host.IO.ResolvingIOManager.ResolvePath">
-<area shape="rect" id="Node000001" title="Retrieve the full path of some path &#160;given a relative path. Must be used before passing relative path..." alt="" coords="5,39,225,79"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e" title="Combines an array of strings into a path.The combined path." alt="" coords="278,5,476,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,42,262,38,263,43,225,48"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a9ff3056ca113391ed79465356a6212dd" title="Check if a given path &#160;is at the root level of the filesystem.true if the path is rooted,..." alt="" coords="273,71,481,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,70,258,74,257,79,225,75"/>
-</map>

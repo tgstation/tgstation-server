@@ -1,7 +1,5 @@
 <map id="Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory" name="Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory">
-<area shape="rect" id="Node000001" title="Gets the evaluated log Directory." alt="" coords="269,39,550,79"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aab04508f9021893da0268cf94411226f" title="Download a LogFileResponse." alt="" coords="5,5,221,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,44,221,40,221,35,253,39"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a3373ed476e620fd7c223185ab4234551" title="List LogFileResponses present." alt="" coords="5,71,221,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,79,221,82,221,77,253,73"/>
+<area shape="rect" id="Node000001" title="Gets the evaluated log Directory." alt="" coords="269,5,550,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a3373ed476e620fd7c223185ab4234551" title="List LogFileResponses present." alt="" coords="5,5,221,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,28,221,28,221,23,253,23"/>
 </map>

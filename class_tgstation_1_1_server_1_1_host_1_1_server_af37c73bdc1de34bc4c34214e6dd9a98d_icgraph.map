@@ -4,7 +4,7 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="516,54,472,46,340,32,218,24,218,19,340,26,472,41,517,49"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2" title="Implements Restart()." alt="" coords="274,55,466,96"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="505,78,466,78,466,73,505,73"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#aa9b14ade37ba07f8294f011d42a07b28" title="Event handler for the updatePath&#39;s FileSystemWatcher. Triggers shutdown if requested by host watchdog..." alt="" coords="268,121,472,161"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a7acbc5cd9f8bc3496369a9fc6d64a588" title="Event handler for the updatePath&#39;s FileSystemWatcher. Triggers shutdown if requested by host watchdog..." alt="" coords="268,121,472,161"/>
 <area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="522,103,450,122,448,117,521,98"/>
 <area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="260,54,173,34,174,29,261,49"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a2343e099613579929e08bbc59f28c1c5" title="Attempt to update with a given updateExecutor .true if the update started successfully,..." alt="" coords="17,55,208,96"/>

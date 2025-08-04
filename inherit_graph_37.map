@@ -1,11 +1,13 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="5,71,192,111"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server_information.html" title="Represents information about a running SwarmServer." alt="" coords="248,5,460,46"/>
-<area shape="poly" id="edge524_Node000000_Node000001" title=" " alt="" coords="195,64,271,44,272,49,196,69"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="240,71,468,111"/>
-<area shape="poly" id="edge526_Node000000_Node000003" title=" " alt="" coords="207,88,239,88,239,94,207,94"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_request.html" title="A request to register with a swarm controller." alt="" coords="257,136,451,177"/>
-<area shape="poly" id="edge527_Node000000_Node000004" title=" " alt="" coords="196,113,272,133,271,138,195,118"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html" title=" " alt="" coords="516,5,735,46"/>
-<area shape="poly" id="edge525_Node000001_Node000002" title=" " alt="" coords="475,23,515,23,515,28,475,28"/>
+<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html" title="Launch settings for DreamDaemon." alt="" coords="5,72,269,113"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html" title="Configurable settings for DreamDaemon." alt="" coords="317,72,518,113"/>
+<area shape="poly" id="edge516_Node000000_Node000001" title=" " alt="" coords="284,90,316,90,316,95,284,95"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_api_base.html" title="Base class for DreamDaemon API models." alt="" coords="566,39,768,79"/>
+<area shape="poly" id="edge517_Node000001_Node000002" title=" " alt="" coords="533,74,565,70,566,75,534,79"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_daemon_settings.html" title=" " alt="" coords="570,104,765,145"/>
+<area shape="poly" id="edge520_Node000001_Node000005" title=" " alt="" coords="534,105,569,109,569,114,533,110"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_dream_daemon_request.html" title="A request to update DreamDaemonSettings." alt="" coords="826,5,1033,46"/>
+<area shape="poly" id="edge518_Node000002_Node000003" title=" " alt="" coords="784,42,826,36,826,41,784,47"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_dream_daemon_response.html" title="Represents an instance of BYOND&#39;s DreamDaemon game server. Create action starts the server...." alt="" coords="816,71,1043,111"/>
+<area shape="poly" id="edge519_Node000002_Node000004" title=" " alt="" coords="784,71,816,75,816,80,784,76"/>
 </map>

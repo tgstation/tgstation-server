@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Engine.ByondInstallerBase.GetDreamDaemonName" name="Tgstation.Server.Host.Components.Engine.ByondInstallerBase.GetDreamDaemonName">
-<area shape="rect" id="Node000001" title="Get the file name of the DreamDaemon executable." alt="" coords="333,5,653,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a4e1ed07fded989f51757d2f275aa42af" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in the IEngineInst..." alt="" coords="5,5,285,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="317,28,285,28,285,23,317,23"/>
+<area shape="rect" id="Node000001" title="Get the file name of the DreamDaemon executable." alt="" coords="316,5,636,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a57734495975820289573b7e5dc6ca9d1" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in a new IEngineIn..." alt="" coords="5,5,268,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="300,28,268,28,268,23,300,23"/>
 </map>

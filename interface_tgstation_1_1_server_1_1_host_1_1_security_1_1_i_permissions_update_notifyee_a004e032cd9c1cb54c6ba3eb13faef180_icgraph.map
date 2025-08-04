@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Security.IPermissionsUpdateNotifyee.UserDisabled" name="Tgstation.Server.Host.Security.IPermissionsUpdateNotifyee.UserDisabled">
-<area shape="rect" id="Node000001" title="Called when a given User is successfully disabled." alt="" coords="258,5,526,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#aef9a577a9544d2da75672eb17a24b94d" title="Updates a User.A ValueTask&lt;TResult&gt; resulting in am AuthorityResponse&lt;TResult&gt; for the created User." alt="" coords="5,5,210,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,28,210,28,210,23,242,23"/>
-</map>

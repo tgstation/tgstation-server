@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetExecutablePaths" name="Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetExecutablePaths">
-<area shape="rect" id="Node000001" title="Gets the paths to the server and client executables." alt="" coords="653,49,952,90"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#aafeac2268b4c3375e79162b461908e8f" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="335,5,593,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="637,54,593,49,593,44,638,49"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ab39bc6db3353e20379b3a91dcd98c1c4" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in the IEngineInst..." alt="" coords="323,85,605,126"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="638,89,606,93,605,87,637,84"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#abfd28aaba98525c2eed2f1ff7a670bc1" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="5,13,275,54"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="319,36,275,36,275,31,319,31"/>
+<area shape="rect" id="Node000001" title="Gets the paths to the server and client executables." alt="" coords="661,49,960,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#aafeac2268b4c3375e79162b461908e8f" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="352,5,609,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="645,54,609,50,610,45,645,48"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a7e9840b6e3a659541c19649374acaaa9" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in a new IEngineIn..." alt="" coords="348,85,613,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="646,90,614,93,613,88,645,85"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#ab194337b8f97d351773b6f73cd2cc4ea" title=" " alt="" coords="5,13,300,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="336,36,300,36,300,31,336,31"/>
 </map>

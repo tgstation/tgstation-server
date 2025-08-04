@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Authority.UserGroupAuthority.Update" name="Tgstation.Server.Host.Authority.UserGroupAuthority.Update">
+<area shape="rect" id="Node000001" title="Updates a UserGroup.A ValueTask&lt;TResult&gt; resulting in a RequirementsGated&lt;TResult&gt; UserGroup Authorit..." alt="" coords="5,5,210,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="258,5,466,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,23,242,23,242,28,210,28"/>
+</map>

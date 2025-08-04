@@ -18,5 +18,6 @@ var searchData=
   ['openapienumvarnamesextension_2ecs_15',['OpenApiEnumVarNamesExtension.cs',['../_open_api_enum_var_names_extension_8cs.html',1,'']]],
   ['opendreaminstallation_2ecs_16',['OpenDreamInstallation.cs',['../_open_dream_installation_8cs.html',1,'']]],
   ['opendreaminstaller_2ecs_17',['OpenDreamInstaller.cs',['../_open_dream_installer_8cs.html',1,'']]],
-  ['operationresultextensions_2ecs_18',['OperationResultExtensions.cs',['../_operation_result_extensions_8cs.html',1,'']]]
+  ['operationresultextensions_2ecs_18',['OperationResultExtensions.cs',['../_operation_result_extensions_8cs.html',1,'']]],
+  ['orrightsconditional_7btrights_7d_2ecs_19',['OrRightsConditional{TRights}.cs',['../_or_rights_conditional_02_t_rights_03_8cs.html',1,'']]]
 ];

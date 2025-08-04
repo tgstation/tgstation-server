@@ -16,8 +16,8 @@
 <area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="121,242,164,242,164,248,121,248"/>
 <area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="188,290,368,331"/>
 <area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="383,298,463,280,503,267,541,250,553,239,565,227,592,214,594,219,568,231,556,242,544,254,505,272,464,285,384,303"/>
-<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="177,355,380,396"/>
-<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="395,371,434,364,472,352,509,335,540,311,548,302,552,292,552,271,552,250,556,238,564,227,581,215,584,219,568,231,561,241,558,250,557,271,557,293,553,304,544,315,511,340,474,357,435,369,396,376"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="190,355,367,380"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="382,368,424,363,466,353,506,336,541,311,548,302,552,292,552,271,552,250,556,238,564,227,581,215,584,219,568,231,561,241,558,250,557,272,557,293,553,304,544,315,508,341,468,358,425,368,383,373"/>
 <area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html" title="For creating filesystem symbolic links." alt="" coords="566,241,734,281"/>
 <area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="749,253,847,247,847,253,749,258"/>
 </map>

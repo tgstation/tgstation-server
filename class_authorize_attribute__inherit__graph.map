@@ -1,10 +1,5 @@
 <map id="AuthorizeAttribute" name="AuthorizeAttribute">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,85,130,111"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_authorize_attribute.html" title="Helper for using the AuthorizeAttribute with the Api.Rights system." alt="" coords="178,5,378,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,77,177,55,210,44,211,49,179,60,119,82"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_graph_q_l_authorize_attribute.html" title="Helper for using the AuthorizeAttribute with the Api.Rights system." alt="" coords="178,70,378,126"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="145,104,177,104,177,109,145,109"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="145,86,177,86,177,91,145,92"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_rest_authorize_attribute.html" title="Inherits the roles of TgsAuthorizeAttributes for REST endpoints." alt="" coords="178,150,378,206"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="119,114,204,147,202,152,117,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="43,5,168,31"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_authorize_attribute.html" title="Helper for using the AuthorizeAttribute with the Api.Rights system." alt="" coords="5,79,206,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,46,108,79,103,79,103,46"/>
 </map>

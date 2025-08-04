@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.NotFound" name="Tgstation.Server.Host.Controllers.ApiController.NotFound">
 <area shape="rect" id="Node000001" title="Generic 404 response." alt="" coords="653,183,868,223"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#a07e5f4642a5442b09b15737c92e9d828" title="Create an IActionResult for a given authorityResponse &#160;if it is erroring." alt="" coords="351,70,605,126"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#af1353ef4c778690c819d48abb1f15436" title="Create an IActionResult for a given authorityResponse &#160;if it is erroring." alt="" coords="351,70,605,126"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="698,179,604,140,571,129,573,124,606,135,700,174"/>
 <area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a3f98fb2e4e46b96258839c5cfe3665c2" title="Cancel a running JobResponse." alt="" coords="370,149,586,190"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="637,191,586,185,586,180,638,186"/>
@@ -8,10 +8,10 @@
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="638,220,586,225,586,220,637,214"/>
 <area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a72699cfab0e237d11d66fa001fdd5180" title="Get a specific JobResponse." alt="" coords="370,280,586,321"/>
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="701,232,606,270,565,282,564,277,604,264,699,227"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#adbb794e2d790d7863cc4bec0e0aedbef" title="Invoke a TAuthority &#160;method with no success result.A ValueTask&lt;TResult&gt; resulting in the IActionResul..." alt="" coords="47,5,261,46"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#a002328002625dad24dd79f855195d36b" title="Invoke a TAuthority &#160;method with no success result.A ValueTask&lt;TResult&gt; resulting in the IActionResul..." alt="" coords="47,5,261,46"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="338,68,302,60,252,49,253,44,303,55,339,63"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#ac7874bce9f1d81e99db6bc4303717120" title="Invoke a TAuthority &#160;method and get the result.A ValueTask&lt;TResult&gt; resulting in the IActionResult ge..." alt="" coords="47,70,261,126"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#a171f177c54d934d0236fbef0380ad7b1" title="Invoke a TAuthority &#160;method and get the result.A ValueTask&lt;TResult&gt; resulting in the IActionResult ge..." alt="" coords="47,70,261,126"/>
 <area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="335,100,261,100,261,95,335,95"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#aa253d8968119b1bf959838659b02a290" title="Invoke a TAuthority &#160;method and get the result.A ValueTask&lt;TResult&gt; resulting in the IActionResult ge..." alt="" coords="5,150,303,206"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#a1f3efc031abc0ff004cfb0fdc7fe7aa8" title="Invoke a TAuthority &#160;method and get the result.A ValueTask&lt;TResult&gt; resulting in the IActionResult ge..." alt="" coords="5,150,303,206"/>
 <area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="348,132,270,152,269,147,347,127"/>
 </map>

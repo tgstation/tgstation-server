@@ -1,37 +1,35 @@
 <map id="Tgstation.Server.Client.ApiClient" name="Tgstation.Server.Client.ApiClient">
-<area shape="rect" id="Node000001" title=" " alt="" coords="801,286,956,327"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="801,270,956,311"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="486,29,563,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="579,35,625,36,678,42,731,57,756,69,779,84,802,106,821,131,850,187,868,242,877,285,872,286,863,243,845,189,817,134,798,109,775,88,753,74,729,62,677,47,625,41,579,41"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="579,35,625,35,677,41,730,55,779,81,801,101,820,125,848,177,867,229,876,269,871,270,861,230,843,180,815,128,797,105,775,86,728,60,676,46,625,40,579,40"/>
 <area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_transfer_client.html" title="For transferring data Streams." alt="" coords="52,5,158,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="174,19,485,37,485,43,174,25"/>
 <area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="42,55,168,80"/>
 <area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="183,60,485,42,485,47,183,65"/>
 <area shape="rect" id="Node000005" title=" " alt="" coords="437,79,612,104"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="628,98,705,117,743,133,779,153,811,184,838,219,872,284,867,287,834,222,808,187,775,158,741,137,703,122,627,103"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="628,95,705,112,743,127,779,147,810,174,837,207,871,268,866,270,832,210,807,178,775,151,741,132,703,118,627,101"/>
 <area shape="rect" id="Node000006" title=" " alt="" coords="430,129,619,169"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="634,167,707,188,778,219,824,250,860,283,856,287,821,254,776,223,705,193,633,172"/>
-<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html" title="For sending HTTP requests." alt="" coords="437,194,612,235"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="627,231,778,268,824,283,822,288,776,273,626,236"/>
-<area shape="rect" id="Node000008" href="$class_i_disposable.html" title=" " alt="" coords="60,195,150,220"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="165,206,437,210,437,215,165,211"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="424,259,625,300"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="641,286,801,298,801,303,641,291"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="422,324,627,350"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="642,328,777,317,800,314,801,320,777,322,642,333"/>
-<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html" title="Represents the header that must be present for every server request." alt="" coords="444,374,605,415"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="620,390,697,382,776,363,815,346,848,325,851,329,817,350,778,368,698,387,621,395"/>
-<area shape="rect" id="Node000012" title=" " alt="" coords="61,332,149,358"/>
-<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="165,348,398,374,444,380,443,386,397,379,164,353"/>
-<area shape="rect" id="Node000013" title=" " alt="" coords="29,381,181,407"/>
-<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="197,392,444,392,444,397,197,397"/>
-<area shape="rect" id="Node000014" title=" " alt="" coords="5,431,205,456"/>
-<area shape="poly" id="edge13_Node000011_Node000014" title=" " alt="" coords="220,431,397,412,443,405,444,410,398,417,221,436"/>
-<area shape="rect" id="Node000015" title=" " alt="" coords="35,480,175,506"/>
-<area shape="poly" id="edge14_Node000011_Node000015" title=" " alt="" coords="191,494,240,492,293,485,346,472,396,451,408,438,420,424,442,412,445,417,423,428,412,442,399,455,348,477,294,490,240,497,191,499"/>
-<area shape="rect" id="Node000016" title=" " alt="" coords="442,439,607,464"/>
-<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="621,447,699,435,739,424,776,408,802,390,826,369,862,325,866,329,830,372,806,395,778,413,740,429,700,441,622,453"/>
-<area shape="rect" id="Node000017" title=" " alt="" coords="476,488,573,514"/>
-<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="588,504,632,503,681,498,730,486,776,464,810,434,837,396,856,358,868,326,873,328,861,360,841,399,814,437,778,469,732,491,682,503,633,509,588,509"/>
-<area shape="rect" id="Node000018" title=" " alt="" coords="502,537,547,563"/>
-<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="563,554,609,559,665,558,723,547,750,536,775,522,798,502,817,478,846,423,863,369,872,326,877,327,868,370,851,425,822,480,802,505,779,526,753,541,725,552,666,563,609,564,562,559"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="634,160,706,178,778,205,824,235,860,267,856,271,821,239,776,210,705,183,633,165"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="459,193,590,219"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="605,215,689,231,778,252,824,267,823,272,776,257,688,236,604,221"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="424,243,625,284"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="641,270,801,282,801,287,641,275"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="422,308,627,334"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="642,312,777,301,800,298,801,304,777,306,642,317"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html" title="Represents the header that must be present for every server request." alt="" coords="444,358,605,399"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="620,374,697,366,776,347,815,330,848,309,851,313,817,334,778,352,698,371,621,379"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="61,292,149,318"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="165,307,274,319,398,340,458,355,456,360,397,345,273,324,164,312"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="29,341,181,367"/>
+<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="197,357,444,371,444,376,196,362"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="5,391,205,416"/>
+<area shape="poly" id="edge12_Node000010_Node000013" title=" " alt="" coords="220,398,397,389,443,385,444,390,398,394,221,403"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="35,440,175,466"/>
+<area shape="poly" id="edge13_Node000010_Node000014" title=" " alt="" coords="191,448,291,439,344,431,397,419,421,408,452,397,454,402,423,413,399,424,345,436,291,444,191,453"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="442,423,607,448"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="621,431,699,419,739,408,776,392,802,374,826,353,862,309,866,313,830,356,806,379,778,397,740,413,700,425,622,437"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="476,472,573,498"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="588,488,632,487,681,482,730,470,776,448,810,418,837,380,856,342,868,310,873,312,861,344,841,383,814,421,778,453,732,475,682,487,633,493,588,493"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="502,521,547,547"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="563,538,609,543,665,542,723,531,750,520,775,506,798,486,817,462,846,407,863,353,872,310,877,311,868,354,851,409,822,464,802,489,779,510,753,525,725,536,666,547,609,548,562,543"/>
 </map>

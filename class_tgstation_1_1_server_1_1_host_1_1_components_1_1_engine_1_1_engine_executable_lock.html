@@ -122,19 +122,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a474a542f96adade89bdde4f0aa40e3d2" id="r_a474a542f96adade89bdde4f0aa40e3d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_executable_lock.html#a474a542f96adade89bdde4f0aa40e3d2">DoNotDeleteThisSession</a> ()</td></tr>
 <tr class="memdesc:a474a542f96adade89bdde4f0aa40e3d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call if, during a detach, this version should not be deleted.  <br /></td></tr>
 <tr class="separator:a474a542f96adade89bdde4f0aa40e3d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27d7451f2f317d1787f92de9385cacbe" id="r_a27d7451f2f317d1787f92de9385cacbe"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_executable_lock.html#a27d7451f2f317d1787f92de9385cacbe">FormatServerArguments</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html">IDmbProvider</a> dmbProvider, IReadOnlyDictionary&lt; string, string &gt; parameters, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html">DreamDaemonLaunchParameters</a> launchParameters, string? logFilePath)</td></tr>
-<tr class="memdesc:a27d7451f2f317d1787f92de9385cacbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the command line arguments for launching with given <em>launchParameters</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a38ae7a7084baccda32b8aa8140c9e7a0" id="r_a38ae7a7084baccda32b8aa8140c9e7a0"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_executable_lock.html#a38ae7a7084baccda32b8aa8140c9e7a0">FormatServerArguments</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html">IDmbProvider</a> dmbProvider, IReadOnlyDictionary&lt; string, string &gt;? parameters, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html">DreamDaemonLaunchParameters</a> launchParameters, string accessIdentifier, string? logFilePath)</td></tr>
+<tr class="memdesc:a38ae7a7084baccda32b8aa8140c9e7a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the command line arguments for launching with given <em>launchParameters</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dmbProvider</td><td>The IDmbProvider.</td></tr>
-    <tr><td class="paramname">parameters</td><td>The map of parameter strings as a IReadOnlyDictionary&lt;TKey, TValue&gt;. MUST include <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html#aa076c322d7bee2b5d7da67093a9dabff" title="Identifies the DMApiParameters.AccessIdentifier for the session.">Interop.DMApiConstants.ParamAccessIdentifier</a>. Should NOT include the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ae0805858305339e11954cf91f9c21a16" title="Parameters string for DreamDaemon.">DreamDaemonLaunchParameters.AdditionalParameters</a> of <em>launchParameters</em> .</td></tr>
+    <tr><td class="paramname">parameters</td><td>The optional map of parameter strings as a IReadOnlyDictionary&lt;TKey, TValue&gt;. MUST include <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html#aa076c322d7bee2b5d7da67093a9dabff" title="Identifies the DMApiParameters.AccessIdentifier for the session.">Interop.DMApiConstants.ParamAccessIdentifier</a>. Should NOT include the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ae0805858305339e11954cf91f9c21a16" title="Parameters string for DreamDaemon.">DreamDaemonLaunchParameters.AdditionalParameters</a> of <em>launchParameters</em> .</td></tr>
     <tr><td class="paramname">launchParameters</td><td>The DreamDaemonLaunchParameters.</td></tr>
+    <tr><td class="paramname">accessIdentifier</td><td>The secure string used to authenticate communication with the game server.</td></tr>
     <tr><td class="paramname">logFilePath</td><td>The full path to the log file, if any.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The formatted arguments string.</dd></dl>
   <br /></td></tr>
-<tr class="separator:a27d7451f2f317d1787f92de9385cacbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a38ae7a7084baccda32b8aa8140c9e7a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3622ed6357ddb634bf24e8494bdd1c6c" id="r_a3622ed6357ddb634bf24e8494bdd1c6c"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_executable_lock.html#a3622ed6357ddb634bf24e8494bdd1c6c">FormatCompilerArguments</a> (string dmePath, string? additionalArguments)</td></tr>
 <tr class="memdesc:a3622ed6357ddb634bf24e8494bdd1c6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the command line arguments for compiling a given <em>dmePath</em>  if compilation is necessary.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -151,7 +152,7 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">logger</td><td>The ILogger to write to.</td></tr>
     <tr><td class="paramname">process</td><td>The IProcess to be terminated.</td></tr>
-    <tr><td class="paramname">accessIdentifier</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html#af84241c8eda4d8f7deddb9c5b7eb79a5" title="Used to identify and authenticate the DreamDaemon instance.">Interop.DMApiParameters.AccessIdentifier</a> of the session.</td></tr>
+    <tr><td class="paramname">accessIdentifier</td><td>The secure string used to authenticate communication with the game server.</td></tr>
     <tr><td class="paramname">port</td><td>The port the server is running on.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
@@ -286,8 +287,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a27d7451f2f317d1787f92de9385cacbe" name="a27d7451f2f317d1787f92de9385cacbe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27d7451f2f317d1787f92de9385cacbe">&#9670;&#160;</a></span>FormatServerArguments()</h2>
+<a id="a38ae7a7084baccda32b8aa8140c9e7a0" name="a38ae7a7084baccda32b8aa8140c9e7a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38ae7a7084baccda32b8aa8140c9e7a0">&#9670;&#160;</a></span>FormatServerArguments()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -301,7 +302,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">IReadOnlyDictionary&lt; string, string &gt;&#160;</td>
+          <td class="paramtype">IReadOnlyDictionary&lt; string, string &gt;?&#160;</td>
           <td class="paramname"><em>parameters</em>, </td>
         </tr>
         <tr>
@@ -309,6 +310,12 @@ Additional Inherited Members</h2></td></tr>
           <td></td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html">DreamDaemonLaunchParameters</a>&#160;</td>
           <td class="paramname"><em>launchParameters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>accessIdentifier</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -327,8 +334,9 @@ Additional Inherited Members</h2></td></tr>
 <p>Return the command line arguments for launching with given <em>launchParameters</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dmbProvider</td><td>The IDmbProvider.</td></tr>
-    <tr><td class="paramname">parameters</td><td>The map of parameter strings as a IReadOnlyDictionary&lt;TKey, TValue&gt;. MUST include <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html#aa076c322d7bee2b5d7da67093a9dabff" title="Identifies the DMApiParameters.AccessIdentifier for the session.">Interop.DMApiConstants.ParamAccessIdentifier</a>. Should NOT include the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ae0805858305339e11954cf91f9c21a16" title="Parameters string for DreamDaemon.">DreamDaemonLaunchParameters.AdditionalParameters</a> of <em>launchParameters</em> .</td></tr>
+    <tr><td class="paramname">parameters</td><td>The optional map of parameter strings as a IReadOnlyDictionary&lt;TKey, TValue&gt;. MUST include <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html#aa076c322d7bee2b5d7da67093a9dabff" title="Identifies the DMApiParameters.AccessIdentifier for the session.">Interop.DMApiConstants.ParamAccessIdentifier</a>. Should NOT include the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ae0805858305339e11954cf91f9c21a16" title="Parameters string for DreamDaemon.">DreamDaemonLaunchParameters.AdditionalParameters</a> of <em>launchParameters</em> .</td></tr>
     <tr><td class="paramname">launchParameters</td><td>The DreamDaemonLaunchParameters.</td></tr>
+    <tr><td class="paramname">accessIdentifier</td><td>The secure string used to authenticate communication with the game server.</td></tr>
     <tr><td class="paramname">logFilePath</td><td>The full path to the log file, if any.</td></tr>
   </table>
   </dd>
@@ -336,7 +344,7 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The formatted arguments string.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a74d779db3a36713e44a4b326673a51c8">Tgstation.Server.Host.Components.Engine.IEngineInstallation</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a16bc1d460e98b09d6f03b6ff9eb5ca03">Tgstation.Server.Host.Components.Engine.IEngineInstallation</a>.</p>
 
 </div>
 </div>
@@ -435,7 +443,7 @@ Additional Inherited Members</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">logger</td><td>The ILogger to write to.</td></tr>
     <tr><td class="paramname">process</td><td>The IProcess to be terminated.</td></tr>
-    <tr><td class="paramname">accessIdentifier</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html#af84241c8eda4d8f7deddb9c5b7eb79a5" title="Used to identify and authenticate the DreamDaemon instance.">Interop.DMApiParameters.AccessIdentifier</a> of the session.</td></tr>
+    <tr><td class="paramname">accessIdentifier</td><td>The secure string used to authenticate communication with the game server.</td></tr>
     <tr><td class="paramname">port</td><td>The port the server is running on.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>

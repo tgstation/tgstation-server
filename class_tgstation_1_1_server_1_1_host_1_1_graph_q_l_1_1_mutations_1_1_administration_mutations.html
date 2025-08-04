@@ -99,7 +99,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IAdministrationAuthority related Mutations. </p>
 
-<p class="definition">Definition at line <a class="el" href="_administration_mutations_8cs_source.html#l00021">21</a> of file <a class="el" href="_administration_mutations_8cs_source.html">AdministrationMutations.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_administration_mutations_8cs_source.html#l00019">19</a> of file <a class="el" href="_administration_mutations_8cs_source.html">AdministrationMutations.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a252239d9bb94868a80d9baf790b4232f" name="a252239d9bb94868a80d9baf790b4232f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a252239d9bb94868a80d9baf790b4232f">&#9670;&#160;</a></span>ChangeServerNodeVersionViaTrackedRepository()</h2>
@@ -137,27 +137,24 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">targetVersion</td><td>The semver of the server Version available in the tracked repository to switch to.</td></tr>
-    <tr><td class="paramname">administrationAuthority</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">IGraphQLAuthorityInvoker&lt;TAuthority&gt;</a> for the IAdministrationAuthority.</td></tr>
+    <tr><td class="paramname">administrationAuthority</td><td>The IGraphQLAuthorityInvoker&lt;TAuthority&gt; for the IAdministrationAuthority.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">ValueTask</a> representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_administration_mutations_8cs_source.html#l00049">49</a> of file <a class="el" href="_administration_mutations_8cs_source.html">AdministrationMutations.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   53</span>        {</div>
-<div class="line"><span class="lineno">   54</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">targetVersion</a>);</div>
-<div class="line"><span class="lineno">   55</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(administrationAuthority);</div>
-<div class="line"><span class="lineno">   56</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> administrationAuthority.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a75bd84e49a618d48a6fc992647030675">Invoke</a>&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a>&gt;(</div>
-<div class="line"><span class="lineno">   57</span>                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">authority</a> =&gt; <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">authority</a>.TriggerServerVersionChange(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">targetVersion</a>, <span class="keyword">false</span>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">cancellationToken</a>));</div>
-<div class="line"><span class="lineno">   58</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> Query();</div>
-<div class="line"><span class="lineno">   59</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_administration_mutations_8cs_source.html#l00045">45</a> of file <a class="el" href="_administration_mutations_8cs_source.html">AdministrationMutations.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>        {</div>
+<div class="line"><span class="lineno">   50</span>            ArgumentNullException.ThrowIfNull(targetVersion);</div>
+<div class="line"><span class="lineno">   51</span>            ArgumentNullException.ThrowIfNull(administrationAuthority);</div>
+<div class="line"><span class="lineno">   52</span>            await administrationAuthority.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a8eaedb2cccf89ca22b8613df22f19258">Invoke</a>&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a>&gt;(</div>
+<div class="line"><span class="lineno">   53</span>                authority =&gt; authority.TriggerServerVersionChange(targetVersion, <span class="keyword">false</span>, cancellationToken));</div>
+<div class="line"><span class="lineno">   54</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> Query();</div>
+<div class="line"><span class="lineno">   55</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">Tgstation.Server.Api.Models.Response.ServerUpdateResponse</a></div><div class="ttdoc">A response to a Request.ServerUpdateRequest.</div><div class="ttdef"><b>Definition</b> <a href="_server_update_response_8cs_source.html#l00010">ServerUpdateResponse.cs:11</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker_html_a75bd84e49a618d48a6fc992647030675"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a75bd84e49a618d48a6fc992647030675">Tgstation.Server.Host.Authority.IGraphQLAuthorityInvoker.Invoke</a></div><div class="ttdeci">ValueTask Invoke(Func&lt; TAuthority, ValueTask&lt; AuthorityResponse &gt; &gt; authorityInvoker)</div><div class="ttdoc">Invoke a TAuthority  method with no success result.</div></div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.ConfigurationRights.List</a></div><div class="ttdeci">@ List</div><div class="ttdoc">User may list files if the Models.Instance allows it.</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker_html_a8eaedb2cccf89ca22b8613df22f19258"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a8eaedb2cccf89ca22b8613df22f19258">Tgstation.Server.Host.Authority.IGraphQLAuthorityInvoker.Invoke</a></div><div class="ttdeci">ValueTask Invoke(Func&lt; TAuthority, RequirementsGated&lt; AuthorityResponse &gt; &gt; authorityInvoker)</div><div class="ttdoc">Invoke a TAuthority  method with no success result.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
-
 </div>
 </div>
 <a id="afa1b8c1bd09d7babcf7c15e5ab764365" name="afa1b8c1bd09d7babcf7c15e5ab764365"></a>
@@ -196,26 +193,24 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">targetVersion</td><td>The semver of the server Version available in the tracked repository to switch to.</td></tr>
-    <tr><td class="paramname">administrationAuthority</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">IGraphQLAuthorityInvoker&lt;TAuthority&gt;</a> for the IAdministrationAuthority.</td></tr>
+    <tr><td class="paramname">administrationAuthority</td><td>The IGraphQLAuthorityInvoker&lt;TAuthority&gt; for the IAdministrationAuthority.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A FileTicket that should be used to upload a zip containing the update data to the file transfer service.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_administration_mutations_8cs_source.html#l00071">71</a> of file <a class="el" href="_administration_mutations_8cs_source.html">AdministrationMutations.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   75</span>        {</div>
-<div class="line"><span class="lineno">   76</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">targetVersion</a>);</div>
-<div class="line"><span class="lineno">   77</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(administrationAuthority);</div>
-<div class="line"><span class="lineno">   78</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">var</a> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">response</a> = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> administrationAuthority.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a75bd84e49a618d48a6fc992647030675">Invoke</a>&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a>&gt;(</div>
-<div class="line"><span class="lineno">   79</span>                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">authority</a> =&gt; <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">authority</a>.TriggerServerVersionChange(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">targetVersion</a>, <span class="keyword">true</span>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">cancellationToken</a>));</div>
-<div class="line"><span class="lineno">   80</span> </div>
-<div class="line"><span class="lineno">   81</span>            <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">response.FileTicket</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">InvalidOperationException</a>(<span class="stringliteral">&quot;Administration authority did not generate a FileUploadTicket!&quot;</span>);</div>
-<div class="line"><span class="lineno">   82</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_administration_mutations_8cs_source.html#l00066">66</a> of file <a class="el" href="_administration_mutations_8cs_source.html">AdministrationMutations.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   70</span>        {</div>
+<div class="line"><span class="lineno">   71</span>            ArgumentNullException.ThrowIfNull(targetVersion);</div>
+<div class="line"><span class="lineno">   72</span>            ArgumentNullException.ThrowIfNull(administrationAuthority);</div>
+<div class="line"><span class="lineno">   73</span>            var response = await administrationAuthority.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a8eaedb2cccf89ca22b8613df22f19258">Invoke</a>&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a>&gt;(</div>
+<div class="line"><span class="lineno">   74</span>                authority =&gt; authority.TriggerServerVersionChange(targetVersion, <span class="keyword">true</span>, cancellationToken));</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>            <span class="keywordflow">return</span> response.FileTicket ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Administration authority did not generate a FileUploadTicket!&quot;</span>);</div>
+<div class="line"><span class="lineno">   77</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">Tgstation.Server.Api.Models.Response.FileTicketResponse</a></div><div class="ttdoc">Response for when file transfers are necessary.</div><div class="ttdef"><b>Definition</b> <a href="_file_ticket_response_8cs_source.html#l00006">FileTicketResponse.cs:7</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
-
 </div>
 </div>
 <a id="a862e9eb342eaafc6fa54481115c702ab" name="a862e9eb342eaafc6fa54481115c702ab"></a>
@@ -237,23 +232,21 @@ Public Member Functions</h2></td></tr>
 <p>Restarts the mutated Interfaces.IServerNode without terminating running game instances. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">administrationAuthority</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">IGraphQLAuthorityInvoker&lt;TAuthority&gt;</a> for the IAdministrationAuthority.</td></tr>
+    <tr><td class="paramname">administrationAuthority</td><td>The IGraphQLAuthorityInvoker&lt;TAuthority&gt; for the IAdministrationAuthority.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">ValueTask</a> representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_administration_mutations_8cs_source.html#l00030">30</a> of file <a class="el" href="_administration_mutations_8cs_source.html">AdministrationMutations.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   32</span>        {</div>
-<div class="line"><span class="lineno">   33</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(administrationAuthority);</div>
-<div class="line"><span class="lineno">   34</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> administrationAuthority.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a75bd84e49a618d48a6fc992647030675">Invoke</a>(</div>
-<div class="line"><span class="lineno">   35</span>                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">authority</a> =&gt; <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">authority</a>.TriggerServerRestart());</div>
-<div class="line"><span class="lineno">   36</span> </div>
-<div class="line"><span class="lineno">   37</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> Query();</div>
-<div class="line"><span class="lineno">   38</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_administration_mutations_8cs_source.html#l00027">27</a> of file <a class="el" href="_administration_mutations_8cs_source.html">AdministrationMutations.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   29</span>        {</div>
+<div class="line"><span class="lineno">   30</span>            ArgumentNullException.ThrowIfNull(administrationAuthority);</div>
+<div class="line"><span class="lineno">   31</span>            await administrationAuthority.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a8eaedb2cccf89ca22b8613df22f19258">Invoke</a>(</div>
+<div class="line"><span class="lineno">   32</span>                authority =&gt; authority.TriggerServerRestart());</div>
+<div class="line"><span class="lineno">   33</span> </div>
+<div class="line"><span class="lineno">   34</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> Query();</div>
+<div class="line"><span class="lineno">   35</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
-
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

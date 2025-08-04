@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Engine.EngineInstallationBase.LoadEnv" name="Tgstation.Server.Host.Components.Engine.EngineInstallationBase.LoadEnv">
-<area shape="rect" id="Node000001" title="Loads the environment settings for either the server or compiler.A ValueTask&lt;TResult&gt; resulting in th..." alt="" coords="5,39,255,79"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="304,5,472,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="255,40,289,36,289,41,256,45"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a267b549fab5803c199a7d37100650e85" title="Returns all the contents of a file at path &#160;as a byte array." alt="" coords="303,71,473,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="256,72,287,76,287,81,255,77"/>
-</map>

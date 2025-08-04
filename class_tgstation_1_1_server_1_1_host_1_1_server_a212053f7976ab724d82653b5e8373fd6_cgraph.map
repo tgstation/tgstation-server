@@ -1,13 +1,19 @@
 <map id="Tgstation.Server.Host.Server.Run" name="Tgstation.Server.Host.Server.Run">
-<area shape="rect" id="Node000001" title="Runs the IServer.A ValueTask representing the running operation." alt="" coords="5,78,220,104"/>
+<area shape="rect" id="Node000001" title="Runs the IServer.A ValueTask representing the running operation." alt="" coords="5,112,220,137"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#affd42da17161c87eb45526811e2fbfb4" title="Re&#45;throw propagatedException if it exists." alt="" coords="285,5,477,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,75,279,48,280,53,169,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,109,267,57,290,49,292,54,269,61,143,114"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#acea919f32c8116e8fe0088df1b991eea" title="Checks if InternalConfiguration.DumpGraphQLApiPath is set and dumps the GraphQL API Schema to it if s..." alt="" coords="268,71,494,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="220,88,252,88,252,94,220,94"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#aa9b14ade37ba07f8294f011d42a07b28" title="Event handler for the updatePath&#39;s FileSystemWatcher. Triggers shutdown if requested by host watchdog..." alt="" coords="279,136,483,177"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="169,102,280,129,279,134,168,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="220,108,252,104,253,110,220,114"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8" title="Gets the directory portion of a given path ." alt="" coords="281,136,481,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="220,134,266,140,265,145,220,140"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a7acbc5cd9f8bc3496369a9fc6d64a588" title="Event handler for the updatePath&#39;s FileSystemWatcher. Triggers shutdown if requested by host watchdog..." alt="" coords="279,201,483,242"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="145,135,269,186,292,194,290,199,267,191,143,140"/>
 <area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="553,71,723,111"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="494,88,537,88,537,94,494,94"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d" title="Fires off the cancellationTokenSource without any checks, shutting down everything." alt="" coords="542,136,733,177"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="483,154,526,154,526,159,483,159"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="554,136,721,177"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="463,198,540,178,541,184,464,203"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="554,201,721,242"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="483,219,539,219,539,224,483,224"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#af37c73bdc1de34bc4c34214e6dd9a98d" title="Fires off the cancellationTokenSource without any checks, shutting down everything." alt="" coords="542,267,733,307"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="464,240,541,260,540,265,463,245"/>
 </map>

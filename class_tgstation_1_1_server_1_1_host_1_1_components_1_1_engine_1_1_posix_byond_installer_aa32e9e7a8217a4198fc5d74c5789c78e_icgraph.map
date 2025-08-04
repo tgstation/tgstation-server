@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Engine.PosixByondInstaller.GetDreamDaemonName" name="Tgstation.Server.Host.Components.Engine.PosixByondInstaller.GetDreamDaemonName">
-<area shape="rect" id="Node000001" title=" " alt="" coords="280,5,519,61"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a98b3d4659e9a7927e6661cca2e08ec8f" title="Does actions necessary to get an extracted installation working.A ValueTask representing the running ..." alt="" coords="5,13,232,54"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,36,232,36,232,31,264,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="294,5,533,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a506edf33fb80f48d788c7194b14748c6" title=" " alt="" coords="5,13,246,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="278,36,246,36,246,31,278,31"/>
 </map>

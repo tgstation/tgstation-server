@@ -1,28 +1,30 @@
 <map id="Tgstation.Server.Host.Components.Engine.EngineManager.InstallVersionFiles" name="Tgstation.Server.Host.Components.Engine.EngineManager.InstallVersionFiles">
-<area shape="rect" id="Node000001" title="Installs the files for a given BYOND version ." alt="" coords="5,332,268,373"/>
+<area shape="rect" id="Node000001" title="Installs the files for a given BYOND version ." alt="" coords="5,365,268,406"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="373,5,540,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,330,162,275,197,201,220,161,247,123,279,87,314,57,335,45,357,36,359,41,337,49,317,61,282,91,252,126,225,164,202,203,167,277,147,332"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,364,159,303,192,220,216,175,243,132,276,91,314,57,334,44,357,35,359,40,337,49,317,61,280,95,248,135,220,178,197,222,164,305,145,366"/>
 <area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="366,71,547,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="146,330,170,286,207,230,255,171,284,145,314,122,349,105,352,110,317,127,287,149,259,175,211,233,174,289,150,333"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="143,364,166,314,202,248,251,180,281,149,314,122,349,105,352,109,317,127,285,153,255,183,206,251,170,316,148,366"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="342,136,571,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="152,330,218,260,264,220,314,187,329,180,331,185,317,192,267,225,221,263,156,334"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="148,363,174,325,212,277,259,228,314,187,327,181,329,186,317,192,263,232,216,281,179,328,153,366"/>
 <area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="366,201,547,242"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="168,329,234,291,315,253,350,241,352,246,317,257,237,295,171,334"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="158,363,225,308,268,278,315,253,350,239,352,244,317,257,271,283,228,312,161,367"/>
 <area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a1841dfb27438fbd4d70462cd137bcb42" title="Download a given engine version ." alt="" coords="328,267,585,307"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="239,329,338,308,339,314,240,334"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html#ae712d13d543fde6cbb64c9085f9370b7" title="Extracts the installation to a given path." alt="" coords="316,332,597,373"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="268,350,300,350,300,355,268,355"/>
-<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a96982c374c0d5d56779125fce7c933be" title="Does actions necessary to get an extracted installation working." alt="" coords="343,397,570,438"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="240,371,339,391,338,396,239,376"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="338,463,575,503"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="171,371,237,409,317,447,340,455,338,460,315,452,234,414,168,375"/>
-<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="373,528,540,569"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="156,371,221,441,267,480,317,513,359,529,357,534,314,517,264,484,218,445,152,375"/>
-<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a5576a2503f8e4371139e9abe80df44d2" title=" " alt="" coords="363,617,550,658"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="151,372,177,414,214,469,262,527,317,578,343,595,372,609,369,613,341,600,314,582,258,531,210,472,172,417,147,375"/>
-<area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="371,683,542,723"/>
-<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="146,372,165,432,198,512,222,555,249,596,281,635,317,668,336,679,357,688,355,693,334,684,314,672,277,638,245,600,217,558,194,514,160,433,141,374"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="189,362,315,318,346,309,347,314,316,323,191,367"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html#afa8b9397196e43de678e049e5a1bda59" title="Extracts the installation to a given path." alt="" coords="316,332,597,373"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="268,369,300,366,301,371,268,375"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="373,397,540,438"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="268,396,357,405,357,410,268,401"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a1fc353faa9da3eab02f5d21ffac776c8" title="Does actions necessary to get an extracted installation working." alt="" coords="343,463,570,503"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="192,404,316,447,347,456,346,461,315,452,190,409"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="338,528,575,569"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="162,404,228,459,271,488,317,513,335,520,333,525,315,517,268,492,225,463,158,409"/>
+<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="373,593,540,634"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="153,405,179,443,216,490,263,538,317,578,359,596,357,601,314,583,259,542,212,493,174,446,148,408"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a5576a2503f8e4371139e9abe80df44d2" title=" " alt="" coords="363,683,550,723"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="149,405,173,453,210,517,258,584,287,616,317,644,342,660,369,674,367,679,339,665,314,648,283,619,254,588,205,520,168,456,145,408"/>
+<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="371,748,542,789"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="145,406,162,470,194,559,217,607,245,653,278,696,317,733,336,745,357,754,355,758,334,749,314,737,274,700,241,656,212,609,189,561,156,472,139,407"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="645,129,864,184"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="571,154,629,154,629,159,571,159"/>
-<area shape="poly" id="edge12_Node000012_Node000012" title=" " alt="" coords="401,617,398,607,407,598,427,593,456,591,488,593,507,599,506,604,487,598,456,596,428,598,410,603,403,609,406,616"/>
+<area shape="poly" id="edge13_Node000013_Node000013" title=" " alt="" coords="401,683,398,673,407,663,427,658,456,656,488,658,507,665,506,670,487,664,456,661,428,663,410,668,403,674,406,681"/>
 </map>

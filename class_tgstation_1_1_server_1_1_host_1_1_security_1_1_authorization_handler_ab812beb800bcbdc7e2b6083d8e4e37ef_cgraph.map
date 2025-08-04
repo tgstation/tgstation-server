@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Security.AuthorizationHandler.HandleSessionValidRequirement" name="Tgstation.Server.Host.Security.AuthorizationHandler.HandleSessionValidRequirement">
+<area shape="rect" id="Node000001" title="Handle UserSessionValidRequirement authorization requirements." alt="" coords="5,5,238,61"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="286,13,524,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,31,270,31,270,36,238,36"/>
+</map>

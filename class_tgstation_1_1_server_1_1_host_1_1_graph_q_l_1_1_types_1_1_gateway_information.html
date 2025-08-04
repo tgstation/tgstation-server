@@ -87,66 +87,139 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6bcea94fce7bef870efe765d76420842" id="r_a6bcea94fce7bef870efe765d76420842"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a6bcea94fce7bef870efe765d76420842">MinimumPasswordLength</a> ([Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions)</td></tr>
-<tr class="memdesc:a6bcea94fce7bef870efe765d76420842"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the minimum valid password length for TGS users.  <br /></td></tr>
-<tr class="separator:a6bcea94fce7bef870efe765d76420842"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab19398aec53ed3d41886b681a8a78605" id="r_ab19398aec53ed3d41886b681a8a78605"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#ab19398aec53ed3d41886b681a8a78605">InstanceLimit</a> ([Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions)</td></tr>
-<tr class="memdesc:ab19398aec53ed3d41886b681a8a78605"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the maximum allowed attached instances for the SwarmNode.  <br /></td></tr>
-<tr class="separator:ab19398aec53ed3d41886b681a8a78605"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abff460853868f76b110d6ea587ada077" id="r_abff460853868f76b110d6ea587ada077"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#abff460853868f76b110d6ea587ada077">UserLimit</a> ([Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions)</td></tr>
-<tr class="memdesc:abff460853868f76b110d6ea587ada077"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the maximum allowed registered Users for the ServerSwarm.  <br /></td></tr>
-<tr class="separator:abff460853868f76b110d6ea587ada077"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9378494664dfdfef380568df4229679" id="r_af9378494664dfdfef380568df4229679"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#af9378494664dfdfef380568df4229679">UserGroupLimit</a> ([Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions)</td></tr>
-<tr class="memdesc:af9378494664dfdfef380568df4229679"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the maximum allowed registered UserGroups for the ServerSwarm.  <br /></td></tr>
-<tr class="separator:af9378494664dfdfef380568df4229679"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a398d7dd15060c9cebfc78557a28073ae" id="r_a398d7dd15060c9cebfc78557a28073ae"><td class="memItemLeft" align="right" valign="top">IReadOnlyCollection&lt; string &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a398d7dd15060c9cebfc78557a28073ae">ValidInstancePaths</a> ([Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions)</td></tr>
-<tr class="memdesc:a398d7dd15060c9cebfc78557a28073ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the locations Instances may be created or attached from if there are restrictions.  <br /></td></tr>
-<tr class="separator:a398d7dd15060c9cebfc78557a28073ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0270cdb99d452a7fa55eda829d76048" id="r_af0270cdb99d452a7fa55eda829d76048"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; uint &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#af0270cdb99d452a7fa55eda829d76048">MinimumPasswordLength</a> ([Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html">IAuthorizationService</a> authorizationService, [Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions)</td></tr>
+<tr class="memdesc:af0270cdb99d452a7fa55eda829d76048"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the minimum valid password length for TGS users.  <br /></td></tr>
+<tr class="separator:af0270cdb99d452a7fa55eda829d76048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0aed4e504241d62f804ea8f92869e0b" id="r_aa0aed4e504241d62f804ea8f92869e0b"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; uint &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#aa0aed4e504241d62f804ea8f92869e0b">InstanceLimit</a> ([Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html">IAuthorizationService</a> authorizationService, [Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions)</td></tr>
+<tr class="memdesc:aa0aed4e504241d62f804ea8f92869e0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the maximum allowed attached instances for the SwarmNode.  <br /></td></tr>
+<tr class="separator:aa0aed4e504241d62f804ea8f92869e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1ab3939615b18425f2b159abffb9973" id="r_ac1ab3939615b18425f2b159abffb9973"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; uint &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#ac1ab3939615b18425f2b159abffb9973">UserLimit</a> ([Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html">IAuthorizationService</a> authorizationService, [Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions)</td></tr>
+<tr class="memdesc:ac1ab3939615b18425f2b159abffb9973"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the maximum allowed registered Users for the ServerSwarm.  <br /></td></tr>
+<tr class="separator:ac1ab3939615b18425f2b159abffb9973"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab176a79ab0e19441174a6c6abde54c3e" id="r_ab176a79ab0e19441174a6c6abde54c3e"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; uint &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#ab176a79ab0e19441174a6c6abde54c3e">UserGroupLimit</a> ([Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html">IAuthorizationService</a> authorizationService, [Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions)</td></tr>
+<tr class="memdesc:ab176a79ab0e19441174a6c6abde54c3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the maximum allowed registered UserGroups for the ServerSwarm.  <br /></td></tr>
+<tr class="separator:ab176a79ab0e19441174a6c6abde54c3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae28f0fe35c082d088b7d9d1985479e1d" id="r_ae28f0fe35c082d088b7d9d1985479e1d"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; IReadOnlyCollection&lt; string &gt;?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#ae28f0fe35c082d088b7d9d1985479e1d">ValidInstancePaths</a> ([Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html">IAuthorizationService</a> authorizationService, [Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions)</td></tr>
+<tr class="memdesc:ae28f0fe35c082d088b7d9d1985479e1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the locations Instances may be created or attached from if there are restrictions.  <br /></td></tr>
+<tr class="separator:ae28f0fe35c082d088b7d9d1985479e1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adbb1763e84282e5c29e9c4514ec23e27" id="r_adbb1763e84282e5c29e9c4514ec23e27"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#adbb1763e84282e5c29e9c4514ec23e27">WindowsHost</a> ([Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html">IPlatformIdentifier</a> platformIdentifier)</td></tr>
 <tr class="memdesc:adbb1763e84282e5c29e9c4514ec23e27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a flag indicating whether or not the current SwarmNode runs on a Windows operating system.  <br /></td></tr>
 <tr class="separator:adbb1763e84282e5c29e9c4514ec23e27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad67115e3a17603bd6398cba49eb76f49" id="r_ad67115e3a17603bd6398cba49eb76f49"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#ad67115e3a17603bd6398cba49eb76f49">SwarmProtocolVersion</a> ()</td></tr>
+<tr class="memdesc:ad67115e3a17603bd6398cba49eb76f49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the swarm protocol Version.  <br /></td></tr>
+<tr class="separator:ad67115e3a17603bd6398cba49eb76f49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a348b61f1556634d1c03c0a4c2b9bf02c" id="r_a348b61f1556634d1c03c0a4c2b9bf02c"><td class="memItemLeft" align="right" valign="top">Version&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a> ([Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html">IAssemblyInformationProvider</a> assemblyInformationProvider)</td></tr>
 <tr class="memdesc:a348b61f1556634d1c03c0a4c2b9bf02c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the global::System.Version of tgstation-server the SwarmNode is running.  <br /></td></tr>
 <tr class="separator:a348b61f1556634d1c03c0a4c2b9bf02c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56b51790cbc941243e422a137204f985" id="r_a56b51790cbc941243e422a137204f985"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a56b51790cbc941243e422a137204f985">GraphQLApiVersion</a> ()</td></tr>
+<tr class="memdesc:a56b51790cbc941243e422a137204f985"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the GraphQL API global::System.Version of the SwarmNode.  <br /></td></tr>
+<tr class="separator:a56b51790cbc941243e422a137204f985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a962be5ad918b12b754e693f6ddc3498c" id="r_a962be5ad918b12b754e693f6ddc3498c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a962be5ad918b12b754e693f6ddc3498c">ApiVersion</a> ()</td></tr>
+<tr class="memdesc:a962be5ad918b12b754e693f6ddc3498c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the REST API global::System.Version of the SwarmNode.  <br /></td></tr>
+<tr class="separator:a962be5ad918b12b754e693f6ddc3498c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b1fd53699152d17bce5c6660fcd941c" id="r_a7b1fd53699152d17bce5c6660fcd941c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a7b1fd53699152d17bce5c6660fcd941c">DMApiVersion</a> ()</td></tr>
+<tr class="memdesc:a7b1fd53699152d17bce5c6660fcd941c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the DMAPI interop global::System.Version the SwarmNode uses.  <br /></td></tr>
+<tr class="separator:a7b1fd53699152d17bce5c6660fcd941c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee0703a4f618cfefeccad6c4dc96b244" id="r_aee0703a4f618cfefeccad6c4dc96b244"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_o_auth_provider_infos.html">OAuthProviderInfos</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#aee0703a4f618cfefeccad6c4dc96b244">OAuthProviderInfos</a> ([Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html">IOAuthProviders</a> oAuthProviders)</td></tr>
 <tr class="memdesc:aee0703a4f618cfefeccad6c4dc96b244"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the information needed to perform open authentication with the SwarmNode.  <br /></td></tr>
 <tr class="separator:aee0703a4f618cfefeccad6c4dc96b244"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:ad7aa410d6d9205011b5cd332ecdff8bb" id="r_ad7aa410d6d9205011b5cd332ecdff8bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#ad7aa410d6d9205011b5cd332ecdff8bb">SwarmProtocolVersion</a><code> [get]</code></td></tr>
-<tr class="memdesc:ad7aa410d6d9205011b5cd332ecdff8bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the swarm protocol Version.  <br /></td></tr>
-<tr class="separator:ad7aa410d6d9205011b5cd332ecdff8bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17104dac13023c312c75442620f9eac3" id="r_a17104dac13023c312c75442620f9eac3"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a17104dac13023c312c75442620f9eac3">GraphQLApiVersionNoAuth</a> = global::System.Version.Parse(MasterVersionsAttribute.Instance.RawGraphQLVersion)<code> [get]</code></td></tr>
+<tr class="memdesc:a17104dac13023c312c75442620f9eac3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access the GraphQL API global::System.Version without auth.  <br /></td></tr>
+<tr class="separator:a17104dac13023c312c75442620f9eac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7ed6e5f6396c1ab949f0db95b35c004" id="r_ac7ed6e5f6396c1ab949f0db95b35c004"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#ac7ed6e5f6396c1ab949f0db95b35c004">MajorGraphQLApiVersion</a><code> [get]</code></td></tr>
 <tr class="memdesc:ac7ed6e5f6396c1ab949f0db95b35c004"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the major GraphQL API global::System.Version number of the SwarmNode.  <br /></td></tr>
 <tr class="separator:ac7ed6e5f6396c1ab949f0db95b35c004"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a444bd2e616be0a8067fe321ac4e2d2c1" id="r_a444bd2e616be0a8067fe321ac4e2d2c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a444bd2e616be0a8067fe321ac4e2d2c1">GraphQLApiVersion</a><code> [get]</code></td></tr>
-<tr class="memdesc:a444bd2e616be0a8067fe321ac4e2d2c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the GraphQL API global::System.Version of the SwarmNode.  <br /></td></tr>
-<tr class="separator:a444bd2e616be0a8067fe321ac4e2d2c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3acb7b7c461701bea30bd54bae364e7f" id="r_a3acb7b7c461701bea30bd54bae364e7f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a3acb7b7c461701bea30bd54bae364e7f">ApiVersion</a><code> [get]</code></td></tr>
-<tr class="memdesc:a3acb7b7c461701bea30bd54bae364e7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the REST API global::System.Version of the SwarmNode.  <br /></td></tr>
-<tr class="separator:a3acb7b7c461701bea30bd54bae364e7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1083a0747bb57ca947954c55776e4cd1" id="r_a1083a0747bb57ca947954c55776e4cd1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a1083a0747bb57ca947954c55776e4cd1">DMApiVersion</a><code> [get]</code></td></tr>
-<tr class="memdesc:a1083a0747bb57ca947954c55776e4cd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the DMAPI interop global::System.Version the SwarmNode uses.  <br /></td></tr>
-<tr class="separator:a1083a0747bb57ca947954c55776e4cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents information about a SwarmNode retrieved via a Interfaces.IGateway. </p>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00024">24</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00027">27</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab19398aec53ed3d41886b681a8a78605" name="ab19398aec53ed3d41886b681a8a78605"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab19398aec53ed3d41886b681a8a78605">&#9670;&#160;</a></span>InstanceLimit()</h2>
+<a id="a962be5ad918b12b754e693f6ddc3498c" name="a962be5ad918b12b754e693f6ddc3498c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a962be5ad918b12b754e693f6ddc3498c">&#9670;&#160;</a></span>ApiVersion()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint Tgstation.Server.Host.GraphQL.Types.GatewayInformation.InstanceLimit </td>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a> Tgstation.Server.Host.GraphQL.Types.GatewayInformation.ApiVersion </td>
           <td>(</td>
-          <td class="paramtype">[Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt;&#160;</td>
-          <td class="paramname"><em>generalConfigurationOptions</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the REST API global::System.Version of the SwarmNode. </p>
+<dl class="section return"><dt>Returns</dt><dd>The REST API global::System.Version of the SwarmNode.</dd></dl>
+
+</div>
+</div>
+<a id="a7b1fd53699152d17bce5c6660fcd941c" name="a7b1fd53699152d17bce5c6660fcd941c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b1fd53699152d17bce5c6660fcd941c">&#9670;&#160;</a></span>DMApiVersion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a> Tgstation.Server.Host.GraphQL.Types.GatewayInformation.DMApiVersion </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the DMAPI interop global::System.Version the SwarmNode uses. </p>
+<dl class="section return"><dt>Returns</dt><dd>Yhe DMAPI interop global::System.Version the SwarmNode uses.</dd></dl>
+
+</div>
+</div>
+<a id="a56b51790cbc941243e422a137204f985" name="a56b51790cbc941243e422a137204f985"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56b51790cbc941243e422a137204f985">&#9670;&#160;</a></span>GraphQLApiVersion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a> Tgstation.Server.Host.GraphQL.Types.GatewayInformation.GraphQLApiVersion </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the GraphQL API global::System.Version of the SwarmNode. </p>
+<dl class="section return"><dt>Returns</dt><dd>The GraphQL API global::System.Version of the SwarmNode.</dd></dl>
+
+</div>
+</div>
+<a id="aa0aed4e504241d62f804ea8f92869e0b" name="aa0aed4e504241d62f804ea8f92869e0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0aed4e504241d62f804ea8f92869e0b">&#9670;&#160;</a></span>InstanceLimit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">async ValueTask&lt; uint &gt; Tgstation.Server.Host.GraphQL.Types.GatewayInformation.InstanceLimit </td>
+          <td>(</td>
+          <td class="paramtype">[Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html">IAuthorizationService</a>&#160;</td>
+          <td class="paramname"><em>authorizationService</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">[Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt;&#160;</td>
+          <td class="paramname"><em>generalConfigurationOptions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -154,35 +227,53 @@ Properties</h2></td></tr>
 <p>Gets the maximum allowed attached instances for the SwarmNode. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">authorizationService</td><td>The IAuthorizationService to use.</td></tr>
     <tr><td class="paramname">generalConfigurationOptions</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">IOptionsSnapshot&lt;TOptions&gt;</a> containing the GeneralConfiguration.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A uint specifying the maximum allowed attached instances for the SwarmNode.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00045">45</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   47</span>        {</div>
-<div class="line"><span class="lineno">   48</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
-<div class="line"><span class="lineno">   49</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.InstanceLimit;</div>
-<div class="line"><span class="lineno">   50</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00068">68</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   71</span>        {</div>
+<div class="line"><span class="lineno">   72</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(authorizationService);</div>
+<div class="line"><span class="lineno">   73</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> authorizationService.CheckGraphQLAuthorized(</div>
+<div class="line"><span class="lineno">   76</span>                [<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;InstanceManagerRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.Create)]);</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.InstanceLimit;</div>
+<div class="line"><span class="lineno">   79</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">Tgstation.Server.Host.Security.RightsEvaluation.FlagRightsConditional</a></div><div class="ttdoc">Single flag RightsConditional&lt;TRights&gt;.</div><div class="ttdef"><b>Definition</b> <a href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00009">FlagRightsConditional{TRights}.cs:11</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.ConfigurationRights.List</a></div><div class="ttdeci">@ List</div><div class="ttdoc">User may list files if the Models.Instance allows it.</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">Tgstation.Server.Api.Rights.InstanceManagerRights</a></div><div class="ttdeci">InstanceManagerRights</div><div class="ttdoc">Rights for managing Models.Instances.</div><div class="ttdef"><b>Definition</b> <a href="_instance_manager_rights_8cs_source.html#l00009">InstanceManagerRights.cs:10</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
 
 </div>
 </div>
-<a id="a6bcea94fce7bef870efe765d76420842" name="a6bcea94fce7bef870efe765d76420842"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6bcea94fce7bef870efe765d76420842">&#9670;&#160;</a></span>MinimumPasswordLength()</h2>
+<a id="af0270cdb99d452a7fa55eda829d76048" name="af0270cdb99d452a7fa55eda829d76048"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0270cdb99d452a7fa55eda829d76048">&#9670;&#160;</a></span>MinimumPasswordLength()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint Tgstation.Server.Host.GraphQL.Types.GatewayInformation.MinimumPasswordLength </td>
+          <td class="memname">async ValueTask&lt; uint &gt; Tgstation.Server.Host.GraphQL.Types.GatewayInformation.MinimumPasswordLength </td>
           <td>(</td>
-          <td class="paramtype">[Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt;&#160;</td>
-          <td class="paramname"><em>generalConfigurationOptions</em></td><td>)</td>
+          <td class="paramtype">[Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html">IAuthorizationService</a>&#160;</td>
+          <td class="paramname"><em>authorizationService</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">[Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt;&#160;</td>
+          <td class="paramname"><em>generalConfigurationOptions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -190,17 +281,27 @@ Properties</h2></td></tr>
 <p>Gets the minimum valid password length for TGS users. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">authorizationService</td><td>The IAuthorizationService to use.</td></tr>
     <tr><td class="paramname">generalConfigurationOptions</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">IOptionsSnapshot&lt;TOptions&gt;</a> containing the GeneralConfiguration.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A uint specifying the minimumn valid password length for TGS users.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00032">32</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   34</span>        {</div>
-<div class="line"><span class="lineno">   35</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
-<div class="line"><span class="lineno">   36</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.MinimumPasswordLength;</div>
-<div class="line"><span class="lineno">   37</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00046">46</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>        {</div>
+<div class="line"><span class="lineno">   50</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(authorizationService);</div>
+<div class="line"><span class="lineno">   51</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
+<div class="line"><span class="lineno">   52</span> </div>
+<div class="line"><span class="lineno">   53</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> authorizationService.CheckGraphQLAuthorized(</div>
+<div class="line"><span class="lineno">   54</span>                [<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_or_rights_conditional.html">OrRightsConditional&lt;AdministrationRights&gt;</a>(</div>
+<div class="line"><span class="lineno">   55</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;AdministrationRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.WriteUsers),</div>
+<div class="line"><span class="lineno">   56</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;AdministrationRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.EditOwnPassword))]);</div>
+<div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   58</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.MinimumPasswordLength;</div>
+<div class="line"><span class="lineno">   59</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_or_rights_conditional_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_or_rights_conditional.html">Tgstation.Server.Host.Security.RightsEvaluation.OrRightsConditional</a></div><div class="ttdoc">Logical OR RightsConditional&lt;TRights&gt;.</div><div class="ttdef"><b>Definition</b> <a href="_or_rights_conditional_02_t_rights_03_8cs_source.html#l00009">OrRightsConditional{TRights}.cs:11</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_affda1440f9c5e2dfcca65138d2f89a21"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">Tgstation.Server.Api.Rights.AdministrationRights</a></div><div class="ttdeci">AdministrationRights</div><div class="ttdoc">Administration rights for the server.</div><div class="ttdef"><b>Definition</b> <a href="_administration_rights_8cs_source.html#l00009">AdministrationRights.cs:10</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
 
@@ -231,29 +332,59 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A map of enabled <a class="el" href="namespace_tgstation_1_1_server_1_1_api.html#a622da263c0ca2e2060d2daf329c2c2bcaf12e786bd5633a16aa21ba4f0a10850d" title="The ApiHeaders.OAuthProviderHeader header is missing or invalid.">OAuthProvider</a>s to their FullOAuthProviderInfo.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00153">153</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  155</span>        {</div>
-<div class="line"><span class="lineno">  156</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(oAuthProviders);</div>
-<div class="line"><span class="lineno">  157</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_o_auth_provider_infos.html">OAuthProviderInfos</a>(oAuthProviders);</div>
-<div class="line"><span class="lineno">  158</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00206">206</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  208</span>        {</div>
+<div class="line"><span class="lineno">  209</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(oAuthProviders);</div>
+<div class="line"><span class="lineno">  210</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_o_auth_provider_infos.html">OAuthProviderInfos</a>(oAuthProviders);</div>
+<div class="line"><span class="lineno">  211</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_o_auth_provider_infos_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_o_auth_provider_infos.html">Tgstation.Server.Host.GraphQL.Types.OAuth.OAuthProviderInfos</a></div><div class="ttdoc">Description of configured OAuth services.</div><div class="ttdef"><b>Definition</b> <a href="_o_auth_provider_infos_8cs_source.html#l00011">OAuthProviderInfos.cs:12</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
 
 </div>
 </div>
-<a id="af9378494664dfdfef380568df4229679" name="af9378494664dfdfef380568df4229679"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af9378494664dfdfef380568df4229679">&#9670;&#160;</a></span>UserGroupLimit()</h2>
+<a id="ad67115e3a17603bd6398cba49eb76f49" name="ad67115e3a17603bd6398cba49eb76f49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad67115e3a17603bd6398cba49eb76f49">&#9670;&#160;</a></span>SwarmProtocolVersion()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint Tgstation.Server.Host.GraphQL.Types.GatewayInformation.UserGroupLimit </td>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a> Tgstation.Server.Host.GraphQL.Types.GatewayInformation.SwarmProtocolVersion </td>
           <td>(</td>
-          <td class="paramtype">[Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt;&#160;</td>
-          <td class="paramname"><em>generalConfigurationOptions</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the swarm protocol Version. </p>
+<dl class="section return"><dt>Returns</dt><dd>The swarm protocol global::System.Version.</dd></dl>
+
+</div>
+</div>
+<a id="ab176a79ab0e19441174a6c6abde54c3e" name="ab176a79ab0e19441174a6c6abde54c3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab176a79ab0e19441174a6c6abde54c3e">&#9670;&#160;</a></span>UserGroupLimit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">async ValueTask&lt; uint &gt; Tgstation.Server.Host.GraphQL.Types.GatewayInformation.UserGroupLimit </td>
+          <td>(</td>
+          <td class="paramtype">[Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html">IAuthorizationService</a>&#160;</td>
+          <td class="paramname"><em>authorizationService</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">[Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt;&#160;</td>
+          <td class="paramname"><em>generalConfigurationOptions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -261,6 +392,7 @@ Properties</h2></td></tr>
 <p>Gets the maximum allowed registered UserGroups for the ServerSwarm. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">authorizationService</td><td>The IAuthorizationService to use.</td></tr>
     <tr><td class="paramname">generalConfigurationOptions</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">IOptionsSnapshot&lt;TOptions&gt;</a> containing the GeneralConfiguration.</td></tr>
   </table>
   </dd>
@@ -268,28 +400,42 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A uint specifying the maximum allowed registered UserGroups for the ServerSwarm.</dd></dl>
 <p>This limit only applies to UserGroup creation attempts made via the current SwarmNode.</p>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00073">73</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   75</span>        {</div>
-<div class="line"><span class="lineno">   76</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
-<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.UserGroupLimit;</div>
-<div class="line"><span class="lineno">   78</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00110">110</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  113</span>        {</div>
+<div class="line"><span class="lineno">  114</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(authorizationService);</div>
+<div class="line"><span class="lineno">  115</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
+<div class="line"><span class="lineno">  116</span> </div>
+<div class="line"><span class="lineno">  117</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> authorizationService.CheckGraphQLAuthorized(</div>
+<div class="line"><span class="lineno">  118</span>                [<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;AdministrationRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.WriteUsers)]);</div>
+<div class="line"><span class="lineno">  119</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.UserGroupLimit;</div>
+<div class="line"><span class="lineno">  120</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
 
 </div>
 </div>
-<a id="abff460853868f76b110d6ea587ada077" name="abff460853868f76b110d6ea587ada077"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abff460853868f76b110d6ea587ada077">&#9670;&#160;</a></span>UserLimit()</h2>
+<a id="ac1ab3939615b18425f2b159abffb9973" name="ac1ab3939615b18425f2b159abffb9973"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1ab3939615b18425f2b159abffb9973">&#9670;&#160;</a></span>UserLimit()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint Tgstation.Server.Host.GraphQL.Types.GatewayInformation.UserLimit </td>
+          <td class="memname">async ValueTask&lt; uint &gt; Tgstation.Server.Host.GraphQL.Types.GatewayInformation.UserLimit </td>
           <td>(</td>
-          <td class="paramtype">[Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt;&#160;</td>
-          <td class="paramname"><em>generalConfigurationOptions</em></td><td>)</td>
+          <td class="paramtype">[Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html">IAuthorizationService</a>&#160;</td>
+          <td class="paramname"><em>authorizationService</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">[Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt;&#160;</td>
+          <td class="paramname"><em>generalConfigurationOptions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -297,6 +443,7 @@ Properties</h2></td></tr>
 <p>Gets the maximum allowed registered Users for the ServerSwarm. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">authorizationService</td><td>The IAuthorizationService to use.</td></tr>
     <tr><td class="paramname">generalConfigurationOptions</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">IOptionsSnapshot&lt;TOptions&gt;</a> containing the GeneralConfiguration.</td></tr>
   </table>
   </dd>
@@ -304,28 +451,43 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A uint specifying the maximum allowed registered users for the ServerSwarm.</dd></dl>
 <p>This limit only applies to user creation attempts made via the current SwarmNode.</p>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00059">59</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   61</span>        {</div>
-<div class="line"><span class="lineno">   62</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
-<div class="line"><span class="lineno">   63</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.UserLimit;</div>
-<div class="line"><span class="lineno">   64</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00089">89</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   92</span>        {</div>
+<div class="line"><span class="lineno">   93</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(authorizationService);</div>
+<div class="line"><span class="lineno">   94</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> authorizationService.CheckGraphQLAuthorized(</div>
+<div class="line"><span class="lineno">   97</span>                [<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;AdministrationRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.WriteUsers)]);</div>
+<div class="line"><span class="lineno">   98</span> </div>
+<div class="line"><span class="lineno">   99</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.UserLimit;</div>
+<div class="line"><span class="lineno">  100</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
 
 </div>
 </div>
-<a id="a398d7dd15060c9cebfc78557a28073ae" name="a398d7dd15060c9cebfc78557a28073ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a398d7dd15060c9cebfc78557a28073ae">&#9670;&#160;</a></span>ValidInstancePaths()</h2>
+<a id="ae28f0fe35c082d088b7d9d1985479e1d" name="ae28f0fe35c082d088b7d9d1985479e1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae28f0fe35c082d088b7d9d1985479e1d">&#9670;&#160;</a></span>ValidInstancePaths()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">IReadOnlyCollection&lt; string &gt;? Tgstation.Server.Host.GraphQL.Types.GatewayInformation.ValidInstancePaths </td>
+          <td class="memname">async ValueTask&lt; IReadOnlyCollection&lt; string &gt;?&gt; Tgstation.Server.Host.GraphQL.Types.GatewayInformation.ValidInstancePaths </td>
           <td>(</td>
-          <td class="paramtype">[Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt;&#160;</td>
-          <td class="paramname"><em>generalConfigurationOptions</em></td><td>)</td>
+          <td class="paramtype">[Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html">IAuthorizationService</a>&#160;</td>
+          <td class="paramname"><em>authorizationService</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">[Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt;&#160;</td>
+          <td class="paramname"><em>generalConfigurationOptions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -333,17 +495,24 @@ Properties</h2></td></tr>
 <p>Gets the locations Instances may be created or attached from if there are restrictions. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">authorizationService</td><td>The IAuthorizationService to use.</td></tr>
     <tr><td class="paramname">generalConfigurationOptions</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">IOptionsSnapshot&lt;TOptions&gt;</a> containing the GeneralConfiguration.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The locations Instances may be created or attached from if there are restrictions, <code><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">null</a></code> otherwise.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00086">86</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   88</span>        {</div>
-<div class="line"><span class="lineno">   89</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
-<div class="line"><span class="lineno">   90</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.ValidInstancePaths;</div>
-<div class="line"><span class="lineno">   91</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00129">129</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  132</span>        {</div>
+<div class="line"><span class="lineno">  133</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(authorizationService);</div>
+<div class="line"><span class="lineno">  134</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
+<div class="line"><span class="lineno">  135</span> </div>
+<div class="line"><span class="lineno">  136</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> authorizationService.CheckGraphQLAuthorized(</div>
+<div class="line"><span class="lineno">  137</span>                [<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_or_rights_conditional.html">OrRightsConditional&lt;InstanceManagerRights&gt;</a>(</div>
+<div class="line"><span class="lineno">  138</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;InstanceManagerRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.Create),</div>
+<div class="line"><span class="lineno">  139</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;InstanceManagerRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.Relocate))]);</div>
+<div class="line"><span class="lineno">  140</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.ValidInstancePaths;</div>
+<div class="line"><span class="lineno">  141</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
 
@@ -374,11 +543,11 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The global::System.Version of tgstation-server the SwarmNode is running.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00118">118</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  120</span>        {</div>
-<div class="line"><span class="lineno">  121</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(assemblyInformationProvider);</div>
-<div class="line"><span class="lineno">  122</span>            <span class="keywordflow">return</span> assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a600df9ffd79d4f94f59dfefccbcec099">Version</a>;</div>
-<div class="line"><span class="lineno">  123</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00171">171</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  173</span>        {</div>
+<div class="line"><span class="lineno">  174</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(assemblyInformationProvider);</div>
+<div class="line"><span class="lineno">  175</span>            <span class="keywordflow">return</span> assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a600df9ffd79d4f94f59dfefccbcec099">Version</a>;</div>
+<div class="line"><span class="lineno">  176</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_a600df9ffd79d4f94f59dfefccbcec099"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a600df9ffd79d4f94f59dfefccbcec099">Tgstation.Server.Host.System.IAssemblyInformationProvider.Version</a></div><div class="ttdeci">Version Version</div><div class="ttdoc">The version of the assembly.</div><div class="ttdef"><b>Definition</b> <a href="_i_assembly_information_provider_8cs_source.html#l00035">IAssemblyInformationProvider.cs:35</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
@@ -410,11 +579,12 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">true</a></code> if the SwarmNode runs on a Windows operating system, <code>false</code> otherwise.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00099">99</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  101</span>        {</div>
-<div class="line"><span class="lineno">  102</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(platformIdentifier);</div>
-<div class="line"><span class="lineno">  103</span>            <span class="keywordflow">return</span> platformIdentifier.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">IsWindows</a>;</div>
-<div class="line"><span class="lineno">  104</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00149">149</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  151</span>        {</div>
+<div class="line"><span class="lineno">  152</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(platformIdentifier);</div>
+<div class="line"><span class="lineno">  153</span> </div>
+<div class="line"><span class="lineno">  154</span>            <span class="keywordflow">return</span> platformIdentifier.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">IsWindows</a>;</div>
+<div class="line"><span class="lineno">  155</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier_html_aa9bf3bd1082b7178f58cb1f36839550e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a></div><div class="ttdeci">bool IsWindows</div><div class="ttdoc">If the current platform is a Windows platform.</div><div class="ttdef"><b>Definition</b> <a href="_i_platform_identifier_8cs_source.html#l00014">IPlatformIdentifier.cs:14</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
@@ -422,8 +592,8 @@ Properties</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
-<a id="a3acb7b7c461701bea30bd54bae364e7f" name="a3acb7b7c461701bea30bd54bae364e7f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3acb7b7c461701bea30bd54bae364e7f">&#9670;&#160;</a></span>ApiVersion</h2>
+<a id="a17104dac13023c312c75442620f9eac3" name="a17104dac13023c312c75442620f9eac3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17104dac13023c312c75442620f9eac3">&#9670;&#160;</a></span>GraphQLApiVersionNoAuth</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -432,72 +602,24 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a> Tgstation.Server.Host.GraphQL.Types.GatewayInformation.ApiVersion</td>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a> Tgstation.Server.Host.GraphQL.Types.GatewayInformation.GraphQLApiVersionNoAuth = global::System.Version.Parse(MasterVersionsAttribute.Instance.RawGraphQLVersion)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Gets the REST API global::System.Version of the SwarmNode. </p>
+<p>Access the GraphQL API global::System.Version without auth. </p>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00140">140</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-
-</div>
-</div>
-<a id="a1083a0747bb57ca947954c55776e4cd1" name="a1083a0747bb57ca947954c55776e4cd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1083a0747bb57ca947954c55776e4cd1">&#9670;&#160;</a></span>DMApiVersion</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a> Tgstation.Server.Host.GraphQL.Types.GatewayInformation.DMApiVersion</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the DMAPI interop global::System.Version the SwarmNode uses. </p>
-
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00146">146</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-
-</div>
-</div>
-<a id="a444bd2e616be0a8067fe321ac4e2d2c1" name="a444bd2e616be0a8067fe321ac4e2d2c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a444bd2e616be0a8067fe321ac4e2d2c1">&#9670;&#160;</a></span>GraphQLApiVersion</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a> Tgstation.Server.Host.GraphQL.Types.GatewayInformation.GraphQLApiVersion</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the GraphQL API global::System.Version of the SwarmNode. </p>
-
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00134">134</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00032">32</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   32</span>{ <span class="keyword">get</span>; } = global::System.Version.Parse(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html">MasterVersionsAttribute</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a4863a09f4e55fe40499b34eefed0b513">RawGraphQLVersion</a>);</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html">Tgstation.Server.Host.Properties.MasterVersionsAttribute</a></div><div class="ttdoc">Attribute for bringing in the master versions list from MSBuild that aren't embedded into assemblies ...</div><div class="ttdef"><b>Definition</b> <a href="_master_versions_attribute_8cs_source.html#l00010">MasterVersionsAttribute.cs:11</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute_html_a4863a09f4e55fe40499b34eefed0b513"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a4863a09f4e55fe40499b34eefed0b513">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawGraphQLVersion</a></div><div class="ttdeci">string RawGraphQLVersion</div><div class="ttdoc">The Version string of the TGS GraphQL API.</div><div class="ttdef"><b>Definition</b> <a href="_master_versions_attribute_8cs_source.html#l00052">MasterVersionsAttribute.cs:52</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute_html_af17f819f7eb525f7274264ec212a5105"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Tgstation.Server.Host.Properties.MasterVersionsAttribute.Instance</a></div><div class="ttdeci">static MasterVersionsAttribute Instance</div><div class="ttdoc">Return the Assembly's instance of the MasterVersionsAttribute.</div><div class="ttdef"><b>Definition</b> <a href="_master_versions_attribute_8cs_source.html#l00015">MasterVersionsAttribute.cs:15</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="ac7ed6e5f6396c1ab949f0db95b35c004" name="ac7ed6e5f6396c1ab949f0db95b35c004"></a>
@@ -522,33 +644,7 @@ Properties</h2></td></tr>
 
 <p>Gets the major GraphQL API global::System.Version number of the SwarmNode. </p>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00128">128</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-
-</div>
-</div>
-<a id="ad7aa410d6d9205011b5cd332ecdff8bb" name="ad7aa410d6d9205011b5cd332ecdff8bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7aa410d6d9205011b5cd332ecdff8bb">&#9670;&#160;</a></span>SwarmProtocolVersion</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_gateway_information.html#a348b61f1556634d1c03c0a4c2b9bf02c">Version</a> Tgstation.Server.Host.GraphQL.Types.GatewayInformation.SwarmProtocolVersion</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the swarm protocol Version. </p>
-
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00110">110</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00037">37</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
 
 </div>
 </div>

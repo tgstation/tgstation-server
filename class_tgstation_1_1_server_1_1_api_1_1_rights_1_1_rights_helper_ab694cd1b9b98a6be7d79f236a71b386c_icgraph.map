@@ -1,41 +1,33 @@
 <map id="Tgstation.Server.Api.Rights.RightsHelper.RightToType" name="Tgstation.Server.Api.Rights.RightsHelper.RightToType">
-<area shape="rect" id="Node000001" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="845,919,1027,959"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="595,496,797,537"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="913,906,707,538,711,536,918,903"/>
-<area shape="rect" id="Node000018" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#acbf514eba48e29a2dc177eb5ae34edd7" title="Gets the role claim name used for a given rightsType &#160;and right ." alt="" coords="606,919,787,959"/>
-<area shape="poly" id="edge18_Node000001_Node000018" title=" " alt="" coords="830,942,787,942,787,936,830,936"/>
-<area shape="rect" id="Node000019" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html#adbb551c36d69e3afdf072f06fbedc31e" title=" " alt="" coords="269,969,547,1024"/>
-<area shape="poly" id="edge20_Node000001_Node000019" title=" " alt="" coords="841,966,798,974,670,988,548,995,547,990,669,983,797,968,840,961"/>
+<area shape="rect" id="Node000001" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="845,657,1027,698"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType .The value of rightsType . Note that if InstancePermissionSet is ..." alt="" coords="595,361,797,402"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="907,647,712,404,716,401,911,644"/>
+<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#acbf514eba48e29a2dc177eb5ae34edd7" title="Gets the role claim name used for a given rightsType &#160;and right ." alt="" coords="606,657,787,698"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="830,680,787,680,787,675,830,675"/>
+<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html#adbb551c36d69e3afdf072f06fbedc31e" title=" " alt="" coords="269,707,547,763"/>
+<area shape="poly" id="edge16_Node000001_Node000015" title=" " alt="" coords="841,704,798,712,670,727,548,734,547,729,669,721,797,707,840,699"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="300,5,516,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="692,481,685,395,677,341,664,282,645,222,620,163,587,108,545,61,515,42,518,37,549,57,591,105,624,160,650,220,669,280,682,340,690,395,697,481"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="686,347,672,284,645,207,626,167,604,128,577,92,545,61,515,43,517,39,549,57,581,88,608,125,631,164,650,205,677,283,692,345"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a3f98fb2e4e46b96258839c5cfe3665c2" title="Cancel a running JobResponse." alt="" coords="300,71,516,111"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="690,481,679,406,655,310,636,260,612,211,582,166,545,126,515,108,517,103,549,122,586,162,617,208,641,257,660,308,684,405,695,480"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#a35ad3c9eb6b23b7d832ed209e604454c" title="Gets the User with a given id .A ValueTask&lt;TResult&gt; resulting in a User AuthorityResponse&lt;TResult&gt;." alt="" coords="306,136,510,177"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="687,481,672,418,646,340,627,299,604,259,577,223,545,192,509,172,512,167,549,188,581,220,609,257,632,296,651,338,677,417,692,480"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_group_authority.html#a79b8cf1618a9a0d3cb077fb0332e88ef" title="Gets the UserGroup with a given id .A ValueTask&lt;TResult&gt; resulting in a User AuthorityResponse&lt;TResul..." alt="" coords="306,201,510,242"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="682,482,664,431,636,370,596,309,572,281,545,257,509,238,512,234,549,253,576,277,601,305,641,367,669,429,687,480"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a1bd9c6aaf5105f431b51f311754e68ac" title="Get a specific ChatBot." alt="" coords="300,267,516,307"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="676,484,655,445,625,402,589,359,546,323,515,307,517,303,548,318,593,355,630,398,659,443,681,481"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a2918e163c7813f9862a677da59272edb" title="Get a specific User." alt="" coords="300,332,516,373"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="666,486,613,435,581,410,546,388,515,375,517,370,548,383,584,405,617,431,669,483"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_permission_set_authority.html#aed8c0ee6dc8feca897e554b5038afb80" title="Gets the User with a given id .A ValueTask&lt;TResult&gt; resulting in a PermissionSet AuthorityResponse&lt;TR..." alt="" coords="306,397,510,438"/>
-<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="638,491,546,454,505,441,506,436,548,448,640,486"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a944a576b697c4af886e9f0e675ec8d72" title="List ChatBots." alt="" coords="300,463,516,503"/>
-<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="579,506,516,498,516,493,580,500"/>
-<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a8e382cc519b4dfe9247697ad9e726e4f" title="Implementation of Read(CancellationToken)." alt="" coords="298,528,518,569"/>
-<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="580,532,519,539,518,533,579,527"/>
-<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#aedb524ec7c65c10a241fc3d177902995" title="Update watchdog settings to be applied at next server reboot." alt="" coords="5,557,221,598"/>
-<area shape="poly" id="edge13_Node000002_Node000012" title=" " alt="" coords="646,546,599,567,548,583,463,595,376,600,294,598,221,593,221,588,294,593,376,594,462,590,546,578,597,562,644,541"/>
-<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="300,643,516,683"/>
-<area shape="poly" id="edge12_Node000002_Node000013" title=" " alt="" coords="662,549,610,589,548,627,502,645,500,640,546,622,607,585,659,545"/>
-<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#a80244fbd7a6d0e78ab43d9f38247b1bf" title="Update the permissions for an InstancePermissionSet." alt="" coords="280,708,536,749"/>
-<area shape="poly" id="edge14_Node000002_Node000014" title=" " alt="" coords="678,552,656,587,626,626,590,665,548,697,524,710,521,705,546,693,587,661,622,623,652,584,674,549"/>
-<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="300,773,516,814"/>
-<area shape="poly" id="edge15_Node000002_Node000015" title=" " alt="" coords="686,553,667,600,638,657,599,714,575,740,549,763,517,779,515,775,545,758,571,736,594,711,633,655,662,598,681,551"/>
-<area shape="rect" id="Node000016" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="300,839,516,879"/>
-<area shape="poly" id="edge16_Node000002_Node000016" title=" " alt="" coords="691,553,675,613,648,687,629,726,607,763,580,798,549,828,517,846,515,841,545,824,576,794,602,760,625,723,643,685,670,611,686,551"/>
-<area shape="rect" id="Node000017" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#aef9a577a9544d2da75672eb17a24b94d" title="Updates a User.A ValueTask&lt;TResult&gt; resulting in am AuthorityResponse&lt;TResult&gt; for the created User." alt="" coords="306,904,510,945"/>
-<area shape="poly" id="edge17_Node000002_Node000017" title=" " alt="" coords="694,553,682,625,657,717,638,765,614,812,585,855,549,893,531,905,511,914,509,909,528,901,545,889,581,852,610,809,634,763,652,715,677,624,689,552"/>
-<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="283,563,221,570,221,564,282,558"/>
-<area shape="poly" id="edge19_Node000018_Node000019" title=" " alt="" coords="591,963,548,971,547,966,589,957"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="682,347,664,297,635,237,596,177,572,150,545,127,515,110,517,105,549,122,576,146,600,174,640,235,669,295,687,346"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a1bd9c6aaf5105f431b51f311754e68ac" title="Get a specific ChatBot." alt="" coords="300,136,516,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="676,349,654,312,625,269,588,227,546,192,515,177,517,172,548,187,592,223,629,266,659,309,680,346"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a2918e163c7813f9862a677da59272edb" title="Get a specific User." alt="" coords="300,201,516,242"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="664,351,612,302,580,278,546,257,515,245,517,240,548,253,583,274,615,298,668,348"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a944a576b697c4af886e9f0e675ec8d72" title="List ChatBots." alt="" coords="300,267,516,307"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="635,357,546,323,504,310,505,305,548,318,637,352"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a8e382cc519b4dfe9247697ad9e726e4f" title="Implementation of Read(CancellationToken)." alt="" coords="298,332,518,373"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="579,372,518,366,519,361,580,367"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#aedb524ec7c65c10a241fc3d177902995" title="Update watchdog settings to be applied at next server reboot." alt="" coords="5,361,221,402"/>
+<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="580,387,547,387,269,387,221,386,221,381,269,382,547,382,580,381"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="300,447,516,487"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="617,410,548,431,486,449,485,444,546,426,615,405"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#a80244fbd7a6d0e78ab43d9f38247b1bf" title="Update the permissions for an InstancePermissionSet." alt="" coords="280,512,536,553"/>
+<area shape="poly" id="edge11_Node000002_Node000011" title=" " alt="" coords="666,415,614,460,582,482,548,501,517,514,515,509,546,497,579,478,610,456,662,411"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="300,577,516,618"/>
+<area shape="poly" id="edge12_Node000002_Node000012" title=" " alt="" coords="679,417,657,452,627,493,591,533,548,567,517,582,515,577,546,562,587,529,623,490,653,449,675,414"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="300,643,516,683"/>
+<area shape="poly" id="edge13_Node000002_Node000013" title=" " alt="" coords="686,418,667,466,638,524,599,583,575,609,549,632,517,649,515,644,545,627,572,605,595,579,634,522,663,464,681,416"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="283,367,221,374,221,368,282,362"/>
+<area shape="poly" id="edge15_Node000014_Node000015" title=" " alt="" coords="591,701,548,710,547,705,589,696"/>
 </map>

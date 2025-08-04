@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Authority.Core.GraphQLAuthorityInvoker.Invoke" name="Tgstation.Server.Host.Authority.Core.GraphQLAuthorityInvoker.Invoke">
-<area shape="rect" id="Node000001" title="Invoke a TAuthority &#160;method with no success result.A ValueTask representing the running operation." alt="" coords="5,13,246,54"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_graph_q_l_authority_invoker.html#ad83f9d65e83f0aefe65798b69b61f5db" title="Throws a ErrorMessageException for errored authorityResponse s." alt="" coords="294,5,531,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,31,278,31,278,36,246,36"/>
-</map>

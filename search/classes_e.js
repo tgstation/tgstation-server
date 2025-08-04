@@ -16,5 +16,6 @@ var searchData=
   ['openapienumvarnamesextension_13',['OpenApiEnumVarNamesExtension',['../class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_open_api_enum_var_names_extension.html',1,'Tgstation::Server::Host::Utils']]],
   ['opendreaminstallation_14',['OpenDreamInstallation',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installation.html',1,'Tgstation::Server::Host::Components::Engine']]],
   ['opendreaminstaller_15',['OpenDreamInstaller',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html',1,'Tgstation::Server::Host::Components::Engine']]],
-  ['operationresultextensions_16',['OperationResultExtensions',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_operation_result_extensions.html',1,'Tgstation::Server::Client::GraphQL']]]
+  ['operationresultextensions_16',['OperationResultExtensions',['../class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_operation_result_extensions.html',1,'Tgstation::Server::Client::GraphQL']]],
+  ['orrightsconditional_17',['OrRightsConditional',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_or_rights_conditional.html',1,'Tgstation::Server::Host::Security::RightsEvaluation']]]
 ];

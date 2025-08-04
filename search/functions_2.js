@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['badcreaterequestchecks_0',['BadCreateRequestChecks',['../class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ab20a4242dfa680a08602a06dfeb54313',1,'Tgstation::Server::Host::Authority::UserAuthority']]],
+  ['badcreaterequestchecks_0',['BadCreateRequestChecks',['../class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html#ac3966745fae3ffed5c975e4e0e212a49',1,'Tgstation::Server::Host::Authority::UserAuthority']]],
   ['badrequest_3c_20tresult_20_3e_1',['BadRequest&lt; TResult &gt;',['../class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#ae13097278410832e7ed9f57fb7b7e808',1,'Tgstation::Server::Host::Authority::Core::AuthorityBase']]],
   ['basecompilejobsquery_2',['BaseCompileJobsQuery',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a8ca1436d93cb0f0a6767fe79e2714b05',1,'Tgstation::Server::Host::Controllers::DreamMakerController']]],
   ['baseremotedeploymentmanager_3',['BaseRemoteDeploymentManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#aa5718be13466ed7d6a79c3d774651834',1,'Tgstation::Server::Host::Components::Deployment::Remote::BaseRemoteDeploymentManager']]],

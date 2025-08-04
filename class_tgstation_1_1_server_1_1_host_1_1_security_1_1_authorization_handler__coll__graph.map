@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Security.AuthorizationHandler" name="Tgstation.Server.Host.Security.AuthorizationHandler">
+<area shape="rect" id="Node000001" title="IAuthorizationHandler for RightsConditional&lt;TRights&gt;s and UserSessionValidRequirements." alt="" coords="405,55,605,96"/>
+<area shape="rect" id="Node000002" href="$class_i_authorization_handler.html" title=" " alt="" coords="37,5,182,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,27,381,53,405,57,404,62,380,58,197,32"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="5,55,214,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="229,73,404,73,404,78,229,78"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html" title="Provides ApiHeaders." alt="" coords="19,121,200,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="214,121,404,89,404,95,215,126"/>
+</map>

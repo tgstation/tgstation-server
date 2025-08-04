@@ -1,0 +1,11 @@
+<map id="Tgstation.Server.Host.Security.AuthorizationHandler.HandleAsync" name="Tgstation.Server.Host.Security.AuthorizationHandler.HandleAsync">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,77,227,118"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a4f8b394cc8723e98a01c64923c217835" title="Iterate the Type of each right." alt="" coords="300,5,482,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,74,295,48,296,53,197,79"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_handler.html#ab812beb800bcbdc7e2b6083d8e4e37ef" title="Handle UserSessionValidRequirement authorization requirements." alt="" coords="275,70,507,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="227,95,259,95,259,100,227,100"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="283,150,499,206"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="189,116,279,142,277,147,188,121"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="555,77,793,118"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="508,95,540,95,540,100,508,100"/>
+</map>

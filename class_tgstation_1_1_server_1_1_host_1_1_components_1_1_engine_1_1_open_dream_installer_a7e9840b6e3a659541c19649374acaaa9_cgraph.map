@@ -1,0 +1,15 @@
+<map id="Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetInstallation" name="Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.GetInstallation">
+<area shape="rect" id="Node000001" title="Creates an IEngineInstallation for a given version .A ValueTask&lt;TResult&gt; resulting in a new IEngineIn..." alt="" coords="5,118,271,159"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="337,5,600,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,115,318,71,342,63,343,68,320,76,194,120"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#abddea227bd7f20e50d57e258571a6ea4" title="Create a new IIOManager that resolves paths to the specified subdirectoryPath ." alt="" coords="332,85,605,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="271,122,316,118,317,123,271,128"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper.html#a6ce9bc97f5e0fe832f2a1a5653365b64" title="Locate a dotnet executable to use." alt="" coords="370,150,567,191"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="271,149,354,157,354,162,271,154"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a04059bc8156f7b07e59b423dad178e45" title="Gets the paths to the server and client executables." alt="" coords="319,216,618,256"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="193,157,319,200,352,209,351,214,318,205,192,162"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="666,150,833,191"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="568,168,650,168,650,173,568,173"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="666,216,833,256"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="618,233,651,233,651,239,618,239"/>
+</map>

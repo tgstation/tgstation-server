@@ -1,0 +1,37 @@
+<map id="Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.InstallImpl" name="Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.InstallImpl">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,397,247,438"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="350,5,518,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,396,143,330,172,238,194,189,221,140,254,96,293,57,313,44,334,35,336,40,315,49,296,61,258,99,225,143,199,191,177,240,148,332,133,397"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="343,71,525,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="130,396,149,341,181,266,203,227,229,188,259,153,293,122,327,104,330,109,296,127,263,157,233,192,207,230,186,269,154,343,135,398"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="344,136,524,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="134,396,156,352,191,295,237,237,264,210,293,187,328,171,330,175,296,192,267,214,241,240,195,298,161,354,139,398"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aeae08438da658a3c0afddbb7960e4faa" title="Check that the directory at path &#160;exists." alt="" coords="345,201,523,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="140,395,202,325,245,286,293,253,329,238,331,242,296,257,248,290,205,329,144,399"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2" title="Returns full directory names in a given path ." alt="" coords="346,267,522,307"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="155,395,217,356,294,318,330,305,332,310,296,323,220,360,158,399"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_helper.html#a6ce9bc97f5e0fe832f2a1a5653365b64" title="Locate a dotnet executable to use." alt="" coords="335,332,533,373"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="225,394,320,374,321,379,226,399"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182" title="Gets the file name portion of a path ." alt="" coords="349,397,519,438"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="247,415,334,415,334,420,247,420"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3" title="Returns full file names in a given path ." alt="" coords="350,463,518,503"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="226,436,335,459,334,465,225,441"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#ae32865608a7386b98313efadfcf0a903" title="Perform an operation on a very long path." alt="" coords="295,527,573,583"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="159,436,221,474,296,513,311,519,309,524,294,517,218,479,156,441"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a060adda85e21f5414fa5d75c4608dcfb" title="Launch a IProcess.A ValueTask&lt;TResult&gt; resulting in the new IProcess." alt="" coords="327,607,541,647"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="143,437,168,471,203,514,246,557,296,593,314,601,311,606,293,597,243,561,199,517,163,475,138,440"/>
+<area shape="rect" id="Node000016" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37" title="Moves a directory at source &#160;to destination ." alt="" coords="346,672,522,713"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="138,438,159,484,193,543,239,605,266,633,296,657,332,675,330,679,293,661,263,637,235,609,189,546,155,486,133,440"/>
+<area shape="rect" id="Node000017" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd" title="Moves a file at source &#160;to destination ." alt="" coords="350,737,518,778"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="135,437,152,495,184,572,206,613,231,654,262,690,296,722,315,734,336,742,334,747,313,739,293,726,258,694,227,657,201,616,179,575,147,497,130,439"/>
+<area shape="rect" id="Node000018" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="326,802,542,858"/>
+<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="133,438,147,506,177,600,198,651,225,701,258,747,296,788,314,800,311,804,293,792,254,751,221,704,193,653,172,602,142,507,128,439"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="660,332,827,373"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="533,350,644,350,644,355,533,355"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a2306b74b2bb7f77e8e6880c681d8c12f" title="Consume the stdout/stderr streams into a Task." alt="" coords="631,575,856,615"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="541,613,615,606,615,611,541,619"/>
+<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac820fe814014b12333133450d6843d93" title="Run events on starting a process." alt="" coords="621,640,865,681"/>
+<area shape="poly" id="edge14_Node000012_Node000015" title=" " alt="" coords="541,636,606,643,605,648,541,641"/>
+<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9d01b47120756f55a482c198a85bf45f" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="913,567,1141,623"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="856,592,897,592,897,598,856,598"/>
+</map>
