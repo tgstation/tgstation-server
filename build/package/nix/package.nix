@@ -44,8 +44,8 @@ let
 
     executables = [];
 
-    dotnet-sdk = pkgs.dotnetCorePackages.sdk_8_0;
-    dotnet-runtime = pkgs.dotnetCorePackages.runtime_8_0;
+    dotnet-sdk = pkgs.dotnetCorePackages.sdk_10_0;
+    dotnet-runtime = pkgs.dotnetCorePackages.runtime_10_0;
   };
 in
 stdenv.mkDerivation {
@@ -61,7 +61,7 @@ stdenv.mkDerivation {
   };
 
   buildInputs = with pkgs; [
-    pkgs.dotnetCorePackages.sdk_8_0
+    pkgs.dotnetCorePackages.sdk_10_0
     gdb
     systemd
     zlib
@@ -80,11 +80,11 @@ stdenv.mkDerivation {
 
   installPhase = ''
     mkdir -p $out/bin
-    makeWrapper ${pkgs.dotnetCorePackages.sdk_8_0}/bin/dotnet $out/bin/tgstation-server --suffix PATH : ${
+    makeWrapper ${pkgs.dotnetCorePackages.sdk_10_0}/bin/dotnet $out/bin/tgstation-server --suffix PATH : ${
       lib.makeBinPath (
         with pkgs;
         [
-          pkgs.dotnetCorePackages.sdk_8_0
+          pkgs.dotnetCorePackages.sdk_10_0
           gdb
           bash
         ]
