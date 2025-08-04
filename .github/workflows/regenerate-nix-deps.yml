@@ -38,7 +38,7 @@ jobs:
       - name: Regenerate Dependencies
         run: |
           cd build/package/nix
-          nix shell nixpkgs#nuget-to-json nixpkgs#dotnetCorePackages.sdk_8_0 -c "./GenDeps.sh"
+          nix shell nixpkgs#nuget-to-json nixpkgs#dotnetCorePackages.sdk_10_0 -c "./GenDeps.sh"
 
       - name: Commit
         run: |
