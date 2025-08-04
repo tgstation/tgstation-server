@@ -30,7 +30,7 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Clone PR Branch
-        run: git clone -b ${{ github.event.pull_request.head.ref }} --depth 1 "https://git@github.com/tgstation/tgstation-server" .
+        run: git clone -b ${{ github.event.pull_request.head.ref }} --depth 1 "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/tgstation/tgstation-server" .
 
       - name: Regenerate Dependencies
         run: |
@@ -47,4 +47,4 @@ jobs:
       - name: Push
         run: |
           git config --global push.default simple
-          git push -u origin ${{ github.event.pull_request.head.ref }} "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/tgstation/tgstation-server" 2>&1
+          git push -u origin ${{ github.event.pull_request.head.ref }} 2>&1
