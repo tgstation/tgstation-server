@@ -60,8 +60,11 @@
 	sleep(150)
 	world.log << "Terminating..."
 	world.TgsEndProcess()
+	if(world.TgsAvailable())
+		FailTest("Expected TGS to not let us reach this point")
 
-	world.log << "You really shouldn't be able to read this"
+	del(world)
+	sleep(1)
 
 /world/Export(url)
 	log << "Export: [url]"

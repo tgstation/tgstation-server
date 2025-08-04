@@ -754,12 +754,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreNotEqual(0, daemonStatus.ImmediateMemoryUsage.Value);
 
 			if (skipApiValidation)
-			{
 				Assert.IsFalse(daemonStatus.ClientCount.HasValue);
-				await instanceClient.DreamDaemon.Shutdown(cancellationToken);
-			}
-			else
-				await GracefulWatchdogShutdown(cancellationToken);
+
+			await GracefulWatchdogShutdown(cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
