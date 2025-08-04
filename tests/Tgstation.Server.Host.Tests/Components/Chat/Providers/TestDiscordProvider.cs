@@ -56,15 +56,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				Instance = new Models.Instance(),
 			};
 
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(null, null, null, null, null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, null, null, null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new DiscordProvider(null, null, null, null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new DiscordProvider(mockJobManager, null, null, null, null, null));
 			var mockDel = Mock.Of<IAsyncDelayer>();
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, null, null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, null, null, null, null));
 			var mockLogger = Mock.Of<ILogger<DiscordProvider>>();
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, null, null, null));
 			var mockAss = Mock.Of<IAssemblyInformationProvider>();
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, bot, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, bot, null));
 			var mockGen = new GeneralConfiguration();
 			await new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, bot, mockGen).DisposeAsync();
 		}
@@ -81,7 +81,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				ConnectionString = "asdf",
 				Instance = new Models.Instance(),
 			}, new GeneralConfiguration());
-			await Assert.ThrowsExceptionAsync<JobException>(async () => await InvokeConnect(provider));
+			await Assert.ThrowsExactlyAsync<JobException>(async () => await InvokeConnect(provider));
 			Assert.IsFalse(provider.Connected);
 		}
 

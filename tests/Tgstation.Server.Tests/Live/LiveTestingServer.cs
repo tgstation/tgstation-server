@@ -89,6 +89,8 @@ namespace Tgstation.Server.Tests.Live
 				Cleanup(BaseDirectory).GetAwaiter().GetResult();
 			}
 
+			System.Console.WriteLine($"RunningInGitHubActions: {TestingUtils.RunningInGitHubActions}");
+
 			Assert.IsTrue(port >= 10000); // for testing bridge request limit
 			Directory = BaseDirectory;
 

@@ -284,7 +284,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task RunLimitTests(CancellationToken cancellationToken)
 		{
-			await ApiAssert.ThrowsException<ConflictException, ChatBotResponse>(() => chatClient.Create(new ChatBotCreateRequest
+			await ApiAssert.ThrowsExactly<ConflictException, ChatBotResponse>(() => chatClient.Create(new ChatBotCreateRequest
 			{
 				Name = "asdf",
 				ConnectionString = "asdf",
@@ -311,18 +311,18 @@ namespace Tgstation.Server.Tests.Live.Instance
 					ChannelData = discordBotReq.Channels.First().ChannelData
 				});
 
-			await ApiAssert.ThrowsException<ApiConflictException, ChatBotResponse>(() => chatClient.Update(discordBotReq, cancellationToken), ErrorCode.ChatBotMaxChannels);
+			await ApiAssert.ThrowsExactly<ApiConflictException, ChatBotResponse>(() => chatClient.Update(discordBotReq, cancellationToken), ErrorCode.ChatBotMaxChannels);
 
 			var oldChannels = discordBotReq.Channels;
 			discordBotReq.Channels = null;
 			discordBotReq.ChannelLimit = 0;
-			await ApiAssert.ThrowsException<ConflictException, ChatBotResponse>(() => chatClient.Update(discordBotReq, cancellationToken), ErrorCode.ChatBotMaxChannels);
+			await ApiAssert.ThrowsExactly<ConflictException, ChatBotResponse>(() => chatClient.Update(discordBotReq, cancellationToken), ErrorCode.ChatBotMaxChannels);
 
 			discordBotReq.Channels = oldChannels;
 			discordBotReq.ChannelLimit = null;
-			await ApiAssert.ThrowsException<ConflictException, ChatBotResponse>(() => chatClient.Update(discordBotReq, cancellationToken), ErrorCode.ChatBotMaxChannels);
+			await ApiAssert.ThrowsExactly<ConflictException, ChatBotResponse>(() => chatClient.Update(discordBotReq, cancellationToken), ErrorCode.ChatBotMaxChannels);
 
-			await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => instanceClient.Update(new InstanceUpdateRequest
+			await ApiAssert.ThrowsExactly<ConflictException, InstanceResponse>(() => instanceClient.Update(new InstanceUpdateRequest
 			{
 				Id = metadata.Id,
 				ChatBotLimit = 0

@@ -18,8 +18,8 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="path">The path to the installation.</param>
 		/// <param name="installationTask">The <see cref="Task"/> representing the installation process for the installation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IEngineInstallation"/>.</returns>
-		ValueTask<IEngineInstallation> CreateInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IEngineInstallation"/> for the given <paramref name="version"/>.</returns>
+		ValueTask<IEngineInstallation> GetInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Download a given engine <paramref name="version"/>.
@@ -37,8 +37,8 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="path">The path to the installation.</param>
 		/// <param name="deploymentPipelineProcesses">If the operation should consider processes it launches to be part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask Install(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the new <see cref="IEngineInstallation"/>.</returns>
+		ValueTask<IEngineInstallation> Install(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Does actions necessary to get upgrade a version installed by a previous version of TGS.

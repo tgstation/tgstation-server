@@ -39,15 +39,16 @@
 	fdel("test_event_output.txt")
 	var/test_data = "nwfiuurhfu"
 	world.TgsTriggerEvent("test_event", list(test_data), TRUE)
-	if(!fexists("test_event_output.txt"))
-		FailTest("Expected test_event_output.txt to exist here", "test_fail_reason.txt")
+	if(world.TgsAvailable())
+		if(!fexists("test_event_output.txt"))
+			FailTest("Expected test_event_output.txt to exist here", "test_fail_reason.txt")
 
-	var/test_contents = copytext(file2text("test_event_output.txt"), 1, length(test_data) + 1)
-	if(test_contents != test_data)
-		FailTest("Expected test_event_output.txt to contain [test_data] here. Got [test_contents]", "test_fail_reason.txt")
+		var/test_contents = copytext(file2text("test_event_output.txt"), 1, length(test_data) + 1)
+		if(test_contents != test_data)
+			FailTest("Expected test_event_output.txt to contain [test_data] here. Got [test_contents]", "test_fail_reason.txt")
 
-	world.log << "file check 1"
-	fdel("test_event_output.txt")
+		world.log << "file check 1"
+		fdel("test_event_output.txt")
 
 	var/start_time = world.timeofday
 	world.TgsTriggerEvent("test_event", list("asdf"), FALSE)
@@ -59,8 +60,11 @@
 	sleep(150)
 	world.log << "Terminating..."
 	world.TgsEndProcess()
+	if(world.TgsAvailable())
+		FailTest("Expected TGS to not let us reach this point")
 
-	world.log << "You really shouldn't be able to read this"
+	del(world)
+	sleep(1)
 
 /world/Export(url)
 	log << "Export: [url]"

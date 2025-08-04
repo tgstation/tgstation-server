@@ -161,7 +161,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				var response = await bridgeDispatcher.ProcessBridgeRequest(request, cancellationToken);
 				if (response == null)
-					TypedResults.Forbid();
+					TypedResults.Unauthorized();
 
 				var responseJson = JsonConvert.SerializeObject(response, DMApiConstants.SerializerSettings);
 

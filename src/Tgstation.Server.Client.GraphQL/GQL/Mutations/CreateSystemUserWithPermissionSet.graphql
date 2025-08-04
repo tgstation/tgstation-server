@@ -9,9 +9,11 @@ mutation CreateSystemUserWithPermissionSet($systemIdentifier: String!) {
         message
       }
     }
-    user {
+    updatedUser {
       id
-      name
+      user {
+        name
+      }
     }
   }
 }

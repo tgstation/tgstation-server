@@ -71,7 +71,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(PaginatedResponse<JobResponse>), 200)]
 		public ValueTask<IActionResult> Read([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<Job, JobResponse>(
-				() => ValueTask.FromResult(
+				() => ValueTask.FromResult<PaginatableResult<Job>?>(
 					new PaginatableResult<Job>(
 						DatabaseContext
 						.Jobs
@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(PaginatedResponse<JobResponse>), 200)]
 		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<Job, JobResponse>(
-				() => ValueTask.FromResult(
+				() => ValueTask.FromResult<PaginatableResult<Job>?>(
 					new PaginatableResult<Job>(
 						DatabaseContext
 						.Jobs

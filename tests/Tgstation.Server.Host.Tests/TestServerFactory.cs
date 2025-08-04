@@ -21,11 +21,11 @@ namespace Tgstation.Server.Host.Tests
 		[TestMethod]
 		public void TestConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerFactory(null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new ServerFactory(null, null, null));
 			IAssemblyInformationProvider assemblyInformationProvider = Mock.Of<IAssemblyInformationProvider>();
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerFactory(assemblyInformationProvider, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new ServerFactory(assemblyInformationProvider, null, null));
 			IIOManager ioManager = Mock.Of<IIOManager>();
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerFactory(assemblyInformationProvider, ioManager, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new ServerFactory(assemblyInformationProvider, ioManager, null));
 			var mockFileSystem = new MockFileSystem();
 			_ = new ServerFactory(assemblyInformationProvider, ioManager, mockFileSystem);
 		}
@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Tests
 		{
 			var factory = Application.CreateDefaultServerFactory();
 
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateServer(null, null, default).AsTask());
+			await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => factory.CreateServer(null, null, default).AsTask());
 			var result = await factory.CreateServer(cliArgs, null, default);
 			Assert.IsNotNull(result);
 		}
@@ -46,8 +46,8 @@ namespace Tgstation.Server.Host.Tests
 			var factory = Application.CreateDefaultServerFactory();
 			const string Path = "/test";
 
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateServer(null, null, default).AsTask());
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateServer(null, Path, default).AsTask());
+			await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => factory.CreateServer(null, null, default).AsTask());
+			await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => factory.CreateServer(null, Path, default).AsTask());
 			var result = await factory.CreateServer(cliArgs, Path, default);
 			Assert.IsNotNull(result);
 		}

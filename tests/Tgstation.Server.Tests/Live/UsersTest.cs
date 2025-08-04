@@ -81,7 +81,7 @@ namespace Tgstation.Server.Tests.Live
 					var gqlUser = graphQLResult.Swarm.Users.Current;
 					return restResult.Enabled == gqlUser.Enabled
 						&& restResult.Name == gqlUser.Name
-						&& (restResult.CreatedAt.Value.Ticks / 1000000) == (gqlUser.CreatedAt.Ticks / 1000000)
+						&& (restResult.CreatedAt.Value.Ticks / 10000) == (gqlUser.CreatedAt.Ticks / 10000)
 						&& restResult.SystemIdentifier == gqlUser.SystemIdentifier
 						&& restResult.CreatedBy.Name == gqlUser.CreatedBy.Name;
 				},
@@ -108,8 +108,8 @@ namespace Tgstation.Server.Tests.Live
 					Assert.IsTrue(users.Count > 0);
 					Assert.IsFalse(users.Any(x => x.Id == systemUser.Id));
 
-					await ApiAssert.ThrowsException<InsufficientPermissionsException, UserResponse>(() => client.Users.GetId(systemUser, cancellationToken));
-					await ApiAssert.ThrowsException<InsufficientPermissionsException, UserResponse>(() => client.Users.Update(new UserUpdateRequest
+					await ApiAssert.ThrowsExactly<InsufficientPermissionsException, UserResponse>(() => client.Users.GetId(systemUser, cancellationToken));
+					await ApiAssert.ThrowsExactly<InsufficientPermissionsException, UserResponse>(() => client.Users.Update(new UserUpdateRequest
 					{
 						Id = systemUser.Id
 					}, cancellationToken));
@@ -123,7 +123,7 @@ namespace Tgstation.Server.Tests.Live
 						}
 					};
 
-					await ApiAssert.ThrowsException<ApiConflictException, UserResponse>(() => client.Users.Update(new UserUpdateRequest
+					await ApiAssert.ThrowsExactly<ApiConflictException, UserResponse>(() => client.Users.Update(new UserUpdateRequest
 					{
 						Id = restUser.Id,
 						OAuthConnections = sampleOAuthConnections
@@ -206,7 +206,7 @@ namespace Tgstation.Server.Tests.Live
 						Password = string.Empty
 					};
 
-					await ApiAssert.ThrowsException<ApiConflictException, UserResponse>(() => client.Users.Create((UserCreateRequest)testUserUpdate, cancellationToken), Api.Models.ErrorCode.UserPasswordLength);
+					await ApiAssert.ThrowsExactly<ApiConflictException, UserResponse>(() => client.Users.Create((UserCreateRequest)testUserUpdate, cancellationToken), Api.Models.ErrorCode.UserPasswordLength);
 
 					testUserUpdate.OAuthConnections =
 					[
@@ -228,7 +228,7 @@ namespace Tgstation.Server.Tests.Live
 							Id = group.Id
 						},
 					};
-					await ApiAssert.ThrowsException<ApiConflictException, UserResponse>(
+					await ApiAssert.ThrowsExactly<ApiConflictException, UserResponse>(
 						() => client.Users.Update(
 							testUserUpdate,
 							cancellationToken),
@@ -298,13 +298,13 @@ namespace Tgstation.Server.Tests.Live
 
 					var testUserResult2 = await client.RunMutationEnsureNoErrors(
 						gql => gql.UpdateUserOAuthConnections.ExecuteAsync(
-							testUserResult.User.Id,
+							testUserResult.UpdatedUser.Id,
 							sampleOAuthConnections,
 							cancellationToken),
 						data => data.UpdateUser,
 						cancellationToken);
 
-					var testUser = testUserResult2.User;
+					var testUser = testUserResult2.UpdatedUser.User;
 					Assert.IsNotNull(testUser.OAuthConnections);
 					Assert.AreEqual(1, testUser.OAuthConnections.Count);
 					Assert.AreEqual(sampleOAuthConnections.First().ExternalUserId, testUser.OAuthConnections[0].ExternalUserId);
@@ -451,14 +451,14 @@ namespace Tgstation.Server.Tests.Live
 						data => data.CreateUserByServiceConnectionAndPermissionSet,
 						cancellationToken);
 
-					var testUser2 = oAuthCreateResult.User;
+					var testUser2 = oAuthCreateResult.UpdatedUser;
 
 					var testUser22Result = await client.RunMutationEnsureNoErrors(
 						gql => gql.SetUserGroup.ExecuteAsync(testUser2.Id, group.Id, cancellationToken),
 						data => data.UpdateUserSetGroup,
 						cancellationToken);
 
-					var testUser22 = testUser22Result.User;
+					var testUser22 = testUser22Result.UpdatedUser.User;
 
 					Assert.IsNull(testUser22.OwnedPermissionSet);
 					Assert.IsNotNull(testUser22.Group);
@@ -509,7 +509,7 @@ namespace Tgstation.Server.Tests.Live
 						data => data.UpdateUserSetOwnedPermissionSet,
 						cancellationToken);
 
-					var testUser4 = testUser4Result.User;
+					var testUser4 = testUser4Result.UpdatedUser.User;
 					Assert.IsNull(testUser4.Group);
 					Assert.IsNotNull(testUser4.OwnedPermissionSet);
 				});
@@ -529,7 +529,7 @@ namespace Tgstation.Server.Tests.Live
 					if (new PlatformIdentifier().IsWindows)
 						await restClient.Users.Create(update, cancellationToken);
 					else
-						await ApiAssert.ThrowsException<MethodNotSupportedException, UserResponse>(() => restClient.Users.Create(update, cancellationToken), Api.Models.ErrorCode.RequiresPosixSystemIdentity);
+						await ApiAssert.ThrowsExactly<MethodNotSupportedException, UserResponse>(() => restClient.Users.Create(update, cancellationToken), Api.Models.ErrorCode.RequiresPosixSystemIdentity);
 				},
 				async graphQLClient =>
 				{
@@ -541,10 +541,11 @@ namespace Tgstation.Server.Tests.Live
 							cancellationToken);
 
 						Assert.IsNotNull(user);
-						Assert.IsNotNull(user.User);
-						Assert.IsNotNull(user.User.Id);
-						Assert.IsNotNull(user.User.Name);
-						Assert.AreEqual(sysId, user.User.Name);
+						Assert.IsNotNull(user.UpdatedUser);
+						Assert.IsNotNull(user.UpdatedUser.Id);
+						Assert.IsNotNull(user.UpdatedUser.User);
+						Assert.IsNotNull(user.UpdatedUser.User.Name);
+						Assert.AreEqual(sysId, user.UpdatedUser.User.Name);
 						Console.WriteLine($"TEST: Created system user: {sysId}");
 					}
 					else
@@ -593,7 +594,7 @@ namespace Tgstation.Server.Tests.Live
 									data => data.CreateUserByPasswordAndPermissionSet,
 									cancellationToken);
 
-								ids.Add(result.User.Id);
+								ids.Add(result.UpdatedUser.Id);
 							});
 
 					tasks.Add(CreateSpamUser());
@@ -629,12 +630,12 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(expectedCount, nullSettings.Count);
 					Assert.IsTrue(nullSettings.All(x => emptySettings.SingleOrDefault(y => x.Id == y.Id) != null));
 
-					await ApiAssert.ThrowsException<ApiConflictException, List<UserResponse>>(() => restClient.Users.List(
+					await ApiAssert.ThrowsExactly<ApiConflictException, List<UserResponse>>(() => restClient.Users.List(
 						new PaginationSettings
 						{
 							PageSize = -2143
 						}, cancellationToken), Api.Models.ErrorCode.ApiInvalidPageOrPageSize);
-					await ApiAssert.ThrowsException<ApiConflictException, List<UserResponse>>(() => restClient.Users.List(
+					await ApiAssert.ThrowsExactly<ApiConflictException, List<UserResponse>>(() => restClient.Users.List(
 						new PaginationSettings
 						{
 							PageSize = ApiController.MaximumPageSize + 1,

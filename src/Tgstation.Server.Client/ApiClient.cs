@@ -69,9 +69,9 @@ namespace Tgstation.Server.Client
 		};
 
 		/// <summary>
-		/// The <see cref="IHttpClient"/> for the <see cref="ApiClient"/>.
+		/// The <see cref="HttpClient"/> for the <see cref="ApiClient"/>.
 		/// </summary>
-		readonly IHttpClient httpClient;
+		readonly HttpClient httpClient;
 
 		/// <summary>
 		/// The <see cref="IRequestLogger"/>s used by the <see cref="ApiClient"/>.
@@ -166,7 +166,7 @@ namespace Tgstation.Server.Client
 		/// <param name="tokenRefreshHeaders">The value of <see cref="tokenRefreshHeaders"/>.</param>
 		/// <param name="authless">The value of <see cref="authless"/>.</param>
 		public ApiClient(
-			IHttpClient httpClient,
+			HttpClient httpClient,
 			Uri url,
 			ApiHeaders apiHeaders,
 			ApiHeaders? tokenRefreshHeaders,
