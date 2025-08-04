@@ -5,3 +5,4 @@
 - [ ] Disable `TgsNetPreviewBuild` in Version.props
 - [ ] Fix dependencies in debian build-package.sh and control
 - [ ] Remove OD SDK install steps for linux unit tests, codeql, and deb build in ci-pipeline.yml
+- [ ] Restore nix build validation and hash regeneration
