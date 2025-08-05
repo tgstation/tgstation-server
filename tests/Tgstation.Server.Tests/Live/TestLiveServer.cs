@@ -1869,7 +1869,6 @@ namespace Tgstation.Server.Tests.Live
 						WatchdogTest.StaticTopicClient,
 						mainDDPort.Value,
 						true,
-						server.UsingBasicWatchdog,
 						cancellationToken);
 
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value); // if this assert fails, you likely have to crack open the debugger and read test_fail_reason.txt manually

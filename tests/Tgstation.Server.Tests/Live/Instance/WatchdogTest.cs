@@ -1536,8 +1536,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 		}
 
 		public Task<DreamDaemonResponse> TellWorldToReboot(bool waitForOnlineIfRestoring, CancellationToken cancellationToken, [CallerLineNumber]int source = 0)
-			=> TellWorldToReboot2(instanceClient, instanceManager, topicClient, FindTopicPort(), waitForOnlineIfRestoring || testVersion.Engine.Value == EngineType.OpenDream, watchdogRestartsProcess, cancellationToken, source);
-		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, IInstanceManager instanceManager, ITopicClient topicClient, ushort topicPort, bool waitForOnlineIfRestoring, bool watchdogRestartsProcess, CancellationToken cancellationToken, [CallerLineNumber]int source = 0, [CallerFilePath]string path = null)
+			=> TellWorldToReboot2(instanceClient, instanceManager, topicClient, FindTopicPort(), waitForOnlineIfRestoring || testVersion.Engine.Value == EngineType.OpenDream, cancellationToken, source);
+		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, IInstanceManager instanceManager, ITopicClient topicClient, ushort topicPort, bool waitForOnlineIfRestoring, CancellationToken cancellationToken, [CallerLineNumber]int source = 0, [CallerFilePath]string path = null)
 		{
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsNotNull(daemonStatus.StagedCompileJob);
@@ -1553,20 +1553,16 @@ namespace Tgstation.Server.Tests.Live.Instance
 			using var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 			var tempToken = tempCts.Token;
 
-			bool DifferentSession() => initialSessionId != daemonStatus.SessionId || (initialIteration.HasValue && initialIteration != daemonStatus.WorldIteration);
+			bool SameSession() => initialSessionId == daemonStatus.SessionId && initialIteration == daemonStatus.WorldIteration;
 			using (tempToken.Register(() => System.Console.WriteLine("TEST ERROR: Timeout in TellWorldToReboot!")))
 			{
 				tempCts.CancelAfter(TimeSpan.FromMinutes(2));
 				do
 				{
-					do
-					{
-						await Task.Delay(TimeSpan.FromSeconds(1), tempToken);
-						daemonStatus = await instanceClient.DreamDaemon.Read(tempToken);
-					}
-					while (initialSession.Id == daemonStatus.ActiveCompileJob.Id);
+					await Task.Delay(TimeSpan.FromSeconds(1), tempToken);
+					daemonStatus = await instanceClient.DreamDaemon.Read(tempToken);
 				}
-				while (watchdogRestartsProcess && initialIteration.HasValue && DifferentSession());
+				while (initialSession.Id == daemonStatus.ActiveCompileJob.Id || SameSession());
 			}
 
 			if (waitForOnlineIfRestoring && daemonStatus.Status == WatchdogStatus.Restoring)
