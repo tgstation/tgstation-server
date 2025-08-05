@@ -172,7 +172,9 @@ namespace Tgstation.Server.Host.Components.Engine
 						new MediaTypeHeaderValue(MediaTypeNames.Application.Json));
 					request.Method = HttpMethod.Post;
 
+#pragma warning disable CA2025 // SHUT UP!!!
 					responseTask = httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+#pragma warning restore CA2025
 					try
 					{
 						await Task.WhenAny(timeout, lifetime, responseTask);
