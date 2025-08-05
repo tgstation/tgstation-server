@@ -15,6 +15,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		public long? SessionId { get; set; }
 
 		/// <summary>
+		/// A incrementing ID for representing current iteration of servers world (i.e. after calling /world/proc/Reboot). Only unique within the current <see cref="SessionId"/>. Only tracked in game sessions with the DMAPI enabled.
+		/// </summary>
+		/// <example>1</example>
+		[ResponseOptions]
+		public long? WorldIteration { get; set; }
+
+		/// <summary>
 		/// When the current server execution was started.
 		/// </summary>
 		[ResponseOptions]

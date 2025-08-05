@@ -26,12 +26,18 @@
 	FailTest("DMAPI Error: [message]")
 
 /proc/Run()
+	var/list/world_params = world.params
+	if("basic_reboot" in world_params || world_params["basic_reboot"] == "yes")
+		world.log << "Reboot path"
+		sleep(150)
+		world.Reboot()
+		return
+
 	world.log << "sleep"
 	sleep(50)
 	world.TgsTargetedChatBroadcast("Sample admin-only message", TRUE)
 
 	world.log << "params check"
-	var/list/world_params = world.params
 	if(!("test" in world_params) || world_params["test"] != "bababooey")
 		FailTest("Expected parameter test=bababooey but did not receive", "test_fail_reason.txt")
 
@@ -58,7 +64,7 @@
 
 	world.log << "sleep2"
 	sleep(150)
-	world.log << "Terminating..."
+	world.log << "Test Terminating..."
 	world.TgsEndProcess()
 	if(world.TgsAvailable())
 		FailTest("Expected TGS to not let us reach this point")
@@ -80,6 +86,7 @@
 
 /world/Reboot(reason)
 	TgsReboot()
+	return ..()
 
 /datum/tgs_chat_command/echo
 	name = "echo"
