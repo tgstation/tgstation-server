@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -24,6 +25,11 @@ namespace Tgstation.Server.Host.Authority
 		/// The <see cref="IPermissionSetsDataLoader"/> for the <see cref="PermissionSetAuthority"/>.
 		/// </summary>
 		readonly IPermissionSetsDataLoader permissionSetsDataLoader;
+
+		/// <summary>
+		/// The <see cref="IClaimsPrincipalAccessor"/> for the <see cref="PermissionSetAuthority"/>.
+		/// </summary>
+		readonly IClaimsPrincipalAccessor claimsPrincipalAccessor;
 
 		/// <summary>
 		/// Implements <see cref="permissionSetsDataLoader"/>.
@@ -85,34 +91,60 @@ namespace Tgstation.Server.Host.Authority
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PermissionSetAuthority"/> class.
 		/// </summary>
-		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> to use.</param>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to use.</param>
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
 		/// <param name="permissionSetsDataLoader">The value of <see cref="permissionSetsDataLoader"/>.</param>
+		/// <param name="claimsPrincipalAccessor">The value of <see cref="claimsPrincipalAccessor"/>.</param>
 		public PermissionSetAuthority(
-			IAuthenticationContext authenticationContext,
 			IDatabaseContext databaseContext,
 			ILogger<AuthorityBase> logger,
-			IPermissionSetsDataLoader permissionSetsDataLoader)
+			IPermissionSetsDataLoader permissionSetsDataLoader,
+			IClaimsPrincipalAccessor claimsPrincipalAccessor)
 			: base(
-				  authenticationContext,
 				  databaseContext,
 				  logger)
 		{
 			this.permissionSetsDataLoader = permissionSetsDataLoader ?? throw new ArgumentNullException(nameof(permissionSetsDataLoader));
+			this.claimsPrincipalAccessor = claimsPrincipalAccessor ?? throw new ArgumentNullException(nameof(claimsPrincipalAccessor));
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<AuthorityResponse<PermissionSet>> GetId(long id, PermissionSetLookupType lookupType, CancellationToken cancellationToken)
+		public RequirementsGated<AuthorityResponse<PermissionSet>> GetId(long id, PermissionSetLookupType lookupType, CancellationToken cancellationToken)
 		{
-			if (id != AuthenticationContext.PermissionSet.Id && !((AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration)).HasFlag(AdministrationRights.ReadUsers))
-				return Forbid<PermissionSet>();
+			var permissionSetTask = permissionSetsDataLoader.LoadAsync((Id: id, LookupType: lookupType), cancellationToken);
+			return new(
+				async () =>
+				{
+					var userId = claimsPrincipalAccessor.User.GetTgsUserId();
 
-			var permissionSet = await permissionSetsDataLoader.LoadAsync((Id: id, LookupType: lookupType), cancellationToken);
-			if (permissionSet == null)
-				return NotFound<PermissionSet>();
+					var groupIdQuery = DatabaseContext
+						.Users
+						.AsQueryable()
+						.Where(user => user.Id == userId)
+						.Select(user => user.GroupId);
 
-			return new AuthorityResponse<PermissionSet>(permissionSet);
+					var permissionSetId = await DatabaseContext
+						.PermissionSets
+						.AsQueryable()
+						.Where(permissionSet => permissionSet.UserId == userId
+							|| groupIdQuery.Contains(permissionSet.GroupId))
+						.Select(permissionSet => permissionSet.Id!.Value)
+						.FirstAsync(cancellationToken);
+
+					if (permissionSetId == id)
+						return null;
+
+					return Flag(AdministrationRights.ReadUsers);
+				},
+				async () =>
+				{
+					var permissionSet = await permissionSetTask;
+
+					if (permissionSet == null)
+						return NotFound<PermissionSet>();
+
+					return new AuthorityResponse<PermissionSet>(permissionSet);
+				});
 		}
 	}
 }

@@ -13,7 +13,6 @@ using Microsoft.Extensions.Options;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models.Transformers;
-using Tgstation.Server.Host.Security;
 
 #pragma warning disable CA1724 // conflict with GitLabApiClient.Models.Users. They can fuck off
 
@@ -48,7 +47,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the current <see cref="User"/>.</returns>
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Read))]
 		public ValueTask<User> Current(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
@@ -65,7 +63,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="User"/> represented by <paramref name="id"/>, if any.</returns>
 		[Error(typeof(ErrorMessageException))]
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.GetId))]
 		public ValueTask<User?> ById(
 			[ID(nameof(User))] long id,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
@@ -80,12 +77,12 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UsePaging]
 		[UseFiltering]
 		[UseSorting]
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Queryable))]
-		public IQueryable<User> QueryableUsers(
+		public async ValueTask<IQueryable<User>> QueryableUsers(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			var dtoQueryable = userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(authority => authority.Queryable(false));
+			var dtoQueryable = await userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(
+				authority => authority.Queryable(false));
 			return dtoQueryable;
 		}
 	}

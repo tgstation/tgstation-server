@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -24,6 +25,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="ApiController"/> for managing <see cref="User"/>s.
 	/// </summary>
 	[Route(Routes.User)]
+	[Authorize]
 	public sealed class UserController : ApiController
 	{
 		/// <summary>
@@ -64,10 +66,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="201"><see cref="User"/> created successfully.</response>
 		/// <response code="410">The requested system identifier could not be found.</response>
 		[HttpPut]
-		[TgsRestAuthorize<IUserAuthority>(nameof(IUserAuthority.Create))]
 		[ProducesResponseType(typeof(UserResponse), 201)]
 		public ValueTask<IActionResult> Create([FromBody] UserCreateRequest model, CancellationToken cancellationToken)
-			=> userAuthority.InvokeTransformable<User, UserResponse>(this, authority => authority.Create(model, null, cancellationToken));
+			=> userAuthority.InvokeTransformable<UpdatedUser, UserResponse>(this, authority => authority.Create(model, null, cancellationToken));
 
 		/// <summary>
 		/// Update a <see cref="User"/>.
@@ -80,13 +81,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="404">Requested <see cref="EntityId.Id"/> does not exist.</response>
 		/// <response code="410">Requested <see cref="Api.Models.Internal.UserApiBase.Group"/> does not exist.</response>
 		[HttpPost]
-		[TgsRestAuthorize<IUserAuthority>(nameof(IUserAuthority.Update))]
 		[ProducesResponseType(typeof(UserResponse), 200)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public ValueTask<IActionResult> Update([FromBody] UserUpdateRequest model, CancellationToken cancellationToken)
-			=> userAuthority.InvokeTransformable<User, UserResponse>(this, authority => authority.Update(model, cancellationToken));
+			=> userAuthority.InvokeTransformable<UpdatedUser, UserResponse>(this, authority => authority.Update(model, cancellationToken));
 
 		/// <summary>
 		/// Get information about the current <see cref="User"/>.
@@ -95,7 +95,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">The <see cref="User"/> was retrieved successfully.</response>
 		[HttpGet]
-		[TgsRestAuthorize<IUserAuthority>(nameof(IUserAuthority.Read))]
+		[Authorize]
 		[ProducesResponseType(typeof(UserResponse), 200)]
 		public ValueTask<IActionResult> Read(CancellationToken cancellationToken)
 			=> userAuthority.InvokeTransformable<User, UserResponse>(this, authority => authority.Read(cancellationToken));
@@ -109,15 +109,18 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Retrieved <see cref="User"/>s successfully.</response>
 		[HttpGet(Routes.List)]
-		[TgsRestAuthorize<IUserAuthority>(nameof(IUserAuthority.Queryable))]
 		[ProducesResponseType(typeof(PaginatedResponse<UserResponse>), 200)]
 		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<User, UserResponse>(
-				() => ValueTask.FromResult(
-					new PaginatableResult<User>(
-						userAuthority.InvokeQueryable(
-							authority => authority.Queryable(true))
-							.OrderBy(x => x.Id))),
+				async () =>
+				{
+					var queryable = await userAuthority.InvokeQueryable(
+						authority => authority.Queryable(true));
+					if (queryable == null)
+						return null;
+
+					return new PaginatableResult<User>(queryable.OrderBy(x => x.Id));
+				},
 				null,
 				page,
 				pageSize,
@@ -132,7 +135,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">The <see cref="User"/> was retrieved successfully.</response>
 		/// <response code="404">The <see cref="User"/> does not exist.</response>
 		[HttpGet("{id}")]
-		[TgsAuthorize]
 		[ProducesResponseType(typeof(UserResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]
 		public async ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)

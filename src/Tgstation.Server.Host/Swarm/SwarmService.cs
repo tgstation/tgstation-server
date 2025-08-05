@@ -19,7 +19,6 @@ using Microsoft.Extensions.Options;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Common.Extensions;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Core;
@@ -76,9 +75,9 @@ namespace Tgstation.Server.Host.Swarm
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="IAbstractHttpClientFactory"/> for the <see cref="SwarmService"/>.
+		/// The <see cref="IHttpClientFactory"/> for the <see cref="SwarmService"/>.
 		/// </summary>
-		readonly IAbstractHttpClientFactory httpClientFactory;
+		readonly IHttpClientFactory httpClientFactory;
 
 		/// <summary>
 		/// The <see cref="IAsyncDelayer"/> for the <see cref="SwarmService"/>.
@@ -193,7 +192,7 @@ namespace Tgstation.Server.Host.Swarm
 			IDatabaseContextFactory databaseContextFactory,
 			IDatabaseSeeder databaseSeeder,
 			IAssemblyInformationProvider assemblyInformationProvider,
-			IAbstractHttpClientFactory httpClientFactory,
+			IHttpClientFactory httpClientFactory,
 			IAsyncDelayer asyncDelayer,
 			IServerUpdater serverUpdater,
 			IFileTransferTicketProvider transferService,

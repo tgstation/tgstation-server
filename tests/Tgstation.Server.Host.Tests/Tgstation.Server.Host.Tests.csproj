@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
+    <ProjectReference Include="..\Tgstation.Server.Common.Tests\Tgstation.Server.Common.Tests.csproj" />
   </ItemGroup>
 
 </Project>

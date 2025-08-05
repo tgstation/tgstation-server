@@ -14,14 +14,14 @@ namespace Tgstation.Server.Host.IO.Tests
 		[TestMethod]
 		public void TestContructionThrows()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new Console(null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new Console(null));
 		}
 
 		[TestMethod]
 		public async Task TestWriteLine()
 		{
 			var console = new Console(new PlatformIdentifier());
-			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => console.WriteAsync(null, false, default));
+			await Assert.ThrowsExactlyAsync<InvalidOperationException>(() => console.WriteAsync(null, false, default));
 			try
 			{
 				await console.WriteAsync(null, true, default);

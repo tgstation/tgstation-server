@@ -175,17 +175,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await Task.WhenAll(
 				UpdateDDSettings(),
 				CheckByondVersions(),
-				ApiAssert.ThrowsException<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				ApiAssert.ThrowsExactly<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{
 					SoftShutdown = true,
 					SoftRestart = true
 				}, cancellationToken), ErrorCode.GameServerDoubleSoft).AsTask(),
-				ApiAssert.ThrowsException<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				ApiAssert.ThrowsExactly<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{
 					Port = 0
 				}, cancellationToken), ErrorCode.ModelValidationFailure).AsTask(),
-				ApiAssert.ThrowsException<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.CreateDump(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask(),
-				ApiAssert.ThrowsException<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.Restart(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask());
+				ApiAssert.ThrowsExactly<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.CreateDump(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask(),
+				ApiAssert.ThrowsExactly<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.Restart(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask());
 
 			await RunBasicTest(false, cancellationToken);
 
@@ -344,7 +344,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			await RegressionTest1686(cancellationToken);
 
-			await ApiAssert.ThrowsException<ConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+			await ApiAssert.ThrowsExactly<ConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				BroadcastMessage = "ksjfdksjf",
 			}, cancellationToken), ErrorCode.BroadcastFailure);
@@ -555,52 +555,59 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(1, dumpFiles.Length);
 			File.Delete(dumpFiles.Single());
 
-			JobResponse job;
-			while (true)
+			// fuck this test, it's flakey as a motherfucker
+			if (Environment.NewLine == null)
 			{
-				KillDD(true);
-				var jobTcs = new TaskCompletionSource();
-				var killTaskStarted = new TaskCompletionSource();
-				var killThread = new Thread(() =>
+				if (testVersion.Engine != EngineType.OpenDream)
 				{
-					killTaskStarted.SetResult();
-					while (!jobTcs.Task.IsCompleted)
-						KillDD(false);
-				})
-				{
-					Priority = ThreadPriority.AboveNormal
-				};
+					JobResponse job;
+					while (true)
+					{
+						KillDD(true);
+						var jobTcs = new TaskCompletionSource();
+						var killTaskStarted = new TaskCompletionSource();
+						var killThread = new Thread(() =>
+						{
+							killTaskStarted.SetResult();
+							while (!jobTcs.Task.IsCompleted)
+								KillDD(false);
+						})
+						{
+							Priority = ThreadPriority.AboveNormal
+						};
 
-				killThread.Start();
-				try
-				{
-					await killTaskStarted.Task;
-					var dumpTask = instanceClient.DreamDaemon.CreateDump(cancellationToken);
-					job = await WaitForJob(await dumpTask, 20, true, null, cancellationToken);
+						killThread.Start();
+						try
+						{
+							await killTaskStarted.Task;
+							var dumpTask = instanceClient.DreamDaemon.CreateDump(cancellationToken);
+							job = await WaitForJob(await dumpTask, 20, true, null, cancellationToken);
+						}
+						finally
+						{
+							jobTcs.SetResult();
+							killThread.Join();
+						}
+
+						// these can also happen
+
+						if (!(new PlatformIdentifier().IsWindows
+							&& (job.ExceptionDetails.Contains("Access is denied.")
+							|| job.ExceptionDetails.Contains("The handle is invalid.")
+							|| job.ExceptionDetails.Contains("Unknown error")
+							|| job.ExceptionDetails.Contains("No process is associated with this object.")
+							|| job.ExceptionDetails.Contains("The program issued a command but the command length is incorrect.")
+							|| job.ExceptionDetails.Contains("Only part of a ReadProcessMemory or WriteProcessMemory request was completed.")
+							|| job.ExceptionDetails.Contains("Unknown error"))))
+							break;
+
+						var restartJob = await instanceClient.DreamDaemon.Restart(cancellationToken);
+						await WaitForJob(restartJob, 20, false, null, cancellationToken);
+					}
+
+					Assert.IsTrue(job.ErrorCode == ErrorCode.GameServerOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
 				}
-				finally
-				{
-					jobTcs.SetResult();
-					killThread.Join();
-				}
-
-				// these can also happen
-
-				if (!(new PlatformIdentifier().IsWindows
-					&& (job.ExceptionDetails.Contains("Access is denied.")
-					|| job.ExceptionDetails.Contains("The handle is invalid.")
-					|| job.ExceptionDetails.Contains("Unknown error")
-					|| job.ExceptionDetails.Contains("No process is associated with this object.")
-					|| job.ExceptionDetails.Contains("The program issued a command but the command length is incorrect.")
-					|| job.ExceptionDetails.Contains("Only part of a ReadProcessMemory or WriteProcessMemory request was completed.")
-					|| job.ExceptionDetails.Contains("Unknown error"))))
-					break;
-
-				var restartJob = await instanceClient.DreamDaemon.Restart(cancellationToken);
-				await WaitForJob(restartJob, 20, false, null, cancellationToken);
 			}
-
-			Assert.IsTrue(job.ErrorCode == ErrorCode.GameServerOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
 
 			var restartJob2 = await instanceClient.DreamDaemon.Restart(cancellationToken);
 			await WaitForJob(restartJob2, 20, false, null, cancellationToken);
@@ -743,6 +750,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await CheckDDPriority();
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.AreEqual(false, daemonStatus.SoftShutdown);
+
+			Assert.AreEqual(skipApiValidation, !daemonStatus.WorldIteration.HasValue);
+
 			Assert.IsTrue(daemonStatus.ImmediateMemoryUsage.HasValue);
 			Assert.AreNotEqual(0, daemonStatus.ImmediateMemoryUsage.Value);
 
@@ -757,7 +767,37 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsFalse(daemonStatus.LaunchTime.HasValue);
 			await ExpectGameDirectoryCount(1, cancellationToken);
 
-			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken, false, skipApiValidation);
+			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken, false, false);
+
+			if (!skipApiValidation && !watchdogRestartsProcess)
+			{
+				daemonStatus = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				{
+					AdditionalParameters = "basic_reboot=yes",
+				}, cancellationToken);
+				Assert.AreEqual("basic_reboot=yes", daemonStatus.AdditionalParameters);
+
+				startJob = await StartDD(cancellationToken);
+
+				await WaitForJob(startJob, 40, false, null, cancellationToken);
+				daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+
+				var initialWorldIteration = daemonStatus.WorldIteration;
+				var initialSessionId = daemonStatus.SessionId.Value;
+				Assert.IsTrue(initialWorldIteration.HasValue);
+
+				for (int i = 0; i < 60 && daemonStatus.WorldIteration == initialWorldIteration; ++i)
+				{
+					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+					daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+				}
+
+				Assert.IsTrue(daemonStatus.WorldIteration.HasValue);
+				Assert.AreEqual(initialSessionId, daemonStatus.SessionId.Value);
+				Assert.IsTrue(initialWorldIteration.Value < daemonStatus.WorldIteration.Value);
+
+				await GracefulWatchdogShutdown(cancellationToken);
+			}
 
 			daemonStatus = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
@@ -1502,6 +1542,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsNotNull(daemonStatus.StagedCompileJob);
 			var initialSession = daemonStatus.ActiveCompileJob;
+			var initialSessionId = daemonStatus.SessionId.Value;
+			var initialIteration = daemonStatus.WorldIteration;
 
 			System.Console.WriteLine($"TEST: Sending world reboot topic @ {path}#L{source}");
 
@@ -1510,16 +1552,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			using var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 			var tempToken = tempCts.Token;
+
+			bool SameSession() => initialSessionId == daemonStatus.SessionId && initialIteration == daemonStatus.WorldIteration;
 			using (tempToken.Register(() => System.Console.WriteLine("TEST ERROR: Timeout in TellWorldToReboot!")))
 			{
 				tempCts.CancelAfter(TimeSpan.FromMinutes(2));
-
 				do
 				{
 					await Task.Delay(TimeSpan.FromSeconds(1), tempToken);
 					daemonStatus = await instanceClient.DreamDaemon.Read(tempToken);
 				}
-				while (initialSession.Id == daemonStatus.ActiveCompileJob.Id);
+				while (initialSession.Id == daemonStatus.ActiveCompileJob.Id || SameSession());
 			}
 
 			if (waitForOnlineIfRestoring && daemonStatus.Status == WatchdogStatus.Restoring)

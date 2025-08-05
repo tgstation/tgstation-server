@@ -19,6 +19,7 @@ using Moq;
 using Moq.Language.Flow;
 
 using Tgstation.Server.Common.Http;
+using Tgstation.Server.Common.Tests;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
@@ -59,7 +60,6 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		public bool Shutdown { get; private set; }
 
-		readonly Mock<IHttpClient> mockHttpClient;
 		readonly Mock<IDatabaseContextFactory> mockDBContextFactory;
 		readonly Mock<IDatabaseSeeder> mockDatabaseSeeder;
 		readonly ISetup<IDatabaseSeeder, ValueTask> mockDatabaseSeederInitialize;
@@ -129,12 +129,6 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				.Setup(x => x.UseContextTaskReturn(It.IsNotNull<Func<IDatabaseContext, Task>>()))
 				.Callback<Func<IDatabaseContext, Task>>((func) => func(mockDatabaseContext));
 
-			var mockHttpClientFactory = new Mock<IAbstractHttpClientFactory>();
-			mockHttpClient = new Mock<IHttpClient>();
-			mockHttpClientFactory.Setup(x => x.CreateClient()).Returns(mockHttpClient.Object);
-
-			mockHttpClient.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<HttpCompletionOption>(), It.IsAny<CancellationToken>())).ThrowsAsync(new Exception(HttpClientTokenExceptionMessage));
-
 			mockCallInvokerFactory = new Mock<ICallInvokerFactory>();
 			mockCallInvokerFactory.Setup(x => x.CreateCallInvoker(It.IsAny<Uri>(), It.IsAny<Func<string>>())).Returns<Uri, Func<string>>(
 				(uri, authHeader) =>
@@ -187,6 +181,10 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			logger = loggerFactory.CreateLogger($"TestableSwarmNode-{swarmConfiguration.Identifier}");
 
 			var mockTokenFactory = new MockTokenFactory();
+
+			var mockMessageHandler = new MockHttpMessageHandler((_, _) => throw new Exception(HttpClientTokenExceptionMessage));
+			var mockHttpClientFactory = new Mock<IHttpClientFactory>();
+			mockHttpClientFactory.Setup(x => x.CreateClient(String.Empty)).Returns(() => new HttpClient(mockMessageHandler));
 
 			var runCount = 0;
 			void RecreateControllerAndService()
@@ -309,7 +307,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			SwarmRegistrationResult? result;
 			if (cancel)
 			{
-				await Assert.ThrowsExceptionAsync<OperationCanceledException>(Invoke);
+				await Assert.ThrowsExactlyAsync<OperationCanceledException>(Invoke);
 				result = null;
 			}
 			else

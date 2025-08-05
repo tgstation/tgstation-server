@@ -44,7 +44,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			async Task<JobResponse> Rest()
 			{
 				await Task.Yield();
-				await ApiAssert.ThrowsException<ConflictException, RepositoryResponse>(() => repositoryClient.Read(cancellationToken), ErrorCode.RepoCloning);
+				await ApiAssert.ThrowsExactly<ConflictException, RepositoryResponse>(() => repositoryClient.Read(cancellationToken), ErrorCode.RepoCloning);
 				Assert.IsNotNull(clone);
 				Assert.AreEqual(cloneRequest.Origin, clone.Origin);
 				Assert.AreEqual(workingBranch, clone.Reference);
@@ -116,7 +116,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreNotEqual(default, readAfterClone.RevisionInformation.Timestamp);
 
 			// Specific SHA
-			await ApiAssert.ThrowsException<ApiConflictException, RepositoryResponse>(() => Checkout(new RepositoryUpdateRequest { Reference = "master", CheckoutSha = "286bb75" }, false, false, cancellationToken), ErrorCode.RepoMismatchShaAndReference);
+			await ApiAssert.ThrowsExactly<ApiConflictException, RepositoryResponse>(() => Checkout(new RepositoryUpdateRequest { Reference = "master", CheckoutSha = "286bb75" }, false, false, cancellationToken), ErrorCode.RepoMismatchShaAndReference);
 			var updated = await Checkout(new RepositoryUpdateRequest { CheckoutSha = "286bb75" }, false, false, cancellationToken);
 
 			// Fake SHA
@@ -160,7 +160,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreEqual(RepositoryRights.SetSha, newPerms.RepositoryRights);
 
-			await ApiAssert.ThrowsException<InsufficientPermissionsException>(async () => await repositoryClient.Read(cancellationToken));
+			await ApiAssert.ThrowsExactly<InsufficientPermissionsException>(async () => await repositoryClient.Read(cancellationToken));
 
 			await instanceClient.PermissionSets.Update(new InstancePermissionSetRequest
 			{

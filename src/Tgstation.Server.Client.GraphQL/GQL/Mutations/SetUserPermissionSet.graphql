@@ -7,60 +7,62 @@ mutation SetUserPermissionSet($id: ID!, $permissionSet: PermissionSetInput!) {
         message
       }
     }
-    user {
-      effectivePermissionSet {
-        administrationRights {
-          canChangeVersion
-          canDownloadLogs
-          canEditOwnServiceConnections
-          canEditOwnPassword
-          canReadUsers
-          canRestartHost
-          canUploadVersion
-          canWriteUsers
+    updatedUser {
+        user {
+          effectivePermissionSet {
+            administrationRights {
+              canChangeVersion
+              canDownloadLogs
+              canEditOwnServiceConnections
+              canEditOwnPassword
+              canReadUsers
+              canRestartHost
+              canUploadVersion
+              canWriteUsers
+            }
+            instanceManagerRights {
+              canCreate
+              canDelete
+              canGrantPermissions
+              canList
+              canRead
+              canRelocate
+              canRename
+              canSetAutoUpdate
+              canSetChatBotLimit
+              canSetConfiguration
+              canSetOnline
+            }
+          }
+          ownedPermissionSet {
+            administrationRights {
+              canChangeVersion
+              canDownloadLogs
+              canEditOwnServiceConnections
+              canEditOwnPassword
+              canReadUsers
+              canRestartHost
+              canUploadVersion
+              canWriteUsers
+            }
+            instanceManagerRights {
+              canCreate
+              canDelete
+              canGrantPermissions
+              canList
+              canRead
+              canRelocate
+              canRename
+              canSetAutoUpdate
+              canSetChatBotLimit
+              canSetConfiguration
+              canSetOnline
+            }
+          }
+          group {
+            id
+          }
         }
-        instanceManagerRights {
-          canCreate
-          canDelete
-          canGrantPermissions
-          canList
-          canRead
-          canRelocate
-          canRename
-          canSetAutoUpdate
-          canSetChatBotLimit
-          canSetConfiguration
-          canSetOnline
-        }
-      }
-      ownedPermissionSet {
-        administrationRights {
-          canChangeVersion
-          canDownloadLogs
-          canEditOwnServiceConnections
-          canEditOwnPassword
-          canReadUsers
-          canRestartHost
-          canUploadVersion
-          canWriteUsers
-        }
-        instanceManagerRights {
-          canCreate
-          canDelete
-          canGrantPermissions
-          canList
-          canRead
-          canRelocate
-          canRename
-          canSetAutoUpdate
-          canSetChatBotLimit
-          canSetConfiguration
-          canSetOnline
-        }
-      }
-      group {
-        id
-      }
     }
   }
 }
