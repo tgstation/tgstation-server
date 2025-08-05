@@ -4338,6 +4338,13 @@ Components:
       Author: alexkar598
       PullRequest: 1133
   HttpApi:
+  - Version: 10.14.0
+    Changes:
+    - Descriptions:
+      - Added `worldIteration` to GET `/api/DreamDaemon` response. Number indicating the number of times the world has started in the same session (i.e. incrementing when `/world/proc/Reboot()` is called). This will be `null` for sessions without DMAPI support.
+      Author: Cyberboss
+      PullRequest: 2317
+    Unreleased: true
   - Version: 10.13.1
     Changes:
     - Descriptions:
@@ -5231,6 +5238,13 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 18.2.0
+    Changes:
+    - Descriptions:
+      - Added `DreamDaemonApiBase.WorldIteration`.
+      Author: Cyberboss
+      PullRequest: 2317
+    Unreleased: true
   - Version: 18.1.0
     Changes:
     - Descriptions:
@@ -5322,6 +5336,13 @@ Components:
       Author: Cyberboss
       PullRequest: 1629
   NugetClient:
+  - Version: 21.2.0
+    Changes:
+    - Descriptions:
+      - Updated API library to v18.2.0.
+      Author: Cyberboss
+      PullRequest: 2317
+    Unreleased: true
   - Version: 21.1.0
     Changes:
     - Descriptions:
