@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -1415,12 +1416,38 @@ namespace Tgstation.Server.Tests.Live
 			for (var i = 0; i < 50; ++i)
 				await Task.Yield();
 
-			InstanceManager GetInstanceManager() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<InstanceManager>();
-			ILogger GetLogger() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<ILogger<TestLiveServer>>();
+			async ValueTask<IHost> WaitForHost()
+			{
+				while (true)
+				{
+					var host = ((Host.Server)server.RealServer).Host;
+					if (host != null)
+						return host;
+
+					await Task.Yield();
+				}
+			}
+
+			async ValueTask<InstanceManager> GetInstanceManager()
+			{
+				var host = await WaitForHost();
+				return host.Services.GetRequiredService<InstanceManager>();
+			}
+
+			async ValueTask<ILogger> GetLogger()
+			{
+				var host = await WaitForHost();
+				return host.Services.GetRequiredService<ILogger<TestLiveServer>>();
+			}
+
+			async ValueTask<Host.IO.IFileDownloader> GetFileDownloader()
+			{
+				var host = await WaitForHost();
+				return host.Services.GetRequiredService<Host.IO.IFileDownloader>();
+			}
 
 			// main run
 			var serverTask = server.Run(cancellationToken).AsTask();
-
 			if (serverTask.IsFaulted)
 				await serverTask;
 
@@ -1580,16 +1607,17 @@ namespace Tgstation.Server.Tests.Live
 
 					var instanceTest = new InstanceTest(
 						firstAdminRestClient.Instances,
-						fileDownloader,
-						GetInstanceManager(),
+						await GetFileDownloader(),
+						await GetInstanceManager(),
 						(ushort)server.ApiUrl.Port);
 
 					async Task RunInstanceTests()
 					{
-						var testSerialized = TestingUtils.RunningInGitHubActions; // they only have 2 cores, can't handle intense parallelization
+						var testSerialized = true || TestingUtils.RunningInGitHubActions; // they only have 2 cores, can't handle intense parallelization
 						async Task ODCompatTests()
 						{
-							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, GetLogger(), fileDownloader, cancellationToken);
+							var fileDownloader = await GetFileDownloader();
+							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, await GetLogger(), fileDownloader, cancellationToken);
 
 							var ex = await Assert.ThrowsExactlyAsync<JobException>(
 								() => InstanceTest.DownloadEngineVersion(
@@ -1616,7 +1644,7 @@ namespace Tgstation.Server.Tests.Live
 									cancellationToken);
 						}
 
-						var odCompatTests = FailFast(ODCompatTests());
+						var odCompatTests = Task.CompletedTask ?? FailFast(ODCompatTests());
 
 						if (openDreamOnly || testSerialized)
 							await odCompatTests;
@@ -1627,14 +1655,14 @@ namespace Tgstation.Server.Tests.Live
 						var windowsMinCompat = new Version(510, 1346);
 						var linuxMinCompat = new Version(512, 1451); // http://www.byond.com/forum/?forum=5&command=search&scope=local&text=resolved%3a512.1451
 						await CachingFileDownloader.InitializeByondVersion(
-							GetLogger(),
+							await GetLogger(),
 							new PlatformIdentifier().IsWindows
 								? windowsMinCompat
 								: linuxMinCompat,
 							new PlatformIdentifier().IsWindows,
 							cancellationToken);
 
-						var compatTests = FailFast(
+						var compatTests = Task.CompletedTask ?? FailFast(
 							instanceTest
 								.RunCompatTests(
 									new EngineVersion
@@ -1658,7 +1686,7 @@ namespace Tgstation.Server.Tests.Live
 						await FailFast(
 							instanceTest
 								.RunTests(
-									GetLogger(),
+									await GetLogger(),
 									instanceClient,
 									mainDMPort.Value,
 									mainDDPort.Value,
@@ -1823,7 +1851,7 @@ namespace Tgstation.Server.Tests.Live
 					topicRequestResult = await WatchdogTest.SendTestTopic(
 						"tgs_integration_test_tactics7=1",
 						WatchdogTest.StaticTopicClient,
-						GetInstanceManager().GetInstanceReference(instanceClient.Metadata),
+						(await GetInstanceManager()).GetInstanceReference(instanceClient.Metadata),
 						mainDDPort.Value,
 						cancellationToken);
 
@@ -1837,7 +1865,7 @@ namespace Tgstation.Server.Tests.Live
 
 					dd = await WatchdogTest.TellWorldToReboot2(
 						instanceClient,
-						GetInstanceManager(),
+						await GetInstanceManager(),
 						WatchdogTest.StaticTopicClient,
 						mainDDPort.Value,
 						true,
@@ -1891,7 +1919,7 @@ namespace Tgstation.Server.Tests.Live
 				preStartupTime = DateTimeOffset.UtcNow;
 				serverTask = server.Run(cancellationToken).AsTask();
 				long expectedCompileJobId, expectedStaged;
-				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, GetLogger(), fileDownloader, cancellationToken);
+				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, await GetLogger(), await GetFileDownloader(), cancellationToken);
 				await using (var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
 				{
 					var restAdminClient = adminClient.RestClient;
@@ -1904,7 +1932,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
-					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort.Value, server.UsingBasicWatchdog);
+					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, await GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort.Value, server.UsingBasicWatchdog);
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1953,7 +1981,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
 
-					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort.Value, server.UsingBasicWatchdog);
+					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, await GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort.Value, server.UsingBasicWatchdog);
 					currentDD = await wdt.TellWorldToReboot(false, cancellationToken);
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);

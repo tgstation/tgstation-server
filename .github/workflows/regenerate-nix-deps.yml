@@ -2,6 +2,9 @@ name: Regenerate Nix Nuget Dependencies
 
 on:
   pull_request_target:
+    paths:
+      - '**.csproj'
+      - '**.props'
     branches:
       - dev
       - master

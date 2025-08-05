@@ -80,6 +80,9 @@ namespace Tgstation.Server.Host.Components.Session
 		public Task OnReboot => rebootTcs.Task;
 
 		/// <inheritdoc />
+		public long? StartupBridgeRequestsReceived { get; private set; }
+
+		/// <inheritdoc />
 		public Task RebootGate
 		{
 			get => rebootGate;
@@ -329,6 +332,11 @@ namespace Tgstation.Server.Host.Components.Session
 			TopicSendSemaphore = new FifoSemaphore();
 			synchronizationLock = new object();
 
+			if (DMApiAvailable)
+			{
+				StartupBridgeRequestsReceived = 0;
+			}
+
 			if (apiValidationSession || DMApiAvailable)
 			{
 				bridgeRegistration = bridgeRegistrar.RegisterHandler(this);
@@ -421,6 +429,12 @@ namespace Tgstation.Server.Host.Components.Session
 
 			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
+				if (!DMApiAvailable && !apiValidationSession)
+				{
+					Logger.LogWarning("Ignoring bridge request from session without confirmed DMAPI!");
+					return null;
+				}
+
 				Logger.LogTrace("Handling bridge request...");
 
 				try
@@ -682,6 +696,7 @@ namespace Tgstation.Server.Host.Components.Session
 					return BridgeError("Port switching is no longer supported!");
 				case BridgeCommandType.Startup:
 					apiValidationStatus = ApiValidationStatus.BadValidationRequest;
+					++StartupBridgeRequestsReceived;
 
 					if (apiValidationSession)
 					{
@@ -753,8 +768,9 @@ namespace Tgstation.Server.Host.Components.Session
 					try
 					{
 						chatTrackingContext.Active = false;
+						var rebootGate = RebootGate; // Important to read this before setting the TCS or it could change
 						Interlocked.Exchange(ref rebootTcs, new TaskCompletionSource()).SetResult();
-						await RebootGate.WaitAsync(cancellationToken);
+						await rebootGate.WaitAsync(cancellationToken);
 					}
 					finally
 					{
