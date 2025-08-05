@@ -1380,7 +1380,7 @@ jobs:
     name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
     needs: build-releasenotes
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     env:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     steps:
