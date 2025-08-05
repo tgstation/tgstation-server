@@ -155,53 +155,73 @@ namespace Tgstation.Server.Host.Components.Engine
 			if (lifetime.IsCompleted)
 				logger.LogTrace("Robust.Server already exited");
 
+			using var httpClient = httpClientFactory.CreateClient();
+			using var request = new HttpRequestMessage();
 			var stopwatch = Stopwatch.StartNew();
+			Task<HttpResponseMessage>? responseTask = null;
+			bool responseAwaited = false;
 			try
 			{
-				using var httpClient = httpClientFactory.CreateClient();
-				using var request = new HttpRequestMessage();
-				request.Headers.Add("WatchdogToken", accessIdentifier);
-				request.RequestUri = new Uri($"http://localhost:{port}/shutdown");
-				request.Content = new StringContent(
-					"{\"Reason\":\"TGS session termination\"}",
-					Encoding.UTF8,
-					new MediaTypeHeaderValue(MediaTypeNames.Application.Json));
-				request.Method = HttpMethod.Post;
-
-				var responseTask = httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
 				try
 				{
-					await Task.WhenAny(timeout, lifetime, responseTask);
-					if (responseTask.IsCompleted)
+					request.Headers.Add("WatchdogToken", accessIdentifier);
+					request.RequestUri = new Uri($"http://localhost:{port}/shutdown");
+					request.Content = new StringContent(
+						"{\"Reason\":\"TGS session termination\"}",
+						Encoding.UTF8,
+						new MediaTypeHeaderValue(MediaTypeNames.Application.Json));
+					request.Method = HttpMethod.Post;
+
+					responseTask = httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+					try
 					{
-						using var response = await responseTask;
-						if (response.IsSuccessStatusCode)
+						await Task.WhenAny(timeout, lifetime, responseTask);
+						if (responseTask.IsCompleted)
 						{
-							logger.LogDebug("Robust.Server responded to the shutdown command successfully ({requestMs}ms). Waiting for exit...", stopwatch.ElapsedMilliseconds);
-							await Task.WhenAny(timeout, lifetime);
+							responseAwaited = true;
+							using var response = await responseTask;
+							if (response.IsSuccessStatusCode)
+							{
+								logger.LogDebug("Robust.Server responded to the shutdown command successfully ({requestMs}ms). Waiting for exit...", stopwatch.ElapsedMilliseconds);
+								await Task.WhenAny(timeout, lifetime);
+							}
 						}
+
+						if (!lifetime.IsCompleted)
+							logger.LogWarning("Robust.Server graceful exit timed out!");
+					}
+					catch (Exception ex) when (ex is not OperationCanceledException)
+					{
+						logger.LogDebug(ex, "Unable to send graceful exit request to Robust.Server watchdog API!");
 					}
 
-					if (!lifetime.IsCompleted)
-						logger.LogWarning("Robust.Server graceful exit timed out!");
+					if (lifetime.IsCompleted)
+					{
+						logger.LogTrace("Robust.Server exited without termination");
+						return;
+					}
 				}
-				catch (Exception ex) when (ex is not OperationCanceledException)
+				finally
 				{
-					logger.LogDebug(ex, "Unable to send graceful exit request to Robust.Server watchdog API!");
+					logger.LogTrace("Robust.Server graceful shutdown attempt took {totalMs}ms", stopwatch.ElapsedMilliseconds);
 				}
 
-				if (lifetime.IsCompleted)
-				{
-					logger.LogTrace("Robust.Server exited without termination");
-					return;
-				}
+				await base.StopServerProcess(logger, process, accessIdentifier, port, cancellationToken);
 			}
 			finally
 			{
-				logger.LogTrace("Robust.Server graceful shutdown attempt took {totalMs}ms", stopwatch.ElapsedMilliseconds);
+				if (responseTask != null && !responseAwaited)
+				{
+					try
+					{
+						await responseTask;
+					}
+					catch (Exception ex)
+					{
+						logger.LogTrace(ex, "Response task failed as expected");
+					}
+				}
 			}
-
-			await base.StopServerProcess(logger, process, accessIdentifier, port, cancellationToken);
 		}
 	}
 }

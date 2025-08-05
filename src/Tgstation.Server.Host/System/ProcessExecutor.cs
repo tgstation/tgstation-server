@@ -159,7 +159,9 @@ namespace Tgstation.Server.Host.System
 					{
 						processStartTcs = new TaskCompletionSource<int>();
 						disposeCts = new CancellationTokenSource();
+#pragma warning disable CA2025 // IT"S HANDLED!!!
 						readTask = ConsumeReaders(handle, processStartTcs.Task, fileRedirect, disposeCts.Token);
+#pragma warning restore CA2025
 					}
 
 					int pid;
