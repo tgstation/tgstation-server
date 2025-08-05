@@ -750,6 +750,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await CheckDDPriority();
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.AreEqual(false, daemonStatus.SoftShutdown);
+
+			Assert.AreEqual(skipApiValidation, !daemonStatus.WorldIteration.HasValue);
+
 			Assert.IsTrue(daemonStatus.ImmediateMemoryUsage.HasValue);
 			Assert.AreNotEqual(0, daemonStatus.ImmediateMemoryUsage.Value);
 
@@ -765,6 +768,36 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await ExpectGameDirectoryCount(1, cancellationToken);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken, false, false);
+
+			if (!skipApiValidation && !watchdogRestartsProcess)
+			{
+				daemonStatus = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				{
+					AdditionalParameters = "basic_reboot=yes",
+				}, cancellationToken);
+				Assert.AreEqual("basic_reboot=yes", daemonStatus.AdditionalParameters);
+
+				startJob = await StartDD(cancellationToken);
+
+				await WaitForJob(startJob, 40, false, null, cancellationToken);
+				daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+
+				var initialWorldIteration = daemonStatus.WorldIteration;
+				var initialSessionId = daemonStatus.SessionId.Value;
+				Assert.IsTrue(initialWorldIteration.HasValue);
+
+				for (int i = 0; i < 60 && daemonStatus.WorldIteration == initialWorldIteration; ++i)
+				{
+					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+					daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+				}
+
+				Assert.IsTrue(daemonStatus.WorldIteration.HasValue);
+				Assert.AreEqual(initialSessionId, daemonStatus.SessionId.Value);
+				Assert.IsTrue(initialWorldIteration.Value < daemonStatus.WorldIteration.Value);
+
+				await GracefulWatchdogShutdown(cancellationToken);
+			}
 
 			daemonStatus = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
@@ -1509,6 +1542,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsNotNull(daemonStatus.StagedCompileJob);
 			var initialSession = daemonStatus.ActiveCompileJob;
+			var initialSessionId = daemonStatus.SessionId.Value;
+			var initialIteration = daemonStatus.WorldIteration;
 
 			System.Console.WriteLine($"TEST: Sending world reboot topic @ {path}#L{source}");
 
@@ -1517,16 +1552,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			using var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 			var tempToken = tempCts.Token;
+
+			bool SameSession() => initialSessionId == daemonStatus.SessionId && initialIteration == daemonStatus.WorldIteration;
 			using (tempToken.Register(() => System.Console.WriteLine("TEST ERROR: Timeout in TellWorldToReboot!")))
 			{
 				tempCts.CancelAfter(TimeSpan.FromMinutes(2));
-
 				do
 				{
 					await Task.Delay(TimeSpan.FromSeconds(1), tempToken);
 					daemonStatus = await instanceClient.DreamDaemon.Read(tempToken);
 				}
-				while (initialSession.Id == daemonStatus.ActiveCompileJob.Id);
+				while (initialSession.Id == daemonStatus.ActiveCompileJob.Id || SameSession());
 			}
 
 			if (waitForOnlineIfRestoring && daemonStatus.Status == WatchdogStatus.Restoring)

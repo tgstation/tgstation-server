@@ -20,6 +20,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		long? SessionId { get; }
 
 		/// <summary>
+		/// A incrementing ID for representing current iteration of servers world (i.e. after calling /world/proc/Reboot). Only unique within the current <see cref="SessionId"/>. Only tracked in game sessions with the DMAPI enabled.
+		/// </summary>
+		long? WorldIteration { get; }
+
+		/// <summary>
 		/// When the current server executions was started.
 		/// </summary>
 		DateTimeOffset? LaunchTime { get; }

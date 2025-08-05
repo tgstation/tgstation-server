@@ -366,6 +366,7 @@ namespace Tgstation.Server.Host.Controllers
 						firstIteration = false;
 						result.Status = dd.Status;
 						result.SessionId = dd.SessionId;
+						result.WorldIteration = dd.WorldIteration;
 						result.LaunchTime = dd.LaunchTime;
 						result.ClientCount = dd.ClientCount;
 					}

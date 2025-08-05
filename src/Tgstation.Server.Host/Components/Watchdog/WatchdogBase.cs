@@ -40,6 +40,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public long? SessionId => GetActiveController()?.ReattachInformation.Id;
 
 		/// <inheritdoc />
+		public long? WorldIteration => GetActiveController()?.StartupBridgeRequestsReceived;
+
+		/// <inheritdoc />
 		public uint? ClientCount { get; private set; }
 
 		/// <inheritdoc />
