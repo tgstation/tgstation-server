@@ -17,8 +17,8 @@ namespace Tgstation.Server.Host.Core.Tests
 		[TestMethod]
 		public void TestConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerUpdateInitiator(null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerUpdateInitiator(Mock.Of<ISwarmService>(), null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new ServerUpdateInitiator(null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new ServerUpdateInitiator(Mock.Of<ISwarmService>(), null));
 			_ = new ServerUpdateInitiator(Mock.Of<ISwarmService>(), Mock.Of<IServerUpdater>());
 		}
 

@@ -7,8 +7,10 @@ General:
   SetupWizardMode: AutoDetect # If the interactive TGS setup wizard should run
   ByondTopicTimeout: 5000 # Timeout for BYOND /world/Topic() calls in milliseconds
   RestartTimeoutMinutes: 1 # Timeout for server restarts after requested by SIGTERM or the HTTP API
-  ApiPort: 5000 # Port the HTTP API is hosted on
-  PrometheusPort: null # Port Prometheus metrics are published on under /metrics. This can be set to the same value as the ApiPort, just note that accessing it does not require authentication.
+  ApiEndPoints: # Hosting specifications for the REST API.
+    - Port: 5000 # Port the hosting specification is hosted on
+    # IPAddress: 192.168.1.69 # Optional IP address the hosting specification is scoped to
+  # MetricsEndPoints: # Hosting specifications where prometheus metrics are published on under /metrics. Does not require authentication.
   UseBasicWatchdog: false # The basic watchdog hard restarts DreamDaemon when /world/proc/TgsReboot() is called in the DMAPI if a new deployment is available
   UserLimit: 100 # Maximum number of allowed users
   UserGroupLimit: 25 # Maximum number of allowed groups
@@ -92,8 +94,7 @@ Swarm: # Should be left empty if using swarm mode is not desired
 # PublicAddress: # The public address of the swarm node
 # ControllerAddress: # Required on non-controller nodes. The internal address of the swarm controller's API'. Should be left empty on the controller itself
 # UpdateRequiredNodeCount: # The number of nodes expected to be in the swarm before initiating an update. This should count every server irrespective of whether or not they are the controller MINUS 1
-# HostingIP: # The IP address the swarm service will be hosted on defaults to 0.0.0.0
-# HostingPort: # The port the swarm service will be hosted on, defaults to ApiPort + 1
+# EndPoints: # Hosting specificaitons for the swarm service.
 Telemetry:
   DisableVersionReporting: false # Prevents you installation and the version you're using from being reported on the source repository's deployments list
   ServerFriendlyName: null # Sets a friendly name for your server in reported telemetry. Must be unique. First come first serve

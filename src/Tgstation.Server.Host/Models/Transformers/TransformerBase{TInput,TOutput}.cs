@@ -9,7 +9,7 @@ namespace Tgstation.Server.Host.Models.Transformers
 		/// <summary>
 		/// <see langword="static"/> cache for <see cref="CompiledExpression"/>.
 		/// </summary>
-		static Func<TInput, TOutput>? compiledExpression;
+		static Func<TInput, TOutput>? compiledExpression; // This is safe https://stackoverflow.com/a/9647661/3976486
 
 		/// <inheritdoc />
 		public Expression<Func<TInput, TOutput>> Expression { get; }

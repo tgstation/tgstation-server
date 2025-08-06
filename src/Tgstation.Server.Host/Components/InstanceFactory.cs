@@ -290,12 +290,6 @@ namespace Tgstation.Server.Host.Components
 			var repoManager = repositoryManagerFactory.CreateRepositoryManager(repoIoManager, eventConsumer);
 			try
 			{
-				var engineManager = new EngineManager(
-					byondIOManager,
-					engineInstaller,
-					eventConsumer,
-					loggerFactory.CreateLogger<EngineManager>());
-
 				var dmbFactory = new DmbFactory(
 					databaseContextFactory,
 					gameIoManager,
@@ -306,100 +300,114 @@ namespace Tgstation.Server.Host.Components
 					metadata);
 				try
 				{
-					var commandFactory = new CommandFactory(assemblyInformationProvider, engineManager, repoManager, databaseContextFactory, dmbFactory, metadata);
-
-					var chatManager = chatFactory.CreateChatManager(commandFactory, metadata.ChatSettings);
+					var engineManager = new EngineManager(
+						byondIOManager,
+						engineInstaller,
+						eventConsumer,
+						dmbFactory,
+						loggerFactory.CreateLogger<EngineManager>());
 					try
 					{
-						var reattachInfoHandler = new SessionPersistor(
-							databaseContextFactory,
-							dmbFactory,
-							processExecutor,
-							loggerFactory.CreateLogger<SessionPersistor>(),
-							metadata);
+						var commandFactory = new CommandFactory(assemblyInformationProvider, engineManager, repoManager, databaseContextFactory, dmbFactory, metadata);
 
-						var sessionControllerFactory = new SessionControllerFactory(
-							processExecutor,
-							engineManager,
-							topicClientFactory,
-							cryptographySuite,
-							assemblyInformationProvider,
-							gameIoManager,
-							diagnosticsIOManager,
-							chatManager,
-							networkPromptReaper,
-							platformIdentifier,
-							bridgeRegistrar,
-							eventConsumer,
-							asyncDelayer,
-							dotnetDumpService,
-							metricFactory,
-							loggerFactory,
-							loggerFactory.CreateLogger<SessionControllerFactory>(),
-							sessionConfiguration,
-							metadata);
-
-						var watchdog = watchdogFactory.CreateWatchdog(
-							chatManager,
-							dmbFactory,
-							reattachInfoHandler,
-							sessionControllerFactory,
-							gameIoManager,
-							diagnosticsIOManager,
-							configuration, // watchdog doesn't need itself as an event consumer
-							remoteDeploymentManagerFactory,
-							metricFactory,
-							metadata,
-							metadata.DreamDaemonSettings!);
+						var chatManager = chatFactory.CreateChatManager(commandFactory, metadata.ChatSettings);
 						try
 						{
-							eventConsumer.SetWatchdog(watchdog);
-							commandFactory.SetWatchdog(watchdog);
-
-							Instance? instance = null;
-							var dreamMaker = new DreamMaker(
-								engineManager,
-								gameIoManager,
-								configuration,
-								sessionControllerFactory,
-								eventConsumer,
-								chatManager,
-								processExecutor,
+							var reattachInfoHandler = new SessionPersistor(
+								databaseContextFactory,
 								dmbFactory,
-								repoManager,
-								remoteDeploymentManagerFactory,
+								processExecutor,
+								loggerFactory.CreateLogger<SessionPersistor>(),
+								metadata);
+
+							var sessionControllerFactory = new SessionControllerFactory(
+								processExecutor,
+								engineManager,
+								topicClientFactory,
+								cryptographySuite,
+								assemblyInformationProvider,
+								gameIoManager,
+								diagnosticsIOManager,
+								chatManager,
+								networkPromptReaper,
+								platformIdentifier,
+								bridgeRegistrar,
+								eventConsumer,
 								asyncDelayer,
+								dotnetDumpService,
 								metricFactory,
-								loggerFactory.CreateLogger<DreamMaker>(),
+								loggerFactory,
+								loggerFactory.CreateLogger<SessionControllerFactory>(),
 								sessionConfiguration,
 								metadata);
 
-							instance = new Instance(
-								metadata,
-								repoManager,
-								engineManager,
-								dreamMaker,
-								watchdog,
+							var watchdog = watchdogFactory.CreateWatchdog(
 								chatManager,
-								configuration,
 								dmbFactory,
-								jobManager,
-								eventConsumer,
+								reattachInfoHandler,
+								sessionControllerFactory,
+								gameIoManager,
+								diagnosticsIOManager,
+								configuration, // watchdog doesn't need itself as an event consumer
 								remoteDeploymentManagerFactory,
-								asyncDelayer,
-								loggerFactory.CreateLogger<Instance>());
+								metricFactory,
+								metadata,
+								metadata.DreamDaemonSettings!);
+							try
+							{
+								eventConsumer.SetWatchdog(watchdog);
+								commandFactory.SetWatchdog(watchdog);
 
-							return instance;
+								Instance? instance = null;
+								var dreamMaker = new DreamMaker(
+									engineManager,
+									gameIoManager,
+									configuration,
+									sessionControllerFactory,
+									eventConsumer,
+									chatManager,
+									processExecutor,
+									dmbFactory,
+									repoManager,
+									remoteDeploymentManagerFactory,
+									asyncDelayer,
+									metricFactory,
+									loggerFactory.CreateLogger<DreamMaker>(),
+									sessionConfiguration,
+									metadata);
+
+								instance = new Instance(
+									metadata,
+									repoManager,
+									engineManager,
+									dreamMaker,
+									watchdog,
+									chatManager,
+									configuration,
+									dmbFactory,
+									jobManager,
+									eventConsumer,
+									remoteDeploymentManagerFactory,
+									asyncDelayer,
+									loggerFactory.CreateLogger<Instance>());
+
+								return instance;
+							}
+							catch
+							{
+								await watchdog.DisposeAsync();
+								throw;
+							}
 						}
 						catch
 						{
-							await watchdog.DisposeAsync();
+							await chatManager.DisposeAsync();
 							throw;
 						}
 					}
 					catch
 					{
-						await chatManager.DisposeAsync();
+						engineManager.Dispose();
 						throw;
 					}
 				}

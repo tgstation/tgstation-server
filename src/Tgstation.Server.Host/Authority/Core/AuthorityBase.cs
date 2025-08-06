@@ -8,7 +8,7 @@ using Octokit;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Security.RightsEvaluation;
 
 namespace Tgstation.Server.Host.Authority.Core
 {
@@ -17,11 +17,6 @@ namespace Tgstation.Server.Host.Authority.Core
 	/// </summary>
 	abstract class AuthorityBase : IAuthority
 	{
-		/// <summary>
-		/// Gets the <see cref="IAuthenticationContext"/> for the <see cref="AuthorityBase"/>.
-		/// </summary>
-		protected IAuthenticationContext AuthenticationContext { get; }
-
 		/// <summary>
 		/// Gets the <see cref="IDatabaseContext"/> for the <see cref="AuthorityBase"/>.
 		/// </summary>
@@ -88,24 +83,57 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// </summary>
 		/// <typeparam name="TResult">The <see cref="Type"/> of the <see cref="AuthorityResponse{TResult}.Result"/>.</typeparam>
 		/// <param name="errorCode">The <see cref="ErrorCode"/>.</param>
+		/// <param name="additionalData"><see cref="ErrorMessageResponse.AdditionalData"/> for the error message.</param>
 		/// <returns>A new, errored <see cref="AuthorityResponse{TResult}"/>.</returns>
-		protected static AuthorityResponse<TResult> Conflict<TResult>(ErrorCode errorCode)
+		protected static AuthorityResponse<TResult> Conflict<TResult>(ErrorCode errorCode, string? additionalData = null)
 			=> new(
-				new ErrorMessageResponse(errorCode),
+				new ErrorMessageResponse(errorCode)
+				{
+					AdditionalData = additionalData,
+				},
 				HttpFailureResponse.Conflict);
+
+		/// <summary>
+		/// Helper to quickly construct a <see cref="FlagRightsConditional{TRights}"/>.
+		/// </summary>
+		/// <typeparam name="TRights">The <typeparamref name="TRights"/> to evaluate.</typeparam>
+		/// <param name="flag">The single bit flag of the <typeparamref name="TRights"/>.</param>
+		/// <returns>A new <see cref="FlagRightsConditional{TRights}"/>.</returns>
+		protected static FlagRightsConditional<TRights> Flag<TRights>(TRights flag)
+			where TRights : Enum
+			=> new(flag);
+
+		/// <summary>
+		/// Helper to quickly construct an <see cref="OrRightsConditional{TRights}"/>.
+		/// </summary>
+		/// <typeparam name="TRights">The <typeparamref name="TRights"/> to evaluate.</typeparam>
+		/// <param name="lhs">The left hand side operand.</param>
+		/// <param name="rhs">The right hand side operand.</param>
+		/// <returns>A new <see cref="OrRightsConditional{TRights}"/>.</returns>
+		protected static OrRightsConditional<TRights> Or<TRights>(RightsConditional<TRights> lhs, RightsConditional<TRights> rhs)
+			where TRights : Enum
+			=> new(lhs, rhs);
+
+		/// <summary>
+		/// Helper to quickly construct an <see cref="AndRightsConditional{TRights}"/>.
+		/// </summary>
+		/// <typeparam name="TRights">The <typeparamref name="TRights"/> to evaluate.</typeparam>
+		/// <param name="lhs">The left hand side operand.</param>
+		/// <param name="rhs">The right hand side operand.</param>
+		/// <returns>A new <see cref="AndRightsConditional{TRights}"/>.</returns>
+		protected static AndRightsConditional<TRights> And<TRights>(RightsConditional<TRights> lhs, RightsConditional<TRights> rhs)
+			where TRights : Enum
+			=> new(lhs, rhs);
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthorityBase"/> class.
 		/// </summary>
-		/// <param name="authenticationContext">The value of <see cref="AuthenticationContext"/>.</param>
 		/// <param name="databaseContext">The value of <see cref="DatabaseContext"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
 		protected AuthorityBase(
-			IAuthenticationContext authenticationContext,
 			IDatabaseContext databaseContext,
 			ILogger<AuthorityBase> logger)
 		{
-			AuthenticationContext = authenticationContext ?? throw new ArgumentNullException(nameof(authenticationContext));
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}

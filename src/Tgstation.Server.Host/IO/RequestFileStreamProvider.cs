@@ -14,9 +14,9 @@ namespace Tgstation.Server.Host.IO
 	sealed class RequestFileStreamProvider : IFileStreamProvider
 	{
 		/// <summary>
-		/// The <see cref="IHttpClient"/> for the <see cref="RequestFileStreamProvider"/>.
+		/// The <see cref="HttpClient"/> for the <see cref="RequestFileStreamProvider"/>.
 		/// </summary>
-		readonly IHttpClient httpClient;
+		readonly HttpClient httpClient;
 
 		/// <summary>
 		/// The <see cref="IFileDownloader"/> for the <see cref="RequestFileStreamProvider"/>.
@@ -43,7 +43,7 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="httpClient">The value of <see cref="httpClient"/>.</param>
 		/// <param name="requestMessage">The value of <see cref="requestMessage"/>.</param>
-		public RequestFileStreamProvider(IHttpClient httpClient, HttpRequestMessage requestMessage)
+		public RequestFileStreamProvider(HttpClient httpClient, HttpRequestMessage requestMessage)
 		{
 			this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 			this.requestMessage = requestMessage ?? throw new ArgumentNullException(nameof(requestMessage));

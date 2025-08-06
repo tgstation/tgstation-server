@@ -169,6 +169,7 @@ The following dependencies are required.
 - aspnetcore-runtime-10.0 (See Prerequisites under the `Ubuntu/Debian Package` section)
 - libc6-i386
 - libstdc++6:i386
+- libcurl4:i386
 - gcc-multilib (Only on 64-bit systems)
 - gdb (for using gcore to create core dumps)
 

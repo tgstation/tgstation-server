@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -29,6 +29,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="ApiController"/> for TGS administration purposes.
 	/// </summary>
+	[Authorize]
 	[Route(Routes.Administration)]
 	public sealed class AdministrationController : ApiController
 	{
@@ -111,7 +112,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="424">The GitHub API rate limit was hit. See response header Retry-After.</response>
 		/// <response code="429">A GitHub API error occurred. See error message for details.</response>
 		[HttpGet]
-		[TgsRestAuthorize<IAdministrationAuthority>(nameof(IAdministrationAuthority.GetUpdateInformation))]
 		[ProducesResponseType(typeof(AdministrationResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 424)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 429)]
@@ -132,7 +132,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="424">A GitHub rate limit was encountered or the swarm integrity check failed.</response>
 		/// <response code="429">A GitHub API error occurred.</response>
 		[HttpPost]
-		[TgsRestAuthorize<IAdministrationAuthority>(nameof(IAdministrationAuthority.TriggerServerVersionChange))]
 		[ProducesResponseType(typeof(ServerUpdateResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 422)]
@@ -160,7 +159,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="204">Restart begun successfully.</response>
 		/// <response code="422">Restart operations are unavailable due to the launch configuration of TGS.</response>
 		[HttpDelete]
-		[TgsRestAuthorize<IAdministrationAuthority>(nameof(IAdministrationAuthority.TriggerServerRestart))]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 422)]
 		public ValueTask<IActionResult> Delete()
@@ -236,43 +234,9 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(AdministrationRights.DownloadLogs)]
 		[ProducesResponseType(typeof(LogFileResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
-		public async ValueTask<IActionResult> GetLog(string path, CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(path);
-
-			path = HttpUtility.UrlDecode(path);
-
-			// guard against directory navigation
-			var sanitizedPath = ioManager.GetFileName(path);
-			if (path != sanitizedPath)
-				return Forbid();
-
-			var fullPath = ioManager.ConcatPath(
-				fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier),
-				path);
-			try
-			{
-				var fileTransferTicket = fileTransferService.CreateDownload(
-					new FileDownloadProvider(
-						() => null,
-						null,
-						fullPath,
-						true));
-
-				return Ok(new LogFileResponse
-				{
-					Name = path,
-					LastModified = await ioManager.GetLastModified(fullPath, cancellationToken),
-					FileTicket = fileTransferTicket.FileTicket,
-				});
-			}
-			catch (IOException ex)
-			{
-				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
-				{
-					AdditionalData = ex.ToString(),
-				});
-			}
-		}
+		public ValueTask<IActionResult> GetLog(string path, CancellationToken cancellationToken)
+			=> administrationAuthority.Invoke<LogFileResponse, LogFileResponse>(
+				this,
+				authority => authority.GetLog(path, cancellationToken));
 	}
 }

@@ -204,10 +204,16 @@ namespace Tgstation.Server.Tests
 
 			var fileDownloader = new CachingFileDownloader(Mock.Of<ILogger<CachingFileDownloader>>());
 
+			var mockIOManager = new Mock<IIOManager>();
+			mockIOManager.Setup(x => x.FileExists(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(true);
+			mockIOManager.Setup(x => x.CreateResolverForSubdirectory(It.IsNotNull<string>())).Returns(mockIOManager.Object);
+			mockIOManager.Setup(x => x.ConcatPath(It.IsNotNull<string[]>())).Returns<string[]>(Path.Combine);
+			mockIOManager.Setup(x => x.ResolvePath(It.IsNotNull<string>())).Returns<string>(path => path);
+
 			ByondInstallerBase byondInstaller = platformIdentifier.IsWindows
 				? new WindowsByondInstaller(
 					Mock.Of<IProcessExecutor>(),
-					Mock.Of<IIOManager>(),
+					mockIOManager.Object,
 					fileDownloader,
 					mockGeneralConfigurationOptions.Object,
 					mockSessionConfigurationOptions.Object,
@@ -227,7 +233,7 @@ namespace Tgstation.Server.Tests
 						new Lazy<IProcessExecutor>(() => null),
 						new DefaultIOManager(new FileSystem()),
 						loggerFactory.CreateLogger<PosixProcessFeatures>()),
-					Mock.Of<IIOManager>(),
+					mockIOManager.Object,
 					loggerFactory.CreateLogger<ProcessExecutor>(),
 					loggerFactory);
 

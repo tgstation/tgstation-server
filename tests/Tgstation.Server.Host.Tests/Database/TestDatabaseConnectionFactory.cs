@@ -16,8 +16,8 @@ namespace Tgstation.Server.Host.Database.Tests
 		public void TestBadParameters()
 		{
 			var factory = new DatabaseConnectionFactory();
-			Assert.ThrowsException<ArgumentNullException>(() => factory.CreateConnection(null, default));
-			Assert.ThrowsException<ArgumentOutOfRangeException>(() => factory.CreateConnection(String.Empty, (DatabaseType)42));
+			Assert.ThrowsExactly<ArgumentNullException>(() => factory.CreateConnection(null, default));
+			Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => factory.CreateConnection(String.Empty, (DatabaseType)42));
 		}
 
 		[TestMethod]

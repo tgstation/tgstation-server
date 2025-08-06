@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 
-using Tgstation.Server.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Tgstation.Server.Host.Authority.Core
 {
@@ -15,34 +16,59 @@ namespace Tgstation.Server.Host.Authority.Core
 		protected TAuthority Authority { get; }
 
 		/// <summary>
+		/// The authorization service for the <see cref="AuthorityInvokerBase{TAuthority}"/>.
+		/// </summary>
+		readonly Security.IAuthorizationService authorizationService;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthorityInvokerBase{TAuthority}"/> class.
 		/// </summary>
 		/// <param name="authority">The value of <see cref="Authority"/>.</param>
-		public AuthorityInvokerBase(TAuthority authority)
+		/// <param name="authorizationService">The value of <see cref="authorizationService"/>.</param>
+		public AuthorityInvokerBase(
+			TAuthority authority,
+			Security.IAuthorizationService authorizationService)
 		{
 			Authority = authority ?? throw new ArgumentNullException(nameof(authority));
+			this.authorizationService = authorizationService ?? throw new ArgumentNullException(nameof(authorizationService));
 		}
 
 		/// <inheritdoc />
-		IQueryable<TResult> IAuthorityInvoker<TAuthority>.InvokeQueryable<TResult>(Func<TAuthority, IQueryable<TResult>> authorityInvoker)
+		async ValueTask<IQueryable<TResult>?> IAuthorityInvoker<TAuthority>.InvokeQueryable<TResult>(Func<TAuthority, RequirementsGated<IQueryable<TResult>>> authorityInvoker)
 		{
 			ArgumentNullException.ThrowIfNull(authorityInvoker);
-			return authorityInvoker(Authority);
+
+			var requirementsGate = authorityInvoker(Authority);
+			return await ExecuteIfRequirementsSatisfied(requirementsGate);
 		}
 
-		/// <inheritdoc />
-		IQueryable<TApiModel> IAuthorityInvoker<TAuthority>.InvokeTransformableQueryable<TResult, TApiModel, TTransformer>(Func<TAuthority, IQueryable<TResult>> authorityInvoker)
+		/// <summary>
+		/// Unwrap a <see cref="RequirementsGated{TResult}"/> result, returning <see langword="null"/> if the requirements weren't satisfied.
+		/// </summary>
+		/// <typeparam name="TResult">The <see cref="Type"/> contained by the <paramref name="requirementsGate"/>.</typeparam>
+		/// <param name="requirementsGate">The <see cref="RequirementsGated{TResult}"/> result.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <typeparamref name="TResult"/> if the requirements were met, <see langword="null"/> if the requirments weren't met.</returns>
+		protected async ValueTask<TResult?> ExecuteIfRequirementsSatisfied<TResult>(RequirementsGated<TResult> requirementsGate)
+			where TResult : class
 		{
-			ArgumentNullException.ThrowIfNull(authorityInvoker);
+			var requirements = await requirementsGate.GetRequirements();
+			var authorizationResult = await authorizationService.AuthorizeAsync(requirements);
 
-			var queryable = authorityInvoker(Authority);
+			if (!authorizationResult.Succeeded)
+			{
+				OnRequirementsFailure(authorizationResult.Failure);
+				return null;
+			}
 
-			if (typeof(EntityId).IsAssignableFrom(typeof(TResult)))
-				queryable = queryable.OrderBy(item => ((EntityId)(object)item).Id!.Value); // order by ID to fix an EFCore warning
+			return await requirementsGate.Execute(authorizationService);
+		}
 
-			var expression = new TTransformer().Expression;
-			return queryable
-				.Select(expression);
+		/// <summary>
+		/// Called to handle generic behavior when requirements evaluation fails.
+		/// </summary>
+		/// <param name="authFailure">The <see cref="AuthorizationFailure"/>.</param>
+		protected virtual void OnRequirementsFailure(AuthorizationFailure authFailure)
+		{
 		}
 	}
 }

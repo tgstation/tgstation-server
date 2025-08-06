@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Extensions.Tests
 		[TestMethod]
 		public void TestThrowsOnNullParameter()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => GeneralConfigurationExtensions.GetCopyDirectoryTaskThrottle(null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => GeneralConfigurationExtensions.GetCopyDirectoryTaskThrottle(null));
 		}
 	}
 }

@@ -21,8 +21,8 @@ namespace Tgstation.Server.Api.Tests
 		[TestMethod]
 		public void TestConstruction()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new ApiHeaders(null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new ApiHeaders(productHeaderValue, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new ApiHeaders(null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new ApiHeaders(productHeaderValue, null));
 			var headers = new ApiHeaders(productHeaderValue, new TokenResponse { Bearer = String.Empty });
 			headers = new ApiHeaders(productHeaderValue, String.Empty, OAuthProvider.GitHub);
 		}
@@ -54,7 +54,7 @@ namespace Tgstation.Server.Api.Tests
 			Assert.AreEqual(ConformantHeader, header.RawUserAgent);
 			Assert.IsNotNull(header.UserAgent);
 
-			Assert.ThrowsException<HeadersException>(() => TestHeader(String.Empty));
+			Assert.ThrowsExactly<HeadersException>(() => TestHeader(String.Empty));
 		}
 	}
 }
