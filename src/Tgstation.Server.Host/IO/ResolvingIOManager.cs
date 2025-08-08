@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.IO.Abstractions;
 
 namespace Tgstation.Server.Host.IO
 {
@@ -16,22 +16,19 @@ namespace Tgstation.Server.Host.IO
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ResolvingIOManager"/> class.
 		/// </summary>
-		/// <param name="parent">The <see cref="IIOManager"/> that resolves to the directory to work out of.</param>
+		/// <param name="fileSystem">The <see cref="IFileSystem"/> for the <see cref="DefaultIOManager"/>.</param>
 		/// <param name="subdirectory">The value of <see cref="subdirectory"/>.</param>
-		public ResolvingIOManager(IIOManager parent, string subdirectory)
+		public ResolvingIOManager(
+			IFileSystem fileSystem,
+			string subdirectory)
+			: base(fileSystem)
 		{
-			ArgumentNullException.ThrowIfNull(parent);
-			ArgumentNullException.ThrowIfNull(subdirectory);
-
-			this.subdirectory = ConcatPath(parent.ResolvePath(), subdirectory);
+			this.subdirectory = subdirectory ?? throw new ArgumentNullException(nameof(subdirectory));
 		}
 
 		/// <inheritdoc />
-		public override string ResolvePath(string path)
-		{
-			if (!Path.IsPathRooted(path))
-				return base.ResolvePath(ConcatPath(subdirectory, path));
-			return path;
-		}
+		protected override string ResolvePathCore(string path)
+			=> base.ResolvePathCore(
+				ConcatPath(subdirectory, path));
 	}
 }

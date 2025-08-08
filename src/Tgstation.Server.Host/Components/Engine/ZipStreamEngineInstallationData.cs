@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="MemoryStream"/> containing the zip data of the engine.
+		/// The <see cref="Stream"/> containing the zip data of the engine.
 		/// </summary>
 		readonly Stream zipStream;
 
@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		public ValueTask DisposeAsync() => zipStream.DisposeAsync();
 
 		/// <inheritdoc />
-		public Task ExtractToPath(string path, CancellationToken cancellationToken)
+		public ValueTask ExtractToPath(string path, CancellationToken cancellationToken)
 			=> ioManager.ZipToDirectory(path, zipStream, cancellationToken);
 	}
 }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace Tgstation.Server.Tests.Live
 			for (int i = 0; i < 5; ++i)
 				try
 				{
-					new DefaultIOManager().DeleteDirectory(directory, default).GetAwaiter().GetResult();
+					new DefaultIOManager(new FileSystem()).DeleteDirectory(directory, default).GetAwaiter().GetResult();
 				}
 				catch
 				{
@@ -87,6 +88,8 @@ namespace Tgstation.Server.Tests.Live
 				needCleanup = false;
 				Cleanup(BaseDirectory).GetAwaiter().GetResult();
 			}
+
+			System.Console.WriteLine($"RunningInGitHubActions: {TestingUtils.RunningInGitHubActions}");
 
 			Assert.IsTrue(port >= 10000); // for testing bridge request limit
 			Directory = BaseDirectory;
@@ -156,7 +159,8 @@ namespace Tgstation.Server.Tests.Live
 				$"Security:TokenExpiryMinutes=120", // timeouts are useless for us
 				$"General:OpenDreamSuppressInstallOutput={TestingUtils.RunningInGitHubActions}",
 				"Telemetry:DisableVersionReporting=true",
-				$"General:PrometheusPort={port}"
+				$"General:PrometheusPort={port}",
+				$"General:ByondZipDownloadTemplate={TestingUtils.ByondZipDownloadTemplate}"
 			};
 
 			if (MultiServerClient.UseGraphQL)

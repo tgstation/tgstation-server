@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -69,7 +70,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Assert.AreEqual(TestString, Encoding.UTF8.GetString(downloadMemoryStream.ToArray()).Trim());
 			}
 
-			await ApiAssert.ThrowsException<ConflictException>(() => configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken), ErrorCode.ConfigurationDirectoryNotEmpty);
+			await ApiAssert.ThrowsExactly<ConflictException>(() => configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken), ErrorCode.ConfigurationDirectoryNotEmpty);
 
 			file.FileTicket = null;
 			await configurationClient.Write(new ConfigurationFileRequest
@@ -90,7 +91,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 		public ValueTask SetupDMApiTests(bool includingRoot, CancellationToken cancellationToken)
 		{
 			// just use an I/O manager here
-			var ioManager = new DefaultIOManager();
+			var ioManager = new DefaultIOManager(
+				new FileSystem());
 
 			async ValueTask TestStaticFileAndDir()
 			{
@@ -127,7 +129,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 						Path = $"/EventScripts/{scriptName}"
 					};
 
-					await using var readStream = ioManager.GetFileStream($"../../../../DMAPI/{(basic ? "BasicOperation" : "LongRunning")}/{scriptName}", false);
+					await using var readStream = ioManager.CreateAsyncReadStream($"../../../../DMAPI/{(basic ? "BasicOperation" : "LongRunning")}/{scriptName}", true, false);
 					await configurationClient.Write(
 						resourcingScript,
 						readStream,

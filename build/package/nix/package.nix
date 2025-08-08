@@ -27,44 +27,26 @@ let
     installPhase = ''
       mkdir -p $out
       xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion ./Version.props > $out/tgs_version.txt
+      xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsHostWatchdogVersion ./Version.props > $out/watchdog_version.txt
     '';
   };
-  version = (builtins.readFile "${versionParse}/tgs_version.txt");
 
-  fixedOutput = stdenv.mkDerivation {
-    pname = "tgstation-server-release-server-console-zip";
-    inherit version;
+  tgstation-server-host-console = pkgs.buildDotnetModule {
+    pname = "Tgstation.Server.Host.Console";
+    version =  (builtins.readFile "${versionParse}/watchdog_version.txt"); # Be careful, this influences the assembly version
 
-    meta = with pkgs.lib; {
-      description = "Host watchdog binaries for tgstation-server";
-      homepage = "https://github.com/tgstation/tgstation-server";
-      changelog = "https://github.com/tgstation/tgstation-server/releases/tag/tgstation-server-v${version}";
-      license = licenses.agpl3Plus;
-      platforms = platforms.x86_64;
-    };
+    src = ./../../..;
 
-    nativeBuildInputs = with pkgs; [
-      curl
-      cacert
-      versionParse
-    ];
+    projectFile = "src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj";
+    nugetDeps = ./deps.json; # see "Generating and updating NuGet dependencies" section for details
 
-    src = ./.;
+    TGS_NIX_BUILD = "yes";
 
-    buildPhase = ''
-      curl -L https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v${version}/ServerConsole.zip -o ServerConsole.zip
-    '';
+    executables = [];
 
-    installPhase = ''
-      mkdir -p $out
-      mv ServerConsole.zip $out/ServerConsole.zip
-    '';
-
-    outputHashAlgo = "sha256";
-    outputHashMode = "recursive";
-    outputHash = (builtins.readFile ./ServerConsole.sha256);
+    dotnet-sdk = pkgs.dotnetCorePackages.sdk_8_0;
+    dotnet-runtime = pkgs.dotnetCorePackages.runtime_8_0;
   };
-  rpath = lib.makeLibraryPath [ pkgs.stdenv_32bit.cc.cc.lib ];
 in
 stdenv.mkDerivation {
   pname = "tgstation-server";
@@ -79,18 +61,18 @@ stdenv.mkDerivation {
   };
 
   buildInputs = with pkgs; [
-    dotnetCorePackages.sdk_8_0
+    pkgs.dotnetCorePackages.sdk_8_0
     gdb
     systemd
     zlib
     gcc_multi
     glibc
     bash
+    curl
+    tgstation-server-host-console
   ];
   nativeBuildInputs = with pkgs; [
     makeWrapper
-    unzip
-    fixedOutput
     versionParse
   ];
 
@@ -98,13 +80,11 @@ stdenv.mkDerivation {
 
   installPhase = ''
     mkdir -p $out/bin
-    unzip "${fixedOutput}/ServerConsole.zip" -d $out/bin
-    rm -rf $out/bin/lib
     makeWrapper ${pkgs.dotnetCorePackages.sdk_8_0}/bin/dotnet $out/bin/tgstation-server --suffix PATH : ${
       lib.makeBinPath (
         with pkgs;
         [
-          dotnetCorePackages.sdk_8_0
+          pkgs.dotnetCorePackages.sdk_8_0
           gdb
           bash
         ]
@@ -117,6 +97,6 @@ stdenv.mkDerivation {
           zlib
         ]
       )
-    } --add-flags "$out/bin/Tgstation.Server.Host.Console.dll --bootstrap"
+    } --add-flags "${tgstation-server-host-console}/lib/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.dll --bootstrap"
   '';
 }

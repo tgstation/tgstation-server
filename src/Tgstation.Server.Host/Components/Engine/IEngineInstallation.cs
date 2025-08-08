@@ -60,14 +60,16 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// Return the command line arguments for launching with given <paramref name="launchParameters"/>.
 		/// </summary>
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/>.</param>
-		/// <param name="parameters">The map of parameter <see cref="string"/>s as a <see cref="IReadOnlyDictionary{TKey, TValue}"/>. MUST include <see cref="Interop.DMApiConstants.ParamAccessIdentifier"/>. Should NOT include the <see cref="DreamDaemonLaunchParameters.AdditionalParameters"/> of <paramref name="launchParameters"/>.</param>
+		/// <param name="parameters">The optional map of parameter <see cref="string"/>s as a <see cref="IReadOnlyDictionary{TKey, TValue}"/>. MUST include <see cref="Interop.DMApiConstants.ParamAccessIdentifier"/>. Should NOT include the <see cref="DreamDaemonLaunchParameters.AdditionalParameters"/> of <paramref name="launchParameters"/>.</param>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/>.</param>
+		/// <param name="accessIdentifier">The secure <see cref="string"/> used to authenticate communication with the game server.</param>
 		/// <param name="logFilePath">The full path to the log file, if any.</param>
 		/// <returns>The formatted arguments <see cref="string"/>.</returns>
 		string FormatServerArguments(
 			IDmbProvider dmbProvider,
-			IReadOnlyDictionary<string, string> parameters,
+			IReadOnlyDictionary<string, string>? parameters,
 			DreamDaemonLaunchParameters launchParameters,
+			string accessIdentifier,
 			string? logFilePath);
 
 		/// <summary>
@@ -83,7 +85,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// </summary>
 		/// <param name="logger">The <see cref="ILogger"/> to write to.</param>
 		/// <param name="process">The <see cref="IProcess"/> to be terminated.</param>
-		/// <param name="accessIdentifier">The <see cref="Interop.DMApiParameters.AccessIdentifier"/> of the session.</param>
+		/// <param name="accessIdentifier">The secure <see cref="string"/> used to authenticate communication with the game server.</param>
 		/// <param name="port">The port the server is running on.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>

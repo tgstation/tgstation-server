@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -82,7 +81,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly CancellationTokenSource cleanupCts;
 
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> for <see cref="LogLockStates"/>.
+		/// The <see cref="CancellationTokenSource"/> for <see cref="LogLockStatesLoop"/>.
 		/// </summary>
 		readonly CancellationTokenSource lockLogCts;
 
@@ -225,7 +224,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 
 			// we dont do CleanUnusedCompileJobs here because the watchdog may have plans for them yet
-			cleanupTask = Task.WhenAll(cleanupTask, LogLockStates());
+			cleanupTask = Task.WhenAll(cleanupTask, LogLockStatesLoop());
 		}
 
 		/// <inheritdoc />
@@ -332,6 +331,18 @@ namespace Tgstation.Server.Host.Components.Deployment
 			return provider.CompileJob;
 		}
 
+		/// <inheritdoc />
+		public void LogLockStates()
+		{
+			var builder = new StringBuilder();
+
+			lock (jobLockManagers)
+				foreach (var lockManager in jobLockManagers.Values)
+					lockManager.LogLockStats(builder);
+
+			logger.LogTrace("Periodic deployment log states report:{newLine}{report}", Environment.NewLine, builder);
+		}
+
 		/// <summary>
 		/// Gets a <see cref="IDmbProvider"/> and potentially the <see cref="DeploymentLockManager"/> for a given <see cref="CompileJob"/>.
 		/// </summary>
@@ -431,7 +442,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					// Don't dispose it
 					logger.LogDebug("Creating legacy two folder .dmb provider targeting {aDirName} directory...", LegacyADirectoryName);
 #pragma warning disable CA2000 // Dispose objects before losing scope (false positive)
-					newProvider = new DmbProvider(compileJob, engineVersion, ioManager, new DisposeInvoker(CleanupAction), Path.DirectorySeparatorChar + LegacyADirectoryName);
+					newProvider = new DmbProvider(compileJob, engineVersion, ioManager, new DisposeInvoker(CleanupAction), LegacyADirectoryName);
 #pragma warning restore CA2000 // Dispose objects before losing scope
 				}
 
@@ -518,7 +529,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Lock all <see cref="DeploymentLockManager"/>s states.
 		/// </summary>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task LogLockStates()
+		async Task LogLockStatesLoop()
 		{
 			logger.LogTrace("Entering lock logging loop");
 			CancellationToken cancellationToken = lockLogCts.Token;
@@ -526,14 +537,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			while (!cancellationToken.IsCancellationRequested)
 				try
 				{
-					var builder = new StringBuilder();
-
-					lock (jobLockManagers)
-						foreach (var lockManager in jobLockManagers.Values)
-							lockManager.LogLockStats(builder);
-
-					logger.LogTrace("Periodic deployment log states report:{newLine}{report}", Environment.NewLine, builder);
-
+					LogLockStates();
 					await asyncDelayer.Delay(TimeSpan.FromMinutes(10), cancellationToken);
 				}
 				catch (OperationCanceledException ex)

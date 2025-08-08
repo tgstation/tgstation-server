@@ -2,6 +2,7 @@
 using Moq;
 using System;
 using System.IO;
+using System.IO.Abstractions.TestingHelpers;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace Tgstation.Server.Host.Tests
 		[TestMethod]
 		public async Task TestIncompatibleWatchdog()
 		{
-			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => Program.Main(new string[] { "garbage", "0.0.1" }));
+			await Assert.ThrowsExactlyAsync<InvalidOperationException>(() => Program.Main(new string[] { "garbage", "0.0.1" }));
 		}
 
 		[TestMethod]
@@ -73,35 +74,36 @@ namespace Tgstation.Server.Host.Tests
 				ServerFactory = mockServerFactory.Object
 			};
 
-			await Assert.ThrowsExceptionAsync<DivideByZeroException>(() => program.Main(Array.Empty<string>(), null).AsTask());
+			await Assert.ThrowsExactlyAsync<DivideByZeroException>(() => program.Main(Array.Empty<string>(), null).AsTask());
 		}
 
 		[TestMethod]
 		public async Task TestStandardRunWithExceptionAndWatchdog()
 		{
 			var mockServer = new Mock<IServer>();
+			var mockFs = new MockFileSystem();
 			var exception = new DivideByZeroException();
 			mockServer.Setup(x => x.Run(It.IsAny<CancellationToken>())).Throws(exception);
 			mockServer.SetupGet(x => x.RestartRequested).Returns(true);
 			var mockServerFactory = new Mock<IServerFactory>();
-			mockServerFactory.SetupGet(x => x.IOManager).Returns(new DefaultIOManager());
+			mockServerFactory.SetupGet(x => x.IOManager).Returns(new DefaultIOManager(mockFs));
 			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
 			var program = new Program
 			{
 				ServerFactory = mockServerFactory.Object
 			};
 
-			var tempFileName = Path.GetTempFileName();
-			File.Delete(tempFileName);
+			var tempFileName = mockFs.Path.Combine(mockFs.Path.GetTempPath(), mockFs.Path.GetRandomFileName());
+			mockFs.File.Delete(tempFileName);
 			try
 			{
 				var result = await program.Main(Array.Empty<string>(), tempFileName);
 				Assert.AreEqual(HostExitCode.Error, result);
-				Assert.AreEqual(exception.ToString(), File.ReadAllText(tempFileName));
+				Assert.AreEqual(exception.ToString(), mockFs.File.ReadAllText(tempFileName));
 			}
 			finally
 			{
-				File.Delete(tempFileName);
+				mockFs.File.Delete(tempFileName);
 			}
 		}
 	}

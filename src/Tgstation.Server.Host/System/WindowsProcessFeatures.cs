@@ -145,6 +145,7 @@ namespace Tgstation.Server.Host.System
 				throw new JobException(ErrorCode.GameServerOffline, ex);
 			}
 
+			// Windows API so has to be a real FS
 			await using var fileStream = new FileStream(outputFile, FileMode.CreateNew);
 
 			await Task.Factory.StartNew(

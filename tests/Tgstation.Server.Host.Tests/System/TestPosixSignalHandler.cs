@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Abstractions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,13 +21,13 @@ namespace Tgstation.Server.Host.System.Tests
 		[TestMethod]
 		public void TestConstruction()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new PosixSignalHandler(null, null, null));
 
 			var mockServerControl = Mock.Of<IServerControl>();
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, null, null));
 
 			var mockAsyncDelayer = Mock.Of<IAsyncDelayer>();
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, mockAsyncDelayer, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, mockAsyncDelayer, null));
 
 			new PosixSignalHandler(mockServerControl, mockAsyncDelayer, Mock.Of<ILogger<PosixSignalHandler>>()).Dispose();
 		}
@@ -58,7 +59,8 @@ namespace Tgstation.Server.Host.System.Tests
 			processExecutor = new ProcessExecutor(
 				new PosixProcessFeatures(
 					new Lazy<IProcessExecutor>(() => processExecutor),
-					new DefaultIOManager(),
+					new DefaultIOManager(
+						new FileSystem()),
 					loggerFactory.CreateLogger<PosixProcessFeatures>()),
 				Mock.Of<IIOManager>(),
 				loggerFactory.CreateLogger<ProcessExecutor>(),

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace Tgstation.Server.Tests
 			var platformIdentifier = new PlatformIdentifier();
 			var processExecutor = new ProcessExecutor(
 				Mock.Of<IProcessFeatures>(),
-				new DefaultIOManager(),
+				new DefaultIOManager(new FileSystem()),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				loggerFactory);
 
@@ -52,7 +53,7 @@ namespace Tgstation.Server.Tests
 			var platformIdentifier = new PlatformIdentifier();
 			var processExecutor = new ProcessExecutor(
 				Mock.Of<IProcessFeatures>(),
-				new DefaultIOManager(),
+				new DefaultIOManager(new FileSystem()),
 				loggerFactory.CreateLogger<ProcessExecutor>(),
 				loggerFactory);
 

@@ -7,11 +7,14 @@
 
   <ItemGroup>
     <!-- Usage: Creating mock database implementations -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.7" />
+    <!-- Usage: Creating mock filesystem implementations -->
+    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="22.0.15" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
+    <ProjectReference Include="..\Tgstation.Server.Common.Tests\Tgstation.Server.Common.Tests.csproj" />
   </ItemGroup>
 
 </Project>

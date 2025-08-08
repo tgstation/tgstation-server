@@ -526,17 +526,23 @@ namespace Tgstation.Server.Host.Components.Session
 			bool apiValidate,
 			CancellationToken cancellationToken)
 		{
-			// important to run on all ports to allow port changing
-			var environment = await engineLock.LoadEnv(logger, false, cancellationToken);
-			var arguments = engineLock.FormatServerArguments(
-				dmbProvider,
-				new Dictionary<string, string>
+			var serverMayHaveDMApi = apiValidate || dmbProvider.CompileJob.DMApiVersion != null;
+
+			var serverArguments = serverMayHaveDMApi
+				? new Dictionary<string, string>
 				{
 					{ DMApiConstants.ParamApiVersion, DMApiConstants.InteropVersion.Semver().ToString() },
 					{ DMApiConstants.ParamServerPort, serverPortProvider.HttpApiPort.ToString(CultureInfo.InvariantCulture) },
 					{ DMApiConstants.ParamAccessIdentifier, accessIdentifier },
-				},
+				}
+				: null;
+
+			var environment = await engineLock.LoadEnv(logger, false, cancellationToken);
+			var arguments = engineLock.FormatServerArguments(
+				dmbProvider,
+				serverArguments,
 				launchParameters,
+				accessIdentifier,
 				!engineLock.HasStandardOutput || engineLock.PreferFileLogging
 					? logFilePath
 					: null);
@@ -612,11 +618,11 @@ namespace Tgstation.Server.Host.Components.Session
 				if (cliSupported)
 					ddOutput = (await process.GetCombinedOutput(cancellationToken))!;
 
-				if (ddOutput == null)
+				if (String.IsNullOrWhiteSpace(ddOutput) && outputFilePath != null)
 					try
 					{
 						var dreamDaemonLogBytes = await gameIOManager.ReadAllBytes(
-							outputFilePath!,
+							outputFilePath,
 							cancellationToken);
 
 						ddOutput = Encoding.UTF8.GetString(dreamDaemonLogBytes);
@@ -627,7 +633,7 @@ namespace Tgstation.Server.Host.Components.Session
 							try
 							{
 								logger.LogTrace("Deleting temporary log file {path}...", outputFilePath);
-								await gameIOManager.DeleteFile(outputFilePath!, cancellationToken);
+								await gameIOManager.DeleteFile(outputFilePath, cancellationToken);
 							}
 							catch (Exception ex)
 							{

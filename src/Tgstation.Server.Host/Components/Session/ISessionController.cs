@@ -90,6 +90,11 @@ namespace Tgstation.Server.Host.Components.Session
 		string DumpFileExtension { get; }
 
 		/// <summary>
+		/// The number of times a startup bridge request has been received. <see langword="null"/> if <see cref="DMApiAvailable"/> is <see langword="false"/>.
+		/// </summary>
+		long? StartupBridgeRequestsReceived { get; }
+
+		/// <summary>
 		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>.
 		/// </summary>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>

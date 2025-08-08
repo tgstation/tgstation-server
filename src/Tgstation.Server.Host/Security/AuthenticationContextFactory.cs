@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -12,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Rights;
@@ -78,30 +76,6 @@ namespace Tgstation.Server.Host.Security
 		int initialized;
 
 		/// <summary>
-		/// Parse a <see cref="DateTimeOffset"/> out of a <see cref="Claim"/> in a given <paramref name="principal"/>.
-		/// </summary>
-		/// <param name="principal">The <see cref="ClaimsPrincipal"/> containing claims.</param>
-		/// <param name="key">The <see cref="Claim"/> name to parse from.</param>
-		/// <returns>The parsed <see cref="DateTimeOffset"/>.</returns>
-		static DateTimeOffset ParseTime(ClaimsPrincipal principal, string key)
-		{
-			var claim = principal.FindFirst(key);
-			if (claim == default)
-				throw new InvalidOperationException($"Missing '{key}' claim!");
-
-			try
-			{
-				return new DateTimeOffset(
-					EpochTime.DateTime(
-						Int64.Parse(claim.Value, CultureInfo.InvariantCulture)));
-			}
-			catch (Exception ex)
-			{
-				throw new InvalidOperationException($"Failed to parse '{key}'!", ex);
-			}
-		}
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthenticationContextFactory"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/>.</param>
@@ -148,23 +122,10 @@ namespace Tgstation.Server.Host.Security
 				throw new InvalidOperationException("Authentication context has already been loaded");
 
 			var principal = new ClaimsPrincipal(new ClaimsIdentity(jwt.Claims));
+			var userId = principal.GetTgsUserId();
 
-			var userIdClaim = principal.FindFirst(JwtRegisteredClaimNames.Sub);
-			if (userIdClaim == default)
-				throw new InvalidOperationException($"Missing '{JwtRegisteredClaimNames.Sub}' claim!");
-
-			long userId;
-			try
-			{
-				userId = Int64.Parse(userIdClaim.Value, CultureInfo.InvariantCulture);
-			}
-			catch (Exception e)
-			{
-				throw new InvalidOperationException("Failed to parse user ID!", e);
-			}
-
-			var notBefore = ParseTime(principal, JwtRegisteredClaimNames.Nbf);
-			var expires = ParseTime(principal, JwtRegisteredClaimNames.Exp);
+			var notBefore = principal.ParseTime(JwtRegisteredClaimNames.Nbf);
+			var expires = principal.ParseTime(JwtRegisteredClaimNames.Exp);
 
 			var user = await databaseContext
 				.Users
@@ -376,7 +337,7 @@ namespace Tgstation.Server.Host.Security
 				await databaseContext.Save(cancellationToken);
 			}
 
-			var expires = ParseTime(principal, JwtRegisteredClaimNames.Exp);
+			var expires = principal.ParseTime(JwtRegisteredClaimNames.Exp);
 
 			currentAuthenticationContext.Initialize(
 				user,

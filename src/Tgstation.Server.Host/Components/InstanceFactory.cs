@@ -164,7 +164,7 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="instanceIOManager">The instance's <see cref="IIOManager"/>.</param>
 		/// <returns>The <see cref="IIOManager"/> for the instance's "Game" directory.</returns>
-		static ResolvingIOManager CreateGameIOManager(IIOManager instanceIOManager) => new(instanceIOManager, "Game");
+		static IIOManager CreateGameIOManager(IIOManager instanceIOManager) => instanceIOManager.CreateResolverForSubdirectory("Game");
 
 #pragma warning disable CA1502 // TODO: Decomplexify
 		/// <summary>
@@ -270,11 +270,11 @@ namespace Tgstation.Server.Host.Components
 			var instanceIoManager = CreateInstanceIOManager(metadata);
 
 			// various other ioManagers
-			var repoIoManager = new ResolvingIOManager(instanceIoManager, "Repository");
-			var byondIOManager = new ResolvingIOManager(instanceIoManager, "Byond");
+			var repoIoManager = instanceIoManager.CreateResolverForSubdirectory("Repository");
+			var byondIOManager = instanceIoManager.CreateResolverForSubdirectory("Byond");
 			var gameIoManager = CreateGameIOManager(instanceIoManager);
-			var diagnosticsIOManager = new ResolvingIOManager(instanceIoManager, "Diagnostics");
-			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
+			var diagnosticsIOManager = instanceIoManager.CreateResolverForSubdirectory("Diagnostics");
+			var configurationIoManager = instanceIoManager.CreateResolverForSubdirectory("Configuration");
 
 			var metricFactory = this.metricFactory.WithLabels(
 				new Dictionary<string, string>
@@ -299,12 +299,6 @@ namespace Tgstation.Server.Host.Components
 			var repoManager = repositoryManagerFactory.CreateRepositoryManager(repoIoManager, eventConsumer);
 			try
 			{
-				var engineManager = new EngineManager(
-					byondIOManager,
-					engineInstaller,
-					eventConsumer,
-					loggerFactory.CreateLogger<EngineManager>());
-
 				var dmbFactory = new DmbFactory(
 					databaseContextFactory,
 					gameIoManager,
@@ -315,101 +309,115 @@ namespace Tgstation.Server.Host.Components
 					metadata);
 				try
 				{
-					var commandFactory = new CommandFactory(assemblyInformationProvider, engineManager, repoManager, databaseContextFactory, dmbFactory, metadata);
-
-					var chatManager = chatFactory.CreateChatManager(commandFactory, metadata.ChatSettings);
+					var engineManager = new EngineManager(
+						byondIOManager,
+						engineInstaller,
+						eventConsumer,
+						dmbFactory,
+						loggerFactory.CreateLogger<EngineManager>());
 					try
 					{
-						var reattachInfoHandler = new SessionPersistor(
-							databaseContextFactory,
-							dmbFactory,
-							processExecutor,
-							loggerFactory.CreateLogger<SessionPersistor>(),
-							metadata);
+						var commandFactory = new CommandFactory(assemblyInformationProvider, engineManager, repoManager, databaseContextFactory, dmbFactory, metadata);
 
-						var sessionControllerFactory = new SessionControllerFactory(
-							processExecutor,
-							engineManager,
-							topicClientFactory,
-							cryptographySuite,
-							assemblyInformationProvider,
-							gameIoManager,
-							diagnosticsIOManager,
-							chatManager,
-							networkPromptReaper,
-							platformIdentifier,
-							bridgeRegistrar,
-							serverPortProvider,
-							eventConsumer,
-							asyncDelayer,
-							dotnetDumpService,
-							metricFactory,
-							loggerFactory,
-							loggerFactory.CreateLogger<SessionControllerFactory>(),
-							sessionConfiguration,
-							metadata);
-
-						var watchdog = watchdogFactory.CreateWatchdog(
-							chatManager,
-							dmbFactory,
-							reattachInfoHandler,
-							sessionControllerFactory,
-							gameIoManager,
-							diagnosticsIOManager,
-							configuration, // watchdog doesn't need itself as an event consumer
-							remoteDeploymentManagerFactory,
-							metricFactory,
-							metadata,
-							metadata.DreamDaemonSettings!);
+						var chatManager = chatFactory.CreateChatManager(commandFactory, metadata.ChatSettings);
 						try
 						{
-							eventConsumer.SetWatchdog(watchdog);
-							commandFactory.SetWatchdog(watchdog);
-
-							Instance? instance = null;
-							var dreamMaker = new DreamMaker(
-								engineManager,
-								gameIoManager,
-								configuration,
-								sessionControllerFactory,
-								eventConsumer,
-								chatManager,
-								processExecutor,
+							var reattachInfoHandler = new SessionPersistor(
+								databaseContextFactory,
 								dmbFactory,
-								repoManager,
-								remoteDeploymentManagerFactory,
+								processExecutor,
+								loggerFactory.CreateLogger<SessionPersistor>(),
+								metadata);
+
+							var sessionControllerFactory = new SessionControllerFactory(
+								processExecutor,
+								engineManager,
+								topicClientFactory,
+								cryptographySuite,
+								assemblyInformationProvider,
+								gameIoManager,
+								diagnosticsIOManager,
+								chatManager,
+								networkPromptReaper,
+								platformIdentifier,
+								bridgeRegistrar,
+								serverPortProvider,
+								eventConsumer,
 								asyncDelayer,
+								dotnetDumpService,
 								metricFactory,
-								loggerFactory.CreateLogger<DreamMaker>(),
+								loggerFactory,
+								loggerFactory.CreateLogger<SessionControllerFactory>(),
 								sessionConfiguration,
 								metadata);
 
-							instance = new Instance(
-								metadata,
-								repoManager,
-								engineManager,
-								dreamMaker,
-								watchdog,
+							var watchdog = watchdogFactory.CreateWatchdog(
 								chatManager,
-								configuration,
 								dmbFactory,
-								jobManager,
-								eventConsumer,
+								reattachInfoHandler,
+								sessionControllerFactory,
+								gameIoManager,
+								diagnosticsIOManager,
+								configuration, // watchdog doesn't need itself as an event consumer
 								remoteDeploymentManagerFactory,
-								asyncDelayer,
-								loggerFactory.CreateLogger<Instance>());
+								metricFactory,
+								metadata,
+								metadata.DreamDaemonSettings!);
+							try
+							{
+								eventConsumer.SetWatchdog(watchdog);
+								commandFactory.SetWatchdog(watchdog);
 
-							return instance;
+								Instance? instance = null;
+								var dreamMaker = new DreamMaker(
+									engineManager,
+									gameIoManager,
+									configuration,
+									sessionControllerFactory,
+									eventConsumer,
+									chatManager,
+									processExecutor,
+									dmbFactory,
+									repoManager,
+									remoteDeploymentManagerFactory,
+									asyncDelayer,
+									metricFactory,
+									loggerFactory.CreateLogger<DreamMaker>(),
+									sessionConfiguration,
+									metadata);
+
+								instance = new Instance(
+									metadata,
+									repoManager,
+									engineManager,
+									dreamMaker,
+									watchdog,
+									chatManager,
+									configuration,
+									dmbFactory,
+									jobManager,
+									eventConsumer,
+									remoteDeploymentManagerFactory,
+									asyncDelayer,
+									loggerFactory.CreateLogger<Instance>());
+
+								return instance;
+							}
+							catch
+							{
+								await watchdog.DisposeAsync();
+								throw;
+							}
 						}
 						catch
 						{
-							await watchdog.DisposeAsync();
+							await chatManager.DisposeAsync();
 							throw;
 						}
 					}
 					catch
 					{
-						await chatManager.DisposeAsync();
+						engineManager.Dispose();
 						throw;
 					}
 				}
@@ -441,6 +449,6 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="metadata">The <see cref="Models.Instance"/>.</param>
 		/// <returns>The <see cref="IIOManager"/> for the <paramref name="metadata"/>.</returns>
-		ResolvingIOManager CreateInstanceIOManager(Models.Instance metadata) => new(ioManager, metadata.Path!);
+		IIOManager CreateInstanceIOManager(Models.Instance metadata) => ioManager.CreateResolverForSubdirectory(metadata.Path!);
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -1099,8 +1098,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			=> ioManager.GetDirectoryName(libGitRepo
 				.Info
 				.Path
-				.TrimEnd(Path.DirectorySeparatorChar)
-				.TrimEnd(Path.AltDirectorySeparatorChar));
+				.TrimEnd(ioManager.DirectorySeparatorChar)
+				.TrimEnd(ioManager.AltDirectorySeparatorChar));
 
 		/// <summary>
 		/// Recusively update all <see cref="Submodule"/>s in the <see cref="libGitRepo"/>.

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.IO.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,6 +14,20 @@ namespace Tgstation.Server.Host.IO
 	{
 		/// <inheritdoc />
 		public bool SymlinkedDirectoriesAreDeletedAsFiles => true;
+
+		/// <summary>
+		/// The <see cref="IFileSystem"/> to use.
+		/// </summary>
+		readonly IFileSystem fileSystem;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PosixFilesystemLinkFactory"/> class.
+		/// </summary>
+		/// <param name="fileSystem">The value of <see cref="fileSystem"/>.</param>
+		public PosixFilesystemLinkFactory(IFileSystem fileSystem)
+		{
+			this.fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+		}
 
 		/// <inheritdoc />
 		public Task CreateHardLink(string targetPath, string linkPath, CancellationToken cancellationToken) => Task.Factory.StartNew(
@@ -39,7 +53,7 @@ namespace Tgstation.Server.Host.IO
 				ArgumentNullException.ThrowIfNull(linkPath);
 
 				UnixFileSystemInfo fsInfo;
-				var isFile = File.Exists(targetPath);
+				var isFile = fileSystem.File.Exists(targetPath);
 				cancellationToken.ThrowIfCancellationRequested();
 				if (isFile)
 					fsInfo = new UnixFileInfo(targetPath);

@@ -45,13 +45,15 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <inheritdoc />
 		public string FormatServerArguments(
 			IDmbProvider dmbProvider,
-			IReadOnlyDictionary<string, string> parameters,
+			IReadOnlyDictionary<string, string>? parameters,
 			DreamDaemonLaunchParameters launchParameters,
+			string accessIdentifier,
 			string? logFilePath)
 			=> Instance.FormatServerArguments(
 				dmbProvider,
 				parameters,
 				launchParameters,
+				accessIdentifier,
 				logFilePath);
 
 		/// <inheritdoc />

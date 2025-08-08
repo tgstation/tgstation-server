@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Authority.Core
 {
@@ -22,7 +23,10 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// <returns>An <see cref="IActionResult"/> for the <paramref name="authorityResponse"/>.</returns>
 		/// <typeparam name="TResult">The result <see cref="Type"/> returned in the <paramref name="authorityResponse"/>.</typeparam>
 		/// <typeparam name="TApiModel">The REST API result model built from <paramref name="authorityResponse"/>.</typeparam>
-		static IActionResult CreateSuccessfulActionResult<TResult, TApiModel>(ApiController controller, Func<TResult, TApiModel> resultTransformer, AuthorityResponse<TResult> authorityResponse)
+		static IActionResult CreateSuccessfulActionResult<TResult, TApiModel>(
+			ApiController controller,
+			Func<TResult, TApiModel> resultTransformer,
+			AuthorityResponse<TResult> authorityResponse)
 			where TApiModel : notnull
 		{
 			if (authorityResponse.IsNoContent!.Value)
@@ -44,9 +48,14 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// </summary>
 		/// <param name="controller">The <see cref="ApiController"/> to use.</param>
 		/// <param name="authorityResponse">The <see cref="AuthorityResponse"/>.</param>
-		/// <returns>An <see cref="IActionResult"/> if the <paramref name="authorityResponse"/> is not successful, <see langword="null"/> otherwise.</returns>
-		static IActionResult? CreateErroredActionResult(ApiController controller, AuthorityResponse authorityResponse)
+		/// <returns>An <see cref="IActionResult"/> if the <paramref name="authorityResponse"/> is not successful, <see langword="null"/> otherwise. If <see langword="null"/> is returned, <paramref name="authorityResponse"/> is not <see langword="null"/>.</returns>
+		static IActionResult? CreateErroredActionResult(
+			ApiController controller,
+			AuthorityResponse? authorityResponse)
 		{
+			if (authorityResponse == null)
+				return controller.Forbid();
+
 			if (authorityResponse.Success)
 				return null;
 
@@ -74,47 +83,51 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// Initializes a new instance of the <see cref="RestAuthorityInvoker{TAuthority}"/> class.
 		/// </summary>
 		/// <param name="authority">The <typeparamref name="TAuthority"/>.</param>
-		public RestAuthorityInvoker(TAuthority authority)
-			: base(authority)
+		/// <param name="authorizationService">The <see cref="IAuthorizationService"/> to use.</param>
+		public RestAuthorityInvoker(TAuthority authority, IAuthorizationService authorizationService)
+			: base(authority, authorizationService)
 		{
 		}
 
 		/// <inheritdoc />
-		async ValueTask<IActionResult> IRestAuthorityInvoker<TAuthority>.Invoke(ApiController controller, Func<TAuthority, ValueTask<AuthorityResponse>> authorityInvoker)
+		async ValueTask<IActionResult> IRestAuthorityInvoker<TAuthority>.Invoke(ApiController controller, Func<TAuthority, RequirementsGated<AuthorityResponse>> authorityInvoker)
 		{
 			ArgumentNullException.ThrowIfNull(controller);
 			ArgumentNullException.ThrowIfNull(authorityInvoker);
 
-			var authorityResponse = await authorityInvoker(Authority);
+			var requirementsGate = authorityInvoker(Authority);
+			var authorityResponse = await ExecuteIfRequirementsSatisfied(requirementsGate);
 			return CreateErroredActionResult(controller, authorityResponse) ?? controller.NoContent();
 		}
 
 		/// <inheritdoc />
-		async ValueTask<IActionResult> IRestAuthorityInvoker<TAuthority>.Invoke<TResult, TApiModel>(ApiController controller, Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
+		async ValueTask<IActionResult> IRestAuthorityInvoker<TAuthority>.Invoke<TResult, TApiModel>(ApiController controller, Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
 		{
 			ArgumentNullException.ThrowIfNull(controller);
 			ArgumentNullException.ThrowIfNull(authorityInvoker);
 
-			var authorityResponse = await authorityInvoker(Authority);
+			var requirementsGate = authorityInvoker(Authority);
+			var authorityResponse = await ExecuteIfRequirementsSatisfied(requirementsGate);
 			var erroredResult = CreateErroredActionResult(controller, authorityResponse);
 			if (erroredResult != null)
 				return erroredResult;
 
-			return CreateSuccessfulActionResult(controller, result => result, authorityResponse);
+			return CreateSuccessfulActionResult(controller, result => result, authorityResponse!);
 		}
 
 		/// <inheritdoc />
-		async ValueTask<IActionResult> IRestAuthorityInvoker<TAuthority>.InvokeTransformable<TResult, TApiModel>(ApiController controller, Func<TAuthority, ValueTask<AuthorityResponse<TResult>>> authorityInvoker)
+		async ValueTask<IActionResult> IRestAuthorityInvoker<TAuthority>.InvokeTransformable<TResult, TApiModel>(ApiController controller, Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
 		{
 			ArgumentNullException.ThrowIfNull(controller);
 			ArgumentNullException.ThrowIfNull(authorityInvoker);
 
-			var authorityResponse = await authorityInvoker(Authority);
+			var requirementsGate = authorityInvoker(Authority);
+			var authorityResponse = await ExecuteIfRequirementsSatisfied(requirementsGate);
 			var erroredResult = CreateErroredActionResult(controller, authorityResponse);
 			if (erroredResult != null)
 				return erroredResult;
 
-			return CreateSuccessfulActionResult(controller, result => result.ToApi(), authorityResponse);
+			return CreateSuccessfulActionResult(controller, result => result.ToApi(), authorityResponse!);
 		}
 	}
 }

@@ -197,7 +197,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(PaginatedResponse<InstancePermissionSetResponse>), 200)]
 		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<InstancePermissionSet, InstancePermissionSetResponse>(
-				() => ValueTask.FromResult(
+				() => ValueTask.FromResult<PaginatableResult<InstancePermissionSet>?>(
 					new PaginatableResult<InstancePermissionSet>(
 						DatabaseContext
 							.Instances

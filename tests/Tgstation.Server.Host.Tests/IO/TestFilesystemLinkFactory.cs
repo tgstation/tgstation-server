@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Abstractions;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading;
@@ -17,10 +18,11 @@ namespace Tgstation.Server.Host.IO.Tests
 		[ClassInitialize]
 		public static void SelectFactory(TestContext _)
 		{
+			var fileSystem = new FileSystem();
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-				linkFactory = new WindowsFilesystemLinkFactory();
+				linkFactory = new WindowsFilesystemLinkFactory(fileSystem);
 			else
-				linkFactory = new PosixFilesystemLinkFactory();
+				linkFactory = new PosixFilesystemLinkFactory(fileSystem);
 		}
 
 		public static bool HasPermissionToMakeSymlinks()
@@ -45,12 +47,12 @@ namespace Tgstation.Server.Host.IO.Tests
 
 				if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 				{
-					await Assert.ThrowsExceptionAsync<NotSupportedException>(() => linkFactory.CreateHardLink(f1, f2, CancellationToken.None));
+					await Assert.ThrowsExactlyAsync<NotSupportedException>(() => linkFactory.CreateHardLink(f1, f2, CancellationToken.None));
 					Assert.Inconclusive("Windows does not support hardlinks");
 				}
 
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => linkFactory.CreateHardLink(null, null, CancellationToken.None));
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => linkFactory.CreateHardLink(f1, null, CancellationToken.None));
+				await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => linkFactory.CreateHardLink(null, null, CancellationToken.None));
+				await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => linkFactory.CreateHardLink(f1, null, CancellationToken.None));
 
 				await linkFactory.CreateHardLink(f1, f2, default);
 				Assert.IsTrue(File.Exists(f2));
@@ -96,8 +98,8 @@ namespace Tgstation.Server.Host.IO.Tests
 				f2 = f1 + ".linked";
 				File.WriteAllText(f1, Text);
 
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => linkFactory.CreateSymbolicLink(null, null, default));
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => linkFactory.CreateSymbolicLink(f1, null, default));
+				await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => linkFactory.CreateSymbolicLink(null, null, default));
+				await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => linkFactory.CreateSymbolicLink(f1, null, default));
 
 				await linkFactory.CreateSymbolicLink(f1, f2, default);
 				Assert.IsTrue(File.Exists(f2));
@@ -129,8 +131,8 @@ namespace Tgstation.Server.Host.IO.Tests
 				var p1 = Path.Combine(f1, FileName);
 				File.WriteAllText(p1, Text);
 
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => linkFactory.CreateSymbolicLink(null, null, default));
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => linkFactory.CreateSymbolicLink(f1, null, default));
+				await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => linkFactory.CreateSymbolicLink(null, null, default));
+				await Assert.ThrowsExactlyAsync<ArgumentNullException>(() => linkFactory.CreateSymbolicLink(f1, null, default));
 
 				await linkFactory.CreateSymbolicLink(f1, f2, default);
 

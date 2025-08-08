@@ -69,17 +69,12 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected override string PathToUserFolder { get; }
 
 		/// <inheritdoc />
-		protected override string ByondRevisionsUrlTemplate => "https://www.byond.com/download/build/{0}/{0}.{1}_byond.zip";
+		protected override string OSMarkerTemplate => "Windows";
 
 		/// <summary>
 		/// The <see cref="IProcessExecutor"/> for the <see cref="WindowsByondInstaller"/>.
 		/// </summary>
 		readonly IProcessExecutor processExecutor;
-
-		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="WindowsByondInstaller"/>.
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
 		/// The <see cref="SessionConfiguration"/> for the <see cref="WindowsByondInstaller"/>.
@@ -100,7 +95,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// Initializes a new instance of the <see cref="WindowsByondInstaller"/> class.
 		/// </summary>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptionsMonitor{TOptions}"/> containing the <see cref="GeneralConfiguration"/>.</param>
 		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="fileDownloader">The <see cref="IFileDownloader"/> for the <see cref="ByondInstallerBase"/>.</param>
@@ -109,13 +104,12 @@ namespace Tgstation.Server.Host.Components.Engine
 			IProcessExecutor processExecutor,
 			IIOManager ioManager,
 			IFileDownloader fileDownloader,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SessionConfiguration> sessionConfigurationOptions,
 			ILogger<WindowsByondInstaller> logger)
-			: base(ioManager, logger, fileDownloader)
+			: base(ioManager, logger, fileDownloader, generalConfigurationOptions)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 
 			var useServiceSpecialTactics = Environment.Is64BitProcess && Environment.UserName == $"{Environment.MachineName}$";
@@ -137,35 +131,12 @@ namespace Tgstation.Server.Host.Components.Engine
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public override ValueTask Install(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
-		{
-			CheckVersionValidity(version);
-			ArgumentNullException.ThrowIfNull(path);
-
-			var noPromptTrustedTask = SetNoPromptTrusted(path, cancellationToken);
-			var installDirectXTask = InstallDirectX(path, cancellationToken);
-			var tasks = new List<ValueTask>(3)
-			{
-				noPromptTrustedTask,
-				installDirectXTask,
-			};
-
-			if (!generalConfiguration.SkipAddingByondFirewallException)
-			{
-				var firewallTask = AddDreamDaemonToFirewall(version, path, deploymentPipelineProcesses, cancellationToken);
-				tasks.Add(firewallTask);
-			}
-
-			return ValueTaskExtensions.WhenAll(tasks);
-		}
-
-		/// <inheritdoc />
 		public override async ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(path);
 
-			if (generalConfiguration.SkipAddingByondFirewallException)
+			if (GeneralConfigurationOptions.CurrentValue.SkipAddingByondFirewallException)
 				return;
 
 			if (version.Version < DDExeVersion)
@@ -219,6 +190,26 @@ namespace Tgstation.Server.Host.Components.Engine
 
 				await IOManager.WriteAllBytes(trustedFilePath, newTrustedFileBytes, cancellationToken);
 			}
+		}
+
+		/// <inheritdoc />
+		protected override ValueTask InstallImpl(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
+		{
+			var noPromptTrustedTask = SetNoPromptTrusted(path, cancellationToken);
+			var installDirectXTask = InstallDirectX(path, cancellationToken);
+			var tasks = new List<ValueTask>(3)
+			{
+				noPromptTrustedTask,
+				installDirectXTask,
+			};
+
+			if (!GeneralConfigurationOptions.CurrentValue.SkipAddingByondFirewallException)
+			{
+				var firewallTask = AddDreamDaemonToFirewall(version, path, deploymentPipelineProcesses, cancellationToken);
+				tasks.Add(firewallTask);
+			}
+
+			return ValueTaskExtensions.WhenAll(tasks);
 		}
 
 		/// <inheritdoc />
