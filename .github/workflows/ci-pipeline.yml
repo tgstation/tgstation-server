@@ -96,38 +96,38 @@ jobs:
           name: release_notes_bins
           path: ./release_notes_bins/
 
-#  validate-nix-flake:
-#    name: Validate Nix Flake
-#    needs: start-gate
-#    runs-on: ubuntu-latest
-#    timeout-minutes: 20
-#    env:
-#      TEST_TGS_VERSION: "6.17.0" # Version we use here doesn't matter as it won't be executed. Just used to download a zip and calc hash
-#    steps:
-#      - name: Install Native Packages # Name checked in rerunFlakyTests.js
-#        run: |
-#          sudo apt-get update
-#          sudo apt-get install -y xmlstarlet
-#
-#      - name: Setup Nix
-#        uses: cachix/install-nix-action@v31
-#        with:
-#          nix_path: nixpkgs=channel:nixos-unstable
-#
-#      - name: Checkout (Branch)
-#        uses: actions/checkout@v4
-#        if: github.event_name == 'push' || github.event_name == 'schedule'
-#
-#      - name: Checkout (PR Merge)
-#        uses: actions/checkout@v4
-#        if: github.event_name != 'push' && github.event_name != 'schedule'
-#        with:
-#          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
-#
-#      - name: Check Flake
-#        run: |
-#          cd build/package/nix
-#          nix flake check
+  validate-nix-flake:
+    name: Validate Nix Flake
+    needs: start-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TEST_TGS_VERSION: "6.17.0" # Version we use here doesn't matter as it won't be executed. Just used to download a zip and calc hash
+    steps:
+      - name: Install Native Packages # Name checked in rerunFlakyTests.js
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xmlstarlet
+
+      - name: Setup Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
+
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+
+      - name: Check Flake
+        run: |
+          cd build/package/nix
+          nix flake check
 
   code-scanning:
     name: Run CodeQL
@@ -1784,7 +1784,7 @@ jobs:
         check-winget-pr-template,
         efcore-version-match,
         code-scanning,
-        #validate-nix-flake, #TODO: Remove once
+        validate-nix-flake,
       ]
     runs-on: ubuntu-latest
     steps:
