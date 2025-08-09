@@ -8,7 +8,7 @@ on:
     branches:
       - dev
       - master
-      # - V7 # Disabled as the nix build of dotnetCorePackages.sdk_10_0 doesn't work
+      - V7
 
 concurrency:
   group: "regenerate-nix-dependencies-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
