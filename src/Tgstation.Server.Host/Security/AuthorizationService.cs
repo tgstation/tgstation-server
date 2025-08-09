@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<AuthorizationResult> AuthorizeAsync(IEnumerable<IAuthorizationRequirement> requirements)
+		public async ValueTask<AuthorizationResult> AuthorizeAsync(IEnumerable<IAuthorizationRequirement> requirements, object? resource)
 		{
 			ArgumentNullException.ThrowIfNull(requirements);
 
@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.Security
 
 			var result = await aspNetCoreAuthorizationService.AuthorizeAsync(
 				claimsPrincipalAccessor.User,
-				null,
+				resource,
 				bakedRequirements);
 
 			return result;

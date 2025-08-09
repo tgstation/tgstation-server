@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Authority.Core
 			where TResult : class
 		{
 			var requirements = await requirementsGate.GetRequirements();
-			var authorizationResult = await authorizationService.AuthorizeAsync(requirements);
+			var authorizationResult = await authorizationService.AuthorizeAsync(requirements, requirementsGate.InstanceId);
 
 			if (!authorizationResult.Succeeded)
 			{

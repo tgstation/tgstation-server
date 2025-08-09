@@ -6,6 +6,7 @@ namespace Tgstation.Server.Host.Security.RightsEvaluation
 	/// Single flag <see cref="RightsConditional{TRights}"/>.
 	/// </summary>
 	/// <typeparam name="TRights">The <typeparamref name="TRights"/> to evaluate.</typeparam>
+	/// <remarks>An instance-based <typeparamref name="TRights"/> type MUST be evaluated with the <see cref="Api.Models.EntityId.Id"/> of the instance attached as a resource.</remarks>
 	public sealed class FlagRightsConditional<TRights> : RightsConditional<TRights>
 		where TRights : Enum
 	{
