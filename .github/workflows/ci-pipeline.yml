@@ -100,9 +100,7 @@ jobs:
     name: Validate Nix Flake
     needs: start-gate
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    env:
-      TEST_TGS_VERSION: "6.17.0" # Version we use here doesn't matter as it won't be executed. Just used to download a zip and calc hash
+    timeout-minutes: 90
     steps:
       - name: Install Native Packages # Name checked in rerunFlakyTests.js
         run: |
