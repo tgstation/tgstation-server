@@ -5,6 +5,7 @@ on:
     paths:
       - '**.csproj'
       - '**.props'
+      - '**.yml'
     branches:
       - dev
       - master
