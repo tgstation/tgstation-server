@@ -1,0 +1,353 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="DebugNoWindows" />
+    <BuildType Name="DebugNoWix" />
+    <BuildType Name="Release" />
+    <BuildType Name="ReleaseNoWindows" />
+    <BuildType Name="ReleaseNoWix" />
+  </Configurations>
+  <Folder Name="/.github/">
+    <File Path=".github/CODEOWNERS" />
+    <File Path=".github/CODE_OF_CONDUCT.md" />
+    <File Path=".github/CONTRIBUTING.md" />
+  </Folder>
+  <Folder Name="/.github/ISSUE_TEMPLATE/">
+    <File Path=".github/ISSUE_TEMPLATE/bug_report.md" />
+    <File Path=".github/ISSUE_TEMPLATE/feature_request.md" />
+  </Folder>
+  <Folder Name="/.vscode/">
+    <File Path=".vscode/extensions.json" />
+    <File Path=".vscode/launch.json" />
+    <File Path=".vscode/tasks.json" />
+  </Folder>
+  <Folder Name="/build/">
+    <File Path="build/analyzers.ruleset" />
+    <File Path="build/BuildDox.ps1" />
+    <File Path="build/ci.runsettings" />
+    <File Path="build/Common.props" />
+    <File Path="build/Dockerfile" />
+    <File Path="build/GenerateMigrations.sh" />
+    <File Path="build/logo.svg" />
+    <File Path="build/NewtonsoftJson.props" />
+    <File Path="build/NugetCommon.props" />
+    <File Path="build/OpenApiValidationSettings.json" />
+    <File Path="build/SrcCommon.props" />
+    <File Path="build/stylecop.json" />
+    <File Path="build/TestCommon.props" />
+    <File Path="build/tgs.docker.sh" />
+    <File Path="build/tgstation-server.service" />
+    <File Path="build/uac_elevation_manifest.xml" />
+    <File Path="build/Version.props" />
+    <File Path="build/WebpanelVersion.props" />
+  </Folder>
+  <Folder Name="/build/package/">
+    <File Path="build/package/appsettings.GitHub.yml" />
+    <File Path="build/package/appsettings.Initial.yml" />
+  </Folder>
+  <Folder Name="/build/package/deb/">
+    <File Path="build/package/deb/appsettings.GitHub.yml" />
+    <File Path="build/package/deb/build_package.sh" />
+    <File Path="build/package/deb/install_artifacts.sh" />
+    <File Path="build/package/deb/MakeInstall" />
+    <File Path="build/package/deb/tgs-configure" />
+    <File Path="build/package/deb/wrap_gpg.sh" />
+  </Folder>
+  <Folder Name="/build/package/deb/debian/">
+    <File Path="build/package/deb/debian/changelog" />
+    <File Path="build/package/deb/debian/control" />
+    <File Path="build/package/deb/debian/copyright" />
+    <File Path="build/package/deb/debian/postinst" />
+    <File Path="build/package/deb/debian/prerm" />
+    <File Path="build/package/deb/debian/rules" />
+    <File Path="build/package/deb/install_artifacts.sh" />
+  </Folder>
+  <Folder Name="/build/package/deb/debian/upstream/">
+    <File Path="build/package/deb/debian/upstream/metadata" />
+  </Folder>
+  <Folder Name="/build/package/nix/">
+    <File Path="build/package/nix/flake.nix" />
+    <File Path="build/package/nix/package.nix" />
+    <File Path="build/package/nix/ServerConsole.sha256" />
+    <File Path="build/package/nix/tgstation-server.nix" />
+  </Folder>
+  <Folder Name="/build/package/winget/">
+    <File Path="build/package/winget/appsettings.GitHub.yml" />
+    <File Path="build/package/winget/install_banner.jpg" />
+    <File Path="build/package/winget/prepare_installer_input_artifacts.ps1" />
+    <File Path="build/package/winget/push_manifest.ps1" />
+    <Project Path="build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/Tgstation.Server.Host.Service.Wix.Bundle.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0">
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+      <Platform Project="x86" />
+      <Build Solution="DebugNoWindows|*" Project="false" />
+      <Build Solution="DebugNoWix|*" Project="false" />
+      <Build Solution="ReleaseNoWindows|*" Project="false" />
+      <Build Solution="ReleaseNoWix|*" Project="false" />
+    </Project>
+    <Project Path="build/package/winget/Tgstation.Server.Host.Service.Wix.Extensions/Tgstation.Server.Host.Service.Wix.Extensions.csproj">
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+      <Build Solution="DebugNoWindows|*" Project="false" />
+      <Build Solution="DebugNoWix|*" Project="false" />
+      <Build Solution="ReleaseNoWindows|*" Project="false" />
+      <Build Solution="ReleaseNoWix|*" Project="false" />
+    </Project>
+    <Project Path="build/package/winget/Tgstation.Server.Host.Service.Wix/Tgstation.Server.Host.Service.Wix.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0">
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+      <Platform Project="x86" />
+      <Build Solution="DebugNoWindows|*" Project="false" />
+      <Build Solution="DebugNoWix|*" Project="false" />
+      <Build Solution="ReleaseNoWindows|*" Project="false" />
+      <Build Solution="ReleaseNoWix|*" Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/build/package/winget/manifest/">
+    <File Path="build/package/winget/manifest/Tgstation.Server.installer.yaml" />
+    <File Path="build/package/winget/manifest/Tgstation.Server.locale.en-US.yaml" />
+    <File Path="build/package/winget/manifest/Tgstation.Server.yaml" />
+  </Folder>
+  <Folder Name="/DMAPI/" />
+  <Folder Name="/DMAPI/src/">
+    <File Path="src/DMAPI/tgs.dm" />
+  </Folder>
+  <Folder Name="/DMAPI/src/tgs/">
+    <File Path="src/DMAPI/tgs/includes.dm" />
+    <File Path="src/DMAPI/tgs/LICENSE" />
+    <File Path="src/DMAPI/tgs/README.md" />
+  </Folder>
+  <Folder Name="/DMAPI/src/tgs/core/">
+    <File Path="src/DMAPI/tgs/core/byond_world_export.dm" />
+    <File Path="src/DMAPI/tgs/core/core.dm" />
+    <File Path="src/DMAPI/tgs/core/datum.dm" />
+    <File Path="src/DMAPI/tgs/core/README.md" />
+    <File Path="src/DMAPI/tgs/core/tgs_version.dm" />
+    <File Path="src/DMAPI/tgs/core/_definitions.dm" />
+  </Folder>
+  <Folder Name="/DMAPI/src/tgs/v3210/">
+    <File Path="src/DMAPI/tgs/v3210/api.dm" />
+    <File Path="src/DMAPI/tgs/v3210/commands.dm" />
+    <File Path="src/DMAPI/tgs/v3210/README.md" />
+  </Folder>
+  <Folder Name="/DMAPI/src/tgs/v4/">
+    <File Path="src/DMAPI/tgs/v4/api.dm" />
+    <File Path="src/DMAPI/tgs/v4/commands.dm" />
+    <File Path="src/DMAPI/tgs/v4/README.md" />
+  </Folder>
+  <Folder Name="/DMAPI/src/tgs/v5/">
+    <File Path="src/DMAPI/tgs/v5/api.dm" />
+    <File Path="src/DMAPI/tgs/v5/bridge.dm" />
+    <File Path="src/DMAPI/tgs/v5/chunking.dm" />
+    <File Path="src/DMAPI/tgs/v5/commands.dm" />
+    <File Path="src/DMAPI/tgs/v5/README.md" />
+    <File Path="src/DMAPI/tgs/v5/serializers.dm" />
+    <File Path="src/DMAPI/tgs/v5/topic.dm" />
+    <File Path="src/DMAPI/tgs/v5/undefs.dm" />
+    <File Path="src/DMAPI/tgs/v5/_defines.dm" />
+    <File Path="src/DMAPI/tgs/v5/__interop_version.dm" />
+  </Folder>
+  <Folder Name="/DMAPI/tests/">
+    <File Path="tests/DMAPI/test_prelude.dm" />
+    <File Path="tests/DMAPI/test_setup.dm" />
+  </Folder>
+  <Folder Name="/DMAPI/tests/ApiFree/">
+    <File Path="tests/DMAPI/ApiFree/api_free.dme" />
+    <File Path="tests/DMAPI/ApiFree/Test.dm" />
+  </Folder>
+  <Folder Name="/DMAPI/tests/BasicOperation/">
+    <File Path="tests/DMAPI/BasicOperation/basic operation_test.dme" />
+    <File Path="tests/DMAPI/BasicOperation/basic operation_test_nov3.dme" />
+    <File Path="tests/DMAPI/BasicOperation/Config.dm" />
+    <File Path="tests/DMAPI/BasicOperation/Test.dm" />
+    <File Path="tests/DMAPI/BasicOperation/test_event-qwer.bat" />
+    <File Path="tests/DMAPI/BasicOperation/test_event-qwer.sh" />
+  </Folder>
+  <Folder Name="/DMAPI/tests/BuildFail/">
+    <File Path="tests/DMAPI/BuildFail/build_fail.dme" />
+    <File Path="tests/DMAPI/BuildFail/Test.dm" />
+  </Folder>
+  <Folder Name="/DMAPI/tests/LongRunning/">
+    <File Path="tests/DMAPI/LongRunning/Config.dm" />
+    <File Path="tests/DMAPI/LongRunning/EngineActiveVersionChange-SetupEnv.bat" />
+    <File Path="tests/DMAPI/LongRunning/EngineActiveVersionChange-SetupEnv.sh" />
+    <File Path="tests/DMAPI/LongRunning/long_running_test.dme" />
+    <File Path="tests/DMAPI/LongRunning/long_running_test_copy.dme" />
+    <File Path="tests/DMAPI/LongRunning/long_running_test_rooted.dme" />
+    <File Path="tests/DMAPI/LongRunning/PreCompile-GenerateRandomResource.bat" />
+    <File Path="tests/DMAPI/LongRunning/PreCompile-GenerateRandomResource.sh" />
+    <File Path="tests/DMAPI/LongRunning/Test.dm" />
+  </Folder>
+  <Folder Name="/docs/">
+    <File Path="docs/API.dox" />
+    <File Path="docs/Architecture.dox" />
+    <File Path="docs/ArchitectureOverview.png" />
+    <File Path="docs/Doxyfile" />
+    <File Path="docs/DoxygenLayout.xml" />
+    <File Path="docs/Features.dox" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".codecov.yml" />
+    <File Path=".dockerignore" />
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+    <File Path="SECURITY.md" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Tgstation.Server.Api.Tests/Tgstation.Server.Api.Tests.csproj">
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+    </Project>
+    <Project Path="tests/Tgstation.Server.Client.Tests/Tgstation.Server.Client.Tests.csproj">
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+    </Project>
+    <Project Path="tests/Tgstation.Server.Common.Tests/Tgstation.Server.Common.Tests.csproj">
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+    </Project>
+    <Project Path="tests/Tgstation.Server.Host.Console.Tests/Tgstation.Server.Host.Console.Tests.csproj">
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+    </Project>
+    <Project Path="tests/Tgstation.Server.Host.Service.Tests/Tgstation.Server.Host.Service.Tests.csproj">
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+      <Build Solution="DebugNoWindows|*" Project="false" />
+      <Build Solution="ReleaseNoWindows|*" Project="false" />
+    </Project>
+    <Project Path="tests/Tgstation.Server.Host.Tests.Signals/Tgstation.Server.Host.Tests.Signals.csproj">
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+    </Project>
+    <Project Path="tests/Tgstation.Server.Host.Tests/Tgstation.Server.Host.Tests.csproj">
+      <BuildDependency Project="tests/Tgstation.Server.Host.Tests.Signals/Tgstation.Server.Host.Tests.Signals.csproj" />
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+    </Project>
+    <Project Path="tests/Tgstation.Server.Host.Watchdog.Tests/Tgstation.Server.Host.Watchdog.Tests.csproj">
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+    </Project>
+    <Project Path="tests/Tgstation.Server.Shared.Tests/Tgstation.Server.Shared.Tests.csproj">
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+    </Project>
+    <Project Path="tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj">
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+    </Project>
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/Tgstation.Server.LogoGenerator/Tgstation.Server.LogoGenerator.csproj">
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+    </Project>
+    <Project Path="tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj">
+      <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+      <BuildType Solution="DebugNoWix|*" Project="Debug" />
+      <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+      <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+    </Project>
+  </Folder>
+  <Project Path="src/Tgstation.Server.Api/Tgstation.Server.Api.csproj">
+    <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+    <BuildType Solution="DebugNoWix|*" Project="Debug" />
+    <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+    <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+  </Project>
+  <Project Path="src/Tgstation.Server.Client.GraphQL/Tgstation.Server.Client.GraphQL.csproj">
+    <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+    <BuildType Solution="DebugNoWix|*" Project="Debug" />
+    <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+    <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+  </Project>
+  <Project Path="src/Tgstation.Server.Client/Tgstation.Server.Client.csproj">
+    <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+    <BuildType Solution="DebugNoWix|*" Project="Debug" />
+    <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+    <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+  </Project>
+  <Project Path="src/Tgstation.Server.Common/Tgstation.Server.Common.csproj">
+    <BuildDependency Project="tools/Tgstation.Server.LogoGenerator/Tgstation.Server.LogoGenerator.csproj" />
+    <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+    <BuildType Solution="DebugNoWix|*" Project="Debug" />
+    <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+    <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+  </Project>
+  <Project Path="src/Tgstation.Server.Host.Common/Tgstation.Server.Host.Common.csproj">
+    <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+    <BuildType Solution="DebugNoWix|*" Project="Debug" />
+    <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+    <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+  </Project>
+  <Project Path="src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj">
+    <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+    <BuildType Solution="DebugNoWix|*" Project="Debug" />
+    <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+    <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+  </Project>
+  <Project Path="src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj">
+    <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+    <BuildType Solution="DebugNoWix|*" Project="Debug" />
+    <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+    <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+    <Build Solution="DebugNoWindows|*" Project="false" />
+    <Build Solution="ReleaseNoWindows|*" Project="false" />
+  </Project>
+  <Project Path="src/Tgstation.Server.Host.Utils.GitLab.GraphQL/Tgstation.Server.Host.Utils.GitLab.GraphQL.csproj">
+    <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+    <BuildType Solution="DebugNoWix|*" Project="Debug" />
+    <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+    <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+  </Project>
+  <Project Path="src/Tgstation.Server.Host.Watchdog/Tgstation.Server.Host.Watchdog.csproj">
+    <BuildDependency Project="src/Tgstation.Server.Host/Tgstation.Server.Host.csproj" />
+    <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+    <BuildType Solution="DebugNoWix|*" Project="Debug" />
+    <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+    <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+  </Project>
+  <Project Path="src/Tgstation.Server.Host/Tgstation.Server.Host.csproj">
+    <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+    <BuildType Solution="DebugNoWix|*" Project="Debug" />
+    <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+    <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+  </Project>
+  <Project Path="src/Tgstation.Server.Shared/Tgstation.Server.Shared.csproj">
+    <BuildType Solution="DebugNoWindows|*" Project="Debug" />
+    <BuildType Solution="DebugNoWix|*" Project="Debug" />
+    <BuildType Solution="ReleaseNoWindows|*" Project="Release" />
+    <BuildType Solution="ReleaseNoWix|*" Project="Release" />
+  </Project>
+</Solution>
