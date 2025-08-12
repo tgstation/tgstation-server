@@ -100,7 +100,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="201">Created <see cref="ChatBot"/> successfully.</response>
-		[HttpPut]
+		[HttpPost(Routes.Create)]
 		[TgsAuthorize(ChatBotRights.Create)]
 		[ProducesResponseType(typeof(ChatBotResponse), 201)]
 		public async ValueTask<IActionResult> Create([FromBody] ChatBotCreateRequest model, CancellationToken cancellationToken)
@@ -268,7 +268,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Update applied successfully.</response>
 		/// <response code="204">Update applied successfully. <see cref="ChatBot"/> not returned based on user permissions.</response>
 		/// <response code="410">The <see cref="ChatBot"/> with the given ID does not exist in this instance.</response>
-		[HttpPost]
+		[HttpPost(Routes.Update)]
 		[TgsAuthorize(ChatBotRights.WriteChannels | ChatBotRights.WriteConnectionString | ChatBotRights.WriteEnabled | ChatBotRights.WriteName | ChatBotRights.WriteProvider)]
 		[ProducesResponseType(typeof(ChatBotResponse), 200)]
 		[ProducesResponseType(204)]

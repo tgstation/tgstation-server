@@ -101,7 +101,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="201">The repository was created successfully and the <see cref="JobResponse"/> to clone it has begun.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
-		[HttpPut]
+		[HttpPost(Routes.Create)]
 		[TgsAuthorize(RepositoryRights.SetOrigin)]
 		[ProducesResponseType(typeof(RepositoryResponse), 201)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
@@ -343,7 +343,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Updated the repository settings successfully.</response>
 		/// <response code="202">Updated the repository settings successfully and a <see cref="JobResponse"/> was created to make the requested git changes.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
-		[HttpPost]
+		[HttpPost(Routes.Update)]
 		[TgsAuthorize(
 			RepositoryRights.ChangeAutoUpdateSettings
 			| RepositoryRights.ChangeCommitter

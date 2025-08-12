@@ -206,7 +206,7 @@ namespace Tgstation.Server.Client
 
 		/// <inheritdoc />
 		public ValueTask<TResult> Create<TResult>(string route, CancellationToken cancellationToken)
-			=> RunRequest<object, TResult>(route, new object(), HttpMethod.Put, null, false, cancellationToken);
+			=> RunRequest<object, TResult>(route, new object(), HttpMethod.Post, null, false, cancellationToken);
 
 		/// <inheritdoc />
 		public ValueTask<TResult> Read<TResult>(string route, CancellationToken cancellationToken)
@@ -232,7 +232,7 @@ namespace Tgstation.Server.Client
 		/// <inheritdoc />
 		public ValueTask<TResult> Create<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken)
 			where TBody : class
-			=> RunRequest<TBody, TResult>(route, body, HttpMethod.Put, null, false, cancellationToken);
+			=> RunRequest<TBody, TResult>(route, body, HttpMethod.Post, null, false, cancellationToken);
 
 		/// <inheritdoc />
 		public ValueTask Delete(string route, CancellationToken cancellationToken)
@@ -241,7 +241,7 @@ namespace Tgstation.Server.Client
 		/// <inheritdoc />
 		public ValueTask<TResult> Create<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
 			where TBody : class
-			=> RunRequest<TBody, TResult>(route, body, HttpMethod.Put, instanceId, false, cancellationToken);
+			=> RunRequest<TBody, TResult>(route, body, HttpMethod.Post, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
 		public ValueTask<TResult> Read<TResult>(string route, long instanceId, CancellationToken cancellationToken)
@@ -272,7 +272,7 @@ namespace Tgstation.Server.Client
 
 		/// <inheritdoc />
 		public ValueTask<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken)
-			=> RunRequest<object, TResult>(route, new object(), HttpMethod.Put, instanceId, false, cancellationToken);
+			=> RunRequest<object, TResult>(route, new object(), HttpMethod.Post, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
 		public ValueTask<TResult> Patch<TResult>(string route, long instanceId, CancellationToken cancellationToken)
@@ -314,7 +314,7 @@ namespace Tgstation.Server.Client
 					await RunRequest<object>(
 						$"{Routes.Transfer}?ticket={HttpUtility.UrlEncode(ticket.FileTicket)}",
 						streamContent,
-						HttpMethod.Put,
+						HttpMethod.Post,
 						null,
 						false,
 						cancellationToken)

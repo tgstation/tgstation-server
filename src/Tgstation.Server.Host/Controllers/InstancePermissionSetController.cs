@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="201"><see cref="InstancePermissionSet"/> created successfully.</response>
 		/// <response code="410">The <see cref="Api.Models.PermissionSet"/> does not exist.</response>
-		[HttpPut]
+		[HttpPost(Routes.Create)]
 		[TgsAuthorize(InstancePermissionSetRights.Create)]
 		[ProducesResponseType(typeof(InstancePermissionSetResponse), 201)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
@@ -135,7 +135,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200"><see cref="InstancePermissionSet"/> updated successfully.</response>
 		/// <response code="410">The requested <see cref="InstancePermissionSet"/> does not currently exist.</response>
-		[HttpPost]
+		[HttpPost(Routes.Update)]
 		[TgsAuthorize(InstancePermissionSetRights.Write)]
 		[ProducesResponseType(typeof(InstancePermissionSetResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]

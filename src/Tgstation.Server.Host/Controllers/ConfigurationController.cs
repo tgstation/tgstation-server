@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">File updated successfully.</response>
 		/// <response code="202">File upload ticket created successfully.</response>
-		[HttpPost]
+		[HttpPost(Routes.Update)]
 		[TgsAuthorize(ConfigurationRights.Write)]
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 200)]
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 202)]
@@ -232,7 +232,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Directory already exists.</response>
 		/// <response code="201">Directory created successfully.</response>
-		[HttpPut]
+		[HttpPost(Routes.Create)]
 		[TgsAuthorize(ConfigurationRights.Write)]
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 200)]
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 201)]
