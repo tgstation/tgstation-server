@@ -580,7 +580,7 @@ jobs:
         run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Run Unit Tests
-        run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
+        run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.slnx
         env:
           TGS_TEST_DISCORD_TOKEN: ${{ matrix.configuration == 'Release' && secrets.DISCORD_TOKEN || '' }}
           TGS_TEST_IRC_CONNECTION_STRING: ${{ matrix.configuration == 'Release' && secrets.IRC_CONNECTION_STRING || '' }}
@@ -643,7 +643,7 @@ jobs:
         run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Run Unit Tests
-        run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
+        run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.slnx
         env:
           TGS_TEST_APP_ID: ${{ secrets.APP_ID }}
           TGS_TEST_APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
