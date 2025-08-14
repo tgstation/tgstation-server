@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// Wrapper for accessing <see cref="UserGroup"/>s.
 	/// </summary>
 	[Authorize]
-	public sealed class UserGroups
+	public sealed class UserGroupsRepository
 	{
 		/// <summary>
 		/// Gets the current <see cref="User"/>.
@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UseFiltering]
 		[UseSorting]
 		public async ValueTask<IQueryable<User>> QueryableUsersByGroupId(
-			[ID(nameof(UserGroup))]long groupId,
+			[ID(nameof(UserGroup))] long groupId,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);

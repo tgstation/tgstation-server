@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+using HotChocolate.Data;
 using HotChocolate.Types.Relay;
 
 namespace Tgstation.Server.Host.GraphQL.Types
@@ -13,7 +14,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// The ID of the <see cref="Entity"/>.
 		/// </summary>
 		[ID]
-		public required long Id { get; init; }
+		public virtual required long Id { get; init; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Entity"/> class.

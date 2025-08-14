@@ -30,6 +30,9 @@ namespace Tgstation.Server.Host.Authority
 		/// <returns>A <see cref="RequirementsGated{TResult}"/> <see cref="User"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
 		RequirementsGated<AuthorityResponse<User>> GetId(long id, bool includeJoins, bool allowSystemUser, CancellationToken cancellationToken);
 
+		RequirementsGated<Projectable<User, TResult>> GetId<TResult>(long id, bool allowSystemUser, CancellationToken cancellationToken)
+			where TResult : class;
+
 		/// <summary>
 		/// Gets the <see cref="GraphQL.Types.OAuth.OAuthConnection"/>s for the <see cref="User"/> with a given <paramref name="userId"/>.
 		/// </summary>

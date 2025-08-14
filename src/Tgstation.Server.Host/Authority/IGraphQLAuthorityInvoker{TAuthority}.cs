@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using GreenDonut.Data;
+
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Authority.Core;
+using Tgstation.Server.Host.GraphQL.Types;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Authority
@@ -84,6 +89,14 @@ namespace Tgstation.Server.Host.Authority
 			Func<IQueryable<TResult>, IQueryable<TResult>>? preTransformer = null)
 			where TResult : IApiTransformable<TResult, TApiModel, TTransformer>
 			where TApiModel : notnull
+			where TTransformer : ITransformer<TResult, TApiModel>, new();
+
+		ValueTask<Dictionary<long, AuthorityResponse<TApiModel>>> ExecuteDataLoader<TResult, TApiModel, TTransformer>(
+			Func<TAuthority, long, RequirementsGated<Projectable<TResult, TApiModel>>> authorityInvoker,
+			IReadOnlyList<long> ids,
+			QueryContext<AuthorityResponse<TApiModel>>? queryContext)
+			where TResult : EntityId, IApiTransformable<TResult, TApiModel, TTransformer>
+			where TApiModel : Entity
 			where TTransformer : ITransformer<TResult, TApiModel>, new();
 	}
 }

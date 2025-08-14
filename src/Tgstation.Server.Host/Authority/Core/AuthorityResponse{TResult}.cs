@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 
 using Microsoft.AspNetCore.Mvc;
 using Tgstation.Server.Api.Models.Response;
@@ -26,12 +27,18 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// <summary>
 		/// The success <typeparamref name="TResult"/>.
 		/// </summary>
-		public TResult? Result { get; }
+		public TResult? Result { get; private init; }
 
 		/// <summary>
 		/// The <see cref="HttpSuccessResponse"/> for generating the <see cref="IActionResult"/>s.
 		/// </summary>
 		public HttpSuccessResponse? SuccessResponse { get; }
+
+		public static Expression<Func<TResult, AuthorityResponse<TResult>>> MappingExpression()
+			=> result => new AuthorityResponse<TResult>
+			{
+				Result = result,
+			};
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthorityResponse{TResult}"/> class.

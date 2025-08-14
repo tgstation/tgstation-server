@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Models.Transformers
+﻿using Tgstation.Server.Api.Rights;
+
+namespace Tgstation.Server.Host.Models.Transformers
 {
 	/// <summary>
 	/// <see cref="ITransformer{TInput, TOutput}"/> for <see cref="GraphQL.Types.PermissionSet"/>s.
@@ -11,8 +13,8 @@
 		public PermissionSetGraphQLTransformer()
 			: base(model => new GraphQL.Types.PermissionSet
 			{
-				AdministrationRights = model.AdministrationRights!.Value,
-				InstanceManagerRights = model.InstanceManagerRights!.Value,
+				AdministrationRights = model.AdministrationRights ?? NotNullFallback<AdministrationRights>(),
+				InstanceManagerRights = model.InstanceManagerRights ?? NotNullFallback<InstanceManagerRights>(),
 			})
 		{
 		}

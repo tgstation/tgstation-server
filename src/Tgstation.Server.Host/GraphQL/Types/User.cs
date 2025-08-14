@@ -1,12 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
+using GreenDonut;
+using GreenDonut.Data;
+
 using HotChocolate;
 using HotChocolate.Authorization;
+using HotChocolate.Data;
+using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
+using Tgstation.Server.Host.Authority.Core;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.GraphQL.Interfaces;
 using Tgstation.Server.Host.GraphQL.Types.OAuth;
 using Tgstation.Server.Host.Models.Transformers;
@@ -52,21 +60,38 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[GraphQLIgnore]
 		public required long? GroupId { get; init; }
 
+		[DataLoader(AccessModifier = DataLoaderAccessModifier.PublicInterface)]
+		public static ValueTask<Dictionary<long, AuthorityResponse<User>>> GetUsers(
+			IReadOnlyList<long> ids,
+			IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			QueryContext<AuthorityResponse<User>>? queryContext,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(ids);
+			ArgumentNullException.ThrowIfNull(userAuthority);
+
+			return userAuthority.ExecuteDataLoader<Models.User, User, UserGraphQLTransformer>(
+				(authority, id) => authority.GetId<User>(id, false, cancellationToken),
+				ids,
+				queryContext);
+		}
+
 		/// <summary>
 		/// Node resolver for <see cref="User"/>s.
 		/// </summary>
 		/// <param name="id">The <see cref="Entity.Id"/> to lookup.</param>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
+		/// <param name="usersDataLoader">The <see cref="IUsersDataLoader"/> to use.</param>
+		/// <param name="queryContext">The <see cref="QueryContext{TEntity}"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> resulting in the queried <see cref="User"/>, if present.</returns>
 		public static ValueTask<User?> GetUser(
 			long id,
-			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			[Service] IUsersDataLoader usersDataLoader,
+			QueryContext<User>? queryContext,
 			CancellationToken cancellationToken)
 		{
-			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.InvokeTransformableAllowMissing<Models.User, User, UserGraphQLTransformer>(
-				authority => authority.GetId(id, false, false, cancellationToken));
+			ArgumentNullException.ThrowIfNull(usersDataLoader);
+			return usersDataLoader.LoadAuthorityResponse(queryContext, id, cancellationToken);
 		}
 
 		/// <summary>

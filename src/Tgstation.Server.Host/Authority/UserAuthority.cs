@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -634,6 +635,43 @@ namespace Tgstation.Server.Host.Authority
 
 					return await responseTask;
 				});
+
+		/// <inheritdoc />
+		public RequirementsGated<Projectable<User, TResult>> GetId<TResult>(long id, bool allowSystemUser, CancellationToken cancellationToken)
+			where TResult : class
+			=> new(
+				() =>
+				{
+					if (id != claimsPrincipalAccessor.User.GetTgsUserId())
+						return Enumerable.Empty<IAuthorizationRequirement>();
+
+					return new List<IAuthorizationRequirement>
+					{
+						Flag(AdministrationRights.ReadUsers),
+					};
+				},
+				() => ValueTask.FromResult(
+					Projectable<User, TResult>.Create<string>(
+						Queryable(false, allowSystemUser)
+							.TagWith("User by ID")
+							.Where(user => user.Id == id),
+						projected => new Projected<string, TResult>
+						{
+							Queried = projected.Queried.CanonicalName!,
+							Result = projected.Result,
+						},
+						projected =>
+						{
+							if (projected == default)
+								return NotFound<TResult>();
+
+							string canonicalName = projected.Queried;
+							if (!allowSystemUser && canonicalName == User.CanonicalizeName(User.TgsSystemUserName))
+								return Forbid<TResult>();
+
+							return new AuthorityResponse<TResult>(projected.Result);
+						},
+						cancellationToken)));
 
 		/// <summary>
 		/// Implementation of retrieving a <see cref="User"/> by ID.

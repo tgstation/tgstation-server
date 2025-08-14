@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Models.Transformers
+﻿using System;
+
+namespace Tgstation.Server.Host.Models.Transformers
 {
 	/// <summary>
 	/// <see cref="ITransformer{TInput, TOutput}"/> for <see cref="GraphQL.Types.User"/>s.
@@ -11,13 +13,13 @@
 		public UserGraphQLTransformer()
 			: base(model => new GraphQL.Types.User
 			{
-				CreatedAt = model.CreatedAt!.Value,
-				CanonicalName = model.CanonicalName!,
+				CreatedAt = model.CreatedAt ?? NotNullFallback<DateTimeOffset>(),
+				CanonicalName = model.CanonicalName ?? NotNullFallback<string>(),
 				CreatedById = model.CreatedById,
-				Enabled = model.Enabled!.Value,
+				Enabled = model.Enabled ?? NotNullFallback<bool>(),
 				GroupId = model.GroupId,
 				Id = model.Id!.Value,
-				Name = model.Name!,
+				Name = model.Name ?? NotNullFallback<string>(),
 				SystemIdentifier = model.SystemIdentifier,
 			})
 		{

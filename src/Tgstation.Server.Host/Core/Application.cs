@@ -369,6 +369,7 @@ namespace Tgstation.Server.Host.Core
 				})
 				.AddFiltering()
 				.AddSorting()
+				.AddProjections()
 				.AddHostTypes()
 				.AddAuthorization()
 				.AddErrorFilter<ErrorMessageFilter>()
