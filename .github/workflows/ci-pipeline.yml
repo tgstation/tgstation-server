@@ -370,7 +370,7 @@ jobs:
 
       - name: Retrieve StrawberryShake Tool Version
         id: strawberry-tool
-        run: echo "version=$(cat build/Tgstation.Server.Host.Utils.GitLab.GraphQL/.config/dotnet-tools.json | jq -r '.tools.strawberryshake\.tools.version')" >> $GITHUB_OUTPUT
+        run: echo "version=$(cat src/Tgstation.Server.Host.Utils.GitLab.GraphQL/.config/dotnet-tools.json | jq -r '.tools.strawberryshake\.tools.version')" >> $GITHUB_OUTPUT
 
       - name: Retrieve dotnet-ef Nuget Version
         id: dotnet-ef-nuget
