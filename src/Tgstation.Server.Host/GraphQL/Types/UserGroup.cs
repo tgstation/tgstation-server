@@ -18,7 +18,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// Represents a group of <see cref="User"/>s.
 	/// </summary>
 	[Node]
-	[Authorize]
 	public sealed class UserGroup : NamedEntity
 	{
 		/// <summary>

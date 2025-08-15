@@ -137,7 +137,11 @@ namespace Tgstation.Server.Host.Authority
 
 			return list.ToLookup(
 				oAuthConnection => oAuthConnection.UserId,
-				x => new GraphQL.Types.OAuth.OAuthConnection(x.ExternalUserId!, x.Provider));
+				x => new GraphQL.Types.OAuth.OAuthConnection
+				{
+					ExternalUserId = x.ExternalUserId!,
+					Provider = x.Provider,
+				});
 		}
 
 		/// <summary>
@@ -164,7 +168,11 @@ namespace Tgstation.Server.Host.Authority
 
 			return list.ToLookup(
 				oidcConnection => oidcConnection.UserId,
-				x => new GraphQL.Types.OAuth.OidcConnection(x.ExternalUserId!, x.SchemeKey!));
+				x => new GraphQL.Types.OAuth.OidcConnection
+				{
+					ExternalUserId = x.ExternalUserId!,
+					SchemeKey = x.SchemeKey!,
+				});
 		}
 
 		/// <summary>
@@ -651,10 +659,10 @@ namespace Tgstation.Server.Host.Authority
 					};
 				},
 				() => ValueTask.FromResult(
-					Projectable<User, TResult>.Create<string>(
-						Queryable(false, allowSystemUser)
-							.TagWith("User by ID")
-							.Where(user => user.Id == id),
+					Projectable<User, TResult>.Create(
+						Queryable(true, allowSystemUser)
+							.Where(user => user.Id == id)
+							.TagWith("User by ID"),
 						projected => new Projected<string, TResult>
 						{
 							Queried = projected.Queried.CanonicalName!,

@@ -7,7 +7,6 @@ using GreenDonut;
 using GreenDonut.Data;
 
 using HotChocolate;
-using HotChocolate.Authorization;
 using HotChocolate.Data;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
@@ -25,7 +24,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// A user registered in the server.
 	/// </summary>
 	[Node]
-	[Authorize]
 	public sealed class User : NamedEntity, IUserName
 	{
 		/// <summary>
@@ -48,17 +46,21 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// </summary>
 		public required string? SystemIdentifier { get; init; }
 
+		public required UserGroup? Group { get; set; }
+
+		public required PermissionSet? OwnedPermissionSet { get; set; }
+
 		/// <summary>
 		/// The <see cref="Entity.Id"/> of the <see cref="CreatedBy"/> <see cref="User"/>.
 		/// </summary>
-		[GraphQLIgnore]
-		public required long? CreatedById { get; init; }
+		[IsProjected(true)]
+		public required long? GroupId { get; init; }
 
 		/// <summary>
-		/// The <see cref="Entity.Id"/> of the <see cref="Group"/>.
+		/// The <see cref="Entity.Id"/> of the <see cref="CreatedBy"/> <see cref="User"/>.
 		/// </summary>
-		[GraphQLIgnore]
-		public required long? GroupId { get; init; }
+		[IsProjected(true)]
+		public required long? CreatedById { get; init; }
 
 		[DataLoader(AccessModifier = DataLoaderAccessModifier.PublicInterface)]
 		public static ValueTask<Dictionary<long, AuthorityResponse<User>>> GetUsers(
@@ -172,40 +174,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 
 			return permissionSetAuthority.InvokeTransformable<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
 				authority => authority.GetId(lookupId, lookupType, cancellationToken));
-		}
-
-		/// <summary>
-		/// The <see cref="PermissionSet"/> owned by the <see cref="User"/>, if any.
-		/// </summary>
-		/// <param name="permissionSetAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IPermissionSetAuthority"/>.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="PermissionSet"/> owned by the <see cref="User"/>, if any.</returns>
-		public ValueTask<PermissionSet?> OwnedPermissionSet(
-			[Service] IGraphQLAuthorityInvoker<IPermissionSetAuthority> permissionSetAuthority,
-			CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(permissionSetAuthority);
-
-			return permissionSetAuthority.InvokeTransformableAllowMissing<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
-				authority => authority.GetId(Id, PermissionSetLookupType.UserId, cancellationToken));
-		}
-
-		/// <summary>
-		/// The <see cref="UserGroup"/> asociated with the user, if any.
-		/// </summary>
-		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="UserGroup"/> associated with the <see cref="User"/>, if any.</returns>
-		public async ValueTask<UserGroup?> Group(
-			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority,
-			CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(userGroupAuthority);
-			if (!GroupId.HasValue)
-				return null;
-
-			return await userGroupAuthority.InvokeTransformable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(
-				authority => authority.GetId(GroupId.Value, false, cancellationToken));
 		}
 	}
 }

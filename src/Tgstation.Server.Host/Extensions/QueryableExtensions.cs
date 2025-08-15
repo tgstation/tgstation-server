@@ -5,6 +5,8 @@ using System.Reflection;
 
 using GreenDonut.Data;
 
+using Microsoft.EntityFrameworkCore;
+
 using Tgstation.Server.Host.Authority.Core;
 
 namespace Tgstation.Server.Host.Extensions
@@ -22,10 +24,14 @@ namespace Tgstation.Server.Host.Extensions
 			if (queryContext == null)
 				return queryable;
 
+			var modified = false;
 			if (queryContext.Predicate != null)
+			{
 				queryable = queryable.Where(
 					TranslateGenericLambda<TQueried, TResult, bool>(
 						queryContext.Predicate));
+				modified = true;
+			}
 
 			if (queryContext.Sorting?.Operations.Length > 0)
 			{
@@ -34,6 +40,7 @@ namespace Tgstation.Server.Host.Extensions
 						.Select(MapSortBy<TQueried, TResult>));
 
 				queryable = queryable.OrderBy(definition);
+				modified = true;
 			}
 
 			if (queryContext.Selector != null)
@@ -53,7 +60,12 @@ namespace Tgstation.Server.Host.Extensions
 				var finalExpr = Expression.Lambda<Func<Projected<TQueried, TResult>, Projected<TQueried, TResult>>>(finalInvoke, parameter);
 
 				queryable = queryable.Select(finalExpr);
+				modified = true;
 			}
+
+			if (modified)
+				queryable = queryable
+					.TagWith("GraphQL Projections");
 
 			return queryable;
 		}

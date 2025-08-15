@@ -47,6 +47,7 @@ using Serilog.Sinks.Elasticsearch;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Components;
@@ -65,7 +66,7 @@ using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.GraphQL;
-using Tgstation.Server.Host.GraphQL.Interceptors;
+using Tgstation.Server.Host.GraphQL.Metadata;
 using Tgstation.Server.Host.GraphQL.Scalars;
 using Tgstation.Server.Host.GraphQL.Subscriptions;
 using Tgstation.Server.Host.GraphQL.Types;
@@ -337,51 +338,7 @@ namespace Tgstation.Server.Host.Core
 			services
 				.AddScoped<GraphQL.Subscriptions.ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
 				.AddGraphQLServer()
-				.ModifyOptions(options =>
-				{
-					options.EnsureAllNodesCanBeResolved = true;
-					options.EnableFlagEnums = true;
-				})
-#if DEBUG
-				.ModifyCostOptions(options =>
-				{
-					options.EnforceCostLimits = false;
-				})
-#endif
-				.AddMutationConventions()
-				.AddInMemorySubscriptions(
-					new SubscriptionOptions
-					{
-						TopicBufferCapacity = 1024, // mainly so high for tests, not possible to DoS the server without authentication and some other access to generate messages
-					})
-				.AddGlobalObjectIdentification()
-				.AddQueryFieldToMutationPayloads()
-				.ModifyOptions(options =>
-				{
-					options.EnableDefer = true;
-				})
-				.ModifyPagingOptions(pagingOptions =>
-				{
-					pagingOptions.IncludeTotalCount = true;
-					pagingOptions.RequirePagingBoundaries = false;
-					pagingOptions.DefaultPageSize = ApiController.DefaultPageSize;
-					pagingOptions.MaxPageSize = ApiController.MaximumPageSize;
-				})
-				.AddFiltering()
-				.AddSorting()
-				.AddProjections()
-				.AddHostTypes()
-				.AddAuthorization()
-				.AddErrorFilter<ErrorMessageFilter>()
-				.AddType<StandaloneNode>()
-				.AddType<LocalGateway>()
-				.AddType<GraphQL.Types.UserName>()
-				.AddType<UnsignedIntType>()
-				.BindRuntimeType<Version, SemverType>()
-				.TryAddTypeInterceptor<RightsTypeInterceptor>()
-				.AddQueryType<Query>()
-				.AddMutationType<Mutation>()
-				.AddSubscriptionType<Subscription>();
+				.ConfigureGraphQLServer();
 
 			void AddTypedContext<TContext>()
 				where TContext : DatabaseContext

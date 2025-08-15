@@ -17,7 +17,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// A <see cref="User"/> with limited fields.
 	/// </summary>
 	[Node]
-	[Authorize]
 	public sealed class UserName : NamedEntity, IUserName
 	{
 		/// <summary>

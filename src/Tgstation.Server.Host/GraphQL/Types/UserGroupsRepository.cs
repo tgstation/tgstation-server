@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using HotChocolate;
-using HotChocolate.Authorization;
 using HotChocolate.Data;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
@@ -17,7 +16,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// <summary>
 	/// Wrapper for accessing <see cref="UserGroup"/>s.
 	/// </summary>
-	[Authorize]
 	public sealed class UserGroupsRepository
 	{
 		/// <summary>

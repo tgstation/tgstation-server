@@ -5,11 +5,12 @@ using System.Reflection;
 
 using HotChocolate.Configuration;
 using HotChocolate.Types;
+using HotChocolate.Types.Descriptors;
 using HotChocolate.Types.Descriptors.Definitions;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.GraphQL.Types;
 
-namespace Tgstation.Server.Host.GraphQL.Interceptors
+namespace Tgstation.Server.Host.GraphQL.Metadata
 {
 	/// <summary>
 	/// Fixes the names used for the default flags types in API rights.
@@ -27,11 +28,6 @@ namespace Tgstation.Server.Host.GraphQL.Interceptors
 		const string NoneFieldName = $"{IsPrefix}None";
 
 		/// <summary>
-		/// Names of rights GraphQL object types.
-		/// </summary>
-		private readonly HashSet<string> objectNames;
-
-		/// <summary>
 		/// Names of rights GraphQL input types.
 		/// </summary>
 		private readonly HashSet<string> inputNames;
@@ -42,16 +38,12 @@ namespace Tgstation.Server.Host.GraphQL.Interceptors
 		public RightsTypeInterceptor()
 		{
 			var rightTypes = Enum.GetValues<RightsType>();
-			objectNames = new HashSet<string>(rightTypes.Length);
 			inputNames = new HashSet<string>(rightTypes.Length);
 
 			foreach (var rightType in rightTypes)
 			{
 				var rightName = rightType.ToString();
-				var flagName = $"{rightName}RightsFlags";
-
-				objectNames.Add(flagName);
-				inputNames.Add($"{flagName}Input");
+				inputNames.Add($"{rightName}RightsFlagsInput");
 			}
 		}
 
@@ -60,10 +52,9 @@ namespace Tgstation.Server.Host.GraphQL.Interceptors
 		/// </summary>
 		/// <typeparam name="TField">The <see cref="Type"/> of <see cref="FieldDefinitionBase"/> to correct.</typeparam>
 		/// <param name="fields">The <see cref="IBindableList{T}"/> of <typeparamref name="TField"/>s to operate on.</param>
-		static void FixFields<TField>(IBindableList<TField> fields)
-			where TField : FieldDefinitionBase
+		static void FixFields(IBindableList<InputFieldDefinition> fields)
 		{
-			TField? noneField = null;
+			InputFieldDefinition? noneField = null;
 
 			foreach (var field in fields)
 			{
@@ -78,6 +69,7 @@ namespace Tgstation.Server.Host.GraphQL.Interceptors
 					throw new InvalidOperationException("Expected flags enum type field to start with \"is\"!");
 
 				field.Name = $"can{fieldName[IsPrefix.Length..]}";
+				field.Type = TypeReference.Parse($"{ScalarNames.Boolean}!");
 			}
 
 			if (noneField == null)
@@ -119,12 +111,7 @@ namespace Tgstation.Server.Host.GraphQL.Interceptors
 		{
 			ArgumentNullException.ThrowIfNull(definition);
 
-			if (definition is ObjectTypeDefinition objectTypeDef)
-			{
-				if (objectNames.Contains(objectTypeDef.Name))
-					FixFields(objectTypeDef.Fields);
-			}
-			else if (definition is InputObjectTypeDefinition inputTypeDef)
+			if (definition is InputObjectTypeDefinition inputTypeDef)
 			{
 				const string PermissionSetInputName = $"{nameof(PermissionSet)}Input";
 				const string InstancePermissionSetInputName = $"{nameof(InstancePermissionSet)}Input";

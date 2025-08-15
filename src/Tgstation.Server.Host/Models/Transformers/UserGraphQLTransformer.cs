@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Tgstation.Server.Host.Models.Transformers
 {
@@ -11,17 +12,43 @@ namespace Tgstation.Server.Host.Models.Transformers
 		/// Initializes a new instance of the <see cref="UserGraphQLTransformer"/> class.
 		/// </summary>
 		public UserGraphQLTransformer()
-			: base(model => new GraphQL.Types.User
-			{
-				CreatedAt = model.CreatedAt ?? NotNullFallback<DateTimeOffset>(),
-				CanonicalName = model.CanonicalName ?? NotNullFallback<string>(),
-				CreatedById = model.CreatedById,
-				Enabled = model.Enabled ?? NotNullFallback<bool>(),
-				GroupId = model.GroupId,
-				Id = model.Id!.Value,
-				Name = model.Name ?? NotNullFallback<string>(),
-				SystemIdentifier = model.SystemIdentifier,
-			})
+			: base(
+				  BuildSubProjection<
+					  UserGroup,
+					  PermissionSet,
+					  GraphQL.Types.UserGroup,
+					  GraphQL.Types.PermissionSet,
+					  UserGroupGraphQLTransformer,
+					  PermissionSetGraphQLTransformer>(
+					  (model, group, permissionSet) => new GraphQL.Types.User
+					  {
+						  CreatedAt = model.CreatedAt ?? NotNullFallback<DateTimeOffset>(),
+						  CanonicalName = model.CanonicalName ?? NotNullFallback<string>(),
+						  CreatedById = model.CreatedById,
+						  Enabled = model.Enabled ?? NotNullFallback<bool>(),
+						  GroupId = model.GroupId,
+						  Id = model.Id!.Value,
+						  Name = model.Name ?? NotNullFallback<string>(),
+						  SystemIdentifier = model.SystemIdentifier,
+						  OAuthConnections = model.OAuthConnections!
+							.Select(oAuthConnection => new GraphQL.Types.OAuth.OAuthConnection
+							{
+								Provider = oAuthConnection.Provider,
+								ExternalUserId = oAuthConnection.ExternalUserId!,
+							})
+							.ToList(),
+						  OidcConnections = model.OidcConnections!
+							.Select(oidcConnection => new GraphQL.Types.OAuth.OidcConnection
+							{
+								ExternalUserId = oidcConnection.ExternalUserId!,
+								SchemeKey = oidcConnection.SchemeKey!,
+							})
+							.ToList(),
+						  OwnedPermissionSet = permissionSet,
+						  Group = group,
+					  },
+					  model => model.Group,
+					  model => model.PermissionSet))
 		{
 		}
 	}

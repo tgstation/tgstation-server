@@ -14,7 +14,8 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// The ID of the <see cref="Entity"/>.
 		/// </summary>
 		[ID]
-		public virtual required long Id { get; init; }
+		[IsProjected(true)]
+		public required long Id { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Entity"/> class.

@@ -58,9 +58,9 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// </summary>
 		/// <param name="id">The <see cref="Entity.Id"/> of the <see cref="User"/>.</param>
 		/// <param name="usersDataLoader">The <see cref="IUsersDataLoader"/> to use.</param>
+		/// <param name="queryContext">The active <see cref="QueryContext{TEntity}"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="User"/> represented by <paramref name="id"/>, if any.</returns>
-		[UseProjection]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<User?> ById(
 			[ID(nameof(User))] long id,
