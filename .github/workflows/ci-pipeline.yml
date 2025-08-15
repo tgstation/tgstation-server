@@ -368,6 +368,10 @@ jobs:
         id: wix-tool
         run: echo "version=$(cat build/package/winget/.config/dotnet-tools.json | jq -r '.tools.wix.version')" >> $GITHUB_OUTPUT
 
+      - name: Retrieve StrawberryShake Tool Version
+        id: strawberry-tool
+        run: echo "version=$(cat build/Tgstation.Server.Host.Utils.GitLab.GraphQL/.config/dotnet-tools.json | jq -r '.tools.strawberryshake\.tools.version')" >> $GITHUB_OUTPUT
+
       - name: Retrieve dotnet-ef Nuget Version
         id: dotnet-ef-nuget
         run: |
@@ -390,6 +394,17 @@ jobs:
             exit 1
           fi
 
+      - name: Retrieve StrawberryShake Nuget Version
+        id: strawberry-nuget
+        run: |
+          regex='\s+<PackageReference Include="StrawberryShake.Server" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
+          if [[ $(cat src/Tgstation.Server.Host.Utils.GitLab.GraphQL/Tgstation.Server.Host.Utils.GitLab.GraphQL.csproj) =~ $regex ]]; then
+            echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+          else
+            echo "Regex search failed!"
+            exit 1
+          fi
+
       - name: Fail if dotnet-ef Versions Don't Match
         if: ${{ steps.dotnet-ef-tool.outputs.version != steps.dotnet-ef-nuget.outputs.version }}
         run: |
@@ -400,6 +415,12 @@ jobs:
         if: ${{ steps.wix-tool.outputs.version != steps.wix-nuget.outputs.version }}
         run: |
           echo "${{ steps.wix-tool.outputs.version }} != ${{ steps.wix-nuget.outputs.version }}"
+          exit 1
+
+      - name: Fail if StrawberryShake Versions Don't Match
+        if: ${{ steps.strawberry-tool.outputs.version != steps.strawberry-nuget.outputs.version }}
+        run: |
+          echo "${{ steps.strawberry-tool.outputs.version }} != ${{ steps.strawberry-nuget.outputs.version }}"
           exit 1
 
   pages-build:
