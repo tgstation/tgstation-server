@@ -505,6 +505,8 @@ namespace Tgstation.Server.Tests.Live
 									CanSetChatBotLimit = true,
 									CanSetConfiguration = true,
 									CanSetOnline = true,
+									CanSetAutoStart = true,
+									CanSetAutoStop = true,
 								}
 							},
 							cancellationToken),
