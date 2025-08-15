@@ -6,7 +6,7 @@
     <TgsCoreVersion>6.19.0</TgsCoreVersion>
     <TgsConfigVersion>5.8.0</TgsConfigVersion>
     <TgsRestVersion>10.14.0</TgsRestVersion>
-    <TgsGraphQLVersion>0.6.0</TgsGraphQLVersion>
+    <TgsGraphQLVersion>0.7.0</TgsGraphQLVersion>
     <TgsCommonLibraryVersion>7.0.0</TgsCommonLibraryVersion>
     <TgsApiLibraryVersion>18.2.0</TgsApiLibraryVersion>
     <TgsClientVersion>21.2.0</TgsClientVersion>
