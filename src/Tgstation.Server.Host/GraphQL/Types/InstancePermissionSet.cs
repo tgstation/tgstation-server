@@ -19,36 +19,36 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// The <see cref="Api.Rights.InstancePermissionSetRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		public RightsHolder<InstancePermissionSetRights> InstancePermissionSetRights { get; set; }
+		public required RightsHolder<InstancePermissionSetRights> InstancePermissionSetRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Rights.EngineRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		public RightsHolder<EngineRights> EngineRights { get; set; }
+		public required RightsHolder<EngineRights> EngineRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Rights.DreamDaemonRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		public RightsHolder<DreamDaemonRights> DreamDaemonRights { get; set; }
+		public required RightsHolder<DreamDaemonRights> DreamDaemonRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Rights.DreamMakerRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		public RightsHolder<DreamMakerRights> DreamMakerRights { get; set; }
+		public required RightsHolder<DreamMakerRights> DreamMakerRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Rights.RepositoryRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		public RightsHolder<RepositoryRights> RepositoryRights { get; set; }
+		public required RightsHolder<RepositoryRights> RepositoryRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Rights.ChatBotRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		public RightsHolder<ChatBotRights> ChatBotRights { get; set; }
+		public required RightsHolder<ChatBotRights> ChatBotRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Rights.ConfigurationRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		public RightsHolder<ConfigurationRights> ConfigurationRights { get; set; }
+		public required RightsHolder<ConfigurationRights> ConfigurationRights { get; set; }
 	}
 }

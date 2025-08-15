@@ -17,21 +17,35 @@ namespace Tgstation.Server.Host.Models.Transformers
 		/// <summary>
 		/// <see langword="static"/> cache for <see cref="ProjectedExpression"/>.
 		/// </summary>
-		static Expression<Func<TInput, Projected<TInput, TOutput>>>? projectedExpression;
+		static Expression<Func<TInput, ProjectedPair<TInput, TOutput>>>? projectedExpression;
 
 		/// <inheritdoc />
 		public Expression<Func<TInput, TOutput>> Expression { get; }
 
 		/// <inheritdoc />
-		public Expression<Func<TInput, Projected<TInput, TOutput>>> ProjectedExpression { get; }
+		public Expression<Func<TInput, ProjectedPair<TInput, TOutput>>> ProjectedExpression { get; }
 
 		/// <inheritdoc />
 		public Func<TInput, TOutput> CompiledExpression { get; }
 
+		/// <summary>
+		/// Gets the <typeparamref name="T"/> that should be used when a database projected non-null DTO value is null in the expression.
+		/// </summary>
+		/// <typeparam name="T">The non-null <see cref="Type"/> a fallback is required for.</typeparam>
+		/// <returns>A fallback <typeparamref name="T"/> value.</returns>
 		protected static T NotNullFallback<T>()
 			where T : notnull
 			=> default!;
 
+		/// <summary>
+		/// Build an <see cref="Expression{TDelegate}"/> for <typeparamref name="TInput"/> to <typeparamref name="TOutput"/> when <typeparamref name="TInput"/> contains a <typeparamref name="TSubInput"/> with its own <typeparamref name="TTransformer"/>.
+		/// </summary>
+		/// <typeparam name="TSubInput">The field <see cref="Type"/> in <typeparamref name="TInput"/> that needs transforming.</typeparam>
+		/// <typeparam name="TSubOutput">The transformed <see cref="Type"/> of <typeparamref name="TSubInput"/>.</typeparam>
+		/// <typeparam name="TTransformer">The <see cref="ITransformer{TInput, TOutput}"/> for <typeparamref name="TSubInput"/>/<typeparamref name="TSubOutput"/>.</typeparam>
+		/// <param name="transformerExpression">The <see cref="Expression{TDelegate}"/> to take a <typeparamref name="TInput"/> and <typeparamref name="TSubOutput"/> and produce a <typeparamref name="TOutput"/>.</param>
+		/// <param name="subInputSelectionExpression">The <see cref="Expression{TDelegate}"/> to select <typeparamref name="TSubInput"/> from <typeparamref name="TInput"/>.</param>
+		/// <returns>An expression converting <typeparamref name="TInput"/> into <typeparamref name="TOutput"/> based on <paramref name="transformerExpression"/> with its other arguments generated from the transformation result of <paramref name="subInputSelectionExpression"/>.</returns>
 		protected static Expression<Func<TInput, TOutput>> BuildSubProjection<TSubInput, TSubOutput, TTransformer>(
 			Expression<Func<TInput, TSubOutput?, TOutput>> transformerExpression,
 			Expression<Func<TInput, TSubInput?>> subInputSelectionExpression)
@@ -60,6 +74,19 @@ namespace Tgstation.Server.Host.Models.Transformers
 			return global::System.Linq.Expressions.Expression.Lambda<Func<TInput, TOutput>>(outputExpression, primaryInput);
 		}
 
+		/// <summary>
+		/// Build an <see cref="Expression{TDelegate}"/> for <typeparamref name="TInput"/> to <typeparamref name="TOutput"/> when <typeparamref name="TInput"/> contains two sub-inputs with their own <see cref="ITransformer{TInput, TOutput}"/>s.
+		/// </summary>
+		/// <typeparam name="TSubInput1">The first field <see cref="Type"/> in <typeparamref name="TInput"/> that needs transforming.</typeparam>
+		/// <typeparam name="TSubInput2">The second field <see cref="Type"/> in <typeparamref name="TInput"/> that needs transforming.</typeparam>
+		/// <typeparam name="TSubOutput1">The first transformed <see cref="Type"/> of <typeparamref name="TSubInput1"/>.</typeparam>
+		/// <typeparam name="TSubOutput2">The second transformed <see cref="Type"/> of <typeparamref name="TSubInput2"/>.</typeparam>
+		/// <typeparam name="TTransformer1">The <see cref="ITransformer{TInput, TOutput}"/> for <typeparamref name="TSubInput1"/>/<typeparamref name="TSubOutput2"/>.</typeparam>
+		/// <typeparam name="TTransformer2">The <see cref="ITransformer{TInput, TOutput}"/> for <typeparamref name="TSubInput2"/>/<typeparamref name="TSubOutput2"/>.</typeparam>
+		/// <param name="transformerExpression">The <see cref="Expression{TDelegate}"/> to take a <typeparamref name="TInput"/>, <typeparamref name="TSubOutput1"/>, and <typeparamref name="TSubOutput1"/> and produce a <typeparamref name="TOutput"/>.</param>
+		/// <param name="subInput1SelectionExpression">The <see cref="Expression{TDelegate}"/> to select <typeparamref name="TSubInput1"/> from <typeparamref name="TInput"/>.</param>
+		/// <param name="subInput2SelectionExpression">The <see cref="Expression{TDelegate}"/> to select <typeparamref name="TSubInput2"/> from <typeparamref name="TInput"/>.</param>
+		/// <returns>An expression converting <typeparamref name="TInput"/> into <typeparamref name="TOutput"/> based on <paramref name="transformerExpression"/> with its other arguments generated from the transformation result of <paramref name="subInput1SelectionExpression"/> and <paramref name="subInput2SelectionExpression"/>.</returns>
 		protected static Expression<Func<TInput, TOutput>> BuildSubProjection<
 			TSubInput1,
 			TSubInput2,

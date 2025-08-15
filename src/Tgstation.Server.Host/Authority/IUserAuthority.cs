@@ -30,6 +30,14 @@ namespace Tgstation.Server.Host.Authority
 		/// <returns>A <see cref="RequirementsGated{TResult}"/> <see cref="User"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
 		RequirementsGated<AuthorityResponse<User>> GetId(long id, bool includeJoins, bool allowSystemUser, CancellationToken cancellationToken);
 
+		/// <summary>
+		/// Gets the <see cref="User"/> with a given <paramref name="id"/>.
+		/// </summary>
+		/// <typeparam name="TResult">The result type after projection.</typeparam>
+		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="User"/>.</param>
+		/// <param name="allowSystemUser">If the <see cref="User.TgsSystemUserName"/> may be returned.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="RequirementsGated{TResult}"/> <see cref="Projectable{TQueried, TResult}"/> <see cref="User"/> for <typeparamref name="TResult"/>.</returns>
 		RequirementsGated<Projectable<User, TResult>> GetId<TResult>(long id, bool allowSystemUser, CancellationToken cancellationToken)
 			where TResult : class;
 

@@ -91,6 +91,16 @@ namespace Tgstation.Server.Host.Authority
 			where TApiModel : notnull
 			where TTransformer : ITransformer<TResult, TApiModel>, new();
 
+		/// <summary>
+		/// Execute a batch loaded call on a given <paramref name="authorityInvoker"/>.
+		/// </summary>
+		/// <typeparam name="TResult">The queried result of the <typeparamref name="TAuthority"/>.</typeparam>
+		/// <typeparam name="TApiModel">The returned <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TTransformer">The <see cref="ITransformer{TInput, TOutput}"/> for converting <typeparamref name="TResult"/>s to <typeparamref name="TApiModel"/>s.</typeparam>
+		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> returning a <see cref="RequirementsGated{TResult}"/> <see cref="Projectable{TQueried, TResult}"/> from <typeparamref name="TResult"/> to <typeparamref name="TApiModel"/>.</param>
+		/// <param name="ids">The list of <see cref="EntityId.Id"/>s to batch load.</param>
+		/// <param name="queryContext">The active <see cref="QueryContext{TEntity}"/> mapped to an <see cref="AuthorityResponse{TResult}"/> of the <typeparamref name="TApiModel"/>. MUST have been wrapped with <see cref="Extensions.QueryContextExtensions.AuthorityResponseWrap{TResult}(QueryContext{TResult})"/>. This will be unwrapped so only a <see cref="QueryContext{TEntity}"/> of <typeparamref name="TApiModel"/> will be used.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of loaded <see cref="EntityId.Id"/>s to <see cref="AuthorityResponse{TResult}"/>s for the loaded <typeparamref name="TApiModel"/>s.</returns>
 		ValueTask<Dictionary<long, AuthorityResponse<TApiModel>>> ExecuteDataLoader<TResult, TApiModel, TTransformer>(
 			Func<TAuthority, long, RequirementsGated<Projectable<TResult, TApiModel>>> authorityInvoker,
 			IReadOnlyList<long> ids,

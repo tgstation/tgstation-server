@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using GreenDonut;
 using GreenDonut.Data;
 
 using HotChocolate;
@@ -14,9 +12,7 @@ using HotChocolate.Types.Relay;
 
 using Microsoft.Extensions.Options;
 
-using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Authority;
-using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models.Transformers;
 

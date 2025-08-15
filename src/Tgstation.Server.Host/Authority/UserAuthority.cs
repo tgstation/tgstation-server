@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -663,7 +662,7 @@ namespace Tgstation.Server.Host.Authority
 						Queryable(true, allowSystemUser)
 							.Where(user => user.Id == id)
 							.TagWith("User by ID"),
-						projected => new Projected<string, TResult>
+						projected => new ProjectedPair<string, TResult>
 						{
 							Queried = projected.Queried.CanonicalName!,
 							Result = projected.Result,

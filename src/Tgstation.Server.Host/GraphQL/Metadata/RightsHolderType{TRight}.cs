@@ -6,6 +6,10 @@ using Tgstation.Server.Host.GraphQL.Types;
 
 namespace Tgstation.Server.Host.GraphQL.Metadata
 {
+	/// <summary>
+	/// <see cref="ObjectType{T}"/> for <see cref="RightsHolder{TRight}"/>s to give the flags proper GraphQL semantics.
+	/// </summary>
+	/// <typeparam name="TRight">The <see cref="Api.Rights.RightsType"/> of the <see cref="RightsHolder{TRight}"/>.</typeparam>
 	public sealed class RightsHolderType<TRight> : ObjectType<RightsHolder<TRight>>
 		where TRight : struct, Enum
 	{

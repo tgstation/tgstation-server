@@ -11,8 +11,6 @@ using Cyberboss.AspNetCore.AsyncInitializer;
 using Elastic.CommonSchema.Serilog;
 
 using HotChocolate.AspNetCore;
-using HotChocolate.Subscriptions;
-using HotChocolate.Types;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -47,7 +45,6 @@ using Serilog.Sinks.Elasticsearch;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Components;
@@ -65,11 +62,7 @@ using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
-using Tgstation.Server.Host.GraphQL;
-using Tgstation.Server.Host.GraphQL.Metadata;
-using Tgstation.Server.Host.GraphQL.Scalars;
 using Tgstation.Server.Host.GraphQL.Subscriptions;
-using Tgstation.Server.Host.GraphQL.Types;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Properties;
@@ -336,7 +329,7 @@ namespace Tgstation.Server.Host.Core
 
 			// configure graphql
 			services
-				.AddScoped<GraphQL.Subscriptions.ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
+				.AddScoped<ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
 				.AddGraphQLServer()
 				.ConfigureGraphQLServer();
 

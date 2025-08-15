@@ -9,15 +9,26 @@ using Tgstation.Server.Host.Authority.Core;
 
 namespace Tgstation.Server.Host.Extensions
 {
+	/// <summary>
+	/// Extension methods for <see cref="IDataLoader{TKey, TValue}"/>.
+	/// </summary>
 	static class DataLoaderExtensions
 	{
-		public static async ValueTask<TResult?> LoadAuthorityResponse<TResult, TID>(
-			this IDataLoader<TID, AuthorityResponse<TResult>> dataLoader,
+		/// <summary>
+		/// Convert a request for a single <typeparamref name="TResult"/> into a data-loader invocation for the matching <see cref="AuthorityResponse{TResult}"/>.
+		/// </summary>
+		/// <typeparam name="TResult">The <see cref="Type"/> of the underlying DTO being loaded.</typeparam>
+		/// <param name="dataLoader">The <see cref="IDataLoader{TKey, TValue}"/> for <typeparamref name="TResult"/> <see cref="AuthorityResponse{TResult}"/>s.</param>
+		/// <param name="queryContext">The active <see cref="QueryContext{TEntity}"/>, if any.</param>
+		/// <param name="id">The <see cref="Api.Models.EntityId.Id"/> of <typeparamref name="TResult"/> to load.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the loaded <typeparamref name="TResult"/> if it exists, <see langword="null"/> otherwise.</returns>
+		public static async ValueTask<TResult?> LoadAuthorityResponse<TResult>(
+			this IDataLoader<long, AuthorityResponse<TResult>> dataLoader,
 			QueryContext<TResult>? queryContext,
-			TID id,
+			long id,
 			CancellationToken cancellationToken)
 			where TResult : class
-			where TID : notnull
 		{
 			ArgumentNullException.ThrowIfNull(dataLoader);
 

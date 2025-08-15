@@ -18,9 +18,9 @@ namespace Tgstation.Server.Host.Models
 		Expression<Func<TInput, TOutput>> Expression { get; }
 
 		/// <summary>
-		/// <see cref="Expression{TDelegate}"/> for mapping <typeparamref name="TInput"/> into a <see cref="Projected{TQueried, TResult}"/>.
+		/// <see cref="Expression{TDelegate}"/> for mapping <typeparamref name="TInput"/> into a <see cref="ProjectedPair{TQueried, TResult}"/>.
 		/// </summary>
-		Expression<Func<TInput, Projected<TInput, TOutput>>> ProjectedExpression { get; }
+		Expression<Func<TInput, ProjectedPair<TInput, TOutput>>> ProjectedExpression { get; }
 
 		/// <summary>
 		/// The compiled <see cref="Expression"/>.

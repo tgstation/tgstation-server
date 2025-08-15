@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using HotChocolate;
-using HotChocolate.Authorization;
 using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;

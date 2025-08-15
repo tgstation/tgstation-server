@@ -50,8 +50,7 @@ namespace Tgstation.Server.Host.GraphQL.Metadata
 		/// <summary>
 		/// Fix the "is" prefix on a given set of <paramref name="fields"/>.
 		/// </summary>
-		/// <typeparam name="TField">The <see cref="Type"/> of <see cref="FieldDefinitionBase"/> to correct.</typeparam>
-		/// <param name="fields">The <see cref="IBindableList{T}"/> of <typeparamref name="TField"/>s to operate on.</param>
+		/// <param name="fields">The <see cref="IBindableList{T}"/> of <see cref="InputFieldDefinition"/>s to operate on.</param>
 		static void FixFields(IBindableList<InputFieldDefinition> fields)
 		{
 			InputFieldDefinition? noneField = null;

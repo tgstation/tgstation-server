@@ -40,9 +40,7 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// </summary>
 		/// <param name="result">The <typeparamref name="TResult"/> to convert.</param>
 		/// <returns>A new <see cref="RequirementsGated{TResult}"/> based on <paramref name="result"/>.</returns>
-#pragma warning disable CA1000 // Do not declare static members on generic types
 		public static RequirementsGated<TResult> FromResult(TResult result)
-#pragma warning restore CA1000 // Do not declare static members on generic types
 			=> new(
 				() => (IAuthorizationRequirement?)null,
 				() => ValueTask.FromResult(result));

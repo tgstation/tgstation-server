@@ -20,6 +20,10 @@ namespace Tgstation.Server.Host.Extensions
 	/// </summary>
 	public static class RequestExecutorBuilderExtensions
 	{
+		/// <summary>
+		/// Configure a GraphQL pipeline <paramref name="builder"/>.
+		/// </summary>
+		/// <param name="builder">The <see cref="IRequestExecutorBuilder"/> to configure.</param>
 		public static void ConfigureGraphQLServer(this IRequestExecutorBuilder builder)
 			=> (builder ?? throw new ArgumentNullException(nameof(builder)))
 				.ModifyOptions(options =>
@@ -59,6 +63,10 @@ namespace Tgstation.Server.Host.Extensions
 				.AddAuthorization()
 				.ConfigureTypes();
 
+		/// <summary>
+		/// Configure active <see cref="Type"/>s for a given <paramref name="builder"/>.
+		/// </summary>
+		/// <param name="builder">The <see cref="IRequestExecutorBuilder"/> to configure.</param>
 		private static void ConfigureTypes(this IRequestExecutorBuilder builder)
 			=> builder
 				.AddQueryType<Query>()
@@ -68,11 +76,15 @@ namespace Tgstation.Server.Host.Extensions
 				.AddType<LocalGateway>()
 				.AddType<UserName>()
 				.AddType<UnsignedIntType>()
-				.AddRightsHolders()
 				.TryAddTypeInterceptor<RightsTypeInterceptor>()
-				.BindRuntimeType<Version, SemverType>();
+				.BindRuntimeType<Version, SemverType>()
+				.AddRightsHolders();
 
-		private static IRequestExecutorBuilder AddRightsHolders(this IRequestExecutorBuilder builder)
+		/// <summary>
+		/// Configure <see cref="RightsHolderType{TRight}"/>s for all <see cref="RightsType"/>s.
+		/// </summary>
+		/// <param name="builder">The <see cref="IRequestExecutorBuilder"/> to configure.</param>
+		private static void AddRightsHolders(this IRequestExecutorBuilder builder)
 		{
 			var rightsHolderGeneric = typeof(RightsHolderType<>);
 			foreach (var right in RightsHelper.AllRightTypes())
@@ -80,8 +92,6 @@ namespace Tgstation.Server.Host.Extensions
 				var instantiatedRightsHolder = rightsHolderGeneric.MakeGenericType(right);
 				builder.AddType(instantiatedRightsHolder);
 			}
-
-			return builder;
 		}
 	}
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Tgstation.Server.Host.Models.Transformers
 {
@@ -30,20 +29,6 @@ namespace Tgstation.Server.Host.Models.Transformers
 						  Id = model.Id!.Value,
 						  Name = model.Name ?? NotNullFallback<string>(),
 						  SystemIdentifier = model.SystemIdentifier,
-						  OAuthConnections = model.OAuthConnections!
-							.Select(oAuthConnection => new GraphQL.Types.OAuth.OAuthConnection
-							{
-								Provider = oAuthConnection.Provider,
-								ExternalUserId = oAuthConnection.ExternalUserId!,
-							})
-							.ToList(),
-						  OidcConnections = model.OidcConnections!
-							.Select(oidcConnection => new GraphQL.Types.OAuth.OidcConnection
-							{
-								ExternalUserId = oidcConnection.ExternalUserId!,
-								SchemeKey = oidcConnection.SchemeKey!,
-							})
-							.ToList(),
 						  OwnedPermissionSet = permissionSet,
 						  Group = group,
 					  },

@@ -16,7 +16,17 @@ namespace Tgstation.Server.Host.Extensions
 	/// </summary>
 	static class QueryableExtensions
 	{
-		public static IQueryable<Projected<TQueried, TResult>> With<TQueried, TResult>(this IQueryable<Projected<TQueried, TResult>> queryable, QueryContext<TResult>? queryContext)
+		/// <summary>
+		/// Map a given <paramref name="queryContext"/> to project onto a given <paramref name="queryable"/>.
+		/// </summary>
+		/// <typeparam name="TQueried">The <see cref="ProjectedPair{TQueried, TResult}.Queried"/> <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TResult">The <see cref="ProjectedPair{TQueried, TResult}.Result"/> <see cref="Type"/>.</typeparam>
+		/// <param name="queryable">A <see cref="IQueryable{T}"/> for <see cref="ProjectedPair{TQueried, TResult}"/>s of <typeparamref name="TQueried"/>/<typeparamref name="TResult"/>.</param>
+		/// <param name="queryContext">The <see cref="QueryContext{TEntity}"/> for <typeparamref name="TResult"/> to map onto the <paramref name="queryable"/>.</param>
+		/// <returns>A new <see cref="IQueryable{T}"/> with <paramref name="queryContext"/> mapped on the <typeparamref name="TResult"/>.</returns>
+		public static IQueryable<ProjectedPair<TQueried, TResult>> With<TQueried, TResult>(
+			this IQueryable<ProjectedPair<TQueried, TResult>> queryable,
+			QueryContext<TResult>? queryContext)
 		{
 			// taken verbatim from GreenDonut's With implementation
 			ArgumentNullException.ThrowIfNull(queryable);
@@ -28,14 +38,14 @@ namespace Tgstation.Server.Host.Extensions
 			if (queryContext.Predicate != null)
 			{
 				queryable = queryable.Where(
-					TranslateGenericLambda<TQueried, TResult, bool>(
+					TranslateLambda<TQueried, TResult, bool>(
 						queryContext.Predicate));
 				modified = true;
 			}
 
 			if (queryContext.Sorting?.Operations.Length > 0)
 			{
-				var definition = new SortDefinition<Projected<TQueried, TResult>>(
+				var definition = new SortDefinition<ProjectedPair<TQueried, TResult>>(
 					queryContext.Sorting.Operations
 						.Select(MapSortBy<TQueried, TResult>));
 
@@ -45,19 +55,19 @@ namespace Tgstation.Server.Host.Extensions
 
 			if (queryContext.Selector != null)
 			{
-				Expression<Func<Projected<TQueried, TResult>, TResult, Projected<TQueried, TResult>>> remapSelector =
-					(initialProjected, selectedResult) => new Projected<TQueried, TResult>
+				Expression<Func<ProjectedPair<TQueried, TResult>, TResult, ProjectedPair<TQueried, TResult>>> remapSelector =
+					(initialProjected, selectedResult) => new ProjectedPair<TQueried, TResult>
 					{
 						Queried = initialProjected.Queried,
 						Result = selectedResult,
 					};
-				Expression<Func<Projected<TQueried, TResult>, TResult>> resultSelector = projected => projected.Result;
-				var parameter = Expression.Parameter(typeof(Projected<TQueried, TResult>), "projectedParam");
+				Expression<Func<ProjectedPair<TQueried, TResult>, TResult>> resultSelector = projected => projected.Result;
+				var parameter = Expression.Parameter(typeof(ProjectedPair<TQueried, TResult>), "projectedParam");
 				var result = Expression.Parameter(typeof(TResult), "resultParam");
 				var initialResultExpr = Expression.Invoke(resultSelector, parameter);
 				var resultExpr = Expression.Invoke(queryContext.Selector, initialResultExpr);
 				var finalInvoke = Expression.Invoke(remapSelector, parameter, resultExpr);
-				var finalExpr = Expression.Lambda<Func<Projected<TQueried, TResult>, Projected<TQueried, TResult>>>(finalInvoke, parameter);
+				var finalExpr = Expression.Lambda<Func<ProjectedPair<TQueried, TResult>, ProjectedPair<TQueried, TResult>>>(finalInvoke, parameter);
 
 				queryable = queryable.Select(finalExpr);
 				modified = true;
@@ -70,15 +80,22 @@ namespace Tgstation.Server.Host.Extensions
 			return queryable;
 		}
 
-		private static ISortBy<Projected<TQueried, TResult>> MapSortBy<TQueried, TResult>(ISortBy<TResult> sortBy)
+		/// <summary>
+		/// Map a given <paramref name="sortBy"/> onto a <see cref="ProjectedPair{TQueried, TResult}"/>.
+		/// </summary>
+		/// <typeparam name="TQueried">The <see cref="ProjectedPair{TQueried, TResult}.Queried"/> <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TResult">The <see cref="ProjectedPair{TQueried, TResult}.Result"/> <see cref="Type"/>.</typeparam>
+		/// <param name="sortBy">The <see cref="ISortBy{TEntity}"/> for <typeparamref name="TResult"/> to map onto a <see cref="ProjectedPair{TQueried, TResult}"/> of <typeparamref name="TQueried"/>/<typeparamref name="TResult"/>.</param>
+		/// <returns>A new <see cref="ISortBy{TEntity}"/> for the <see cref="ProjectedPair{TQueried, TResult}"/>.</returns>
+		private static ISortBy<ProjectedPair<TQueried, TResult>> MapSortBy<TQueried, TResult>(ISortBy<TResult> sortBy)
 		{
 			var sortingKeyType = sortBy.GetType().GenericTypeArguments[1];
 
-			var factoryMethod = typeof(SortBy<Projected<TQueried, TResult>>)
+			var factoryMethod = typeof(SortBy<ProjectedPair<TQueried, TResult>>)
 				.GetMethod(
 					sortBy.Ascending
-						? nameof(SortBy<Projected<TQueried, TResult>>.Ascending)
-						: nameof(SortBy<Projected<TQueried, TResult>>.Descending))!;
+						? nameof(SortBy<ProjectedPair<TQueried, TResult>>.Ascending)
+						: nameof(SortBy<ProjectedPair<TQueried, TResult>>.Descending))!;
 
 			var instantiatedLambdaTranslate = typeof(QueryableExtensions)
 				.GetMethod(nameof(TranslateLambda), BindingFlags.NonPublic | BindingFlags.Static)!
@@ -88,21 +105,26 @@ namespace Tgstation.Server.Host.Extensions
 
 			var instantiatedFactoryMethod = factoryMethod.MakeGenericMethod(sortingKeyType);
 
-			return (ISortBy<Projected<TQueried, TResult>>)instantiatedFactoryMethod.Invoke(null, [fixedLambda])!;
+			return (ISortBy<ProjectedPair<TQueried, TResult>>)instantiatedFactoryMethod.Invoke(null, [fixedLambda])!;
 		}
 
-		private static Expression<Func<Projected<TQueried, TResult>, TDesired>> TranslateGenericLambda<TQueried, TResult, TDesired>(Expression<Func<TResult, TDesired>> selectionExpression)
-			=> TranslateLambda<TQueried, TResult, TDesired>(selectionExpression);
-
-		private static Expression<Func<Projected<TQueried, TResult>, TDesired>> TranslateLambda<TQueried, TResult, TDesired>(LambdaExpression selectionExpression)
+		/// <summary>
+		/// Translate a given <paramref name="selectionExpression"/> on a <typeparamref name="TResult"/> onto its <see cref="ProjectedPair{TQueried, TResult}"/>.
+		/// </summary>
+		/// <typeparam name="TQueried">The <see cref="ProjectedPair{TQueried, TResult}.Queried"/> <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TResult">The <see cref="ProjectedPair{TQueried, TResult}.Result"/> <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TDesired">The selected <see cref="Type"/>.</typeparam>
+		/// <param name="selectionExpression">A <see cref="LambdaExpression"/> accepting a <typeparamref name="TResult"/> and outputting a <typeparamref name="TDesired"/>.</param>
+		/// <returns>An <see cref="Expression{TDelegate}"/> accepting a <see cref="ProjectedPair{TQueried, TResult}"/> of <typeparamref name="TQueried"/>/<typeparamref name="TResult"/> and outputting a <typeparamref name="TDesired"/>.</returns>
+		private static Expression<Func<ProjectedPair<TQueried, TResult>, TDesired>> TranslateLambda<TQueried, TResult, TDesired>(LambdaExpression selectionExpression)
 		{
-			Expression<Func<Projected<TQueried, TResult>, TResult>> resultSelector = projected => projected.Result;
+			Expression<Func<ProjectedPair<TQueried, TResult>, TResult>> resultSelector = projected => projected.Result;
 
-			var parameter = Expression.Parameter(typeof(Projected<TQueried, TResult>), "projectedTranslateParam");
+			var parameter = Expression.Parameter(typeof(ProjectedPair<TQueried, TResult>), "projectedTranslateParam");
 			var result = Expression.Invoke(resultSelector, parameter);
 			var expr = Expression.Invoke(selectionExpression, result);
 
-			return Expression.Lambda<Func<Projected<TQueried, TResult>, TDesired>>(expr, parameter);
+			return Expression.Lambda<Func<ProjectedPair<TQueried, TResult>, TDesired>>(expr, parameter);
 		}
 	}
 }

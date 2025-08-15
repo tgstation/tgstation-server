@@ -12,6 +12,12 @@ namespace Tgstation.Server.Host.Extensions
 	/// </summary>
 	static class QueryContextExtensions
 	{
+		/// <summary>
+		/// Translate a given <paramref name="queryContext"/> into one with the target wrapped in an <see cref="AuthorityResponse{TResult}"/>.
+		/// </summary>
+		/// <typeparam name="TResult">The result <see cref="Type"/> of the <paramref name="queryContext"/>.</typeparam>
+		/// <param name="queryContext">The original <see cref="QueryContext{TEntity}"/>.</param>
+		/// <returns>A <see cref="QueryContext{TEntity}"/> with the target wrapped in an <see cref="AuthorityResponse{TResult}"/>.</returns>
 		public static QueryContext<AuthorityResponse<TResult>> AuthorityResponseWrap<TResult>(this QueryContext<TResult> queryContext)
 		{
 			ArgumentNullException.ThrowIfNull(queryContext);
@@ -32,7 +38,7 @@ namespace Tgstation.Server.Host.Extensions
 					resultFromAuthority);
 
 				var outerInvoke = Expression.Invoke(
-					AuthorityResponse<TResult>.MappingExpression(),
+					AuthorityResponse<TResult>.MappingExpression,
 					innerInvoke);
 
 				selector = Expression.Lambda<Func<AuthorityResponse<TResult>, AuthorityResponse<TResult>>>(
@@ -60,6 +66,12 @@ namespace Tgstation.Server.Host.Extensions
 				predicate);
 		}
 
+		/// <summary>
+		/// Unwrap a given <paramref name="queryContext"/> that was built from one resulting from <see cref="AuthorityResponseWrap{TResult}(QueryContext{TResult})"/>.
+		/// </summary>
+		/// <typeparam name="TResult">The underlying result <see cref="Type"/> of the <paramref name="queryContext"/>.</typeparam>
+		/// <param name="queryContext">The wrapped <see cref="QueryContext{TEntity}"/> to unwrap.</param>
+		/// <returns>The unwrapped <see cref="QueryContext{TEntity}"/> for <typeparamref name="TResult"/>.</returns>
 		public static QueryContext<TResult> AuthorityResponseUnwrap<TResult>(this QueryContext<AuthorityResponse<TResult>> queryContext)
 		{
 			ArgumentNullException.ThrowIfNull(queryContext);

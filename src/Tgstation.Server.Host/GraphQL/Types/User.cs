@@ -8,7 +8,6 @@ using GreenDonut.Data;
 
 using HotChocolate;
 using HotChocolate.Data;
-using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
@@ -46,8 +45,14 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// </summary>
 		public required string? SystemIdentifier { get; init; }
 
+		/// <summary>
+		/// The <see cref="UserGroup"/> for the user.
+		/// </summary>
 		public required UserGroup? Group { get; set; }
 
+		/// <summary>
+		/// The <see cref="PermissionSet"/> for the user if the user does not belong to a <see cref="Group"/>.
+		/// </summary>
 		public required PermissionSet? OwnedPermissionSet { get; set; }
 
 		/// <summary>
@@ -62,6 +67,14 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[IsProjected(true)]
 		public required long? CreatedById { get; init; }
 
+		/// <summary>
+		/// Implements the <see cref="IUserGroupsDataLoader"/>.
+		/// </summary>
+		/// <param name="ids">The <see cref="IReadOnlyList{T}"/> of <see cref="User"/> <see cref="Api.Models.EntityId.Id"/>s to load.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
+		/// <param name="queryContext">The <see cref="QueryContext{TEntity}"/> for <see cref="User"/> mapped to an <see cref="AuthorityResponse{TResult}"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of the requested <see cref="User"/> <see cref="AuthorityResponse{TResult}"/>s.</returns>
 		[DataLoader(AccessModifier = DataLoaderAccessModifier.PublicInterface)]
 		public static ValueTask<Dictionary<long, AuthorityResponse<User>>> GetUsers(
 			IReadOnlyList<long> ids,
