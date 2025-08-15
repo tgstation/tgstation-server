@@ -24,6 +24,7 @@
     <Copy SkipUnchangedFiles="true" SourceFiles="../../artifacts/gitlab-api.graphql" DestinationFiles="schema.graphql" />
   </Target>
 
+  <!-- This should be able to be removed with ChilliCream v16+ -->
   <Target Name="FixWarningsInGeneratedSchema" AfterTargets="GenerateGraphQLCode">
     <PropertyGroup>
       <InputFile>$(IntermediateOutputPath)berry/GraphQLClient.Client.cs</InputFile>
