@@ -18,7 +18,7 @@
     <TgsNugetNetFramework>netstandard2.0</TgsNugetNetFramework>
     <TgsNetMajorVersion>8</TgsNetMajorVersion>
     <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
-    <TgsDotnetRedistUrl>https://download.visualstudio.microsoft.com/download/pr/751d3fcd-72db-4da2-b8d0-709c19442225/33cc492bde704bfd6d70a2b9109005a0/dotnet-hosting-8.0.6-win.exe</TgsDotnetRedistUrl>
+    <TgsDotnetRedistUrl>https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/8.0.19/dotnet-hosting-8.0.19-win.exe</TgsDotnetRedistUrl>
     <TgsMariaDBRedistVersion>11.4.2</TgsMariaDBRedistVersion>
     <!-- Only have this uncommented if the mariadb servers are shitting the bed, update if the version updates -->
     <!--<TgsMariaDBFallbackRedist>https://mirror.its.dal.ca/mariadb//mariadb-10.11.8/winx64-packages/mariadb-10.11.8-winx64.msi</TgsMariaDBFallbackRedist>-->
