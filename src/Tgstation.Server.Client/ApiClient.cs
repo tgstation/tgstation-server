@@ -522,6 +522,9 @@ namespace Tgstation.Server.Client
 					if (fileDownload)
 						request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Octet));
 
+					if (method == HttpMethod.Put)
+						request.Headers.Warning.Add(new WarningHeaderValue(299, "-", "HttpMethod.Put is depreciated and will be replaced with HttpMethod.Post in next major release."));
+
 					await ValueTaskExtensions.WhenAll(requestLoggers.Select(x => x.LogRequest(request, cancellationToken))).ConfigureAwait(false);
 
 					response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);

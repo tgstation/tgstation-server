@@ -77,6 +77,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="201"><see cref="UserGroup"/> created successfully.</response>
+		[HttpPut]
 		[HttpPost(Routes.Create)]
 		[ProducesResponseType(typeof(UserGroupResponse), 201)]
 		public async ValueTask<IActionResult> Create([FromBody] UserGroupCreateRequest model, CancellationToken cancellationToken)
@@ -102,6 +103,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200"><see cref="UserGroup"/> updated successfully.</response>
 		/// <response code="410">The requested <see cref="UserGroup"/> does not currently exist.</response>
+		[HttpPost]
 		[HttpPost(Routes.Update)]
 		[ProducesResponseType(typeof(UserGroupResponse), 200)]
 		public ValueTask<IActionResult> Update([FromBody] UserGroupUpdateRequest model, CancellationToken cancellationToken)

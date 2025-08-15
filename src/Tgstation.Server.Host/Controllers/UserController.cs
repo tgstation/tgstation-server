@@ -65,6 +65,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="201"><see cref="User"/> created successfully.</response>
 		/// <response code="410">The requested system identifier could not be found.</response>
+		[HttpPut]
 		[HttpPost(Routes.Create)]
 		[ProducesResponseType(typeof(UserResponse), 201)]
 		public ValueTask<IActionResult> Create([FromBody] UserCreateRequest model, CancellationToken cancellationToken)
@@ -80,6 +81,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200"><see cref="User"/> updated successfully. Not returned due to lack of permissions.</response>
 		/// <response code="404">Requested <see cref="EntityId.Id"/> does not exist.</response>
 		/// <response code="410">Requested <see cref="Api.Models.Internal.UserApiBase.Group"/> does not exist.</response>
+		[HttpPost]
 		[HttpPost(Routes.Update)]
 		[ProducesResponseType(typeof(UserResponse), 200)]
 		[ProducesResponseType(204)]

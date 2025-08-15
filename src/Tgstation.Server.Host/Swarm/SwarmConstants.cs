@@ -38,9 +38,9 @@ namespace Tgstation.Server.Host.Swarm
 		public const string UpdateRoute = "Update";
 
 		/// <summary>
-		/// The route used for swarm updates to the commit endpoint.
+		/// The route used for swarm updates to the initiation endpoint.
 		/// </summary>
-		public const string UpdateCommitRoute = "UpdateCommit";
+		public const string UpdateInitiationRoute = "UpdateInitiation";
 
 		/// <summary>
 		/// Interval at which the swarm controller makes health checks on nodes.

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 
 using Serilog.Context;
 
@@ -161,6 +162,13 @@ namespace Tgstation.Server.Host.Extensions
 			applicationBuilder.Use((context, next) =>
 			{
 				context.Response.Headers.Add("X-Powered-By", assemblyInformationProvider.VersionPrefix);
+				if (context.Request.Method == HttpMethods.Put)
+				{
+					var logger = GetLogger(context);
+					context.Response.Headers.Add(HeaderNames.Warning, "299 - HttpMethod.Put is depreciated and will be replaced with HttpMethod.Post in next major release.");
+					logger.LogWarning("HttpMethod.Put is depreciated and will be replaced with HttpMethod.Post in next major release.");
+				}
+
 				return next();
 			});
 		}

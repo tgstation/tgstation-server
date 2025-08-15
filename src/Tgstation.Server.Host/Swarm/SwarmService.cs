@@ -278,7 +278,7 @@ namespace Tgstation.Server.Host.Swarm
 				using var commitReadyRequest = PrepareSwarmRequest(
 					null,
 					HttpMethod.Post,
-					SwarmConstants.UpdateCommitRoute,
+					SwarmConstants.UpdateRoute,
 					null);
 
 				try
@@ -332,7 +332,7 @@ namespace Tgstation.Server.Host.Swarm
 				using var request = PrepareSwarmRequest(
 					swarmServer,
 					HttpMethod.Post,
-					SwarmConstants.UpdateCommitRoute,
+					SwarmConstants.UpdateRoute,
 					null);
 
 				try
@@ -852,7 +852,7 @@ namespace Tgstation.Server.Host.Swarm
 					using var request = PrepareSwarmRequest(
 						null,
 						HttpMethod.Post,
-						SwarmConstants.UpdateRoute,
+						SwarmConstants.UpdateInitiationRoute,
 						new SwarmUpdateRequest
 						{
 							UpdateVersion = version,
@@ -1060,7 +1060,7 @@ namespace Tgstation.Server.Host.Swarm
 						using var request = PrepareSwarmRequest(
 							node,
 							HttpMethod.Post,
-							SwarmConstants.UpdateRoute,
+							SwarmConstants.UpdateInitiationRoute,
 							body);
 
 						using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);

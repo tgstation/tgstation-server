@@ -79,6 +79,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="409">An error occurred during the upload.</response>
 		/// <response code="410">The <paramref name="ticket"/> was no longer or was never valid.</response>
 		[TgsAuthorize]
+		[HttpPut]
 		[HttpPost]
 		[DisableRequestSizeLimit]
 		[ProducesResponseType(204)]
