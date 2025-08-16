@@ -31,7 +31,9 @@ using Tgstation.Server.Host.Utils;
 namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <inheritdoc />
+#pragma warning disable CA1506 // TODO: Decomplexify
 	sealed class DreamMaker : IDreamMaker
+#pragma warning restore CA1506
 	{
 		/// <summary>
 		/// Extension for .dmes.

@@ -108,7 +108,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask AddServerFirewallException(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 		{
-			if (GeneralConfiguration.CurrentValue.SkipAddingByondFirewallException)
+			if (GeneralConfigurationOptions.CurrentValue.SkipAddingByondFirewallException)
 				return;
 
 			GetExecutablePaths(path, out var serverExePath, out _);
@@ -126,7 +126,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Logger,
 					ruleName,
 					serverExePath,
-					deploymentPipelineProcesses && SessionConfiguration.CurrentValue.LowPriorityDeploymentProcesses,
+					deploymentPipelineProcesses && SessionConfigurationOptions.CurrentValue.LowPriorityDeploymentProcesses,
 					cancellationToken);
 			}
 			catch (Exception ex)
