@@ -112,8 +112,8 @@ namespace Tgstation.Server.Tests
 			{
 				ByondZipDownloadTemplate = TestingUtils.ByondZipDownloadTemplate,
 			});
-			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
-			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
+			var mockSessionConfigurationOptions = new Mock<IOptionsMonitor<SessionConfiguration>>();
+			mockSessionConfigurationOptions.SetupGet(x => x.CurrentValue).Returns(new SessionConfiguration());
 
 			using var loggerFactory = LoggerFactory.Create(builder =>
 			{
@@ -179,8 +179,8 @@ namespace Tgstation.Server.Tests
 				SkipAddingByondFirewallException = true,
 				ByondZipDownloadTemplate = TestingUtils.ByondZipDownloadTemplate,
 			});
-			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
-			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
+			var mockSessionConfigurationOptions = new Mock<IOptionsMonitor<SessionConfiguration>>();
+			mockSessionConfigurationOptions.SetupGet(x => x.CurrentValue).Returns(new SessionConfiguration());
 
 			using var loggerFactory = LoggerFactory.Create(builder =>
 			{
