@@ -11,6 +11,9 @@
     <File Path=".github/CODEOWNERS" />
     <File Path=".github/CODE_OF_CONDUCT.md" />
     <File Path=".github/CONTRIBUTING.md" />
+    <File Path=".github/dependabot.yml" />
+    <File Path=".github/FUNDING.yml" />
+    <File Path=".github/PULL_REQUEST_TEMPLATE.md" />
   </Folder>
   <Folder Name="/.github/ISSUE_TEMPLATE/">
     <File Path=".github/ISSUE_TEMPLATE/bug_report.md" />

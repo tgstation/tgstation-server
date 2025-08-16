@@ -37,11 +37,18 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			=> Version.Parse(MasterVersionsAttribute.Instance.RawSwarmProtocolVersion).Major;
 
 		/// <summary>
-		/// Gets the swarm's <see cref="Types.Users"/>.
+		/// Gets the swarm's <see cref="UsersRepository"/>.
 		/// </summary>
-		/// <returns>A new <see cref="Types.Users"/>.</returns>
+		/// <returns>A new <see cref="UsersRepository"/>.</returns>
 		[Authorize]
-		public Users Users() => new();
+		public UsersRepository Users() => new();
+
+		/// <summary>
+		/// Gets the swarm's <see cref="UserGroupsRepository"/>.
+		/// </summary>
+		/// <returns>A new <see cref="UserGroupsRepository"/>.</returns>
+		[Authorize]
+		public UserGroupsRepository UserGroups() => new();
 
 		/// <summary>
 		/// Gets the connected <see cref="SwarmNode"/> server.

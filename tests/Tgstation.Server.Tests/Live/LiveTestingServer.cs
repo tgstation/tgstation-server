@@ -158,7 +158,6 @@ namespace Tgstation.Server.Tests.Live
 				$"General:OpenDreamGitUrl={OpenDreamUrl}",
 				$"Security:TokenExpiryMinutes=120", // timeouts are useless for us
 				$"General:OpenDreamSuppressInstallOutput={TestingUtils.RunningInGitHubActions}",
-				"Telemetry:DisableVersionReporting=true",
 				$"General:MetricsEndPoints:0:Port={port}",
 				$"Session:BridgePort={port}",
 				$"General:PrometheusPort={port}",

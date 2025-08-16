@@ -45,12 +45,14 @@ namespace Tgstation.Server.Host.GraphQL
 		/// Evaluate a given set of <paramref name="authorizationRequirements"/>, throwing the approriate <see cref="GraphQLException"/> on failure.
 		/// </summary>
 		/// <param name="authorizationService">The authorization service to use.</param>
-		/// <param name="authorizationRequirements">The <see cref="IEnumerable{T}"/> of <see cref="IAuthorizationRequirement"/>s to evaluate..</param>
+		/// <param name="authorizationRequirements">The <see cref="IEnumerable{T}"/> of <see cref="IAuthorizationRequirement"/>s to evaluate.</param>
+		/// <param name="instanceId">The relevant <see cref="Api.Models.Instance"/> <see cref="Api.Models.EntityId.Id"/>.</param>
 		/// <param name="excludeUserSessionValidRequirement">If the <see cref="UserSessionValidRequirement"/> should be excluded.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		public static async ValueTask CheckGraphQLAuthorized(
 			this Security.IAuthorizationService authorizationService,
 			IEnumerable<IAuthorizationRequirement>? authorizationRequirements,
+			long? instanceId,
 			bool excludeUserSessionValidRequirement = false)
 		{
 			ArgumentNullException.ThrowIfNull(authorizationService);
@@ -59,7 +61,7 @@ namespace Tgstation.Server.Host.GraphQL
 			if (!excludeUserSessionValidRequirement)
 				authorizationRequirements = UserSessionValidRequirement.InstanceAsEnumerable.Concat(authorizationRequirements);
 
-			var result = await authorizationService.AuthorizeAsync(authorizationRequirements);
+			var result = await authorizationService.AuthorizeAsync(authorizationRequirements, instanceId);
 			if (!result.Succeeded)
 				throw result.Failure.ForbiddenGraphQLException();
 		}

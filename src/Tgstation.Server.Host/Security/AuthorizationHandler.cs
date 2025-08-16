@@ -165,10 +165,8 @@ namespace Tgstation.Server.Host.Security
 				object? permissionSet;
 				if (isInstance)
 				{
-					if (context.Resource is not Instance instance)
-						throw new InvalidOperationException("Instance should have been passed in as authorization resource!");
-
-					var instanceId = instance.Require(i => i.Id);
+					if (context.Resource is not long instanceId)
+						throw new InvalidOperationException("Instance ID should have been passed in as authorization resource!");
 
 					permissionSet = await databaseContext
 						.InstancePermissionSets

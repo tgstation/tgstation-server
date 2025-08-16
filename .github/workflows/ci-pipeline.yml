@@ -134,8 +134,6 @@ jobs:
     timeout-minutes: 15
     permissions:
       security-events: write
-    env:
-      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     steps:
       - name: Install Native Dependencies
         run: |
@@ -184,9 +182,6 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: csharp
-
-      - name: Setup Telemetry Key File
-        run: echo "fake_telemetry_key" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Build # Name checked in rerunFlakyTests.js
         run: dotnet build -c ReleaseNoWindows -p:TGS_HOST_NO_WEBPANEL=true
@@ -377,6 +372,10 @@ jobs:
         id: wix-tool
         run: echo "version=$(cat build/package/winget/.config/dotnet-tools.json | jq -r '.tools.wix.version')" >> $GITHUB_OUTPUT
 
+      - name: Retrieve StrawberryShake Tool Version
+        id: strawberry-tool
+        run: echo "version=$(cat src/Tgstation.Server.Host.Utils.GitLab.GraphQL/.config/dotnet-tools.json | jq -r '.tools."strawberryshake.tools".version')" >> $GITHUB_OUTPUT
+
       - name: Retrieve dotnet-ef Nuget Version
         id: dotnet-ef-nuget
         run: |
@@ -399,6 +398,17 @@ jobs:
             exit 1
           fi
 
+      - name: Retrieve StrawberryShake Nuget Version
+        id: strawberry-nuget
+        run: |
+          regex='\s+<PackageReference Include="StrawberryShake.Server" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
+          if [[ $(cat src/Tgstation.Server.Host.Utils.GitLab.GraphQL/Tgstation.Server.Host.Utils.GitLab.GraphQL.csproj) =~ $regex ]]; then
+            echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+          else
+            echo "Regex search failed!"
+            exit 1
+          fi
+
       - name: Fail if dotnet-ef Versions Don't Match
         if: ${{ steps.dotnet-ef-tool.outputs.version != steps.dotnet-ef-nuget.outputs.version }}
         run: |
@@ -409,6 +419,12 @@ jobs:
         if: ${{ steps.wix-tool.outputs.version != steps.wix-nuget.outputs.version }}
         run: |
           echo "${{ steps.wix-tool.outputs.version }} != ${{ steps.wix-nuget.outputs.version }}"
+          exit 1
+
+      - name: Fail if StrawberryShake Versions Don't Match
+        if: ${{ steps.strawberry-tool.outputs.version != steps.strawberry-nuget.outputs.version }}
+        run: |
+          echo "${{ steps.strawberry-tool.outputs.version }} != ${{ steps.strawberry-nuget.outputs.version }}"
           exit 1
 
   pages-build:
@@ -495,8 +511,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: start-gate
     timeout-minutes: 10
-    env:
-      TGS_TELEMETRY_KEY_FILE: tgs_telemetry_key.txt
     steps:
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -508,16 +522,8 @@ jobs:
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-      - name: Setup Telemetry Key File
-        shell: bash
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Build Docker Image # Name checked in rerunFlakyTests.js
-        run: docker build . -f build/Dockerfile --build-arg TGS_TELEMETRY_KEY_FILE=${{ env.TGS_TELEMETRY_KEY_FILE }}
-
-      - name: Delete Telemetry Key File
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
+        run: docker build . -f build/Dockerfile
 
   linux-unit-tests:
     name: Linux Tests
@@ -527,8 +533,6 @@ jobs:
       fail-fast: false
       matrix:
         configuration: ["Debug", "Release"]
-    env:
-      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
       - name: Install Native x86 libc Dependencies # Name checked in rerunFlakyTests.js
@@ -569,15 +573,8 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Setup Telemetry Key File
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Build # Name checked in rerunFlakyTests.js
         run: dotnet build -c ${{ matrix.configuration }}NoWindows
-
-      - name: Delete Telemetry Key File
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Run Unit Tests
         run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.slnx
@@ -602,8 +599,6 @@ jobs:
       fail-fast: false
       matrix:
         configuration: ["Debug", "Release"]
-    env:
-      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     runs-on: windows-2025
     steps:
       - name: Setup dotnet
@@ -630,17 +625,8 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Setup Telemetry Key File
-        shell: bash
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Build # Name checked in rerunFlakyTests.js
         run: dotnet build -c ${{ matrix.configuration }}NoWix
-
-      - name: Delete Telemetry Key File
-        shell: bash
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Run Unit Tests
         run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.slnx
@@ -708,8 +694,6 @@ jobs:
           ["SqlServer", "Sqlite", "PostgresSql", "MariaDB", "MySql"]
         watchdog-type: ["Basic", "Advanced"]
         configuration: ["Debug", "Release"]
-    env:
-      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     runs-on: windows-2025
     steps:
       - name: Setup dotnet (TGS)
@@ -817,17 +801,8 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Setup Telemetry Key File
-        shell: bash
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Build # Name checked in rerunFlakyTests.js
         run: dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
-
-      - name: Delete Telemetry Key File
-        shell: bash
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Run Live Tests # Logging here is weird because printing massive amounts of text on Windows runners is SLOW AS SHIT!!!
         id: live-tests
@@ -970,8 +945,6 @@ jobs:
         database-type: ["Sqlite", "PostgresSql", "MariaDB", "MySql"]
         watchdog-type: ["Basic", "Advanced"]
         configuration: ["Debug", "Release"]
-    env:
-      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
       - name: Setup dotnet (TGS)
@@ -1053,15 +1026,8 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Setup Telemetry Key File
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Build # Name checked in rerunFlakyTests.js
         run: dotnet build -c ${{ matrix.configuration }}NoWindows tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
-
-      - name: Delete Telemetry Key File
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Run Live Tests
         run: |
@@ -1408,8 +1374,6 @@ jobs:
     needs: build-releasenotes
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    env:
-      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     steps:
       - name: Install Native Dependencies # Name checked in rerunFlakyTests.js
         run: |
@@ -1464,9 +1428,6 @@ jobs:
       - name: Grab Most Recent Changelog
         run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
 
-      - name: Setup Telemetry Key File
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Retrieve ReleaseNotes Binaries
         uses: actions/download-artifact@v4
         with:
@@ -1505,10 +1466,6 @@ jobs:
           gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1.dsc
           gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.changes
           gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.buildinfo
-
-      - name: Delete Telemetry Key File
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Test Install
         run: |
@@ -1574,8 +1531,6 @@ jobs:
     runs-on: windows-2025
     needs: start-gate
     timeout-minutes: 15
-    env:
-      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -1609,17 +1564,8 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Setup Telemetry Key File
-        shell: bash
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Build Host # Name checked in rerunFlakyTests.js
         run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
-
-      - name: Delete Telemetry Key File
-        shell: bash
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Build Service # Name checked in rerunFlakyTests.js
         run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
@@ -2144,8 +2090,6 @@ jobs:
     needs: [deploy-dm, deploy-rest, deploy-gql, deployment-gate]
     runs-on: windows-2025
     if: (!(cancelled() || failure())) && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]') && needs.deployment-gate.result == 'success'
-    env:
-      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     permissions:
       id-token: write
       attestations: write
@@ -2172,18 +2116,9 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Setup Telemetry Key File
-        shell: bash
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
         # We need to rebuild the installer.exe so it can be properly signed
       - name: Build Host # Name checked in rerunFlakyTests.js
         run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
-
-      - name: Delete Telemetry Key File
-        shell: bash
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Build Service # Name checked in rerunFlakyTests.js
         run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj

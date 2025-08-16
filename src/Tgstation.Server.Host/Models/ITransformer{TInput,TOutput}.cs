@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
 
+using Tgstation.Server.Host.Authority.Core;
+
 namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
@@ -14,6 +16,11 @@ namespace Tgstation.Server.Host.Models
 		/// <see cref="Expression{TDelegate}"/> form of the transformation.
 		/// </summary>
 		Expression<Func<TInput, TOutput>> Expression { get; }
+
+		/// <summary>
+		/// <see cref="Expression{TDelegate}"/> for mapping <typeparamref name="TInput"/> into a <see cref="ProjectedPair{TQueried, TResult}"/>.
+		/// </summary>
+		Expression<Func<TInput, ProjectedPair<TInput, TOutput>>> ProjectedExpression { get; }
 
 		/// <summary>
 		/// The compiled <see cref="Expression"/>.

@@ -6,7 +6,7 @@
     <TgsCoreVersion>7.0.0</TgsCoreVersion>
     <TgsConfigVersion>6.0.0</TgsConfigVersion>
     <TgsRestVersion>10.14.0</TgsRestVersion>
-    <TgsGraphQLVersion>0.6.0</TgsGraphQLVersion>
+    <TgsGraphQLVersion>0.7.0</TgsGraphQLVersion>
     <TgsCommonLibraryVersion>7.0.0</TgsCommonLibraryVersion>
     <TgsApiLibraryVersion>19.0.0</TgsApiLibraryVersion>
     <TgsClientVersion>22.0.0</TgsClientVersion>
@@ -19,7 +19,7 @@
     <TgsNetMajorVersion>10</TgsNetMajorVersion>
     <TgsNetPreviewBuild>true</TgsNetPreviewBuild>
     <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
-    <TgsDotnetRedistUrl>https://download.visualstudio.microsoft.com/download/pr/751d3fcd-72db-4da2-b8d0-709c19442225/33cc492bde704bfd6d70a2b9109005a0/dotnet-hosting-8.0.6-win.exe</TgsDotnetRedistUrl>
+    <TgsDotnetRedistUrl>https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/8.0.19/dotnet-hosting-8.0.19-win.exe</TgsDotnetRedistUrl>
     <TgsMariaDBRedistVersion>11.4.2</TgsMariaDBRedistVersion>
     <!-- Only have this uncommented if the mariadb servers are shitting the bed, update if the version updates -->
     <!--<TgsMariaDBFallbackRedist>https://mirror.its.dal.ca/mariadb//mariadb-10.11.8/winx64-packages/mariadb-10.11.8-winx64.msi</TgsMariaDBFallbackRedist>-->

@@ -16,6 +16,11 @@ namespace Tgstation.Server.Host.Authority.Core
 	public sealed class RequirementsGated<TResult>
 	{
 		/// <summary>
+		/// <see cref="Api.Models.EntityId.Id"/> of the relevant instance.
+		/// </summary>
+		public long? InstanceId { get; }
+
+		/// <summary>
 		/// The <see cref="IAuthorizationRequirement"/> retrieval function. <see cref="UserSessionValidRequirement"/> is included automatically.
 		/// </summary>
 		readonly Func<ValueTask<IEnumerable<IAuthorizationRequirement>>> getRequirements;
@@ -35,9 +40,7 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// </summary>
 		/// <param name="result">The <typeparamref name="TResult"/> to convert.</param>
 		/// <returns>A new <see cref="RequirementsGated{TResult}"/> based on <paramref name="result"/>.</returns>
-#pragma warning disable CA1000 // Do not declare static members on generic types
 		public static RequirementsGated<TResult> FromResult(TResult result)
-#pragma warning restore CA1000 // Do not declare static members on generic types
 			=> new(
 				() => (IAuthorizationRequirement?)null,
 				() => ValueTask.FromResult(result));
@@ -87,10 +90,12 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// </summary>
 		/// <param name="getRequirement">The value of <see cref="getRequirements"/>. Resulting in a <see langword="null"/> value is eqivalent to returning an empty <see cref="IEnumerable{T}"/> of <see cref="IAuthorizationRequirement"/>s.</param>
 		/// <param name="getResponse">The value of <see cref="getResponse"/>.</param>
+		/// <param name="instanceId">The value of <see cref="InstanceId"/>.</param>
 		/// <param name="doNotAddUserSessionValidRequirement">The value of <see cref="doNotAddUserSessionValidRequirement"/>.</param>
 		public RequirementsGated(
 			Func<IAuthorizationRequirement?> getRequirement,
 			Func<ValueTask<TResult>> getResponse,
+			long? instanceId = null,
 			bool doNotAddUserSessionValidRequirement = false)
 		{
 			ArgumentNullException.ThrowIfNull(getRequirement);
@@ -111,6 +116,7 @@ namespace Tgstation.Server.Host.Authority.Core
 			this.getResponse = _ => getResponse();
 
 			this.doNotAddUserSessionValidRequirement = doNotAddUserSessionValidRequirement;
+			InstanceId = instanceId;
 		}
 
 		/// <summary>

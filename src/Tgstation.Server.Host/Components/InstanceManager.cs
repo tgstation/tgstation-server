@@ -275,13 +275,11 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public IInstanceReference? GetInstanceReference(Api.Models.Instance metadata)
+		public IInstanceReference? GetInstanceReference(long instanceId)
 		{
-			ArgumentNullException.ThrowIfNull(metadata);
-
 			lock (instances)
 			{
-				if (!instances.TryGetValue(metadata.Require(x => x.Id), out var instance))
+				if (!instances.TryGetValue(instanceId, out var instance))
 					return null;
 
 				return instance.AddReference();
@@ -294,7 +292,7 @@ namespace Tgstation.Server.Host.Components
 			ArgumentNullException.ThrowIfNull(oldPath);
 
 			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
-			using var instanceReferenceCheck = GetInstanceReference(instance);
+			using var instanceReferenceCheck = this.GetInstanceReference(instance);
 			if (instanceReferenceCheck != null)
 				throw new InvalidOperationException("Cannot move an online instance!");
 			var newPath = instance.Path!;

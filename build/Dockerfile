@@ -1,8 +1,5 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0-preview-trixie-slim AS build
 
-# Set in CI
-ARG TGS_TELEMETRY_KEY_FILE=
-
 # install node and npm
 # replace shell with bash so we can source files
 RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | sh
@@ -50,8 +47,7 @@ RUN dotnet publish -c Release -o /app \
 
 WORKDIR /repo/src/Tgstation.Server.Host
 
-RUN export TGS_TELEMETRY_KEY_FILE="../../${TGS_TELEMETRY_KEY_FILE}" \
-	&& dotnet publish -c Release -o /app/lib/Default \
+RUN dotnet publish -c Release -o /app/lib/Default \
 	&& cd ../.. \
 	&& build/RemoveUnsupportedRuntimes.sh /app/lib/Default \
 	&& mv /app/lib/Default/appsettings* /app

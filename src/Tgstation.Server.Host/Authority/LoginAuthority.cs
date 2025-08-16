@@ -144,7 +144,7 @@ namespace Tgstation.Server.Host.Authority
 			=> new(
 				() => null,
 				() => AttemptLoginImpl(cancellationToken),
-				true);
+				doNotAddUserSessionValidRequirement: true);
 
 		/// <inheritdoc />
 		public RequirementsGated<AuthorityResponse<OAuthGatewayLoginResult>> AttemptOAuthGatewayLogin(CancellationToken cancellationToken)

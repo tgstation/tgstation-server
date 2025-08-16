@@ -962,31 +962,6 @@ namespace Tgstation.Server.Host.Setup
 		}
 
 		/// <summary>
-		/// Prompts the user to create a <see cref="TelemetryConfiguration"/>.
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the new <see cref="TelemetryConfiguration"/>.</returns>
-		async ValueTask<TelemetryConfiguration> ConfigureTelemetry(CancellationToken cancellationToken)
-		{
-			bool enableReporting = await PromptYesNo("Enable version telemetry? This anonymously reports the TGS version in use.", true, cancellationToken);
-
-			string? serverFriendlyName = null;
-			if (enableReporting)
-			{
-				await console.WriteAsync("(Optional) Publically associate your reported version with a friendly name:", false, cancellationToken);
-				serverFriendlyName = await console.ReadLineAsync(false, cancellationToken);
-				if (String.IsNullOrWhiteSpace(serverFriendlyName))
-					serverFriendlyName = null;
-			}
-
-			return new TelemetryConfiguration
-			{
-				DisableVersionReporting = !enableReporting,
-				ServerFriendlyName = serverFriendlyName,
-			};
-		}
-
-		/// <summary>
 		/// Saves a given <see cref="Configuration"/> set to <paramref name="userConfigFileName"/>.
 		/// </summary>
 		/// <param name="userConfigFileName">The file to save the <see cref="Configuration"/> to.</param>
@@ -996,7 +971,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="fileLoggingConfiguration">The <see cref="FileLoggingConfiguration"/> to save.</param>
 		/// <param name="elasticsearchConfiguration">The <see cref="ElasticsearchConfiguration"/> to save.</param>
 		/// <param name="controlPanelConfiguration">The <see cref="ControlPanelConfiguration"/> to save.</param>
-		/// <param name="telemetryConfiguration">The <see cref="TelemetryConfiguration"/> to save.</param>
+		/// <param name="swarmConfiguration">The <see cref="SwarmConfiguration"/> to save.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask SaveConfiguration(
@@ -1007,7 +982,7 @@ namespace Tgstation.Server.Host.Setup
 			FileLoggingConfiguration? fileLoggingConfiguration,
 			ElasticsearchConfiguration? elasticsearchConfiguration,
 			ControlPanelConfiguration controlPanelConfiguration,
-			TelemetryConfiguration? telemetryConfiguration,
+			SwarmConfiguration? swarmConfiguration,
 			CancellationToken cancellationToken)
 		{
 			apiSpec ??= new HostingSpecification
@@ -1027,7 +1002,6 @@ namespace Tgstation.Server.Host.Setup
 				{ FileLoggingConfiguration.Section, fileLoggingConfiguration },
 				{ ElasticsearchConfiguration.Section, elasticsearchConfiguration },
 				{ ControlPanelConfiguration.Section, controlPanelConfiguration },
-				{ TelemetryConfiguration.Section, telemetryConfiguration },
 				{
 					SessionConfiguration.Section,
 					new SessionConfiguration
@@ -1035,6 +1009,7 @@ namespace Tgstation.Server.Host.Setup
 						BridgePort = apiSpec.Port,
 					}
 				},
+				{ SwarmConfiguration.Section, swarmConfiguration },
 			};
 
 			var versionConverter = new VersionConverter();
@@ -1107,7 +1082,7 @@ namespace Tgstation.Server.Host.Setup
 
 			var controlPanelConfiguration = await ConfigureControlPanel(cancellationToken);
 
-			var telemetryConfiguration = await ConfigureTelemetry(cancellationToken);
+			var swarmConfiguration = await ConfigureSwarm(cancellationToken);
 
 			await console.WriteAsync(null, true, cancellationToken);
 			await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName), true, cancellationToken);
@@ -1120,7 +1095,7 @@ namespace Tgstation.Server.Host.Setup
 				fileLoggingConfiguration,
 				elasticSearchConfiguration,
 				controlPanelConfiguration,
-				telemetryConfiguration,
+				swarmConfiguration,
 				cancellationToken);
 		}
 

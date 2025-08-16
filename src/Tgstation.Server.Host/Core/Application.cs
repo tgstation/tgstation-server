@@ -13,8 +13,6 @@ using Cyberboss.AspNetCore.AsyncInitializer;
 using Elastic.CommonSchema.Serilog;
 
 using HotChocolate.AspNetCore;
-using HotChocolate.Subscriptions;
-using HotChocolate.Types;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -67,11 +65,7 @@ using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
-using Tgstation.Server.Host.GraphQL;
-using Tgstation.Server.Host.GraphQL.Interceptors;
-using Tgstation.Server.Host.GraphQL.Scalars;
 using Tgstation.Server.Host.GraphQL.Subscriptions;
-using Tgstation.Server.Host.GraphQL.Types;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Properties;
@@ -175,7 +169,8 @@ namespace Tgstation.Server.Host.Core
 			// configure configuration
 			services.UseStandardConfig<UpdatesConfiguration>(Configuration);
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
-			services.UseStandardConfig<TelemetryConfiguration>(Configuration);
+			services.UseStandardConfig<SwarmConfiguration>(Configuration);
+			services.UseStandardConfig<SessionConfiguration>(Configuration);
 
 			// Set the timeout for IHostedService.StopAsync
 			services.Configure<HostOptions>(
@@ -327,52 +322,9 @@ namespace Tgstation.Server.Host.Core
 
 			// configure graphql
 			services
-				.AddScoped<GraphQL.Subscriptions.ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
+				.AddScoped<ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
 				.AddGraphQLServer()
-				.ModifyOptions(options =>
-				{
-					options.EnsureAllNodesCanBeResolved = true;
-					options.EnableFlagEnums = true;
-				})
-#if DEBUG
-				.ModifyCostOptions(options =>
-				{
-					options.EnforceCostLimits = false;
-				})
-#endif
-				.AddMutationConventions()
-				.AddInMemorySubscriptions(
-					new SubscriptionOptions
-					{
-						TopicBufferCapacity = 1024, // mainly so high for tests, not possible to DoS the server without authentication and some other access to generate messages
-					})
-				.AddGlobalObjectIdentification()
-				.AddQueryFieldToMutationPayloads()
-				.ModifyOptions(options =>
-				{
-					options.EnableDefer = true;
-				})
-				.ModifyPagingOptions(pagingOptions =>
-				{
-					pagingOptions.IncludeTotalCount = true;
-					pagingOptions.RequirePagingBoundaries = false;
-					pagingOptions.DefaultPageSize = ApiController.DefaultPageSize;
-					pagingOptions.MaxPageSize = ApiController.MaximumPageSize;
-				})
-				.AddFiltering()
-				.AddSorting()
-				.AddHostTypes()
-				.AddAuthorization()
-				.AddErrorFilter<ErrorMessageFilter>()
-				.AddType<StandaloneNode>()
-				.AddType<LocalGateway>()
-				.AddType<GraphQL.Types.UserName>()
-				.AddType<UnsignedIntType>()
-				.BindRuntimeType<Version, SemverType>()
-				.TryAddTypeInterceptor<RightsTypeInterceptor>()
-				.AddQueryType<Query>()
-				.AddMutationType<Mutation>()
-				.AddSubscriptionType<Subscription>();
+				.ConfigureGraphQLServer();
 
 			void AddTypedContext<TContext>()
 				where TContext : DatabaseContext
@@ -523,6 +475,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddScoped<IUserGroupAuthority, UserGroupAuthority>();
 			services.AddScoped<IPermissionSetAuthority, PermissionSetAuthority>();
 			services.AddScoped<IAdministrationAuthority, AdministrationAuthority>();
+			services.AddScoped<IChatAuthority, ChatAuthority>();
 
 			// configure misc services
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
@@ -532,7 +485,6 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<BridgeController>();
 			services.AddSingleton(fileSystem);
 			services.AddHostedService<CommandPipeManager>();
-			services.AddHostedService<VersionReportingService>();
 
 			services.AddFileDownloader();
 			services.AddGitHub();
