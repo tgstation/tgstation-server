@@ -60,16 +60,15 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// </summary>
 		public required UserGroup? Group { get; set; }
 
+		/// <summary>
+		/// The <see cref="PermissionSet"/> associated with the <see cref="User"/>.
+		/// </summary>
+		public required PermissionSet EffectivePermissionSet { get; set; }
+
 				/// <summary>
 		/// The <see cref="PermissionSet"/> for the user if the user does not belong to a <see cref="Group"/>.
 		/// </summary>
 		public required PermissionSet? OwnedPermissionSet { get; set; }
-
-		/// <summary>
-		/// The <see cref="Entity.Id"/> of the <see cref="CreatedBy"/> <see cref="User"/>.
-		/// </summary>
-		[IsProjected(true)]
-		public required long? GroupId { get; init; }
 
 		/// <summary>
 		/// The <see cref="Entity.Id"/> of the <see cref="CreatedBy"/> <see cref="User"/>.
@@ -168,35 +167,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			ArgumentNullException.ThrowIfNull(userAuthority);
 			return userAuthority.Invoke<OidcConnection[], OidcConnection[]>(
 				authority => authority.OidcConnections(Id, cancellationToken));
-		}
-
-		/// <summary>
-		/// The <see cref="PermissionSet"/> associated with the <see cref="User"/>.
-		/// </summary>
-		/// <param name="permissionSetAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IPermissionSetAuthority"/>.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="PermissionSet"/> associated with the <see cref="User"/>.</returns>
-		public ValueTask<PermissionSet> EffectivePermissionSet(
-			[Service] IGraphQLAuthorityInvoker<IPermissionSetAuthority> permissionSetAuthority,
-			CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(permissionSetAuthority);
-
-			long lookupId;
-			PermissionSetLookupType lookupType;
-			if (GroupId.HasValue)
-			{
-				lookupId = GroupId.Value;
-				lookupType = PermissionSetLookupType.GroupId;
-			}
-			else
-			{
-				lookupId = Id;
-				lookupType = PermissionSetLookupType.UserId;
-			}
-
-			return permissionSetAuthority.InvokeTransformable<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
-				authority => authority.GetId(lookupId, lookupType, cancellationToken));
 		}
 	}
 }

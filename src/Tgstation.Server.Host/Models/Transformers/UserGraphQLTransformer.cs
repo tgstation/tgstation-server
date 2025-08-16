@@ -19,17 +19,21 @@ namespace Tgstation.Server.Host.Models.Transformers
 					  GraphQL.Types.PermissionSet,
 					  UserGroupGraphQLTransformer,
 					  PermissionSetGraphQLTransformer>(
-					  (model, group, permissionSet) => new GraphQL.Types.User
+					  (model, group, ownedPermissionSet) => new GraphQL.Types.User
 					  {
 						  CreatedAt = model.CreatedAt ?? NotNullFallback<DateTimeOffset>(),
 						  CanonicalName = model.CanonicalName ?? NotNullFallback<string>(),
 						  CreatedById = model.CreatedById,
 						  Enabled = model.Enabled ?? NotNullFallback<bool>(),
-						  GroupId = model.GroupId,
 						  Id = model.Id!.Value,
 						  Name = model.Name ?? NotNullFallback<string>(),
 						  SystemIdentifier = model.SystemIdentifier,
-						  OwnedPermissionSet = permissionSet,
+						  OwnedPermissionSet = ownedPermissionSet,
+						  EffectivePermissionSet = ownedPermissionSet != null
+							? ownedPermissionSet
+							: group != null
+								? group.PermissionSet
+								: NotNullFallback<GraphQL.Types.PermissionSet>(),
 						  Group = group,
 					  },
 					  model => model.Group,
