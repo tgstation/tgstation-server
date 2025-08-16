@@ -40,16 +40,6 @@ namespace Tgstation.Server.Host.Authority
 		readonly IUsersDataLoader usersDataLoader;
 
 		/// <summary>
-		/// The <see cref="IOAuthConnectionsDataLoader"/> for the <see cref="UserAuthority"/>.
-		/// </summary>
-		readonly IOAuthConnectionsDataLoader oAuthConnectionsDataLoader;
-
-		/// <summary>
-		/// The <see cref="IOidcConnectionsDataLoader"/> for the <see cref="UserAuthority"/>.
-		/// </summary>
-		readonly IOidcConnectionsDataLoader oidcConnectionsDataLoader;
-
-		/// <summary>
 		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="UserAuthority"/>.
 		/// </summary>
 		readonly ISystemIdentityFactory systemIdentityFactory;
@@ -112,66 +102,6 @@ namespace Tgstation.Server.Host.Authority
 		}
 
 		/// <summary>
-		/// Implements the <see cref="oAuthConnectionsDataLoader"/>.
-		/// </summary>
-		/// <param name="userIds">The <see cref="IReadOnlyCollection{T}"/> of <see cref="User"/> <see cref="EntityId.Id"/>s to load the OAuthConnections for.</param>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to load from.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of the requested <see cref="User"/>s.</returns>
-		[DataLoader]
-		public static async ValueTask<ILookup<long, GraphQL.Types.OAuth.OAuthConnection>> GetOAuthConnections(
-			IReadOnlyList<long> userIds,
-			IDatabaseContext databaseContext,
-			CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(userIds);
-			ArgumentNullException.ThrowIfNull(databaseContext);
-
-			var list = await databaseContext
-				.OAuthConnections
-				.Where(x => userIds.Contains(x.User!.Id!.Value))
-				.ToListAsync(cancellationToken);
-
-			return list.ToLookup(
-				oAuthConnection => oAuthConnection.UserId,
-				x => new GraphQL.Types.OAuth.OAuthConnection
-				{
-					ExternalUserId = x.ExternalUserId!,
-					Provider = x.Provider,
-				});
-		}
-
-		/// <summary>
-		/// Implements the <see cref="oidcConnectionsDataLoader"/>.
-		/// </summary>
-		/// <param name="userIds">The <see cref="IReadOnlyCollection{T}"/> of <see cref="User"/> <see cref="EntityId.Id"/>s to load the OidcConnections for.</param>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to load from.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of the requested <see cref="User"/>s.</returns>
-		[DataLoader]
-		public static async ValueTask<ILookup<long, GraphQL.Types.OAuth.OidcConnection>> GetOidcConnections(
-			IReadOnlyList<long> userIds,
-			IDatabaseContext databaseContext,
-			CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(userIds);
-			ArgumentNullException.ThrowIfNull(databaseContext);
-
-			var list = await databaseContext
-				.OidcConnections
-				.Where(x => userIds.Contains(x.User!.Id!.Value))
-				.ToListAsync(cancellationToken);
-
-			return list.ToLookup(
-				oidcConnection => oidcConnection.UserId,
-				x => new GraphQL.Types.OAuth.OidcConnection
-				{
-					ExternalUserId = x.ExternalUserId!,
-					SchemeKey = x.SchemeKey!,
-				});
-		}
-
-		/// <summary>
 		/// Check if a given <paramref name="model"/> has a valid <see cref="UserName.Name"/> specified.
 		/// </summary>
 		/// <param name="model">The <see cref="UserUpdateRequest"/> to check.</param>
@@ -195,8 +125,6 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to use.</param>
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
 		/// <param name="usersDataLoader">The value of <see cref="usersDataLoader"/>.</param>
-		/// <param name="oAuthConnectionsDataLoader">The value of <see cref="oAuthConnectionsDataLoader"/>.</param>
-		/// <param name="oidcConnectionsDataLoader">The value of <see cref="oidcConnectionsDataLoader"/>.</param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="permissionsUpdateNotifyee">The value of <see cref="permissionsUpdateNotifyee"/>.</param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
@@ -209,8 +137,6 @@ namespace Tgstation.Server.Host.Authority
 			IDatabaseContext databaseContext,
 			ILogger<UserAuthority> logger,
 			IUsersDataLoader usersDataLoader,
-			IOAuthConnectionsDataLoader oAuthConnectionsDataLoader,
-			IOidcConnectionsDataLoader oidcConnectionsDataLoader,
 			ISystemIdentityFactory systemIdentityFactory,
 			IPermissionsUpdateNotifyee permissionsUpdateNotifyee,
 			ICryptographySuite cryptographySuite,
@@ -224,8 +150,6 @@ namespace Tgstation.Server.Host.Authority
 				  logger)
 		{
 			this.usersDataLoader = usersDataLoader ?? throw new ArgumentNullException(nameof(usersDataLoader));
-			this.oAuthConnectionsDataLoader = oAuthConnectionsDataLoader ?? throw new ArgumentNullException(nameof(oAuthConnectionsDataLoader));
-			this.oidcConnectionsDataLoader = oidcConnectionsDataLoader ?? throw new ArgumentNullException(nameof(oidcConnectionsDataLoader));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.permissionsUpdateNotifyee = permissionsUpdateNotifyee ?? throw new ArgumentNullException(nameof(permissionsUpdateNotifyee));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
