@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Host.Models.Transformers;
+using Tgstation.Server.Host.GraphQL.Transformers;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Models
 	/// </summary>
 	public sealed class UpdatedUser :
 		ILegacyApiTransformable<UserResponse>,
-		IApiTransformable<UpdatedUser, GraphQL.Types.UpdatedUser, UpdatedUserGraphQLTransformer>
+		IApiTransformable<UpdatedUser, GraphQL.Types.UpdatedUser, UpdatedUserTransformer>
 	{
 		/// <summary>
 		/// The <see cref="User"/>'s <see cref="Api.Models.EntityId.Id"/>.

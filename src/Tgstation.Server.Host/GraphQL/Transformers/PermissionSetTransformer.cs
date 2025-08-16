@@ -1,26 +1,26 @@
 ﻿using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.GraphQL.Types;
 
-namespace Tgstation.Server.Host.Models.Transformers
+namespace Tgstation.Server.Host.GraphQL.Transformers
 {
 	/// <summary>
-	/// <see cref="ITransformer{TInput, TOutput}"/> for <see cref="GraphQL.Types.PermissionSet"/>s.
+	/// <see cref="Models.ITransformer{TInput, TOutput}"/> for <see cref="PermissionSet"/>s.
 	/// </summary>
-	sealed class PermissionSetGraphQLTransformer : TransformerBase<PermissionSet, GraphQL.Types.PermissionSet>
+	sealed class PermissionSetTransformer : Models.TransformerBase<Models.PermissionSet, PermissionSet>
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PermissionSetGraphQLTransformer"/> class.
+		/// Initializes a new instance of the <see cref="PermissionSetTransformer"/> class.
 		/// </summary>
-		public PermissionSetGraphQLTransformer()
+		public PermissionSetTransformer()
 			: base(
 				  BuildSubProjection<
 					  InstanceManagerRights?,
 					  AdministrationRights?,
 					  RightsHolder<InstanceManagerRights>,
 					  RightsHolder<AdministrationRights>,
-					  RightsHolderGraphQLTransformer<InstanceManagerRights>,
-					  RightsHolderGraphQLTransformer<AdministrationRights>>(
-				  (model, instanceManagerRights, administrationRights) => new GraphQL.Types.PermissionSet
+					  RightsHolderTransformer<InstanceManagerRights>,
+					  RightsHolderTransformer<AdministrationRights>>(
+				  (model, instanceManagerRights, administrationRights) => new PermissionSet
 				  {
 					  AdministrationRights = administrationRights ?? NotNullFallback<RightsHolder<AdministrationRights>>(),
 					  InstanceManagerRights = instanceManagerRights ?? NotNullFallback<RightsHolder<InstanceManagerRights>>(),

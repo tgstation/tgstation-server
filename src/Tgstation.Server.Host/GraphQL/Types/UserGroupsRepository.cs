@@ -9,7 +9,7 @@ using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
-using Tgstation.Server.Host.Models.Transformers;
+using Tgstation.Server.Host.GraphQL.Transformers;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userGroupAuthority);
-			return userGroupAuthority.InvokeTransformableAllowMissing<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(authority => authority.Read(cancellationToken));
+			return userGroupAuthority.InvokeTransformableAllowMissing<Models.UserGroup, UserGroup, UserGroupTransformer>(authority => authority.Read(cancellationToken));
 		}
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userGroupAuthority);
-			var dtoQueryable = await userGroupAuthority.InvokeTransformableQueryable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(
+			var dtoQueryable = await userGroupAuthority.InvokeTransformableQueryable<Models.UserGroup, UserGroup, UserGroupTransformer>(
 				authority => authority.Queryable(false));
 			return dtoQueryable;
 		}
@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			var dtoQueryable = await userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(
+			var dtoQueryable = await userAuthority.InvokeTransformableQueryable<Models.User, User, UserTransformer>(
 				authority => authority
 					.Queryable(false),
 				queryable => queryable.Where(user => user.GroupId == groupId));

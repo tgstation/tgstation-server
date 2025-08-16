@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Extensions;
 
-namespace Tgstation.Server.Host.Models.Transformers
+namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
 	abstract class TransformerBase<TInput, TOutput> : ITransformer<TInput, TOutput>

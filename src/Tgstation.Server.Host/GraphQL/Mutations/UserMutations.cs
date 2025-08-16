@@ -11,9 +11,9 @@ using HotChocolate.Types.Relay;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.GraphQL.Mutations.Payloads;
+using Tgstation.Server.Host.GraphQL.Transformers;
 using Tgstation.Server.Host.GraphQL.Types;
 using Tgstation.Server.Host.GraphQL.Types.OAuth;
-using Tgstation.Server.Host.Models.Transformers;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.GraphQL.Mutations
@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			ArgumentNullException.ThrowIfNull(password);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
-			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserGraphQLTransformer>(
+			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserTransformer>(
 				authority => authority.Create(
 					new UserCreateRequest
 					{
@@ -112,7 +112,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			ArgumentNullException.ThrowIfNull(password);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
-			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserGraphQLTransformer>(
+			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserTransformer>(
 				authority => authority.Create(
 					new UserCreateRequest
 					{
@@ -167,7 +167,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			ArgumentNullException.ThrowIfNull(oAuthConnections);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
-			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserGraphQLTransformer>(
+			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserTransformer>(
 				authority => authority.Create(
 					new UserCreateRequest
 					{
@@ -225,7 +225,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			ArgumentNullException.ThrowIfNull(oAuthConnections);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
-			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserGraphQLTransformer>(
+			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserTransformer>(
 				authority => authority.Create(
 					new UserCreateRequest
 					{
@@ -279,7 +279,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			ArgumentNullException.ThrowIfNull(systemIdentifier);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
-			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserGraphQLTransformer>(
+			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserTransformer>(
 				authority => authority.Create(
 					new UserCreateRequest
 					{
@@ -335,7 +335,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			ArgumentNullException.ThrowIfNull(systemIdentifier);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
-			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserGraphQLTransformer>(
+			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserTransformer>(
 				authority => authority.Create(
 					new UserCreateRequest
 					{
@@ -381,7 +381,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		{
 			ArgumentNullException.ThrowIfNull(newPassword);
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserGraphQLTransformer>(
+			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserTransformer>(
 				authority => authority.Update(
 					new UserUpdateRequest
 					{
@@ -410,7 +410,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		{
 			ArgumentNullException.ThrowIfNull(newOAuthConnections);
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserGraphQLTransformer>(
+			return userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserTransformer>(
 				authority => authority.Update(
 					new UserUpdateRequest
 					{
@@ -573,7 +573,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			IEnumerable<OidcConnection>? newOidcConnections,
 			IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
-			=> userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserGraphQLTransformer>(
+			=> userAuthority.InvokeTransformable<Models.UpdatedUser, UpdatedUser, UpdatedUserTransformer>(
 				authority => authority.Update(
 					new UserUpdateRequest
 					{

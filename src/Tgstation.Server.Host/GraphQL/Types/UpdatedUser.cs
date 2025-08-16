@@ -2,8 +2,8 @@
 
 using HotChocolate.Types.Relay;
 
+using Tgstation.Server.Host.GraphQL.Transformers;
 using Tgstation.Server.Host.Models;
-using Tgstation.Server.Host.Models.Transformers;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		public UpdatedUser(Models.User user)
 			: this((user ?? throw new ArgumentNullException(nameof(user))).Require(u => u.Id))
 		{
-			User = ((IApiTransformable<Models.User, User, UserGraphQLTransformer>)user).ToApi();
+			User = ((IApiTransformable<Models.User, User, UserTransformer>)user).ToApi();
 		}
 
 		/// <summary>

@@ -8,7 +8,7 @@ using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.GraphQL.Interfaces;
-using Tgstation.Server.Host.Models.Transformers;
+using Tgstation.Server.Host.GraphQL.Transformers;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.InvokeTransformableAllowMissing<Models.User, UserName, UserNameGraphQLTransformer>(
+			return userAuthority.InvokeTransformableAllowMissing<Models.User, UserName, UserNameTransformer>(
 				authority => authority.GetId(id, false, true, cancellationToken));
 		}
 

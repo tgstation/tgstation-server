@@ -1,25 +1,27 @@
 ﻿using System;
 
-namespace Tgstation.Server.Host.Models.Transformers
+using Tgstation.Server.Host.GraphQL.Types;
+
+namespace Tgstation.Server.Host.GraphQL.Transformers
 {
 	/// <summary>
-	/// <see cref="ITransformer{TInput, TOutput}"/> for <see cref="GraphQL.Types.User"/>s.
+	/// <see cref="Models.ITransformer{TInput, TOutput}"/> for <see cref="User"/>s.
 	/// </summary>
-	sealed class UserGraphQLTransformer : TransformerBase<User, GraphQL.Types.User>
+	sealed class UserTransformer : Models.TransformerBase<Models.User, User>
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="UserGraphQLTransformer"/> class.
+		/// Initializes a new instance of the <see cref="UserTransformer"/> class.
 		/// </summary>
-		public UserGraphQLTransformer()
+		public UserTransformer()
 			: base(
 				  BuildSubProjection<
+					  Models.UserGroup,
+					  Models.PermissionSet,
 					  UserGroup,
 					  PermissionSet,
-					  GraphQL.Types.UserGroup,
-					  GraphQL.Types.PermissionSet,
-					  UserGroupGraphQLTransformer,
-					  PermissionSetGraphQLTransformer>(
-					  (model, group, ownedPermissionSet) => new GraphQL.Types.User
+					  UserGroupTransformer,
+					  PermissionSetTransformer>(
+					  (model, group, ownedPermissionSet) => new User
 					  {
 						  CreatedAt = model.CreatedAt ?? NotNullFallback<DateTimeOffset>(),
 						  CanonicalName = model.CanonicalName ?? NotNullFallback<string>(),
@@ -29,11 +31,10 @@ namespace Tgstation.Server.Host.Models.Transformers
 						  Name = model.Name ?? NotNullFallback<string>(),
 						  SystemIdentifier = model.SystemIdentifier,
 						  OwnedPermissionSet = ownedPermissionSet,
-						  EffectivePermissionSet = ownedPermissionSet != null
-							? ownedPermissionSet
-							: group != null
+						  EffectivePermissionSet = ownedPermissionSet ??
+							(group != null
 								? group.PermissionSet
-								: NotNullFallback<GraphQL.Types.PermissionSet>(),
+								: NotNullFallback<PermissionSet>()),
 						  Group = group,
 					  },
 					  model => model.Group,

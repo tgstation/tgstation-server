@@ -5,14 +5,14 @@ using System.Linq;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Host.Models.Transformers;
+using Tgstation.Server.Host.GraphQL.Transformers;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
 	/// Represents a group of <see cref="User"/>s.
 	/// </summary>
-	public sealed class UserGroup : NamedEntity, ILegacyApiTransformable<UserGroupResponse>, IApiTransformable<UserGroup, GraphQL.Types.UserGroup, UserGroupGraphQLTransformer>
+	public sealed class UserGroup : NamedEntity, ILegacyApiTransformable<UserGroupResponse>, IApiTransformable<UserGroup, GraphQL.Types.UserGroup, UserGroupTransformer>
 	{
 		/// <summary>
 		/// The <see cref="Models.PermissionSet"/> the <see cref="UserGroup"/> has.

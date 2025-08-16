@@ -8,8 +8,8 @@ using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.GraphQL.Mutations.Payloads;
+using Tgstation.Server.Host.GraphQL.Transformers;
 using Tgstation.Server.Host.GraphQL.Types;
-using Tgstation.Server.Host.Models.Transformers;
 
 namespace Tgstation.Server.Host.GraphQL.Mutations
 {
@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			ArgumentNullException.ThrowIfNull(name);
 			ArgumentNullException.ThrowIfNull(userGroupAuthority);
 
-			return userGroupAuthority.InvokeTransformable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(
+			return userGroupAuthority.InvokeTransformable<Models.UserGroup, UserGroup, UserGroupTransformer>(
 				authority => authority.Create(name, TransformApiPermissionSet(permissionSet), cancellationToken));
 		}
 
@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userGroupAuthority);
-			return userGroupAuthority.InvokeTransformable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(
+			return userGroupAuthority.InvokeTransformable<Models.UserGroup, UserGroup, UserGroupTransformer>(
 				authority => authority.Update(id, newName, TransformApiPermissionSet(newPermissionSet), cancellationToken));
 		}
 

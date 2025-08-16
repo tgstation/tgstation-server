@@ -24,8 +24,8 @@ using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.GraphQL.Transformers;
 using Tgstation.Server.Host.Models;
-using Tgstation.Server.Host.Models.Transformers;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.RightsEvaluation;
 
@@ -743,7 +743,7 @@ namespace Tgstation.Server.Host.Authority
 					user.Require(x => x.Id))
 					.Select(topic => topicEventSender.SendAsync(
 						topic,
-						((IApiTransformable<User, GraphQL.Types.User, UserGraphQLTransformer>)user).ToApi(),
+						((IApiTransformable<User, GraphQL.Types.User, UserTransformer>)user).ToApi(),
 						CancellationToken.None))); // DCT: Operation should always run
 
 		/// <summary>

@@ -5,15 +5,15 @@ using System.Linq;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Host.Models.Transformers;
+using Tgstation.Server.Host.GraphQL.Transformers;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.UserModelBase" />
 	public sealed class User : Api.Models.Internal.UserModelBase,
 		ILegacyApiTransformable<UserResponse>,
-		IApiTransformable<User, GraphQL.Types.User, UserGraphQLTransformer>,
-		IApiTransformable<User, GraphQL.Types.UserName, UserNameGraphQLTransformer>
+		IApiTransformable<User, GraphQL.Types.User, UserTransformer>,
+		IApiTransformable<User, GraphQL.Types.UserName, UserNameTransformer>
 	{
 		/// <summary>
 		/// Username used when creating jobs automatically.

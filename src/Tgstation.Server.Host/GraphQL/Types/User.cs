@@ -16,8 +16,8 @@ using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.GraphQL.Interfaces;
+using Tgstation.Server.Host.GraphQL.Transformers;
 using Tgstation.Server.Host.GraphQL.Types.OAuth;
-using Tgstation.Server.Host.Models.Transformers;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
@@ -94,7 +94,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			ArgumentNullException.ThrowIfNull(ids);
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
-			return userAuthority.ExecuteDataLoader<Models.User, User, UserGraphQLTransformer>(
+			return userAuthority.ExecuteDataLoader<Models.User, User, UserTransformer>(
 				(authority, id) => authority.GetId<User>(id, false, cancellationToken),
 				ids,
 				queryContext);
@@ -132,7 +132,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			if (!CreatedById.HasValue)
 				return null;
 
-			var user = await userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(authority => authority.GetId(CreatedById.Value, false, true, cancellationToken));
+			var user = await userAuthority.InvokeTransformable<Models.User, User, UserTransformer>(authority => authority.GetId(CreatedById.Value, false, true, cancellationToken));
 			if (user.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 				return new UserName(user);
 
@@ -154,7 +154,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.InvokeTransformableQueryable<Models.OAuthConnection, OAuthConnection, OAuthConnectionGraphQLTransformer>(
+			return userAuthority.InvokeTransformableQueryable<Models.OAuthConnection, OAuthConnection, OAuthConnectionTransformer>(
 				authority => authority.OAuthConnections(Id, cancellationToken));
 		}
 
@@ -173,7 +173,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.InvokeTransformableQueryable<Models.OidcConnection, OidcConnection, OidcConnectionGraphQLTransformer>(
+			return userAuthority.InvokeTransformableQueryable<Models.OidcConnection, OidcConnection, OidcConnectionTransformer>(
 				authority => authority.OidcConnections(Id, cancellationToken));
 		}
 	}

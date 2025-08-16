@@ -14,7 +14,7 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Models.Transformers;
+using Tgstation.Server.Host.GraphQL.Transformers;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.InvokeTransformable<Models.User, User, UserGraphQLTransformer>(authority => authority.Read(cancellationToken));
+			return userAuthority.InvokeTransformable<Models.User, User, UserTransformer>(authority => authority.Read(cancellationToken));
 		}
 
 		/// <summary>
@@ -77,7 +77,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			var dtoQueryable = await userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(
+			var dtoQueryable = await userAuthority.InvokeTransformableQueryable<Models.User, User, UserTransformer>(
 				authority => authority.Queryable(false));
 			return dtoQueryable;
 		}

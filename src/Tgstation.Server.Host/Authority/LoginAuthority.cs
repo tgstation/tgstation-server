@@ -15,8 +15,8 @@ using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.GraphQL.Mutations.Payloads;
+using Tgstation.Server.Host.GraphQL.Transformers;
 using Tgstation.Server.Host.Models;
-using Tgstation.Server.Host.Models.Transformers;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.OAuth;
 using Tgstation.Server.Host.Utils;
@@ -302,7 +302,7 @@ namespace Tgstation.Server.Host.Authority
 				var payload = new LoginResult
 				{
 					Bearer = token,
-					User = ((IApiTransformable<User, GraphQL.Types.User, UserGraphQLTransformer>)user).ToApi(),
+					User = ((IApiTransformable<User, GraphQL.Types.User, UserTransformer>)user).ToApi(),
 				};
 
 				if (usingSystemIdentity)
