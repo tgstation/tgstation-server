@@ -26,10 +26,10 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// If only OIDC logins and registration is allowed.
 		/// </summary>
-		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SecurityConfiguration"/>.</param>
+		/// <param name="securityConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the <see cref="SecurityConfiguration"/>.</param>
 		/// <returns><see langword="true"/> if OIDC strict mode is enabled, <see langword="false"/> otherwise.</returns>
 		public bool OidcStrictMode(
-			[Service] IOptions<SecurityConfiguration> securityConfigurationOptions)
+			[Service] IOptionsSnapshot<SecurityConfiguration> securityConfigurationOptions)
 		{
 			ArgumentNullException.ThrowIfNull(securityConfigurationOptions);
 			return securityConfigurationOptions.Value.OidcStrictMode;

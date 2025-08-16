@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="cryptographySuite">The <see cref="ICryptographySuite"/> used for generating the <see cref="ValidationParameters"/>.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> used to generate the issuer name.</param>
-		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="securityConfigurationOptions"/>.</param>
+		/// <param name="securityConfigurationOptions">The value of <see cref="securityConfigurationOptions"/>.</param>
 		public TokenFactory(
 			ICryptographySuite cryptographySuite,
 			IAssemblyInformationProvider assemblyInformationProvider,
