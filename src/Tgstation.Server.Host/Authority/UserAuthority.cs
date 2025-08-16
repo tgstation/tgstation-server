@@ -85,9 +85,9 @@ namespace Tgstation.Server.Host.Authority
 		readonly IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions;
 
 		/// <summary>
-		/// The <see cref="IOptions{TOptions}"/> of <see cref="SecurityConfiguration"/> for the <see cref="UserAuthority"/>.
+		/// The <see cref="IOptionsSnapshot{TOptions}"/> of <see cref="SecurityConfiguration"/> for the <see cref="UserAuthority"/>.
 		/// </summary>
-		readonly IOptions<SecurityConfiguration> securityConfigurationOptions;
+		readonly IOptionsSnapshot<SecurityConfiguration> securityConfigurationOptions;
 
 		/// <summary>
 		/// Implements the <see cref="usersDataLoader"/>.
@@ -218,7 +218,7 @@ namespace Tgstation.Server.Host.Authority
 			ITopicEventSender topicEventSender,
 			IClaimsPrincipalAccessor claimsPrincipalAccessor,
 			IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<SecurityConfiguration> securityConfigurationOptions)
+			IOptionsSnapshot<SecurityConfiguration> securityConfigurationOptions)
 			: base(
 				  databaseContext,
 				  logger)

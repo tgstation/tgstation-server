@@ -91,8 +91,8 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="GeneralConfiguration"/>.</param>
-		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="SessionConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptionsMonitor{TOptions}"/> containing value of <see cref="GeneralConfiguration"/>.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptionsMonitor{TOptions}"/> containing value of <see cref="SessionConfiguration"/>.</param>
 		public OpenDreamInstaller(
 			IIOManager ioManager,
 			ILogger<OpenDreamInstaller> logger,
