@@ -34,13 +34,13 @@ namespace Tgstation.Server.Tests.Live
 
 		static TestingGitHubService()
 		{
-			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
-			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration
+			var mockOptions = new Mock<IOptionsMonitor<GeneralConfiguration>>();
+			mockOptions.SetupGet(x => x.CurrentValue).Returns(new GeneralConfiguration
 			{
 				GitHubAccessToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")
 			});
 
-			var gitHubClientFactory = new GitHubClientFactory(new AssemblyInformationProvider(), new BasicHttpMessageHandlerFactory(), Mock.Of<ILogger<GitHubClientFactory>>(), mockOptions.Object);
+			var gitHubClientFactory = new GitHubClientFactory(new AssemblyInformationProvider(), new BasicHttpMessageHandlerFactory(), mockOptions.Object, Mock.Of<ILogger<GitHubClientFactory>>());
 			RealClient = gitHubClientFactory.CreateClient(CancellationToken.None).GetAwaiter().GetResult();
 		}
 

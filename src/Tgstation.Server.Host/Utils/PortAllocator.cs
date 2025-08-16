@@ -35,14 +35,14 @@ namespace Tgstation.Server.Host.Utils
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="SwarmConfiguration"/> for the <see cref="PortAllocator"/>.
+		/// </summary>
+		readonly IOptions<SwarmConfiguration> swarmConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="PortAllocator"/>.
 		/// </summary>
 		readonly ILogger<PortAllocator> logger;
-
-		/// <summary>
-		/// The <see cref="SwarmConfiguration"/> for the <see cref="PortAllocator"/>.
-		/// </summary>
-		readonly SwarmConfiguration swarmConfiguration;
 
 		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> used to serialized port requisition requests.
@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Utils
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
-		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
+		/// <param name="swarmConfigurationOptions">The value of <see cref="swarmConfigurationOptions"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public PortAllocator(
 			IServerPortProvider serverPortProvider,
@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Utils
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
-			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
+			this.swarmConfigurationOptions = swarmConfigurationOptions ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			allocatorLock = new SemaphoreSlim(1);
@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.Utils
 			logger.LogTrace("Port allocation >= {basePort} requested...", basePort);
 			var ddPorts = await databaseContext
 				.DreamDaemonSettings
-				.Where(x => x.Instance!.SwarmIdentifer == swarmConfiguration.Identifier)
+				.Where(x => x.Instance!.SwarmIdentifer == swarmConfigurationOptions.Value.Identifier)
 				.Select(x => new
 				{
 					Port = x.Port!.Value,
@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Utils
 
 			var dmPorts = await databaseContext
 				.DreamMakerSettings
-				.Where(x => x.Instance!.SwarmIdentifer == swarmConfiguration.Identifier)
+				.Where(x => x.Instance!.SwarmIdentifer == swarmConfigurationOptions.Value.Identifier)
 				.Select(x => new
 				{
 					ApiValidationPort = x.ApiValidationPort!.Value,
