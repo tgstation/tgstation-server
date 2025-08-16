@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ using GreenDonut.Data;
 
 using HotChocolate;
 using HotChocolate.Data;
+using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
@@ -25,6 +27,14 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	[Node]
 	public sealed class User : NamedEntity, IUserName
 	{
+		/// <inheritdoc />
+		[IsProjected(true)]
+		public override required long Id
+		{
+			get => base.Id;
+			set => base.Id = value;
+		}
+
 		/// <summary>
 		/// If the <see cref="User"/> is enabled since users cannot be deleted. System users cannot be disabled.
 		/// </summary>
@@ -50,7 +60,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// </summary>
 		public required UserGroup? Group { get; set; }
 
-		/// <summary>
+				/// <summary>
 		/// The <see cref="PermissionSet"/> for the user if the user does not belong to a <see cref="Group"/>.
 		/// </summary>
 		public required PermissionSet? OwnedPermissionSet { get; set; }
