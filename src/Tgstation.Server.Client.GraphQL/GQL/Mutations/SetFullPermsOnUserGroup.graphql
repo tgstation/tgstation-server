@@ -25,6 +25,8 @@ mutation SetFullPermsOnUserGroup($id: ID!) {
           canRead: true
           canList: true
           canRelocate: true
+          canSetAutoStart: true
+          canSetAutoStop: true
         }
       }
     }

@@ -1,38 +1,36 @@
 query GetSomeGroupInfo($id: ID!) {
   swarm {
-    users {
-      groups {
-        byId(id: $id) {
-          permissionSet {
-            instanceManagerRights {
-              canCreate
-              canDelete
-              canGrantPermissions
-              canList
-              canRead
-              canRelocate
-              canRename
-              canSetAutoUpdate
-              canSetChatBotLimit
-              canSetConfiguration
-              canSetOnline
-            }
-            administrationRights {
-              canChangeVersion
-              canDownloadLogs
-              canEditOwnServiceConnections
-              canEditOwnPassword
-              canReadUsers
-              canRestartHost
-              canUploadVersion
-              canWriteUsers
-            }
+    userGroups {
+      byId(id: $id) {
+        permissionSet {
+          instanceManagerRights {
+            canCreate
+            canDelete
+            canGrantPermissions
+            canList
+            canRead
+            canRelocate
+            canRename
+            canSetAutoUpdate
+            canSetChatBotLimit
+            canSetConfiguration
+            canSetOnline
           }
-          queryableUsersByGroup(first: 1) {
-            totalCount
-            nodes {
-              id
-            }
+          administrationRights {
+            canChangeVersion
+            canDownloadLogs
+            canEditOwnServiceConnections
+            canEditOwnPassword
+            canReadUsers
+            canRestartHost
+            canUploadVersion
+            canWriteUsers
+          }
+        }
+        queryableUsersByGroup(first: 1) {
+          totalCount
+          nodes {
+            id
           }
         }
       }

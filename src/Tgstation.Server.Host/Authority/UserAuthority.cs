@@ -136,7 +136,11 @@ namespace Tgstation.Server.Host.Authority
 
 			return list.ToLookup(
 				oAuthConnection => oAuthConnection.UserId,
-				x => new GraphQL.Types.OAuth.OAuthConnection(x.ExternalUserId!, x.Provider));
+				x => new GraphQL.Types.OAuth.OAuthConnection
+				{
+					ExternalUserId = x.ExternalUserId!,
+					Provider = x.Provider,
+				});
 		}
 
 		/// <summary>
@@ -163,7 +167,11 @@ namespace Tgstation.Server.Host.Authority
 
 			return list.ToLookup(
 				oidcConnection => oidcConnection.UserId,
-				x => new GraphQL.Types.OAuth.OidcConnection(x.ExternalUserId!, x.SchemeKey!));
+				x => new GraphQL.Types.OAuth.OidcConnection
+				{
+					ExternalUserId = x.ExternalUserId!,
+					SchemeKey = x.SchemeKey!,
+				});
 		}
 
 		/// <summary>
@@ -634,6 +642,43 @@ namespace Tgstation.Server.Host.Authority
 
 					return await responseTask;
 				});
+
+		/// <inheritdoc />
+		public RequirementsGated<Projectable<User, TResult>> GetId<TResult>(long id, bool allowSystemUser, CancellationToken cancellationToken)
+			where TResult : class
+			=> new(
+				() =>
+				{
+					if (id != claimsPrincipalAccessor.User.GetTgsUserId())
+						return Enumerable.Empty<IAuthorizationRequirement>();
+
+					return new List<IAuthorizationRequirement>
+					{
+						Flag(AdministrationRights.ReadUsers),
+					};
+				},
+				() => ValueTask.FromResult(
+					Projectable<User, TResult>.Create(
+						Queryable(true, allowSystemUser)
+							.Where(user => user.Id == id)
+							.TagWith("User by ID"),
+						projected => new ProjectedPair<string, TResult>
+						{
+							Queried = projected.Queried.CanonicalName!,
+							Result = projected.Result,
+						},
+						projected =>
+						{
+							if (projected == default)
+								return NotFound<TResult>();
+
+							string canonicalName = projected.Queried;
+							if (!allowSystemUser && canonicalName == User.CanonicalizeName(User.TgsSystemUserName))
+								return Forbid<TResult>();
+
+							return new AuthorityResponse<TResult>(projected.Result);
+						},
+						cancellationToken)));
 
 		/// <summary>
 		/// Implementation of retrieving a <see cref="User"/> by ID.

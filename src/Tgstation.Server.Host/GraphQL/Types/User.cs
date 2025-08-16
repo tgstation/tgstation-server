@@ -1,12 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
+using GreenDonut;
+using GreenDonut.Data;
+
 using HotChocolate;
-using HotChocolate.Authorization;
+using HotChocolate.Data;
 using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
+using Tgstation.Server.Host.Authority.Core;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.GraphQL.Interfaces;
 using Tgstation.Server.Host.GraphQL.Types.OAuth;
 using Tgstation.Server.Host.Models.Transformers;
@@ -17,7 +23,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// A user registered in the server.
 	/// </summary>
 	[Node]
-	[Authorize]
 	public sealed class User : NamedEntity, IUserName
 	{
 		/// <summary>
@@ -41,32 +46,67 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		public required string? SystemIdentifier { get; init; }
 
 		/// <summary>
+		/// The <see cref="UserGroup"/> for the user.
+		/// </summary>
+		public required UserGroup? Group { get; set; }
+
+		/// <summary>
+		/// The <see cref="PermissionSet"/> for the user if the user does not belong to a <see cref="Group"/>.
+		/// </summary>
+		public required PermissionSet? OwnedPermissionSet { get; set; }
+
+		/// <summary>
 		/// The <see cref="Entity.Id"/> of the <see cref="CreatedBy"/> <see cref="User"/>.
 		/// </summary>
-		[GraphQLIgnore]
+		[IsProjected(true)]
+		public required long? GroupId { get; init; }
+
+		/// <summary>
+		/// The <see cref="Entity.Id"/> of the <see cref="CreatedBy"/> <see cref="User"/>.
+		/// </summary>
+		[IsProjected(true)]
 		public required long? CreatedById { get; init; }
 
 		/// <summary>
-		/// The <see cref="Entity.Id"/> of the <see cref="Group"/>.
+		/// Implements the <see cref="IUserGroupsDataLoader"/>.
 		/// </summary>
-		[GraphQLIgnore]
-		public required long? GroupId { get; init; }
+		/// <param name="ids">The <see cref="IReadOnlyList{T}"/> of <see cref="User"/> <see cref="Api.Models.EntityId.Id"/>s to load.</param>
+		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
+		/// <param name="queryContext">The <see cref="QueryContext{TEntity}"/> for <see cref="User"/> mapped to an <see cref="AuthorityResponse{TResult}"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of the requested <see cref="User"/> <see cref="AuthorityResponse{TResult}"/>s.</returns>
+		[DataLoader(AccessModifier = DataLoaderAccessModifier.PublicInterface)]
+		public static ValueTask<Dictionary<long, AuthorityResponse<User>>> GetUsers(
+			IReadOnlyList<long> ids,
+			IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			QueryContext<AuthorityResponse<User>>? queryContext,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(ids);
+			ArgumentNullException.ThrowIfNull(userAuthority);
+
+			return userAuthority.ExecuteDataLoader<Models.User, User, UserGraphQLTransformer>(
+				(authority, id) => authority.GetId<User>(id, false, cancellationToken),
+				ids,
+				queryContext);
+		}
 
 		/// <summary>
 		/// Node resolver for <see cref="User"/>s.
 		/// </summary>
 		/// <param name="id">The <see cref="Entity.Id"/> to lookup.</param>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
+		/// <param name="usersDataLoader">The <see cref="IUsersDataLoader"/> to use.</param>
+		/// <param name="queryContext">The <see cref="QueryContext{TEntity}"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> resulting in the queried <see cref="User"/>, if present.</returns>
 		public static ValueTask<User?> GetUser(
 			long id,
-			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			[Service] IUsersDataLoader usersDataLoader,
+			QueryContext<User>? queryContext,
 			CancellationToken cancellationToken)
 		{
-			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.InvokeTransformableAllowMissing<Models.User, User, UserGraphQLTransformer>(
-				authority => authority.GetId(id, false, false, cancellationToken));
+			ArgumentNullException.ThrowIfNull(usersDataLoader);
+			return usersDataLoader.LoadAuthorityResponse(queryContext, id, cancellationToken);
 		}
 
 		/// <summary>
@@ -147,40 +187,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 
 			return permissionSetAuthority.InvokeTransformable<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
 				authority => authority.GetId(lookupId, lookupType, cancellationToken));
-		}
-
-		/// <summary>
-		/// The <see cref="PermissionSet"/> owned by the <see cref="User"/>, if any.
-		/// </summary>
-		/// <param name="permissionSetAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IPermissionSetAuthority"/>.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="PermissionSet"/> owned by the <see cref="User"/>, if any.</returns>
-		public ValueTask<PermissionSet?> OwnedPermissionSet(
-			[Service] IGraphQLAuthorityInvoker<IPermissionSetAuthority> permissionSetAuthority,
-			CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(permissionSetAuthority);
-
-			return permissionSetAuthority.InvokeTransformableAllowMissing<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
-				authority => authority.GetId(Id, PermissionSetLookupType.UserId, cancellationToken));
-		}
-
-		/// <summary>
-		/// The <see cref="UserGroup"/> asociated with the user, if any.
-		/// </summary>
-		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="UserGroup"/> associated with the <see cref="User"/>, if any.</returns>
-		public async ValueTask<UserGroup?> Group(
-			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority,
-			CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(userGroupAuthority);
-			if (!GroupId.HasValue)
-				return null;
-
-			return await userGroupAuthority.InvokeTransformable<Models.UserGroup, UserGroup, UserGroupGraphQLTransformer>(
-				authority => authority.GetId(GroupId.Value, false, cancellationToken));
 		}
 	}
 }

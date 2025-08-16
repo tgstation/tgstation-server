@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <Import Project="../../build/SrcCommon.props" />
 
   <PropertyGroup>
@@ -6,7 +6,7 @@
     <Version>$(TgsCoreVersion)</Version>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <UseAppHost>false</UseAppHost>
-    <NoWarn>API1000;ASP0019</NoWarn>
+    <NoWarn>API1000;ASP0019;CA1000</NoWarn>
     <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
     <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
     <Nullable>enable</Nullable>
@@ -64,26 +64,6 @@
       <Output TaskParameter="OutputFile" ItemName="Compile" />
       <Output TaskParameter="OutputFile" ItemName="FileWrites" />
     </WriteCodeFragment>
-  </Target>
-
-  <Target Condition="'$(TGS_TELEMETRY_KEY_FILE)' != ''" Name="ApplyTelemetryAppSerializedKey" BeforeTargets="CoreCompile">
-    <Error Condition="!Exists('$(TGS_TELEMETRY_KEY_FILE)')" Text="TGS_TELEMETRY_KEY_FILE set but does not exist!" />
-    <ReadLinesFromFile File="$(TGS_TELEMETRY_KEY_FILE)">
-        <Output TaskParameter="Lines" ItemName="SerializedTelemetryKey" />
-    </ReadLinesFromFile>
-    <ItemGroup>
-      <TelemetryAppSerializedKeyAssemblyAttributes Include="Tgstation.Server.Host.Properties.TelemetryAppSerializedKeyAttribute">
-        <_Parameter1>@(SerializedTelemetryKey)</_Parameter1>
-      </TelemetryAppSerializedKeyAssemblyAttributes>
-    </ItemGroup>
-    <WriteCodeFragment AssemblyAttributes="@(TelemetryAppSerializedKeyAssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="TelemetryAppSerializedKeyAssemblyInfo.cs">
-      <Output TaskParameter="OutputFile" ItemName="Compile" />
-      <Output TaskParameter="OutputFile" ItemName="FileWrites" />
-    </WriteCodeFragment>
-  </Target>
-
-  <Target Condition="'$(TGS_TELEMETRY_KEY_FILE)' == '' And '$(CI)' != ''" Name="FailBuildInCIWithoutTelemetryKey" BeforeTargets="CoreCompile">
-    <Error Text="The TGS_TELEMETRY_KEY_FILE environment variable should be set in CI!" />
   </Target>
 
   <ItemGroup>

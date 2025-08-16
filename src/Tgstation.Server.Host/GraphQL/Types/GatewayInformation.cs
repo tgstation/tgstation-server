@@ -53,7 +53,8 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			await authorizationService.CheckGraphQLAuthorized(
 				[new OrRightsConditional<AdministrationRights>(
 					new FlagRightsConditional<AdministrationRights>(AdministrationRights.WriteUsers),
-					new FlagRightsConditional<AdministrationRights>(AdministrationRights.EditOwnPassword))]);
+					new FlagRightsConditional<AdministrationRights>(AdministrationRights.EditOwnPassword))],
+				null);
 
 			return generalConfigurationOptions.Value.MinimumPasswordLength;
 		}
@@ -73,7 +74,8 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			ArgumentNullException.ThrowIfNull(generalConfigurationOptions);
 
 			await authorizationService.CheckGraphQLAuthorized(
-				[new FlagRightsConditional<InstanceManagerRights>(InstanceManagerRights.Create)]);
+				[new FlagRightsConditional<InstanceManagerRights>(InstanceManagerRights.Create)],
+				null);
 
 			return generalConfigurationOptions.Value.InstanceLimit;
 		}
@@ -94,7 +96,8 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			ArgumentNullException.ThrowIfNull(generalConfigurationOptions);
 
 			await authorizationService.CheckGraphQLAuthorized(
-				[new FlagRightsConditional<AdministrationRights>(AdministrationRights.WriteUsers)]);
+				[new FlagRightsConditional<AdministrationRights>(AdministrationRights.WriteUsers)],
+				null);
 
 			return generalConfigurationOptions.Value.UserLimit;
 		}
@@ -115,7 +118,8 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			ArgumentNullException.ThrowIfNull(generalConfigurationOptions);
 
 			await authorizationService.CheckGraphQLAuthorized(
-				[new FlagRightsConditional<AdministrationRights>(AdministrationRights.WriteUsers)]);
+				[new FlagRightsConditional<AdministrationRights>(AdministrationRights.WriteUsers)],
+				null);
 			return generalConfigurationOptions.Value.UserGroupLimit;
 		}
 
@@ -136,7 +140,8 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			await authorizationService.CheckGraphQLAuthorized(
 				[new OrRightsConditional<InstanceManagerRights>(
 					new FlagRightsConditional<InstanceManagerRights>(InstanceManagerRights.Create),
-					new FlagRightsConditional<InstanceManagerRights>(InstanceManagerRights.Relocate))]);
+					new FlagRightsConditional<InstanceManagerRights>(InstanceManagerRights.Relocate))],
+				null);
 			return generalConfigurationOptions.Value.ValidInstancePaths;
 		}
 
