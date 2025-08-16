@@ -110,8 +110,8 @@ namespace Tgstation.Server.Host.Swarm.Tests
 		{
 			this.Config = swarmConfiguration;
 
-			var mockOptions = new Mock<IOptionsMonitor<SwarmConfiguration>>();
-			mockOptions.SetupGet(x => x.CurrentValue).Returns(swarmConfiguration);
+			var mockOptions = new Mock<IOptions<SwarmConfiguration>>();
+			mockOptions.SetupGet(x => x.Value).Returns(swarmConfiguration);
 
 			var realVersion = new AssemblyInformationProvider().Version;
 			var mockAssemblyInformationProvider = new Mock<IAssemblyInformationProvider>();

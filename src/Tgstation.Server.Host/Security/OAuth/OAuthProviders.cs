@@ -31,11 +31,12 @@ namespace Tgstation.Server.Host.Security.OAuth
 			IGitHubServiceFactory gitHubServiceFactory,
 			IHttpClientFactory httpClientFactory,
 			ILoggerFactory loggerFactory,
-			IOptions<SecurityConfiguration> securityConfigurationOptions)
+			IOptionsSnapshot<SecurityConfiguration> securityConfigurationOptions)
 		{
 			ArgumentNullException.ThrowIfNull(loggerFactory);
+			ArgumentNullException.ThrowIfNull(securityConfigurationOptions);
 
-			var securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
+			var securityConfiguration = securityConfigurationOptions.Value;
 
 			var validatorsBuilder = new List<IOAuthValidator>();
 			validators = validatorsBuilder;
@@ -66,9 +67,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 						loggerFactory.CreateLogger<KeycloakOAuthValidator>(),
 						keyCloakConfig));
 
-#pragma warning disable CS0618 // Type or member is obsolete
 			if (securityConfiguration.OAuth.TryGetValue(OAuthProvider.InvisionCommunity, out var invisionConfig))
-#pragma warning restore CS0618 // Type or member is obsolete
 				validatorsBuilder.Add(
 					new InvisionCommunityOAuthValidator(
 						httpClientFactory,

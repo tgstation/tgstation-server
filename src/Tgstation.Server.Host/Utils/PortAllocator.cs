@@ -30,24 +30,24 @@ namespace Tgstation.Server.Host.Utils
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="SwarmConfiguration"/> for the <see cref="PortAllocator"/>.
+		/// </summary>
+		readonly IOptions<SwarmConfiguration> swarmConfigurationOptions;
+
+		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="PortAllocator"/>.
+		/// </summary>
+		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
+
+		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="SessionConfiguration"/> for the <see cref="PortAllocator"/>.
+		/// </summary>
+		readonly IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="PortAllocator"/>.
 		/// </summary>
 		readonly ILogger<PortAllocator> logger;
-
-		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="PortAllocator"/>.
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
-
-		/// <summary>
-		/// The <see cref="SessionConfiguration"/> for the <see cref="PortAllocator"/>.
-		/// </summary>
-		readonly SessionConfiguration sessionConfiguration;
-
-		/// <summary>
-		/// The <see cref="SwarmConfiguration"/> for the <see cref="PortAllocator"/>.
-		/// </summary>
-		readonly SwarmConfiguration swarmConfiguration;
 
 		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> used to serialized port requisition requests.
@@ -59,23 +59,23 @@ namespace Tgstation.Server.Host.Utils
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
-		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
+		/// <param name="swarmConfigurationOptions">The value of <see cref="swarmConfigurationOptions"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="sessionConfigurationOptions">The value of <see cref="sessionConfigurationOptions"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public PortAllocator(
 			IDatabaseContextFactory databaseContextFactory,
 			IPlatformIdentifier platformIdentifier,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<SessionConfiguration> sessionConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions,
 			ILogger<PortAllocator> logger)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
-			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
+			this.swarmConfigurationOptions = swarmConfigurationOptions ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.sessionConfigurationOptions = sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			allocatorLock = new SemaphoreSlim(1);
@@ -107,8 +107,7 @@ namespace Tgstation.Server.Host.Utils
 			logger.LogTrace("Port allocation >= {basePort} requested...", basePort);
 			var ddPorts = await databaseContext
 				.DreamDaemonSettings
-				.AsQueryable()
-				.Where(x => x.Instance!.SwarmIdentifer == swarmConfiguration.Identifier)
+				.Where(x => x.Instance!.SwarmIdentifer == swarmConfigurationOptions.Value.Identifier)
 				.Select(x => new
 				{
 					Port = x.Port!.Value,
@@ -118,8 +117,7 @@ namespace Tgstation.Server.Host.Utils
 
 			var dmPorts = await databaseContext
 				.DreamMakerSettings
-				.AsQueryable()
-				.Where(x => x.Instance!.SwarmIdentifer == swarmConfiguration.Identifier)
+				.Where(x => x.Instance!.SwarmIdentifer == swarmConfigurationOptions.Value.Identifier)
 				.Select(x => new
 				{
 					ApiValidationPort = x.ApiValidationPort!.Value,
@@ -138,25 +136,25 @@ namespace Tgstation.Server.Host.Utils
 
 					bool SpecsMatchPort(IReadOnlyList<HostingSpecification> specs) => specs.Any(spec => spec.Port == port);
 
-					if (SpecsMatchPort(generalConfiguration.ApiEndPoints))
+					if (SpecsMatchPort(generalConfigurationOptions.CurrentValue.ApiEndPoints))
 					{
 						logger.LogWarning("Cannot allocate port {port} as it is a TGS API port!", port);
 						continue;
 					}
 
-					if (SpecsMatchPort(generalConfiguration.MetricsEndPoints))
+					if (SpecsMatchPort(generalConfigurationOptions.CurrentValue.MetricsEndPoints))
 					{
 						logger.LogWarning("Cannot allocate port {port} as it is a metrics port!", port);
 						continue;
 					}
 
-					if (SpecsMatchPort(swarmConfiguration.EndPoints))
+					if (SpecsMatchPort(swarmConfigurationOptions.Value.EndPoints))
 					{
 						logger.LogWarning("Cannot allocate port {port} as it is a swarm API port!", port);
 						continue;
 					}
 
-					if (port == sessionConfiguration.BridgePort)
+					if (port == sessionConfigurationOptions.CurrentValue.BridgePort)
 					{
 						logger.LogWarning("Cannot allocate port {port} as it is the bridge request port!", port);
 						continue;

@@ -34,14 +34,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="linkFactory">The <see cref="IFilesystemLinkFactory"/> for the <see cref="WindowsWatchdogFactory"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> for <see cref="GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>.</param>
 		public PosixWatchdogFactory(
 			IServerControl serverControl,
 			ILoggerFactory loggerFactory,
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
 			IFilesystemLinkFactory linkFactory,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions)
 			: base(
 				serverControl,
 				loggerFactory,
@@ -79,10 +79,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				metricFactory,
 				gameIOManager,
 				LinkFactory,
+				GeneralConfigurationOptions,
 				LoggerFactory.CreateLogger<PosixWatchdog>(),
 				settings,
 				instance,
-				GeneralConfiguration,
 				settings.AutoStart ?? throw new ArgumentNullException(nameof(settings)));
 	}
 }

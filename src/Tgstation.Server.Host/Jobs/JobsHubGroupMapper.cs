@@ -128,7 +128,6 @@ namespace Tgstation.Server.Host.Jobs
 				async databaseContext =>
 					permedInstanceIds = await databaseContext
 						.InstancePermissionSets
-						.AsQueryable()
 						.Where(ips => ips.PermissionSetId == pid)
 						.Select(ips => ips.InstanceId)
 						.ToListAsync(cancellationToken));
@@ -164,7 +163,6 @@ namespace Tgstation.Server.Host.Jobs
 						.ToListAsync(cancellationToken);
 					var permissionSetAccessibleInstanceIds = await databaseContext
 						.InstancePermissionSets
-						.AsQueryable()
 						.Where(ips => ips.PermissionSetId == permissionSetId)
 						.Select(ips => ips.InstanceId)
 						.ToListAsync(cancellationToken);

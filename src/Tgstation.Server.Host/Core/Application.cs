@@ -372,7 +372,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
 
 			// configure other security services
-			services.AddSingleton<IOAuthProviders, OAuthProviders>();
+			services.AddScoped<IOAuthProviders, OAuthProviders>();
 			services.AddSingleton<IIdentityCache, IdentityCache>();
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
@@ -541,12 +541,12 @@ namespace Tgstation.Server.Host.Core
 
 			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
-			var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
-			var generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			var databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
-			var swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
-			var internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
-			var sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
+			var controlPanelConfiguration = (controlPanelConfigurationOptions ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions))).Value;
+			var generalConfiguration = (generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions))).Value;
+			var databaseConfiguration = (databaseConfigurationOptions ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions))).Value;
+			var swarmConfiguration = (swarmConfigurationOptions ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions))).Value;
+			var internalConfiguration = (internalConfigurationOptions ?? throw new ArgumentNullException(nameof(internalConfigurationOptions))).Value;
+			var sessionConfiguration = (sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions))).Value;
 
 			ArgumentNullException.ThrowIfNull(logger);
 

@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
@@ -56,13 +57,13 @@ namespace Tgstation.Server.Host.Components.StaticFiles.Tests
 					Mock.Of<IPostWriteHandler>(),
 					Mock.Of<IPlatformIdentifier>(),
 					Mock.Of<IFileTransferTicketProvider>(),
+					Mock.Of<IOptionsMonitor<GeneralConfiguration>>(),
+					Mock.Of<IOptionsMonitor<SessionConfiguration>>(),
 					loggerFactory.CreateLogger<Configuration>(),
 					new Models.Instance
 					{
 						Path = "Some path",
-					},
-					new GeneralConfiguration(),
-					new SessionConfiguration());
+					});
 
 				await configuration.StartAsync(CancellationToken.None);
 

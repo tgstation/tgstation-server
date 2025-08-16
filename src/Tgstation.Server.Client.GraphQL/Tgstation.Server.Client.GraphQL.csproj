@@ -16,23 +16,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Client\Tgstation.Server.Client.csproj" />
+    <ProjectReference Include="..\Tgstation.Server.Host\Tgstation.Server.Host.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
   </ItemGroup>
-
-  <!-- https://github.com/dotnet/msbuild/issues/2661#issuecomment-338808147 -->
-  <Target Name="WorkaroundSdk939" BeforeTargets="ImportGraphQLApiSchema">
-    <MSBuild Projects="..\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
-  </Target>
 
   <Target Name="DeleteGeneratedFiles" BeforeTargets="ImportGraphQLApiSchema">
     <RemoveDir Directories="$(IntermediateOutputPath)berry" />
   </Target>
 
   <!-- https://github.com/ChilliCream/graphql-platform/blob/c0c8df525ca0f47bf3b3b409a8b22cbe37f7a9c0/src/StrawberryShake/MetaPackages/Common/MSBuild/StrawberryShake.targets#L20 -->
-  <Target Name="ImportGraphQLApiSchema" BeforeTargets="_GraphQLCodeGenerationRoot" Inputs="../../artifacts/tgs-api.graphql" Outputs="schema.graphql">
+  <Target Name="ImportGraphQLApiSchema" BeforeTargets="_GraphQLCodeGenerationRoot" DependsOnTargets="ResolveProjectReferences" Inputs="../../artifacts/tgs-api.graphql" Outputs="schema.graphql">
     <Copy SkipUnchangedFiles="true" SourceFiles="../../artifacts/tgs-api.graphql" DestinationFiles="schema.graphql" />
   </Target>
 
-  <Target Name="FixWarningsInGeneratedSchema" AfterTargets="GenerateGraphQLCode">
+  <Target Name="FixWarningsInGeneratedSchema" AfterTargets="GenerateGraphQLCode" BeforeTargets="CoreCompile">
     <PropertyGroup>
       <InputFile>$(IntermediateOutputPath)berry/GraphQLClient.Client.cs</InputFile>
       <OutputFile>$(IntermediateOutputPath)berry/GraphQLClient.Client.cs</OutputFile>

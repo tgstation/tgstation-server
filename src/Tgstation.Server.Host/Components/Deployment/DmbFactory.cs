@@ -207,7 +207,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 				async (db) =>
 					cj = await db
 						.CompileJobs
-						.AsQueryable()
 						.Where(x => x.Job.Instance!.Id == metadata.Id)
 						.OrderByDescending(x => x.Job.StoppedAt)
 						.FirstOrDefaultAsync(cancellationToken));
@@ -277,7 +276,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 				{
 					jobUidsToNotErase = (await db
 							.CompileJobs
-							.AsQueryable()
 							.Where(
 								x => x.Job.Instance!.Id == metadata.Id
 								&& jobIdsToSkip.Contains(x.Id!.Value))
@@ -364,7 +362,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 			await databaseContextFactory.UseContext(
 				async db => compileJob = await db
 					.CompileJobs
-					.AsQueryable()
 					.Where(x => x!.Id == compileJobId)
 					.Include(x => x.Job!)
 						.ThenInclude(x => x.StartedBy)

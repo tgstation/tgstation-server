@@ -21,7 +21,6 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
-using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
@@ -54,14 +53,9 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
-		/// The <see cref="IFileTransferTicketProvider"/> for the <see cref="AdministrationController"/>.
+		/// The <see cref="IOptions{TOptions}"/> <see cref="FileLoggingConfiguration"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
-		readonly IFileTransferTicketProvider fileTransferService;
-
-		/// <summary>
-		/// The <see cref="FileLoggingConfiguration"/> for the <see cref="AdministrationController"/>.
-		/// </summary>
-		readonly FileLoggingConfiguration fileLoggingConfiguration;
+		readonly IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AdministrationController"/> class.
@@ -74,8 +68,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
-		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
-		/// <param name="fileLoggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="fileLoggingConfiguration"/>.</param>
+		/// <param name="fileLoggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="fileLoggingConfigurationOptions"/>.</param>
 		public AdministrationController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContext authenticationContext,
@@ -85,7 +78,6 @@ namespace Tgstation.Server.Host.Controllers
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager,
 			IPlatformIdentifier platformIdentifier,
-			IFileTransferTicketProvider fileTransferService,
 			IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions)
 			: base(
 				  databaseContext,
@@ -98,8 +90,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
-			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
-			fileLoggingConfiguration = fileLoggingConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
+			this.fileLoggingConfigurationOptions = fileLoggingConfigurationOptions ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
 		}
 
 		/// <summary>
@@ -185,7 +176,7 @@ namespace Tgstation.Server.Host.Controllers
 			=> Paginated(
 				async () =>
 				{
-					var path = fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier);
+					var path = fileLoggingConfigurationOptions.Value.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier);
 					try
 					{
 						var files = await ioManager.GetFiles(path, cancellationToken);

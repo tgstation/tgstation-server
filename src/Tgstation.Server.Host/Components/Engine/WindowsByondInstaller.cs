@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// The <see cref="SessionConfiguration"/> for the <see cref="WindowsByondInstaller"/>.
 		/// </summary>
-		readonly SessionConfiguration sessionConfiguration;
+		readonly IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions;
 
 		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for the <see cref="WindowsByondInstaller"/>.
@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// </summary>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptionsMonitor{TOptions}"/> containing the <see cref="GeneralConfiguration"/>.</param>
-		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
+		/// <param name="sessionConfigurationOptions">The value of <see cref="sessionConfigurationOptions"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="fileDownloader">The <see cref="IFileDownloader"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ByondInstallerBase"/>.</param>
@@ -105,12 +105,12 @@ namespace Tgstation.Server.Host.Components.Engine
 			IIOManager ioManager,
 			IFileDownloader fileDownloader,
 			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<SessionConfiguration> sessionConfigurationOptions,
+			IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions,
 			ILogger<WindowsByondInstaller> logger)
 			: base(ioManager, logger, fileDownloader, generalConfigurationOptions)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
-			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
+			this.sessionConfigurationOptions = sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 
 			var useServiceSpecialTactics = Environment.Is64BitProcess && Environment.UserName == $"{Environment.MachineName}$";
 
@@ -215,7 +215,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <inheritdoc />
 		protected override string GetDreamDaemonName(Version byondVersion, out bool supportsCli)
 		{
-			supportsCli = byondVersion >= DDExeVersion && !sessionConfiguration.ForceUseDreamDaemonExe;
+			supportsCli = byondVersion >= DDExeVersion && !sessionConfigurationOptions.CurrentValue.ForceUseDreamDaemonExe;
 			return supportsCli ? "dd.exe" : "dreamdaemon.exe";
 		}
 
@@ -327,7 +327,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Logger,
 					ruleName,
 					dreamDaemonPath,
-					deploymentPipelineProcesses && sessionConfiguration.LowPriorityDeploymentProcesses,
+					deploymentPipelineProcesses && sessionConfigurationOptions.CurrentValue.LowPriorityDeploymentProcesses,
 					cancellationToken);
 			}
 			catch (Exception ex)

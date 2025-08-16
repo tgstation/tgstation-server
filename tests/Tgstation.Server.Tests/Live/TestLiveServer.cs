@@ -1674,7 +1674,7 @@ namespace Tgstation.Server.Tests.Live
 
 					async Task RunInstanceTests()
 					{
-						var testSerialized = true || TestingUtils.RunningInGitHubActions; // they only have 2 cores, can't handle intense parallelization
+						var testSerialized = TestingUtils.RunningInGitHubActions; // they only have 2 cores, can't handle intense parallelization
 						async Task ODCompatTests()
 						{
 							var fileDownloader = await GetFileDownloader();

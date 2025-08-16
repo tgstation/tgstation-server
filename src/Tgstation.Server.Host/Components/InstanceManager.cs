@@ -101,6 +101,26 @@ namespace Tgstation.Server.Host.Components
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="InstanceManager"/>.
+		/// </summary>
+		readonly IOptions<GeneralConfiguration> generalConfigurationOptions;
+
+		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="SwarmConfiguration"/> for the <see cref="InstanceManager"/>.
+		/// </summary>
+		readonly IOptions<SwarmConfiguration> swarmConfigurationOptions;
+
+		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="InternalConfiguration"/> for the <see cref="InstanceManager"/>.
+		/// </summary>
+		readonly IOptions<InternalConfiguration> internalConfigurationOptions;
+
+		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="SessionConfiguration"/> for the <see cref="InstanceManager"/>.
+		/// </summary>
+		readonly IOptions<SessionConfiguration> sessionConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly ILogger<InstanceManager> logger;
@@ -119,26 +139,6 @@ namespace Tgstation.Server.Host.Components
 		/// <see cref="SemaphoreSlim"/> used to guard calls to <see cref="OnlineInstance(Models.Instance, CancellationToken)"/> and <see cref="OfflineInstance(Models.Instance, User, CancellationToken)"/>.
 		/// </summary>
 		readonly SemaphoreSlim instanceStateChangeSemaphore;
-
-		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceManager"/>.
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
-
-		/// <summary>
-		/// The <see cref="SwarmConfiguration"/> for the <see cref="InstanceManager"/>.
-		/// </summary>
-		readonly SwarmConfiguration swarmConfiguration;
-
-		/// <summary>
-		/// The <see cref="InternalConfiguration"/> for the <see cref="InstanceManager"/>.
-		/// </summary>
-		readonly InternalConfiguration internalConfiguration;
-
-		/// <summary>
-		/// The <see cref="SessionConfiguration"/> for the <see cref="InstanceManager"/>.
-		/// </summary>
-		readonly SessionConfiguration sessionConfiguration;
 
 		/// <summary>
 		/// The <see cref="TaskCompletionSource"/> for <see cref="Ready"/>.
@@ -191,10 +191,10 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="metricFactory">The <see cref="IMetricFactory"/> used to create metrics.</param>
 		/// <param name="collectorRegistry">The <see cref="ICollectorRegistry"/> to use.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
-		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="internalConfiguration"/>.</param>
-		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="swarmConfigurationOptions">The value of <see cref="swarmConfigurationOptions"/>.</param>
+		/// <param name="internalConfigurationOptions">The value of <see cref="internalConfigurationOptions"/>.</param>
+		/// <param name="sessionConfigurationOptions">The value of <see cref="sessionConfigurationOptions"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public InstanceManager(
 			IInstanceFactory instanceFactory,
@@ -229,10 +229,10 @@ namespace Tgstation.Server.Host.Components
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			ArgumentNullException.ThrowIfNull(metricFactory);
 			ArgumentNullException.ThrowIfNull(collectorRegistry);
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
-			internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
-			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.swarmConfigurationOptions = swarmConfigurationOptions ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
+			this.internalConfigurationOptions = internalConfigurationOptions ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
+			this.sessionConfigurationOptions = sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			originalConsoleTitle = console.Title;
@@ -390,7 +390,6 @@ namespace Tgstation.Server.Host.Components
 						{
 							var jobs = await db
 								.Jobs
-								.AsQueryable()
 								.Where(x => x.Instance!.Id == metadata.Id && !x.StoppedAt.HasValue)
 								.Select(x => new Job(x.Id!.Value))
 								.ToListAsync(cancellationToken);
@@ -641,8 +640,7 @@ namespace Tgstation.Server.Host.Components
 				async ValueTask EnumerateInstances(IDatabaseContext databaseContext)
 					=> dbInstances = await databaseContext
 						.Instances
-						.AsQueryable()
-						.Where(x => x.Online!.Value && x.SwarmIdentifer == swarmConfiguration.Identifier)
+						.Where(x => x.Online!.Value && x.SwarmIdentifer == swarmConfigurationOptions.Value.Identifier)
 						.Include(x => x.RepositorySettings)
 						.Include(x => x.ChatSettings)
 							.ThenInclude(x => x.Channels)
@@ -703,14 +701,14 @@ namespace Tgstation.Server.Host.Components
 		{
 			logger.LogDebug("Running as user: {username}", Environment.UserName);
 
-			generalConfiguration.CheckCompatibility(logger, ioManager);
+			generalConfigurationOptions.Value.CheckCompatibility(logger, ioManager);
 
 			using (var systemIdentity = systemIdentityFactory.GetCurrent())
 			{
 				if (!systemIdentity.CanCreateSymlinks)
 					throw new InvalidOperationException($"The user running {Constants.CanonicalPackageName} cannot create symlinks! Please try running as an administrative user!");
 
-				if (!platformIdentifier.IsWindows && systemIdentity.IsSuperUser && !internalConfiguration.UsingDocker)
+				if (!platformIdentifier.IsWindows && systemIdentity.IsSuperUser && !internalConfigurationOptions.Value.UsingDocker)
 				{
 					logger.LogWarning("TGS is being run as the root account. This is not recommended.");
 				}
@@ -718,8 +716,8 @@ namespace Tgstation.Server.Host.Components
 
 			// This runs before the real sockets are opened, ensures we don't perform reattaches unless we're fairly certain the bind won't fail
 			// If it does fail, DD will be killed.
-			SocketExtensions.BindTest(platformIdentifier, new IPEndPoint(IPAddress.Loopback, sessionConfiguration.BridgePort), false);
-			var allHostingSpecs = generalConfiguration.ApiEndPoints.Concat(generalConfiguration.MetricsEndPoints).Concat(swarmConfiguration.EndPoints);
+			SocketExtensions.BindTest(platformIdentifier, new IPEndPoint(IPAddress.Loopback, sessionConfigurationOptions.Value.BridgePort), false);
+			var allHostingSpecs = generalConfigurationOptions.Value.ApiEndPoints.Concat(generalConfigurationOptions.Value.MetricsEndPoints).Concat(swarmConfigurationOptions.Value.EndPoints);
 			foreach (var hostingSpec in allHostingSpecs)
 				SocketExtensions.BindTest(platformIdentifier, hostingSpec.ParseIPEndPoint(), false);
 		}

@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Prometheus;
 
@@ -115,14 +116,14 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="SessionConfiguration"/> for the <see cref="SessionControllerFactory"/>.
+		/// </summary>
+		readonly IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly ILogger<SessionControllerFactory> logger;
-
-		/// <summary>
-		/// The <see cref="SessionConfiguration"/> for the <see cref="SessionControllerFactory"/>.
-		/// </summary>
-		readonly SessionConfiguration sessionConfiguration;
 
 		/// <summary>
 		/// The number of sessions launched.
@@ -192,9 +193,9 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
 		/// <param name="metricFactory">The <see cref="IMetricFactory"/> used to create metrics.</param>
+		/// <param name="sessionConfigurationOptions">The value of <see cref="sessionConfigurationOptions"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
 		public SessionControllerFactory(
 			IProcessExecutor processExecutor,
 			IEngineManager engineManager,
@@ -212,8 +213,8 @@ namespace Tgstation.Server.Host.Components.Session
 			IDotnetDumpService dotnetDumpService,
 			IMetricFactory metricFactory,
 			ILoggerFactory loggerFactory,
+			IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions,
 			ILogger<SessionControllerFactory> logger,
-			SessionConfiguration sessionConfiguration,
 			Api.Models.Instance instance)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
@@ -231,9 +232,9 @@ namespace Tgstation.Server.Host.Components.Session
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
 			ArgumentNullException.ThrowIfNull(metricFactory);
+			this.sessionConfigurationOptions = sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 
 			sessionsLaunched = metricFactory.CreateCounter("tgs_sessions_launched", "The number of game server processes created");
@@ -321,10 +322,12 @@ namespace Tgstation.Server.Host.Components.Session
 					logger.LogDebug("Session will have no DMAPI support!");
 
 				// launch dd
+				var sessionConfiguration = sessionConfigurationOptions.CurrentValue;
 				var process = await CreateGameServerProcess(
 					dmbProvider,
 					engineLock,
 					launchParameters,
+					sessionConfiguration,
 					accessIdentifier,
 					outputFilePath,
 					apiValidate,
@@ -341,6 +344,7 @@ namespace Tgstation.Server.Host.Components.Session
 							chatTrackingContext,
 							launchParameters.SecurityLevel!.Value,
 							launchParameters.Visibility!.Value,
+							sessionConfiguration.BridgePort,
 							apiValidate);
 
 						var reattachInformation = new ReattachInformation(
@@ -449,6 +453,7 @@ namespace Tgstation.Server.Host.Components.Session
 							chatTrackingContext,
 							reattachInformation.LaunchSecurityLevel,
 							reattachInformation.LaunchVisibility,
+							sessionConfigurationOptions.CurrentValue.BridgePort,
 							false);
 						reattachInformation.SetRuntimeInformation(runtimeInformation);
 
@@ -504,6 +509,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/>.</param>
 		/// <param name="engineLock">The <see cref="IEngineExecutableLock"/>.</param>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/>.</param>
+		/// <param name="sessionConfiguration">The current <see cref="SessionConfiguration"/>.</param>
 		/// <param name="accessIdentifier">The secure string to use for the session.</param>
 		/// <param name="logFilePath">The optional full path to log DreamDaemon output to.</param>
 		/// <param name="apiValidate">If we are only validating the DMAPI then exiting.</param>
@@ -513,6 +519,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IDmbProvider dmbProvider,
 			IEngineExecutableLock engineLock,
 			DreamDaemonLaunchParameters launchParameters,
+			SessionConfiguration sessionConfiguration,
 			string accessIdentifier,
 			string? logFilePath,
 			bool apiValidate,
@@ -653,6 +660,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="chatTrackingContext">The <see cref="IChatTrackingContext"/>.</param>
 		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> the server was launched with.</param>
 		/// <param name="visibility">The <see cref="DreamDaemonVisibility"/> the server was launched with.</param>
+		/// <param name="bridgePort">The active bridge requests port.</param>
 		/// <param name="apiValidateOnly">The value of <see cref="RuntimeInformation.ApiValidateOnly"/>.</param>
 		/// <returns>A new <see cref="RuntimeInformation"/> class.</returns>
 		RuntimeInformation CreateRuntimeInformation(
@@ -660,6 +668,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IChatTrackingContext chatTrackingContext,
 			DreamDaemonSecurity securityLevel,
 			DreamDaemonVisibility visibility,
+			ushort bridgePort,
 			bool apiValidateOnly)
 			=> new(
 				chatTrackingContext,
@@ -668,7 +677,7 @@ namespace Tgstation.Server.Host.Components.Session
 				instance.Name!,
 				securityLevel,
 				visibility,
-				sessionConfiguration.BridgePort,
+				bridgePort,
 				apiValidateOnly);
 
 		/// <summary>
