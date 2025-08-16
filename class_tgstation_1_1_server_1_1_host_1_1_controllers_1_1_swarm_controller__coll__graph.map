@@ -1,21 +1,17 @@
 <map id="Tgstation.Server.Host.Controllers.SwarmController" name="Tgstation.Server.Host.Controllers.SwarmController">
-<area shape="rect" id="Node000001" title="For swarm server communication." alt="" coords="681,121,896,161"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="321,5,446,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="462,29,517,41,588,58,658,81,745,117,743,122,656,86,587,63,515,46,461,34"/>
+<area shape="rect" id="Node000001" title="For swarm server communication." alt="" coords="680,121,896,161"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="275,5,400,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="416,25,531,45,595,59,657,77,706,96,750,118,748,122,704,101,655,82,594,64,530,50,416,30"/>
 <area shape="rect" id="Node000003" href="$class_controller.html" title=" " alt="" coords="42,5,119,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="134,16,320,16,320,21,134,21"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html" title="Swarm service operations for the Controllers.SwarmController." alt="" coords="286,55,481,96"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="497,91,681,121,680,126,496,96"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="134,16,275,16,275,21,134,21"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html" title="Swarm service operations for the Controllers.SwarmController." alt="" coords="241,55,435,96"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="451,88,657,118,680,122,680,127,656,123,450,94"/>
 <area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html" title="Allows aborting a swarm distributed update operation." alt="" coords="5,63,156,88"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="171,73,286,73,286,78,171,78"/>
-<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html" title="Reads and writes to Streams associated with FileTicketResponses." alt="" coords="283,121,484,161"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="500,138,680,138,680,144,500,144"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="251,186,516,227"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="528,180,680,156,681,161,529,185"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="269,251,498,292"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="482,244,515,236,586,218,656,197,745,159,747,164,658,202,588,224,517,241,483,249"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="30,233,131,259"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="146,249,269,259,269,265,146,254"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="36,283,125,308"/>
-<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="140,288,269,278,269,283,140,294"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="171,73,240,73,240,78,171,78"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html" title="Reads and writes to Streams associated with FileTicketResponses." alt="" coords="237,121,438,161"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="454,138,680,138,680,144,454,144"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="262,186,413,227"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="428,191,656,159,680,155,680,160,657,164,429,196"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="205,251,470,292"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="485,245,570,226,655,201,704,181,748,159,751,164,707,186,657,206,572,231,486,250"/>
 </map>

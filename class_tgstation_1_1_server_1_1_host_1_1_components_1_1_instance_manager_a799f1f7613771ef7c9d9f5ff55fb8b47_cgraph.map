@@ -1,13 +1,9 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager.PreflightChecks" name="Tgstation.Server.Host.Components.InstanceManager.PreflightChecks">
-<area shape="rect" id="Node000001" title="Check we have a valid system and configuration." alt="" coords="5,84,232,124"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="299,16,516,56"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,80,303,58,304,63,209,85"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a6b72da3c30d5bc5ad7bbad3d5a95970e" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="280,84,535,124"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="232,101,264,101,264,107,232,107"/>
-<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="297,149,518,190"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="212,122,300,142,299,147,211,127"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="583,5,822,61"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="516,32,568,32,568,37,516,38"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a661fd448a209ac58937b887023156ac7" title="Check if a given path &#160;is at the root level of the filesystem." alt="" coords="617,85,788,126"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="535,102,601,102,601,107,535,107"/>
+<area shape="rect" id="Node000001" title="Check we have a valid system and configuration." alt="" coords="5,46,232,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="282,13,498,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,50,266,46,267,51,233,55"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="280,78,500,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="233,77,264,81,264,86,232,83"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="548,5,787,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="498,31,533,31,533,36,498,36"/>
 </map>

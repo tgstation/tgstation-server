@@ -1,11 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html" title="Represents the state of the DreamMaker compiler. Create action starts a new compile...." alt="" coords="8,68,198,109"/>
 <area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_dream_maker_request.html" title="A request to the DreamMaker controller." alt="" coords="259,5,453,46"/>
-<area shape="poly" id="edge520_Node000000_Node000001" title=" " alt="" coords="202,61,270,44,272,49,203,66"/>
+<area shape="poly" id="edge519_Node000000_Node000001" title=" " alt="" coords="202,61,270,44,272,49,203,66"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_dream_maker_response.html" title="A request to the DreamMaker controller." alt="" coords="249,71,463,111"/>
-<area shape="poly" id="edge521_Node000000_Node000002" title=" " alt="" coords="213,87,248,87,248,93,213,92"/>
+<area shape="poly" id="edge520_Node000000_Node000002" title=" " alt="" coords="213,87,248,87,248,93,213,92"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html" title=" " alt="" coords="258,137,454,178"/>
-<area shape="poly" id="edge522_Node000000_Node000003" title=" " alt="" coords="195,111,280,134,278,139,194,116"/>
+<area shape="poly" id="edge521_Node000000_Node000003" title=" " alt="" coords="195,111,280,134,278,139,194,116"/>
 <area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_legacy_api_transformable.html" title=" " alt="" coords="5,133,201,188"/>
-<area shape="poly" id="edge523_Node000004_Node000003" title=" " alt="" coords="216,156,258,156,258,161,216,162"/>
+<area shape="poly" id="edge522_Node000004_Node000003" title=" " alt="" coords="216,156,258,156,258,161,216,162"/>
 </map>

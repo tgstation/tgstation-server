@@ -10,7 +10,7 @@
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="233,217,290,223,290,228,232,222"/>
 <area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a132eec6aaf11a390b857b6eed5ea7567" title="Get the updated list of TestMerges for an origin merge." alt="" coords="310,295,568,350"/>
 <area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="160,225,216,253,281,280,302,287,300,292,279,285,214,258,157,230"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ade7f7da8e9b448bd2a9b1b7eb0ecbe75" title="Initializes a new instance of the Repository class." alt="" coords="326,374,552,415"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a29c6da1254fba9de583975a67d36ebad" title="Initializes a new instance of the Repository class." alt="" coords="326,374,552,415"/>
 <area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="136,225,194,293,235,330,281,360,312,373,310,378,278,365,232,334,191,297,132,229"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="661,63,880,118"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="553,97,645,93,645,99,553,103"/>

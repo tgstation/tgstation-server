@@ -1,58 +1,48 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider">
-<area shape="rect" id="Node000001" title="IProvider for the Discord app." alt="" coords="1145,568,1371,609"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="774,221,843,247"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="859,244,917,263,986,291,1057,329,1122,376,1167,423,1204,477,1232,527,1250,567,1246,569,1227,530,1199,479,1163,427,1119,380,1054,333,983,296,915,268,858,249"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="272,181,345,207"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="361,195,774,228,773,234,361,200"/>
-<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="5,181,131,207"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="146,191,272,191,272,196,146,196"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="218,231,399,271"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="415,251,537,252,670,247,773,236,774,241,671,253,537,257,415,257"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="180,295,437,351"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="452,307,559,293,670,273,773,243,774,248,671,278,560,298,453,312"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="231,9,387,35"/>
-<area shape="poly" id="edge27_Node000001_Node000007" title=" " alt="" coords="403,15,461,14,566,8,612,8,671,14,744,26,801,40,856,61,924,93,986,122,1034,148,1077,181,1123,232,1152,275,1178,322,1217,418,1242,505,1256,567,1250,568,1237,507,1212,420,1173,324,1148,278,1119,235,1074,185,1032,153,984,127,922,97,854,66,800,45,743,31,670,19,612,13,566,13,461,19,403,21"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="402,35,554,67,623,86,672,105,712,131,748,163,799,218,795,222,745,167,709,136,669,109,621,91,552,72,401,41"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="255,81,362,107"/>
-<area shape="poly" id="edge23_Node000001_Node000008" title=" " alt="" coords="378,88,446,88,531,91,628,101,732,118,838,146,941,185,991,210,1038,239,1082,272,1123,309,1150,341,1174,376,1212,449,1238,516,1254,567,1249,568,1233,518,1207,451,1169,378,1145,344,1119,313,1079,276,1035,244,988,215,939,190,836,151,730,124,627,106,531,97,446,93,378,93"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="378,103,438,116,462,123,520,132,567,135,614,139,671,154,738,185,790,218,787,223,736,190,669,159,613,144,567,140,520,138,461,129,437,122,377,109"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="284,132,334,157"/>
-<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="349,149,462,169,566,183,671,199,774,222,773,228,670,204,566,188,461,174,348,154"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="221,376,397,401"/>
-<area shape="poly" id="edge26_Node000001_Node000010" title=" " alt="" coords="412,387,586,393,792,406,893,416,985,429,1064,445,1122,466,1158,488,1192,515,1242,566,1238,569,1188,519,1155,492,1120,471,1062,451,984,434,892,421,791,411,585,398,412,392"/>
-<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="412,381,537,364,605,348,669,326,706,308,740,286,791,245,795,249,743,290,708,313,671,331,606,353,538,369,413,386"/>
-<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="739,445,878,471"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="893,458,1004,472,1064,484,1122,502,1182,532,1232,565,1229,570,1180,537,1120,507,1062,489,1003,477,893,464"/>
-<area shape="rect" id="Node000012" href="$class_i_responder.html" title=" " alt="" coords="207,425,411,451"/>
-<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="427,440,739,452,739,458,426,445"/>
-<area shape="rect" id="Node000013" href="$class_i_responder.html" title=" " alt="" coords="234,474,383,500"/>
-<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="399,479,739,459,739,464,399,484"/>
-<area shape="rect" id="Node000014" title=" " alt="" coords="713,494,904,520"/>
-<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="919,517,1018,531,1121,550,1184,565,1183,570,1120,555,1017,537,919,522"/>
-<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="710,544,907,585"/>
-<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="923,568,1144,580,1144,585,922,573"/>
-<area shape="rect" id="Node000016" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="694,609,923,650"/>
-<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="938,616,1120,599,1144,597,1144,602,1121,605,939,621"/>
-<area shape="rect" id="Node000017" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="232,732,386,757"/>
-<area shape="poly" id="edge16_Node000016_Node000017" title=" " alt="" coords="402,753,465,755,535,749,605,733,638,719,669,702,677,693,680,683,684,671,693,660,711,648,713,653,696,664,688,674,685,684,682,696,672,706,640,724,607,738,536,755,465,760,401,759"/>
-<area shape="rect" id="Node000018" title=" " alt="" coords="265,809,353,835"/>
-<area shape="poly" id="edge17_Node000016_Node000018" title=" " alt="" coords="360,837,428,856,511,866,554,865,595,858,634,844,669,821,683,803,688,785,687,766,682,745,675,703,679,681,692,660,705,648,709,652,696,663,684,683,681,703,688,745,692,765,693,786,688,806,672,825,636,849,596,863,554,871,511,872,427,861,358,842"/>
-<area shape="rect" id="Node000019" title=" " alt="" coords="263,524,355,549"/>
-<area shape="poly" id="edge18_Node000016_Node000019" title=" " alt="" coords="369,527,448,521,536,519,616,524,648,531,672,541,683,554,686,568,688,582,696,594,714,607,711,611,692,598,683,584,680,569,678,556,669,545,647,536,615,529,536,524,448,527,370,533"/>
-<area shape="rect" id="Node000020" title=" " alt="" coords="288,633,330,659"/>
-<area shape="poly" id="edge19_Node000016_Node000020" title=" " alt="" coords="346,645,488,649,578,649,670,645,694,643,694,649,670,651,579,654,488,655,345,650"/>
-<area shape="rect" id="Node000021" title=" " alt="" coords="233,682,384,708"/>
-<area shape="poly" id="edge20_Node000016_Node000021" title=" " alt="" coords="400,696,529,692,600,684,670,670,693,659,727,648,729,653,695,664,671,675,601,689,529,697,400,701"/>
-<area shape="rect" id="Node000022" title=" " alt="" coords="726,674,891,700"/>
-<area shape="poly" id="edge21_Node000001_Node000022" title=" " alt="" coords="906,674,1010,659,1120,635,1206,607,1208,612,1121,641,1011,664,906,679"/>
-<area shape="rect" id="Node000023" title=" " alt="" coords="735,724,882,749"/>
-<area shape="poly" id="edge22_Node000001_Node000023" title=" " alt="" coords="897,733,1006,721,1064,708,1120,689,1153,671,1185,650,1234,607,1238,611,1188,654,1156,676,1122,694,1065,713,1007,726,898,738"/>
-<area shape="rect" id="Node000024" title=" " alt="" coords="786,773,831,799"/>
-<area shape="poly" id="edge24_Node000001_Node000024" title=" " alt="" coords="847,790,903,797,973,799,1048,790,1085,780,1119,765,1143,750,1164,732,1201,688,1228,644,1246,608,1250,610,1232,647,1205,691,1168,735,1146,754,1122,770,1087,785,1049,796,973,805,902,803,846,796"/>
-<area shape="rect" id="Node000025" title=" " alt="" coords="721,823,896,863"/>
-<area shape="poly" id="edge25_Node000001_Node000025" title=" " alt="" coords="912,857,963,859,1017,855,1070,843,1119,821,1147,800,1171,774,1209,714,1235,655,1249,609,1254,610,1240,657,1214,717,1175,777,1151,804,1122,826,1072,848,1018,861,963,864,912,862"/>
-<area shape="rect" id="Node000026" title=" " alt="" coords="754,888,863,913"/>
-<area shape="poly" id="edge28_Node000001_Node000026" title=" " alt="" coords="879,913,935,919,998,919,1062,908,1091,897,1119,881,1152,853,1179,819,1201,781,1218,741,1241,665,1252,609,1257,609,1246,667,1223,743,1206,783,1183,822,1156,857,1122,886,1094,902,1063,913,998,924,935,925,878,918"/>
-<area shape="rect" id="Node000027" title=" " alt="" coords="768,937,849,963"/>
-<area shape="poly" id="edge29_Node000001_Node000027" title=" " alt="" coords="865,962,922,973,989,977,1024,974,1057,968,1090,957,1119,940,1157,905,1187,864,1210,817,1227,768,1247,676,1253,609,1259,609,1252,677,1232,770,1215,819,1192,866,1161,909,1122,944,1092,961,1059,973,1024,980,989,982,922,978,864,968"/>
+<area shape="rect" id="Node000001" title="IProvider for the Discord app." alt="" coords="1025,582,1251,623"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="669,203,739,228"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="755,215,810,222,876,237,943,263,974,280,1002,302,1033,334,1060,370,1081,410,1099,450,1123,525,1136,581,1131,582,1118,527,1094,452,1076,412,1055,373,1029,337,999,305,971,285,940,267,874,242,810,228,754,221"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="272,191,345,216"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="361,202,669,212,669,217,361,208"/>
+<area shape="rect" id="Node000004" href="$class_i_async_disposable.html" title=" " alt="" coords="5,191,131,216"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="146,201,272,201,272,206,146,206"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="218,241,399,281"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="415,249,581,231,668,218,669,223,582,236,415,254"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="180,61,437,117"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="453,114,518,131,582,152,636,176,681,200,679,204,634,180,580,157,517,136,452,119"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="231,5,387,31"/>
+<area shape="poly" id="edge22_Node000001_Node000007" title=" " alt="" coords="403,10,490,14,537,19,582,29,713,64,767,80,816,99,861,123,906,153,953,194,1003,246,1035,287,1061,334,1083,382,1101,430,1125,518,1136,581,1131,582,1120,519,1096,432,1079,384,1057,336,1030,290,999,249,949,198,903,158,859,127,813,104,765,85,712,69,581,34,536,25,490,19,403,16"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="395,33,438,46,462,59,496,70,523,75,550,82,583,97,618,122,650,151,694,201,690,204,646,154,615,126,580,102,549,87,522,81,494,75,460,64,436,51,393,38"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="255,307,362,332"/>
+<area shape="poly" id="edge18_Node000001_Node000008" title=" " alt="" coords="378,308,504,300,583,301,668,308,755,321,842,343,926,376,965,397,1002,421,1045,459,1081,503,1128,580,1124,583,1076,506,1041,463,999,426,962,402,923,381,841,348,754,326,667,313,583,307,504,306,378,313"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="377,308,474,291,581,265,631,246,675,226,677,231,633,251,582,270,475,297,378,313"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="284,141,334,167"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="350,156,582,189,669,206,668,211,581,194,349,161"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="221,364,397,390"/>
+<area shape="poly" id="edge21_Node000001_Node000010" title=" " alt="" coords="412,368,537,368,688,381,768,393,849,412,927,437,1002,469,1040,494,1074,524,1124,580,1120,583,1070,527,1037,498,999,474,925,442,847,417,767,399,687,386,537,374,412,373"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="412,364,496,346,539,332,580,315,632,276,687,227,690,231,636,280,583,319,541,337,497,351,413,369"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="635,449,773,475"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="789,463,892,476,948,489,1002,506,1034,522,1065,541,1115,579,1112,584,1062,546,1032,527,1000,511,947,494,891,481,788,468"/>
+<area shape="rect" id="Node000012" href="$class_i_responder.html" title=" " alt="" coords="207,435,411,460"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="426,449,635,457,635,462,426,455"/>
+<area shape="rect" id="Node000013" href="$class_i_responder.html" title=" " alt="" coords="234,484,383,510"/>
+<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="399,486,634,466,635,471,399,492"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="609,499,799,524"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="815,523,906,537,1001,557,1077,579,1075,584,1000,562,905,543,814,528"/>
+<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="605,549,803,589"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="818,575,1024,591,1024,596,818,580"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="622,614,786,655"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="802,625,1000,611,1024,609,1024,614,1001,616,802,630"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="622,679,786,704"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="801,678,898,664,1000,644,1079,620,1080,626,1001,649,899,669,802,684"/>
+<area shape="rect" id="Node000018" title=" " alt="" coords="630,728,778,754"/>
+<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="793,736,894,724,948,712,1000,695,1032,679,1063,660,1112,621,1116,625,1066,664,1035,684,1002,700,949,717,895,729,794,741"/>
+<area shape="rect" id="Node000019" title=" " alt="" coords="681,777,727,803"/>
+<area shape="poly" id="edge19_Node000001_Node000019" title=" " alt="" coords="742,794,796,800,862,801,933,792,967,782,999,769,1043,737,1079,697,1106,656,1125,622,1129,624,1111,658,1083,700,1046,741,1002,773,969,787,934,797,862,806,795,805,742,799"/>
+<area shape="rect" id="Node000020" title=" " alt="" coords="616,827,792,868"/>
+<area shape="poly" id="edge20_Node000001_Node000020" title=" " alt="" coords="807,859,854,860,904,855,954,844,999,823,1026,803,1050,778,1087,722,1113,666,1128,622,1133,624,1118,668,1092,725,1054,782,1030,807,1002,827,956,849,905,861,855,865,807,865"/>
+<area shape="rect" id="Node000021" title=" " alt="" coords="649,892,759,918"/>
+<area shape="poly" id="edge23_Node000001_Node000021" title=" " alt="" coords="774,916,827,920,886,919,945,907,973,896,999,882,1031,855,1057,823,1079,787,1096,749,1120,677,1131,622,1136,624,1125,678,1101,751,1083,789,1061,826,1034,859,1002,886,976,901,947,912,887,924,827,925,774,921"/>
+<area shape="rect" id="Node000022" title=" " alt="" coords="663,941,745,967"/>
+<area shape="poly" id="edge24_Node000001_Node000022" title=" " alt="" coords="760,966,815,974,878,977,941,967,971,956,999,940,1036,907,1065,867,1088,822,1105,776,1126,687,1133,623,1138,623,1131,688,1110,777,1093,825,1070,870,1040,911,1002,945,974,961,943,972,878,982,814,980,759,971"/>
 </map>

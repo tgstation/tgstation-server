@@ -1,19 +1,17 @@
 <map id="Tgstation.Server.Host.Core.CommandPipeManager" name="Tgstation.Server.Host.Core.CommandPipeManager">
-<area shape="rect" id="Node000001" title="Reads from the command pipe opened by the host watchdog." alt="" coords="676,121,856,161"/>
-<area shape="rect" id="Node000002" href="$class_background_service.html" title=" " alt="" coords="306,5,441,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="456,28,552,48,653,80,731,118,729,122,651,85,550,53,455,33"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="283,55,464,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="479,90,652,118,676,122,675,128,652,123,479,95"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="260,121,487,161"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="502,138,676,138,676,144,502,144"/>
+<area shape="rect" id="Node000001" title="Reads from the command pipe opened by the host watchdog." alt="" coords="675,121,856,161"/>
+<area shape="rect" id="Node000002" href="$class_background_service.html" title=" " alt="" coords="261,5,395,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="411,23,527,42,590,57,652,76,696,95,734,118,732,122,694,100,650,81,589,62,526,47,410,29"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="238,55,418,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="434,87,652,118,675,122,674,127,651,123,433,92"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="215,121,441,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="456,138,675,138,675,144,456,144"/>
 <area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_operations.html" title="Operations that can be performed on a given Models.Instance." alt="" coords="5,104,144,130"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="159,121,260,129,260,134,159,126"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="160,122,214,127,214,133,159,127"/>
 <area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="12,153,137,179"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="152,157,260,148,260,153,152,162"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="239,186,508,227"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="521,180,652,159,675,154,676,160,652,164,522,185"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html" title="Unstable configuration options used internally by TGS." alt="" coords="259,251,488,292"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="497,245,574,225,651,199,692,180,730,159,732,164,695,185,653,204,575,230,498,250"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="30,259,119,284"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="134,269,259,269,259,274,134,274"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="152,156,214,150,214,155,153,161"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="251,186,404,227"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="419,192,651,159,674,155,675,160,652,164,420,197"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="193,251,462,292"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="477,248,564,229,650,203,694,182,732,159,735,164,697,187,652,208,566,235,479,254"/>
 </map>

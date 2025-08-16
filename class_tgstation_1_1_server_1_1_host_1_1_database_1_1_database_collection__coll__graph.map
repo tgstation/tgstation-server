@@ -1,11 +1,9 @@
 <map id="Tgstation.Server.Host.Database.DatabaseCollection&lt; TModel &gt;" name="Tgstation.Server.Host.Database.DatabaseCollection&lt; TModel &gt;">
-<area shape="rect" id="Node000001" title=" " alt="" coords="162,184,370,225"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Represents a database table." alt="" coords="108,80,246,121"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="206,131,251,182,247,185,202,135"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="65,184,273,225"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Represents a database table." alt="" coords="11,80,148,121"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,131,154,182,150,185,105,135"/>
 <area shape="rect" id="Node000003" href="$class_i_queryable.html" title=" " alt="" coords="5,5,154,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="107,39,155,78,151,82,104,43"/>
-<area shape="rect" id="Node000004" href="$class_i_async_enumerable.html" title=" " alt="" coords="178,5,373,31"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="251,43,202,82,199,78,247,39"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="270,88,444,114"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="338,127,286,185,282,182,334,123"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="82,47,82,80,77,80,77,47"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="173,88,346,114"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="241,127,188,185,184,182,237,123"/>
 </map>

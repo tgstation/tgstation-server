@@ -10,26 +10,22 @@
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="232,219,270,219,270,224,232,224"/>
 <area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a799f1f7613771ef7c9d9f5ff55fb8b47" title="Check we have a valid system and configuration." alt="" coords="286,267,512,307"/>
 <area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="209,240,294,260,293,265,208,245"/>
-<area shape="rect" id="Node000016" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#abcec01af471cee5fce210b9fbcb2fa74" title="Sets a newTitle &#160;console window." alt="" coords="315,332,483,373"/>
-<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="150,240,209,279,281,317,301,325,299,330,279,321,206,283,147,245"/>
-<area shape="rect" id="Node000017" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="280,397,518,438"/>
-<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="137,241,195,310,235,349,281,382,293,388,290,393,278,387,232,353,191,314,132,244"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce" title="Create a Task that completes after a given timeSpan ." alt="" coords="604,5,784,46"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="494,133,516,121,532,106,540,90,548,73,564,57,588,44,591,49,568,61,552,76,544,92,536,109,520,125,497,138"/>
-<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html#ad07d54ac504afa080dab8b4e37115439" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="586,71,801,111"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="493,133,583,113,585,118,494,138"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#aeae385f33c15060d54ff78260f30024a" title="Create an IInstance." alt="" coords="581,136,807,177"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="493,198,583,178,585,183,494,203"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="599,201,788,242"/>
-<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="512,219,583,219,583,224,512,224"/>
-<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="586,267,802,307"/>
-<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="512,284,570,284,570,290,512,290"/>
-<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a6b72da3c30d5bc5ad7bbad3d5a95970e" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="566,332,821,373"/>
-<area shape="poly" id="edge12_Node000010_Node000013" title=" " alt="" coords="494,305,585,325,583,331,493,311"/>
-<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="584,397,804,438"/>
-<area shape="poly" id="edge14_Node000010_Node000015" title=" " alt="" coords="497,306,520,318,536,334,544,351,552,367,568,382,577,388,574,392,564,386,548,370,540,354,532,338,516,322,494,310"/>
-<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="869,255,1109,311"/>
-<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="802,283,854,282,854,287,802,288"/>
-<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a661fd448a209ac58937b887023156ac7" title="Check if a given path &#160;is at the root level of the filesystem." alt="" coords="903,335,1075,375"/>
-<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="822,351,888,351,888,357,822,356"/>
+<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#abcec01af471cee5fce210b9fbcb2fa74" title="Sets a newTitle &#160;console window." alt="" coords="315,332,483,373"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="150,240,209,279,281,317,301,325,299,330,279,321,206,283,147,245"/>
+<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="280,397,518,438"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="137,241,195,310,235,349,281,382,293,388,290,393,278,387,232,353,191,314,132,244"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#a588b00b42267c8d23088bde28d3f7fce" title="Create a Task that completes after a given timeSpan ." alt="" coords="589,39,769,79"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="485,133,517,121,541,105,565,90,583,82,585,87,567,95,543,110,519,125,487,138"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html#ad07d54ac504afa080dab8b4e37115439" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="572,104,787,145"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="512,141,556,136,556,141,513,146"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#aeae385f33c15060d54ff78260f30024a" title="Create an IInstance." alt="" coords="566,169,792,210"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="512,206,550,202,551,207,513,211"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="585,235,774,275"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="513,232,570,239,569,245,512,238"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="571,300,787,341"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="513,298,556,303,555,308,512,303"/>
+<area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="569,365,789,406"/>
+<area shape="poly" id="edge12_Node000010_Node000013" title=" " alt="" coords="487,305,519,318,544,334,567,350,584,357,582,362,565,355,541,338,517,323,485,310"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="840,293,1080,348"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="788,318,825,318,825,323,788,323"/>
 </map>

@@ -1,39 +1,29 @@
 <map id="Tgstation.Server.Host.Components.Repository.RepositoryManager" name="Tgstation.Server.Host.Components.Repository.RepositoryManager">
-<area shape="rect" id="Node000001" title=" " alt="" coords="866,317,1092,357"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys." alt="" coords="471,5,608,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="623,10,676,12,734,20,791,37,844,65,874,92,900,124,921,159,939,195,964,264,977,316,971,317,959,265,934,197,917,162,895,127,870,96,840,70,789,42,733,25,676,17,623,15"/>
-<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="38,5,127,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="143,16,471,16,471,21,143,21"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html" title="Factory for creating LibGit2Sharp.IRepositorys." alt="" coords="422,55,657,96"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="673,82,761,102,804,119,844,141,889,182,926,230,954,277,972,315,967,317,949,280,922,233,885,185,840,146,801,124,759,107,672,87"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html" title="For generating CredentialsHandlers." alt="" coords="13,63,152,88"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="167,73,421,73,421,78,167,78"/>
-<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html" title="For low level interactions with a LibGit2Sharp.IRepository." alt="" coords="426,121,653,161"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="669,155,757,177,801,192,843,212,880,235,913,263,963,314,959,318,909,267,877,239,841,217,799,197,755,182,668,160"/>
-<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="456,186,623,227"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="638,221,738,243,843,273,938,313,936,318,841,278,737,248,637,226"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="426,251,653,292"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="668,288,866,317,865,323,667,293"/>
-<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html" title="Handles changing file modes/permissions after writing." alt="" coords="456,317,623,357"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="639,334,866,334,866,340,639,340"/>
-<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html" title="Factory for creating IGitRemoteFeatures." alt="" coords="417,382,662,423"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="677,379,842,355,865,351,866,356,842,360,678,384"/>
-<area shape="rect" id="Node000011" title=" " alt="" coords="423,446,656,502"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="671,445,756,424,841,397,937,355,939,360,843,402,757,429,672,450"/>
-<area shape="rect" id="Node000012" title=" " alt="" coords="423,526,656,582"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="670,527,757,501,800,484,841,463,877,438,910,409,959,356,963,360,913,413,880,442,843,467,802,488,758,506,672,532"/>
-<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="425,606,654,647"/>
-<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="668,610,712,600,757,586,801,567,840,543,865,523,887,499,923,447,950,396,968,357,973,359,955,399,928,450,891,502,868,526,844,547,803,572,759,591,714,605,669,615"/>
-<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,487,160,512"/>
-<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="160,481,216,476,278,478,339,492,368,504,395,522,407,539,408,558,409,576,419,592,433,603,430,608,415,596,404,577,403,558,402,541,391,525,365,509,337,497,277,484,216,481,160,486"/>
-<area shape="rect" id="Node000015" title=" " alt="" coords="38,565,127,591"/>
-<area shape="poly" id="edge14_Node000013_Node000015" title=" " alt="" coords="142,581,393,606,425,610,424,615,392,611,141,586"/>
-<area shape="rect" id="Node000016" title=" " alt="" coords="36,615,129,640"/>
-<area shape="poly" id="edge15_Node000013_Node000016" title=" " alt="" coords="144,625,425,624,425,629,144,630"/>
-<area shape="rect" id="Node000017" title=" " alt="" coords="61,749,104,775"/>
-<area shape="poly" id="edge16_Node000013_Node000017" title=" " alt="" coords="119,768,177,778,249,781,287,777,324,769,359,756,391,736,399,727,402,719,403,699,403,678,407,667,415,656,430,645,433,649,419,660,412,669,408,679,408,699,407,720,403,730,394,740,362,761,326,774,288,783,250,786,177,783,119,774"/>
-<area shape="rect" id="Node000018" title=" " alt="" coords="7,799,158,824"/>
-<area shape="poly" id="edge17_Node000013_Node000018" title=" " alt="" coords="139,826,198,839,265,843,299,841,332,833,363,821,391,802,404,786,408,770,404,733,399,695,403,676,415,656,428,645,431,649,419,660,407,678,404,695,409,733,414,770,408,788,394,806,366,825,334,838,300,846,265,849,197,844,138,832"/>
-<area shape="rect" id="Node000019" title=" " alt="" coords="457,671,622,696"/>
-<area shape="poly" id="edge18_Node000001_Node000019" title=" " alt="" coords="637,686,687,683,741,673,793,656,840,628,872,599,898,564,920,526,937,487,961,413,972,357,977,358,966,414,942,489,924,529,903,567,876,602,844,633,796,661,742,678,688,688,637,691"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="651,317,878,357"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys." alt="" coords="248,5,384,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="399,8,454,8,514,16,574,32,603,45,629,61,660,89,686,121,708,156,725,193,750,263,762,316,757,317,744,264,720,195,703,159,681,124,656,92,626,66,600,50,573,37,513,21,454,14,399,13"/>
+<area shape="rect" id="Node000003" href="$class_i_disposable.html" title=" " alt="" coords="30,5,119,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="135,16,247,16,247,21,135,21"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html" title="Factory for creating LibGit2Sharp.IRepositorys." alt="" coords="198,55,433,96"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="449,78,495,86,541,97,587,114,629,137,653,156,675,179,713,228,740,276,758,315,753,317,735,279,708,231,671,182,650,160,626,142,584,119,540,102,494,91,448,83"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html" title="For generating CredentialsHandlers." alt="" coords="5,63,144,88"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="159,73,197,73,197,78,159,78"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html" title="For low level interactions with a LibGit2Sharp.IRepository." alt="" coords="203,121,429,161"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="445,153,537,174,584,190,629,210,665,234,699,262,749,314,745,318,695,266,662,238,626,215,582,195,536,179,444,158"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="232,186,399,227"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="415,219,519,241,628,272,679,292,725,313,723,318,677,297,626,277,518,246,414,225"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="203,251,429,292"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="445,287,628,314,651,318,650,323,627,319,444,293"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html" title="Handles changing file modes/permissions after writing." alt="" coords="232,317,399,357"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="415,334,651,334,651,340,415,340"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html" title="Factory for creating IGitRemoteFeatures." alt="" coords="193,382,438,423"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="454,380,627,355,650,351,651,356,628,360,454,385"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="234,447,398,488"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="413,450,517,429,626,399,678,378,724,355,727,360,680,383,628,404,518,434,414,456"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="199,512,432,567"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="447,520,538,498,583,482,626,462,662,438,696,409,745,356,749,359,699,413,666,442,629,466,585,487,539,503,448,526"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="199,592,432,647"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="447,605,493,596,539,582,584,563,626,539,650,519,672,496,709,445,736,396,753,356,758,358,740,398,713,448,676,500,654,523,629,543,587,568,541,587,494,601,448,611"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="234,672,398,698"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="413,686,466,681,522,671,577,652,626,623,657,594,682,560,704,523,721,484,745,411,757,357,763,358,750,413,726,486,709,525,687,563,660,598,629,627,579,657,523,676,467,687,414,691"/>
 </map>

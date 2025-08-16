@@ -1,49 +1,38 @@
 <map id="Tgstation.Server.Host.Controllers.InstanceController" name="Tgstation.Server.Host.Controllers.InstanceController">
-<area shape="rect" id="Node000001" title="ApiController for managing Components.Instances." alt="" coords="1351,491,1566,532"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html" title="ApiController for operations on IInstanceCores." alt="" coords="924,115,1128,140"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1072,145,1127,173,1194,211,1264,258,1329,312,1369,358,1404,407,1450,490,1445,492,1399,410,1365,361,1325,316,1261,262,1191,215,1125,177,1070,150"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="494,168,589,194"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="604,171,924,136,924,141,605,177"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="138,177,263,203"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="278,185,493,179,494,185,278,191"/>
-<area shape="rect" id="Node000005" href="$class_controller.html" title=" " alt="" coords="5,177,82,203"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="97,188,137,188,137,193,97,193"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="154,312,246,338"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="246,303,507,192,510,197,248,308"/>
-<area shape="rect" id="Node000017" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="912,295,1140,336"/>
-<area shape="poly" id="edge20_Node000017_Node000006" title=" " alt="" coords="262,333,341,344,429,353,558,357,688,352,809,342,911,330,912,335,809,347,688,357,558,362,428,358,340,350,261,338"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="178,111,223,136"/>
-<area shape="poly" id="edge10_Node000002_Node000007" title=" " alt="" coords="238,121,924,124,924,130,238,126"/>
-<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="239,130,294,143,401,160,494,173,493,178,400,166,293,148,238,136"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="428,31,655,72"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="670,60,777,73,888,90,979,112,977,117,887,95,776,78,670,65"/>
-<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_operations.html" title="Operations that can be performed on a given Models.Instance." alt="" coords="131,5,269,31"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="285,24,428,38,428,43,284,29"/>
-<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="138,55,262,80"/>
-<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="278,61,428,54,428,59,278,67"/>
-<area shape="rect" id="Node000011" title=" " alt="" coords="497,689,586,715"/>
-<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="601,704,703,709,838,711,988,705,1065,698,1140,687,1194,676,1237,665,1277,649,1326,623,1358,601,1389,576,1437,530,1440,534,1392,580,1361,605,1328,627,1279,654,1238,670,1196,681,1140,692,1066,703,989,710,838,716,703,715,601,709"/>
-<area shape="poly" id="edge19_Node000017_Node000011" title=" " alt="" coords="600,684,668,659,746,621,786,597,823,569,857,538,885,502,896,482,899,462,895,425,891,387,897,367,910,347,924,334,928,338,914,351,902,369,897,387,900,424,904,463,901,483,890,505,861,541,826,573,789,601,749,626,670,664,601,689"/>
-<area shape="rect" id="Node000021" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="912,750,1140,791"/>
-<area shape="poly" id="edge25_Node000021_Node000011" title=" " alt="" coords="601,716,679,733,799,750,911,760,911,766,798,755,678,738,600,721"/>
-<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="935,361,1117,401"/>
-<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="1132,396,1228,417,1328,446,1377,466,1421,488,1418,493,1375,471,1326,451,1227,422,1131,401"/>
-<area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="942,426,1110,467"/>
-<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="1125,458,1327,489,1351,492,1350,498,1327,494,1124,464"/>
-<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="927,491,1125,532"/>
-<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="1140,509,1351,509,1351,514,1140,514"/>
-<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html" title="Gets unassigned ports for use by TGS." alt="" coords="936,557,1116,597"/>
-<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="1131,559,1327,529,1350,526,1351,531,1327,534,1132,564"/>
-<area shape="rect" id="Node000016" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html" title="Receives notifications about permissions updates." alt="" coords="926,622,1126,663"/>
-<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="1141,621,1232,601,1326,573,1376,553,1420,530,1422,535,1378,557,1328,578,1234,606,1142,626"/>
-<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="1156,328,1243,349,1287,364,1328,384,1364,408,1396,436,1444,489,1440,492,1392,440,1361,412,1326,388,1285,369,1242,354,1155,333"/>
-<area shape="rect" id="Node000018" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="464,416,619,442"/>
-<area shape="poly" id="edge18_Node000017_Node000018" title=" " alt="" coords="634,435,694,435,760,428,826,412,857,400,886,384,894,376,898,367,901,357,910,347,931,334,934,339,913,351,906,360,903,369,898,379,889,388,859,405,827,417,761,433,695,440,635,440"/>
-<area shape="rect" id="Node000019" title=" " alt="" coords="520,253,563,279"/>
-<area shape="poly" id="edge21_Node000017_Node000019" title=" " alt="" coords="578,267,888,297,911,299,911,305,887,302,578,272"/>
-<area shape="rect" id="Node000020" title=" " alt="" coords="466,303,617,328"/>
-<area shape="poly" id="edge22_Node000017_Node000020" title=" " alt="" coords="633,313,911,313,911,318,633,318"/>
-<area shape="poly" id="edge23_Node000001_Node000021" title=" " alt="" coords="1156,778,1199,775,1243,767,1286,754,1326,734,1352,713,1374,688,1411,631,1435,575,1450,531,1455,533,1440,577,1415,634,1379,691,1355,717,1328,738,1288,759,1244,772,1200,780,1156,783"/>
-<area shape="rect" id="Node000022" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="491,768,592,794"/>
-<area shape="poly" id="edge24_Node000021_Node000022" title=" " alt="" coords="607,777,911,770,911,775,607,782"/>
+<area shape="rect" id="Node000001" title="ApiController for managing Components.Instances." alt="" coords="1221,375,1436,416"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html" title="ApiController for operations on IInstanceCores." alt="" coords="805,145,1008,171"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1024,151,1068,155,1113,163,1157,177,1198,197,1223,216,1245,237,1280,286,1306,335,1323,374,1318,376,1301,337,1276,289,1240,241,1219,220,1196,202,1155,182,1112,168,1067,160,1023,156"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="494,75,589,100"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="605,97,837,142,836,147,604,102"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="138,5,263,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="279,19,341,26,405,37,461,53,510,72,508,77,459,58,404,42,340,31,278,25"/>
+<area shape="rect" id="Node000005" href="$class_controller.html" title=" " alt="" coords="5,5,82,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="97,16,137,16,137,21,97,21"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="154,56,246,82"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="262,70,494,82,493,88,262,75"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="178,117,223,143"/>
+<area shape="poly" id="edge10_Node000002_Node000007" title=" " alt="" coords="238,129,804,151,804,157,238,134"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="238,123,493,91,494,96,239,128"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="428,206,655,247"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="669,211,780,189,804,180,842,169,843,174,806,185,781,194,671,216"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_operations.html" title="Operations that can be performed on a given Models.Instance." alt="" coords="131,196,269,222"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="285,210,428,218,428,223,284,216"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="138,245,262,271"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="278,248,428,234,428,239,278,254"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="862,195,951,220"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="966,207,1018,213,1077,223,1139,240,1198,265,1235,289,1267,319,1315,373,1311,377,1264,322,1231,294,1196,270,1138,245,1076,228,1017,218,966,213"/>
+<area shape="rect" id="Node000012" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="816,245,997,285"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="1013,280,1104,301,1198,329,1248,350,1292,372,1289,377,1245,355,1196,334,1102,306,1012,285"/>
+<area shape="rect" id="Node000013" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="823,310,990,351"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="1006,343,1221,376,1220,382,1005,348"/>
+<area shape="rect" id="Node000014" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="808,375,1005,416"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="1021,393,1220,393,1220,398,1021,398"/>
+<area shape="rect" id="Node000015" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html" title="Gets unassigned ports for use by TGS." alt="" coords="816,441,997,481"/>
+<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="1012,442,1197,413,1220,410,1221,415,1197,418,1013,447"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="831,506,982,547"/>
+<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="997,510,1094,490,1196,460,1247,438,1292,414,1294,419,1249,443,1198,465,1095,495,998,515"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="818,571,995,612"/>
+<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="1010,580,1103,561,1151,545,1196,524,1232,500,1264,470,1311,415,1315,418,1267,474,1235,504,1198,529,1153,550,1104,566,1011,585"/>
+<area shape="rect" id="Node000018" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html" title="Receives notifications about permissions updates." alt="" coords="806,637,1007,677"/>
+<area shape="poly" id="edge18_Node000001_Node000018" title=" " alt="" coords="1022,652,1066,646,1111,636,1155,620,1196,598,1219,578,1241,556,1276,505,1302,455,1318,415,1323,417,1307,457,1281,508,1245,559,1223,582,1198,602,1157,625,1112,641,1067,652,1022,658"/>
 </map>

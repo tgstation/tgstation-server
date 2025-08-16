@@ -472,17 +472,16 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  128</span>                async databaseContext =&gt;</div>
 <div class="line"><span class="lineno">  129</span>                    permedInstanceIds = await databaseContext</div>
 <div class="line"><span class="lineno">  130</span>                        .InstancePermissionSets</div>
-<div class="line"><span class="lineno">  131</span>                        .AsQueryable()</div>
-<div class="line"><span class="lineno">  132</span>                        .Where(ips =&gt; ips.PermissionSetId == pid)</div>
-<div class="line"><span class="lineno">  133</span>                        .Select(ips =&gt; ips.InstanceId)</div>
-<div class="line"><span class="lineno">  134</span>                        .ToListAsync(cancellationToken));</div>
-<div class="line"><span class="lineno">  135</span> </div>
-<div class="line"><span class="lineno">  136</span>            await mappingFunc(</div>
-<div class="line"><span class="lineno">  137</span>                permedInstanceIds!.Select(</div>
-<div class="line"><span class="lineno">  138</span>                    JobsHub.HubGroupName));</div>
-<div class="line"><span class="lineno">  139</span> </div>
-<div class="line"><span class="lineno">  140</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#ad9d1b63f39b536a2554f599cac3c1cb6">jobsHubUpdater</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater.html#aa0c9dbf78b005376137e8d89b57ec8ab">QueueActiveJobUpdates</a>();</div>
-<div class="line"><span class="lineno">  141</span>        }</div>
+<div class="line"><span class="lineno">  131</span>                        .Where(ips =&gt; ips.PermissionSetId == pid)</div>
+<div class="line"><span class="lineno">  132</span>                        .Select(ips =&gt; ips.InstanceId)</div>
+<div class="line"><span class="lineno">  133</span>                        .ToListAsync(cancellationToken));</div>
+<div class="line"><span class="lineno">  134</span> </div>
+<div class="line"><span class="lineno">  135</span>            await mappingFunc(</div>
+<div class="line"><span class="lineno">  136</span>                permedInstanceIds!.Select(</div>
+<div class="line"><span class="lineno">  137</span>                    JobsHub.HubGroupName));</div>
+<div class="line"><span class="lineno">  138</span> </div>
+<div class="line"><span class="lineno">  139</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#ad9d1b63f39b536a2554f599cac3c1cb6">jobsHubUpdater</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater.html#aa0c9dbf78b005376137e8d89b57ec8ab">QueueActiveJobUpdates</a>();</div>
+<div class="line"><span class="lineno">  140</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory_html_a1da664d7237dbec5a6cb9ce04b79ccc1"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext</a></div><div class="ttdeci">ValueTask UseContext(Func&lt; IDatabaseContext, ValueTask &gt; operation)</div><div class="ttdoc">Run an operation  in the scope of an IDatabaseContext.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater_html_aa0c9dbf78b005376137e8d89b57ec8ab"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater.html#aa0c9dbf78b005376137e8d89b57ec8ab">Tgstation.Server.Host.Jobs.IJobsHubUpdater.QueueActiveJobUpdates</a></div><div class="ttdeci">void QueueActiveJobUpdates()</div><div class="ttdoc">Queue a message to be sent to all clients with the current state of active jobs.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_html_a49a8e7813509cf8025daf727fa8465f2"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a49a8e7813509cf8025daf727fa8465f2">Tgstation.Server.Host.Security.IAuthenticationContext.PermissionSet</a></div><div class="ttdeci">PermissionSet PermissionSet</div><div class="ttdoc">The User's effective PermissionSet.</div><div class="ttdef"><b>Definition</b> <a href="_i_authentication_context_8cs_source.html#l00036">IAuthenticationContext.cs:36</a></div></div>

@@ -1,32 +1,26 @@
 <map id="Tgstation.Server.Host.Authority.LoginAuthority" name="Tgstation.Server.Host.Authority.LoginAuthority">
-<area shape="rect" id="Node000001" title=" " alt="" coords="932,269,1136,309"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html" title="Base implementation of IAuthority." alt="" coords="561,5,663,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="679,15,732,20,792,30,854,50,910,80,934,100,955,124,989,176,1014,227,1029,267,1024,269,1009,229,985,179,951,127,930,104,906,84,851,54,791,35,731,25,678,21"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority.html" title="Business logic for interating with the server." alt="" coords="83,31,159,56"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="174,38,560,18,560,23,175,43"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_login_authority.html" title="IAuthority for authenticating with the server." alt="" coords="558,55,666,80"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="175,43,557,62,557,68,175,49"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="681,65,734,69,793,79,853,97,909,124,949,156,982,195,1008,235,1025,267,1021,269,1003,237,978,199,946,160,907,128,851,102,792,85,733,75,681,70"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html" title="Provides ApiHeaders." alt="" coords="522,105,702,145"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="718,136,812,157,862,172,909,192,967,228,1013,266,1010,270,964,232,907,197,860,177,811,162,716,141"/>
-<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys." alt="" coords="512,170,712,211"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="728,206,817,223,909,245,976,265,974,270,907,250,816,229,727,211"/>
-<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html" title="Contains IOAuthValidators." alt="" coords="512,235,712,276"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="728,262,932,278,931,283,727,267"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating TokenResponses." alt="" coords="512,301,712,341"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="727,310,908,297,931,295,932,301,908,302,728,316"/>
-<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions." alt="" coords="512,366,712,407"/>
-<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="727,367,816,350,907,329,977,307,979,312,909,334,817,355,728,372"/>
-<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys." alt="" coords="512,431,712,472"/>
-<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="727,435,817,415,863,401,907,383,937,366,965,347,1010,308,1014,312,968,351,939,371,909,388,865,406,818,420,728,440"/>
-<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_session_invalidation_tracker.html" title="Handles invalidating user sessions." alt="" coords="512,497,712,537"/>
-<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="727,509,772,502,819,491,864,474,907,452,946,420,979,380,1004,341,1021,308,1026,311,1008,343,983,383,950,423,909,457,866,479,820,496,773,507,728,514"/>
-<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html" title="Configuration options pertaining to user security." alt="" coords="498,562,726,603"/>
-<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="741,581,784,575,827,565,869,549,906,527,933,504,955,476,990,415,1013,355,1026,309,1031,310,1018,357,995,417,960,479,937,507,910,531,871,554,829,570,785,581,742,586"/>
-<area shape="rect" id="Node000013" title=" " alt="" coords="77,479,165,504"/>
-<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="181,481,244,477,320,479,399,491,438,503,475,519,484,525,488,533,499,547,523,559,520,564,496,551,484,536,480,529,472,523,436,508,398,496,319,484,244,482,181,486"/>
-<area shape="rect" id="Node000014" title=" " alt="" coords="100,569,142,595"/>
-<area shape="poly" id="edge14_Node000012_Node000014" title=" " alt="" coords="158,580,497,580,497,585,158,585"/>
-<area shape="rect" id="Node000015" title=" " alt="" coords="5,620,237,675"/>
-<area shape="poly" id="edge15_Node000012_Node000015" title=" " alt="" coords="252,629,473,600,497,597,497,602,474,605,253,634"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="547,269,752,309"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html" title="Base implementation of IAuthority." alt="" coords="180,5,282,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,14,351,18,410,28,470,46,525,76,549,97,571,121,606,174,630,226,645,267,640,269,625,228,601,177,567,124,546,100,522,80,468,51,409,33,350,23,298,20"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority.html" title="Business logic for interating with the server." alt="" coords="5,31,82,56"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="97,34,179,22,180,28,98,39"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_login_authority.html" title="IAuthority for authenticating with the server." alt="" coords="177,55,285,80"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="98,48,177,58,176,63,97,53"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="301,64,353,68,411,77,470,94,525,120,565,153,599,194,624,234,641,267,637,269,619,236,594,197,562,157,522,124,468,99,410,82,352,73,301,69"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html" title="Provides ApiHeaders." alt="" coords="141,105,321,145"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="337,135,430,155,478,170,524,189,555,206,584,227,629,266,626,270,580,231,552,211,522,194,477,175,429,160,336,140"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys." alt="" coords="131,170,331,211"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="347,207,524,245,591,265,589,271,523,250,346,212"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html" title="Contains IOAuthValidators." alt="" coords="131,235,331,276"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="347,262,547,278,547,283,347,267"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating TokenResponses." alt="" coords="131,301,331,341"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="346,310,523,297,547,295,547,301,524,302,347,316"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions." alt="" coords="131,366,331,407"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="346,367,433,351,523,331,594,307,596,312,524,336,434,356,347,372"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys." alt="" coords="131,431,331,472"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="346,437,434,418,479,404,522,387,553,369,581,348,627,308,630,312,585,353,556,374,525,392,481,409,436,423,347,442"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_session_invalidation_tracker.html" title="Handles invalidating user sessions." alt="" coords="131,497,331,537"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="346,510,390,504,436,493,481,478,522,456,562,423,595,382,620,341,637,308,642,311,625,344,599,385,566,426,525,461,483,483,437,498,391,509,347,516"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="143,562,319,603"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="335,584,382,580,431,571,479,555,522,531,548,507,571,480,606,417,629,356,642,309,647,310,634,358,611,419,576,483,552,511,525,535,481,560,432,577,383,586,335,590"/>
 </map>

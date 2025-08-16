@@ -489,38 +489,38 @@ Additional Inherited Members</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00264">264</a> of file <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html">GitHubRemoteDeploymentManager.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  271</span>        {</div>
-<div class="line"><span class="lineno">  272</span>            var gitHubService = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(</div>
-<div class="line"><span class="lineno">  273</span>                repositorySettings.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html#ab0bca804385494f141395c333ea81221">AccessToken</a>!,</div>
-<div class="line"><span class="lineno">  274</span>                <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_repository_identifier.html">RepositoryIdentifier</a>(remoteRepositoryOwner, remoteRepositoryName),</div>
-<div class="line"><span class="lineno">  275</span>                cancellationToken);</div>
-<div class="line"><span class="lineno">  276</span> </div>
-<div class="line"><span class="lineno">  277</span>            <span class="keywordflow">if</span> (gitHubService == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  278</span>            {</div>
-<div class="line"><span class="lineno">  279</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(<span class="stringliteral">&quot;Error posting GitHub comment: Authentication failed!&quot;</span>);</div>
-<div class="line"><span class="lineno">  280</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  281</span>            }</div>
-<div class="line"><span class="lineno">  282</span> </div>
-<div class="line"><span class="lineno">  283</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  284</span>            {</div>
-<div class="line"><span class="lineno">  285</span>                <span class="keywordtype">string</span> header = String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;{1}{0}## Test merge deployment history:{0}{0}&quot;</span>, Environment.NewLine, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#a39e6fbd8125e89d030446a410b25e5e1">DeploymentMsgHeaderStart</a>);</div>
-<div class="line"><span class="lineno">  286</span> </div>
-<div class="line"><span class="lineno">  287</span>                var existingComment = await gitHubService.GetExistingCommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#a39e6fbd8125e89d030446a410b25e5e1">DeploymentMsgHeaderStart</a>, testMergeNumber, cancellationToken);</div>
-<div class="line"><span class="lineno">  288</span>                <span class="keywordflow">if</span> (existingComment != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  289</span>                {</div>
-<div class="line"><span class="lineno">  290</span>                    await gitHubService.AppendCommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, comment, existingComment, cancellationToken);</div>
-<div class="line"><span class="lineno">  291</span>                }</div>
-<div class="line"><span class="lineno">  292</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  293</span>                {</div>
-<div class="line"><span class="lineno">  294</span>                    await gitHubService.CommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, header + comment, testMergeNumber, cancellationToken);</div>
-<div class="line"><span class="lineno">  295</span>                }</div>
-<div class="line"><span class="lineno">  296</span>            }</div>
-<div class="line"><span class="lineno">  297</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
-<div class="line"><span class="lineno">  298</span>            {</div>
-<div class="line"><span class="lineno">  299</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error posting GitHub comment!&quot;</span>);</div>
-<div class="line"><span class="lineno">  300</span>            }</div>
-<div class="line"><span class="lineno">  301</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00263">263</a> of file <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html">GitHubRemoteDeploymentManager.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  270</span>        {</div>
+<div class="line"><span class="lineno">  271</span>            var gitHubService = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(</div>
+<div class="line"><span class="lineno">  272</span>                repositorySettings.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html#ab0bca804385494f141395c333ea81221">AccessToken</a>!,</div>
+<div class="line"><span class="lineno">  273</span>                <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_repository_identifier.html">RepositoryIdentifier</a>(remoteRepositoryOwner, remoteRepositoryName),</div>
+<div class="line"><span class="lineno">  274</span>                cancellationToken);</div>
+<div class="line"><span class="lineno">  275</span> </div>
+<div class="line"><span class="lineno">  276</span>            <span class="keywordflow">if</span> (gitHubService == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  277</span>            {</div>
+<div class="line"><span class="lineno">  278</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(<span class="stringliteral">&quot;Error posting GitHub comment: Authentication failed!&quot;</span>);</div>
+<div class="line"><span class="lineno">  279</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  280</span>            }</div>
+<div class="line"><span class="lineno">  281</span> </div>
+<div class="line"><span class="lineno">  282</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  283</span>            {</div>
+<div class="line"><span class="lineno">  284</span>                <span class="keywordtype">string</span> header = String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;{1}{0}## Test merge deployment history:{0}{0}&quot;</span>, Environment.NewLine, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#a39e6fbd8125e89d030446a410b25e5e1">DeploymentMsgHeaderStart</a>);</div>
+<div class="line"><span class="lineno">  285</span> </div>
+<div class="line"><span class="lineno">  286</span>                var existingComment = await gitHubService.GetExistingCommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#a39e6fbd8125e89d030446a410b25e5e1">DeploymentMsgHeaderStart</a>, testMergeNumber, cancellationToken);</div>
+<div class="line"><span class="lineno">  287</span>                <span class="keywordflow">if</span> (existingComment != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  288</span>                {</div>
+<div class="line"><span class="lineno">  289</span>                    await gitHubService.AppendCommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, comment, existingComment, cancellationToken);</div>
+<div class="line"><span class="lineno">  290</span>                }</div>
+<div class="line"><span class="lineno">  291</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  292</span>                {</div>
+<div class="line"><span class="lineno">  293</span>                    await gitHubService.CommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, header + comment, testMergeNumber, cancellationToken);</div>
+<div class="line"><span class="lineno">  294</span>                }</div>
+<div class="line"><span class="lineno">  295</span>            }</div>
+<div class="line"><span class="lineno">  296</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
+<div class="line"><span class="lineno">  297</span>            {</div>
+<div class="line"><span class="lineno">  298</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error posting GitHub comment!&quot;</span>);</div>
+<div class="line"><span class="lineno">  299</span>            }</div>
+<div class="line"><span class="lineno">  300</span>        }</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings_html_ab0bca804385494f141395c333ea81221"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html#ab0bca804385494f141395c333ea81221">Tgstation.Server.Api.Models.RepositorySettings.AccessToken</a></div><div class="ttdeci">string? AccessToken</div><div class="ttdoc">The token/password to access the git repository with. Can also be a TGS encoded app private key....</div><div class="ttdef"><b>Definition</b> <a href="_tgstation_8_server_8_api_2_models_2_repository_settings_8cs_source.html#l00042">RepositorySettings.cs:42</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager_html_a39e6fbd8125e89d030446a410b25e5e1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#a39e6fbd8125e89d030446a410b25e5e1">Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager.DeploymentMsgHeaderStart</a></div><div class="ttdeci">const string DeploymentMsgHeaderStart</div><div class="ttdoc">The header comment that begins every deployment message comment/note.</div><div class="ttdef"><b>Definition</b> <a href="_base_remote_deployment_manager_8cs_source.html#l00024">BaseRemoteDeploymentManager.cs:24</a></div></div>
@@ -797,67 +797,67 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a132eec6aaf11a390b857b6eed5ea7567">Tgstation.Server.Host.Components.Deployment.Remote.IRemoteDeploymentManager</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00171">171</a> of file <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html">GitHubRemoteDeploymentManager.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  176</span>        {</div>
-<div class="line"><span class="lineno">  177</span>            ArgumentNullException.ThrowIfNull(repository);</div>
-<div class="line"><span class="lineno">  178</span>            ArgumentNullException.ThrowIfNull(repositorySettings);</div>
-<div class="line"><span class="lineno">  179</span>            ArgumentNullException.ThrowIfNull(revisionInformation);</div>
-<div class="line"><span class="lineno">  180</span> </div>
-<div class="line"><span class="lineno">  181</span>            <span class="keywordflow">if</span> ((revisionInformation.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a099c30ffa1bc05ed492ce8b3d9e3cd4c">ActiveTestMerges</a>?.Count &gt; 0) != <span class="keyword">true</span>)</div>
-<div class="line"><span class="lineno">  182</span>            {</div>
-<div class="line"><span class="lineno">  183</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogTrace(<span class="stringliteral">&quot;No test merges to remove.&quot;</span>);</div>
-<div class="line"><span class="lineno">  184</span>                <span class="keywordflow">return</span> Array.Empty&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">TestMerge</a>&gt;();</div>
-<div class="line"><span class="lineno">  185</span>            }</div>
-<div class="line"><span class="lineno">  186</span> </div>
-<div class="line"><span class="lineno">  187</span>            var gitHubService = repositorySettings.AccessToken != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">  188</span>                ? await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(</div>
-<div class="line"><span class="lineno">  189</span>                    repositorySettings.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html#ab0bca804385494f141395c333ea81221">AccessToken</a>,</div>
-<div class="line"><span class="lineno">  190</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_repository_identifier.html">RepositoryIdentifier</a>(repository),</div>
-<div class="line"><span class="lineno">  191</span>                    cancellationToken)</div>
-<div class="line"><span class="lineno">  192</span>                    ?? await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(cancellationToken)</div>
-<div class="line"><span class="lineno">  193</span>                : await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(cancellationToken);</div>
-<div class="line"><span class="lineno">  194</span> </div>
-<div class="line"><span class="lineno">  195</span>            var tasks = revisionInformation</div>
-<div class="line"><span class="lineno">  196</span>                .<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a099c30ffa1bc05ed492ce8b3d9e3cd4c">ActiveTestMerges</a></div>
-<div class="line"><span class="lineno">  197</span>                .Select(x =&gt; gitHubService.GetPullRequest(</div>
-<div class="line"><span class="lineno">  198</span>                    repository.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html#a337342e3a22ef245c1744c32ef313ec0">RemoteRepositoryOwner</a>!,</div>
-<div class="line"><span class="lineno">  199</span>                    repository.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html#a16b1a16989886b7fe3beab0a46b83a4b">RemoteRepositoryName</a>!,</div>
-<div class="line"><span class="lineno">  200</span>                    x.TestMerge.Number,</div>
-<div class="line"><span class="lineno">  201</span>                    cancellationToken));</div>
-<div class="line"><span class="lineno">  202</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  203</span>            {</div>
-<div class="line"><span class="lineno">  204</span>                await Task.WhenAll(tasks);</div>
-<div class="line"><span class="lineno">  205</span>            }</div>
-<div class="line"><span class="lineno">  206</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
-<div class="line"><span class="lineno">  207</span>            {</div>
-<div class="line"><span class="lineno">  208</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Pull requests update check failed!&quot;</span>);</div>
-<div class="line"><span class="lineno">  209</span>            }</div>
-<div class="line"><span class="lineno">  210</span> </div>
-<div class="line"><span class="lineno">  211</span>            var newList = revisionInformation.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a099c30ffa1bc05ed492ce8b3d9e3cd4c">ActiveTestMerges</a>.Select(x =&gt; x.TestMerge).ToList();</div>
-<div class="line"><span class="lineno">  212</span> </div>
-<div class="line"><span class="lineno">  213</span>            PullRequest? lastMerged = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  214</span>            async ValueTask CheckRemovePR(Task&lt;PullRequest&gt; task)</div>
-<div class="line"><span class="lineno">  215</span>            {</div>
-<div class="line"><span class="lineno">  216</span>                var pr = await task;</div>
-<div class="line"><span class="lineno">  217</span>                <span class="keywordflow">if</span> (!pr.Merged)</div>
-<div class="line"><span class="lineno">  218</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  219</span> </div>
-<div class="line"><span class="lineno">  220</span>                <span class="comment">// We don&#39;t just assume, actually check the repo contains the merge commit.</span></div>
-<div class="line"><span class="lineno">  221</span>                <span class="keywordflow">if</span> (await repository.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ab8e15b3dd9fe05cabc167ad5e6b3cdcd">CommittishIsParent</a>(pr.MergeCommitSha, cancellationToken))</div>
-<div class="line"><span class="lineno">  222</span>                {</div>
-<div class="line"><span class="lineno">  223</span>                    <span class="keywordflow">if</span> (lastMerged == <span class="keyword">null</span> || lastMerged.MergedAt &lt; pr.MergedAt)</div>
-<div class="line"><span class="lineno">  224</span>                        lastMerged = pr;</div>
-<div class="line"><span class="lineno">  225</span>                    newList.Remove(</div>
-<div class="line"><span class="lineno">  226</span>                        newList.First(</div>
-<div class="line"><span class="lineno">  227</span>                            potential =&gt; potential.Number == pr.Number));</div>
-<div class="line"><span class="lineno">  228</span>                }</div>
-<div class="line"><span class="lineno">  229</span>            }</div>
-<div class="line"><span class="lineno">  230</span> </div>
-<div class="line"><span class="lineno">  231</span>            <span class="keywordflow">foreach</span> (var prTask <span class="keywordflow">in</span> tasks)</div>
-<div class="line"><span class="lineno">  232</span>                await CheckRemovePR(prTask);</div>
-<div class="line"><span class="lineno">  233</span> </div>
-<div class="line"><span class="lineno">  234</span>            <span class="keywordflow">return</span> newList;</div>
-<div class="line"><span class="lineno">  235</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00170">170</a> of file <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html">GitHubRemoteDeploymentManager.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  175</span>        {</div>
+<div class="line"><span class="lineno">  176</span>            ArgumentNullException.ThrowIfNull(repository);</div>
+<div class="line"><span class="lineno">  177</span>            ArgumentNullException.ThrowIfNull(repositorySettings);</div>
+<div class="line"><span class="lineno">  178</span>            ArgumentNullException.ThrowIfNull(revisionInformation);</div>
+<div class="line"><span class="lineno">  179</span> </div>
+<div class="line"><span class="lineno">  180</span>            <span class="keywordflow">if</span> ((revisionInformation.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a099c30ffa1bc05ed492ce8b3d9e3cd4c">ActiveTestMerges</a>?.Count &gt; 0) != <span class="keyword">true</span>)</div>
+<div class="line"><span class="lineno">  181</span>            {</div>
+<div class="line"><span class="lineno">  182</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogTrace(<span class="stringliteral">&quot;No test merges to remove.&quot;</span>);</div>
+<div class="line"><span class="lineno">  183</span>                <span class="keywordflow">return</span> Array.Empty&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">TestMerge</a>&gt;();</div>
+<div class="line"><span class="lineno">  184</span>            }</div>
+<div class="line"><span class="lineno">  185</span> </div>
+<div class="line"><span class="lineno">  186</span>            var gitHubService = repositorySettings.AccessToken != <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">  187</span>                ? await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(</div>
+<div class="line"><span class="lineno">  188</span>                    repositorySettings.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html#ab0bca804385494f141395c333ea81221">AccessToken</a>,</div>
+<div class="line"><span class="lineno">  189</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_repository_identifier.html">RepositoryIdentifier</a>(repository),</div>
+<div class="line"><span class="lineno">  190</span>                    cancellationToken)</div>
+<div class="line"><span class="lineno">  191</span>                    ?? await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(cancellationToken)</div>
+<div class="line"><span class="lineno">  192</span>                : await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">  193</span> </div>
+<div class="line"><span class="lineno">  194</span>            var tasks = revisionInformation</div>
+<div class="line"><span class="lineno">  195</span>                .<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a099c30ffa1bc05ed492ce8b3d9e3cd4c">ActiveTestMerges</a></div>
+<div class="line"><span class="lineno">  196</span>                .Select(x =&gt; gitHubService.GetPullRequest(</div>
+<div class="line"><span class="lineno">  197</span>                    repository.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html#a337342e3a22ef245c1744c32ef313ec0">RemoteRepositoryOwner</a>!,</div>
+<div class="line"><span class="lineno">  198</span>                    repository.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html#a16b1a16989886b7fe3beab0a46b83a4b">RemoteRepositoryName</a>!,</div>
+<div class="line"><span class="lineno">  199</span>                    x.TestMerge.Number,</div>
+<div class="line"><span class="lineno">  200</span>                    cancellationToken));</div>
+<div class="line"><span class="lineno">  201</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  202</span>            {</div>
+<div class="line"><span class="lineno">  203</span>                await Task.WhenAll(tasks);</div>
+<div class="line"><span class="lineno">  204</span>            }</div>
+<div class="line"><span class="lineno">  205</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
+<div class="line"><span class="lineno">  206</span>            {</div>
+<div class="line"><span class="lineno">  207</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Pull requests update check failed!&quot;</span>);</div>
+<div class="line"><span class="lineno">  208</span>            }</div>
+<div class="line"><span class="lineno">  209</span> </div>
+<div class="line"><span class="lineno">  210</span>            var newList = revisionInformation.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a099c30ffa1bc05ed492ce8b3d9e3cd4c">ActiveTestMerges</a>.Select(x =&gt; x.TestMerge).ToList();</div>
+<div class="line"><span class="lineno">  211</span> </div>
+<div class="line"><span class="lineno">  212</span>            PullRequest? lastMerged = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  213</span>            async ValueTask CheckRemovePR(Task&lt;PullRequest&gt; task)</div>
+<div class="line"><span class="lineno">  214</span>            {</div>
+<div class="line"><span class="lineno">  215</span>                var pr = await task;</div>
+<div class="line"><span class="lineno">  216</span>                <span class="keywordflow">if</span> (!pr.Merged)</div>
+<div class="line"><span class="lineno">  217</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  218</span> </div>
+<div class="line"><span class="lineno">  219</span>                <span class="comment">// We don&#39;t just assume, actually check the repo contains the merge commit.</span></div>
+<div class="line"><span class="lineno">  220</span>                <span class="keywordflow">if</span> (await repository.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ab8e15b3dd9fe05cabc167ad5e6b3cdcd">CommittishIsParent</a>(pr.MergeCommitSha, cancellationToken))</div>
+<div class="line"><span class="lineno">  221</span>                {</div>
+<div class="line"><span class="lineno">  222</span>                    <span class="keywordflow">if</span> (lastMerged == <span class="keyword">null</span> || lastMerged.MergedAt &lt; pr.MergedAt)</div>
+<div class="line"><span class="lineno">  223</span>                        lastMerged = pr;</div>
+<div class="line"><span class="lineno">  224</span>                    newList.Remove(</div>
+<div class="line"><span class="lineno">  225</span>                        newList.First(</div>
+<div class="line"><span class="lineno">  226</span>                            potential =&gt; potential.Number == pr.Number));</div>
+<div class="line"><span class="lineno">  227</span>                }</div>
+<div class="line"><span class="lineno">  228</span>            }</div>
+<div class="line"><span class="lineno">  229</span> </div>
+<div class="line"><span class="lineno">  230</span>            <span class="keywordflow">foreach</span> (var prTask <span class="keywordflow">in</span> tasks)</div>
+<div class="line"><span class="lineno">  231</span>                await CheckRemovePR(prTask);</div>
+<div class="line"><span class="lineno">  232</span> </div>
+<div class="line"><span class="lineno">  233</span>            <span class="keywordflow">return</span> newList;</div>
+<div class="line"><span class="lineno">  234</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information_html_a099c30ffa1bc05ed492ce8b3d9e3cd4c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a099c30ffa1bc05ed492ce8b3d9e3cd4c">Tgstation.Server.Host.Models.RevisionInformation.ActiveTestMerges</a></div><div class="ttdeci">ICollection&lt; RevInfoTestMerge &gt;? ActiveTestMerges</div><div class="ttdoc">See Api.Models.RevisionInformation.ActiveTestMerges.</div><div class="ttdef"><b>Definition</b> <a href="_tgstation_8_server_8_host_2_models_2_revision_information_8cs_source.html#l00035">RevisionInformation.cs:35</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">Tgstation.Server.Host.Models.TestMerge</a></div><div class="ttdef"><b>Definition</b> <a href="_tgstation_8_server_8_host_2_models_2_test_merge_8cs_source.html#l00008">TestMerge.cs:9</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information_html_a16b1a16989886b7fe3beab0a46b83a4b"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html#a16b1a16989886b7fe3beab0a46b83a4b">Tgstation.Server.Api.Models.Internal.IGitRemoteInformation.RemoteRepositoryName</a></div><div class="ttdeci">string? RemoteRepositoryName</div><div class="ttdoc">If RemoteGitProvider is not RemoteGitProvider.Unknown this will be set with the name of the repositor...</div><div class="ttdef"><b>Definition</b> <a href="_i_git_remote_information_8cs_source.html#l00021">IGitRemoteInformation.cs:21</a></div></div>
@@ -975,94 +975,93 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">   70</span>                async databaseContext =&gt;</div>
 <div class="line"><span class="lineno">   71</span>                    repositorySettings = await databaseContext</div>
 <div class="line"><span class="lineno">   72</span>                        .<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_repository_settings.html">RepositorySettings</a></div>
-<div class="line"><span class="lineno">   73</span>                        .AsQueryable()</div>
-<div class="line"><span class="lineno">   74</span>                        .Where(x =&gt; x.InstanceId == <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#a3217b057f1e1bd47bdd167178f257645">Metadata</a>.Id)</div>
-<div class="line"><span class="lineno">   75</span>                        .FirstAsync(cancellationToken));</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>            var instanceAuthenticated = repositorySettings!.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html#ab0bca804385494f141395c333ea81221">AccessToken</a> != <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   78</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html">IAuthenticatedGitHubService</a>? authenticatedGitHubService;</div>
-<div class="line"><span class="lineno">   79</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html">IGitHubService</a>? gitHubService;</div>
-<div class="line"><span class="lineno">   80</span>            <span class="keywordflow">if</span> (instanceAuthenticated)</div>
-<div class="line"><span class="lineno">   81</span>            {</div>
-<div class="line"><span class="lineno">   82</span>                authenticatedGitHubService = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(</div>
-<div class="line"><span class="lineno">   83</span>                    repositorySettings.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html#ab0bca804385494f141395c333ea81221">AccessToken</a>!,</div>
-<div class="line"><span class="lineno">   84</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_repository_identifier.html">RepositoryIdentifier</a>(remoteInformation),</div>
-<div class="line"><span class="lineno">   85</span>                    cancellationToken);</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>                <span class="keywordflow">if</span> (authenticatedGitHubService == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   88</span>                {</div>
-<div class="line"><span class="lineno">   89</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(<span class="stringliteral">&quot;Can&#39;t create GitHub deployment as authentication for repository failed!&quot;</span>);</div>
-<div class="line"><span class="lineno">   90</span>                    gitHubService = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(cancellationToken);</div>
-<div class="line"><span class="lineno">   91</span>                }</div>
-<div class="line"><span class="lineno">   92</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   93</span>                    gitHubService = authenticatedGitHubService;</div>
-<div class="line"><span class="lineno">   94</span>            }</div>
-<div class="line"><span class="lineno">   95</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   96</span>            {</div>
-<div class="line"><span class="lineno">   97</span>                authenticatedGitHubService = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   98</span>                gitHubService = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(cancellationToken);</div>
-<div class="line"><span class="lineno">   99</span>            }</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>            var repoOwner = remoteInformation.RemoteRepositoryOwner!;</div>
-<div class="line"><span class="lineno">  102</span>            var repoName = remoteInformation.RemoteRepositoryName!;</div>
-<div class="line"><span class="lineno">  103</span>            var repositoryIdTask = gitHubService.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a74b8e7bffa82ab1a72c5e72259b0823e">GetRepositoryId</a>(</div>
-<div class="line"><span class="lineno">  104</span>                repoOwner,</div>
-<div class="line"><span class="lineno">  105</span>                repoName,</div>
-<div class="line"><span class="lineno">  106</span>                cancellationToken);</div>
-<div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  108</span>            <span class="keywordflow">if</span> (!repositorySettings.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html#a0725fe7a401590e54cd730204a64d9d2">CreateGitHubDeployments</a>!.Value)</div>
-<div class="line"><span class="lineno">  109</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogTrace(<span class="stringliteral">&quot;Not creating deployment&quot;</span>);</div>
-<div class="line"><span class="lineno">  110</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!instanceAuthenticated)</div>
-<div class="line"><span class="lineno">  111</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(<span class="stringliteral">&quot;Can&#39;t create GitHub deployment as no access token is set for repository!&quot;</span>);</div>
-<div class="line"><span class="lineno">  112</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (authenticatedGitHubService != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  113</span>            {</div>
-<div class="line"><span class="lineno">  114</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogTrace(<span class="stringliteral">&quot;Creating deployment...&quot;</span>);</div>
-<div class="line"><span class="lineno">  115</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  116</span>                {</div>
-<div class="line"><span class="lineno">  117</span>                    compileJob.GitHubDeploymentId = await authenticatedGitHubService.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a6ec88b25682381d11b7d39a4414383e0">CreateDeployment</a>(</div>
-<div class="line"><span class="lineno">  118</span>                        <span class="keyword">new</span> NewDeployment(compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a30c14e7fc4c770ff11cd0f10be4fb4dd">RevisionInformation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">CommitSha</a>)</div>
-<div class="line"><span class="lineno">  119</span>                        {</div>
-<div class="line"><span class="lineno">  120</span>                            AutoMerge = false,</div>
-<div class="line"><span class="lineno">  121</span>                            Description = <span class="stringliteral">&quot;TGS Game Deployment&quot;</span>,</div>
-<div class="line"><span class="lineno">  122</span>                            Environment = $<span class="stringliteral">&quot;TGS: {Metadata.Name}&quot;</span>,</div>
-<div class="line"><span class="lineno">  123</span>                            ProductionEnvironment = true,</div>
-<div class="line"><span class="lineno">  124</span>                            RequiredContexts = new Collection&lt;string&gt;(),</div>
-<div class="line"><span class="lineno">  125</span>                        },</div>
-<div class="line"><span class="lineno">  126</span>                        repoOwner,</div>
-<div class="line"><span class="lineno">  127</span>                        repoName,</div>
-<div class="line"><span class="lineno">  128</span>                        cancellationToken);</div>
-<div class="line"><span class="lineno">  129</span> </div>
-<div class="line"><span class="lineno">  130</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogDebug(<span class="stringliteral">&quot;Created deployment ID {deploymentId}&quot;</span>, compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a552bf96fdea84a75e32f111a7c96d931">GitHubDeploymentId</a>);</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>                    await authenticatedGitHubService.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#afe4ffe75eea54d6dd06187485b9ccfea">CreateDeploymentStatus</a>(</div>
-<div class="line"><span class="lineno">  133</span>                        <span class="keyword">new</span> NewDeploymentStatus(DeploymentState.InProgress)</div>
-<div class="line"><span class="lineno">  134</span>                        {</div>
-<div class="line"><span class="lineno">  135</span>                            Description = <span class="stringliteral">&quot;The project is being deployed&quot;</span>,</div>
-<div class="line"><span class="lineno">  136</span>                            AutoInactive = false,</div>
-<div class="line"><span class="lineno">  137</span>                        },</div>
-<div class="line"><span class="lineno">  138</span>                        repoOwner,</div>
-<div class="line"><span class="lineno">  139</span>                        repoName,</div>
-<div class="line"><span class="lineno">  140</span>                        compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a552bf96fdea84a75e32f111a7c96d931">GitHubDeploymentId</a>.Value,</div>
-<div class="line"><span class="lineno">  141</span>                        cancellationToken);</div>
-<div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogTrace(<span class="stringliteral">&quot;In-progress deployment status created&quot;</span>);</div>
-<div class="line"><span class="lineno">  144</span>                }</div>
-<div class="line"><span class="lineno">  145</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
-<div class="line"><span class="lineno">  146</span>                {</div>
-<div class="line"><span class="lineno">  147</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Unable to create GitHub deployment!&quot;</span>);</div>
-<div class="line"><span class="lineno">  148</span>                }</div>
-<div class="line"><span class="lineno">  149</span>            }</div>
-<div class="line"><span class="lineno">  150</span> </div>
-<div class="line"><span class="lineno">  151</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  152</span>            {</div>
-<div class="line"><span class="lineno">  153</span>                compileJob.GitHubRepoId = await repositoryIdTask;</div>
-<div class="line"><span class="lineno">  154</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogTrace(<span class="stringliteral">&quot;Set GitHub ID as {gitHubRepoId}&quot;</span>, compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#ac12e2d50eb98927e394618b97b0ce9ef">GitHubRepoId</a>);</div>
-<div class="line"><span class="lineno">  155</span>            }</div>
-<div class="line"><span class="lineno">  156</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
-<div class="line"><span class="lineno">  157</span>            {</div>
-<div class="line"><span class="lineno">  158</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Unable to set compile job repository ID!&quot;</span>);</div>
-<div class="line"><span class="lineno">  159</span>            }</div>
-<div class="line"><span class="lineno">  160</span>        }</div>
+<div class="line"><span class="lineno">   73</span>                        .Where(x =&gt; x.InstanceId == <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#a3217b057f1e1bd47bdd167178f257645">Metadata</a>.Id)</div>
+<div class="line"><span class="lineno">   74</span>                        .FirstAsync(cancellationToken));</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>            var instanceAuthenticated = repositorySettings!.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html#ab0bca804385494f141395c333ea81221">AccessToken</a> != <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   77</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html">IAuthenticatedGitHubService</a>? authenticatedGitHubService;</div>
+<div class="line"><span class="lineno">   78</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html">IGitHubService</a>? gitHubService;</div>
+<div class="line"><span class="lineno">   79</span>            <span class="keywordflow">if</span> (instanceAuthenticated)</div>
+<div class="line"><span class="lineno">   80</span>            {</div>
+<div class="line"><span class="lineno">   81</span>                authenticatedGitHubService = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(</div>
+<div class="line"><span class="lineno">   82</span>                    repositorySettings.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html#ab0bca804385494f141395c333ea81221">AccessToken</a>!,</div>
+<div class="line"><span class="lineno">   83</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_repository_identifier.html">RepositoryIdentifier</a>(remoteInformation),</div>
+<div class="line"><span class="lineno">   84</span>                    cancellationToken);</div>
+<div class="line"><span class="lineno">   85</span> </div>
+<div class="line"><span class="lineno">   86</span>                <span class="keywordflow">if</span> (authenticatedGitHubService == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   87</span>                {</div>
+<div class="line"><span class="lineno">   88</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(<span class="stringliteral">&quot;Can&#39;t create GitHub deployment as authentication for repository failed!&quot;</span>);</div>
+<div class="line"><span class="lineno">   89</span>                    gitHubService = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">   90</span>                }</div>
+<div class="line"><span class="lineno">   91</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   92</span>                    gitHubService = authenticatedGitHubService;</div>
+<div class="line"><span class="lineno">   93</span>            }</div>
+<div class="line"><span class="lineno">   94</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   95</span>            {</div>
+<div class="line"><span class="lineno">   96</span>                authenticatedGitHubService = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   97</span>                gitHubService = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">   98</span>            }</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>            var repoOwner = remoteInformation.RemoteRepositoryOwner!;</div>
+<div class="line"><span class="lineno">  101</span>            var repoName = remoteInformation.RemoteRepositoryName!;</div>
+<div class="line"><span class="lineno">  102</span>            var repositoryIdTask = gitHubService.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a74b8e7bffa82ab1a72c5e72259b0823e">GetRepositoryId</a>(</div>
+<div class="line"><span class="lineno">  103</span>                repoOwner,</div>
+<div class="line"><span class="lineno">  104</span>                repoName,</div>
+<div class="line"><span class="lineno">  105</span>                cancellationToken);</div>
+<div class="line"><span class="lineno">  106</span> </div>
+<div class="line"><span class="lineno">  107</span>            <span class="keywordflow">if</span> (!repositorySettings.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html#a0725fe7a401590e54cd730204a64d9d2">CreateGitHubDeployments</a>!.Value)</div>
+<div class="line"><span class="lineno">  108</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogTrace(<span class="stringliteral">&quot;Not creating deployment&quot;</span>);</div>
+<div class="line"><span class="lineno">  109</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!instanceAuthenticated)</div>
+<div class="line"><span class="lineno">  110</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(<span class="stringliteral">&quot;Can&#39;t create GitHub deployment as no access token is set for repository!&quot;</span>);</div>
+<div class="line"><span class="lineno">  111</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (authenticatedGitHubService != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  112</span>            {</div>
+<div class="line"><span class="lineno">  113</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogTrace(<span class="stringliteral">&quot;Creating deployment...&quot;</span>);</div>
+<div class="line"><span class="lineno">  114</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  115</span>                {</div>
+<div class="line"><span class="lineno">  116</span>                    compileJob.GitHubDeploymentId = await authenticatedGitHubService.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a6ec88b25682381d11b7d39a4414383e0">CreateDeployment</a>(</div>
+<div class="line"><span class="lineno">  117</span>                        <span class="keyword">new</span> NewDeployment(compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a30c14e7fc4c770ff11cd0f10be4fb4dd">RevisionInformation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">CommitSha</a>)</div>
+<div class="line"><span class="lineno">  118</span>                        {</div>
+<div class="line"><span class="lineno">  119</span>                            AutoMerge = false,</div>
+<div class="line"><span class="lineno">  120</span>                            Description = <span class="stringliteral">&quot;TGS Game Deployment&quot;</span>,</div>
+<div class="line"><span class="lineno">  121</span>                            Environment = $<span class="stringliteral">&quot;TGS: {Metadata.Name}&quot;</span>,</div>
+<div class="line"><span class="lineno">  122</span>                            ProductionEnvironment = true,</div>
+<div class="line"><span class="lineno">  123</span>                            RequiredContexts = new Collection&lt;string&gt;(),</div>
+<div class="line"><span class="lineno">  124</span>                        },</div>
+<div class="line"><span class="lineno">  125</span>                        repoOwner,</div>
+<div class="line"><span class="lineno">  126</span>                        repoName,</div>
+<div class="line"><span class="lineno">  127</span>                        cancellationToken);</div>
+<div class="line"><span class="lineno">  128</span> </div>
+<div class="line"><span class="lineno">  129</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogDebug(<span class="stringliteral">&quot;Created deployment ID {deploymentId}&quot;</span>, compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a552bf96fdea84a75e32f111a7c96d931">GitHubDeploymentId</a>);</div>
+<div class="line"><span class="lineno">  130</span> </div>
+<div class="line"><span class="lineno">  131</span>                    await authenticatedGitHubService.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#afe4ffe75eea54d6dd06187485b9ccfea">CreateDeploymentStatus</a>(</div>
+<div class="line"><span class="lineno">  132</span>                        <span class="keyword">new</span> NewDeploymentStatus(DeploymentState.InProgress)</div>
+<div class="line"><span class="lineno">  133</span>                        {</div>
+<div class="line"><span class="lineno">  134</span>                            Description = <span class="stringliteral">&quot;The project is being deployed&quot;</span>,</div>
+<div class="line"><span class="lineno">  135</span>                            AutoInactive = false,</div>
+<div class="line"><span class="lineno">  136</span>                        },</div>
+<div class="line"><span class="lineno">  137</span>                        repoOwner,</div>
+<div class="line"><span class="lineno">  138</span>                        repoName,</div>
+<div class="line"><span class="lineno">  139</span>                        compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a552bf96fdea84a75e32f111a7c96d931">GitHubDeploymentId</a>.Value,</div>
+<div class="line"><span class="lineno">  140</span>                        cancellationToken);</div>
+<div class="line"><span class="lineno">  141</span> </div>
+<div class="line"><span class="lineno">  142</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogTrace(<span class="stringliteral">&quot;In-progress deployment status created&quot;</span>);</div>
+<div class="line"><span class="lineno">  143</span>                }</div>
+<div class="line"><span class="lineno">  144</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
+<div class="line"><span class="lineno">  145</span>                {</div>
+<div class="line"><span class="lineno">  146</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Unable to create GitHub deployment!&quot;</span>);</div>
+<div class="line"><span class="lineno">  147</span>                }</div>
+<div class="line"><span class="lineno">  148</span>            }</div>
+<div class="line"><span class="lineno">  149</span> </div>
+<div class="line"><span class="lineno">  150</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  151</span>            {</div>
+<div class="line"><span class="lineno">  152</span>                compileJob.GitHubRepoId = await repositoryIdTask;</div>
+<div class="line"><span class="lineno">  153</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogTrace(<span class="stringliteral">&quot;Set GitHub ID as {gitHubRepoId}&quot;</span>, compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#ac12e2d50eb98927e394618b97b0ce9ef">GitHubRepoId</a>);</div>
+<div class="line"><span class="lineno">  154</span>            }</div>
+<div class="line"><span class="lineno">  155</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
+<div class="line"><span class="lineno">  156</span>            {</div>
+<div class="line"><span class="lineno">  157</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Unable to set compile job repository ID!&quot;</span>);</div>
+<div class="line"><span class="lineno">  158</span>            }</div>
+<div class="line"><span class="lineno">  159</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information_html_ac93d5aef3a8222c5b5ceed6df8e7b309"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">Tgstation.Server.Api.Models.Internal.RevisionInformation.CommitSha</a></div><div class="ttdeci">string? CommitSha</div><div class="ttdoc">The revision SHA.</div><div class="ttdef"><b>Definition</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs_source.html#l00016">RevisionInformation.cs:16</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings_html_a0725fe7a401590e54cd730204a64d9d2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository_settings.html#a0725fe7a401590e54cd730204a64d9d2">Tgstation.Server.Api.Models.RepositorySettings.CreateGitHubDeployments</a></div><div class="ttdeci">bool? CreateGitHubDeployments</div><div class="ttdoc">If GitHub deployments should be created. Requires AccessUser, AccessToken, and PushTestMergeCommits t...</div><div class="ttdef"><b>Definition</b> <a href="_tgstation_8_server_8_api_2_models_2_repository_settings_8cs_source.html#l00054">RepositorySettings.cs:54</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager_html_a3217b057f1e1bd47bdd167178f257645"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#a3217b057f1e1bd47bdd167178f257645">Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager.Metadata</a></div><div class="ttdeci">Api.Models.Instance Metadata</div><div class="ttdoc">The Api.Models.Instance for the BaseRemoteDeploymentManager.</div><div class="ttdef"><b>Definition</b> <a href="_base_remote_deployment_manager_8cs_source.html#l00029">BaseRemoteDeploymentManager.cs:29</a></div></div>
@@ -1157,65 +1156,64 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00358">358</a> of file <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html">GitHubRemoteDeploymentManager.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  363</span>        {</div>
-<div class="line"><span class="lineno">  364</span>            ArgumentNullException.ThrowIfNull(compileJob);</div>
-<div class="line"><span class="lineno">  365</span> </div>
-<div class="line"><span class="lineno">  366</span>            <span class="keywordflow">if</span> (!compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#ac12e2d50eb98927e394618b97b0ce9ef">GitHubRepoId</a>.HasValue || !compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a552bf96fdea84a75e32f111a7c96d931">GitHubDeploymentId</a>.HasValue)</div>
-<div class="line"><span class="lineno">  367</span>            {</div>
-<div class="line"><span class="lineno">  368</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogTrace(<span class="stringliteral">&quot;Not updating deployment as it is missing a repo ID or deployment ID.&quot;</span>);</div>
-<div class="line"><span class="lineno">  369</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  370</span>            }</div>
-<div class="line"><span class="lineno">  371</span> </div>
-<div class="line"><span class="lineno">  372</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogTrace(<span class="stringliteral">&quot;Updating deployment {gitHubDeploymentId} to {deploymentState}...&quot;</span>, compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a552bf96fdea84a75e32f111a7c96d931">GitHubDeploymentId</a>.Value, deploymentState);</div>
-<div class="line"><span class="lineno">  373</span> </div>
-<div class="line"><span class="lineno">  374</span>            <span class="keywordtype">string</span>? gitHubAccessToken = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  375</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a05daf039a3547769d54da9136bbbc22c">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">UseContext</a>(</div>
-<div class="line"><span class="lineno">  376</span>                async databaseContext =&gt;</div>
-<div class="line"><span class="lineno">  377</span>                    gitHubAccessToken = await databaseContext</div>
-<div class="line"><span class="lineno">  378</span>                        .<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_repository_settings.html">RepositorySettings</a></div>
-<div class="line"><span class="lineno">  379</span>                        .AsQueryable()</div>
-<div class="line"><span class="lineno">  380</span>                        .Where(x =&gt; x.InstanceId == <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#a3217b057f1e1bd47bdd167178f257645">Metadata</a>.Id)</div>
-<div class="line"><span class="lineno">  381</span>                        .Select(x =&gt; x.AccessToken)</div>
-<div class="line"><span class="lineno">  382</span>                        .FirstAsync(cancellationToken));</div>
-<div class="line"><span class="lineno">  383</span> </div>
-<div class="line"><span class="lineno">  384</span>            <span class="keywordflow">if</span> (gitHubAccessToken == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  385</span>            {</div>
-<div class="line"><span class="lineno">  386</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(</div>
-<div class="line"><span class="lineno">  387</span>                    <span class="stringliteral">&quot;GitHub access token disappeared during deployment, can&#39;t update to {deploymentState}!&quot;</span>,</div>
-<div class="line"><span class="lineno">  388</span>                    deploymentState);</div>
-<div class="line"><span class="lineno">  389</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  390</span>            }</div>
-<div class="line"><span class="lineno">  391</span> </div>
-<div class="line"><span class="lineno">  392</span>            var gitHubService = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(</div>
-<div class="line"><span class="lineno">  393</span>                gitHubAccessToken,</div>
-<div class="line"><span class="lineno">  394</span>                <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_repository_identifier.html">RepositoryIdentifier</a>(compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#ac12e2d50eb98927e394618b97b0ce9ef">GitHubRepoId</a>.Value),</div>
-<div class="line"><span class="lineno">  395</span>                cancellationToken);</div>
-<div class="line"><span class="lineno">  396</span> </div>
-<div class="line"><span class="lineno">  397</span>            <span class="keywordflow">if</span> (gitHubService == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  398</span>            {</div>
-<div class="line"><span class="lineno">  399</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(</div>
-<div class="line"><span class="lineno">  400</span>                    <span class="stringliteral">&quot;GitHub authentication failed, can&#39;t update to {deploymentState}!&quot;</span>,</div>
-<div class="line"><span class="lineno">  401</span>                    deploymentState);</div>
-<div class="line"><span class="lineno">  402</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  403</span>            }</div>
-<div class="line"><span class="lineno">  404</span> </div>
-<div class="line"><span class="lineno">  405</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  406</span>            {</div>
-<div class="line"><span class="lineno">  407</span>                await gitHubService.CreateDeploymentStatus(</div>
-<div class="line"><span class="lineno">  408</span>                    <span class="keyword">new</span> NewDeploymentStatus(deploymentState)</div>
-<div class="line"><span class="lineno">  409</span>                    {</div>
-<div class="line"><span class="lineno">  410</span>                        Description = description,</div>
-<div class="line"><span class="lineno">  411</span>                    },</div>
-<div class="line"><span class="lineno">  412</span>                    compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#ac12e2d50eb98927e394618b97b0ce9ef">GitHubRepoId</a>.Value,</div>
-<div class="line"><span class="lineno">  413</span>                    compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a552bf96fdea84a75e32f111a7c96d931">GitHubDeploymentId</a>.Value,</div>
-<div class="line"><span class="lineno">  414</span>                    cancellationToken);</div>
-<div class="line"><span class="lineno">  415</span>            }</div>
-<div class="line"><span class="lineno">  416</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
-<div class="line"><span class="lineno">  417</span>            {</div>
-<div class="line"><span class="lineno">  418</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error updating GitHub deployment!&quot;</span>);</div>
-<div class="line"><span class="lineno">  419</span>            }</div>
-<div class="line"><span class="lineno">  420</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00357">357</a> of file <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html">GitHubRemoteDeploymentManager.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  362</span>        {</div>
+<div class="line"><span class="lineno">  363</span>            ArgumentNullException.ThrowIfNull(compileJob);</div>
+<div class="line"><span class="lineno">  364</span> </div>
+<div class="line"><span class="lineno">  365</span>            <span class="keywordflow">if</span> (!compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#ac12e2d50eb98927e394618b97b0ce9ef">GitHubRepoId</a>.HasValue || !compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a552bf96fdea84a75e32f111a7c96d931">GitHubDeploymentId</a>.HasValue)</div>
+<div class="line"><span class="lineno">  366</span>            {</div>
+<div class="line"><span class="lineno">  367</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogTrace(<span class="stringliteral">&quot;Not updating deployment as it is missing a repo ID or deployment ID.&quot;</span>);</div>
+<div class="line"><span class="lineno">  368</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  369</span>            }</div>
+<div class="line"><span class="lineno">  370</span> </div>
+<div class="line"><span class="lineno">  371</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogTrace(<span class="stringliteral">&quot;Updating deployment {gitHubDeploymentId} to {deploymentState}...&quot;</span>, compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a552bf96fdea84a75e32f111a7c96d931">GitHubDeploymentId</a>.Value, deploymentState);</div>
+<div class="line"><span class="lineno">  372</span> </div>
+<div class="line"><span class="lineno">  373</span>            <span class="keywordtype">string</span>? gitHubAccessToken = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  374</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a05daf039a3547769d54da9136bbbc22c">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">UseContext</a>(</div>
+<div class="line"><span class="lineno">  375</span>                async databaseContext =&gt;</div>
+<div class="line"><span class="lineno">  376</span>                    gitHubAccessToken = await databaseContext</div>
+<div class="line"><span class="lineno">  377</span>                        .<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_repository_settings.html">RepositorySettings</a></div>
+<div class="line"><span class="lineno">  378</span>                        .Where(x =&gt; x.InstanceId == <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#a3217b057f1e1bd47bdd167178f257645">Metadata</a>.Id)</div>
+<div class="line"><span class="lineno">  379</span>                        .Select(x =&gt; x.AccessToken)</div>
+<div class="line"><span class="lineno">  380</span>                        .FirstAsync(cancellationToken));</div>
+<div class="line"><span class="lineno">  381</span> </div>
+<div class="line"><span class="lineno">  382</span>            <span class="keywordflow">if</span> (gitHubAccessToken == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  383</span>            {</div>
+<div class="line"><span class="lineno">  384</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(</div>
+<div class="line"><span class="lineno">  385</span>                    <span class="stringliteral">&quot;GitHub access token disappeared during deployment, can&#39;t update to {deploymentState}!&quot;</span>,</div>
+<div class="line"><span class="lineno">  386</span>                    deploymentState);</div>
+<div class="line"><span class="lineno">  387</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  388</span>            }</div>
+<div class="line"><span class="lineno">  389</span> </div>
+<div class="line"><span class="lineno">  390</span>            var gitHubService = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a0cc2207612ce4acf4e38b326ae6f9d02">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">CreateService</a>(</div>
+<div class="line"><span class="lineno">  391</span>                gitHubAccessToken,</div>
+<div class="line"><span class="lineno">  392</span>                <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_repository_identifier.html">RepositoryIdentifier</a>(compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#ac12e2d50eb98927e394618b97b0ce9ef">GitHubRepoId</a>.Value),</div>
+<div class="line"><span class="lineno">  393</span>                cancellationToken);</div>
+<div class="line"><span class="lineno">  394</span> </div>
+<div class="line"><span class="lineno">  395</span>            <span class="keywordflow">if</span> (gitHubService == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  396</span>            {</div>
+<div class="line"><span class="lineno">  397</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(</div>
+<div class="line"><span class="lineno">  398</span>                    <span class="stringliteral">&quot;GitHub authentication failed, can&#39;t update to {deploymentState}!&quot;</span>,</div>
+<div class="line"><span class="lineno">  399</span>                    deploymentState);</div>
+<div class="line"><span class="lineno">  400</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  401</span>            }</div>
+<div class="line"><span class="lineno">  402</span> </div>
+<div class="line"><span class="lineno">  403</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  404</span>            {</div>
+<div class="line"><span class="lineno">  405</span>                await gitHubService.CreateDeploymentStatus(</div>
+<div class="line"><span class="lineno">  406</span>                    <span class="keyword">new</span> NewDeploymentStatus(deploymentState)</div>
+<div class="line"><span class="lineno">  407</span>                    {</div>
+<div class="line"><span class="lineno">  408</span>                        Description = description,</div>
+<div class="line"><span class="lineno">  409</span>                    },</div>
+<div class="line"><span class="lineno">  410</span>                    compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#ac12e2d50eb98927e394618b97b0ce9ef">GitHubRepoId</a>.Value,</div>
+<div class="line"><span class="lineno">  411</span>                    compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a552bf96fdea84a75e32f111a7c96d931">GitHubDeploymentId</a>.Value,</div>
+<div class="line"><span class="lineno">  412</span>                    cancellationToken);</div>
+<div class="line"><span class="lineno">  413</span>            }</div>
+<div class="line"><span class="lineno">  414</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
+<div class="line"><span class="lineno">  415</span>            {</div>
+<div class="line"><span class="lineno">  416</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#af5093d05e84f4d23e3ea7f1413e88e40">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error updating GitHub deployment!&quot;</span>);</div>
+<div class="line"><span class="lineno">  417</span>            }</div>
+<div class="line"><span class="lineno">  418</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9">Tgstation.Server.Host.Utils.GitHub.IGitHubServiceFactory.CreateService()</a>, <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00030">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.databaseContextFactory</a>, <a class="el" href="_tgstation_8_server_8_host_2_models_2_compile_job_8cs_source.html#l00063">Tgstation.Server.Host.Models.CompileJob.GitHubDeploymentId</a>, <a class="el" href="_tgstation_8_server_8_host_2_models_2_compile_job_8cs_source.html#l00058">Tgstation.Server.Host.Models.CompileJob.GitHubRepoId</a>, <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00035">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.gitHubServiceFactory</a>, <a class="el" href="_base_remote_deployment_manager_8cs_source.html#l00034">Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager.Logger</a>, <a class="el" href="_base_remote_deployment_manager_8cs_source.html#l00029">Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager.Metadata</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext()</a>.</p>
 <div class="dynheader">
@@ -1258,7 +1256,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00030">30</a> of file <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html">GitHubRemoteDeploymentManager.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00045">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.GitHubRemoteDeploymentManager()</a>, <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00058">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.StartDeployment()</a>, and <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00358">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.UpdateDeployment()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00045">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.GitHubRemoteDeploymentManager()</a>, <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00058">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.StartDeployment()</a>, and <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00357">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.UpdateDeployment()</a>.</p>
 
 </div>
 </div>
@@ -1286,7 +1284,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00035">35</a> of file <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html">GitHubRemoteDeploymentManager.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00264">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.CommentOnTestMergeSource()</a>, <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00045">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.GitHubRemoteDeploymentManager()</a>, <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00171">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.RemoveMergedTestMerges()</a>, <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00058">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.StartDeployment()</a>, and <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00358">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.UpdateDeployment()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00263">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.CommentOnTestMergeSource()</a>, <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00045">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.GitHubRemoteDeploymentManager()</a>, <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00170">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.RemoveMergedTestMerges()</a>, <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00058">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.StartDeployment()</a>, and <a class="el" href="_git_hub_remote_deployment_manager_8cs_source.html#l00357">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.UpdateDeployment()</a>.</p>
 
 </div>
 </div>

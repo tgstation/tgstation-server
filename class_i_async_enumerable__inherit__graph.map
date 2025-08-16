@@ -1,7 +1,0 @@
-<map id="IAsyncEnumerable" name="IAsyncEnumerable">
-<area shape="rect" id="Node000001" title=" " alt="" coords="45,5,174,31"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Represents a database table." alt="" coords="5,79,214,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,46,112,79,107,79,107,46"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html" title=" " alt="" coords="5,168,214,208"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="112,135,112,167,107,167,107,135"/>
-</map>
