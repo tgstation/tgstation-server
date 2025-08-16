@@ -39,9 +39,9 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <summary>
-		/// The <see cref="SecurityConfiguration"/> for the <see cref="TokenFactory"/>.
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="SecurityConfiguration"/> for the <see cref="TokenFactory"/>.
 		/// </summary>
-		readonly SecurityConfiguration securityConfiguration;
+		readonly IOptions<SecurityConfiguration> securityConfigurationOptions;
 
 		/// <summary>
 		/// The <see cref="JwtSecurityTokenHandler"/> used to generate <see cref="TokenResponse.Bearer"/> <see cref="string"/>s.
@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="cryptographySuite">The <see cref="ICryptographySuite"/> used for generating the <see cref="ValidationParameters"/>.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> used to generate the issuer name.</param>
-		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="securityConfiguration"/>.</param>
+		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="securityConfigurationOptions"/>.</param>
 		public TokenFactory(
 			ICryptographySuite cryptographySuite,
 			IAssemblyInformationProvider assemblyInformationProvider,
@@ -72,11 +72,11 @@ namespace Tgstation.Server.Host.Security
 			ArgumentNullException.ThrowIfNull(cryptographySuite);
 			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
-			securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
+			this.securityConfigurationOptions = securityConfigurationOptions ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 
-			SigningKeyBytes = String.IsNullOrWhiteSpace(securityConfiguration.CustomTokenSigningKeyBase64)
-				? cryptographySuite.GetSecureBytes(securityConfiguration.TokenSigningKeyByteCount)
-				: Convert.FromBase64String(securityConfiguration.CustomTokenSigningKeyBase64);
+			SigningKeyBytes = string.IsNullOrWhiteSpace(securityConfigurationOptions.Value.CustomTokenSigningKeyBase64)
+				? cryptographySuite.GetSecureBytes(securityConfigurationOptions.Value.TokenSigningKeyByteCount)
+				: Convert.FromBase64String(securityConfigurationOptions.Value.CustomTokenSigningKeyBase64);
 
 			ValidationParameters = new TokenValidationParameters
 			{
@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.Security
 				ValidateAudience = true,
 				ValidAudience = typeof(TokenResponse).Assembly.GetName().Name,
 
-				ClockSkew = TimeSpan.FromMinutes(securityConfiguration.TokenClockSkewMinutes),
+				ClockSkew = TimeSpan.FromMinutes(securityConfigurationOptions.Value.TokenClockSkewMinutes),
 
 				RequireSignedTokens = true,
 
@@ -122,8 +122,8 @@ namespace Tgstation.Server.Host.Security
 				notBefore = now;
 
 			var expiry = now.AddMinutes(serviceLogin
-				? securityConfiguration.OAuthTokenExpiryMinutes
-				: securityConfiguration.TokenExpiryMinutes);
+				? securityConfigurationOptions.Value.OAuthTokenExpiryMinutes
+				: securityConfigurationOptions.Value.TokenExpiryMinutes);
 
 			var securityToken = new JwtSecurityToken(
 				tokenHeader,

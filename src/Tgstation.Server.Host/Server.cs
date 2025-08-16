@@ -69,14 +69,14 @@ namespace Tgstation.Server.Host
 		readonly object restartLock;
 
 		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="Server"/>.
+		/// </summary>
+		IOptionsMonitor<GeneralConfiguration>? generalConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Server"/>.
 		/// </summary>
 		ILogger<Server>? logger;
-
-		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="Server"/>.
-		/// </summary>
-		GeneralConfiguration? generalConfiguration;
 
 		/// <summary>
 		/// The <see cref="cancellationTokenSource"/> for the <see cref="Server"/>.
@@ -151,8 +151,7 @@ namespace Tgstation.Server.Host
 								if (await DumpGraphQLSchemaIfRequested(Host.Services, cancellationToken))
 									return;
 
-								var generalConfigurationOptions = Host.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
-								generalConfiguration = generalConfigurationOptions.Value;
+								generalConfigurationOptions = Host.Services.GetRequiredService<IOptionsMonitor<GeneralConfiguration>>();
 								await Host.RunAsync(cancellationTokenSource.Token);
 							}
 
@@ -389,8 +388,8 @@ namespace Tgstation.Server.Host
 				using var cts = new CancellationTokenSource(
 					TimeSpan.FromMinutes(
 						giveHandlersTimeToWaitAround
-							? generalConfiguration!.ShutdownTimeoutMinutes
-							: generalConfiguration!.RestartTimeoutMinutes));
+							? generalConfigurationOptions!.CurrentValue.ShutdownTimeoutMinutes
+							: generalConfigurationOptions!.CurrentValue.RestartTimeoutMinutes));
 				var cancellationToken = cts.Token;
 				try
 				{
