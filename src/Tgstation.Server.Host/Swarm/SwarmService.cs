@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Swarm
 					return true;
 
 				lock (swarmServers)
-					return swarmServers.Count - 1 >= swarmConfiguration.UpdateRequiredNodeCount;
+					return swarmServers.Count - 1 >= swarmConfigurationOptions.Value.UpdateRequiredNodeCount;
 			}
 		}
 
@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// If the swarm system is enabled.
 		/// </summary>
 		[MemberNotNullWhen(true, nameof(serverHealthCheckTask), nameof(forceHealthCheckTcs), nameof(serverHealthCheckCancellationTokenSource), nameof(swarmServers))]
-		bool SwarmMode => swarmConfiguration.PrivateKey != null;
+		bool SwarmMode => swarmConfigurationOptions.Value.PrivateKey != null;
 
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="SwarmService"/>.
@@ -98,14 +98,14 @@ namespace Tgstation.Server.Host.Swarm
 		readonly ITokenFactory tokenFactory;
 
 		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="SwarmConfiguration"/> for the <see cref="SwarmService"/>.
+		/// </summary>
+		readonly IOptions<SwarmConfiguration> swarmConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SwarmService"/>.
 		/// </summary>
 		readonly ILogger<SwarmService> logger;
-
-		/// <summary>
-		/// The <see cref="SwarmConfiguration"/> for the <see cref="SwarmService"/>.
-		/// </summary>
-		readonly SwarmConfiguration swarmConfiguration;
 
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for <see cref="serverHealthCheckTask"/>.
@@ -168,7 +168,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="transferService">The value of <see cref="transferService"/>.</param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/>.</param>
-		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
+		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfigurationOptions"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public SwarmService(
 			IDatabaseContextFactory databaseContextFactory,
@@ -190,18 +190,18 @@ namespace Tgstation.Server.Host.Swarm
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 			this.transferService = transferService ?? throw new ArgumentNullException(nameof(transferService));
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
-			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
+			this.swarmConfigurationOptions = swarmConfigurationOptions ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			if (SwarmMode)
 			{
-				if (swarmConfiguration.Address == null)
+				if (this.swarmConfigurationOptions.Value.Address == null)
 					throw new InvalidOperationException("Swarm configuration missing Address!");
 
-				if (String.IsNullOrWhiteSpace(swarmConfiguration.Identifier))
+				if (string.IsNullOrWhiteSpace(this.swarmConfigurationOptions.Value.Identifier))
 					throw new InvalidOperationException("Swarm configuration missing Identifier!");
 
-				swarmController = swarmConfiguration.ControllerAddress == null;
+				swarmController = this.swarmConfigurationOptions.Value.ControllerAddress == null;
 				if (swarmController)
 					registrationIdsAndTimes = new();
 
@@ -212,10 +212,10 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					new()
 					{
-						Address = swarmConfiguration.Address,
-						PublicAddress = swarmConfiguration.PublicAddress,
+						Address = this.swarmConfigurationOptions.Value.Address,
+						PublicAddress = this.swarmConfigurationOptions.Value.PublicAddress,
 						Controller = swarmController,
-						Identifier = swarmConfiguration.Identifier,
+						Identifier = this.swarmConfigurationOptions.Value.Identifier,
 					},
 				};
 			}
@@ -410,15 +410,15 @@ namespace Tgstation.Server.Host.Swarm
 					swarmController
 						? "Controller"
 						: "Node",
-					swarmConfiguration.Identifier);
+					swarmConfigurationOptions.Value.Identifier);
 			else
 				logger.LogTrace("Swarm mode disabled");
 
 			SwarmRegistrationResult result;
 			if (swarmController)
 			{
-				if (swarmConfiguration.UpdateRequiredNodeCount > 0)
-					logger.LogInformation("Expecting connections from {expectedNodeCount} nodes", swarmConfiguration.UpdateRequiredNodeCount);
+				if (swarmConfigurationOptions.Value.UpdateRequiredNodeCount > 0)
+					logger.LogInformation("Expecting connections from {expectedNodeCount} nodes", swarmConfigurationOptions.Value.UpdateRequiredNodeCount);
 
 				await databaseContextFactory.UseContext(
 					databaseContext => databaseSeeder.Initialize(databaseContext, cancellationToken));
@@ -738,7 +738,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (!swarmController)
 				return SendRemoteAbort(new SwarmServerInformation
 				{
-					Address = swarmConfiguration.ControllerAddress,
+					Address = swarmConfigurationOptions.Value.ControllerAddress,
 				});
 
 			lock (swarmServers!)
@@ -856,7 +856,7 @@ namespace Tgstation.Server.Host.Swarm
 						new SwarmUpdateRequest
 						{
 							UpdateVersion = version,
-							SourceNode = swarmConfiguration.Identifier,
+							SourceNode = swarmConfigurationOptions.Value.Identifier,
 							DownloadTickets = downloadTickets,
 						});
 
@@ -891,7 +891,7 @@ namespace Tgstation.Server.Host.Swarm
 						return SwarmPrepareResult.Failure;
 					}
 
-					if (!updateRequest.DownloadTickets.TryGetValue(swarmConfiguration.Identifier!, out var ticket))
+					if (!updateRequest.DownloadTickets.TryGetValue(swarmConfigurationOptions.Value.Identifier!, out var ticket))
 					{
 						logger.Log(
 							swarmController
@@ -971,11 +971,11 @@ namespace Tgstation.Server.Host.Swarm
 			{
 				logger.LogInformation("Sending remote prepare to nodes...");
 
-				if (currentUpdateOperation.InvolvedServers.Count - 1 < swarmConfiguration.UpdateRequiredNodeCount)
+				if (currentUpdateOperation.InvolvedServers.Count - 1 < swarmConfigurationOptions.Value.UpdateRequiredNodeCount)
 				{
 					logger.LogWarning(
 						"Aborting update, controller expects to be in sync with {requiredNodeCount} nodes but currently only has {currentNodeCount}!",
-						swarmConfiguration.UpdateRequiredNodeCount,
+						swarmConfigurationOptions.Value.UpdateRequiredNodeCount,
 						currentUpdateOperation.InvolvedServers.Count - 1);
 					abortUpdate = true;
 					return SwarmPrepareResult.Failure;
@@ -1008,7 +1008,7 @@ namespace Tgstation.Server.Host.Swarm
 					: updateRequest.DownloadTickets!;
 
 				var sourceNode = weAreInitiator
-					? swarmConfiguration.Identifier
+					? swarmConfigurationOptions.Value.Identifier
 					: updateRequest.SourceNode;
 
 				using var httpClient = httpClientFactory.CreateClient();
@@ -1119,7 +1119,7 @@ namespace Tgstation.Server.Host.Swarm
 				false);
 
 			var serversRequiringTickets = involvedServers
-				.Where(node => node.Identifier != swarmConfiguration.Identifier)
+				.Where(node => node.Identifier != swarmConfigurationOptions.Value.Identifier)
 				.ToList();
 
 			logger.LogTrace("Creating {n} download tickets for other nodes...", serversRequiringTickets.Count);
@@ -1276,7 +1276,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="SwarmRegistrationResult"/>.</returns>
 		async ValueTask<SwarmRegistrationResult> RegisterWithController(CancellationToken cancellationToken)
 		{
-			logger.LogInformation("Attempting to register with swarm controller at {controllerAddress}...", swarmConfiguration.ControllerAddress);
+			logger.LogInformation("Attempting to register with swarm controller at {controllerAddress}...", swarmConfigurationOptions.Value.ControllerAddress);
 			var requestedRegistrationId = Guid.NewGuid();
 
 			using var httpClient = httpClientFactory.CreateClient();
@@ -1286,9 +1286,9 @@ namespace Tgstation.Server.Host.Swarm
 				SwarmConstants.RegisterRoute,
 				new SwarmRegistrationRequest(Version.Parse(MasterVersionsAttribute.Instance.RawSwarmProtocolVersion))
 				{
-					Identifier = swarmConfiguration.Identifier,
-					Address = swarmConfiguration.Address,
-					PublicAddress = swarmConfiguration.PublicAddress,
+					Identifier = swarmConfigurationOptions.Value.Identifier,
+					Address = swarmConfigurationOptions.Value.Address,
+					PublicAddress = swarmConfigurationOptions.Value.PublicAddress,
 				},
 				requestedRegistrationId);
 
@@ -1436,7 +1436,7 @@ namespace Tgstation.Server.Host.Swarm
 		{
 			swarmServer ??= new SwarmServerInformation
 			{
-				Address = swarmConfiguration.ControllerAddress,
+				Address = swarmConfigurationOptions.Value.ControllerAddress,
 			};
 
 			var fullRoute = $"{SwarmConstants.ControllerRoute}/{route}";
@@ -1454,7 +1454,7 @@ namespace Tgstation.Server.Host.Swarm
 				request.Headers.Accept.Clear();
 				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 
-				request.Headers.Add(SwarmConstants.ApiKeyHeader, swarmConfiguration.PrivateKey);
+				request.Headers.Add(SwarmConstants.ApiKeyHeader, swarmConfigurationOptions.Value.PrivateKey);
 				if (registrationIdOverride.HasValue)
 					request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationIdOverride.Value.ToString());
 				else if (swarmController)
