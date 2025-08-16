@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// </summary>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptionsMonitor{TOptions}"/> containing the <see cref="GeneralConfiguration"/>.</param>
-		/// <param name="sessionConfigurationOptions">The <see cref="IOptionsMonitor{TOptions}"/> containing the value of <see cref="sessionConfigurationOptions"/>.</param>
+		/// <param name="sessionConfigurationOptions">The value of <see cref="sessionConfigurationOptions"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="fileDownloader">The <see cref="IFileDownloader"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ByondInstallerBase"/>.</param>

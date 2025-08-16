@@ -9,6 +9,7 @@ using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Events;
@@ -116,14 +117,14 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly ILibGit2RepositoryFactory submoduleFactory;
 
 		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="Repository"/>.
+		/// </summary>
+		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Repository"/>.
 		/// </summary>
 		readonly ILogger<Repository> logger;
-
-		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="Repository"/>.
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Repository"/> class.
@@ -136,8 +137,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The <see cref="IGitRemoteFeaturesFactory"/> to provide the value of <see cref="gitRemoteFeatures"/>.</param>
 		/// <param name="submoduleFactory">The value of <see cref="submoduleFactory"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="disposeAction">The <see cref="IDisposable.Dispose"/> action for the <see cref="DisposeInvoker"/>.</param>
 		public Repository(
 			LibGit2Sharp.IRepository libGitRepo,
@@ -148,8 +149,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			IPostWriteHandler postWriteHandler,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILibGit2RepositoryFactory submoduleFactory,
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<Repository> logger,
-			GeneralConfiguration generalConfiguration,
 			Action disposeAction)
 			: base(disposeAction)
 		{
@@ -161,9 +162,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			ArgumentNullException.ThrowIfNull(gitRemoteFeaturesFactory);
 			this.submoduleFactory = submoduleFactory ?? throw new ArgumentNullException(nameof(submoduleFactory));
-
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
 
 			gitRemoteFeatures = gitRemoteFeaturesFactory.CreateGitRemoteFeatures(this);
 		}
@@ -539,7 +539,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				},
 				ioManager.ResolvePath(),
 				path,
-				generalConfiguration.GetCopyDirectoryTaskThrottle(),
+				generalConfigurationOptions.CurrentValue.GetCopyDirectoryTaskThrottle(),
 				cancellationToken);
 		}
 
