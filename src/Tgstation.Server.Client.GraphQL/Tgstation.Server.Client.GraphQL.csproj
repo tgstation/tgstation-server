@@ -14,12 +14,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Client\Tgstation.Server.Client.csproj" />
+    <ProjectReference Include="..\Tgstation.Server.Host\Tgstation.Server.Host.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
   </ItemGroup>
-
-  <!-- https://github.com/dotnet/msbuild/issues/2661#issuecomment-338808147 -->
-  <Target Name="WorkaroundSdk939" BeforeTargets="ImportGraphQLApiSchema">
-    <MSBuild Projects="..\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
-  </Target>
 
   <Target Name="DeleteGeneratedFiles" BeforeTargets="ImportGraphQLApiSchema">
     <RemoveDir Directories="$(IntermediateOutputPath)berry" />
@@ -30,7 +26,7 @@
     <Copy SkipUnchangedFiles="true" SourceFiles="../../artifacts/tgs-api.graphql" DestinationFiles="schema.graphql" />
   </Target>
 
-  <Target Name="FixWarningsInGeneratedSchema" AfterTargets="GenerateGraphQLCode">
+  <Target Name="FixWarningsInGeneratedSchema" AfterTargets="GenerateGraphQLCode" BeforeTargets="CoreCompile">
     <PropertyGroup>
       <InputFile>$(IntermediateOutputPath)berry/GraphQLClient.Client.cs</InputFile>
       <OutputFile>$(IntermediateOutputPath)berry/GraphQLClient.Client.cs</OutputFile>
