@@ -1,9 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Tgstation.Server.Host.Models.Transformers;
+
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.OidcConnection" />
-	public sealed class OidcConnection : Api.Models.OidcConnection, ILegacyApiTransformable<Api.Models.OidcConnection>
+	public sealed class OidcConnection : Api.Models.OidcConnection,
+		ILegacyApiTransformable<Api.Models.OidcConnection>,
+		IApiTransformable<OidcConnection, GraphQL.Types.OAuth.OidcConnection, OidcConnectionGraphQLTransformer>
 	{
 		/// <summary>
 		/// The row Id.
