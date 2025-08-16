@@ -170,14 +170,14 @@ namespace Tgstation.Server.Host.Security
 						.InstancePermissionSets
 						.Where(ips => ips.InstanceId == instanceId
 							&& (matchingUniquePermissionSetIds.Contains(ips.PermissionSetId) || matchingGroupPermissionSetIds.Contains(ips.PermissionSetId)))
-						.TagWith("rights_authorization_handler_instance_permission_set")
+						.TagWith("Rights AuthorizationHandler InstancePermissionSet")
 						.FirstOrDefaultAsync(cancellationToken);
 				}
 				else
 					permissionSet = await databaseContext
 						.PermissionSets
 						.Where(permissionSet => matchingUniquePermissionSetIds.Contains(permissionSet.Id) || matchingGroupPermissionSetIds.Contains(permissionSet.Id))
-						.TagWith("rights_authorization_handler_permission_set")
+						.TagWith("Rights AuthorizationHandler PermissionSet")
 						.FirstOrDefaultAsync(cancellationToken);
 
 				if (permissionSet == null)
