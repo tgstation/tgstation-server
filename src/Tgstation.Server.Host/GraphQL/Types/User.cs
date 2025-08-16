@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// </summary>
 		public required PermissionSet EffectivePermissionSet { get; set; }
 
-				/// <summary>
+		/// <summary>
 		/// The <see cref="PermissionSet"/> for the user if the user does not belong to a <see cref="Group"/>.
 		/// </summary>
 		public required PermissionSet? OwnedPermissionSet { get; set; }
@@ -145,12 +145,16 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="Array"/> of <see cref="OAuthConnection"/>s for the <see cref="User"/> if OAuth is configured.</returns>
-		public ValueTask<OAuthConnection[]> OAuthConnections(
+		[UsePaging]
+		[UseProjection]
+		[UseFiltering]
+		[UseSorting]
+		public ValueTask<IQueryable<OAuthConnection>> OAuthConnections(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.Invoke<OAuthConnection[], OAuthConnection[]>(
+			return userAuthority.InvokeTransformableQueryable<Models.OAuthConnection, OAuthConnection, OAuthConnectionGraphQLTransformer>(
 				authority => authority.OAuthConnections(Id, cancellationToken));
 		}
 
@@ -160,12 +164,16 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="Array"/> of <see cref="OidcConnection"/>s for the <see cref="User"/> if OAuth is configured.</returns>
-		public ValueTask<OidcConnection[]> OidcConnections(
+		[UsePaging]
+		[UseProjection]
+		[UseFiltering]
+		[UseSorting]
+		public ValueTask<IQueryable<OidcConnection>> OidcConnections(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.Invoke<OidcConnection[], OidcConnection[]>(
+			return userAuthority.InvokeTransformableQueryable<Models.OidcConnection, OidcConnection, OidcConnectionGraphQLTransformer>(
 				authority => authority.OidcConnections(Id, cancellationToken));
 		}
 	}

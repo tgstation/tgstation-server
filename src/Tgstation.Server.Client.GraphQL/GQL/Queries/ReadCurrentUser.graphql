@@ -13,8 +13,10 @@ query ReadCurrentUser {
           name
         }
         oAuthConnections {
-          externalUserId
-          provider
+          nodes {
+            externalUserId
+            provider
+          }
         }
         effectivePermissionSet {
           administrationRights {

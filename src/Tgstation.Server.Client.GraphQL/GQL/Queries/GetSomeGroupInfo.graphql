@@ -27,7 +27,7 @@ query GetSomeGroupInfo($id: ID!) {
             canWriteUsers
           }
         }
-        queryableUsersByGroup(first: 1) {
+        users(first: 1) {
           totalCount
           nodes {
             id

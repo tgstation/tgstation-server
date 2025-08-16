@@ -308,9 +308,9 @@ namespace Tgstation.Server.Tests.Live
 
 					var testUser = testUserResult2.UpdatedUser.User;
 					Assert.IsNotNull(testUser.OAuthConnections);
-					Assert.AreEqual(1, testUser.OAuthConnections.Count);
-					Assert.AreEqual(sampleOAuthConnections.First().ExternalUserId, testUser.OAuthConnections[0].ExternalUserId);
-					Assert.AreEqual(sampleOAuthConnections.First().Provider, testUser.OAuthConnections[0].Provider);
+					Assert.AreEqual(1, testUser.OAuthConnections.Nodes.Count);
+					Assert.AreEqual(sampleOAuthConnections.First().ExternalUserId, testUser.OAuthConnections.Nodes[0].ExternalUserId);
+					Assert.AreEqual(sampleOAuthConnections.First().Provider, testUser.OAuthConnections.Nodes[0].Provider);
 
 					var groupResult = await client.RunMutationEnsureNoErrors(
 						gql => gql.CreateUserGroup.ExecuteAsync("TestGroup", cancellationToken),
@@ -471,9 +471,9 @@ namespace Tgstation.Server.Tests.Live
 						cancellationToken);
 					var group4 = group4Result.Swarm.UserGroups.ById;
 
-					Assert.IsNotNull(group4.QueryableUsersByGroup.Nodes);
-					Assert.AreEqual(1, group4.QueryableUsersByGroup.TotalCount);
-					Assert.AreEqual(testUser2.Id, group4.QueryableUsersByGroup.Nodes[0].Id);
+					Assert.IsNotNull(group4.Users.Nodes);
+					Assert.AreEqual(1, group4.Users.TotalCount);
+					Assert.AreEqual(testUser2.Id, group4.Users.Nodes[0].Id);
 					Assert.IsNotNull(group4.PermissionSet);
 
 					var testUser4Result = await client.RunMutationEnsureNoErrors(

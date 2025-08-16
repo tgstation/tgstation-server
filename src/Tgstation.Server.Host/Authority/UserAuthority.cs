@@ -333,22 +333,24 @@ namespace Tgstation.Server.Host.Authority
 				() => ValueTask.FromResult(Queryable(includeJoins, false)));
 
 		/// <inheritdoc />
-		public RequirementsGated<AuthorityResponse<GraphQL.Types.OAuth.OAuthConnection[]>> OAuthConnections(long userId, CancellationToken cancellationToken)
+		public RequirementsGated<IQueryable<Models.OAuthConnection>> OAuthConnections(long userId, CancellationToken cancellationToken)
 			=> new(
 				() => claimsPrincipalAccessor.User.GetTgsUserId() != userId
 					? Flag(AdministrationRights.ReadUsers)
 					: null,
-				async () => new AuthorityResponse<GraphQL.Types.OAuth.OAuthConnection[]>(
-					await oAuthConnectionsDataLoader.LoadRequiredAsync(userId, cancellationToken)));
+				() => Queryable(true, true)
+					.SelectMany(user => user.OAuthConnections!)
+					.TagWith("Get User OAuthConnections"));
 
 		/// <inheritdoc />
-		public RequirementsGated<AuthorityResponse<GraphQL.Types.OAuth.OidcConnection[]>> OidcConnections(long userId, CancellationToken cancellationToken)
+		public RequirementsGated<IQueryable<Models.OidcConnection>> OidcConnections(long userId, CancellationToken cancellationToken)
 			=> new(
 				() => claimsPrincipalAccessor.User.GetTgsUserId() != userId
 					? Flag(AdministrationRights.ReadUsers)
 					: null,
-				async () => new AuthorityResponse<GraphQL.Types.OAuth.OidcConnection[]>(
-				await oidcConnectionsDataLoader.LoadRequiredAsync(userId, cancellationToken)));
+				() => Queryable(true, true)
+					.SelectMany(user => user.OidcConnections!)
+					.TagWith("Get User OIdcConnections"));
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify

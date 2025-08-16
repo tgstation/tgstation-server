@@ -4,8 +4,10 @@ mutation UpdateUserOAuthConnections($id: ID!, $newOAuthConnections: [OAuthConnec
       id
       user {
         oAuthConnections {
-          externalUserId
-          provider
+          nodes {
+            externalUserId
+            provider
+          }
         }
       }
     }

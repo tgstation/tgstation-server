@@ -11,8 +11,10 @@ mutation SetUserOAuthConnections($id: ID!, $newOAuthConnections: [OAuthConnectio
           name
           systemIdentifier
           oAuthConnections {
-            externalUserId
-            provider
+            nodes {
+              externalUserId
+              provider
+            }
           }
         }
     }
