@@ -37,14 +37,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="symlinkFactory">The value of <see cref="LinkFactory"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> for <see cref="GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptionsMonitor{TOptions}"/> for <see cref="GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>.</param>
 		public WindowsWatchdogFactory(
 			IServerControl serverControl,
 			ILoggerFactory loggerFactory,
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
 			IFilesystemLinkFactory symlinkFactory,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions)
 			: base(
 				serverControl,
 				loggerFactory,

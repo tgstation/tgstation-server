@@ -65,14 +65,14 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IRestAuthorityInvoker<ILoginAuthority> loginAuthority;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="ApiRootController"/>.
+		/// The <see cref="IOptionsSnapshot{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="ApiRootController"/>.
 		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
+		readonly IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions;
 
 		/// <summary>
-		/// The <see cref="SecurityConfiguration"/> for the <see cref="ApiRootController"/>.
+		/// The <see cref="IOptionsSnapshot{TOptions}"/> of <see cref="SecurityConfiguration"/> for the <see cref="ApiRootController"/>.
 		/// </summary>
-		readonly SecurityConfiguration securityConfiguration;
+		readonly IOptionsSnapshot<SecurityConfiguration> securityConfigurationOptions;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ApiRootController"/> class.
@@ -84,8 +84,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="swarmService">The value of <see cref="swarmService"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="securityConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the value of <see cref="securityConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="securityConfigurationOptions">The value of <see cref="securityConfigurationOptions"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="loginAuthority">The value of <see cref="loginAuthority"/>.</param>
@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Controllers
 			IPlatformIdentifier platformIdentifier,
 			ISwarmService swarmService,
 			IServerControl serverControl,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions,
 			IOptionsSnapshot<SecurityConfiguration> securityConfigurationOptions,
 			ILogger<ApiRootController> logger,
 			IApiHeadersProvider apiHeadersProvider,
@@ -114,8 +114,8 @@ namespace Tgstation.Server.Host.Controllers
 			this.oAuthProviders = oAuthProviders ?? throw new ArgumentNullException(nameof(oAuthProviders));
 			this.swarmService = swarmService ?? throw new ArgumentNullException(nameof(swarmService));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.securityConfigurationOptions = securityConfigurationOptions ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 			this.loginAuthority = loginAuthority ?? throw new ArgumentNullException(nameof(loginAuthority));
 		}
 
@@ -157,20 +157,20 @@ namespace Tgstation.Server.Host.Controllers
 				Version = assemblyInformationProvider.Version,
 				ApiVersion = ApiHeaders.Version,
 				DMApiVersion = DMApiConstants.InteropVersion,
-				MinimumPasswordLength = generalConfiguration.MinimumPasswordLength,
-				InstanceLimit = generalConfiguration.InstanceLimit,
-				UserLimit = generalConfiguration.UserLimit,
-				UserGroupLimit = generalConfiguration.UserGroupLimit,
-				ValidInstancePaths = generalConfiguration.ValidInstancePaths,
+				MinimumPasswordLength = generalConfigurationOptions.Value.MinimumPasswordLength,
+				InstanceLimit = generalConfigurationOptions.Value.InstanceLimit,
+				UserLimit = generalConfigurationOptions.Value.UserLimit,
+				UserGroupLimit = generalConfigurationOptions.Value.UserGroupLimit,
+				ValidInstancePaths = generalConfigurationOptions.Value.ValidInstancePaths,
 				WindowsHost = platformIdentifier.IsWindows,
 				SwarmServers = swarmService
 					.GetSwarmServers()
 					?.Select(swarmServerInfo => new SwarmServerResponse(swarmServerInfo))
 					.ToList(),
 				OAuthProviderInfos = oAuthProviders.ProviderInfos(),
-				OidcProviderInfos = securityConfiguration.OidcProviderInfos().ToList(),
+				OidcProviderInfos = securityConfigurationOptions.Value.OidcProviderInfos().ToList(),
 				UpdateInProgress = serverControl.UpdateInProgress,
-				OidcStrictMode = securityConfiguration.OidcStrictMode,
+				OidcStrictMode = securityConfigurationOptions.Value.OidcStrictMode,
 			});
 		}
 
