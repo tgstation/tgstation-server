@@ -11,9 +11,14 @@ namespace Tgstation.Server.Host.GraphQL.Transformers
 		/// Initializes a new instance of the <see cref="UpdatedUserTransformer"/> class.
 		/// </summary>
 		public UpdatedUserTransformer()
-			: base(model => model.User != null
-				? new UpdatedUser(model.User)
-				: new UpdatedUser(model.Id))
+			: base(
+				  BuildSubProjection<Models.User, User, UserTransformer>(
+					  (model, user) => new UpdatedUser
+					  {
+						  Id = model.Id,
+						  User = user,
+					  },
+					  model => model.User))
 		{
 		}
 	}
