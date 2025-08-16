@@ -1,7 +1,9 @@
 <map id="Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;" name="Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;">
-<area shape="rect" id="Node000001" title=" " alt="" coords="64,109,265,165"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html" title="Contains a transformation Expression for converting TInput s to TOutput s." alt="" coords="5,5,153,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,57,145,107,141,110,102,60"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="177,5,325,46"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,60,188,110,184,107,224,57"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="367,63,568,119"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html" title="Contains a transformation Expression for converting TInput s to TOutput s." alt="" coords="29,5,176,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,39,367,70,366,76,191,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="29,71,176,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,88,366,88,366,94,192,94"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,135,200,191"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="214,138,366,108,367,113,215,144"/>
 </map>

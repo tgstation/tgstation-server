@@ -1,5 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html" title=" " alt="" coords="5,5,241,61"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_user_name_graph_q_l_transformer.html" title="ITransformer&lt;TInput, TOutput&gt; for GraphQL.Types.UserNames." alt="" coords="289,13,576,54"/>
-<area shape="poly" id="edge686_Node000000_Node000001" title=" " alt="" coords="256,31,288,31,288,36,256,36"/>
+<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_legacy_api_transformable.html" title=" " alt="" coords="5,5,223,61"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html" title=" " alt="" coords="271,17,466,58"/>
+<area shape="poly" id="edge671_Node000000_Node000001" title=" " alt="" coords="238,32,270,33,270,38,238,38"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html" title="Represents information about a current git revison." alt="" coords="21,85,207,126"/>
+<area shape="poly" id="edge673_Node000002_Node000001" title=" " alt="" coords="207,78,289,55,290,61,208,83"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html" title=" " alt="" coords="275,85,462,126"/>
+<area shape="poly" id="edge672_Node000002_Node000003" title=" " alt="" coords="223,103,275,103,275,108,223,108"/>
 </map>

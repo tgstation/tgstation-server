@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.GraphQL.Costs" name="Tgstation.Server.Host.GraphQL.Costs">
+<area shape="rect" id="Node000001" title="Values used with HotChocolate.CostAnalysis.Types.CostAttribute for when the default is insufficient." alt="" coords="5,94,191,135"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="79,5,117,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,46,101,93,95,93,95,46"/>
+</map>

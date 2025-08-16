@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Authority.Core.ComponentInterfacingAuthorityBase.WithComponentInstance&lt; TResult &gt;" name="Tgstation.Server.Host.Authority.Core.ComponentInterfacingAuthorityBase.WithComponentInstance&lt; TResult &gt;">
+<area shape="rect" id="Node000001" title="Run a given action &#160;with the relevant IInstance." alt="" coords="5,41,269,97"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html#a76b239d08d2c6a49596b41cb69d4832f" title="Generates a HttpFailureResponse.Conflict type AuthorityResponse&lt;TResult&gt;." alt="" coords="344,5,548,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="269,51,328,44,329,49,269,56"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a7f8c0d636fbbad104557cf898c82ffbb" title="Get the IInstanceReference associated with given instanceId ." alt="" coords="317,85,575,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="269,82,301,86,301,91,269,87"/>
+</map>

@@ -11,6 +11,13 @@ Components:
       Author: Cyberboss
       PullRequest: 2212
     Unreleased: true
+  - Version: 5.9.0
+    Changes:
+    - Descriptions:
+      - The `Telemetry` section has been removed.
+      Author: Cyberboss
+      PullRequest: 2326
+    Unreleased: true
   - Version: 5.8.0
     Changes:
     - Descriptions:
@@ -234,15 +241,15 @@ Components:
     Unreleased: true
   - Version: 6.19.0
     ComponentVersions:
-      HttpApi: 10.13.0
-      GraphQLApi: 0.6.0
+      HttpApi: 10.14.0
+      GraphQLApi: 0.7.0
       DreamMakerApi: 7.3.3
-      Configuration: 5.8.0
+      Configuration: 5.9.0
       InteropApi: 5.10.1
       HostWatchdog: 1.6.0
       NugetCommon: 7.0.0
-      NugetApi: 18.0.0
-      NugetClient: 21.0.0
+      NugetApi: 18.2.0
+      NugetClient: 21.2.0
       WebControlPanel: 6.10.0
     Changes:
     - Descriptions:
@@ -254,6 +261,10 @@ Components:
       - 'Nix: Tgstation.Server.Host.Console package is now built from source.'
       Author: Cyberboss
       PullRequest: 2314
+    - Descriptions:
+      - Removed telemetry.
+      Author: Cyberboss
+      PullRequest: 2326
     Unreleased: true
   - Version: 6.18.1
     ComponentVersions: {}
@@ -4919,6 +4930,13 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   GraphQLApi:
+  - Version: 0.7.0
+    Changes:
+    - Descriptions:
+      - Various breaking changes. Improvements to minimal selection and database projection.
+      Author: Cyberboss
+      PullRequest: 2326
+    Unreleased: true
   - Version: 0.5.0
     Changes:
     - Descriptions:

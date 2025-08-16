@@ -1,3 +1,18 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_users.html" title="Wrapper for accessing Users." alt="" coords="5,5,191,46"/>
+<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_entity.html" title="Represents a database entity." alt="" coords="5,71,191,111"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_chat_bot.html" title="Represents a connection to a chat Provider." alt="" coords="239,5,424,46"/>
+<area shape="poly" id="edge645_Node000000_Node000001" title=" " alt="" coords="187,63,255,44,257,49,188,69"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_instance.html" title="Represents a game server instance." alt="" coords="239,71,424,111"/>
+<area shape="poly" id="edge646_Node000000_Node000002" title=" " alt="" coords="206,88,238,88,238,94,206,94"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_named_entity.html" title="An Entity with a Name." alt="" coords="239,201,424,242"/>
+<area shape="poly" id="edge647_Node000000_Node000003" title=" " alt="" coords="138,119,186,153,240,186,267,198,265,203,237,191,183,158,135,123"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user.html" title="A user registered in the server." alt="" coords="472,136,657,177"/>
+<area shape="poly" id="edge648_Node000003_Node000004" title=" " alt="" coords="420,194,489,175,490,180,422,199"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_group.html" title="Represents a group of Users." alt="" coords="472,267,657,307"/>
+<area shape="poly" id="edge649_Node000003_Node000007" title=" " alt="" coords="422,244,490,263,489,269,420,249"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_name.html" title="A User with limited fields." alt="" coords="472,201,657,242"/>
+<area shape="poly" id="edge650_Node000003_Node000006" title=" " alt="" coords="439,219,471,219,471,224,439,224"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_interfaces_1_1_i_user_name.html" title="A lightly scoped Types.User." alt="" coords="239,136,424,177"/>
+<area shape="poly" id="edge651_Node000005_Node000004" title=" " alt="" coords="439,154,471,154,471,159,439,159"/>
+<area shape="poly" id="edge652_Node000005_Node000006" title=" " alt="" coords="422,179,490,198,489,203,420,184"/>
 </map>

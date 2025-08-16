@@ -14,6 +14,6 @@
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="492,78,579,68,580,73,493,83"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="600,104,781,145"/>
 <area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="493,100,584,110,583,115,492,105"/>
-<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61" title="Get the IInstanceReference associated with given metadata ." alt="" coords="561,273,819,314"/>
+<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a7f8c0d636fbbad104557cf898c82ffbb" title="Get the IInstanceReference associated with given instanceId ." alt="" coords="561,273,819,314"/>
 <area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="507,291,545,291,545,296,507,296"/>
 </map>

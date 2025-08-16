@@ -1,15 +1,19 @@
 <map id="Tgstation.Server.Host.Authority.Core.AuthorityBase" name="Tgstation.Server.Host.Authority.Core.AuthorityBase">
-<area shape="rect" id="Node000001" title="Base implementation of IAuthority." alt="" coords="130,136,334,177"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html" title=" " alt="" coords="382,5,586,46"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="271,124,322,90,381,57,411,44,413,49,383,61,325,94,274,129"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html" title=" " alt="" coords="382,71,586,111"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="327,129,402,109,404,115,329,134"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_permission_set_authority.html" title=" " alt="" coords="382,136,586,177"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="349,154,382,154,382,159,349,159"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html" title=" " alt="" coords="382,201,586,242"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="329,179,404,198,402,203,327,184"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_group_authority.html" title=" " alt="" coords="382,267,586,307"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="274,184,325,218,383,251,413,264,411,269,381,256,322,223,271,188"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority.html" title="Business logic for interating with the server." alt="" coords="5,144,82,169"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,154,129,154,129,159,97,159"/>
+<area shape="rect" id="Node000001" title="Base implementation of IAuthority." alt="" coords="130,169,334,210"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html" title=" " alt="" coords="410,5,614,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="259,156,312,105,345,79,381,57,409,44,412,49,383,61,348,83,316,109,263,160"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_component_interfacing_authority_base.html" title="AuthorityBase for IAuthoritys that need to access IInstanceCores." alt="" coords="382,71,641,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="288,160,381,122,421,109,423,114,383,127,290,165"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_login_authority.html" title=" " alt="" coords="410,136,614,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="349,173,409,166,409,171,350,178"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_permission_set_authority.html" title=" " alt="" coords="410,201,614,242"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="350,200,409,207,409,213,349,206"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_authority.html" title=" " alt="" coords="410,267,614,307"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="291,214,383,251,423,264,422,269,381,256,289,219"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_user_group_authority.html" title=" " alt="" coords="410,332,614,373"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="263,219,316,270,349,295,383,317,412,329,410,334,381,321,345,300,313,274,259,223"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority.html" title="Business logic for interating with the server." alt="" coords="5,177,82,203"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,187,129,187,129,192,97,192"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_chat_authority.html" title=" " alt="" coords="689,71,894,111"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="657,88,689,88,689,94,657,94"/>
 </map>

@@ -147,7 +147,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a8688d09f4ee86ada57a763795f14fec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the AdministrationResponse containing server update information.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">forceFresh</td><td>Bypass the caching that the authority performs for this request, forcing it to contact GitHub.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -159,7 +159,7 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">targetVersion</td><td>The Version TGS will switch to upon reboot.</td></tr>
     <tr><td class="paramname">uploadZip</td><td>If <code><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">true</a></code> a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html#a43f0f4dd78a7b1d06b69eebd1d76cfcd" title="The ticket to use to access the Routes.Transfer controller.">FileTicketResponse.FileTicket</a> will be returned and the call must provide an uploaded zip file containing the update data to the file transfer service.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -174,7 +174,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a21094a58d2406bfc482497fb00a3292e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a ticket for downloading a log file at a given <em>path</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The relative path to the log file in the directory.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -428,7 +428,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Get a ticket for downloading a log file at a given <em>path</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The relative path to the log file in the directory.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -466,7 +466,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  314</span>                        <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">AuthorityResponse&lt;LogFileResponse&gt;</a>(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html">LogFileResponse</a></div>
 <div class="line"><span class="lineno">  315</span>                        {</div>
 <div class="line"><span class="lineno">  316</span>                            Name = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">path</a>,</div>
-<div class="line"><span class="lineno">  317</span>                            LastModified = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#abbde0b246f1d41faf8d73f54ec95e1ab">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a912c1db298c553ee69df3fa0dfe9ad85">GetLastModified</a>(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">fullPath</a>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">cancellationToken</a>),</div>
+<div class="line"><span class="lineno">  317</span>                            LastModified = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#abbde0b246f1d41faf8d73f54ec95e1ab">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a912c1db298c553ee69df3fa0dfe9ad85">GetLastModified</a>(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">fullPath</a>, cancellationToken),</div>
 <div class="line"><span class="lineno">  318</span>                            FileTicket = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">fileTransferTicket</a>.FileTicket,</div>
 <div class="line"><span class="lineno">  319</span>                        });</div>
 <div class="line"><span class="lineno">  320</span>                    }</div>
@@ -534,7 +534,7 @@ Here is the call graph for this function:</div>
 <p>Gets the AdministrationResponse containing server update information.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">forceFresh</td><td>Bypass the caching that the authority performs for this request, forcing it to contact GitHub.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -627,7 +627,7 @@ Here is the call graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">targetVersion</td><td>The Version TGS will switch to upon reboot.</td></tr>
     <tr><td class="paramname">uploadZip</td><td>If <code><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">true</a></code> a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html#a43f0f4dd78a7b1d06b69eebd1d76cfcd" title="The ticket to use to access the Routes.Transfer controller.">FileTicketResponse.FileTicket</a> will be returned and the call must provide an uploaded zip file containing the update data to the file transfer service.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -667,7 +667,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  228</span>                    {</div>
 <div class="line"><span class="lineno">  229</span>                        <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  230</span>                        {</div>
-<div class="line"><span class="lineno">  231</span>                            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">updateResult</a> = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#ad36c77b588ebc8050546c7ce45a78b25">serverUpdateInitiator</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#af7f87439f1db84206b881d38619ef755">InitiateUpdate</a>(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">uploadTicket</a>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">targetVersion</a>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">cancellationToken</a>);</div>
+<div class="line"><span class="lineno">  231</span>                            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">updateResult</a> = <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#ad36c77b588ebc8050546c7ce45a78b25">serverUpdateInitiator</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#af7f87439f1db84206b881d38619ef755">InitiateUpdate</a>(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">uploadTicket</a>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">targetVersion</a>, cancellationToken);</div>
 <div class="line"><span class="lineno">  232</span>                        }</div>
 <div class="line"><span class="lineno">  233</span>                        <span class="keywordflow">catch</span></div>
 <div class="line"><span class="lineno">  234</span>                        {</div>

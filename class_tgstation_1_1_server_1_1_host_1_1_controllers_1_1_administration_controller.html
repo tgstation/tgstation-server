@@ -466,7 +466,7 @@ Additional Inherited Members</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The path to download.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -512,7 +512,7 @@ Additional Inherited Members</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">page</td><td>The current page.</td></tr>
     <tr><td class="paramname">pageSize</td><td>The page size.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -612,7 +612,7 @@ Here is the call graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">fresh</td><td>If <code><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">true</a></code>, the cache should be bypassed.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -651,7 +651,7 @@ Here is the call graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>The ServerUpdateRequest.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -670,7 +670,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  149</span> </div>
 <div class="line"><span class="lineno">  150</span>            <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a1cf7ba33e72b4ba06139f54519557d31">administrationAuthority</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_rest_authority_invoker.html#a9057830ff4d94f69ce51bf8f6c7f3889">Invoke</a>&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a>&gt;(</div>
 <div class="line"><span class="lineno">  151</span>                <span class="keyword">this</span>,</div>
-<div class="line"><span class="lineno">  152</span>                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">authority</a> =&gt; <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">authority</a>.TriggerServerVersionChange(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">model</a>.NewVersion, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">model</a>.UploadZip ?? <span class="keyword">false</span>, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">cancellationToken</a>));</div>
+<div class="line"><span class="lineno">  152</span>                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">authority</a> =&gt; <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">authority</a>.TriggerServerVersionChange(<a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">model</a>.NewVersion, <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">model</a>.UploadZip ?? <span class="keyword">false</span>, cancellationToken));</div>
 <div class="line"><span class="lineno">  153</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">Tgstation.Server.Api.Models.Response.ErrorMessageResponse</a></div><div class="ttdoc">Represents an error message returned by the server.</div><div class="ttdef"><b>Definition</b> <a href="_error_message_response_8cs_source.html#l00011">ErrorMessageResponse.cs:12</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">Tgstation.Server.Api.Models.Response.ServerUpdateResponse</a></div><div class="ttdoc">A response to a Request.ServerUpdateRequest.</div><div class="ttdef"><b>Definition</b> <a href="_server_update_response_8cs_source.html#l00010">ServerUpdateResponse.cs:11</a></div></div>

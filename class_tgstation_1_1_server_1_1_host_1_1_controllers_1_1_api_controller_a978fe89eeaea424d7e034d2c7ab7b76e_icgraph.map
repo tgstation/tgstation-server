@@ -1,31 +1,29 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.StatusCode" name="Tgstation.Server.Host.Controllers.ApiController.StatusCode">
-<area shape="rect" id="Node000001" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="883,263,1099,303"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a930c1ed07039457ab6f9a8751fd462a6" title="Create a new chat bot model ." alt="" coords="601,85,816,126"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="962,252,907,194,872,165,834,140,810,129,812,124,837,135,875,161,910,190,966,249"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#af1353ef4c778690c819d48abb1f15436" title="Create an IActionResult for a given authorityResponse &#160;if it is erroring." alt="" coords="581,150,835,206"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="919,259,784,209,786,204,921,254"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a5333dd9534ea615440e2360016e75be4" title="Response for missing/Invalid headers." alt="" coords="601,263,816,303"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="868,286,816,286,816,280,868,280"/>
-<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="601,328,816,369"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="886,310,800,330,799,325,885,305"/>
-<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6d2ca4edeaf1bebf658305727ced5f45" title="Validates the Api.Models.RepositorySettings.AccessToken of a given model &#160;if it is set." alt="" coords="582,425,834,466"/>
-<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="947,315,837,383,753,427,751,422,834,378,944,310"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#a002328002625dad24dd79f855195d36b" title="Invoke a TAuthority &#160;method with no success result.A ValueTask&lt;TResult&gt; resulting in the IActionResul..." alt="" coords="277,5,492,46"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="585,144,579,140,562,119,555,98,548,78,531,60,491,40,493,35,535,56,552,75,560,96,567,116,583,136,588,140"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#a171f177c54d934d0236fbef0380ad7b1" title="Invoke a TAuthority &#160;method and get the result.A ValueTask&lt;TResult&gt; resulting in the IActionResult ge..." alt="" coords="277,70,492,126"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="577,148,491,127,493,122,579,143"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#a1f3efc031abc0ff004cfb0fdc7fe7aa8" title="Invoke a TAuthority &#160;method and get the result.A ValueTask&lt;TResult&gt; resulting in the IActionResult ge..." alt="" coords="236,150,533,206"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="565,180,533,180,533,175,565,175"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a312331c3db52428a3d06f9967ec56cd8" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="277,229,492,270"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="584,273,492,263,492,258,585,268"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a7c7235c3ee61017e2ae5734a100c53bf" title="Hook for executing a request.A ValueTask&lt;TResult&gt; resulting in an IActionResult that,..." alt="" coords="277,295,492,335"/>
-<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="585,298,492,307,492,302,584,293"/>
-<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#ac68114c705ed3325880697d796fe8f0b" title="Main page of the Application." alt="" coords="277,360,492,401"/>
-<area shape="poly" id="edge10_Node000007_Node000011" title=" " alt="" coords="601,311,582,319,559,334,534,349,493,363,492,358,532,345,556,330,580,314,599,306"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,229,188,270"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="261,252,188,252,188,247,261,247"/>
-<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="277,425,492,466"/>
-<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="567,448,492,448,492,443,567,443"/>
-<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="277,491,492,531"/>
-<area shape="poly" id="edge14_Node000013_Node000015" title=" " alt="" coords="590,472,489,493,488,487,588,467"/>
+<area shape="rect" id="Node000001" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="883,328,1099,369"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#af1353ef4c778690c819d48abb1f15436" title="Create an IActionResult for a given authorityResponse &#160;if it is erroring." alt="" coords="581,110,835,166"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="948,320,745,168,749,164,951,316"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a5333dd9534ea615440e2360016e75be4" title="Response for missing/Invalid headers." alt="" coords="601,295,816,335"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="868,337,816,330,817,325,868,331"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="601,360,816,401"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="868,365,817,371,816,365,868,360"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6d2ca4edeaf1bebf658305727ced5f45" title="Validates the Api.Models.RepositorySettings.AccessToken of a given model &#160;if it is set." alt="" coords="582,425,834,466"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="931,378,836,415,796,427,794,422,834,410,929,373"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#a002328002625dad24dd79f855195d36b" title="Invoke a TAuthority &#160;method with no success result.A ValueTask&lt;TResult&gt; resulting in the IActionResul..." alt="" coords="277,5,492,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="639,105,587,81,532,60,491,48,493,43,534,55,589,76,641,100"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#a171f177c54d934d0236fbef0380ad7b1" title="Invoke a TAuthority &#160;method and get the result.A ValueTask&lt;TResult&gt; resulting in the IActionResult ge..." alt="" coords="277,70,492,126"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="565,123,491,114,492,108,566,117"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_rest_authority_invoker.html#a1f3efc031abc0ff004cfb0fdc7fe7aa8" title="Invoke a TAuthority &#160;method and get the result.A ValueTask&lt;TResult&gt; resulting in the IActionResult ge..." alt="" coords="236,150,533,206"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="566,158,534,162,533,157,565,153"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a312331c3db52428a3d06f9967ec56cd8" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="277,229,492,270"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="588,294,488,273,489,268,590,288"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a7c7235c3ee61017e2ae5734a100c53bf" title="Hook for executing a request.A ValueTask&lt;TResult&gt; resulting in an IActionResult that,..." alt="" coords="277,295,492,335"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="585,318,492,318,492,312,585,312"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#ac68114c705ed3325880697d796fe8f0b" title="Main page of the Application." alt="" coords="277,360,492,401"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="590,342,489,362,488,357,588,336"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,229,188,270"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="261,252,188,252,188,247,261,247"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="277,425,492,466"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="567,448,492,448,492,443,567,443"/>
+<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="277,491,492,531"/>
+<area shape="poly" id="edge13_Node000012_Node000014" title=" " alt="" coords="590,472,489,493,488,487,588,467"/>
 </map>

@@ -6,7 +6,7 @@
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="138,232,197,177,236,147,278,122,294,115,296,120,281,127,239,152,201,181,141,236"/>
 <area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="319,136,499,177"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="165,232,279,187,306,179,307,184,281,192,167,237"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ace09fda238b33ebe9c75aa9ca8678466" title="Get the IInstanceReference associated with given metadata .The IInstance associated with the given me..." alt="" coords="282,201,536,242"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a577a0e2649a7546de6b3aa7e2f37166d" title="Get the IInstanceReference associated with given instanceId .The IInstance associated with the given ..." alt="" coords="282,201,536,242"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="232,239,266,235,267,241,233,245"/>
 <area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="314,267,504,307"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="233,265,299,272,299,278,232,270"/>

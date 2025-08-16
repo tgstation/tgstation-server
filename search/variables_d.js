@@ -9,6 +9,7 @@ var searchData=
   ['nodehealthcheckintervalminutes_6',['NodeHealthCheckIntervalMinutes',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a9b88251428573800000fea910531443d',1,'Tgstation::Server::Host::Swarm::SwarmConstants']]],
   ['nodesthatneedtobereadytocommit_7',['nodesThatNeedToBeReadyToCommit',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_operation.html#a37929f57975d0572ccc5b60e75f56af4',1,'Tgstation::Server::Host::Swarm::SwarmUpdateOperation']]],
   ['nomorejobsshouldstart_8',['noMoreJobsShouldStart',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab97d4bed642d329daea3510d64f8ec6c',1,'Tgstation::Server::Host::Jobs::JobService']]],
-  ['nonefieldname_9',['NoneFieldName',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_interceptors_1_1_rights_type_interceptor.html#ac5b2e13fcadf1bf6970e504a38f8df93',1,'Tgstation::Server::Host::GraphQL::Interceptors::RightsTypeInterceptor']]],
-  ['noreference_10',['NoReference',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#af21c0256458f5a344a8c025ace176cd9',1,'Tgstation::Server::Host::Components::Repository::Repository']]]
+  ['nonefieldname_9',['NoneFieldName',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_metadata_1_1_rights_type_interceptor.html#a5fae6ac9066d76635f3416344fbb8e49',1,'Tgstation::Server::Host::GraphQL::Metadata::RightsTypeInterceptor']]],
+  ['nonindexedqueryable_10',['NonIndexedQueryable',['../class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_costs.html#abc1e617f9c8dae3533e28fbb88be1c32',1,'Tgstation::Server::Host::GraphQL::Costs']]],
+  ['noreference_11',['NoReference',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#af21c0256458f5a344a8c025ace176cd9',1,'Tgstation::Server::Host::Components::Repository::Repository']]]
 ];

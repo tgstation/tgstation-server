@@ -1,11 +1,9 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.ReadAllBytes" name="Tgstation.Server.Host.IO.IIOManager.ReadAllBytes">
-<area shape="rect" id="Node000001" title="Returns all the contents of a file at path &#160;as a byte array." alt="" coords="613,71,783,111"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_version_reporting_service.html#a80b969d62c493eaecb088134c4b29111" title=" " alt="" coords="298,5,547,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="597,69,564,62,512,49,514,44,566,56,598,64"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a43d2c796792fcf3807acc665c1ea06ab" title=" " alt="" coords="309,71,536,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="598,94,536,94,536,88,598,88"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#aec49c7fd747b73deeac8e52947f586fc" title="Add a given fullDmbPath &#160;to the trusted DMBs list in BYOND&#39;s config.A ValueTask representing the runn..." alt="" coords="280,136,565,177"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="598,118,566,126,514,138,512,133,564,120,597,113"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,71,232,111"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="294,94,232,94,232,88,294,88"/>
+<area shape="rect" id="Node000001" title="Returns all the contents of a file at path &#160;as a byte array." alt="" coords="613,39,783,79"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a43d2c796792fcf3807acc665c1ea06ab" title=" " alt="" coords="309,5,536,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="597,50,535,42,536,37,598,44"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#aec49c7fd747b73deeac8e52947f586fc" title="Add a given fullDmbPath &#160;to the trusted DMBs list in BYOND&#39;s config.A ValueTask representing the runn..." alt="" coords="280,71,565,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="598,73,566,77,565,72,597,68"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="294,28,232,28,232,23,294,23"/>
 </map>

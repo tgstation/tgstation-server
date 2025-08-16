@@ -76,6 +76,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
 <a href="#properties">Properties</a> &#124;
 <a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base-members.html">List of all members</a>  </div>
@@ -100,11 +101,13 @@ Collaboration diagram for Tgstation.Server.Host.Models.Transformers.TransformerB
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_models_8_transformers_8_transformer_base_3_01_t_input_00_01_t_output_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_models_8_transformers_8_transformer_base_3_01_t_input_00_01_t_output_01_4_coll__map" id="a_tgstation_8_server_8_host_8_models_8_transformers_8_transformer_base_3_01_t_input_00_01_t_output_01_4_coll__map">
-<area shape="rect" title=" " alt="" coords="64,109,265,165"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html" title="Contains a transformation Expression for converting TInput s to TOutput s." alt="" coords="5,5,153,46"/>
-<area shape="poly" title=" " alt="" coords="106,57,145,107,141,110,102,60"/>
-<area shape="rect" title=" " alt="" coords="177,5,325,46"/>
-<area shape="poly" title=" " alt="" coords="228,60,188,110,184,107,224,57"/>
+<area shape="rect" title=" " alt="" coords="367,63,568,119"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html" title="Contains a transformation Expression for converting TInput s to TOutput s." alt="" coords="29,5,176,46"/>
+<area shape="poly" title=" " alt="" coords="192,39,367,70,366,76,191,44"/>
+<area shape="rect" title=" " alt="" coords="29,71,176,111"/>
+<area shape="poly" title=" " alt="" coords="192,88,366,88,366,94,192,94"/>
+<area shape="rect" title=" " alt="" coords="5,135,200,191"/>
+<area shape="poly" title=" " alt="" coords="214,138,366,108,367,113,215,144"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -114,11 +117,26 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:ad7fe700ea06f39c0d945037d8d1a7940"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the TransformerBase&lt;TInput, TOutput&gt; class.  <br /></td></tr>
 <tr class="separator:ad7fe700ea06f39c0d945037d8d1a7940"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-static-methods" name="pro-static-methods"></a>
+Static Protected Member Functions</h2></td></tr>
+<tr class="memitem:a39ece530c12d092bc5e6b74230dc76d2" id="r_a39ece530c12d092bc5e6b74230dc76d2"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a39ece530c12d092bc5e6b74230dc76d2">NotNullFallback&lt; T &gt;</a> ()</td></tr>
+<tr class="memdesc:a39ece530c12d092bc5e6b74230dc76d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <em>T</em>  that should be used when a database projected non-null DTO value is null in the expression.  <br /></td></tr>
+<tr class="separator:a39ece530c12d092bc5e6b74230dc76d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd7e7f0fd3baea1822122497736fee04" id="r_abd7e7f0fd3baea1822122497736fee04"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, TOutput &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#abd7e7f0fd3baea1822122497736fee04">BuildSubProjection&lt; TSubInput, TSubOutput, TTransformer &gt;</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, TSubOutput?, TOutput &gt; &gt; transformerExpression, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, TSubInput?&gt; &gt; subInputSelectionExpression)</td></tr>
+<tr class="memdesc:abd7e7f0fd3baea1822122497736fee04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build an Expression&lt;TDelegate&gt; for <em>TInput</em>  to <em>TOutput</em>  when <em>TInput</em>  contains a <em>TSubInput</em>  with its own <em>TTransformer</em> .  <br /></td></tr>
+<tr class="separator:abd7e7f0fd3baea1822122497736fee04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85571f220d31da2a27adf640e2ae6082" id="r_a85571f220d31da2a27adf640e2ae6082"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, TOutput &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a85571f220d31da2a27adf640e2ae6082">BuildSubProjection&lt; TSubInput1, TSubInput2, TSubOutput1, TSubOutput2, TTransformer1, TTransformer2 &gt;</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, TSubOutput1?, TSubOutput2?, TOutput &gt; &gt; transformerExpression, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, TSubInput1?&gt; &gt; subInput1SelectionExpression, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, TSubInput2?&gt; &gt; subInput2SelectionExpression)</td></tr>
+<tr class="memdesc:a85571f220d31da2a27adf640e2ae6082"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build an Expression&lt;TDelegate&gt; for <em>TInput</em>  to <em>TOutput</em>  when <em>TInput</em>  contains two sub-inputs with their own ITransformer&lt;TInput, TOutput&gt;s.  <br /></td></tr>
+<tr class="separator:a85571f220d31da2a27adf640e2ae6082"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:a1a8094ea959a6489cd9bfcef7ec69b46" id="r_a1a8094ea959a6489cd9bfcef7ec69b46"><td class="memItemLeft" align="right" valign="top">Expression&lt; Func&lt; TInput, TOutput &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a><code> [get]</code></td></tr>
 <tr class="memdesc:a1a8094ea959a6489cd9bfcef7ec69b46"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html#a7b753be2abb7f504fa693b69c273de2c" title="Expression&lt;TDelegate&gt; form of the transformation.">Expression&lt;TDelegate&gt;</a> form of the transformation.  <br /></td></tr>
 <tr class="separator:a1a8094ea959a6489cd9bfcef7ec69b46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6592391fa3ac0c413657006ecb5f12ec" id="r_a6592391fa3ac0c413657006ecb5f12ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_projected_pair.html">ProjectedPair</a>&lt; TInput, TOutput &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a6592391fa3ac0c413657006ecb5f12ec">ProjectedExpression</a><code> [get]</code></td></tr>
+<tr class="memdesc:a6592391fa3ac0c413657006ecb5f12ec"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html#a7b753be2abb7f504fa693b69c273de2c" title="Expression&lt;TDelegate&gt; form of the transformation.">Expression&lt;TDelegate&gt;</a> for mapping <em>TInput</em>  into a ProjectedPair&lt;TQueried, TResult&gt;.  <br /></td></tr>
+<tr class="separator:a6592391fa3ac0c413657006ecb5f12ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb85c6b181ae41375810a1dab09c0005" id="r_abb85c6b181ae41375810a1dab09c0005"><td class="memItemLeft" align="right" valign="top">Func&lt; TInput, TOutput &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#abb85c6b181ae41375810a1dab09c0005">CompiledExpression</a><code> [get]</code></td></tr>
 <tr class="memdesc:abb85c6b181ae41375810a1dab09c0005"><td class="mdescLeft">&#160;</td><td class="mdescRight">The compiled <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html#a7b753be2abb7f504fa693b69c273de2c" title="Expression&lt;TDelegate&gt; form of the transformation.">Expression</a>.  <br /></td></tr>
 <tr class="separator:abb85c6b181ae41375810a1dab09c0005"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,10 +147,13 @@ Static Private Attributes</h2></td></tr>
 <tr class="memitem:a411dcb679843373fc928346d3cad632e" id="r_a411dcb679843373fc928346d3cad632e"><td class="memItemLeft" align="right" valign="top">static ? Func&lt; TInput, TOutput &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a411dcb679843373fc928346d3cad632e">compiledExpression</a></td></tr>
 <tr class="memdesc:a411dcb679843373fc928346d3cad632e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>static</code> cache for CompiledExpression.  <br /></td></tr>
 <tr class="separator:a411dcb679843373fc928346d3cad632e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afafa4011d528c95d0c4280aab32b5a64" id="r_afafa4011d528c95d0c4280aab32b5a64"><td class="memItemLeft" align="right" valign="top">static ? <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_projected_pair.html">ProjectedPair</a>&lt; TInput, TOutput &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#afafa4011d528c95d0c4280aab32b5a64">projectedExpression</a></td></tr>
+<tr class="memdesc:afafa4011d528c95d0c4280aab32b5a64"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>static</code> cache for ProjectedExpression.  <br /></td></tr>
+<tr class="separator:afafa4011d528c95d0c4280aab32b5a64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00007">7</a> of file <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html">TransformerBase{TInput,TOutput}.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00010">10</a> of file <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html">TransformerBase{TInput,TOutput}.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad7fe700ea06f39c0d945037d8d1a7940" name="ad7fe700ea06f39c0d945037d8d1a7940"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad7fe700ea06f39c0d945037d8d1a7940">&#9670;&#160;</a></span>TransformerBase()</h2>
@@ -166,17 +187,279 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00024">24</a> of file <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html">TransformerBase{TInput,TOutput}.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   26</span>        {</div>
-<div class="line"><span class="lineno">   27</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a411dcb679843373fc928346d3cad632e">compiledExpression</a> ??= expression.Compile();</div>
-<div class="line"><span class="lineno">   28</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a> = expression;</div>
-<div class="line"><span class="lineno">   29</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#abb85c6b181ae41375810a1dab09c0005">CompiledExpression</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a411dcb679843373fc928346d3cad632e">compiledExpression</a>;</div>
-<div class="line"><span class="lineno">   30</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base_html_a1a8094ea959a6489cd9bfcef7ec69b46"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Tgstation.Server.Host.Models.Transformers.TransformerBase.Expression</a></div><div class="ttdeci">Expression&lt; Func&lt; TInput, TOutput &gt; &gt; Expression</div><div class="ttdoc">Expression&lt;TDelegate&gt; form of the transformation.</div><div class="ttdef"><b>Definition</b> <a href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00015">TransformerBase{TInput,TOutput}.cs:15</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base_html_a411dcb679843373fc928346d3cad632e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a411dcb679843373fc928346d3cad632e">Tgstation.Server.Host.Models.Transformers.TransformerBase.compiledExpression</a></div><div class="ttdeci">static ? Func&lt; TInput, TOutput &gt; compiledExpression</div><div class="ttdoc">static cache for CompiledExpression.</div><div class="ttdef"><b>Definition</b> <a href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00012">TransformerBase{TInput,TOutput}.cs:12</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base_html_abb85c6b181ae41375810a1dab09c0005"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#abb85c6b181ae41375810a1dab09c0005">Tgstation.Server.Host.Models.Transformers.TransformerBase.CompiledExpression</a></div><div class="ttdeci">Func&lt; TInput, TOutput &gt; CompiledExpression</div><div class="ttdoc">The compiled Expression.</div><div class="ttdef"><b>Definition</b> <a href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00018">TransformerBase{TInput,TOutput}.cs:18</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00144">144</a> of file <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html">TransformerBase{TInput,TOutput}.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  146</span>        {</div>
+<div class="line"><span class="lineno">  147</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a411dcb679843373fc928346d3cad632e">compiledExpression</a> ??= expression.Compile();</div>
+<div class="line"><span class="lineno">  148</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#afafa4011d528c95d0c4280aab32b5a64">projectedExpression</a> ??= expression.Projected();</div>
+<div class="line"><span class="lineno">  149</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a> = expression;</div>
+<div class="line"><span class="lineno">  150</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#abb85c6b181ae41375810a1dab09c0005">CompiledExpression</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a411dcb679843373fc928346d3cad632e">compiledExpression</a>;</div>
+<div class="line"><span class="lineno">  151</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a6592391fa3ac0c413657006ecb5f12ec">ProjectedExpression</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#afafa4011d528c95d0c4280aab32b5a64">projectedExpression</a>;</div>
+<div class="line"><span class="lineno">  152</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base_html_a1a8094ea959a6489cd9bfcef7ec69b46"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Tgstation.Server.Host.Models.Transformers.TransformerBase.Expression</a></div><div class="ttdeci">Expression&lt; Func&lt; TInput, TOutput &gt; &gt; Expression</div><div class="ttdoc">Expression&lt;TDelegate&gt; form of the transformation.</div><div class="ttdef"><b>Definition</b> <a href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00023">TransformerBase{TInput,TOutput}.cs:23</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base_html_a411dcb679843373fc928346d3cad632e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a411dcb679843373fc928346d3cad632e">Tgstation.Server.Host.Models.Transformers.TransformerBase.compiledExpression</a></div><div class="ttdeci">static ? Func&lt; TInput, TOutput &gt; compiledExpression</div><div class="ttdoc">static cache for CompiledExpression.</div><div class="ttdef"><b>Definition</b> <a href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00015">TransformerBase{TInput,TOutput}.cs:15</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base_html_a6592391fa3ac0c413657006ecb5f12ec"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a6592391fa3ac0c413657006ecb5f12ec">Tgstation.Server.Host.Models.Transformers.TransformerBase.ProjectedExpression</a></div><div class="ttdeci">Expression&lt; Func&lt; TInput, ProjectedPair&lt; TInput, TOutput &gt; &gt; &gt; ProjectedExpression</div><div class="ttdoc">Expression&lt;TDelegate&gt; for mapping TInput  into a ProjectedPair&lt;TQueried, TResult&gt;.</div><div class="ttdef"><b>Definition</b> <a href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00026">TransformerBase{TInput,TOutput}.cs:26</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base_html_abb85c6b181ae41375810a1dab09c0005"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#abb85c6b181ae41375810a1dab09c0005">Tgstation.Server.Host.Models.Transformers.TransformerBase.CompiledExpression</a></div><div class="ttdeci">Func&lt; TInput, TOutput &gt; CompiledExpression</div><div class="ttdoc">The compiled Expression.</div><div class="ttdef"><b>Definition</b> <a href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00029">TransformerBase{TInput,TOutput}.cs:29</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base_html_afafa4011d528c95d0c4280aab32b5a64"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#afafa4011d528c95d0c4280aab32b5a64">Tgstation.Server.Host.Models.Transformers.TransformerBase.projectedExpression</a></div><div class="ttdeci">static ? Expression&lt; Func&lt; TInput, ProjectedPair&lt; TInput, TOutput &gt; &gt; &gt; projectedExpression</div><div class="ttdoc">static cache for ProjectedExpression.</div><div class="ttdef"><b>Definition</b> <a href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00020">TransformerBase{TInput,TOutput}.cs:20</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00012">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.compiledExpression</a>, <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00018">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.CompiledExpression</a>, and <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00015">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.Expression</a>.</p>
+<p class="reference">References <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00015">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.compiledExpression</a>, <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00029">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.CompiledExpression</a>, <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00023">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.Expression</a>, <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00020">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.projectedExpression</a>, and <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00026">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.ProjectedExpression</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="abd7e7f0fd3baea1822122497736fee04" name="abd7e7f0fd3baea1822122497736fee04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd7e7f0fd3baea1822122497736fee04">&#9670;&#160;</a></span>BuildSubProjection&lt; TSubInput, TSubOutput, TTransformer &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, TOutput &gt; &gt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html">Tgstation.Server.Host.Models.Transformers.TransformerBase</a>&lt; TInput, TOutput &gt;.BuildSubProjection&lt; TSubInput, TSubOutput, TTransformer &gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, TSubOutput?, TOutput &gt; &gt;&#160;</td>
+          <td class="paramname"><em>transformerExpression</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, TSubInput?&gt; &gt;&#160;</td>
+          <td class="paramname"><em>subInputSelectionExpression</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Build an Expression&lt;TDelegate&gt; for <em>TInput</em>  to <em>TOutput</em>  when <em>TInput</em>  contains a <em>TSubInput</em>  with its own <em>TTransformer</em> . </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TSubInput</td><td>The field Type in <em>TInput</em>  that needs transforming.</td></tr>
+    <tr><td class="paramname">TSubOutput</td><td>The transformed Type of <em>TSubInput</em> .</td></tr>
+    <tr><td class="paramname">TTransformer</td><td>The ITransformer&lt;TInput, TOutput&gt; for <em>TSubInput</em> /<em>TSubOutput</em> .</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transformerExpression</td><td>The Expression&lt;TDelegate&gt; to take a <em>TInput</em>  and <em>TSubOutput</em>  and produce a <em>TOutput</em> .</td></tr>
+    <tr><td class="paramname">subInputSelectionExpression</td><td>The Expression&lt;TDelegate&gt; to select <em>TSubInput</em>  from <em>TInput</em> .</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An expression converting <em>TInput</em>  into <em>TOutput</em>  based on <em>transformerExpression</em>  with its other arguments generated from the transformation result of <em>subInputSelectionExpression</em> .</dd></dl>
+<div class="typeconstraint">
+<dl><dt><b>Type Constraints</b></dt><dd>
+<table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em>TSubOutput</em></td><td>&#160;:</td><td valign="top"><em>class</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer</em></td><td>&#160;:</td><td valign="top"><em>ITransformer</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer</em></td><td>&#160;:</td><td valign="top"><em>TSubInput</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer</em></td><td>&#160;:</td><td valign="top"><em>TSubOutput</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer</em></td><td>&#160;:</td><td valign="top"><em>new()</em></td><td>&#160;</td></tr>
+</table>
+</dd>
+</dl>
+</div>
+
+<p class="definition">Definition at line <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00049">49</a> of file <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html">TransformerBase{TInput,TOutput}.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   52</span>                             : <span class="keyword">class</span></div>
+<div class="line"><span class="lineno">   53</span>            where TTransformer : ITransformer&lt;TSubInput, TSubOutput&gt;, <span class="keyword">new</span>()</div>
+<div class="line"><span class="lineno">   54</span>        {</div>
+<div class="line"><span class="lineno">   55</span>            var subTransformer = <span class="keyword">new</span> TTransformer();</div>
+<div class="line"><span class="lineno">   56</span> </div>
+<div class="line"><span class="lineno">   57</span>            var primaryInput = global::System.Linq.Expressions.Expression.Parameter(typeof(TInput), <span class="stringliteral">&quot;input&quot;</span>);</div>
+<div class="line"><span class="lineno">   58</span>            var subInputExpression = global::System.Linq.Expressions.Expression.Invoke(subInputSelectionExpression, primaryInput);</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span>            var notNullExpression = global::System.Linq.Expressions.Expression.MakeBinary(</div>
+<div class="line"><span class="lineno">   61</span>                ExpressionType.NotEqual,</div>
+<div class="line"><span class="lineno">   62</span>                subInputExpression,</div>
+<div class="line"><span class="lineno">   63</span>                global::System.Linq.Expressions.Expression.Constant(<span class="keyword">null</span>, typeof(TSubInput)));</div>
+<div class="line"><span class="lineno">   64</span> </div>
+<div class="line"><span class="lineno">   65</span>            var subOutputExpression = global::System.Linq.Expressions.Expression.Invoke(subTransformer.Expression, subInputExpression);</div>
+<div class="line"><span class="lineno">   66</span> </div>
+<div class="line"><span class="lineno">   67</span>            var conditionalSubOutputExpression = global::System.Linq.Expressions.Expression.Condition(</div>
+<div class="line"><span class="lineno">   68</span>                notNullExpression,</div>
+<div class="line"><span class="lineno">   69</span>                subOutputExpression,</div>
+<div class="line"><span class="lineno">   70</span>                global::System.Linq.Expressions.Expression.Constant(<span class="keyword">null</span>, typeof(TSubOutput)));</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>            var outputExpression = global::System.Linq.Expressions.Expression.Invoke(transformerExpression, primaryInput, conditionalSubOutputExpression);</div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span>            <span class="keywordflow">return</span> global::System.Linq.Expressions.Expression.Lambda&lt;Func&lt;TInput, TOutput&gt;&gt;(outputExpression, primaryInput);</div>
+<div class="line"><span class="lineno">   75</span>        }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a85571f220d31da2a27adf640e2ae6082" name="a85571f220d31da2a27adf640e2ae6082"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85571f220d31da2a27adf640e2ae6082">&#9670;&#160;</a></span>BuildSubProjection&lt; TSubInput1, TSubInput2, TSubOutput1, TSubOutput2, TTransformer1, TTransformer2 &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, TOutput &gt; &gt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html">Tgstation.Server.Host.Models.Transformers.TransformerBase</a>&lt; TInput, TOutput &gt;.BuildSubProjection&lt; TSubInput1, TSubInput2, TSubOutput1, TSubOutput2, TTransformer1, TTransformer2 &gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, TSubOutput1?, TSubOutput2?, TOutput &gt; &gt;&#160;</td>
+          <td class="paramname"><em>transformerExpression</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, TSubInput1?&gt; &gt;&#160;</td>
+          <td class="paramname"><em>subInput1SelectionExpression</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt; Func&lt; TInput, TSubInput2?&gt; &gt;&#160;</td>
+          <td class="paramname"><em>subInput2SelectionExpression</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Build an Expression&lt;TDelegate&gt; for <em>TInput</em>  to <em>TOutput</em>  when <em>TInput</em>  contains two sub-inputs with their own ITransformer&lt;TInput, TOutput&gt;s. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TSubInput1</td><td>The first field Type in <em>TInput</em>  that needs transforming.</td></tr>
+    <tr><td class="paramname">TSubInput2</td><td>The second field Type in <em>TInput</em>  that needs transforming.</td></tr>
+    <tr><td class="paramname">TSubOutput1</td><td>The first transformed Type of <em>TSubInput1</em> .</td></tr>
+    <tr><td class="paramname">TSubOutput2</td><td>The second transformed Type of <em>TSubInput2</em> .</td></tr>
+    <tr><td class="paramname">TTransformer1</td><td>The ITransformer&lt;TInput, TOutput&gt; for <em>TSubInput1</em> /<em>TSubOutput2</em> .</td></tr>
+    <tr><td class="paramname">TTransformer2</td><td>The ITransformer&lt;TInput, TOutput&gt; for <em>TSubInput2</em> /<em>TSubOutput2</em> .</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transformerExpression</td><td>The Expression&lt;TDelegate&gt; to take a <em>TInput</em> , <em>TSubOutput1</em> , and <em>TSubOutput1</em>  and produce a <em>TOutput</em> .</td></tr>
+    <tr><td class="paramname">subInput1SelectionExpression</td><td>The Expression&lt;TDelegate&gt; to select <em>TSubInput1</em>  from <em>TInput</em> .</td></tr>
+    <tr><td class="paramname">subInput2SelectionExpression</td><td>The Expression&lt;TDelegate&gt; to select <em>TSubInput2</em>  from <em>TInput</em> .</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An expression converting <em>TInput</em>  into <em>TOutput</em>  based on <em>transformerExpression</em>  with its other arguments generated from the transformation result of <em>subInput1SelectionExpression</em>  and <em>subInput2SelectionExpression</em> .</dd></dl>
+<div class="typeconstraint">
+<dl><dt><b>Type Constraints</b></dt><dd>
+<table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em>TSubOutput1</em></td><td>&#160;:</td><td valign="top"><em>class</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TSubOutput2</em></td><td>&#160;:</td><td valign="top"><em>class</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer1</em></td><td>&#160;:</td><td valign="top"><em>ITransformer</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer1</em></td><td>&#160;:</td><td valign="top"><em>TSubInput1</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer1</em></td><td>&#160;:</td><td valign="top"><em>TSubOutput1</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer1</em></td><td>&#160;:</td><td valign="top"><em>new()</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer2</em></td><td>&#160;:</td><td valign="top"><em>ITransformer</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer2</em></td><td>&#160;:</td><td valign="top"><em>TSubInput2</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer2</em></td><td>&#160;:</td><td valign="top"><em>TSubOutput2</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer2</em></td><td>&#160;:</td><td valign="top"><em>new()</em></td><td>&#160;</td></tr>
+</table>
+</dd>
+</dl>
+</div>
+
+<p class="definition">Definition at line <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00090">90</a> of file <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html">TransformerBase{TInput,TOutput}.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  100</span>                              : <span class="keyword">class</span></div>
+<div class="line"><span class="lineno">  101</span>            where TSubOutput2 : <span class="keyword">class</span></div>
+<div class="line"><span class="lineno">  102</span>            where TTransformer1 : ITransformer&lt;TSubInput1, TSubOutput1&gt;, <span class="keyword">new</span>()</div>
+<div class="line"><span class="lineno">  103</span>            where TTransformer2 : ITransformer&lt;TSubInput2, TSubOutput2&gt;, new()</div>
+<div class="line"><span class="lineno">  104</span>        {</div>
+<div class="line"><span class="lineno">  105</span>            var subTransformer1 = <span class="keyword">new</span> TTransformer1();</div>
+<div class="line"><span class="lineno">  106</span>            var subTransformer2 = <span class="keyword">new</span> TTransformer2();</div>
+<div class="line"><span class="lineno">  107</span> </div>
+<div class="line"><span class="lineno">  108</span>            var primaryInput = global::System.Linq.Expressions.Expression.Parameter(typeof(TInput), <span class="stringliteral">&quot;input&quot;</span>);</div>
+<div class="line"><span class="lineno">  109</span> </div>
+<div class="line"><span class="lineno">  110</span>            var subInput1Expression = global::System.Linq.Expressions.Expression.Invoke(subInput1SelectionExpression, primaryInput);</div>
+<div class="line"><span class="lineno">  111</span>            var subInput2Expression = global::System.Linq.Expressions.Expression.Invoke(subInput2SelectionExpression, primaryInput);</div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span>            var notNullExpression1 = global::System.Linq.Expressions.Expression.MakeBinary(</div>
+<div class="line"><span class="lineno">  114</span>                ExpressionType.NotEqual,</div>
+<div class="line"><span class="lineno">  115</span>                subInput1Expression,</div>
+<div class="line"><span class="lineno">  116</span>                global::System.Linq.Expressions.Expression.Constant(<span class="keyword">null</span>, typeof(TSubInput1)));</div>
+<div class="line"><span class="lineno">  117</span>            var notNullExpression2 = global::System.Linq.Expressions.Expression.MakeBinary(</div>
+<div class="line"><span class="lineno">  118</span>                ExpressionType.NotEqual,</div>
+<div class="line"><span class="lineno">  119</span>                subInput2Expression,</div>
+<div class="line"><span class="lineno">  120</span>                global::System.Linq.Expressions.Expression.Constant(<span class="keyword">null</span>, typeof(TSubInput2)));</div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  122</span>            var subOutput1Expression = global::System.Linq.Expressions.Expression.Invoke(subTransformer1.Expression, subInput1Expression);</div>
+<div class="line"><span class="lineno">  123</span>            var subOutput2Expression = global::System.Linq.Expressions.Expression.Invoke(subTransformer2.Expression, subInput2Expression);</div>
+<div class="line"><span class="lineno">  124</span> </div>
+<div class="line"><span class="lineno">  125</span>            var conditionalSubOutput1Expression = global::System.Linq.Expressions.Expression.Condition(</div>
+<div class="line"><span class="lineno">  126</span>                notNullExpression1,</div>
+<div class="line"><span class="lineno">  127</span>                subOutput1Expression,</div>
+<div class="line"><span class="lineno">  128</span>                global::System.Linq.Expressions.Expression.Constant(<span class="keyword">null</span>, typeof(TSubOutput1)));</div>
+<div class="line"><span class="lineno">  129</span> </div>
+<div class="line"><span class="lineno">  130</span>            var conditionalSubOutput2Expression = global::System.Linq.Expressions.Expression.Condition(</div>
+<div class="line"><span class="lineno">  131</span>                notNullExpression2,</div>
+<div class="line"><span class="lineno">  132</span>                subOutput2Expression,</div>
+<div class="line"><span class="lineno">  133</span>                global::System.Linq.Expressions.Expression.Constant(<span class="keyword">null</span>, typeof(TSubOutput2)));</div>
+<div class="line"><span class="lineno">  134</span> </div>
+<div class="line"><span class="lineno">  135</span>            var outputExpression = global::System.Linq.Expressions.Expression.Invoke(transformerExpression, primaryInput, conditionalSubOutput1Expression, conditionalSubOutput2Expression);</div>
+<div class="line"><span class="lineno">  136</span> </div>
+<div class="line"><span class="lineno">  137</span>            <span class="keywordflow">return</span> global::System.Linq.Expressions.Expression.Lambda&lt;Func&lt;TInput, TOutput&gt;&gt;(outputExpression, primaryInput);</div>
+<div class="line"><span class="lineno">  138</span>        }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a39ece530c12d092bc5e6b74230dc76d2" name="a39ece530c12d092bc5e6b74230dc76d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39ece530c12d092bc5e6b74230dc76d2">&#9670;&#160;</a></span>NotNullFallback&lt; T &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static T <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html">Tgstation.Server.Host.Models.Transformers.TransformerBase</a>&lt; TInput, TOutput &gt;.NotNullFallback&lt; T &gt; </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the <em>T</em>  that should be used when a database projected non-null DTO value is null in the expression. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The non-null Type a fallback is required for.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A fallback <em>T</em>  value.</dd></dl>
+<div class="typeconstraint">
+<dl><dt><b>Type Constraints</b></dt><dd>
+<table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em>T</em></td><td>&#160;:</td><td valign="top"><em>notnull</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>T</em></td><td>&#160;:</td><td valign="top"><em>default</em></td><td>&#160;</td></tr>
+</table>
+</dd>
+</dl>
+</div>
 
 </div>
 </div>
@@ -203,9 +486,37 @@ Static Private Attributes</h2></td></tr>
 
 <p><code>static</code> cache for CompiledExpression. </p>
 
-<p class="definition">Definition at line <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00012">12</a> of file <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html">TransformerBase{TInput,TOutput}.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00015">15</a> of file <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html">TransformerBase{TInput,TOutput}.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00024">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.TransformerBase()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00144">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.TransformerBase()</a>.</p>
+
+</div>
+</div>
+<a id="afafa4011d528c95d0c4280aab32b5a64" name="afafa4011d528c95d0c4280aab32b5a64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afafa4011d528c95d0c4280aab32b5a64">&#9670;&#160;</a></span>projectedExpression</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">? <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt;Func&lt;TInput, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_projected_pair.html">ProjectedPair</a>&lt;TInput, TOutput&gt; &gt; &gt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html">Tgstation.Server.Host.Models.Transformers.TransformerBase</a>&lt; TInput, TOutput &gt;.projectedExpression</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><code>static</code> cache for ProjectedExpression. </p>
+
+<p class="definition">Definition at line <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00020">20</a> of file <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html">TransformerBase{TInput,TOutput}.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00144">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.TransformerBase()</a>.</p>
 
 </div>
 </div>
@@ -234,10 +545,10 @@ Static Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html#aef9d31f0cb3a44443474f9d892dde28f">Tgstation.Server.Host.Models.ITransformer&lt; TInput, TOutput &gt;</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00018">18</a> of file <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html">TransformerBase{TInput,TOutput}.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00029">29</a> of file <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html">TransformerBase{TInput,TOutput}.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   29</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00024">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.TransformerBase()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00144">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.TransformerBase()</a>.</p>
 
 </div>
 </div>
@@ -265,10 +576,41 @@ Static Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html#a7b753be2abb7f504fa693b69c273de2c">Tgstation.Server.Host.Models.ITransformer&lt; TInput, TOutput &gt;</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00015">15</a> of file <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html">TransformerBase{TInput,TOutput}.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   15</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00023">23</a> of file <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html">TransformerBase{TInput,TOutput}.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   23</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00024">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.TransformerBase()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00144">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.TransformerBase()</a>.</p>
+
+</div>
+</div>
+<a id="a6592391fa3ac0c413657006ecb5f12ec" name="a6592391fa3ac0c413657006ecb5f12ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6592391fa3ac0c413657006ecb5f12ec">&#9670;&#160;</a></span>ProjectedExpression</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Expression</a>&lt;Func&lt;TInput, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_projected_pair.html">ProjectedPair</a>&lt;TInput, TOutput&gt; &gt; &gt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html">Tgstation.Server.Host.Models.Transformers.TransformerBase</a>&lt; TInput, TOutput &gt;.ProjectedExpression</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html#a7b753be2abb7f504fa693b69c273de2c" title="Expression&lt;TDelegate&gt; form of the transformation.">Expression&lt;TDelegate&gt;</a> for mapping <em>TInput</em>  into a ProjectedPair&lt;TQueried, TResult&gt;. </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html#ace091fe5e4f0da2a9cd1ce2d2cef5ce1">Tgstation.Server.Host.Models.ITransformer&lt; TInput, TOutput &gt;</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00026">26</a> of file <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html">TransformerBase{TInput,TOutput}.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   26</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_transformer_base_02_t_input_00_t_output_03_8cs_source.html#l00144">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;.TransformerBase()</a>.</p>
 
 </div>
 </div>

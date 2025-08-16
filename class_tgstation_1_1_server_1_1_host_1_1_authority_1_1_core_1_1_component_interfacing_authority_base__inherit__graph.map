@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Authority.Core.ComponentInterfacingAuthorityBase" name="Tgstation.Server.Host.Authority.Core.ComponentInterfacingAuthorityBase">
+<area shape="rect" id="Node000001" title="AuthorityBase for IAuthoritys that need to access IInstanceCores." alt="" coords="5,153,265,193"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_chat_authority.html" title=" " alt="" coords="33,241,237,282"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="138,209,138,241,132,241,132,209"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html" title="Base implementation of IAuthority." alt="" coords="84,79,186,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,120,138,152,132,152,132,120"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority.html" title="Business logic for interating with the server." alt="" coords="97,5,173,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="138,46,138,79,132,79,132,46"/>
+</map>

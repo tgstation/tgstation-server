@@ -1,9 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_scalar_serializer.html" title=" " alt="" coords="5,78,117,104"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_serializers_1_1_jwt_serializer.html" title="ScalarSerializer&lt;TSerialized, TRuntime&gt; for JsonWebTokens." alt="" coords="177,5,391,46"/>
-<area shape="poly" id="edge459_Node000000_Node000001" title=" " alt="" coords="118,70,164,56,207,44,208,49,165,62,120,76"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_serializers_1_1_semver_serializer.html" title="ScalarSerializer&lt;TSerialized, TRuntime&gt; for Versions." alt="" coords="165,71,403,111"/>
-<area shape="poly" id="edge460_Node000000_Node000002" title=" " alt="" coords="132,88,164,88,164,94,132,94"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_client_1_1_graph_q_l_1_1_serializers_1_1_unsigned_int_serializer.html" title="ScalarSerializer&lt;TSerialized, TRuntime&gt; for UInt32s." alt="" coords="186,135,382,191"/>
-<area shape="poly" id="edge461_Node000000_Node000003" title=" " alt="" coords="119,107,197,132,195,137,117,112"/>
+<area shape="rect" id="Node000000" href="$class_object_type.html" title=" " alt="" coords="5,20,93,46"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_metadata_1_1_rights_holder_type.html" title="ObjectType&lt;T&gt; for RightsHolder&lt;TRight&gt;s to give the flags proper GraphQL semantics." alt="" coords="141,5,343,61"/>
+<area shape="poly" id="edge457_Node000000_Node000001" title=" " alt="" coords="108,31,140,31,140,36,108,36"/>
 </map>

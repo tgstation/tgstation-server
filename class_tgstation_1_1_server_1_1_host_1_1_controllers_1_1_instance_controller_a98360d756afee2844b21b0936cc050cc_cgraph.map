@@ -6,6 +6,6 @@
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,88,276,88,276,94,221,94"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#aba9306ee424759a221509c021cdf0cde" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="269,135,522,191"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="196,109,270,128,268,133,195,115"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61" title="Get the IInstanceReference associated with given metadata ." alt="" coords="570,143,828,183"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a7f8c0d636fbbad104557cf898c82ffbb" title="Get the IInstanceReference associated with given instanceId ." alt="" coords="570,143,828,183"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="523,160,554,160,554,166,523,166"/>
 </map>

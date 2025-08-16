@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Extensions.RequestExecutorBuilderExtensions.AddRightsHolders" name="Tgstation.Server.Host.Extensions.RequestExecutorBuilderExtensions.AddRightsHolders">
+<area shape="rect" id="Node000001" title="Configure RightsHolderType&lt;TRight&gt;s for all RightsTypes." alt="" coords="5,5,254,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a4f8b394cc8723e98a01c64923c217835" title="Iterate the Type of each right." alt="" coords="302,13,483,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="254,31,286,31,286,36,254,36"/>
+</map>

@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Api.Rights.RightsHelper.AllRightTypes" name="Tgstation.Server.Api.Rights.RightsHelper.AllRightTypes">
-<area shape="rect" id="Node000001" title="Iterate the Type of each right." alt="" coords="275,5,456,46"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_handler.html#ad0bbf15fffd20ccbcef778b6f79f99f0" title=" " alt="" coords="5,5,227,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="259,28,227,28,227,23,259,23"/>
+<area shape="rect" id="Node000001" title="Iterate the Type of each right." alt="" coords="302,49,483,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_request_executor_builder_extensions.html#a36bad722e4a3292a159a5d10943c5076" title="Configure RightsHolderType&lt;TRight&gt;s for all RightsTypes." alt="" coords="5,5,254,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="286,57,254,53,255,48,286,52"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_handler.html#ad0bbf15fffd20ccbcef778b6f79f99f0" title=" " alt="" coords="19,85,240,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="287,86,241,93,240,87,286,81"/>
 </map>

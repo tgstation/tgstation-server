@@ -22,5 +22,6 @@ var searchData=
   ['eventconsumer_19',['EventConsumer',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html',1,'Tgstation::Server::Host::Components::Events']]],
   ['eventnotification_20',['EventNotification',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_event_notification.html',1,'Tgstation::Server::Host::Components::Interop::Topic']]],
   ['eventscriptattribute_21',['EventScriptAttribute',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_script_attribute.html',1,'Tgstation::Server::Host::Components::Events']]],
-  ['exception_22',['Exception',['../class_exception.html',1,'']]]
+  ['exception_22',['Exception',['../class_exception.html',1,'']]],
+  ['expressionextensions_23',['ExpressionExtensions',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_expression_extensions.html',1,'Tgstation::Server::Host::Extensions']]]
 ];

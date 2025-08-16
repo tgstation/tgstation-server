@@ -139,6 +139,7 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<p>An instance-based <em>TRights</em>  type MUST be evaluated with the Api.Models.EntityId.Id of the instance attached as a resource.</p>
 <div class="typeconstraint">
 <dl><dt><b>Type Constraints</b></dt><dd>
 <table border="0" cellspacing="2" cellpadding="0">
@@ -148,7 +149,7 @@ Private Attributes</h2></td></tr>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00009">9</a> of file <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html">FlagRightsConditional{TRights}.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00010">10</a> of file <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html">FlagRightsConditional{TRights}.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a95efb2829567f708bdd2220db4c306e8" name="a95efb2829567f708bdd2220db4c306e8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a95efb2829567f708bdd2220db4c306e8">&#9670;&#160;</a></span>FlagRightsConditional()</h2>
@@ -174,22 +175,22 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00021">21</a> of file <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html">FlagRightsConditional{TRights}.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   22</span>        {</div>
-<div class="line"><span class="lineno">   23</span>            var asUlong = (ulong)(<span class="keywordtype">object</span>)<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html#a263220037ad6a3ec7d085cda2f4066f1">flag</a>;</div>
-<div class="line"><span class="lineno">   24</span> </div>
-<div class="line"><span class="lineno">   25</span>            <span class="keywordflow">if</span> (asUlong == 0)</div>
-<div class="line"><span class="lineno">   26</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html#a263220037ad6a3ec7d085cda2f4066f1">flag</a>), <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html#a263220037ad6a3ec7d085cda2f4066f1">flag</a>, <span class="stringliteral">&quot;Flag cannot be zero!&quot;</span>);</div>
-<div class="line"><span class="lineno">   27</span> </div>
-<div class="line"><span class="lineno">   28</span>            <span class="comment">// https://stackoverflow.com/a/28303898/3976486</span></div>
-<div class="line"><span class="lineno">   29</span>            <span class="keywordflow">if</span> ((asUlong &amp; (asUlong - 1)) != 0)</div>
-<div class="line"><span class="lineno">   30</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;Right has more than one bit set!&quot;</span>, nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html#a263220037ad6a3ec7d085cda2f4066f1">flag</a>));</div>
-<div class="line"><span class="lineno">   31</span> </div>
-<div class="line"><span class="lineno">   32</span>            this.flag = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html#a263220037ad6a3ec7d085cda2f4066f1">flag</a>;</div>
-<div class="line"><span class="lineno">   33</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional_html_a263220037ad6a3ec7d085cda2f4066f1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html#a263220037ad6a3ec7d085cda2f4066f1">Tgstation.Server.Host.Security.RightsEvaluation.FlagRightsConditional.flag</a></div><div class="ttdeci">readonly TRights flag</div><div class="ttdoc">The single bit flag of the TRights .</div><div class="ttdef"><b>Definition</b> <a href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00015">FlagRightsConditional{TRights}.cs:15</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00022">22</a> of file <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html">FlagRightsConditional{TRights}.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   23</span>        {</div>
+<div class="line"><span class="lineno">   24</span>            var asUlong = (ulong)(<span class="keywordtype">object</span>)<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html#a263220037ad6a3ec7d085cda2f4066f1">flag</a>;</div>
+<div class="line"><span class="lineno">   25</span> </div>
+<div class="line"><span class="lineno">   26</span>            <span class="keywordflow">if</span> (asUlong == 0)</div>
+<div class="line"><span class="lineno">   27</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html#a263220037ad6a3ec7d085cda2f4066f1">flag</a>), <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html#a263220037ad6a3ec7d085cda2f4066f1">flag</a>, <span class="stringliteral">&quot;Flag cannot be zero!&quot;</span>);</div>
+<div class="line"><span class="lineno">   28</span> </div>
+<div class="line"><span class="lineno">   29</span>            <span class="comment">// https://stackoverflow.com/a/28303898/3976486</span></div>
+<div class="line"><span class="lineno">   30</span>            <span class="keywordflow">if</span> ((asUlong &amp; (asUlong - 1)) != 0)</div>
+<div class="line"><span class="lineno">   31</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;Right has more than one bit set!&quot;</span>, nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html#a263220037ad6a3ec7d085cda2f4066f1">flag</a>));</div>
+<div class="line"><span class="lineno">   32</span> </div>
+<div class="line"><span class="lineno">   33</span>            this.flag = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html#a263220037ad6a3ec7d085cda2f4066f1">flag</a>;</div>
+<div class="line"><span class="lineno">   34</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional_html_a263220037ad6a3ec7d085cda2f4066f1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html#a263220037ad6a3ec7d085cda2f4066f1">Tgstation.Server.Host.Security.RightsEvaluation.FlagRightsConditional.flag</a></div><div class="ttdeci">readonly TRights flag</div><div class="ttdoc">The single bit flag of the TRights .</div><div class="ttdef"><b>Definition</b> <a href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00016">FlagRightsConditional{TRights}.cs:16</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00015">Tgstation.Server.Host.Security.RightsEvaluation.FlagRightsConditional&lt; TRights &gt;.flag</a>.</p>
+<p class="reference">References <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00016">Tgstation.Server.Host.Security.RightsEvaluation.FlagRightsConditional&lt; TRights &gt;.flag</a>.</p>
 
 </div>
 </div>
@@ -256,9 +257,9 @@ Private Attributes</h2></td></tr>
 
 <p>The single bit flag of the <em>TRights</em> . </p>
 
-<p class="definition">Definition at line <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00015">15</a> of file <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html">FlagRightsConditional{TRights}.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00016">16</a> of file <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html">FlagRightsConditional{TRights}.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00021">Tgstation.Server.Host.Security.RightsEvaluation.FlagRightsConditional&lt; TRights &gt;.FlagRightsConditional()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00022">Tgstation.Server.Host.Security.RightsEvaluation.FlagRightsConditional&lt; TRights &gt;.FlagRightsConditional()</a>.</p>
 
 </div>
 </div>

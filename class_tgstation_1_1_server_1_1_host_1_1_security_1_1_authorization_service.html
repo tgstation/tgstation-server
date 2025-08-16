@@ -114,16 +114,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab97678b9fdb34cb5b5bb79492ca9a70a" id="r_ab97678b9fdb34cb5b5bb79492ca9a70a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service.html#ab97678b9fdb34cb5b5bb79492ca9a70a">AuthorizationService</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_claims_principal_accessor.html">IClaimsPrincipalAccessor</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service.html#a53bb2393194657fee00936c2a3ff366b">claimsPrincipalAccessor</a>, Microsoft.AspNetCore.Authorization.IAuthorizationService <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service.html#af48b2ebb231e15b4cc2d74f981fd7c77">aspNetCoreAuthorizationService</a>)</td></tr>
 <tr class="memdesc:ab97678b9fdb34cb5b5bb79492ca9a70a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the AuthorizationService class.  <br /></td></tr>
 <tr class="separator:ab97678b9fdb34cb5b5bb79492ca9a70a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf389d9bc68a8be8c29a3bb4f7ff795c" id="r_aaf389d9bc68a8be8c29a3bb4f7ff795c"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; AuthorizationResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service.html#aaf389d9bc68a8be8c29a3bb4f7ff795c">AuthorizeAsync</a> (IEnumerable&lt; <a class="el" href="class_i_authorization_requirement.html">IAuthorizationRequirement</a> &gt; requirements)</td></tr>
-<tr class="memdesc:aaf389d9bc68a8be8c29a3bb4f7ff795c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to authorize the current context with a given <em>requirement</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a5fcfea85565453757d2f515f0336dd1d" id="r_a5fcfea85565453757d2f515f0336dd1d"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; AuthorizationResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service.html#a5fcfea85565453757d2f515f0336dd1d">AuthorizeAsync</a> (IEnumerable&lt; <a class="el" href="class_i_authorization_requirement.html">IAuthorizationRequirement</a> &gt; requirements, object? resource)</td></tr>
+<tr class="memdesc:a5fcfea85565453757d2f515f0336dd1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to authorize the current context with a given <em>requirement</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">requirement</td><td>The <a class="el" href="class_i_authorization_requirement.html">IAuthorizationRequirement</a> to authorize.</td></tr>
+    <tr><td class="paramname">resource</td><td>The resource to authorize.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the AuthorizationResult.</dd></dl>
   <br /></td></tr>
-<tr class="separator:aaf389d9bc68a8be8c29a3bb4f7ff795c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a5fcfea85565453757d2f515f0336dd1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -186,8 +187,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aaf389d9bc68a8be8c29a3bb4f7ff795c" name="aaf389d9bc68a8be8c29a3bb4f7ff795c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf389d9bc68a8be8c29a3bb4f7ff795c">&#9670;&#160;</a></span>AuthorizeAsync()</h2>
+<a id="a5fcfea85565453757d2f515f0336dd1d" name="a5fcfea85565453757d2f515f0336dd1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fcfea85565453757d2f515f0336dd1d">&#9670;&#160;</a></span>AuthorizeAsync()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -196,8 +197,18 @@ Private Attributes</h2></td></tr>
           <td class="memname">async ValueTask&lt; AuthorizationResult &gt; Tgstation.Server.Host.Security.AuthorizationService.AuthorizeAsync </td>
           <td>(</td>
           <td class="paramtype">IEnumerable&lt; <a class="el" href="class_i_authorization_requirement.html">IAuthorizationRequirement</a> &gt;&#160;</td>
-          <td class="paramname"><em>requirements</em></td><td>)</td>
+          <td class="paramname"><em>requirements</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">object?&#160;</td>
+          <td class="paramname"><em>resource</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -205,13 +216,14 @@ Private Attributes</h2></td></tr>
 <p>Attempt to authorize the current context with a given <em>requirement</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">requirement</td><td>The <a class="el" href="class_i_authorization_requirement.html">IAuthorizationRequirement</a> to authorize.</td></tr>
+    <tr><td class="paramname">resource</td><td>The resource to authorize.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the AuthorizationResult.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html#a7bf43bc95ae2ec7bc7e8bb7afd25657f">Tgstation.Server.Host.Security.IAuthorizationService</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html#a64617b3163f148152f9ee64a97d56291">Tgstation.Server.Host.Security.IAuthorizationService</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_authorization_service_8cs_source.html#l00038">38</a> of file <a class="el" href="_authorization_service_8cs_source.html">AuthorizationService.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   39</span>        {</div>
@@ -222,24 +234,24 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   44</span>            <span class="keywordflow">if</span> (bakedRequirements.Count == 0)</div>
 <div class="line"><span class="lineno">   45</span>                <span class="keywordflow">return</span> AuthorizationResult.Success();</div>
 <div class="line"><span class="lineno">   46</span> </div>
-<div class="line"><span class="lineno">   47</span>            var result = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service.html#af48b2ebb231e15b4cc2d74f981fd7c77">aspNetCoreAuthorizationService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html#a7bf43bc95ae2ec7bc7e8bb7afd25657f">AuthorizeAsync</a>(</div>
+<div class="line"><span class="lineno">   47</span>            var result = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service.html#af48b2ebb231e15b4cc2d74f981fd7c77">aspNetCoreAuthorizationService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html#a64617b3163f148152f9ee64a97d56291">AuthorizeAsync</a>(</div>
 <div class="line"><span class="lineno">   48</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service.html#a53bb2393194657fee00936c2a3ff366b">claimsPrincipalAccessor</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_claims_principal_accessor.html#ab21adcd21ef6ac3629c2114c5fd791e2">User</a>,</div>
-<div class="line"><span class="lineno">   49</span>                <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">   49</span>                resource,</div>
 <div class="line"><span class="lineno">   50</span>                bakedRequirements);</div>
 <div class="line"><span class="lineno">   51</span> </div>
 <div class="line"><span class="lineno">   52</span>            <span class="keywordflow">return</span> result;</div>
 <div class="line"><span class="lineno">   53</span>        }</div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service_html_a7bf43bc95ae2ec7bc7e8bb7afd25657f"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html#a7bf43bc95ae2ec7bc7e8bb7afd25657f">Tgstation.Server.Host.Security.IAuthorizationService.AuthorizeAsync</a></div><div class="ttdeci">ValueTask&lt; AuthorizationResult &gt; AuthorizeAsync(IEnumerable&lt; IAuthorizationRequirement &gt; requirement)</div><div class="ttdoc">Attempt to authorize the current context with a given requirement .</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service_html_a64617b3163f148152f9ee64a97d56291"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html#a64617b3163f148152f9ee64a97d56291">Tgstation.Server.Host.Security.IAuthorizationService.AuthorizeAsync</a></div><div class="ttdeci">ValueTask&lt; AuthorizationResult &gt; AuthorizeAsync(IEnumerable&lt; IAuthorizationRequirement &gt; requirement, object? resource=null)</div><div class="ttdoc">Attempt to authorize the current context with a given requirement .</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_claims_principal_accessor_html_ab21adcd21ef6ac3629c2114c5fd791e2"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_claims_principal_accessor.html#ab21adcd21ef6ac3629c2114c5fd791e2">Tgstation.Server.Host.Security.IClaimsPrincipalAccessor.User</a></div><div class="ttdeci">ClaimsPrincipal User</div><div class="ttdoc">Get the current ClaimsPrincipal.</div><div class="ttdef"><b>Definition</b> <a href="_i_claims_principal_accessor_8cs_source.html#l00013">IClaimsPrincipalAccessor.cs:13</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_authorization_service_8cs_source.html#l00022">Tgstation.Server.Host.Security.AuthorizationService.aspNetCoreAuthorizationService</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html#a7bf43bc95ae2ec7bc7e8bb7afd25657f">Tgstation.Server.Host.Security.IAuthorizationService.AuthorizeAsync()</a>, <a class="el" href="_authorization_service_8cs_source.html#l00017">Tgstation.Server.Host.Security.AuthorizationService.claimsPrincipalAccessor</a>, and <a class="el" href="_i_claims_principal_accessor_8cs_source.html#l00013">Tgstation.Server.Host.Security.IClaimsPrincipalAccessor.User</a>.</p>
+<p class="reference">References <a class="el" href="_authorization_service_8cs_source.html#l00022">Tgstation.Server.Host.Security.AuthorizationService.aspNetCoreAuthorizationService</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html#a64617b3163f148152f9ee64a97d56291">Tgstation.Server.Host.Security.IAuthorizationService.AuthorizeAsync()</a>, <a class="el" href="_authorization_service_8cs_source.html#l00017">Tgstation.Server.Host.Security.AuthorizationService.claimsPrincipalAccessor</a>, and <a class="el" href="_i_claims_principal_accessor_8cs_source.html#l00013">Tgstation.Server.Host.Security.IClaimsPrincipalAccessor.User</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service_aaf389d9bc68a8be8c29a3bb4f7ff795c_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service_aaf389d9bc68a8be8c29a3bb4f7ff795c_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service_aaf389d9bc68a8be8c29a3bb4f7ff795c_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service_aaf389d9bc68a8be8c29a3bb4f7ff795c_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service_a5fcfea85565453757d2f515f0336dd1d_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service_a5fcfea85565453757d2f515f0336dd1d_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service_a5fcfea85565453757d2f515f0336dd1d_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_service_a5fcfea85565453757d2f515f0336dd1d_cgraph">
 <area shape="rect" title="Attempt to authorize the current context with a given requirement .A ValueTask&lt;TResult&gt; resulting in ..." alt="" coords="5,5,239,46"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html#a7bf43bc95ae2ec7bc7e8bb7afd25657f" title="Attempt to authorize the current context with a given requirement ." alt="" coords="287,5,524,46"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authorization_service.html#a64617b3163f148152f9ee64a97d56291" title="Attempt to authorize the current context with a given requirement ." alt="" coords="287,5,524,46"/>
 <area shape="poly" title=" " alt="" coords="239,23,271,23,271,28,239,28"/>
 </map>
 </div>

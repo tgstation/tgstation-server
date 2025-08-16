@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Authority.Core.Projectable.Combine" name="Tgstation.Server.Host.Authority.Core.Projectable.Combine">
+<area shape="rect" id="Node000001" title="Combine a set of Projectable&lt;TQueried, TResult&gt;s into the resulting AuthorityResponse&lt;TResult&gt;s." alt="" coords="301,20,505,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_graph_q_l_authority_invoker.html#afa1bf4ea7778da6a2d2ce504478ae257" title="Execute a batch loaded call on a given authorityInvoker .A ValueTask&lt;TResult&gt; resulting in a Dictiona..." alt="" coords="5,5,253,76"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="285,43,253,43,253,38,285,38"/>
+</map>

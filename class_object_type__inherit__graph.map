@@ -1,0 +1,5 @@
+<map id="ObjectType" name="ObjectType">
+<area shape="rect" id="Node000001" title=" " alt="" coords="63,5,150,31"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_metadata_1_1_rights_holder_type.html" title="ObjectType&lt;T&gt; for RightsHolder&lt;TRight&gt;s to give the flags proper GraphQL semantics." alt="" coords="5,79,208,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,47,109,78,104,78,104,47"/>
+</map>

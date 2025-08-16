@@ -92,9 +92,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad87aa28427dd5a9d0893805cd3141dcc" id="r_ad87aa28427dd5a9d0893805cd3141dcc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_server_swarm.html#ad87aa28427dd5a9d0893805cd3141dcc">ProtocolMajorVersion</a> ()</td></tr>
 <tr class="memdesc:ad87aa28427dd5a9d0893805cd3141dcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the swarm protocol major version in use.  <br /></td></tr>
 <tr class="separator:ad87aa28427dd5a9d0893805cd3141dcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d61e7a53050b3ab733aaba98e35aa79" id="r_a5d61e7a53050b3ab733aaba98e35aa79"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_users.html">Users</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_server_swarm.html#a5d61e7a53050b3ab733aaba98e35aa79">Users</a> ()</td></tr>
-<tr class="memdesc:a5d61e7a53050b3ab733aaba98e35aa79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the swarm's Types.Users.  <br /></td></tr>
-<tr class="separator:a5d61e7a53050b3ab733aaba98e35aa79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa05fc65889d416a84674399861e4de31" id="r_aa05fc65889d416a84674399861e4de31"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_users_repository.html">UsersRepository</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_server_swarm.html#aa05fc65889d416a84674399861e4de31">Users</a> ()</td></tr>
+<tr class="memdesc:aa05fc65889d416a84674399861e4de31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the swarm's UsersRepository.  <br /></td></tr>
+<tr class="separator:aa05fc65889d416a84674399861e4de31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0682128431fa8cc2acedbec3ed7e50e" id="r_ac0682128431fa8cc2acedbec3ed7e50e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_groups_repository.html">UserGroupsRepository</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_server_swarm.html#ac0682128431fa8cc2acedbec3ed7e50e">UserGroups</a> ()</td></tr>
+<tr class="memdesc:ac0682128431fa8cc2acedbec3ed7e50e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the swarm's UserGroupsRepository.  <br /></td></tr>
+<tr class="separator:ac0682128431fa8cc2acedbec3ed7e50e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9ea6255f5b9ff0d298aa4411c910d2a" id="r_ac9ea6255f5b9ff0d298aa4411c910d2a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_interfaces_1_1_i_server_node.html">IServerNode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_server_swarm.html#ac9ea6255f5b9ff0d298aa4411c910d2a">CurrentNode</a> ([Service] IOptionsSnapshot&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html">SwarmConfiguration</a> &gt; swarmConfigurationOptions, [Service] <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html">ISwarmService</a> swarmService)</td></tr>
 <tr class="memdesc:ac9ea6255f5b9ff0d298aa4411c910d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the connected SwarmNode server.  <br /></td></tr>
 <tr class="separator:ac9ea6255f5b9ff0d298aa4411c910d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,18 +149,18 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The SwarmNode for the local node if it is part of a swarm, a StandaloneNode otherwise.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_server_swarm_8cs_source.html#l00052">52</a> of file <a class="el" href="_server_swarm_8cs_source.html">ServerSwarm.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>        {</div>
-<div class="line"><span class="lineno">   56</span>            ArgumentNullException.ThrowIfNull(swarmConfigurationOptions);</div>
-<div class="line"><span class="lineno">   57</span>            ArgumentNullException.ThrowIfNull(swarmService);</div>
-<div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>            <span class="keywordflow">if</span> (swarmConfigurationOptions.Value.PrivateKey == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   60</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> StandaloneNode();</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>            <span class="keywordflow">return</span> ((<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_interfaces_1_1_i_server_node.html">IServerNode</a>?)SwarmNode.GetSwarmNode(</div>
-<div class="line"><span class="lineno">   63</span>                swarmConfigurationOptions.Value.Identifier!,</div>
-<div class="line"><span class="lineno">   64</span>                swarmService)) ?? <span class="keyword">new</span> StandaloneNode();</div>
-<div class="line"><span class="lineno">   65</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_server_swarm_8cs_source.html#l00059">59</a> of file <a class="el" href="_server_swarm_8cs_source.html">ServerSwarm.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   62</span>        {</div>
+<div class="line"><span class="lineno">   63</span>            ArgumentNullException.ThrowIfNull(swarmConfigurationOptions);</div>
+<div class="line"><span class="lineno">   64</span>            ArgumentNullException.ThrowIfNull(swarmService);</div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span>            <span class="keywordflow">if</span> (swarmConfigurationOptions.Value.PrivateKey == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   67</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> StandaloneNode();</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span>            <span class="keywordflow">return</span> ((<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_interfaces_1_1_i_server_node.html">IServerNode</a>?)SwarmNode.GetSwarmNode(</div>
+<div class="line"><span class="lineno">   70</span>                swarmConfigurationOptions.Value.Identifier!,</div>
+<div class="line"><span class="lineno">   71</span>                swarmService)) ?? <span class="keyword">new</span> StandaloneNode();</div>
+<div class="line"><span class="lineno">   72</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_interfaces_1_1_i_server_node_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_interfaces_1_1_i_server_node.html">Tgstation.Server.Host.GraphQL.Interfaces.IServerNode</a></div><div class="ttdoc">Represents a tgstation-server installation.</div><div class="ttdef"><b>Definition</b> <a href="_i_server_node_8cs_source.html#l00012">IServerNode.cs:13</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_swarm_node_8cs_source.html#l00057">Tgstation.Server.Host.GraphQL.Types.SwarmNode.GetSwarmNode()</a>.</p>
@@ -219,11 +222,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A List&lt;T&gt; of SwarmNodes if the local node is part of a swarm, <code>null</code> otherwise.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_server_swarm_8cs_source.html#l00073">73</a> of file <a class="el" href="_server_swarm_8cs_source.html">ServerSwarm.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   75</span>        {</div>
-<div class="line"><span class="lineno">   76</span>            ArgumentNullException.ThrowIfNull(swarmService);</div>
-<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">return</span> swarmService.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#abda536785999219476ca30f6a0d16c56">GetSwarmServers</a>()?.Select(x =&gt; <span class="keyword">new</span> SwarmNode(x)).ToList();</div>
-<div class="line"><span class="lineno">   78</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_server_swarm_8cs_source.html#l00080">80</a> of file <a class="el" href="_server_swarm_8cs_source.html">ServerSwarm.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   82</span>        {</div>
+<div class="line"><span class="lineno">   83</span>            ArgumentNullException.ThrowIfNull(swarmService);</div>
+<div class="line"><span class="lineno">   84</span>            <span class="keywordflow">return</span> swarmService.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#abda536785999219476ca30f6a0d16c56">GetSwarmServers</a>()?.Select(x =&gt; <span class="keyword">new</span> SwarmNode(x)).ToList();</div>
+<div class="line"><span class="lineno">   85</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_html_abda536785999219476ca30f6a0d16c56"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#abda536785999219476ca30f6a0d16c56">Tgstation.Server.Host.Swarm.ISwarmService.GetSwarmServers</a></div><div class="ttdeci">List&lt; SwarmServerInformation &gt;? GetSwarmServers()</div><div class="ttdoc">Gets the list of SwarmServerInformations in the swarm, including the current one.</div></div>
 </div><!-- fragment -->
 </div>
@@ -268,14 +271,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a5d61e7a53050b3ab733aaba98e35aa79" name="a5d61e7a53050b3ab733aaba98e35aa79"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d61e7a53050b3ab733aaba98e35aa79">&#9670;&#160;</a></span>Users()</h2>
+<a id="ac0682128431fa8cc2acedbec3ed7e50e" name="ac0682128431fa8cc2acedbec3ed7e50e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0682128431fa8cc2acedbec3ed7e50e">&#9670;&#160;</a></span>UserGroups()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_users.html">Users</a> Tgstation.Server.Host.GraphQL.Types.ServerSwarm.Users </td>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_user_groups_repository.html">UserGroupsRepository</a> Tgstation.Server.Host.GraphQL.Types.ServerSwarm.UserGroups </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -283,8 +286,28 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Gets the swarm's Types.Users. </p>
-<dl class="section return"><dt>Returns</dt><dd>A new Types.Users.</dd></dl>
+<p>Gets the swarm's UserGroupsRepository. </p>
+<dl class="section return"><dt>Returns</dt><dd>A new UserGroupsRepository.</dd></dl>
+
+</div>
+</div>
+<a id="aa05fc65889d416a84674399861e4de31" name="aa05fc65889d416a84674399861e4de31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa05fc65889d416a84674399861e4de31">&#9670;&#160;</a></span>Users()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_users_repository.html">UsersRepository</a> Tgstation.Server.Host.GraphQL.Types.ServerSwarm.Users </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the swarm's UsersRepository. </p>
+<dl class="section return"><dt>Returns</dt><dd>A new UsersRepository.</dd></dl>
 
 </div>
 </div>

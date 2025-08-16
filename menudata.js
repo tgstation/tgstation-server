@@ -165,6 +165,7 @@ var menudata={children:[
 {text:"n",url:"functions_prop_n.html#index_n"},
 {text:"o",url:"functions_prop_o.html#index_o"},
 {text:"p",url:"functions_prop_p.html#index_p"},
+{text:"q",url:"functions_prop_q.html#index_q"},
 {text:"r",url:"functions_prop_r.html#index_r"},
 {text:"s",url:"functions_prop_s.html#index_s"},
 {text:"t",url:"functions_prop_t.html#index_t"},

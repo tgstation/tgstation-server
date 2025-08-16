@@ -1,5 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html" title="For accessing the disk in a synchronous manner." alt="" coords="5,5,173,46"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html" title=" " alt="" coords="221,5,388,46"/>
-<area shape="poly" id="edge659_Node000000_Node000001" title=" " alt="" coords="188,23,220,23,220,28,188,28"/>
+<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_o_auth_provider_infos.html" title="Description of configured OAuth services." alt="" coords="5,5,240,46"/>
 </map>

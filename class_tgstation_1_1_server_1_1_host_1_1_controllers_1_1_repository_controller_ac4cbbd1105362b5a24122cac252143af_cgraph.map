@@ -30,6 +30,6 @@
 <area shape="poly" id="edge13_Node000010_Node000014" title=" " alt="" coords="484,449,564,468,562,474,483,455"/>
 <area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="591,555,806,595"/>
 <area shape="poly" id="edge14_Node000010_Node000015" title=" " alt="" coords="424,450,488,495,528,520,570,541,586,547,584,552,568,545,526,524,485,500,421,454"/>
-<area shape="rect" id="Node000017" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61" title="Get the IInstanceReference associated with given metadata ." alt="" coords="569,620,827,661"/>
+<area shape="rect" id="Node000017" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a7f8c0d636fbbad104557cf898c82ffbb" title="Get the IInstanceReference associated with given instanceId ." alt="" coords="569,620,827,661"/>
 <area shape="poly" id="edge16_Node000016_Node000017" title=" " alt="" coords="501,586,570,604,602,613,601,618,568,610,500,591"/>
 </map>

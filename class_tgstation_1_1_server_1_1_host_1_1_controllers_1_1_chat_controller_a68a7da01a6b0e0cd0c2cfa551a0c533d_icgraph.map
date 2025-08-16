@@ -1,7 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.ChatController.StandardModelChecks" name="Tgstation.Server.Host.Controllers.ChatController.StandardModelChecks">
-<area shape="rect" id="Node000001" title="Perform some basic validation of a given model ." alt="" coords="269,39,506,79"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a930c1ed07039457ab6f9a8751fd462a6" title="Create a new chat bot model ." alt="" coords="5,5,221,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,45,221,41,221,36,253,40"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="5,71,221,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,77,221,81,221,76,253,72"/>
+<area shape="rect" id="Node000001" title="Perform some basic validation of a given model ." alt="" coords="269,5,506,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="5,5,221,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,28,221,28,221,23,253,23"/>
 </map>

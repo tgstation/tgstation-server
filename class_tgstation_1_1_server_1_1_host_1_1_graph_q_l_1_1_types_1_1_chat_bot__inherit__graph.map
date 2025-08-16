@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.GraphQL.Types.ChatBot" name="Tgstation.Server.Host.GraphQL.Types.ChatBot">
+<area shape="rect" id="Node000001" title="Represents a connection to a chat Provider." alt="" coords="5,79,191,120"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_entity.html" title="Represents a database entity." alt="" coords="71,5,125,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,46,101,79,95,79,95,46"/>
+</map>

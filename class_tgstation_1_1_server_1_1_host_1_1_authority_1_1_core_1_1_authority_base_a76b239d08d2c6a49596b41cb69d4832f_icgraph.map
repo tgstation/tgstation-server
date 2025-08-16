@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Authority.Core.AuthorityBase.Conflict&lt; TResult &gt;" name="Tgstation.Server.Host.Authority.Core.AuthorityBase.Conflict&lt; TResult &gt;">
+<area shape="rect" id="Node000001" title="Generates a HttpFailureResponse.Conflict type AuthorityResponse&lt;TResult&gt;." alt="" coords="317,5,521,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_component_interfacing_authority_base.html#a40d42247a21aa95db671a158b35ab586" title="Run a given action &#160;with the relevant IInstance." alt="" coords="5,5,269,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="301,36,269,36,269,31,301,31"/>
+</map>

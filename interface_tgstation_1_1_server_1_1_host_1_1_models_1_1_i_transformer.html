@@ -99,6 +99,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a7b753be2abb7f504fa693b69c273de2c" id="r_a7b753be2abb7f504fa693b69c273de2c"><td class="memItemLeft" align="right" valign="top">Expression&lt; Func&lt; TInput, TOutput &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html#a7b753be2abb7f504fa693b69c273de2c">Expression</a><code> [get]</code></td></tr>
 <tr class="memdesc:a7b753be2abb7f504fa693b69c273de2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expression&lt;TDelegate&gt; form of the transformation.  <br /></td></tr>
 <tr class="separator:a7b753be2abb7f504fa693b69c273de2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace091fe5e4f0da2a9cd1ce2d2cef5ce1" id="r_ace091fe5e4f0da2a9cd1ce2d2cef5ce1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html#a7b753be2abb7f504fa693b69c273de2c">Expression</a>&lt; Func&lt; TInput, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_projected_pair.html">ProjectedPair</a>&lt; TInput, TOutput &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html#ace091fe5e4f0da2a9cd1ce2d2cef5ce1">ProjectedExpression</a><code> [get]</code></td></tr>
+<tr class="memdesc:ace091fe5e4f0da2a9cd1ce2d2cef5ce1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expression&lt;TDelegate&gt; for mapping <em>TInput</em>  into a ProjectedPair&lt;TQueried, TResult&gt;.  <br /></td></tr>
+<tr class="separator:ace091fe5e4f0da2a9cd1ce2d2cef5ce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef9d31f0cb3a44443474f9d892dde28f" id="r_aef9d31f0cb3a44443474f9d892dde28f"><td class="memItemLeft" align="right" valign="top">Func&lt; TInput, TOutput &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html#aef9d31f0cb3a44443474f9d892dde28f">CompiledExpression</a><code> [get]</code></td></tr>
 <tr class="memdesc:aef9d31f0cb3a44443474f9d892dde28f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The compiled Expression.  <br /></td></tr>
 <tr class="separator:aef9d31f0cb3a44443474f9d892dde28f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -113,7 +116,7 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_transformer_02_t_input_00_t_output_03_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_transformer_02_t_input_00_t_output_03_8cs_source.html">ITransformer{TInput,TOutput}.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_transformer_02_t_input_00_t_output_03_8cs_source.html#l00013">13</a> of file <a class="el" href="_i_transformer_02_t_input_00_t_output_03_8cs_source.html">ITransformer{TInput,TOutput}.cs</a>.</p>
 </div><h2 class="groupheader">Property Documentation</h2>
 <a id="aef9d31f0cb3a44443474f9d892dde28f" name="aef9d31f0cb3a44443474f9d892dde28f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aef9d31f0cb3a44443474f9d892dde28f">&#9670;&#160;</a></span>CompiledExpression</h2>
@@ -139,8 +142,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#abb85c6b181ae41375810a1dab09c0005">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_transformer_02_t_input_00_t_output_03_8cs_source.html#l00021">21</a> of file <a class="el" href="_i_transformer_02_t_input_00_t_output_03_8cs_source.html">ITransformer{TInput,TOutput}.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   21</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_transformer_02_t_input_00_t_output_03_8cs_source.html#l00028">28</a> of file <a class="el" href="_i_transformer_02_t_input_00_t_output_03_8cs_source.html">ITransformer{TInput,TOutput}.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   28</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -168,8 +171,37 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a1a8094ea959a6489cd9bfcef7ec69b46">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_transformer_02_t_input_00_t_output_03_8cs_source.html#l00016">16</a> of file <a class="el" href="_i_transformer_02_t_input_00_t_output_03_8cs_source.html">ITransformer{TInput,TOutput}.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   16</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_transformer_02_t_input_00_t_output_03_8cs_source.html#l00018">18</a> of file <a class="el" href="_i_transformer_02_t_input_00_t_output_03_8cs_source.html">ITransformer{TInput,TOutput}.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   18</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ace091fe5e4f0da2a9cd1ce2d2cef5ce1" name="ace091fe5e4f0da2a9cd1ce2d2cef5ce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace091fe5e4f0da2a9cd1ce2d2cef5ce1">&#9670;&#160;</a></span>ProjectedExpression</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html#a7b753be2abb7f504fa693b69c273de2c">Expression</a>&lt;Func&lt;TInput, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_projected_pair.html">ProjectedPair</a>&lt;TInput, TOutput&gt; &gt; &gt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_transformer.html">Tgstation.Server.Host.Models.ITransformer</a>&lt; TInput, TOutput &gt;.ProjectedExpression</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Expression&lt;TDelegate&gt; for mapping <em>TInput</em>  into a ProjectedPair&lt;TQueried, TResult&gt;. </p>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_transformers_1_1_transformer_base.html#a6592391fa3ac0c413657006ecb5f12ec">Tgstation.Server.Host.Models.Transformers.TransformerBase&lt; TInput, TOutput &gt;</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_i_transformer_02_t_input_00_t_output_03_8cs_source.html#l00023">23</a> of file <a class="el" href="_i_transformer_02_t_input_00_t_output_03_8cs_source.html">ITransformer{TInput,TOutput}.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   23</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.GraphQL.Metadata.RightsTypeInterceptor.OnAfterRegisterDependencies" name="Tgstation.Server.Host.GraphQL.Metadata.RightsTypeInterceptor.OnAfterRegisterDependencies">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,45,235,101"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_metadata_1_1_rights_type_interceptor.html#ae0f505b37dd6b7441c79b205737de78b" title="Fix the &quot;is&quot; prefix on a given set of fields ." alt="" coords="283,5,512,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,54,267,49,268,55,235,59"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_metadata_1_1_rights_type_interceptor.html#a3f9070bfd8f3ea3f2802578122033aa6" title="Fix the inputValueFormatter &#160;for a tweaked field." alt="" coords="283,85,512,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="235,87,268,92,267,97,235,92"/>
+</map>

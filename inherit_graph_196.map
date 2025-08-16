@@ -1,7 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="5,5,173,46"/>
-<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html" title="IIOManager that resolves paths to Environment.CurrentDirectory." alt="" coords="221,5,388,46"/>
-<area shape="poly" id="edge655_Node000000_Node000001" title=" " alt="" coords="188,23,220,23,220,28,188,28"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html" title="An IIOManager that resolve relative paths from another IIOManager to a subdirectory of that." alt="" coords="436,5,603,46"/>
-<area shape="poly" id="edge656_Node000001_Node000002" title=" " alt="" coords="404,23,435,23,435,28,404,28"/>
+<area shape="rect" id="Node000000" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_basic_o_auth_provider_info.html" title="Basic OAuth provider info." alt="" coords="5,39,266,79"/>
+<area shape="rect" id="Node000001" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_redirect_o_auth_provider_info.html" title="OAuth provider info with a RedirectUri." alt="" coords="317,5,593,46"/>
+<area shape="poly" id="edge653_Node000000_Node000001" title=" " alt="" coords="281,41,317,37,317,43,281,46"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_server_url_o_auth_provider_info.html" title="OAuth provider info with a ServerUrl." alt="" coords="314,71,596,111"/>
+<area shape="poly" id="edge655_Node000000_Node000003" title=" " alt="" coords="281,71,314,74,313,79,281,76"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_full_o_auth_provider_info.html" title="OAuth provider info with a RedirectOAuthProviderInfo.RedirectUri and ServerUrl." alt="" coords="644,5,892,46"/>
+<area shape="poly" id="edge654_Node000001_Node000002" title=" " alt="" coords="608,23,644,23,644,28,608,28"/>
 </map>

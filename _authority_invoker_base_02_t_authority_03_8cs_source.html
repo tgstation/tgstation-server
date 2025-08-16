@@ -123,7 +123,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            where TResult : <span class="keyword">class</span></div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        {</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            var requirements = await requirementsGate.GetRequirements();</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            var authorizationResult = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_invoker_base.html#a2de60e36dfed9f16fbcfc8abcd6cc26e">authorizationService</a>.AuthorizeAsync(requirements);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            var authorizationResult = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_invoker_base.html#a2de60e36dfed9f16fbcfc8abcd6cc26e">authorizationService</a>.AuthorizeAsync(requirements, requirementsGate.InstanceId);</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <span class="keywordflow">if</span> (!authorizationResult.Succeeded)</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            {</div>

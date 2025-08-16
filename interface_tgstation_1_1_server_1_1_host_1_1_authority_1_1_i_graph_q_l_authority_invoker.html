@@ -126,6 +126,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a525c409c7af8c20e06a5e12ba46b31b2" id="r_a525c409c7af8c20e06a5e12ba46b31b2"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TApiModel &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#a525c409c7af8c20e06a5e12ba46b31b2">InvokeTransformableQueryable&lt; TResult, TApiModel, TTransformer &gt;</a> (Func&lt; TAuthority, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_requirements_gated.html">RequirementsGated</a>&lt; <a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt; &gt; &gt; authorityInvoker, Func&lt; <a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt;, <a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt; &gt;? preTransformer=null)</td></tr>
 <tr class="memdesc:a525c409c7af8c20e06a5e12ba46b31b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke a <em>TAuthority</em>  method and get the transformed result.  <br /></td></tr>
 <tr class="separator:a525c409c7af8c20e06a5e12ba46b31b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7249e14c95e88139a593c133ce97375" id="r_af7249e14c95e88139a593c133ce97375"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; Dictionary&lt; long, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; TApiModel &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html#af7249e14c95e88139a593c133ce97375">ExecuteDataLoader&lt; TResult, TApiModel, TTransformer &gt;</a> (Func&lt; TAuthority, long, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_requirements_gated.html">RequirementsGated</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_projectable.html">Projectable</a>&lt; TResult, TApiModel &gt; &gt; &gt; authorityInvoker, IReadOnlyList&lt; long &gt; ids, QueryContext&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; TApiModel &gt; &gt;? queryContext)</td></tr>
+<tr class="memdesc:af7249e14c95e88139a593c133ce97375"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a batch loaded call on a given <em>authorityInvoker</em> .  <br /></td></tr>
+<tr class="separator:af7249e14c95e88139a593c133ce97375"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html">Tgstation.Server.Host.Authority.Core.IAuthorityInvoker&lt; TAuthority &gt;</a></td></tr>
 <tr class="memitem:a621ae7b25804840f1e64921fac58351a inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker" id="r_a621ae7b25804840f1e64921fac58351a"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt;?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker.html#a621ae7b25804840f1e64921fac58351a">InvokeQueryable&lt; TResult &gt;</a> (Func&lt; TAuthority, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_requirements_gated.html">RequirementsGated</a>&lt; <a class="el" href="class_i_queryable.html">IQueryable</a>&lt; TResult &gt; &gt; &gt; authorityInvoker)</td></tr>
 <tr class="memdesc:a621ae7b25804840f1e64921fac58351a inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority_invoker"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke a <em>TAuthority</em>  method and get the result.  <br /></td></tr>
@@ -149,8 +152,80 @@ Public Member Functions</h2></td></tr>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="_i_graph_q_l_authority_invoker_02_t_authority_03_8cs_source.html#l00015">15</a> of file <a class="el" href="_i_graph_q_l_authority_invoker_02_t_authority_03_8cs_source.html">IGraphQLAuthorityInvoker{TAuthority}.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_graph_q_l_authority_invoker_02_t_authority_03_8cs_source.html#l00020">20</a> of file <a class="el" href="_i_graph_q_l_authority_invoker_02_t_authority_03_8cs_source.html">IGraphQLAuthorityInvoker{TAuthority}.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="af7249e14c95e88139a593c133ce97375" name="af7249e14c95e88139a593c133ce97375"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7249e14c95e88139a593c133ce97375">&#9670;&#160;</a></span>ExecuteDataLoader&lt; TResult, TApiModel, TTransformer &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask&lt; Dictionary&lt; long, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; TApiModel &gt; &gt; &gt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_graph_q_l_authority_invoker.html">Tgstation.Server.Host.Authority.IGraphQLAuthorityInvoker</a>&lt; TAuthority &gt;.ExecuteDataLoader&lt; TResult, TApiModel, TTransformer &gt; </td>
+          <td>(</td>
+          <td class="paramtype">Func&lt; TAuthority, long, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_requirements_gated.html">RequirementsGated</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_projectable.html">Projectable</a>&lt; TResult, TApiModel &gt; &gt; &gt;&#160;</td>
+          <td class="paramname"><em>authorityInvoker</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IReadOnlyList&lt; long &gt;&#160;</td>
+          <td class="paramname"><em>ids</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QueryContext&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_response.html">AuthorityResponse</a>&lt; TApiModel &gt; &gt;?&#160;</td>
+          <td class="paramname"><em>queryContext</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Execute a batch loaded call on a given <em>authorityInvoker</em> . </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TResult</td><td>The queried result of the <em>TAuthority</em> .</td></tr>
+    <tr><td class="paramname">TApiModel</td><td>The returned Type.</td></tr>
+    <tr><td class="paramname">TTransformer</td><td>The ITransformer&lt;TInput, TOutput&gt; for converting <em>TResult</em> s to <em>TApiModel</em> s.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">authorityInvoker</td><td>The <em>TAuthority</em>  Func&lt;T, TResult&gt; returning a RequirementsGated&lt;TResult&gt; Projectable&lt;TQueried, TResult&gt; from <em>TResult</em>  to <em>TApiModel</em> .</td></tr>
+    <tr><td class="paramname">ids</td><td>The list of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570" title="The ID of the entity.">EntityId.Id</a>s to batch load.</td></tr>
+    <tr><td class="paramname">queryContext</td><td>The active QueryContext&lt;TEntity&gt; mapped to an AuthorityResponse&lt;TResult&gt; of the <em>TApiModel</em> . MUST have been wrapped with Extensions.QueryContextExtensions.AuthorityResponseWrap&lt;TResult&gt;(QueryContext&lt;TResult&gt;). This will be unwrapped so only a QueryContext&lt;TEntity&gt; of <em>TApiModel</em>  will be used.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a Dictionary&lt;TKey, TValue&gt; of loaded <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570" title="The ID of the entity.">EntityId.Id</a>s to AuthorityResponse&lt;TResult&gt;s for the loaded <em>TApiModel</em> s.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_graph_q_l_authority_invoker.html#afa1bf4ea7778da6a2d2ce504478ae257">Tgstation.Server.Host.Authority.Core.GraphQLAuthorityInvoker&lt; TAuthority &gt;</a>.</p>
+<div class="typeconstraint">
+<dl><dt><b>Type Constraints</b></dt><dd>
+<table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em>TResult</em></td><td>&#160;:</td><td valign="top"><em>EntityId</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TResult</em></td><td>&#160;:</td><td valign="top"><em>IApiTransformable</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TResult</em></td><td>&#160;:</td><td valign="top"><em>TResult</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TResult</em></td><td>&#160;:</td><td valign="top"><em>TApiModel</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TResult</em></td><td>&#160;:</td><td valign="top"><em>TTransformer</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TApiModel</em></td><td>&#160;:</td><td valign="top"><em>Entity</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer</em></td><td>&#160;:</td><td valign="top"><em>ITransformer</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer</em></td><td>&#160;:</td><td valign="top"><em>TResult</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer</em></td><td>&#160;:</td><td valign="top"><em>TApiModel</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TTransformer</em></td><td>&#160;:</td><td valign="top"><em>new()</em></td><td>&#160;</td></tr>
+</table>
+</dd>
+</dl>
+</div>
+
+</div>
+</div>
 <a id="a8eaedb2cccf89ca22b8613df22f19258" name="a8eaedb2cccf89ca22b8613df22f19258"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8eaedb2cccf89ca22b8613df22f19258">&#9670;&#160;</a></span>Invoke()</h2>
 

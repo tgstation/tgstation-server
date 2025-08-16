@@ -63,7 +63,9 @@ var searchData=
   ['processexecutor_60',['ProcessExecutor',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html',1,'Tgstation::Server::Host::System']]],
   ['program_61',['program',['../class_tgstation_1_1_server_1_1_host_1_1_console_1_1_program.html',1,'Tgstation.Server.Host.Console.Program'],['../class_tgstation_1_1_server_1_1_host_1_1_program.html',1,'Tgstation.Server.Host.Program']]],
   ['programshutdowntokensource_62',['ProgramShutdownTokenSource',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html',1,'Tgstation::Server::Host::System']]],
-  ['provider_63',['Provider',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html',1,'Tgstation::Server::Host::Components::Chat::Providers']]],
-  ['providerfactory_64',['ProviderFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_factory.html',1,'Tgstation::Server::Host::Components::Chat::Providers']]],
-  ['pullrequestscommand_65',['PullRequestsCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]]
+  ['projectable_63',['Projectable',['../class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_projectable.html',1,'Tgstation::Server::Host::Authority::Core']]],
+  ['projectedpair_64',['ProjectedPair',['../class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_projected_pair.html',1,'Tgstation::Server::Host::Authority::Core']]],
+  ['provider_65',['Provider',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html',1,'Tgstation::Server::Host::Components::Chat::Providers']]],
+  ['providerfactory_66',['ProviderFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_factory.html',1,'Tgstation::Server::Host::Components::Chat::Providers']]],
+  ['pullrequestscommand_67',['PullRequestsCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]]
 ];

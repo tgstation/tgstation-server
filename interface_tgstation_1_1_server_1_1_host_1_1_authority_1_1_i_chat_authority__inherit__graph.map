@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Authority.IChatAuthority" name="Tgstation.Server.Host.Authority.IChatAuthority">
+<area shape="rect" id="Node000001" title="IAuthority for manipulating chat bots." alt="" coords="5,79,210,120"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_chat_authority.html" title=" " alt="" coords="5,168,210,208"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="110,135,110,167,105,167,105,135"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority.html" title="Business logic for interating with the server." alt="" coords="69,5,146,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,46,110,79,105,79,105,46"/>
+</map>

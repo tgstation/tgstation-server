@@ -209,7 +209,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ad4d22a408a414abd08361ceff309c3bf inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#a19270c2054e4431802fdf5a59f9b3518" title="The DreamDaemonLaunchParameters to be applied.">ActiveLaunchParameters</a>. If currently running, may trigger a graceful restart.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">launchParameters</td><td>The new DreamDaemonLaunchParameters. May be modified.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -222,7 +222,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">commandName</td><td>The command name.</td></tr>
     <tr><td class="paramname">arguments</td><td>Everything typed after <em>commandName</em>  minus leading spaces.</td></tr>
     <tr><td class="paramname">sender</td><td>The sending <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html" title="Represents a tgs_chat_user datum.">ChatUser</a>.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -232,7 +232,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab7afe38b1ea6c4a0f1396a45a3ff013f inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base" id="r_ab7afe38b1ea6c4a0f1396a45a3ff013f"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ab7afe38b1ea6c4a0f1396a45a3ff013f">Launch</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ab7afe38b1ea6c4a0f1396a45a3ff013f inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers.">IWatchdog</a>.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -243,7 +243,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a805a90319a8bdf4862ce9879f125b853 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restarts the watchdog.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">graceful</td><td>If <code><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">true</a></code> the restart will be delayed until a reboot is detected in the active server's DMAPI and this function will retrun immediately.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -258,7 +258,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a4ee58f2a5e3ae97940e281d6975ed720 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the watchdog.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">graceful</td><td>If <code><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">true</a></code> the termination will be delayed until a reboot is detected in the active server's DMAPI and this function will return immediately.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -270,7 +270,7 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">updateVersion</td><td>The Version being updated to, <code><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">null</a></code> if not being changed.</td></tr>
     <tr><td class="paramname">handlerMayDelayShutdownWithExtremelyLongRunningTasks</td><td>If <code>false</code> the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts.">IRestartHandler</a> should aim to complete the Task returned from this function ASAP.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -281,7 +281,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ae5d3a89d62f8212cc39e855835625827 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the owning <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html">Instance</a> is renamed.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">newInstanceName</td><td>The new <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html#a7e2f2eeddbc6315acbcfa00c54762183" title="The name of the entity represented by the NamedEntity.">Api.Models.NamedEntity.Name</a>.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -291,7 +291,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9386d08a9eb76694c84db3ed5cf0dca2 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base" id="r_a9386d08a9eb76694c84db3ed5cf0dca2"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a9386d08a9eb76694c84db3ed5cf0dca2">CreateDump</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a9386d08a9eb76694c84db3ed5cf0dca2 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to create a process dump for DreamDaemon.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -302,7 +302,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a041c4bb73201345e368f9e4879c9cc67 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a broadcast <em>message</em>  to the DMAPI.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">message</td><td>The message to broadcast.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">CancellationToken</a> for the operation.</td></tr>
   </table>
   </dd>
 </dl>

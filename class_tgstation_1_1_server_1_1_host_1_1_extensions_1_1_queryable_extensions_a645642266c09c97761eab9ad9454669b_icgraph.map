@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Extensions.QueryableExtensions.MapSortBy&lt; TQueried, TResult &gt;" name="Tgstation.Server.Host.Extensions.QueryableExtensions.MapSortBy&lt; TQueried, TResult &gt;">
+<area shape="rect" id="Node000001" title="Map a given sortBy &#160;onto a ProjectedPair&lt;TQueried, TResult&gt;." alt="" coords="293,5,509,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_queryable_extensions.html#aed48b3e83468b88259d31f377d9eb2f6" title="Map a given queryContext &#160;to project onto a given queryable ." alt="" coords="5,5,245,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="277,36,245,36,245,31,277,31"/>
+</map>

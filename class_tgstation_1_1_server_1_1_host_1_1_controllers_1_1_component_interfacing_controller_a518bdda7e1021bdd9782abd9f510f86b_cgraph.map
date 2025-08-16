@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateRequest" name="Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateRequest">
 <area shape="rect" id="Node000001" title="Performs validation a request.A ValueTask&lt;TResult&gt; resulting in an appropriate IActionResult on valid..." alt="" coords="5,18,259,74"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61" title="Get the IInstanceReference associated with given metadata ." alt="" coords="608,34,866,74"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a7f8c0d636fbbad104557cf898c82ffbb" title="Get the IInstanceReference associated with given instanceId ." alt="" coords="608,34,866,74"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="259,17,306,11,433,3,489,5,560,11,646,27,645,32,560,17,489,10,433,8,307,17,259,23"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="329,26,538,66"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="259,43,314,43,314,49,259,49"/>

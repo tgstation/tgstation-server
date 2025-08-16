@@ -234,17 +234,18 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A uint specifying the maximum allowed attached instances for the SwarmNode.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00068">68</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   71</span>        {</div>
-<div class="line"><span class="lineno">   72</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(authorizationService);</div>
-<div class="line"><span class="lineno">   73</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
-<div class="line"><span class="lineno">   74</span> </div>
-<div class="line"><span class="lineno">   75</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> authorizationService.CheckGraphQLAuthorized(</div>
-<div class="line"><span class="lineno">   76</span>                [<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;InstanceManagerRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.Create)]);</div>
-<div class="line"><span class="lineno">   77</span> </div>
-<div class="line"><span class="lineno">   78</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.InstanceLimit;</div>
-<div class="line"><span class="lineno">   79</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">Tgstation.Server.Host.Security.RightsEvaluation.FlagRightsConditional</a></div><div class="ttdoc">Single flag RightsConditional&lt;TRights&gt;.</div><div class="ttdef"><b>Definition</b> <a href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00009">FlagRightsConditional{TRights}.cs:11</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00069">69</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   72</span>        {</div>
+<div class="line"><span class="lineno">   73</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(authorizationService);</div>
+<div class="line"><span class="lineno">   74</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> authorizationService.CheckGraphQLAuthorized(</div>
+<div class="line"><span class="lineno">   77</span>                [<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;InstanceManagerRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.Create)],</div>
+<div class="line"><span class="lineno">   78</span>                <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   80</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.InstanceLimit;</div>
+<div class="line"><span class="lineno">   81</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">Tgstation.Server.Host.Security.RightsEvaluation.FlagRightsConditional</a></div><div class="ttdoc">Single flag RightsConditional&lt;TRights&gt;.</div><div class="ttdef"><b>Definition</b> <a href="_flag_rights_conditional_02_t_rights_03_8cs_source.html#l00010">FlagRightsConditional{TRights}.cs:12</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.ConfigurationRights.List</a></div><div class="ttdeci">@ List</div><div class="ttdoc">User may list files if the Models.Instance allows it.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">Tgstation.Server.Api.Rights.InstanceManagerRights</a></div><div class="ttdeci">InstanceManagerRights</div><div class="ttdoc">Rights for managing Models.Instances.</div><div class="ttdef"><b>Definition</b> <a href="_instance_manager_rights_8cs_source.html#l00009">InstanceManagerRights.cs:10</a></div></div>
 </div><!-- fragment -->
@@ -296,10 +297,11 @@ Properties</h2></td></tr>
 <div class="line"><span class="lineno">   53</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> authorizationService.CheckGraphQLAuthorized(</div>
 <div class="line"><span class="lineno">   54</span>                [<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_or_rights_conditional.html">OrRightsConditional&lt;AdministrationRights&gt;</a>(</div>
 <div class="line"><span class="lineno">   55</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;AdministrationRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.WriteUsers),</div>
-<div class="line"><span class="lineno">   56</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;AdministrationRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.EditOwnPassword))]);</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.MinimumPasswordLength;</div>
-<div class="line"><span class="lineno">   59</span>        }</div>
+<div class="line"><span class="lineno">   56</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;AdministrationRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.EditOwnPassword))],</div>
+<div class="line"><span class="lineno">   57</span>                <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">   58</span> </div>
+<div class="line"><span class="lineno">   59</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.MinimumPasswordLength;</div>
+<div class="line"><span class="lineno">   60</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_or_rights_conditional_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_or_rights_conditional.html">Tgstation.Server.Host.Security.RightsEvaluation.OrRightsConditional</a></div><div class="ttdoc">Logical OR RightsConditional&lt;TRights&gt;.</div><div class="ttdef"><b>Definition</b> <a href="_or_rights_conditional_02_t_rights_03_8cs_source.html#l00009">OrRightsConditional{TRights}.cs:11</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_affda1440f9c5e2dfcca65138d2f89a21"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">Tgstation.Server.Api.Rights.AdministrationRights</a></div><div class="ttdeci">AdministrationRights</div><div class="ttdoc">Administration rights for the server.</div><div class="ttdef"><b>Definition</b> <a href="_administration_rights_8cs_source.html#l00009">AdministrationRights.cs:10</a></div></div>
 </div><!-- fragment -->
@@ -332,11 +334,11 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A map of enabled <a class="el" href="namespace_tgstation_1_1_server_1_1_api.html#a622da263c0ca2e2060d2daf329c2c2bcaf12e786bd5633a16aa21ba4f0a10850d" title="The ApiHeaders.OAuthProviderHeader header is missing or invalid.">OAuthProvider</a>s to their FullOAuthProviderInfo.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00206">206</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  208</span>        {</div>
-<div class="line"><span class="lineno">  209</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(oAuthProviders);</div>
-<div class="line"><span class="lineno">  210</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_o_auth_provider_infos.html">OAuthProviderInfos</a>(oAuthProviders);</div>
-<div class="line"><span class="lineno">  211</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00211">211</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  213</span>        {</div>
+<div class="line"><span class="lineno">  214</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(oAuthProviders);</div>
+<div class="line"><span class="lineno">  215</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_o_auth_provider_infos.html">OAuthProviderInfos</a>(oAuthProviders);</div>
+<div class="line"><span class="lineno">  216</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_o_auth_provider_infos_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_graph_q_l_1_1_types_1_1_o_auth_1_1_o_auth_provider_infos.html">Tgstation.Server.Host.GraphQL.Types.OAuth.OAuthProviderInfos</a></div><div class="ttdoc">Description of configured OAuth services.</div><div class="ttdef"><b>Definition</b> <a href="_o_auth_provider_infos_8cs_source.html#l00011">OAuthProviderInfos.cs:12</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
@@ -400,15 +402,16 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A uint specifying the maximum allowed registered UserGroups for the ServerSwarm.</dd></dl>
 <p>This limit only applies to UserGroup creation attempts made via the current SwarmNode.</p>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00110">110</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  113</span>        {</div>
-<div class="line"><span class="lineno">  114</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(authorizationService);</div>
-<div class="line"><span class="lineno">  115</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
-<div class="line"><span class="lineno">  116</span> </div>
-<div class="line"><span class="lineno">  117</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> authorizationService.CheckGraphQLAuthorized(</div>
-<div class="line"><span class="lineno">  118</span>                [<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;AdministrationRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.WriteUsers)]);</div>
-<div class="line"><span class="lineno">  119</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.UserGroupLimit;</div>
-<div class="line"><span class="lineno">  120</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00113">113</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  116</span>        {</div>
+<div class="line"><span class="lineno">  117</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(authorizationService);</div>
+<div class="line"><span class="lineno">  118</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
+<div class="line"><span class="lineno">  119</span> </div>
+<div class="line"><span class="lineno">  120</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> authorizationService.CheckGraphQLAuthorized(</div>
+<div class="line"><span class="lineno">  121</span>                [<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;AdministrationRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.WriteUsers)],</div>
+<div class="line"><span class="lineno">  122</span>                <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  123</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.UserGroupLimit;</div>
+<div class="line"><span class="lineno">  124</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
 
@@ -451,16 +454,17 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A uint specifying the maximum allowed registered users for the ServerSwarm.</dd></dl>
 <p>This limit only applies to user creation attempts made via the current SwarmNode.</p>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00089">89</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   92</span>        {</div>
-<div class="line"><span class="lineno">   93</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(authorizationService);</div>
-<div class="line"><span class="lineno">   94</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
-<div class="line"><span class="lineno">   95</span> </div>
-<div class="line"><span class="lineno">   96</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> authorizationService.CheckGraphQLAuthorized(</div>
-<div class="line"><span class="lineno">   97</span>                [<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;AdministrationRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.WriteUsers)]);</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.UserLimit;</div>
-<div class="line"><span class="lineno">  100</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00091">91</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   94</span>        {</div>
+<div class="line"><span class="lineno">   95</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(authorizationService);</div>
+<div class="line"><span class="lineno">   96</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> authorizationService.CheckGraphQLAuthorized(</div>
+<div class="line"><span class="lineno">   99</span>                [<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;AdministrationRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.WriteUsers)],</div>
+<div class="line"><span class="lineno">  100</span>                <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  101</span> </div>
+<div class="line"><span class="lineno">  102</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.UserLimit;</div>
+<div class="line"><span class="lineno">  103</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
 
@@ -502,17 +506,18 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The locations Instances may be created or attached from if there are restrictions, <code><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">null</a></code> otherwise.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00129">129</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  132</span>        {</div>
-<div class="line"><span class="lineno">  133</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(authorizationService);</div>
-<div class="line"><span class="lineno">  134</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
-<div class="line"><span class="lineno">  135</span> </div>
-<div class="line"><span class="lineno">  136</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> authorizationService.CheckGraphQLAuthorized(</div>
-<div class="line"><span class="lineno">  137</span>                [<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_or_rights_conditional.html">OrRightsConditional&lt;InstanceManagerRights&gt;</a>(</div>
-<div class="line"><span class="lineno">  138</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;InstanceManagerRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.Create),</div>
-<div class="line"><span class="lineno">  139</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;InstanceManagerRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.Relocate))]);</div>
-<div class="line"><span class="lineno">  140</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.ValidInstancePaths;</div>
-<div class="line"><span class="lineno">  141</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00133">133</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  136</span>        {</div>
+<div class="line"><span class="lineno">  137</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(authorizationService);</div>
+<div class="line"><span class="lineno">  138</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(generalConfigurationOptions);</div>
+<div class="line"><span class="lineno">  139</span> </div>
+<div class="line"><span class="lineno">  140</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">await</a> authorizationService.CheckGraphQLAuthorized(</div>
+<div class="line"><span class="lineno">  141</span>                [<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_or_rights_conditional.html">OrRightsConditional&lt;InstanceManagerRights&gt;</a>(</div>
+<div class="line"><span class="lineno">  142</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;InstanceManagerRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.Create),</div>
+<div class="line"><span class="lineno">  143</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_rights_evaluation_1_1_flag_rights_conditional.html">FlagRightsConditional&lt;InstanceManagerRights&gt;</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.Relocate))],</div>
+<div class="line"><span class="lineno">  144</span>                <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  145</span>            <span class="keywordflow">return</span> generalConfigurationOptions.Value.ValidInstancePaths;</div>
+<div class="line"><span class="lineno">  146</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
 
@@ -543,11 +548,11 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The global::System.Version of tgstation-server the SwarmNode is running.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00171">171</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  173</span>        {</div>
-<div class="line"><span class="lineno">  174</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(assemblyInformationProvider);</div>
-<div class="line"><span class="lineno">  175</span>            <span class="keywordflow">return</span> assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a600df9ffd79d4f94f59dfefccbcec099">Version</a>;</div>
-<div class="line"><span class="lineno">  176</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00176">176</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  178</span>        {</div>
+<div class="line"><span class="lineno">  179</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(assemblyInformationProvider);</div>
+<div class="line"><span class="lineno">  180</span>            <span class="keywordflow">return</span> assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a600df9ffd79d4f94f59dfefccbcec099">Version</a>;</div>
+<div class="line"><span class="lineno">  181</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_a600df9ffd79d4f94f59dfefccbcec099"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a600df9ffd79d4f94f59dfefccbcec099">Tgstation.Server.Host.System.IAssemblyInformationProvider.Version</a></div><div class="ttdeci">Version Version</div><div class="ttdoc">The version of the assembly.</div><div class="ttdef"><b>Definition</b> <a href="_i_assembly_information_provider_8cs_source.html#l00035">IAssemblyInformationProvider.cs:35</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>
@@ -579,12 +584,12 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135" title="User may list files if the Models.Instance allows it.">true</a></code> if the SwarmNode runs on a Windows operating system, <code>false</code> otherwise.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00149">149</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  151</span>        {</div>
-<div class="line"><span class="lineno">  152</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(platformIdentifier);</div>
-<div class="line"><span class="lineno">  153</span> </div>
-<div class="line"><span class="lineno">  154</span>            <span class="keywordflow">return</span> platformIdentifier.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">IsWindows</a>;</div>
-<div class="line"><span class="lineno">  155</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_gateway_information_8cs_source.html#l00154">154</a> of file <a class="el" href="_gateway_information_8cs_source.html">GatewayInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  156</span>        {</div>
+<div class="line"><span class="lineno">  157</span>            <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">ArgumentNullException</a>.ThrowIfNull(platformIdentifier);</div>
+<div class="line"><span class="lineno">  158</span> </div>
+<div class="line"><span class="lineno">  159</span>            <span class="keywordflow">return</span> platformIdentifier.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">IsWindows</a>;</div>
+<div class="line"><span class="lineno">  160</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier_html_aa9bf3bd1082b7178f58cb1f36839550e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a></div><div class="ttdeci">bool IsWindows</div><div class="ttdoc">If the current platform is a Windows platform.</div><div class="ttdef"><b>Definition</b> <a href="_i_platform_identifier_8cs_source.html#l00014">IPlatformIdentifier.cs:14</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>.</p>

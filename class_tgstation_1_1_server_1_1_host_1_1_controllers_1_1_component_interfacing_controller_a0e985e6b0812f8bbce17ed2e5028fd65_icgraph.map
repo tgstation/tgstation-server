@@ -1,13 +1,11 @@
 <map id="Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstanceNullable" name="Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstanceNullable">
-<area shape="rect" id="Node000001" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,129,501,184"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a930c1ed07039457ab6f9a8751fd462a6" title="Create a new chat bot model ." alt="" coords="5,5,221,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="328,122,276,91,220,61,188,49,190,44,222,57,279,86,331,117"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html#a6fb5c0298099d86fa25de47159ad5dd5" title="Attempts to delete the BYOND version specified in a given model &#160;from the instance." alt="" coords="5,71,221,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,127,200,115,201,109,254,122"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="5,136,221,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="253,159,221,159,221,154,253,154"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="5,201,221,242"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="254,190,201,203,200,198,253,185"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,267,221,307"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="331,195,279,227,222,256,190,269,188,264,220,251,276,222,328,191"/>
+<area shape="rect" id="Node000001" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,97,501,152"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_engine_controller.html#a6fb5c0298099d86fa25de47159ad5dd5" title="Attempts to delete the BYOND version specified in a given model &#160;from the instance." alt="" coords="5,5,221,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="301,93,220,62,183,49,185,44,222,56,303,88"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="5,71,221,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,111,221,107,222,102,253,106"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="5,136,221,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="253,142,222,146,221,141,253,137"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,201,221,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="301,161,222,191,185,203,183,198,220,186,299,156"/>
 </map>

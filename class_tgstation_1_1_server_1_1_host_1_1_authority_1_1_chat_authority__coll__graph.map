@@ -1,0 +1,18 @@
+<map id="Tgstation.Server.Host.Authority.ChatAuthority" name="Tgstation.Server.Host.Authority.ChatAuthority">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,270,210,310"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_component_interfacing_authority_base.html" title="AuthorityBase for IAuthoritys that need to access IInstanceCores." alt="" coords="100,195,329,220"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,232,135,271,132,267,184,228"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_authority_base.html" title="Base implementation of IAuthority." alt="" coords="99,88,201,114"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="167,125,209,193,205,196,163,128"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_core_1_1_i_authority.html" title="Business logic for interating with the server." alt="" coords="68,5,144,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="122,43,146,86,141,89,118,46"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_authority_1_1_i_chat_authority.html" title="IAuthority for manipulating chat bots." alt="" coords="11,145,114,171"/>
+<area shape="poly" id="edge8_Node000008_Node000004" title=" " alt="" coords="100,47,69,145,63,144,95,45"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="225,80,451,121"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="305,133,230,196,227,192,302,129"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_operations.html" title="Operations that can be performed on a given Models.Instance." alt="" coords="370,5,509,31"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="414,43,364,82,361,78,411,39"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="221,5,346,31"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="303,43,327,79,323,82,298,46"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="74,185,103,268,98,270,69,186"/>
+</map>

@@ -1,15 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.ChatController.Create" name="Tgstation.Server.Host.Controllers.ChatController.Create">
-<area shape="rect" id="Node000001" title="Create a new chat bot model ." alt="" coords="5,136,221,177"/>
+<area shape="rect" id="Node000001" title="Create a new chat bot model ." alt="" coords="5,5,221,46"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a05009b65112ea9d2fca5f82c2d3311be" title="Converts api &#160;to a ChatChannel." alt="" coords="269,5,513,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,133,197,95,268,57,287,49,289,54,270,61,200,99,143,138"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext.A Task representing the running operation." alt="" coords="287,71,495,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,133,286,113,287,118,203,138"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a68a7da01a6b0e0cd0c2cfa551a0c533d" title="Perform some basic validation of a given model ." alt="" coords="272,136,510,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="221,154,257,154,257,159,221,159"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="283,201,499,242"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="203,175,287,195,286,200,202,180"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a0e985e6b0812f8bbce17ed2e5028fd65" title="Run a given action &#160;with the relevant IInstance." alt="" coords="275,266,507,322"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="144,175,201,213,270,251,283,257,281,262,267,256,198,218,141,179"/>
-<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61" title="Get the IInstanceReference associated with given metadata ." alt="" coords="561,273,819,314"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="507,291,545,291,545,296,507,296"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,23,253,23,253,28,221,28"/>
 </map>
