@@ -20,6 +20,11 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	public sealed class UserGroup : NamedEntity
 	{
 		/// <summary>
+		/// The <see cref="Types.PermissionSet"/> for the <see cref="UserGroup"/>.
+		/// </summary>
+		public required PermissionSet PermissionSet { get; set; }
+
+		/// <summary>
 		/// Node resolver for <see cref="User"/>s.
 		/// </summary>
 		/// <param name="id">The <see cref="Entity.Id"/> to lookup.</param>
@@ -37,22 +42,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		}
 
 		/// <summary>
-		/// The <see cref="PermissionSet"/> owned by the <see cref="UserGroup"/>.
-		/// </summary>
-		/// <param name="permissionSetAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IPermissionSetAuthority"/>.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="PermissionSet"/> owned by the <see cref="UserGroup"/>.</returns>
-		public async ValueTask<PermissionSet> PermissionSet(
-			[Service] IGraphQLAuthorityInvoker<IPermissionSetAuthority> permissionSetAuthority,
-			CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(permissionSetAuthority);
-
-			return await permissionSetAuthority.InvokeTransformable<Models.PermissionSet, PermissionSet, PermissionSetGraphQLTransformer>(
-				authority => authority.GetId(Id, PermissionSetLookupType.GroupId, cancellationToken));
-		}
-
-		/// <summary>
 		/// Queries all registered <see cref="User"/>s in the <see cref="UserGroup"/>.
 		/// </summary>
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
@@ -60,7 +49,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UsePaging]
 		[UseFiltering]
 		[UseSorting]
-		public async ValueTask<IQueryable<User>> QueryableUsersByGroup(
+		public async ValueTask<IQueryable<User>> Users(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);

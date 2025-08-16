@@ -9,11 +9,15 @@
 		/// Initializes a new instance of the <see cref="UserGroupGraphQLTransformer"/> class.
 		/// </summary>
 		public UserGroupGraphQLTransformer()
-			: base(model => new GraphQL.Types.UserGroup
-			{
-				Id = model.Id!.Value,
-				Name = model.Name!,
-			})
+			: base(
+				  BuildSubProjection<PermissionSet, GraphQL.Types.PermissionSet, PermissionSetGraphQLTransformer>(
+					  (model, permissionSet) => new GraphQL.Types.UserGroup
+					  {
+						  Id = model.Id!.Value,
+						  Name = model.Name!,
+						  PermissionSet = permissionSet!,
+					  },
+					  model => model.PermissionSet))
 		{
 		}
 	}
