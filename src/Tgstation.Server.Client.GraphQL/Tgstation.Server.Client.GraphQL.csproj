@@ -22,7 +22,7 @@
   </Target>
 
   <!-- https://github.com/ChilliCream/graphql-platform/blob/c0c8df525ca0f47bf3b3b409a8b22cbe37f7a9c0/src/StrawberryShake/MetaPackages/Common/MSBuild/StrawberryShake.targets#L20 -->
-  <Target Name="ImportGraphQLApiSchema" BeforeTargets="_GraphQLCodeGenerationRoot" AfterTargets="AfterResolveReferences" Inputs="../../artifacts/tgs-api.graphql" Outputs="schema.graphql">
+  <Target Name="ImportGraphQLApiSchema" BeforeTargets="_GraphQLCodeGenerationRoot" AfterTargets="ResolveProjectReferences" Inputs="../../artifacts/tgs-api.graphql" Outputs="schema.graphql">
     <Copy SkipUnchangedFiles="true" SourceFiles="../../artifacts/tgs-api.graphql" DestinationFiles="schema.graphql" />
   </Target>
 
