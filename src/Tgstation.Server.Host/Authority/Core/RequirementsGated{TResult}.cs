@@ -90,6 +90,33 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// </summary>
 		/// <param name="getRequirement">The value of <see cref="getRequirements"/>. Resulting in a <see langword="null"/> value is eqivalent to returning an empty <see cref="IEnumerable{T}"/> of <see cref="IAuthorizationRequirement"/>s.</param>
 		/// <param name="getResponse">The value of <see cref="getResponse"/>.</param>
+		public RequirementsGated(
+			Func<IAuthorizationRequirement?> getRequirement,
+			Func<TResult> getResponse)
+		{
+			ArgumentNullException.ThrowIfNull(getRequirement);
+			ArgumentNullException.ThrowIfNull(getResponse);
+			getRequirements = () =>
+			{
+				var requirement = getRequirement();
+				if (requirement == null)
+					return ValueTask.FromResult(
+						Enumerable.Empty<IAuthorizationRequirement>());
+
+				return ValueTask.FromResult<IEnumerable<IAuthorizationRequirement>>(
+					new List<IAuthorizationRequirement>
+					{
+						requirement,
+					});
+			};
+			this.getResponse = _ => ValueTask.FromResult(getResponse());
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RequirementsGated{TResult}"/> class.
+		/// </summary>
+		/// <param name="getRequirement">The value of <see cref="getRequirements"/>. Resulting in a <see langword="null"/> value is eqivalent to returning an empty <see cref="IEnumerable{T}"/> of <see cref="IAuthorizationRequirement"/>s.</param>
+		/// <param name="getResponse">The value of <see cref="getResponse"/>.</param>
 		/// <param name="instanceId">The value of <see cref="InstanceId"/>.</param>
 		/// <param name="doNotAddUserSessionValidRequirement">The value of <see cref="doNotAddUserSessionValidRequirement"/>.</param>
 		public RequirementsGated(
