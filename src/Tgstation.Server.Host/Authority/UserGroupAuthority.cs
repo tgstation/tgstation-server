@@ -121,7 +121,6 @@ namespace Tgstation.Server.Host.Authority
 					var userId = claimsPrincipalAccessor.User.GetTgsUserId();
 					var group = await DatabaseContext
 						.Users
-						.AsQueryable()
 						.Where(user => user.Id == userId)
 						.Select(user => user.Group)
 						.FirstOrDefaultAsync(cancellationToken);
@@ -148,7 +147,6 @@ namespace Tgstation.Server.Host.Authority
 				{
 					var totalGroups = await DatabaseContext
 						.Groups
-						.AsQueryable()
 						.CountAsync(cancellationToken);
 					if (totalGroups >= generalConfigurationOptions.Value.UserGroupLimit)
 						return Conflict<UserGroup>(ErrorCode.UserGroupLimitReached);
@@ -183,7 +181,6 @@ namespace Tgstation.Server.Host.Authority
 				{
 					var currentGroup = await DatabaseContext
 						.Groups
-						.AsQueryable()
 						.Where(x => x.Id == id)
 						.Include(x => x.PermissionSet)
 						.FirstOrDefaultAsync(cancellationToken);
@@ -212,7 +209,6 @@ namespace Tgstation.Server.Host.Authority
 				{
 					var numDeleted = await DatabaseContext
 						.Groups
-						.AsQueryable()
 						.Where(x => x.Id == id && x.Users!.Count == 0)
 						.ExecuteDeleteAsync(cancellationToken);
 
@@ -222,7 +218,6 @@ namespace Tgstation.Server.Host.Authority
 					// find out how we failed
 					var groupExists = await DatabaseContext
 						.Groups
-						.AsQueryable()
 						.Where(x => x.Id == id)
 						.AnyAsync(cancellationToken);
 
@@ -242,9 +237,8 @@ namespace Tgstation.Server.Host.Authority
 		/// <returns>An <see cref="IQueryable{T}"/> of <see cref="UserGroup"/>s.</returns>
 		IQueryable<UserGroup> QueryableImpl(bool includeJoins)
 		{
-			var queryable = DatabaseContext
-				.Groups
-				.AsQueryable();
+			IQueryable<UserGroup> queryable = DatabaseContext
+				.Groups;
 
 			if (includeJoins)
 				queryable = queryable

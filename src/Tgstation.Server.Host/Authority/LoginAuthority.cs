@@ -208,7 +208,7 @@ namespace Tgstation.Server.Host.Authority
 			using (systemIdentity)
 			{
 				// Get the user from the database
-				IQueryable<User> query = DatabaseContext.Users.AsQueryable();
+				IQueryable<User> query = DatabaseContext.Users;
 				if (oAuthLogin)
 				{
 					var oAuthProvider = headers.OAuthProvider!.Value;

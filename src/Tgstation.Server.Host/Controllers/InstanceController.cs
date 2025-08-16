@@ -161,7 +161,6 @@ namespace Tgstation.Server.Host.Controllers
 			// Validate it's not a child of any other instance
 			var instancePaths = await DatabaseContext
 				.Instances
-				.AsQueryable()
 				.Where(x => x.SwarmIdentifer == swarmConfiguration.Identifier)
 				.Select(x => new Models.Instance
 				{
@@ -278,7 +277,6 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var originalModel = await DatabaseContext
 				.Instances
-				.AsQueryable()
 				.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (originalModel == default)
@@ -306,17 +304,14 @@ namespace Tgstation.Server.Host.Controllers
 				// there's a bug where removing the root instance doesn't work sometimes
 				await DatabaseContext
 					.CompileJobs
-					.AsQueryable()
 					.Where(x => x.Job!.Instance!.Id == id)
 					.ExecuteDeleteAsync(cancellationToken);
 				await DatabaseContext
 					.RevInfoTestMerges
-					.AsQueryable()
 					.Where(x => x.RevisionInformation.InstanceId == id)
 					.ExecuteDeleteAsync(cancellationToken);
 				await DatabaseContext
 					.RevisionInformations
-					.AsQueryable()
 					.Where(x => x.InstanceId == id)
 					.ExecuteDeleteAsync(cancellationToken);
 
@@ -361,7 +356,6 @@ namespace Tgstation.Server.Host.Controllers
 
 			IQueryable<Models.Instance> InstanceQuery() => DatabaseContext
 				.Instances
-				.AsQueryable()
 				.Where(x => x.Id == model.Id && x.SwarmIdentifer == swarmConfiguration.Identifier);
 
 			var moveJob = await InstanceQuery()
@@ -460,7 +454,6 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var countOfExistingChatBots = await DatabaseContext
 					.ChatBots
-					.AsQueryable()
 					.Where(x => x.InstanceId == originalModel.Id)
 					.CountAsync(cancellationToken);
 
@@ -585,7 +578,6 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var query = DatabaseContext
 					.Instances
-					.AsQueryable()
 					.Where(x => x.SwarmIdentifer == swarmConfiguration.Identifier);
 				if (!AuthenticationContext.PermissionSet.InstanceManagerRights!.Value.HasFlag(InstanceManagerRights.List))
 					query = query
@@ -651,7 +643,6 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var query = DatabaseContext
 					.Instances
-					.AsQueryable()
 					.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier);
 
 				if (cantList)
@@ -706,7 +697,6 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			IQueryable<Models.Instance> BaseQuery() => DatabaseContext
 				.Instances
-				.AsQueryable()
 				.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier);
 
 			// ensure the current user has write privilege on the instance
@@ -871,7 +861,6 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			instanceResponse.Accessible = await DatabaseContext
 				.InstancePermissionSets
-				.AsQueryable()
 				.Where(x => x.InstanceId == instanceResponse.Id && x.PermissionSetId == AuthenticationContext.PermissionSet.Id)
 				.AnyAsync(cancellationToken);
 		}

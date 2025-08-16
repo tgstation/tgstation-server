@@ -387,7 +387,6 @@ namespace Tgstation.Server.Host.Components
 						{
 							var jobs = await db
 								.Jobs
-								.AsQueryable()
 								.Where(x => x.Instance!.Id == metadata.Id && !x.StoppedAt.HasValue)
 								.Select(x => new Job(x.Id!.Value))
 								.ToListAsync(cancellationToken);
@@ -638,7 +637,6 @@ namespace Tgstation.Server.Host.Components
 				async ValueTask EnumerateInstances(IDatabaseContext databaseContext)
 					=> dbInstances = await databaseContext
 						.Instances
-						.AsQueryable()
 						.Where(x => x.Online!.Value && x.SwarmIdentifer == swarmConfiguration.Identifier)
 						.Include(x => x.RepositorySettings)
 						.Include(x => x.ChatSettings)

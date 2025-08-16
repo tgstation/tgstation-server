@@ -129,7 +129,6 @@ namespace Tgstation.Server.Host.Security
 
 			var user = await databaseContext
 				.Users
-				.AsQueryable()
 				.Where(x => x.Id == userId)
 				.Include(x => x.CreatedBy)
 				.Include(x => x.PermissionSet)
@@ -164,8 +163,8 @@ namespace Tgstation.Server.Host.Security
 				var instanceId = apiHeaders?.InstanceId;
 				if (instanceId.HasValue)
 				{
-					instancePermissionSet = await databaseContext.InstancePermissionSets
-						.AsQueryable()
+					instancePermissionSet = await databaseContext
+						.InstancePermissionSets
 						.Where(x => x.PermissionSetId == userPermissionSet!.Id && x.InstanceId == instanceId && x.Instance!.SwarmIdentifer == swarmConfiguration.Identifier)
 						.Include(x => x.Instance)
 						.FirstOrDefaultAsync(cancellationToken);
@@ -208,7 +207,6 @@ namespace Tgstation.Server.Host.Security
 			var deprefixedScheme = scheme.Substring(OpenIDConnectAuthenticationSchemePrefix.Length);
 			var connection = await databaseContext
 				.OidcConnections
-				.AsQueryable()
 				.Where(oidcConnection => oidcConnection.ExternalUserId == userId && oidcConnection.SchemeKey == deprefixedScheme)
 				.Include(oidcConnection => oidcConnection.User)
 					.ThenInclude(user => user!.Group)
@@ -243,7 +241,6 @@ namespace Tgstation.Server.Host.Security
 				UserGroup? group = groupId.HasValue
 					? await databaseContext
 						.Groups
-						.AsQueryable()
 						.Where(group => group.Id == groupId.Value)
 						.Include(group => group.PermissionSet)
 						.FirstOrDefaultAsync(cancellationToken)

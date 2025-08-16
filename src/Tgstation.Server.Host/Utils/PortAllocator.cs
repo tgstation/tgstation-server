@@ -99,7 +99,6 @@ namespace Tgstation.Server.Host.Utils
 			logger.LogTrace("Port allocation >= {basePort} requested...", basePort);
 			var ddPorts = await databaseContext
 				.DreamDaemonSettings
-				.AsQueryable()
 				.Where(x => x.Instance!.SwarmIdentifer == swarmConfiguration.Identifier)
 				.Select(x => new
 				{
@@ -110,7 +109,6 @@ namespace Tgstation.Server.Host.Utils
 
 			var dmPorts = await databaseContext
 				.DreamMakerSettings
-				.AsQueryable()
 				.Where(x => x.Instance!.SwarmIdentifer == swarmConfiguration.Identifier)
 				.Select(x => new
 				{

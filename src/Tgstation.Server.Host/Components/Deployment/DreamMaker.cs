@@ -253,7 +253,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 						ddSettings = await databaseContext
 							.DreamDaemonSettings
-							.AsQueryable()
 							.Where(x => x.InstanceId == metadata.Id)
 							.Select(x => new Models.DreamDaemonSettings
 							{
@@ -266,7 +265,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 						dreamMakerSettings = await databaseContext
 							.DreamMakerSettings
-							.AsQueryable()
 							.Where(x => x.InstanceId == metadata.Id)
 							.FirstAsync(cancellationToken);
 						if (dreamMakerSettings == default)
@@ -274,7 +272,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 						repositorySettings = await databaseContext
 							.RepositorySettings
-							.AsQueryable()
 							.Where(x => x.InstanceId == metadata.Id)
 							.Select(x => new Models.RepositorySettings
 							{
@@ -302,7 +299,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 							repoName = repo.RemoteRepositoryName;
 							revInfo = await databaseContext
 								.RevisionInformations
-								.AsQueryable()
 								.Where(x => x.CommitSha == repoSha && x.InstanceId == metadata.Id)
 								.Include(x => x.ActiveTestMerges!)
 									.ThenInclude(x => x.TestMerge!)
@@ -456,7 +452,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 		{
 			var previousCompileJobs = await databaseContext
 				.CompileJobs
-				.AsQueryable()
 				.Where(x => x.Job.Instance!.Id == metadata.Id)
 				.OrderByDescending(x => x.Job.StoppedAt)
 				.Take(10)
