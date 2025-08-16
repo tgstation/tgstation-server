@@ -116,7 +116,6 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 				await databaseContextFactory.UseContext(
 					async db => results = await db
 						.RevisionInformations
-						.AsQueryable()
 						.Where(x => x.Instance!.Id == instance.Id && x.CommitSha == head)
 						.SelectMany(x => x.ActiveTestMerges!)
 						.Select(x => x.TestMerge)

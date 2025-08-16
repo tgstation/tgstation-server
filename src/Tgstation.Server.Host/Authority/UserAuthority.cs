@@ -85,9 +85,9 @@ namespace Tgstation.Server.Host.Authority
 		readonly IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions;
 
 		/// <summary>
-		/// The <see cref="IOptions{TOptions}"/> of <see cref="SecurityConfiguration"/> for the <see cref="UserAuthority"/>.
+		/// The <see cref="IOptionsSnapshot{TOptions}"/> of <see cref="SecurityConfiguration"/> for the <see cref="UserAuthority"/>.
 		/// </summary>
-		readonly IOptions<SecurityConfiguration> securityConfigurationOptions;
+		readonly IOptionsSnapshot<SecurityConfiguration> securityConfigurationOptions;
 
 		/// <summary>
 		/// Implements the <see cref="usersDataLoader"/>.
@@ -107,7 +107,6 @@ namespace Tgstation.Server.Host.Authority
 
 			return databaseContext
 				.Users
-				.AsQueryable()
 				.Where(x => ids.Contains(x.Id!.Value))
 				.ToDictionaryAsync(user => user.Id!.Value, cancellationToken);
 		}
@@ -130,7 +129,6 @@ namespace Tgstation.Server.Host.Authority
 
 			var list = await databaseContext
 				.OAuthConnections
-				.AsQueryable()
 				.Where(x => userIds.Contains(x.User!.Id!.Value))
 				.ToListAsync(cancellationToken);
 
@@ -161,7 +159,6 @@ namespace Tgstation.Server.Host.Authority
 
 			var list = await databaseContext
 				.OidcConnections
-				.AsQueryable()
 				.Where(x => userIds.Contains(x.User!.Id!.Value))
 				.ToListAsync(cancellationToken);
 
@@ -221,7 +218,7 @@ namespace Tgstation.Server.Host.Authority
 			ITopicEventSender topicEventSender,
 			IClaimsPrincipalAccessor claimsPrincipalAccessor,
 			IOptionsSnapshot<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<SecurityConfiguration> securityConfigurationOptions)
+			IOptionsSnapshot<SecurityConfiguration> securityConfigurationOptions)
 			: base(
 				  databaseContext,
 				  logger)
@@ -371,7 +368,6 @@ namespace Tgstation.Server.Host.Authority
 
 					var totalUsers = await DatabaseContext
 						.Users
-						.AsQueryable()
 						.CountAsync(cancellationToken);
 					if (totalUsers >= generalConfigurationOptions.Value.UserLimit)
 						return Conflict<UpdatedUser>(ErrorCode.UserLimitReached);
@@ -473,7 +469,6 @@ namespace Tgstation.Server.Host.Authority
 
 					var userQuery = DatabaseContext
 						.Users
-						.AsQueryable()
 						.Where(x => x.Id == model.Id)
 						.Include(x => x.CreatedBy)
 						.Include(x => x.OAuthConnections)
@@ -574,7 +569,6 @@ namespace Tgstation.Server.Host.Authority
 
 						originalUser.Group = await DatabaseContext
 							.Groups
-							.AsQueryable()
 							.Where(x => x.Id == model.Group.Id)
 							.Include(x => x.PermissionSet)
 							.FirstOrDefaultAsync(cancellationToken);
@@ -759,9 +753,8 @@ namespace Tgstation.Server.Host.Authority
 		IQueryable<User> Queryable(bool includeJoins, bool allowSystemUser)
 		{
 			var tgsUserCanonicalName = User.CanonicalizeName(User.TgsSystemUserName);
-			var queryable = DatabaseContext
-				.Users
-				.AsQueryable();
+			IQueryable<User> queryable = DatabaseContext
+				.Users;
 
 			if (!allowSystemUser)
 				queryable = queryable
@@ -792,7 +785,6 @@ namespace Tgstation.Server.Host.Authority
 			if (model.Group != null)
 				group = await DatabaseContext
 					.Groups
-					.AsQueryable()
 					.Where(x => x.Id == model.Group.Id)
 					.Include(x => x.PermissionSet)
 					.FirstOrDefaultAsync(cancellationToken);

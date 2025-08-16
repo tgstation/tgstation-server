@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using LibGit2Sharp;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Events;
@@ -56,6 +57,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly IGitRemoteFeaturesFactory gitRemoteFeaturesFactory;
 
 		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="RepositoryManager"/>.
+		/// </summary>
+		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> created <see cref="Repository"/>s.
 		/// </summary>
 		readonly ILogger<Repository> repositoryLogger;
@@ -64,11 +70,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// The <see cref="ILogger"/> for the <see cref="RepositoryManager"/>.
 		/// </summary>
 		readonly ILogger<RepositoryManager> logger;
-
-		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="RepositoryManager"/>.
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
 		/// Used for controlling single access to the <see cref="IRepository"/>.
@@ -85,8 +86,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
 		/// <param name="repositoryLogger">The value of <see cref="repositoryLogger"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
 		public RepositoryManager(
 			ILibGit2RepositoryFactory repositoryFactory,
 			ILibGit2Commands commands,
@@ -94,9 +95,9 @@ namespace Tgstation.Server.Host.Components.Repository
 			IEventConsumer eventConsumer,
 			IPostWriteHandler postWriteHandler,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<Repository> repositoryLogger,
-			ILogger<RepositoryManager> logger,
-			GeneralConfiguration generalConfiguration)
+			ILogger<RepositoryManager> logger)
 		{
 			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
 			this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
@@ -105,8 +106,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 			this.repositoryLogger = repositoryLogger ?? throw new ArgumentNullException(nameof(repositoryLogger));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
 			semaphore = new SemaphoreSlim(1);
 		}
 
@@ -232,8 +233,8 @@ namespace Tgstation.Server.Host.Components.Repository
 						postWriteHandler,
 						gitRemoteFeaturesFactory,
 						repositoryFactory,
+						generalConfigurationOptions,
 						repositoryLogger,
-						generalConfiguration,
 						() =>
 						{
 							logger.LogTrace("Releasing semaphore due to Repository disposal...");

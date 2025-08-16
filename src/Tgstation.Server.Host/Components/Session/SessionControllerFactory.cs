@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Prometheus;
 
@@ -120,14 +121,14 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="SessionConfiguration"/> for the <see cref="SessionControllerFactory"/>.
+		/// </summary>
+		readonly IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly ILogger<SessionControllerFactory> logger;
-
-		/// <summary>
-		/// The <see cref="SessionConfiguration"/> for the <see cref="SessionControllerFactory"/>.
-		/// </summary>
-		readonly SessionConfiguration sessionConfiguration;
 
 		/// <summary>
 		/// The number of sessions launched.
@@ -198,9 +199,9 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
 		/// <param name="metricFactory">The <see cref="IMetricFactory"/> used to create metrics.</param>
+		/// <param name="sessionConfigurationOptions">The value of <see cref="sessionConfigurationOptions"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
 		public SessionControllerFactory(
 			IProcessExecutor processExecutor,
 			IEngineManager engineManager,
@@ -219,8 +220,8 @@ namespace Tgstation.Server.Host.Components.Session
 			IDotnetDumpService dotnetDumpService,
 			IMetricFactory metricFactory,
 			ILoggerFactory loggerFactory,
+			IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions,
 			ILogger<SessionControllerFactory> logger,
-			SessionConfiguration sessionConfiguration,
 			Api.Models.Instance instance)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
@@ -239,9 +240,9 @@ namespace Tgstation.Server.Host.Components.Session
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
 			ArgumentNullException.ThrowIfNull(metricFactory);
+			this.sessionConfigurationOptions = sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 
 			sessionsLaunched = metricFactory.CreateCounter("tgs_sessions_launched", "The number of game server processes created");
@@ -567,6 +568,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			try
 			{
+				var sessionConfiguration = sessionConfigurationOptions.CurrentValue;
 				if (!apiValidate)
 				{
 					if (sessionConfiguration.HighPriorityLiveDreamDaemon)

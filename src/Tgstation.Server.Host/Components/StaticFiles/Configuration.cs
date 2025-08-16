@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -120,6 +121,16 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly IFileTransferTicketProvider fileTransferService;
 
 		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for <see cref="Configuration"/>.
+		/// </summary>
+		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
+
+		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="SessionConfiguration"/> for <see cref="Configuration"/>.
+		/// </summary>
+		readonly IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="Configuration"/>.
 		/// </summary>
 		readonly ILogger<Configuration> logger;
@@ -128,16 +139,6 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// The <see cref="Api.Models.Instance"/> the <see cref="Configuration"/> belongs to.
 		/// </summary>
 		readonly Models.Instance metadata;
-
-		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for <see cref="Configuration"/>.
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
-
-		/// <summary>
-		/// The <see cref="SessionConfiguration"/> for <see cref="Configuration"/>.
-		/// </summary>
-		readonly SessionConfiguration sessionConfiguration;
 
 		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for <see cref="Configuration"/>. Also used as a <see langword="lock"/> <see cref="object"/>.
@@ -166,8 +167,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="sessionConfigurationOptions">The value of <see cref="sessionConfigurationOptions"/>.</param>
 		public Configuration(
 			IIOManager ioManager,
 			ISynchronousIOManager synchronousIOManager,
@@ -176,10 +177,10 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			IPostWriteHandler postWriteHandler,
 			IPlatformIdentifier platformIdentifier,
 			IFileTransferTicketProvider fileTransferService,
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions,
 			ILogger<Configuration> logger,
-			Models.Instance metadata,
-			GeneralConfiguration generalConfiguration,
-			SessionConfiguration sessionConfiguration)
+			Models.Instance metadata)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
@@ -188,10 +189,10 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.sessionConfigurationOptions = sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
-			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
-			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
 
 			semaphore = new SemaphoreSlim(1, 1);
 			stoppingCts = new CancellationTokenSource();
@@ -223,7 +224,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					null,
 					CodeModificationsSubdirectory,
 					destination,
-					generalConfiguration.GetCopyDirectoryTaskThrottle(),
+					generalConfigurationOptions.CurrentValue.GetCopyDirectoryTaskThrottle(),
 					cancellationToken);
 
 				await Task.WhenAll(dmeExistsTask, headFileExistsTask, tailFileExistsTask, copyTask.AsTask());
@@ -795,7 +796,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			// always execute in serial
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken, logger))
 			{
-				var directories = generalConfiguration.AdditionalEventScriptsDirectories?.ToList() ?? new List<string>();
+				var sessionConfiguration = sessionConfigurationOptions.CurrentValue;
+				var directories = generalConfigurationOptions.CurrentValue.AdditionalEventScriptsDirectories?.ToList() ?? new List<string>();
 				directories.Add(EventScriptsSubdirectory);
 
 				var allScripts = new List<string>();

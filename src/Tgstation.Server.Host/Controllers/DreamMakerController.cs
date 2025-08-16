@@ -81,7 +81,6 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var dreamMakerSettings = await DatabaseContext
 				.DreamMakerSettings
-				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken);
 
@@ -186,7 +185,6 @@ namespace Tgstation.Server.Host.Controllers
 
 			var hostModel = await DatabaseContext
 				.DreamMakerSettings
-				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (hostModel == null)
@@ -295,7 +293,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>An <see cref="IQueryable{T}"/> of <see cref="CompileJob"/> with all the inclusions.</returns>
 		IQueryable<CompileJob> BaseCompileJobsQuery() => DatabaseContext
 			.CompileJobs
-			.AsQueryable()
 			.Include(x => x.Job!)
 				.ThenInclude(x => x.StartedBy)
 			.Include(x => x.Job!)

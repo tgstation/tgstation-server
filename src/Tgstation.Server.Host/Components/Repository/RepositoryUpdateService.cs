@@ -90,7 +90,10 @@ namespace Tgstation.Server.Host.Components.Repository
 					.ThenInclude(x => x.TestMerge)
 						.ThenInclude(x => x.MergedBy);
 
-			var revisionInfo = await ApplyQuery(databaseContext.RevisionInformations).FirstOrDefaultAsync(cancellationToken);
+			var revisionInfo = await ApplyQuery(
+				databaseContext
+					.RevisionInformations)
+				.FirstOrDefaultAsync(cancellationToken);
 
 			// If the DB doesn't have it, check the local set
 			if (revisionInfo == default)
@@ -400,8 +403,8 @@ namespace Tgstation.Server.Host.Components.Repository
 
 							await databaseContextFactory.UseContext(
 								async databaseContext =>
-									dbPull = await databaseContext.RevisionInformations
-										.AsQueryable()
+									dbPull = await databaseContext
+										.RevisionInformations
 										.Where(x => x.InstanceId == instanceId
 											&& x.OriginCommitSha == lastRevisionInfo.OriginCommitSha
 											&& x.ActiveTestMerges!.Count <= newTestMergeModels.Count

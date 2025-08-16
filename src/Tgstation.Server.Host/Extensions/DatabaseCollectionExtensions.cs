@@ -33,7 +33,6 @@ namespace Tgstation.Server.Host.Extensions
 			ArgumentNullException.ThrowIfNull(selector);
 
 			return databaseCollection
-				.AsQueryable()
 				.Where(x => x.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))
 				.Select(selector)
 				.FirstAsync(cancellationToken);

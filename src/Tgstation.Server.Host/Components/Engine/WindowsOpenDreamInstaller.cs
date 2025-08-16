@@ -37,8 +37,8 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="repositoryManager">The <see cref="IRepositoryManager"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> for the <see cref="OpenDreamInstaller"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.</param>
-		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> of <see cref="SessionConfiguration"/> for the <see cref="OpenDreamInstaller"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="SessionConfiguration"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="linkFactory">The value of <see cref="linkFactory"/>.</param>
 		public WindowsOpenDreamInstaller(
 			IIOManager ioManager,
@@ -48,8 +48,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			IRepositoryManager repositoryManager,
 			IAsyncDelayer asyncDelayer,
 			IHttpClientFactory httpClientFactory,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<SessionConfiguration> sessionConfigurationOptions,
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions,
 			IFilesystemLinkFactory linkFactory)
 			: base(
 				ioManager,
@@ -108,7 +108,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask AddServerFirewallException(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 		{
-			if (GeneralConfiguration.SkipAddingByondFirewallException)
+			if (GeneralConfigurationOptions.CurrentValue.SkipAddingByondFirewallException)
 				return;
 
 			GetExecutablePaths(path, out var serverExePath, out _);
@@ -126,7 +126,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Logger,
 					ruleName,
 					serverExePath,
-					deploymentPipelineProcesses && SessionConfiguration.LowPriorityDeploymentProcesses,
+					deploymentPipelineProcesses && SessionConfigurationOptions.CurrentValue.LowPriorityDeploymentProcesses,
 					cancellationToken);
 			}
 			catch (Exception ex)

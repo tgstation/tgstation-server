@@ -160,7 +160,6 @@ namespace Tgstation.Server.Host.Controllers
 						instance.Chat.DeleteConnection(id, cancellationToken),
 						DatabaseContext
 							.ChatBots
-							.AsQueryable()
 							.Where(x => x.Id == id)
 							.ExecuteDeleteAsync(cancellationToken));
 					return null;
@@ -187,7 +186,6 @@ namespace Tgstation.Server.Host.Controllers
 					new PaginatableResult<ChatBot>(
 						DatabaseContext
 							.ChatBots
-							.AsQueryable()
 							.Where(x => x.InstanceId == Instance.Id)
 							.Include(x => x.Channels)
 							.OrderBy(x => x.Id))),
@@ -217,8 +215,8 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			var query = DatabaseContext.ChatBots
-				.AsQueryable()
+			var query = DatabaseContext
+				.ChatBots
 				.Where(x => x.Id == id && x.InstanceId == Instance.Id)
 				.Include(x => x.Channels);
 
@@ -260,7 +258,6 @@ namespace Tgstation.Server.Host.Controllers
 
 			var query = DatabaseContext
 				.ChatBots
-				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id && x.Id == model.Id)
 				.Include(x => x.Channels);
 

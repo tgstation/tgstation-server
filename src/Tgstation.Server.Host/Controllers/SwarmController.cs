@@ -45,21 +45,21 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IFileTransferStreamHandler transferService;
 
 		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="SwarmConfiguration"/> for the <see cref="SwarmController"/>.
+		/// </summary>
+		readonly IOptions<SwarmConfiguration> swarmConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SwarmController"/>.
 		/// </summary>
 		readonly ILogger<SwarmController> logger;
-
-		/// <summary>
-		/// The <see cref="SwarmConfiguration"/> for the <see cref="SwarmController"/>.
-		/// </summary>
-		readonly SwarmConfiguration swarmConfiguration;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SwarmController"/> class.
 		/// </summary>
 		/// <param name="swarmOperations">The value of <see cref="swarmOperations"/>.</param>
 		/// <param name="transferService">The value of <see cref="transferService"/>.</param>
-		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
+		/// <param name="swarmConfigurationOptions">The value of <see cref="swarmConfigurationOptions"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public SwarmController(
 			ISwarmOperations swarmOperations,
@@ -69,7 +69,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			this.swarmOperations = swarmOperations ?? throw new ArgumentNullException(nameof(swarmOperations));
 			this.transferService = transferService ?? throw new ArgumentNullException(nameof(transferService));
-			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
+			this.swarmConfigurationOptions = swarmConfigurationOptions ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger;
 		}
 
@@ -215,7 +215,7 @@ namespace Tgstation.Server.Host.Controllers
 			using (LogContext.PushProperty(SerilogContextHelper.RequestPathContextProperty, $"{Request.Method} {Request.Path}"))
 			{
 				logger.LogTrace("Swarm request from {remoteIP}...", Request.HttpContext.Connection.RemoteIpAddress);
-				if (swarmConfiguration.PrivateKey == null)
+				if (swarmConfigurationOptions.Value.PrivateKey == null)
 				{
 					logger.LogDebug("Attempted swarm request without private key configured!");
 					return Forbid();
@@ -223,7 +223,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				if (!(Request.Headers.TryGetValue(SwarmConstants.ApiKeyHeader, out var apiKeyHeaderValues)
 					&& apiKeyHeaderValues.Count == 1
-					&& apiKeyHeaderValues.First() == swarmConfiguration.PrivateKey))
+					&& apiKeyHeaderValues.First() == swarmConfigurationOptions.Value.PrivateKey))
 				{
 					logger.LogDebug("Unauthorized swarm request!");
 					return Unauthorized();

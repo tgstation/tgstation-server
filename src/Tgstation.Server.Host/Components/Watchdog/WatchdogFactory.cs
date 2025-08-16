@@ -43,9 +43,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected IAsyncDelayer AsyncDelayer { get; }
 
 		/// <summary>
-		/// The <see cref="Configuration.GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>.
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>.
 		/// </summary>
-		protected GeneralConfiguration GeneralConfiguration { get; }
+		protected IOptionsMonitor<GeneralConfiguration> GeneralConfigurationOptions { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WatchdogFactory"/> class.
@@ -54,19 +54,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="loggerFactory">The value of <see cref="LoggerFactory"/>.</param>
 		/// <param name="jobManager">The value of <see cref="JobManager"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="GeneralConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="GeneralConfigurationOptions"/>.</param>
 		public WatchdogFactory(
 			IServerControl serverControl,
 			ILoggerFactory loggerFactory,
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions)
 		{
 			ServerControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			LoggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			JobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
-			GeneralConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			GeneralConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		/// <inheritdoc />
