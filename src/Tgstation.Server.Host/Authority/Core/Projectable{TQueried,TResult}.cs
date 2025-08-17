@@ -195,8 +195,9 @@ namespace Tgstation.Server.Host.Authority.Core
 		public async ValueTask<AuthorityResponse<TResult>> Resolve(Func<IQueryable<TQueried>, IQueryable<ProjectedPair<TQueried, TResult>>> projection)
 		{
 			ArgumentNullException.ThrowIfNull(projection);
-			var selection = await projection(query)
-				.Select(selector)
+			var finalQueryable = projection(query)
+				.Select(selector);
+			var selection = await finalQueryable
 				.FirstOrDefaultAsync(cancellationToken);
 			return resultMapper(selection);
 		}
