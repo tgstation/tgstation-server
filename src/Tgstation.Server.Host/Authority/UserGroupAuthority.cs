@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using GreenDonut;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -113,22 +112,29 @@ namespace Tgstation.Server.Host.Authority
 				});
 
 		/// <inheritdoc />
-		public RequirementsGated<AuthorityResponse<UserGroup>> Read(CancellationToken cancellationToken)
+		public RequirementsGated<Projectable<UserGroup, TResult>> Read<TResult>(CancellationToken cancellationToken)
+			where TResult : notnull
 			=> new(
-				() => (IAuthorizationRequirement?)null,
-				async () =>
+				() => null,
+				() =>
 				{
 					var userId = claimsPrincipalAccessor.User.GetTgsUserId();
-					var group = await DatabaseContext
+					var queryable = DatabaseContext
 						.Users
 						.Where(user => user.Id == userId)
 						.Select(user => user.Group)
-						.FirstOrDefaultAsync(cancellationToken);
+						.Where(group => group != null)
+						.Cast<UserGroup>();
+					return Projectable<UserGroup, TResult>.Create(
+						queryable,
+						group =>
+						{
+							if (group == null)
+								return Gone<TResult>();
 
-					if (group == null)
-						return Gone<UserGroup>();
-
-					return new AuthorityResponse<UserGroup>(group);
+							return new AuthorityResponse<TResult>(group.Result);
+						},
+						cancellationToken);
 				});
 
 		/// <inheritdoc />

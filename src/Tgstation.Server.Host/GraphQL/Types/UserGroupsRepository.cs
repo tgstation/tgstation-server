@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using GreenDonut.Data;
+
 using HotChocolate;
 using HotChocolate.CostAnalysis.Types;
 using HotChocolate.Data;
@@ -23,14 +25,18 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// Gets the current <see cref="User"/>.
 		/// </summary>
 		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
+		/// <param name="queryContext">The <see cref="QueryContext{TEntity}"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the current <see cref="User"/>'s <see cref="UserGroup"/>.</returns>
 		public ValueTask<UserGroup?> Current(
 			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority,
+			QueryContext<UserGroup>? queryContext,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userGroupAuthority);
-			return userGroupAuthority.InvokeTransformableAllowMissing<Models.UserGroup, UserGroup, UserGroupTransformer>(authority => authority.Read(cancellationToken));
+			return userGroupAuthority.InvokeTransformableAllowMissing<Models.UserGroup, UserGroup, UserGroupTransformer>(
+				authority => authority.Read<UserGroup>(cancellationToken),
+				queryContext);
 		}
 
 		/// <summary>

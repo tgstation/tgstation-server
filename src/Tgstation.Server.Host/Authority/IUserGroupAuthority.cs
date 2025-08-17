@@ -17,9 +17,11 @@ namespace Tgstation.Server.Host.Authority
 		/// <summary>
 		/// Gets the current <see cref="UserGroup"/>.
 		/// </summary>
+		/// <typeparam name="TResult">The result type after projection.</typeparam>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="UserGroup"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
-		RequirementsGated<AuthorityResponse<UserGroup>> Read(CancellationToken cancellationToken);
+		/// <returns>A <see cref="RequirementsGated{TResult}"/> <see cref="Projectable{TQueried, TResult}"/> <see cref="UserGroup"/> for <typeparamref name="TResult"/>.</returns>
+		RequirementsGated<Projectable<UserGroup, TResult>> Read<TResult>(CancellationToken cancellationToken)
+			where TResult : notnull;
 
 		/// <summary>
 		/// Gets the <see cref="UserGroup"/> with a given <paramref name="id"/>.
