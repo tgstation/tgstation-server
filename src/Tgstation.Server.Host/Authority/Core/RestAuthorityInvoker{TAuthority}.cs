@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -152,8 +153,23 @@ namespace Tgstation.Server.Host.Authority.Core
 			ApiController controller,
 			Func<TAuthority, RequirementsGated<Projectable<TResult, TApiModel>>> authorityInvoker)
 		{
-			await Task.Yield();
-			throw new NotImplementedException();
+			ArgumentNullException.ThrowIfNull(controller);
+			ArgumentNullException.ThrowIfNull(authorityInvoker);
+
+			var requirementsGate = authorityInvoker(Authority);
+			var projectable = await ExecuteIfRequirementsSatisfied(requirementsGate);
+			if (projectable == null)
+				return controller.Forbid();
+
+			var transformer = new TTransformer();
+			var authorityResponse = await projectable.Resolve(
+				queryable => queryable
+					.Select(transformer.ProjectedExpression));
+			var erroredResult = CreateErroredActionResult(controller, authorityResponse);
+			if (erroredResult != null)
+				return erroredResult;
+
+			return CreateSuccessfulActionResult(controller, result => result, authorityResponse!);
 		}
 	}
 }
