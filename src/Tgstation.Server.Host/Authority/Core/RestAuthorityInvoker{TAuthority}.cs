@@ -166,7 +166,7 @@ namespace Tgstation.Server.Host.Authority.Core
 			var authorityResponse = await projectable.Resolve(
 				queryable => queryable
 					.Select(transformer.ProjectedExpression)
-					.TagWith("REST Projections"));
+					.TagWith("REST Projections Applied"));
 			var erroredResult = CreateErroredActionResult(controller, authorityResponse);
 			if (erroredResult != null)
 				return erroredResult;

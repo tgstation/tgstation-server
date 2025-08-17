@@ -75,7 +75,7 @@ namespace Tgstation.Server.Host.Extensions
 
 			if (modified)
 				queryable = queryable
-					.TagWith("GraphQL Projections");
+					.TagWith("GraphQL Projections Applied");
 
 			return queryable;
 		}
