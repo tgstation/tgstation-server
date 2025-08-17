@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UseFiltering]
 		[UseSorting]
 		[Cost(Costs.NonIndexedQueryable)]
-		public async ValueTask<IQueryable<UserGroup>> QueryableGroups(
+		public async ValueTask<IQueryable<UserGroup>> Queryable(
 			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userGroupAuthority);
