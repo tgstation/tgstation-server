@@ -609,13 +609,17 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="user">The <see cref="User"/> that was created or updated.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask SendUserUpdatedTopics(User user)
-			=> ValueTaskExtensions.WhenAll(
+		{
+			var transformed = new GraphQL.Transformers.UserTransformer()
+				.CompiledExpression(user);
+			return ValueTaskExtensions.WhenAll(
 				GraphQL.Subscriptions.UserSubscriptions.UserUpdatedTopics(
 					user.Require(x => x.Id))
 					.Select(topic => topicEventSender.SendAsync(
 						topic,
-						((IApiTransformable<User, GraphQL.Types.User>)user).ToApi<GraphQL.Transformers.UserTransformer>(),
+						transformed,
 						CancellationToken.None))); // DCT: Operation should always run
+		}
 
 		/// <summary>
 		/// Gets all registered <see cref="User"/>s.

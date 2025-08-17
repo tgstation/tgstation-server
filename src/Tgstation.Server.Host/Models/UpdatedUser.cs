@@ -1,15 +1,11 @@
 ﻿using System;
 
-using Tgstation.Server.Api.Models.Response;
-
 namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
 	/// Represents a <see cref="User"/> that has been updated.
 	/// </summary>
-	public sealed class UpdatedUser :
-		IApiTransformable<UpdatedUser, UserResponse>,
-		IApiTransformable<UpdatedUser, GraphQL.Types.UpdatedUser>
+	public sealed class UpdatedUser
 	{
 		/// <summary>
 		/// The <see cref="User"/>'s <see cref="Api.Models.EntityId.Id"/>.

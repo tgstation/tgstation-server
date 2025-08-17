@@ -4,8 +4,7 @@ namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.OidcConnection" />
 	public sealed class OidcConnection : Api.Models.OidcConnection,
-		ILegacyApiTransformable<Api.Models.OidcConnection>,
-		IApiTransformable<OidcConnection, GraphQL.Types.OAuth.OidcConnection>
+		ILegacyApiTransformable<Api.Models.OidcConnection>
 	{
 		/// <summary>
 		/// The row Id.

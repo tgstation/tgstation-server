@@ -8,10 +8,7 @@ using Tgstation.Server.Api.Models.Response;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.UserModelBase" />
-	public sealed class User : Api.Models.Internal.UserModelBase,
-		IApiTransformable<User, UserResponse>,
-		IApiTransformable<User, GraphQL.Types.User>,
-		IApiTransformable<User, GraphQL.Types.UserName>
+	public sealed class User : Api.Models.Internal.UserModelBase
 	{
 		/// <summary>
 		/// Username used when creating jobs automatically.

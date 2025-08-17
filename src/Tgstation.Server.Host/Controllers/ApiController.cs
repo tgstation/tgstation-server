@@ -275,16 +275,18 @@ namespace Tgstation.Server.Host.Controllers
 			int? pageQuery,
 			int? pageSizeQuery,
 			CancellationToken cancellationToken)
-			where TModel : IApiTransformable<TModel, TApiModel>
 			where TApiModel : notnull
 			where TTransformer : ITransformer<TModel, TApiModel>, new()
-			=> PaginatedImpl(
+		{
+			var transformer = new TTransformer();
+			return PaginatedImpl(
 				queryGenerator,
-				model => model.ToApi<TTransformer>(),
+				model => transformer.CompiledExpression(model),
 				null,
 				pageQuery,
 				pageSizeQuery,
 				cancellationToken);
+		}
 
 		/// <summary>
 		/// Generates a paginated response.

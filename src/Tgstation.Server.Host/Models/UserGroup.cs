@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Models
 	/// <summary>
 	/// Represents a group of <see cref="User"/>s.
 	/// </summary>
-	public sealed class UserGroup : NamedEntity, ILegacyApiTransformable<UserGroupResponse>, IApiTransformable<UserGroup, GraphQL.Types.UserGroup>
+	public sealed class UserGroup : NamedEntity, ILegacyApiTransformable<UserGroupResponse>
 	{
 		/// <summary>
 		/// The <see cref="Models.PermissionSet"/> the <see cref="UserGroup"/> has.

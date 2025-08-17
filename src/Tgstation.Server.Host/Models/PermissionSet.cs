@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class PermissionSet : Api.Models.PermissionSet, IApiTransformable<PermissionSet, GraphQL.Types.PermissionSet>
+	public sealed class PermissionSet : Api.Models.PermissionSet, ILegacyApiTransformable<Api.Models.PermissionSet>
 	{
 		/// <summary>
 		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="User"/>.
