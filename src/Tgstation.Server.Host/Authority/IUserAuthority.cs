@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading;
 
-using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Models;
@@ -17,7 +16,7 @@ namespace Tgstation.Server.Host.Authority
 		/// Gets the <see cref="User"/> with a given <paramref name="id"/>.
 		/// </summary>
 		/// <typeparam name="TResult">The result type after projection.</typeparam>
-		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="User"/>.</param>
+		/// <param name="id">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="User"/>.</param>
 		/// <param name="allowSystemUser">If the <see cref="User.TgsSystemUserName"/> may be returned or will result in a <see cref="HttpFailureResponse.Forbidden"/> response.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="RequirementsGated{TResult}"/> <see cref="Projectable{TQueried, TResult}"/> <see cref="User"/> for <typeparamref name="TResult"/>.</returns>
@@ -25,20 +24,20 @@ namespace Tgstation.Server.Host.Authority
 			where TResult : notnull;
 
 		/// <summary>
-		/// Gets the <see cref="Models.OAuthConnection"/>s for the <see cref="User"/> with a given <paramref name="userId"/>.
+		/// Gets the <see cref="OAuthConnection"/>s for the <see cref="User"/> with a given <paramref name="userId"/>.
 		/// </summary>
-		/// <param name="userId">The <see cref="EntityId.Id"/> of the <see cref="User"/>.</param>
+		/// <param name="userId">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="User"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="RequirementsGated{TResult}"/> <see cref="global::System.Array"/> of <see cref="Models.OAuthConnection"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
-		RequirementsGated<IQueryable<Models.OAuthConnection>> OAuthConnections(long userId, CancellationToken cancellationToken);
+		/// <returns>A <see cref="RequirementsGated{TResult}"/> <see cref="global::System.Array"/> of <see cref="OAuthConnection"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
+		RequirementsGated<IQueryable<OAuthConnection>> OAuthConnections(long userId, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Gets the <see cref="Models.OidcConnection"/>s for the <see cref="User"/> with a given <paramref name="userId"/>.
+		/// Gets the <see cref="OidcConnection"/>s for the <see cref="User"/> with a given <paramref name="userId"/>.
 		/// </summary>
-		/// <param name="userId">The <see cref="EntityId.Id"/> of the <see cref="User"/>.</param>
+		/// <param name="userId">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="User"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="RequirementsGated{TResult}"/> <see cref="global::System.Array"/> of <see cref="Models.OidcConnection"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
-		RequirementsGated<IQueryable<Models.OidcConnection>> OidcConnections(long userId, CancellationToken cancellationToken);
+		/// <returns>A <see cref="RequirementsGated{TResult}"/> <see cref="global::System.Array"/> of <see cref="OidcConnection"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
+		RequirementsGated<IQueryable<OidcConnection>> OidcConnections(long userId, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Gets an <see cref="IQueryable{T}"/> of all registered <see cref="User"/>s.
