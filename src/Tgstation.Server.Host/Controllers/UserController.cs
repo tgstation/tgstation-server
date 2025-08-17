@@ -128,7 +128,7 @@ namespace Tgstation.Server.Host.Controllers
 				async () =>
 				{
 					var queryable = await userAuthority.InvokeQueryable(
-						authority => authority.Queryable(true));
+						authority => authority.Queryable());
 					if (queryable == null)
 						return null;
 

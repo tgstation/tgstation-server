@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using HotChocolate;
+using HotChocolate.CostAnalysis.Types;
 using HotChocolate.Data;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
@@ -47,15 +48,16 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <returns>A <see cref="IQueryable{T}"/> of all registered <see cref="User"/>s in the <see cref="UserGroup"/>.</returns>
 		[UsePaging]
+		[UseProjection]
 		[UseFiltering]
 		[UseSorting]
-		public async ValueTask<IQueryable<User>> Users(
+		[Cost(Costs.NonIndexedQueryable)]
+		public async ValueTask<IQueryable<User>> QueryableUsers(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
 			var dtoQueryable = await userAuthority.InvokeTransformableQueryable<Models.User, User, UserTransformer>(
-				authority => authority
-					.Queryable(false),
+				authority => authority.Queryable(),
 				queryable => queryable.Where(user => user.GroupId == Id));
 			return dtoQueryable;
 		}

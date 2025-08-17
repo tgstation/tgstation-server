@@ -43,9 +43,8 @@ namespace Tgstation.Server.Host.Authority
 		/// <summary>
 		/// Gets all registered <see cref="User"/>s.
 		/// </summary>
-		/// <param name="includeJoins">If related entities should be loaded.</param>
 		/// <returns>A <see cref="RequirementsGated{TResult}"/> <see cref="IQueryable{T}"/> of <see cref="User"/>s.</returns>
-		RequirementsGated<IQueryable<User>> Queryable(bool includeJoins);
+		RequirementsGated<IQueryable<User>> Queryable();
 
 		/// <summary>
 		/// Creates a <see cref="User"/>.

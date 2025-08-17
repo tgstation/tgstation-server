@@ -229,10 +229,10 @@ namespace Tgstation.Server.Host.Authority
 		}
 
 		/// <inheritdoc />
-		public RequirementsGated<IQueryable<User>> Queryable(bool includeJoins)
+		public RequirementsGated<IQueryable<User>> Queryable()
 			=> new(
 				() => Flag(AdministrationRights.ReadUsers),
-				() => ValueTask.FromResult(Queryable(includeJoins, false)));
+				() => ValueTask.FromResult(Queryable(false)));
 
 		/// <inheritdoc />
 		public RequirementsGated<IQueryable<Models.OAuthConnection>> OAuthConnections(long userId, CancellationToken cancellationToken)
@@ -240,7 +240,7 @@ namespace Tgstation.Server.Host.Authority
 				() => claimsPrincipalAccessor.User.GetTgsUserId() != userId
 					? Flag(AdministrationRights.ReadUsers)
 					: null,
-				() => Queryable(true, true)
+				() => Queryable(false)
 					.SelectMany(user => user.OAuthConnections!)
 					.TagWith("Get User OAuthConnections"));
 
@@ -250,7 +250,7 @@ namespace Tgstation.Server.Host.Authority
 				() => claimsPrincipalAccessor.User.GetTgsUserId() != userId
 					? Flag(AdministrationRights.ReadUsers)
 					: null,
-				() => Queryable(true, true)
+				() => Queryable(false)
 					.SelectMany(user => user.OidcConnections!)
 					.TagWith("Get User OIdcConnections"));
 
@@ -557,7 +557,7 @@ namespace Tgstation.Server.Host.Authority
 				},
 				() => ValueTask.FromResult(
 					Projectable<User, TResult>.Create(
-						Queryable(true, allowSystemUser)
+						Queryable(allowSystemUser)
 							.Where(user => user.Id == id)
 							.TagWith("User by ID"),
 						projected => new ProjectedPair<string, TResult>
@@ -624,10 +624,9 @@ namespace Tgstation.Server.Host.Authority
 		/// <summary>
 		/// Gets all registered <see cref="User"/>s.
 		/// </summary>
-		/// <param name="includeJoins">If related entities should be loaded.</param>
 		/// <param name="allowSystemUser">If the <see cref="User"/> with the <see cref="User.TgsSystemUserName"/> should be included in results.</param>
 		/// <returns>A <see cref="IQueryable{T}"/> of <see cref="User"/>s.</returns>
-		IQueryable<User> Queryable(bool includeJoins, bool allowSystemUser)
+		IQueryable<User> Queryable(bool allowSystemUser)
 		{
 			var tgsUserCanonicalName = User.CanonicalizeName(User.TgsSystemUserName);
 			IQueryable<User> queryable = DatabaseContext
@@ -637,14 +636,13 @@ namespace Tgstation.Server.Host.Authority
 				queryable = queryable
 					.Where(user => user.CanonicalName != tgsUserCanonicalName);
 
-			if (includeJoins)
-				queryable = queryable
-					.Include(x => x.CreatedBy)
-					.Include(x => x.OAuthConnections)
-					.Include(x => x.OidcConnections)
-					.Include(x => x.Group!)
-						.ThenInclude(x => x.PermissionSet)
-					.Include(x => x.PermissionSet);
+			queryable = queryable
+				.Include(x => x.CreatedBy)
+				.Include(x => x.OAuthConnections)
+				.Include(x => x.OidcConnections)
+				.Include(x => x.Group!)
+					.ThenInclude(x => x.PermissionSet)
+				.Include(x => x.PermissionSet);
 
 			return queryable;
 		}

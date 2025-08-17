@@ -85,6 +85,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <returns>A <see cref="IQueryable{T}"/> of all registered <see cref="User"/>s.</returns>
 		[UsePaging]
+		[UseProjection]
 		[UseFiltering]
 		[UseSorting]
 		public async ValueTask<IQueryable<User>> QueryableUsers(
@@ -92,7 +93,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
 			var dtoQueryable = await userAuthority.InvokeTransformableQueryable<Models.User, User, UserTransformer>(
-				authority => authority.Queryable(false));
+				authority => authority.Queryable());
 			return dtoQueryable;
 		}
 	}
