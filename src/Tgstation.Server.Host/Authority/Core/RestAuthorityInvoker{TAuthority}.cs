@@ -144,7 +144,7 @@ namespace Tgstation.Server.Host.Authority.Core
 			if (erroredResult != null)
 				return erroredResult;
 
-			return CreateSuccessfulActionResult(controller, result => new TTransformer().CompiledExpression(result), authorityResponse!);
+			return CreateSuccessfulActionResult(controller, result => new TTransformer().Transform(result), authorityResponse!);
 		}
 
 		/// <inheritdoc />

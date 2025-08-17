@@ -281,7 +281,7 @@ namespace Tgstation.Server.Host.Controllers
 			var transformer = new TTransformer();
 			return PaginatedImpl(
 				queryGenerator,
-				model => transformer.CompiledExpression(model),
+				transformer.Transform,
 				null,
 				pageQuery,
 				pageSizeQuery,

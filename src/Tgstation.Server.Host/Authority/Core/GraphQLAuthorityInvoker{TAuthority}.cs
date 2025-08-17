@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Authority.Core
 			if (result == null)
 				return default;
 
-			var transformedResult = new TTransformer().CompiledExpression(result);
+			var transformedResult = new TTransformer().Transform(result);
 			return transformedResult;
 		}
 

@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Models
 	abstract class TransformerBase<TInput, TOutput> : ITransformer<TInput, TOutput>
 	{
 		/// <summary>
-		/// <see langword="static"/> cache for <see cref="CompiledExpression"/>.
+		/// <see langword="static"/> cache for compiling the <see cref="Expression{TDelegate}"/> we were constructed with.
 		/// </summary>
 		static Func<TInput, TOutput>? compiledExpression; // This is safe https://stackoverflow.com/a/9647661/3976486
 
@@ -24,9 +24,6 @@ namespace Tgstation.Server.Host.Models
 
 		/// <inheritdoc />
 		public Expression<Func<TInput, ProjectedPair<TInput, TOutput>>> ProjectedExpression { get; }
-
-		/// <inheritdoc />
-		public Func<TInput, TOutput> CompiledExpression { get; }
 
 		/// <summary>
 		/// Gets the <typeparamref name="T"/> that should be used when a database projected non-null DTO value is null in the expression.
@@ -188,8 +185,11 @@ namespace Tgstation.Server.Host.Models
 			compiledExpression ??= expression.Compile();
 			projectedExpression ??= expression.Projected();
 			Expression = expression;
-			CompiledExpression = compiledExpression;
 			ProjectedExpression = projectedExpression;
 		}
+
+		/// <inheritdoc />
+		public TOutput Transform(TInput input)
+			=> compiledExpression!(input);
 	}
 }

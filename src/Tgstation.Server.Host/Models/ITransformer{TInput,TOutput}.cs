@@ -23,8 +23,10 @@ namespace Tgstation.Server.Host.Models
 		Expression<Func<TInput, ProjectedPair<TInput, TOutput>>> ProjectedExpression { get; }
 
 		/// <summary>
-		/// The compiled <see cref="Expression"/>.
+		/// The compiled transformation <see cref="Expression"/>.
 		/// </summary>
-		Func<TInput, TOutput> CompiledExpression { get; }
+		/// <param name="input">The input <typeparamref name="TInput"/>.</param>
+		/// <returns>The transformed <typeparamref name="TOutput"/>.</returns>
+		TOutput Transform(TInput input);
 	}
 }

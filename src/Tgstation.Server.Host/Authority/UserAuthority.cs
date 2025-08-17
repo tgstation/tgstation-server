@@ -611,7 +611,7 @@ namespace Tgstation.Server.Host.Authority
 		ValueTask SendUserUpdatedTopics(User user)
 		{
 			var transformed = new GraphQL.Transformers.UserTransformer()
-				.CompiledExpression(user);
+				.Transform(user);
 			return ValueTaskExtensions.WhenAll(
 				GraphQL.Subscriptions.UserSubscriptions.UserUpdatedTopics(
 					user.Require(x => x.Id))
