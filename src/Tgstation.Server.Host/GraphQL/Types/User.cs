@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// The <see cref="Entity.Id"/> of the <see cref="CreatedBy"/> <see cref="User"/>.
 		/// </summary>
 		[IsProjected(true)]
-		public required long? CreatedById { get; init; }
+		public required long CreatedById { get; init; }
 
 		/// <summary>
 		/// Implements the <see cref="IUserGroupsDataLoader"/>.
@@ -131,15 +131,13 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			if (!CreatedById.HasValue)
-				return null;
 
 			// This one is particular and cannot be data-loaded due to necessitating a different parameter
 			var user = await userAuthority.InvokeTransformable<Models.User, User, UserTransformer>(
-				authority => authority.GetId<User>(CreatedById.Value, true, cancellationToken),
+				authority => authority.GetId<User>(CreatedById, true, cancellationToken),
 				queryContext);
 			if (user == null)
-				throw new InvalidOperationException($"Query for created by of user ID {CreatedById.Value} returned null!");
+				throw new InvalidOperationException($"Query for created by of user ID {CreatedById} returned null!");
 
 			if (user.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 				return new UserName(user);

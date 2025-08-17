@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.GraphQL.Transformers
 					  {
 						  CreatedAt = model.CreatedAt ?? NotNullFallback<DateTimeOffset>(),
 						  CanonicalName = model.CanonicalName ?? NotNullFallback<string>(),
-						  CreatedById = model.CreatedById,
+						  CreatedById = model.CreatedById ?? NotNullFallback<long>(),
 						  Enabled = model.Enabled ?? NotNullFallback<bool>(),
 						  Id = model.Id!.Value,
 						  Name = model.Name ?? NotNullFallback<string>(),
