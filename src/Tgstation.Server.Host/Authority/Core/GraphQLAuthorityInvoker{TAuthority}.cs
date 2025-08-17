@@ -176,7 +176,7 @@ namespace Tgstation.Server.Host.Authority.Core
 		async ValueTask<TApiModel> IGraphQLAuthorityInvoker<TAuthority>.InvokeTransformable<TResult, TApiModel, TTransformer>(
 			Func<TAuthority, RequirementsGated<Projectable<TResult, TApiModel>>> authorityInvoker,
 			QueryContext<TApiModel>? queryContext)
-			=> await ((IGraphQLAuthorityInvoker<TAuthority>)this).InvokeTransformable<TResult, TApiModel, TTransformer>(authorityInvoker, queryContext)
+			=> await ((IGraphQLAuthorityInvoker<TAuthority>)this).InvokeTransformableAllowMissing<TResult, TApiModel, TTransformer>(authorityInvoker, queryContext)
 				?? throw new InvalidOperationException("Authority invocation should have returned a non-nullable result!");
 
 		/// <inheritdoc />
