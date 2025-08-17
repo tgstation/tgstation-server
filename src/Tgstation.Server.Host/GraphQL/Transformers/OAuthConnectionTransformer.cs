@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.GraphQL.Transformers
 		/// Initializes a new instance of the <see cref="OAuthConnectionTransformer"/> class.
 		/// </summary>
 		public OAuthConnectionTransformer()
-			: base(model => new Types.OAuth.OAuthConnection
+			: base(model => new OAuthConnection
 			{
 				ExternalUserId = model.ExternalUserId ?? NotNullFallback<string>(),
 				Provider = model.Provider,
