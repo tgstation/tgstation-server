@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="user">The <see cref="Models.User"/> to create the token for. Must have the <see cref="Api.Models.EntityId.Id"/> field available.</param>
 		/// <param name="serviceLogin">Whether or not this is an external service login.</param>
-		/// <returns>A new token <see cref="string"/> and the <see cref="DateTimeOffset"/> that it expires.</returns>
-		(string Token, DateTimeOffset Expiry) CreateToken(Models.User user, bool serviceLogin);
+		/// <returns>A new <see cref="GeneratedToken"/>.</returns>
+		GeneratedToken CreateToken(Models.User user, bool serviceLogin);
 	}
 }

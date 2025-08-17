@@ -195,7 +195,7 @@ namespace Tgstation.Server.Host.Controllers
 				return ValueTask.FromResult(HeadersIssue(ApiHeadersProvider.HeadersException!));
 			}
 
-			return loginAuthority.InvokeTransformable<string, TokenResponse, TokenResponseTransformer>(this, authority => authority.AttemptLogin(cancellationToken));
+			return loginAuthority.InvokeTransformable<GeneratedToken, TokenResponse, TokenResponseTransformer>(this, authority => authority.AttemptLogin(cancellationToken));
 		}
 
 		/// <summary>

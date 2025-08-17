@@ -9,6 +9,7 @@ using HotChocolate.Types;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.GraphQL.Mutations.Payloads;
 using Tgstation.Server.Host.GraphQL.Transformers;
+using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.GraphQL
 {
@@ -39,7 +40,7 @@ namespace Tgstation.Server.Host.GraphQL
 		{
 			ArgumentNullException.ThrowIfNull(loginAuthority);
 
-			return loginAuthority.InvokeTransformable<string, LoginResult, LoginResultTransformer>(
+			return loginAuthority.InvokeTransformable<GeneratedToken, LoginResult, LoginResultTransformer>(
 				authority => authority.AttemptLogin(cancellationToken));
 		}
 

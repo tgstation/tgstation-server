@@ -101,7 +101,7 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public (string Token, DateTimeOffset Expiry) CreateToken(User user, bool serviceLogin)
+		public GeneratedToken CreateToken(User user, bool serviceLogin)
 		{
 			ArgumentNullException.ThrowIfNull(user);
 
@@ -141,7 +141,11 @@ namespace Tgstation.Server.Host.Security
 
 			var tokenResponse = tokenHandler.WriteToken(securityToken);
 
-			return (Token: tokenResponse, Expiry: expiry);
+			return new GeneratedToken
+			{
+				Token = tokenResponse,
+				Expiry = expiry,
+			};
 		}
 	}
 }

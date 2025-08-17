@@ -139,7 +139,7 @@ namespace Tgstation.Server.Host.Authority
 		}
 
 		/// <inheritdoc />
-		public RequirementsGated<AuthorityResponse<string>> AttemptLogin(CancellationToken cancellationToken)
+		public RequirementsGated<AuthorityResponse<GeneratedToken>> AttemptLogin(CancellationToken cancellationToken)
 			=> new(
 				() => null,
 				() => AttemptLoginImpl(cancellationToken),
@@ -176,19 +176,19 @@ namespace Tgstation.Server.Host.Authority
 		/// Login process.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="AuthorityResponse{TResult}"/> containing the authenticated bearer token.</returns>
-		private async ValueTask<AuthorityResponse<string>> AttemptLoginImpl(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="AuthorityResponse{TResult}"/> containing the <see cref="GeneratedToken"/>.</returns>
+		private async ValueTask<AuthorityResponse<GeneratedToken>> AttemptLoginImpl(CancellationToken cancellationToken)
 		{
 			// password and oauth logins disabled
 			if (securityConfigurationOptions.Value.OidcStrictMode)
-				return Unauthorized<string>();
+				return Unauthorized<GeneratedToken>();
 
 			var headers = apiHeadersProvider.ApiHeaders;
 			if (headers == null)
-				return GenerateHeadersExceptionResponse<string>(apiHeadersProvider.HeadersException!);
+				return GenerateHeadersExceptionResponse<GeneratedToken>(apiHeadersProvider.HeadersException!);
 
 			if (headers.IsTokenAuthentication)
-				return BadRequest<string>(ErrorCode.TokenWithToken);
+				return BadRequest<GeneratedToken>(ErrorCode.TokenWithToken);
 
 			var oAuthLogin = headers.OAuthProvider.HasValue;
 
@@ -211,7 +211,7 @@ namespace Tgstation.Server.Host.Authority
 				if (oAuthLogin)
 				{
 					var oAuthProvider = headers.OAuthProvider!.Value;
-					var (errorResponse, oauthResult) = await TryOAuthenticate<string>(headers, oAuthProvider, true, cancellationToken);
+					var (errorResponse, oauthResult) = await TryOAuthenticate<GeneratedToken>(headers, oAuthProvider, true, cancellationToken);
 					if (errorResponse != null)
 						return errorResponse;
 
@@ -224,7 +224,7 @@ namespace Tgstation.Server.Host.Authority
 				{
 					var canonicalUserName = User.CanonicalizeName(headers.Username!);
 					if (canonicalUserName == User.CanonicalizeName(User.TgsSystemUserName))
-						return Unauthorized<string>();
+						return Unauthorized<GeneratedToken>();
 
 					if (systemIdentity == null)
 						query = query.Where(x => x.CanonicalName == canonicalUserName);
@@ -236,7 +236,7 @@ namespace Tgstation.Server.Host.Authority
 
 				// No user? You're not allowed
 				if (user == null)
-					return Unauthorized<string>();
+					return Unauthorized<GeneratedToken>();
 
 				// A system user may have had their name AND password changed to one in our DB...
 				// Or a DB user was created that had the same user/pass as a system user
@@ -251,7 +251,7 @@ namespace Tgstation.Server.Host.Authority
 					{
 						// DB User password check and update
 						if (!isLikelyDbUser || !cryptographySuite.CheckUserPassword(user, headers.Password!))
-							return Unauthorized<string>();
+							return Unauthorized<GeneratedToken>();
 						if (user.PasswordHash != originalHash)
 						{
 							Logger.LogDebug("User ID {userId}'s password hash needs a refresh, updating database.", user.Id);
@@ -294,17 +294,17 @@ namespace Tgstation.Server.Host.Authority
 				if (!user.Enabled!.Value)
 				{
 					Logger.LogTrace("Not logging in disabled user {userId}.", user.Id);
-					return Forbid<string>();
+					return Forbid<GeneratedToken>();
 				}
 
-				var (token, expiresAt) = tokenFactory.CreateToken(user, oAuthLogin);
+				var token = tokenFactory.CreateToken(user, oAuthLogin);
 
 				if (usingSystemIdentity)
-					await CacheSystemIdentity(systemIdentity!, user, expiresAt);
+					await CacheSystemIdentity(systemIdentity!, user, token.Expiry);
 
 				Logger.LogDebug("Successfully logged in user {userId}!", user.Id);
 
-				return new AuthorityResponse<string>(token);
+				return new AuthorityResponse<GeneratedToken>(token);
 			}
 		}
 

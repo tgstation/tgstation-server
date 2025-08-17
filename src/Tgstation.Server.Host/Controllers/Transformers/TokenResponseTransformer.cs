@@ -1,12 +1,13 @@
 ﻿using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Controllers.Transformers
 {
 	/// <summary>
 	/// <see cref="ITransformer{TInput, TOutput}"/> for <see cref="TokenResponse"/>s.
 	/// </summary>
-	sealed class TokenResponseTransformer : TransformerBase<string, TokenResponse>
+	sealed class TokenResponseTransformer : TransformerBase<GeneratedToken, TokenResponse>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TokenResponseTransformer"/> class.
@@ -15,7 +16,7 @@ namespace Tgstation.Server.Host.Controllers.Transformers
 			: base(
 				token => new TokenResponse
 				{
-					Bearer = token,
+					Bearer = token.Token,
 				})
 		{
 		}
