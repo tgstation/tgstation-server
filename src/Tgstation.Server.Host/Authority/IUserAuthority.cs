@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Authority
 		RequirementsGated<IQueryable<Models.OidcConnection>> OidcConnections(long userId, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Gets all registered <see cref="User"/>s.
+		/// Gets an <see cref="IQueryable{T}"/> of all registered <see cref="User"/>s.
 		/// </summary>
 		/// <returns>A <see cref="RequirementsGated{TResult}"/> <see cref="IQueryable{T}"/> of <see cref="User"/>s.</returns>
 		RequirementsGated<IQueryable<User>> Queryable();
