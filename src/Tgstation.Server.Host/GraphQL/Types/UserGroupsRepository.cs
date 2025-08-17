@@ -43,14 +43,16 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// Gets a <see cref="UserGroup"/> by <see cref="Entity.Id"/>.
 		/// </summary>
 		/// <param name="id">The <see cref="Entity.Id"/> of the <see cref="User"/>.</param>
-		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
+		/// <param name="userGroupsDataLoader">The <see cref="IUserGroupsDataLoader"/> to use.</param>
+		/// <param name="queryContext">The <see cref="QueryContext{TEntity}"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="UserGroup"/> represented by <paramref name="id"/>, if any.</returns>
 		public ValueTask<UserGroup?> ById(
 			[ID(nameof(UserGroup))] long id,
-			[Service] IGraphQLAuthorityInvoker<IUserGroupAuthority> userGroupAuthority,
+			[Service] IUserGroupsDataLoader userGroupsDataLoader,
+			QueryContext<UserGroup>? queryContext,
 			CancellationToken cancellationToken)
-			=> UserGroup.GetUserGroup(id, userGroupAuthority, cancellationToken);
+			=> UserGroup.GetUserGroup(id, userGroupsDataLoader, queryContext, cancellationToken);
 
 		/// <summary>
 		/// Queries all registered <see cref="UserGroup"/>s.
