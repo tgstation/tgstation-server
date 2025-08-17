@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq.Expressions;
 
 using Tgstation.Server.Host.Authority.Core;
@@ -48,28 +49,20 @@ namespace Tgstation.Server.Host.Models
 			Expression<Func<TInput, TSubInput?>> subInputSelectionExpression)
 			where TSubOutput : class
 			where TTransformer : ITransformer<TSubInput, TSubOutput>, new()
-		{
-			var subTransformer = new TTransformer();
-
-			var primaryInput = global::System.Linq.Expressions.Expression.Parameter(typeof(TInput), "input");
-			var subInputExpression = global::System.Linq.Expressions.Expression.Invoke(subInputSelectionExpression, primaryInput);
-
-			var notNullExpression = global::System.Linq.Expressions.Expression.MakeBinary(
-				ExpressionType.NotEqual,
-				subInputExpression,
-				global::System.Linq.Expressions.Expression.Constant(null, typeof(TSubInput)));
-
-			var subOutputExpression = global::System.Linq.Expressions.Expression.Invoke(subTransformer.Expression, subInputExpression);
-
-			var conditionalSubOutputExpression = global::System.Linq.Expressions.Expression.Condition(
-				notNullExpression,
-				subOutputExpression,
-				global::System.Linq.Expressions.Expression.Constant(null, typeof(TSubOutput)));
-
-			var outputExpression = global::System.Linq.Expressions.Expression.Invoke(transformerExpression, primaryInput, conditionalSubOutputExpression);
-
-			return global::System.Linq.Expressions.Expression.Lambda<Func<TInput, TOutput>>(outputExpression, primaryInput);
-		}
+			=> BuildSubProjectionN(
+				transformerExpression,
+				[
+					typeof(TSubInput),
+				],
+				[
+					typeof(TSubOutput),
+				],
+				[
+					subInputSelectionExpression,
+				],
+				[
+					new TTransformer().Expression,
+				]);
 
 		/// <summary>
 		/// Build an <see cref="Expression{TDelegate}"/> for <typeparamref name="TInput"/> to <typeparamref name="TOutput"/> when <typeparamref name="TInput"/> contains two sub-inputs with their own <see cref="ITransformer{TInput, TOutput}"/>s.
@@ -98,40 +91,24 @@ namespace Tgstation.Server.Host.Models
 			where TSubOutput2 : class
 			where TTransformer1 : ITransformer<TSubInput1, TSubOutput1>, new()
 			where TTransformer2 : ITransformer<TSubInput2, TSubOutput2>, new()
-		{
-			var subTransformer1 = new TTransformer1();
-			var subTransformer2 = new TTransformer2();
-
-			var primaryInput = global::System.Linq.Expressions.Expression.Parameter(typeof(TInput), "input");
-
-			var subInput1Expression = global::System.Linq.Expressions.Expression.Invoke(subInput1SelectionExpression, primaryInput);
-			var subInput2Expression = global::System.Linq.Expressions.Expression.Invoke(subInput2SelectionExpression, primaryInput);
-
-			var notNullExpression1 = global::System.Linq.Expressions.Expression.MakeBinary(
-				ExpressionType.NotEqual,
-				subInput1Expression,
-				global::System.Linq.Expressions.Expression.Constant(null, typeof(TSubInput1)));
-			var notNullExpression2 = global::System.Linq.Expressions.Expression.MakeBinary(
-				ExpressionType.NotEqual,
-				subInput2Expression,
-				global::System.Linq.Expressions.Expression.Constant(null, typeof(TSubInput2)));
-
-			var subOutput1Expression = global::System.Linq.Expressions.Expression.Invoke(subTransformer1.Expression, subInput1Expression);
-			var subOutput2Expression = global::System.Linq.Expressions.Expression.Invoke(subTransformer2.Expression, subInput2Expression);
-
-			var conditionalSubOutput1Expression = global::System.Linq.Expressions.Expression.Condition(
-				notNullExpression1,
-				subOutput1Expression,
-				global::System.Linq.Expressions.Expression.Constant(null, typeof(TSubOutput1)));
-			var conditionalSubOutput2Expression = global::System.Linq.Expressions.Expression.Condition(
-				notNullExpression2,
-				subOutput2Expression,
-				global::System.Linq.Expressions.Expression.Constant(null, typeof(TSubOutput2)));
-
-			var outputExpression = global::System.Linq.Expressions.Expression.Invoke(transformerExpression, primaryInput, conditionalSubOutput1Expression, conditionalSubOutput2Expression);
-
-			return global::System.Linq.Expressions.Expression.Lambda<Func<TInput, TOutput>>(outputExpression, primaryInput);
-		}
+			=> BuildSubProjectionN(
+				transformerExpression,
+				[
+					typeof(TSubInput1),
+					typeof(TSubInput2),
+				],
+				[
+					typeof(TSubOutput1),
+					typeof(TSubOutput2),
+				],
+				[
+					subInput1SelectionExpression,
+					subInput2SelectionExpression,
+				],
+				[
+					new TTransformer1().Expression,
+					new TTransformer2().Expression,
+				]);
 
 		/// <summary>
 		/// Build an <see cref="Expression{TDelegate}"/> for <typeparamref name="TInput"/> to <typeparamref name="TOutput"/> when <typeparamref name="TInput"/> contains three sub-inputs with their own <see cref="ITransformer{TInput, TOutput}"/>s.
@@ -170,53 +147,78 @@ namespace Tgstation.Server.Host.Models
 			where TTransformer1 : ITransformer<TSubInput1, TSubOutput1>, new()
 			where TTransformer2 : ITransformer<TSubInput2, TSubOutput2>, new()
 			where TTransformer3 : ITransformer<TSubInput3, TSubOutput3>, new()
+			=> BuildSubProjectionN(
+				transformerExpression,
+				[
+					typeof(TSubInput1),
+					typeof(TSubInput2),
+					typeof(TSubInput3),
+				],
+				[
+					typeof(TSubOutput1),
+					typeof(TSubOutput2),
+					typeof(TSubOutput3),
+				],
+				[
+					subInput1SelectionExpression,
+					subInput2SelectionExpression,
+					subInput3SelectionExpression,
+				],
+				[
+					new TTransformer1().Expression,
+					new TTransformer2().Expression,
+					new TTransformer3().Expression,
+				]);
+
+		/// <summary>
+		/// Build an <see cref="Expression{TDelegate}"/> for <typeparamref name="TInput"/> to <typeparamref name="TOutput"/> when <typeparamref name="TInput"/> contains N sub-inputs with their own <see cref="ITransformer{TInput, TOutput}"/>s.
+		/// </summary>
+		/// <param name="transformerExpression">The <see cref="Expression{TDelegate}"/> to take a <typeparamref name="TInput"/> and transformed sub-outputs and produce a <typeparamref name="TOutput"/>.</param>
+		/// <param name="subInputTypes">The <see cref="Type"/>s in <typeparamref name="TInput"/> that need transforming.</param>
+		/// <param name="subOutputTypes">The transformed <paramref name="subInputTypes"/>.</param>
+		/// <param name="subInputSelectionExpressions"><see cref="LambdaExpression"/>s to select the <paramref name="subInputTypes"/> from <typeparamref name="TInput"/>.</param>
+		/// <param name="subInputTransformerExpressions"><see cref="LambdaExpression"/>s to transform the <paramref name="subInputTypes"/> into <paramref name="subOutputTypes"/>.</param>
+		/// <returns>An expression converting <typeparamref name="TInput"/> into <typeparamref name="TOutput"/> based on <paramref name="transformerExpression"/> with its other arguments generated from the transformation result of <paramref name="subInputSelectionExpressions"/>.</returns>
+		private static Expression<Func<TInput, TOutput>> BuildSubProjectionN(
+			LambdaExpression transformerExpression,
+			Type[] subInputTypes,
+			Type[] subOutputTypes,
+			LambdaExpression[] subInputSelectionExpressions,
+			LambdaExpression[] subInputTransformerExpressions)
 		{
-			var subTransformer1 = new TTransformer1();
-			var subTransformer2 = new TTransformer2();
-			var subTransformer3 = new TTransformer3();
+			var n = subInputTypes.Length;
+
+			Debug.Assert(n == subOutputTypes.Length, $"{nameof(subOutputTypes)}.{nameof(Array.Length)} != {nameof(subInputTypes)}.{nameof(Array.Length)}");
+			Debug.Assert(n == subInputSelectionExpressions.Length, $"{nameof(subInputSelectionExpressions)}.{nameof(Array.Length)} != n");
+			Debug.Assert(n == subInputTransformerExpressions.Length, $"{nameof(subInputTransformerExpressions)}.{nameof(Array.Length)} != n");
 
 			var primaryInput = global::System.Linq.Expressions.Expression.Parameter(typeof(TInput), "input");
 
-			var subInput1Expression = global::System.Linq.Expressions.Expression.Invoke(subInput1SelectionExpression, primaryInput);
-			var subInput2Expression = global::System.Linq.Expressions.Expression.Invoke(subInput2SelectionExpression, primaryInput);
-			var subInput3Expression = global::System.Linq.Expressions.Expression.Invoke(subInput3SelectionExpression, primaryInput);
+			var finalExpressionParameters = new Expression[n + 1];
+			finalExpressionParameters[0] = primaryInput;
 
-			var notNullExpression1 = global::System.Linq.Expressions.Expression.MakeBinary(
-				ExpressionType.NotEqual,
-				subInput1Expression,
-				global::System.Linq.Expressions.Expression.Constant(null, typeof(TSubInput1)));
-			var notNullExpression2 = global::System.Linq.Expressions.Expression.MakeBinary(
-				ExpressionType.NotEqual,
-				subInput2Expression,
-				global::System.Linq.Expressions.Expression.Constant(null, typeof(TSubInput2)));
-			var notNullExpression3 = global::System.Linq.Expressions.Expression.MakeBinary(
-				ExpressionType.NotEqual,
-				subInput3Expression,
-				global::System.Linq.Expressions.Expression.Constant(null, typeof(TSubInput3)));
+			for (int i = 0; i < n; i++)
+			{
+				var subInputExpression = global::System.Linq.Expressions.Expression.Invoke(subInputSelectionExpressions[i], primaryInput);
 
-			var subOutput1Expression = global::System.Linq.Expressions.Expression.Invoke(subTransformer1.Expression, subInput1Expression);
-			var subOutput2Expression = global::System.Linq.Expressions.Expression.Invoke(subTransformer2.Expression, subInput2Expression);
-			var subOutput3Expression = global::System.Linq.Expressions.Expression.Invoke(subTransformer3.Expression, subInput3Expression);
+				var notNullExpression = global::System.Linq.Expressions.Expression.MakeBinary(
+					ExpressionType.NotEqual,
+					subInputExpression,
+					global::System.Linq.Expressions.Expression.Constant(null, subInputTypes[i]));
 
-			var conditionalSubOutput1Expression = global::System.Linq.Expressions.Expression.Condition(
-				notNullExpression1,
-				subOutput1Expression,
-				global::System.Linq.Expressions.Expression.Constant(null, typeof(TSubOutput1)));
-			var conditionalSubOutput2Expression = global::System.Linq.Expressions.Expression.Condition(
-				notNullExpression2,
-				subOutput2Expression,
-				global::System.Linq.Expressions.Expression.Constant(null, typeof(TSubOutput2)));
-			var conditionalSubOutput3Expression = global::System.Linq.Expressions.Expression.Condition(
-				notNullExpression3,
-				subOutput3Expression,
-				global::System.Linq.Expressions.Expression.Constant(null, typeof(TSubOutput3)));
+				var subOutputExpression = global::System.Linq.Expressions.Expression.Invoke(subInputTransformerExpressions[i], subInputExpression);
+
+				var conditionalSubOutputExpression = global::System.Linq.Expressions.Expression.Condition(
+					notNullExpression,
+					subOutputExpression,
+					global::System.Linq.Expressions.Expression.Constant(null, subOutputTypes[i]));
+
+				finalExpressionParameters[i + 1] = conditionalSubOutputExpression;
+			}
 
 			var outputExpression = global::System.Linq.Expressions.Expression.Invoke(
 				transformerExpression,
-				primaryInput,
-				conditionalSubOutput1Expression,
-				conditionalSubOutput2Expression,
-				conditionalSubOutput3Expression);
+				finalExpressionParameters);
 
 			return global::System.Linq.Expressions.Expression.Lambda<Func<TInput, TOutput>>(outputExpression, primaryInput);
 		}
