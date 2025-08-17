@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Extensions;
@@ -164,7 +165,8 @@ namespace Tgstation.Server.Host.Authority.Core
 			var transformer = new TTransformer();
 			var authorityResponse = await projectable.Resolve(
 				queryable => queryable
-					.Select(transformer.ProjectedExpression));
+					.Select(transformer.ProjectedExpression)
+					.TagWith("REST Projections"));
 			var erroredResult = CreateErroredActionResult(controller, authorityResponse);
 			if (erroredResult != null)
 				return erroredResult;
