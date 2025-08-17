@@ -4,7 +4,7 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.GraphQL.Transformers
 {
 	/// <summary>
-	/// <see cref="Models.ITransformer{TInput, TOutput}"/> for <see cref="LoginResult"/>s.
+	/// <see cref="ITransformer{TInput, TOutput}"/> for <see cref="LoginResult"/>s.
 	/// </summary>
 	sealed class LoginResultTransformer : TransformerBase<string, LoginResult>
 	{
