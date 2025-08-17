@@ -121,7 +121,6 @@ namespace Tgstation.Server.Host.Controllers
 								})
 								.AsQueryable()
 								.OrderBy(x => x.EngineVersion!.ToString()))),
-					null,
 					page,
 					pageSize,
 					cancellationToken));

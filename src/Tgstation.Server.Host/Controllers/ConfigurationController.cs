@@ -204,7 +204,6 @@ namespace Tgstation.Server.Host.Controllers
 								}));
 						}
 					},
-					null,
 					page,
 					pageSize,
 					cancellationToken));

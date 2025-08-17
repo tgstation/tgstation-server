@@ -14,7 +14,9 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.GraphQL.Transformers;
+using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
@@ -38,15 +40,27 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// Gets the current <see cref="User"/>.
 		/// </summary>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
+		/// <param name="claimsPrincipalAccessor">The <see cref="IClaimsPrincipalAccessor"/> for getting the current user ID.</param>
+		/// <param name="usersDataLoader">The <see cref="IUsersDataLoader"/> to use.</param>
+		/// <param name="queryContext">The active <see cref="QueryContext{TEntity}"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the current <see cref="User"/>.</returns>
-		public ValueTask<User> Current(
-			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+		[Error(typeof(ErrorMessageException))]
+		public async ValueTask<User> Current(
+			[Service] IClaimsPrincipalAccessor claimsPrincipalAccessor,
+			[Service] IUsersDataLoader usersDataLoader,
+			QueryContext<User>? queryContext,
 			CancellationToken cancellationToken)
 		{
-			ArgumentNullException.ThrowIfNull(userAuthority);
-			return userAuthority.InvokeTransformable<Models.User, User, UserTransformer>(authority => authority.Read(cancellationToken));
+			var user = await ById(
+				(claimsPrincipalAccessor ?? throw new ArgumentNullException(nameof(claimsPrincipalAccessor))).User.RequireTgsUserId(),
+				usersDataLoader,
+				queryContext,
+				cancellationToken);
+			if (user == null)
+				throw new InvalidOperationException("Reading the current user returned null!");
+
+			return user;
 		}
 
 		/// <summary>

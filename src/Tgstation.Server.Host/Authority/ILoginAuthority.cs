@@ -15,8 +15,8 @@ namespace Tgstation.Server.Host.Authority
 		/// Attempt to login to the server with the current Basic or OAuth credentials.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="LoginResult"/> <see cref="AuthorityResponse{TResult}"/>.</returns>
-		RequirementsGated<AuthorityResponse<LoginResult>> AttemptLogin(CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in an authenticated token <see cref="AuthorityResponse{TResult}"/>.</returns>
+		RequirementsGated<AuthorityResponse<string>> AttemptLogin(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempt to login to an OAuth service with the current OAuth credentials.

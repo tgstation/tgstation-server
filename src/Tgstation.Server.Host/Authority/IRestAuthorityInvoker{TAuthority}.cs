@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Models;
@@ -47,5 +48,33 @@ namespace Tgstation.Server.Host.Authority
 		ValueTask<IActionResult> InvokeTransformable<TResult, TApiModel>(ApiController controller, Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
 			where TResult : notnull, ILegacyApiTransformable<TApiModel>
 			where TApiModel : notnull;
+
+		/// <summary>
+		/// Invoke a <typeparamref name="TAuthority"/> method and get the result.
+		/// </summary>
+		/// <typeparam name="TResult">The <see cref="AuthorityResponse{TResult}.Result"/> <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TApiModel">The returned REST <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TTransformer">The <see cref="ITransformer{TInput, TOutput}"/> for converting <typeparamref name="TResult"/>s to <typeparamref name="TApiModel"/>s.</typeparam>
+		/// <param name="controller">The <see cref="ApiController"/> invoking the <typeparamref name="TAuthority"/>.</param>
+		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> resulting in the <see cref="RequirementsGated{TResult}"/> <see cref="AuthorityResponse{TResult}"/>.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> generated for the resulting <see cref="AuthorityResponse{TResult}"/>.</returns>
+		ValueTask<IActionResult> InvokeTransformable<TResult, TApiModel, TTransformer>(ApiController controller, Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
+			where TResult : notnull
+			where TApiModel : notnull
+			where TTransformer : ITransformer<TResult, TApiModel>, new();
+
+		/// <summary>
+		/// Invoke a <typeparamref name="TAuthority"/> method and get the result.
+		/// </summary>
+		/// <typeparam name="TResult">The <see cref="AuthorityResponse{TResult}.Result"/> <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TApiModel">The returned REST <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TTransformer">The <see cref="ITransformer{TInput, TOutput}"/> for converting <typeparamref name="TResult"/>s to <typeparamref name="TApiModel"/>s.</typeparam>
+		/// <param name="controller">The <see cref="ApiController"/> invoking the <typeparamref name="TAuthority"/>.</param>
+		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> resulting in the <see cref="RequirementsGated{TResult}"/> <see cref="AuthorityResponse{TResult}"/>.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> generated for the resulting <see cref="AuthorityResponse{TResult}"/>.</returns>
+		ValueTask<IActionResult> InvokeTransformable<TResult, TApiModel, TTransformer>(ApiController controller, Func<TAuthority, RequirementsGated<Projectable<TResult, TApiModel>>> authorityInvoker)
+			where TResult : EntityId
+			where TApiModel : notnull
+			where TTransformer : ITransformer<TResult, TApiModel>, new();
 	}
 }

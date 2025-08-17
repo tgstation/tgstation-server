@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Host.GraphQL.Transformers;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -9,8 +8,8 @@ namespace Tgstation.Server.Host.Models
 	/// Represents a <see cref="User"/> that has been updated.
 	/// </summary>
 	public sealed class UpdatedUser :
-		ILegacyApiTransformable<UserResponse>,
-		IApiTransformable<UpdatedUser, GraphQL.Types.UpdatedUser, UpdatedUserTransformer>
+		IApiTransformable<UpdatedUser, UserResponse>,
+		IApiTransformable<UpdatedUser, GraphQL.Types.UpdatedUser>
 	{
 		/// <summary>
 		/// The <see cref="User"/>'s <see cref="Api.Models.EntityId.Id"/>.
@@ -40,12 +39,5 @@ namespace Tgstation.Server.Host.Models
 		{
 			Id = id;
 		}
-
-		/// <inheritdoc />
-		public UserResponse ToApi()
-			=> User?.ToApi() ?? new UserResponse
-			{
-				Id = Id,
-			};
 	}
 }

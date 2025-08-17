@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.Authority
 		/// <typeparam name="TResult">The <see cref="AuthorityResponse{TResult}.Result"/> <see cref="Type"/>.</typeparam>
 		/// <typeparam name="TApiModel">The resulting <see cref="Type"/> of the return value.</typeparam>
 		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> resulting in the <see cref="RequirementsGated{TResult}"/> <see cref="AuthorityResponse{TResult}"/>.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <typeparamref name="TApiModel"/> generated for the resulting <see cref="AuthorityResponse{TResult}"/>.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <typeparamref name="TApiModel"/> generated for the resulting <see cref="AuthorityResponse{TResult}"/> if any.</returns>
 		ValueTask<TApiModel?> InvokeAllowMissing<TResult, TApiModel>(Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
 			where TResult : TApiModel
 			where TApiModel : notnull;
@@ -45,9 +45,25 @@ namespace Tgstation.Server.Host.Authority
 		/// <typeparam name="TApiModel">The resulting <see cref="Type"/> of the return value.</typeparam>
 		/// <typeparam name="TTransformer">The <see cref="ITransformer{TInput, TOutput}"/> for converting <typeparamref name="TResult"/>s to <typeparamref name="TApiModel"/>s.</typeparam>
 		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> resulting in the <see cref="RequirementsGated{TResult}"/> <see cref="AuthorityResponse{TResult}"/>.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <typeparamref name="TApiModel"/> generated for the resulting <see cref="AuthorityResponse{TResult}"/>.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <typeparamref name="TApiModel"/> generated for the resulting <see cref="AuthorityResponse{TResult}"/> if any.</returns>
 		ValueTask<TApiModel?> InvokeTransformableAllowMissing<TResult, TApiModel, TTransformer>(Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
-			where TResult : notnull, IApiTransformable<TResult, TApiModel, TTransformer>
+			where TResult : notnull
+			where TApiModel : notnull
+			where TTransformer : ITransformer<TResult, TApiModel>, new();
+
+		/// <summary>
+		/// Invoke a <typeparamref name="TAuthority"/> method and get the non-nullable result.
+		/// </summary>
+		/// <typeparam name="TResult">The <see cref="AuthorityResponse{TResult}.Result"/> <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TApiModel">The resulting <see cref="Type"/> of the return value.</typeparam>
+		/// <typeparam name="TTransformer">The <see cref="ITransformer{TInput, TOutput}"/> for converting <typeparamref name="TResult"/>s to <typeparamref name="TApiModel"/>s.</typeparam>
+		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> resulting in the <see cref="RequirementsGated{TResult}"/> <see cref="Projectable{TQueried, TResult}"/>.</param>
+		/// <param name="queryContext">The active <see cref="QueryContext{TEntity}"/>.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <typeparamref name="TApiModel"/> generated for the resulting <see cref="AuthorityResponse{TResult}"/> if any.</returns>
+		ValueTask<TApiModel?> InvokeTransformableAllowMissing<TResult, TApiModel, TTransformer>(
+			Func<TAuthority, RequirementsGated<Projectable<TResult, TApiModel>>> authorityInvoker,
+			QueryContext<TApiModel>? queryContext)
+			where TResult : EntityId
 			where TApiModel : notnull
 			where TTransformer : ITransformer<TResult, TApiModel>, new();
 
@@ -71,7 +87,23 @@ namespace Tgstation.Server.Host.Authority
 		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> resulting in the <see cref="RequirementsGated{TResult}"/> <see cref="AuthorityResponse{TResult}"/>.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <typeparamref name="TApiModel"/> generated for the resulting <see cref="AuthorityResponse{TResult}"/>.</returns>
 		ValueTask<TApiModel> InvokeTransformable<TResult, TApiModel, TTransformer>(Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
-			where TResult : notnull, IApiTransformable<TResult, TApiModel, TTransformer>
+			where TResult : notnull
+			where TApiModel : notnull
+			where TTransformer : ITransformer<TResult, TApiModel>, new();
+
+		/// <summary>
+		/// Invoke a <typeparamref name="TAuthority"/> method and get the non-nullable result.
+		/// </summary>
+		/// <typeparam name="TResult">The <see cref="AuthorityResponse{TResult}.Result"/> <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TApiModel">The resulting <see cref="Type"/> of the return value.</typeparam>
+		/// <typeparam name="TTransformer">The <see cref="ITransformer{TInput, TOutput}"/> for converting <typeparamref name="TResult"/>s to <typeparamref name="TApiModel"/>s.</typeparam>
+		/// <param name="authorityInvoker">The <typeparamref name="TAuthority"/> <see cref="Func{T, TResult}"/> resulting in the <see cref="RequirementsGated{TResult}"/> <see cref="Projectable{TQueried, TResult}"/>.</param>
+		/// <param name="queryContext">The active <see cref="QueryContext{TEntity}"/>.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <typeparamref name="TApiModel"/> generated for the resulting <see cref="AuthorityResponse{TResult}"/>.</returns>
+		ValueTask<TApiModel> InvokeTransformable<TResult, TApiModel, TTransformer>(
+			Func<TAuthority, RequirementsGated<Projectable<TResult, TApiModel>>> authorityInvoker,
+			QueryContext<TApiModel>? queryContext)
+			where TResult : EntityId
 			where TApiModel : notnull
 			where TTransformer : ITransformer<TResult, TApiModel>, new();
 
@@ -87,7 +119,6 @@ namespace Tgstation.Server.Host.Authority
 		ValueTask<IQueryable<TApiModel>> InvokeTransformableQueryable<TResult, TApiModel, TTransformer>(
 			Func<TAuthority, RequirementsGated<IQueryable<TResult>>> authorityInvoker,
 			Func<IQueryable<TResult>, IQueryable<TResult>>? preTransformer = null)
-			where TResult : IApiTransformable<TResult, TApiModel, TTransformer>
 			where TApiModel : notnull
 			where TTransformer : ITransformer<TResult, TApiModel>, new();
 
@@ -105,7 +136,7 @@ namespace Tgstation.Server.Host.Authority
 			Func<TAuthority, long, RequirementsGated<Projectable<TResult, TApiModel>>> authorityInvoker,
 			IReadOnlyList<long> ids,
 			QueryContext<AuthorityResponse<TApiModel>>? queryContext)
-			where TResult : EntityId, IApiTransformable<TResult, TApiModel, TTransformer>
+			where TResult : EntityId
 			where TApiModel : Entity
 			where TTransformer : ITransformer<TResult, TApiModel>, new();
 	}

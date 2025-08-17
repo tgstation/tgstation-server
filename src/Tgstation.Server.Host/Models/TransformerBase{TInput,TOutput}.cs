@@ -138,6 +138,47 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <summary>
+		/// Build an <see cref="Expression{TDelegate}"/> for <typeparamref name="TInput"/> to <typeparamref name="TOutput"/> when <typeparamref name="TInput"/> contains three sub-inputs with their own <see cref="ITransformer{TInput, TOutput}"/>s.
+		/// </summary>
+		/// <typeparam name="TSubInput1">The first field <see cref="Type"/> in <typeparamref name="TInput"/> that needs transforming.</typeparam>
+		/// <typeparam name="TSubInput2">The second field <see cref="Type"/> in <typeparamref name="TInput"/> that needs transforming.</typeparam>
+		/// <typeparam name="TSubInput3">The third field <see cref="Type"/> in <typeparamref name="TInput"/> that needs transforming.</typeparam>
+		/// <typeparam name="TSubOutput1">The first transformed <see cref="Type"/> of <typeparamref name="TSubInput1"/>.</typeparam>
+		/// <typeparam name="TSubOutput2">The second transformed <see cref="Type"/> of <typeparamref name="TSubInput2"/>.</typeparam>
+		/// <typeparam name="TSubOutput3">The third transformed <see cref="Type"/> of <typeparamref name="TSubInput2"/>.</typeparam>
+		/// <typeparam name="TTransformer1">The <see cref="ITransformer{TInput, TOutput}"/> for <typeparamref name="TSubInput1"/>/<typeparamref name="TSubOutput2"/>.</typeparam>
+		/// <typeparam name="TTransformer2">The <see cref="ITransformer{TInput, TOutput}"/> for <typeparamref name="TSubInput2"/>/<typeparamref name="TSubOutput2"/>.</typeparam>
+		/// <typeparam name="TTransformer3">The <see cref="ITransformer{TInput, TOutput}"/> for <typeparamref name="TSubInput3"/>/<typeparamref name="TSubOutput3"/>.</typeparam>
+		/// <param name="transformerExpression">The <see cref="Expression{TDelegate}"/> to take a <typeparamref name="TInput"/>, <typeparamref name="TSubOutput1"/>, and <typeparamref name="TSubOutput1"/> and produce a <typeparamref name="TOutput"/>.</param>
+		/// <param name="subInput1SelectionExpression">The <see cref="Expression{TDelegate}"/> to select <typeparamref name="TSubInput1"/> from <typeparamref name="TInput"/>.</param>
+		/// <param name="subInput2SelectionExpression">The <see cref="Expression{TDelegate}"/> to select <typeparamref name="TSubInput2"/> from <typeparamref name="TInput"/>.</param>
+		/// <param name="subInput3SelectionExpression">The <see cref="Expression{TDelegate}"/> to select <typeparamref name="TSubInput3"/> from <typeparamref name="TInput"/>.</param>
+		/// <returns>An expression converting <typeparamref name="TInput"/> into <typeparamref name="TOutput"/> based on <paramref name="transformerExpression"/> with its other arguments generated from the transformation result of <paramref name="subInput1SelectionExpression"/>, <paramref name="subInput2SelectionExpression"/>, <paramref name="subInput3SelectionExpression"/>.</returns>
+		protected static Expression<Func<TInput, TOutput>> BuildSubProjection<
+			TSubInput1,
+			TSubInput2,
+			TSubInput3,
+			TSubOutput1,
+			TSubOutput2,
+			TSubOutput3,
+			TTransformer1,
+			TTransformer2,
+			TTransformer3>(
+			Expression<Func<TInput, TSubOutput1?, TSubOutput2?, TSubOutput3?, TOutput>> transformerExpression,
+			Expression<Func<TInput, TSubInput1?>> subInput1SelectionExpression,
+			Expression<Func<TInput, TSubInput2?>> subInput2SelectionExpression,
+			Expression<Func<TInput, TSubInput3?>> subInput3SelectionExpression)
+			where TSubOutput1 : class
+			where TSubOutput2 : class
+			where TSubOutput3 : class
+			where TTransformer1 : ITransformer<TSubInput1, TSubOutput1>, new()
+			where TTransformer2 : ITransformer<TSubInput2, TSubOutput2>, new()
+			where TTransformer3 : ITransformer<TSubInput3, TSubOutput3>, new()
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="TransformerBase{TInput, TOutput}"/> class.
 		/// </summary>
 		/// <param name="expression">The value of <see cref="Expression"/>.</param>

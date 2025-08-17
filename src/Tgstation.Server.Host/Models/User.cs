@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Host.GraphQL.Transformers;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.UserModelBase" />
 	public sealed class User : Api.Models.Internal.UserModelBase,
-		ILegacyApiTransformable<UserResponse>,
-		IApiTransformable<User, GraphQL.Types.User, UserTransformer>,
-		IApiTransformable<User, GraphQL.Types.UserName, UserNameTransformer>
+		IApiTransformable<User, UserResponse>,
+		IApiTransformable<User, GraphQL.Types.User>,
+		IApiTransformable<User, GraphQL.Types.UserName>
 	{
 		/// <summary>
 		/// Username used when creating jobs automatically.
@@ -88,33 +86,5 @@ namespace Tgstation.Server.Host.Models
 		/// <param name="name">The <see cref="UserName.Name"/>.</param>
 		/// <returns>The <see cref="CanonicalName"/>.</returns>
 		public static string CanonicalizeName(string name) => name?.ToUpperInvariant() ?? throw new ArgumentNullException(nameof(name));
-
-		/// <inheritdoc />
-		public UserResponse ToApi() => CreateUserResponse(true);
-
-		/// <summary>
-		/// Generate a <see cref="UserResponse"/> from <see langword="this"/>.
-		/// </summary>
-		/// <param name="recursive">If we should recurse on <see cref="CreatedBy"/>.</param>
-		/// <returns>A new <see cref="UserResponse"/>.</returns>
-		UserResponse CreateUserResponse(bool recursive)
-		{
-			var result = CreateUserName<UserResponse>();
-			if (recursive)
-				result.CreatedBy = CreatedBy?.CreateUserName<UserName>();
-
-			result.CreatedAt = CreatedAt;
-			result.Enabled = Enabled;
-			result.SystemIdentifier = SystemIdentifier;
-			result.OAuthConnections = OAuthConnections
-				?.Select(x => x.ToApi())
-				.ToList();
-			result.OidcConnections = OidcConnections
-				?.Select(x => x.ToApi())
-				.ToList();
-			result.Group = Group?.ToApi(false);
-			result.PermissionSet = PermissionSet?.ToApi();
-			return result;
-		}
 	}
 }

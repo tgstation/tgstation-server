@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Tgstation.Server.Host.GraphQL.Transformers;
-
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.OAuthConnection" />
 	public sealed class OAuthConnection : Api.Models.OAuthConnection,
 		ILegacyApiTransformable<Api.Models.OAuthConnection>,
-		IApiTransformable<OAuthConnection, GraphQL.Types.OAuth.OAuthConnection, OAuthConnectionTransformer>
+		IApiTransformable<OAuthConnection, GraphQL.Types.OAuth.OAuthConnection>
 	{
 		/// <summary>
 		/// The row Id.

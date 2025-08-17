@@ -861,7 +861,7 @@ namespace Tgstation.Server.Host.Core
 									var authenticationContext = services
 										.GetRequiredService<IAuthenticationContext>();
 									context.HandleResponse();
-									context.HttpContext.Response.Redirect($"{config.ReturnPath}?code={HttpUtility.UrlEncode(tokenFactory.CreateToken(authenticationContext.User, true))}&state=oidc.{HttpUtility.UrlEncode(configName)}");
+									context.HttpContext.Response.Redirect($"{config.ReturnPath}?code={HttpUtility.UrlEncode(tokenFactory.CreateToken(authenticationContext.User, true).Token)}&state=oidc.{HttpUtility.UrlEncode(configName)}");
 									return Task.CompletedTask;
 								},
 							};

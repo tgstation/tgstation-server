@@ -85,7 +85,28 @@ namespace Tgstation.Server.Host.Authority.Core
 			if (result == null)
 				return default;
 
-			return result.ToApi();
+			var transformedResult = new TTransformer().CompiledExpression(result);
+			return transformedResult;
+		}
+
+		/// <inheritdoc />
+		async ValueTask<TApiModel?> IGraphQLAuthorityInvoker<TAuthority>.InvokeTransformableAllowMissing<TResult, TApiModel, TTransformer>(
+			Func<TAuthority, RequirementsGated<Projectable<TResult, TApiModel>>> authorityInvoker,
+			QueryContext<TApiModel>? queryContext)
+			 where TApiModel : default
+		{
+			ArgumentNullException.ThrowIfNull(authorityInvoker);
+
+			var requirementsGate = authorityInvoker(Authority);
+			var projectable = await ExecuteIfRequirementsSatisfied(requirementsGate);
+			var authorityResponse = await projectable.Resolve(
+				queryable => queryable
+					.Select(new TTransformer().ProjectedExpression)
+					.With(queryContext));
+			ThrowGraphQLErrorIfNecessary(authorityResponse, false);
+			var result = authorityResponse.Result;
+
+			return result;
 		}
 
 		/// <inheritdoc />
@@ -102,7 +123,10 @@ namespace Tgstation.Server.Host.Authority.Core
 				queryable = preTransformer(queryable);
 
 			if (typeof(EntityId).IsAssignableFrom(typeof(TResult)))
-				queryable = queryable.OrderBy(item => ((EntityId)(object)item).Id!.Value); // order by ID to fix an EFCore warning
+				queryable = queryable
+					.Cast<EntityId>()
+					.OrderBy(item => item.Id!.Value) // order by ID to fix an EFCore warning
+					.Cast<TResult>();
 
 			var expression = new TTransformer().Expression;
 			return queryable
@@ -146,6 +170,13 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// <inheritdoc />
 		async ValueTask<TApiModel> IGraphQLAuthorityInvoker<TAuthority>.InvokeTransformable<TResult, TApiModel, TTransformer>(Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
 			=> await ((IGraphQLAuthorityInvoker<TAuthority>)this).InvokeTransformableAllowMissing<TResult, TApiModel, TTransformer>(authorityInvoker)
+				?? throw new InvalidOperationException("Authority invocation should have returned a non-nullable result!");
+
+		/// <inheritdoc />
+		async ValueTask<TApiModel> IGraphQLAuthorityInvoker<TAuthority>.InvokeTransformable<TResult, TApiModel, TTransformer>(
+			Func<TAuthority, RequirementsGated<Projectable<TResult, TApiModel>>> authorityInvoker,
+			QueryContext<TApiModel>? queryContext)
+			=> await ((IGraphQLAuthorityInvoker<TAuthority>)this).InvokeTransformable<TResult, TApiModel, TTransformer>(authorityInvoker, queryContext)
 				?? throw new InvalidOperationException("Authority invocation should have returned a non-nullable result!");
 
 		/// <inheritdoc />

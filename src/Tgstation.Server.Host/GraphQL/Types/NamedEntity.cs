@@ -32,17 +32,5 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		{
 			Name = copy.Name;
 		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="NamedEntity"/> class.
-		/// </summary>
-		/// <param name="id">The ID for the <see cref="Entity"/>.</param>
-		/// <param name="name">The value of <see cref="Name"/>.</param>
-		[SetsRequiredMembers]
-		protected NamedEntity(long id, string name)
-			: base(id)
-		{
-			Name = name ?? throw new ArgumentNullException(nameof(name));
-		}
 	}
 }

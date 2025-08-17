@@ -129,5 +129,31 @@ namespace Tgstation.Server.Host.Authority.Core
 
 			return CreateSuccessfulActionResult(controller, result => result.ToApi(), authorityResponse!);
 		}
+
+		/// <inheritdoc />
+		async ValueTask<IActionResult> IRestAuthorityInvoker<TAuthority>.InvokeTransformable<TResult, TApiModel, TTransformer>(
+			ApiController controller,
+			Func<TAuthority, RequirementsGated<AuthorityResponse<TResult>>> authorityInvoker)
+		{
+			ArgumentNullException.ThrowIfNull(controller);
+			ArgumentNullException.ThrowIfNull(authorityInvoker);
+
+			var requirementsGate = authorityInvoker(Authority);
+			var authorityResponse = await ExecuteIfRequirementsSatisfied(requirementsGate);
+			var erroredResult = CreateErroredActionResult(controller, authorityResponse);
+			if (erroredResult != null)
+				return erroredResult;
+
+			return CreateSuccessfulActionResult(controller, result => new TTransformer().CompiledExpression(result), authorityResponse!);
+		}
+
+		/// <inheritdoc />
+		async ValueTask<IActionResult> IRestAuthorityInvoker<TAuthority>.InvokeTransformable<TResult, TApiModel, TTransformer>(
+			ApiController controller,
+			Func<TAuthority, RequirementsGated<Projectable<TResult, TApiModel>>> authorityInvoker)
+		{
+			await Task.Yield();
+			throw new NotImplementedException();
+		}
 	}
 }

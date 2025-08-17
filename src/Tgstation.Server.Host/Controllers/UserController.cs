@@ -14,7 +14,9 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Controllers.Results;
+using Tgstation.Server.Host.Controllers.Transformers;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
@@ -34,17 +36,24 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IRestAuthorityInvoker<IUserAuthority> userAuthority;
 
 		/// <summary>
+		/// The <see cref="IClaimsPrincipalAccessor"/> for the request.
+		/// </summary>
+		readonly IClaimsPrincipalAccessor claimsPrincipalAccessor;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="UserController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="userAuthority">The value of <see cref="userAuthority"/>.</param>
+		/// <param name="claimsPrincipalAccessor">The value of <see cref="claimsPrincipalAccessor"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
 		public UserController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContext authenticationContext,
 			IRestAuthorityInvoker<IUserAuthority> userAuthority,
+			IClaimsPrincipalAccessor claimsPrincipalAccessor,
 			ILogger<UserController> logger,
 			IApiHeadersProvider apiHeaders)
 			: base(
@@ -55,6 +64,7 @@ namespace Tgstation.Server.Host.Controllers
 				  true)
 		{
 			this.userAuthority = userAuthority ?? throw new ArgumentNullException(nameof(userAuthority));
+			this.claimsPrincipalAccessor = claimsPrincipalAccessor ?? throw new ArgumentNullException(nameof(claimsPrincipalAccessor));
 		}
 
 		/// <summary>
@@ -68,7 +78,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPut]
 		[ProducesResponseType(typeof(UserResponse), 201)]
 		public ValueTask<IActionResult> Create([FromBody] UserCreateRequest model, CancellationToken cancellationToken)
-			=> userAuthority.InvokeTransformable<UpdatedUser, UserResponse>(this, authority => authority.Create(model, null, cancellationToken));
+			=> userAuthority.InvokeTransformable<UpdatedUser, UserResponse, UpdatedUserResponseTransformer>(this, authority => authority.Create(model, null, cancellationToken));
 
 		/// <summary>
 		/// Update a <see cref="User"/>.
@@ -86,7 +96,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public ValueTask<IActionResult> Update([FromBody] UserUpdateRequest model, CancellationToken cancellationToken)
-			=> userAuthority.InvokeTransformable<UpdatedUser, UserResponse>(this, authority => authority.Update(model, cancellationToken));
+			=> userAuthority.InvokeTransformable<UpdatedUser, UserResponse, UpdatedUserResponseTransformer>(this, authority => authority.Update(model, cancellationToken));
 
 		/// <summary>
 		/// Get information about the current <see cref="User"/>.
@@ -98,7 +108,10 @@ namespace Tgstation.Server.Host.Controllers
 		[Authorize]
 		[ProducesResponseType(typeof(UserResponse), 200)]
 		public ValueTask<IActionResult> Read(CancellationToken cancellationToken)
-			=> userAuthority.InvokeTransformable<User, UserResponse>(this, authority => authority.Read(cancellationToken));
+			=> userAuthority.InvokeTransformable<User, UserResponse, UserResponseTransformer>(this, authority => authority.GetId<UserResponse>(
+				claimsPrincipalAccessor.User.RequireTgsUserId(),
+				false,
+				cancellationToken));
 
 		/// <summary>
 		/// List all <see cref="User"/>s in the server.
@@ -111,7 +124,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet(Routes.List)]
 		[ProducesResponseType(typeof(PaginatedResponse<UserResponse>), 200)]
 		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
-			=> Paginated<User, UserResponse>(
+			=> Paginated<User, UserResponse, UserResponseTransformer>(
 				async () =>
 				{
 					var queryable = await userAuthority.InvokeQueryable(
@@ -121,7 +134,6 @@ namespace Tgstation.Server.Host.Controllers
 
 					return new PaginatableResult<User>(queryable.OrderBy(x => x.Id));
 				},
-				null,
 				page,
 				pageSize,
 				cancellationToken);
@@ -145,9 +157,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (!((AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration)).HasFlag(AdministrationRights.ReadUsers))
 				return Forbid();
 
-			return await userAuthority.InvokeTransformable<User, UserResponse>(
+			return await userAuthority.InvokeTransformable<User, UserResponse, UserResponseTransformer>(
 				this,
-				authority => authority.GetId(id, true, false, cancellationToken));
+				authority => authority.GetId<UserResponse>(id, false, cancellationToken));
 		}
 	}
 }

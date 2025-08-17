@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// A user registered in the server.
 	/// </summary>
 	[Node]
-	public sealed class User : NamedEntity, IUserName
+	public sealed class User : UserName
 	{
 		/// <inheritdoc />
 		[IsProjected(true)]
@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// Implements the <see cref="IUserGroupsDataLoader"/>.
 		/// </summary>
-		/// <param name="ids">The <see cref="IReadOnlyList{T}"/> of <see cref="User"/> <see cref="Api.Models.EntityId.Id"/>s to load.</param>
+		/// <param name="ids">The <see cref="IReadOnlyList{T}"/> of <see cref="User"/> <see cref="Api.Models.EntityId.Id"/>s to load paired with if the system user should be allowed.</param>
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="queryContext">The <see cref="QueryContext{TEntity}"/> for <see cref="User"/> mapped to an <see cref="AuthorityResponse{TResult}"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -108,31 +108,43 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="queryContext">The <see cref="QueryContext{TEntity}"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> resulting in the queried <see cref="User"/>, if present.</returns>
-		public static ValueTask<User?> GetUser(
+		public static async ValueTask<User?> GetUser(
 			long id,
 			[Service] IUsersDataLoader usersDataLoader,
 			QueryContext<User>? queryContext,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(usersDataLoader);
-			return usersDataLoader.LoadAuthorityResponse(queryContext, id, cancellationToken);
+			var user = await usersDataLoader.LoadAuthorityResponse(queryContext, id, cancellationToken);
+			if (user?.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
+				throw new NotImplementedException();
+
+			return user;
 		}
 
 		/// <summary>
 		/// The <see cref="User"/> who created this <see cref="User"/>.
 		/// </summary>
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
+		/// <param name="queryContext">The <see cref="QueryContext{TEntity}"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="IUserName"/> that created this <see cref="User"/>, if any.</returns>
 		public async ValueTask<IUserName?> CreatedBy(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			QueryContext<User>? queryContext,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
 			if (!CreatedById.HasValue)
 				return null;
 
-			var user = await userAuthority.InvokeTransformable<Models.User, User, UserTransformer>(authority => authority.GetId(CreatedById.Value, false, true, cancellationToken));
+			// This one is particular and cannot be data-loaded due to necessitating a different parameter
+			var user = await userAuthority.InvokeTransformable<Models.User, User, UserTransformer>(
+				authority => authority.GetId<User>(CreatedById.Value, true, cancellationToken),
+				queryContext);
+			if (user == null)
+				throw new InvalidOperationException($"Query for created by of user ID {CreatedById.Value} returned null!");
+
 			if (user.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 				return new UserName(user);
 

@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 
-using Tgstation.Server.Host.GraphQL.Transformers;
-
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class PermissionSet : Api.Models.PermissionSet, IApiTransformable<PermissionSet, GraphQL.Types.PermissionSet, PermissionSetTransformer>
+	public sealed class PermissionSet : Api.Models.PermissionSet, IApiTransformable<PermissionSet, GraphQL.Types.PermissionSet>
 	{
 		/// <summary>
 		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="User"/>.
