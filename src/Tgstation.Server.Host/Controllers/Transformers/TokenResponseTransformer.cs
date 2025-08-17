@@ -14,10 +14,10 @@ namespace Tgstation.Server.Host.Controllers.Transformers
 		/// </summary>
 		public TokenResponseTransformer()
 			: base(
-				token => new TokenResponse
-				{
-					Bearer = token.Token,
-				})
+				  token => new TokenResponse
+				  {
+					  Bearer = token.Token,
+				  })
 		{
 		}
 	}
