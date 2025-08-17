@@ -34,6 +34,16 @@ namespace Tgstation.Server.Host.Authority
 		RequirementsGated<AuthorityResponse<UserGroup>> GetId(long id, bool includeJoins, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Gets the <see cref="UserGroup"/> with a given <paramref name="id"/>.
+		/// </summary>
+		/// <typeparam name="TResult">The result type after projection.</typeparam>
+		/// <param name="id">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="UserGroup"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="RequirementsGated{TResult}"/> <see cref="Projectable{TQueried, TResult}"/> <see cref="User"/> for <typeparamref name="TResult"/>.</returns>
+		RequirementsGated<Projectable<UserGroup, TResult>> GetId<TResult>(long id, CancellationToken cancellationToken)
+			where TResult : notnull;
+
+		/// <summary>
 		/// Gets all registered <see cref="UserGroup"/>s.
 		/// </summary>
 		/// <param name="includeJoins">If related entities should be loaded.</param>

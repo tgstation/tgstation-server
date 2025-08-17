@@ -112,6 +112,23 @@ namespace Tgstation.Server.Host.Authority
 				});
 
 		/// <inheritdoc />
+		public RequirementsGated<Projectable<UserGroup, TResult>> GetId<TResult>(long id, CancellationToken cancellationToken)
+			where TResult : notnull
+			=> new(
+				() => Flag(AdministrationRights.ReadUsers),
+				() => Projectable<UserGroup, TResult>.Create(
+					QueryableImpl(true)
+						.Where(x => x.Id == id),
+					projectable =>
+					{
+						if (projectable == null)
+							return Gone<TResult>();
+
+						return new AuthorityResponse<TResult>(projectable.Result);
+					},
+					cancellationToken));
+
+		/// <inheritdoc />
 		public RequirementsGated<Projectable<UserGroup, TResult>> Read<TResult>(CancellationToken cancellationToken)
 			where TResult : notnull
 			=> new(
