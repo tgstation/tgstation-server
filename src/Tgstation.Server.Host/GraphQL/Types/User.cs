@@ -108,18 +108,14 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="queryContext">The <see cref="QueryContext{TEntity}"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> resulting in the queried <see cref="User"/>, if present.</returns>
-		public static async ValueTask<User?> GetUser(
+		public static ValueTask<User?> GetUser(
 			long id,
 			[Service] IUsersDataLoader usersDataLoader,
 			QueryContext<User>? queryContext,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(usersDataLoader);
-			var user = await usersDataLoader.LoadAuthorityResponse(queryContext, id, cancellationToken);
-			if (user?.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
-				throw new NotImplementedException();
-
-			return user;
+			return usersDataLoader.LoadAuthorityResponse(queryContext, id, cancellationToken);
 		}
 
 		/// <summary>
