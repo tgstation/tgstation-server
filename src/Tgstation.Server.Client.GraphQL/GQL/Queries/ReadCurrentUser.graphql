@@ -43,9 +43,10 @@ query ReadCurrentUser {
             canSetOnline
           }
         }
-        createdBy {
-          id
-          name
+# Needs https://github.com/ChilliCream/graphql-platform/issues/8313
+#        createdBy {
+#          id
+#          name
         }
       }
     }
