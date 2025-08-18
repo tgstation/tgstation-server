@@ -242,6 +242,7 @@ namespace Tgstation.Server.Host.Authority
 					: null,
 				() => Queryable(false)
 					.SelectMany(user => user.OAuthConnections!)
+					.OrderBy(connection => connection.Provider)
 					.TagWith("Get User OAuthConnections"));
 
 		/// <inheritdoc />
@@ -252,6 +253,7 @@ namespace Tgstation.Server.Host.Authority
 					: null,
 				() => Queryable(false)
 					.SelectMany(user => user.OidcConnections!)
+					.OrderBy(connection => connection.SchemeKey)
 					.TagWith("Get User OIdcConnections"));
 
 		/// <inheritdoc />
