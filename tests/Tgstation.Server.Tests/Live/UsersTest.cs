@@ -263,14 +263,12 @@ namespace Tgstation.Server.Tests.Live
 				{
 					var result = await client.RunOperation(gql => gql.ListUsers.ExecuteAsync(cancellationToken), cancellationToken);
 					result.EnsureNoErrors();
-					var users = result.Data.Swarm.Users.QueryableUsers;
+					var users = result.Data.Swarm.Users.Queryable;
 					Assert.IsTrue(users.Nodes.Count > 0);
 					// Can't assert this, there's a race condition
 					// Assert.AreEqual(Math.Min(ApiController.DefaultPageSize, users.TotalCount), users.Nodes.Count);
 					Assert.IsTrue(Math.Min(ApiController.DefaultPageSize, users.TotalCount) >= users.Nodes.Count);
 
-					var tgsUserResult = await client.RunOperation(gql => gql.GetUserNameByNodeId.ExecuteAsync(gqlUser.Swarm.Users.Current.CreatedBy.Id, cancellationToken), cancellationToken);
-					tgsUserResult.EnsureNoErrors();
 					var tgsUserResult2 = await client.RunOperation(gql => gql.GetUserById.ExecuteAsync(gqlUser.Swarm.Users.Current.CreatedBy.Id, cancellationToken), cancellationToken);
 					Assert.IsTrue(tgsUserResult2.IsErrorResult());
 
@@ -376,7 +374,7 @@ namespace Tgstation.Server.Tests.Live
 						gql => gql.ListUserGroups.ExecuteAsync(cancellationToken),
 						cancellationToken);
 
-					var groups = groupsResult.Swarm.UserGroups.QueryableGroups;
+					var groups = groupsResult.Swarm.UserGroups.Queryable;
 					Assert.AreEqual(2, groups.TotalCount);
 
 					foreach (var igroup in groups.Nodes)
@@ -391,7 +389,7 @@ namespace Tgstation.Server.Tests.Live
 						gql => gql.ListUserGroups.ExecuteAsync(cancellationToken),
 						cancellationToken);
 
-					groups = groupsResult.Swarm.UserGroups.QueryableGroups;
+					groups = groupsResult.Swarm.UserGroups.Queryable;
 					Assert.AreEqual(1, groups.TotalCount);
 
 					foreach (var igroup in groups.Nodes)
@@ -681,7 +679,7 @@ namespace Tgstation.Server.Tests.Live
 								cancellationToken))
 								.Swarm
 								.Users
-								.QueryableUsers;
+								.Queryable;
 
 							if (!isLastIteration || exactMatch)
 								Assert.AreEqual(outputPageSize, queryable.Nodes.Count);
@@ -704,7 +702,7 @@ namespace Tgstation.Server.Tests.Live
 						{
 							// special case
 							result.EnsureNoErrors();
-							Assert.AreEqual(0, result.Data.Swarm.Users.QueryableUsers.Nodes.Count);
+							Assert.AreEqual(0, result.Data.Swarm.Users.Queryable.Nodes.Count);
 							return;
 						}
 

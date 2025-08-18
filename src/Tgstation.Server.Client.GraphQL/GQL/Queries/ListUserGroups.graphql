@@ -1,7 +1,7 @@
 query ListUserGroups {
   swarm {
     userGroups {
-      queryableGroups {
+      queryable {
         totalCount
         nodes {
           id

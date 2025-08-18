@@ -1,7 +1,7 @@
 query ListUsers {
   swarm {
     users {
-      queryableUsers {
+      queryable {
         nodes {
           id
         }
