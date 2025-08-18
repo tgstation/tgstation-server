@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using System.Reflection;
 
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Extensions;
@@ -194,28 +194,36 @@ namespace Tgstation.Server.Host.Models
 			Debug.Assert(n == subInputTransformerExpressions.Length, $"{nameof(subInputTransformerExpressions)}.{nameof(Array.Length)} != n");
 
 			var primaryInput = global::System.Linq.Expressions.Expression.Parameter(typeof(TInput), "input");
+			var nullabilityInfoContext = new NullabilityInfoContext();
 
 			var finalExpressionParameters = new Expression[n + 1];
 			finalExpressionParameters[0] = primaryInput;
 
 			for (int i = 0; i < n; i++)
 			{
-				var subInputExpression = global::System.Linq.Expressions.Expression.Invoke(subInputSelectionExpressions[i], primaryInput);
+				var subInputSelectionExpression = subInputSelectionExpressions[i];
+				var subInputExpression = global::System.Linq.Expressions.Expression.Invoke(subInputSelectionExpression, primaryInput);
 
 				var subInputType = subInputTypes[i];
-				bool isCollection = false;
-				if (subInputType.IsGenericType)
+				bool isNullable = true; // assume
+				if (subInputSelectionExpression.Body is MemberExpression memberExpression)
 				{
-					var genericType = subInputType.GetGenericTypeDefinition();
-					if (typeof(IEnumerable<>).IsAssignableFrom(genericType))
-					{
-						isCollection = true;
-					}
+					NullabilityInfo? nullabilityInfo;
+					if (memberExpression.Member is PropertyInfo propertyInfo)
+						nullabilityInfo = nullabilityInfoContext.Create(propertyInfo);
+					else if (memberExpression.Member is FieldInfo fieldInfo)
+						nullabilityInfo = nullabilityInfoContext.Create(fieldInfo);
+					else
+						nullabilityInfo = null;
+
+					isNullable = !(nullabilityInfo?.ReadState.HasFlag(NullabilityState.NotNull) ?? false);
 				}
+				else if (subInputType.IsValueType)
+					isNullable = subInputType.IsGenericType && subInputType.GetGenericTypeDefinition() == typeof(Nullable<>);
 
 				Expression subOutputExpression = global::System.Linq.Expressions.Expression.Invoke(subInputTransformerExpressions[i], subInputExpression);
 
-				if (!isCollection)
+				if (isNullable)
 				{
 					var notNullExpression = global::System.Linq.Expressions.Expression.MakeBinary(
 						ExpressionType.NotEqual,
