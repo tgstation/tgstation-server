@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.GraphQL.Transformers
 {
 	/// <summary>
-	/// <see cref="Models.ITransformer{TInput, TOutput}"/> for <see cref="Types.UserGroup"/>s.
+	/// <see cref="Models.ITransformer{TInput, TOutput}"/> for <see cref="UserGroup"/>s.
 	/// </summary>
 	sealed class UserGroupTransformer : Models.TransformerBase<Models.UserGroup, UserGroup>
 	{
