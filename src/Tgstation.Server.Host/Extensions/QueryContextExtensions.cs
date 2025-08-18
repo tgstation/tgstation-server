@@ -13,6 +13,48 @@ namespace Tgstation.Server.Host.Extensions
 	static class QueryContextExtensions
 	{
 		/// <summary>
+		/// Convert a <see cref="QueryContext{TEntity}"/> to an equivalent one that operates on a given <typeparamref name="TChild"/> of the original <typeparamref name="TParent"/>.
+		/// </summary>
+		/// <typeparam name="TParent">The parent <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TChild">The child <see cref="Type"/>.</typeparam>
+		/// <param name="queryContext">The <see cref="QueryContext{TEntity}"/> to transform.</param>
+		/// <returns>A new <see cref="QueryContext{TEntity}"/> for <typeparamref name="TChild"/> that is functionally identical to the original <paramref name="queryContext"/>.</returns>
+		public static QueryContext<TChild> UpcastFrom<TParent, TChild>(this QueryContext<TParent> queryContext)
+			where TChild : TParent
+		{
+			ArgumentNullException.ThrowIfNull(queryContext);
+
+			var parameter = Expression.Parameter(typeof(TChild), "child");
+			Expression<Func<TChild, TChild>>? selector = null;
+			if (queryContext.Selector != null)
+			{
+				Expression<Func<TParent, TChild>> upcast = parent => (TChild)parent!;
+				selector = Expression.Lambda<Func<TChild, TChild>>(
+					Expression.Invoke(
+						upcast,
+						Expression.Invoke(
+							queryContext.Selector,
+							parameter)),
+					parameter);
+			}
+
+			Expression<Func<TChild, bool>>? predicate = null;
+			if (queryContext.Predicate != null)
+				predicate = Expression.Lambda<Func<TChild, bool>>(
+					queryContext.Predicate,
+					parameter);
+
+			SortDefinition<TChild>? sortDefinition = null;
+			if (queryContext.Sorting?.Operations.Length > 0)
+				throw new NotImplementedException();
+
+			return new QueryContext<TChild>(
+				selector,
+				predicate,
+				sortDefinition);
+		}
+
+		/// <summary>
 		/// Translate a given <paramref name="queryContext"/> into one with the target wrapped in an <see cref="AuthorityResponse{TResult}"/>.
 		/// </summary>
 		/// <typeparam name="TResult">The result <see cref="Type"/> of the <paramref name="queryContext"/>.</typeparam>

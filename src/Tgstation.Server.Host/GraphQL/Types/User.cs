@@ -127,7 +127,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <returns>The <see cref="IUserName"/> that created this <see cref="User"/>, if any.</returns>
 		public async ValueTask<IUserName?> CreatedBy(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
-			QueryContext<User>? queryContext,
+			QueryContext<IUserName>? queryContext,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
@@ -135,7 +135,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			// This one is particular and cannot be data-loaded due to necessitating a different parameter
 			var user = await userAuthority.InvokeTransformable<Models.User, User, UserTransformer>(
 				authority => authority.GetId<User>(CreatedById, true, cancellationToken),
-				queryContext);
+				queryContext?.UpcastFrom<IUserName, User>());
 			if (user == null)
 				throw new InvalidOperationException($"Query for created by of user ID {CreatedById} returned null!");
 
