@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="User"/>s the <see cref="UserGroup"/> has.
 		/// </summary>
-		public ICollection<User>? Users { get; set; }
+		public required ICollection<User> Users { get; set; }
 
 		/// <summary>
 		/// Convert the <see cref="UserGroup"/> to it's API form.

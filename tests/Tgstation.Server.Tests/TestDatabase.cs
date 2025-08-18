@@ -88,6 +88,7 @@ namespace Tgstation.Server.Tests
 					InstanceManagerRights = InstanceManagerRights.GrantPermissions
 				},
 				Name = "TestGroup",
+				Users = new List<Host.Models.User>(),
 			};
 
 			const string TestUserName = "TestUser42";

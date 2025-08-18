@@ -184,6 +184,7 @@ namespace Tgstation.Server.Host.Authority
 					{
 						Name = name,
 						PermissionSet = modelPermissionSet,
+						Users = new List<User>(),
 					};
 
 					DatabaseContext.Groups.Add(dbGroup);
