@@ -254,7 +254,7 @@ namespace Tgstation.Server.Host.Authority
 				() => Queryable(false)
 					.SelectMany(user => user.OidcConnections!)
 					.OrderBy(connection => connection.SchemeKey)
-					.TagWith("Get User OIdcConnections"));
+					.TagWith("Get User OidcConnections"));
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
