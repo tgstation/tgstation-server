@@ -16,6 +16,10 @@
     <ProjectReference Include="..\Tgstation.Server.Client\Tgstation.Server.Client.csproj" />
     <ProjectReference Include="..\Tgstation.Server.Host\Tgstation.Server.Host.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <UpToDateCheckInput Include="../../artifacts/tgs-api.graphql" />
+  </ItemGroup>
 
   <Target Name="DeleteGeneratedFiles" BeforeTargets="ImportGraphQLApiSchema">
     <RemoveDir Directories="$(IntermediateOutputPath)berry" />
