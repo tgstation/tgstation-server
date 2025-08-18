@@ -59,7 +59,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// </summary>
 		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
 		/// <returns>A <see cref="IQueryable{T}"/> of all registered <see cref="UserGroup"/>s.</returns>
-		[UsePaging]
+		[UsePaging(ConnectionName = $"{nameof(UserGroup)}s")]
 		[UseProjection]
 		[UseFiltering]
 		[UseSorting]
@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="groupId">The <see cref="UserGroup"/> <see cref="Entity.Id"/>.</param>
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <returns>A <see cref="IQueryable{T}"/> of all registered <see cref="User"/>s in the <see cref="UserGroup"/> indicated by <paramref name="groupId"/>.</returns>
-		[UsePaging]
+		[UsePaging(ConnectionName = $"{nameof(User)}s")]
 		[UseProjection]
 		[UseFiltering]
 		[UseSorting]

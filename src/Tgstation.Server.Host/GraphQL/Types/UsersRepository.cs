@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// </summary>
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <returns>A <see cref="IQueryable{T}"/> of all registered <see cref="User"/>s.</returns>
-		[UsePaging]
+		[UsePaging(ConnectionName = $"{nameof(User)}s")]
 		[UseProjection]
 		[UseFiltering]
 		[UseSorting]
