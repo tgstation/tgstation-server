@@ -13,6 +13,7 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Controllers.Results;
+using Tgstation.Server.Host.Controllers.Transformers;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -129,7 +130,9 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(UserGroupResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
-			=> userGroupAuthority.InvokeTransformable<UserGroup, UserGroupResponse>(this, authority => authority.GetId(id, true, cancellationToken));
+			=> userGroupAuthority.InvokeTransformable<UserGroup, UserGroupResponse, UserGroupResponseTransformer>(
+				this,
+				authority => authority.GetId<UserGroupResponse>(id, cancellationToken));
 
 		/// <summary>
 		/// Lists all <see cref="UserGroup"/>s.
