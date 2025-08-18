@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
 
@@ -201,19 +202,33 @@ namespace Tgstation.Server.Host.Models
 			{
 				var subInputExpression = global::System.Linq.Expressions.Expression.Invoke(subInputSelectionExpressions[i], primaryInput);
 
-				var notNullExpression = global::System.Linq.Expressions.Expression.MakeBinary(
-					ExpressionType.NotEqual,
-					subInputExpression,
-					global::System.Linq.Expressions.Expression.Constant(null, subInputTypes[i]));
+				var subInputType = subInputTypes[i];
+				bool isCollection = false;
+				if (subInputType.IsGenericType)
+				{
+					var genericType = subInputType.GetGenericTypeDefinition();
+					if (typeof(IEnumerable<>).IsAssignableFrom(genericType))
+					{
+						isCollection = true;
+					}
+				}
 
-				var subOutputExpression = global::System.Linq.Expressions.Expression.Invoke(subInputTransformerExpressions[i], subInputExpression);
+				Expression subOutputExpression = global::System.Linq.Expressions.Expression.Invoke(subInputTransformerExpressions[i], subInputExpression);
 
-				var conditionalSubOutputExpression = global::System.Linq.Expressions.Expression.Condition(
-					notNullExpression,
-					subOutputExpression,
-					global::System.Linq.Expressions.Expression.Constant(null, subOutputTypes[i]));
+				if (!isCollection)
+				{
+					var notNullExpression = global::System.Linq.Expressions.Expression.MakeBinary(
+						ExpressionType.NotEqual,
+						subInputExpression,
+						global::System.Linq.Expressions.Expression.Constant(null, subInputType));
 
-				finalExpressionParameters[i + 1] = conditionalSubOutputExpression;
+					subOutputExpression = global::System.Linq.Expressions.Expression.Condition(
+						notNullExpression,
+						subOutputExpression,
+						global::System.Linq.Expressions.Expression.Constant(null, subOutputTypes[i]));
+				}
+
+				finalExpressionParameters[i + 1] = subOutputExpression;
 			}
 
 			var outputExpression = global::System.Linq.Expressions.Expression.Invoke(
