@@ -15,6 +15,7 @@ namespace Tgstation.Server.Host.Controllers.Transformers
 			: base(
 				  model => new PermissionSet
 				  {
+					  Id = model.Id,
 					  AdministrationRights = model.AdministrationRights ?? NotNullFallback<AdministrationRights>(),
 					  InstanceManagerRights = model.InstanceManagerRights ?? NotNullFallback<InstanceManagerRights>(),
 				  })
