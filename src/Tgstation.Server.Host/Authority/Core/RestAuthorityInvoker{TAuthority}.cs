@@ -162,10 +162,9 @@ namespace Tgstation.Server.Host.Authority.Core
 			if (projectable == null)
 				return controller.Forbid();
 
-			var transformer = new TTransformer();
 			var authorityResponse = await projectable.Resolve(
 				queryable => queryable
-					.Select(transformer.ProjectedExpression)
+					.Select(new TTransformer().ProjectedExpression)
 					.TagWith("REST Projections Applied"));
 			var erroredResult = CreateErroredActionResult(controller, authorityResponse);
 			if (erroredResult != null)
