@@ -172,6 +172,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="StrawberryShake.Server" Version="15.1.9" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 </Project>
