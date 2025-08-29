@@ -370,8 +370,8 @@ jobs:
       - name: Retrieve dotnet-ef Nuget Version
         id: dotnet-ef-nuget
         run: |
-          regex='\s+<PackageReference Include="Microsoft.EntityFrameworkCore" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
-          if [[ $(cat src/Tgstation.Server.Host/Tgstation.Server.Host.csproj) =~ $regex ]]; then
+          regex='\s+<PackageVersion Include="Microsoft.EntityFrameworkCore" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
+          if [[ $(cat Directory.Packages.props) =~ $regex ]]; then
             echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
           else
             echo "Regex search failed!"
@@ -392,8 +392,8 @@ jobs:
       - name: Retrieve StrawberryShake Nuget Version
         id: strawberry-nuget
         run: |
-          regex='\s+<PackageReference Include="StrawberryShake.Server" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
-          if [[ $(cat src/Tgstation.Server.Host.Utils.GitLab.GraphQL/Tgstation.Server.Host.Utils.GitLab.GraphQL.csproj) =~ $regex ]]; then
+          regex='\s+<PackageVersion Include="StrawberryShake.Server" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
+          if [[ $(cat Directory.Packages.props) =~ $regex ]]; then
             echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
           else
             echo "Regex search failed!"
