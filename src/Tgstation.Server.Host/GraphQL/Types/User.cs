@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// A user registered in the server.
 	/// </summary>
 	[Node]
-	public sealed class User : UserName
+	public sealed class User : NamedEntity, IUserName
 	{
 		/// <inheritdoc />
 		[IsProjected(true)]
@@ -133,16 +133,24 @@ namespace Tgstation.Server.Host.GraphQL.Types
 			ArgumentNullException.ThrowIfNull(userAuthority);
 
 			// This one is particular and cannot be data-loaded due to necessitating a different parameter
-			var user = await userAuthority.InvokeTransformable<Models.User, User, UserTransformer>(
-				authority => authority.GetId<User>(CreatedById, true, cancellationToken),
-				queryContext?.UpcastFrom<IUserName, User>());
-			if (user == null)
-				throw new InvalidOperationException($"Query for created by of user ID {CreatedById} returned null!");
+			try
+			{
+				var temp = (User)null!;
+				var user = await userAuthority.InvokeTransformable<Models.User, User, UserTransformer>(
+					authority => authority.GetId<User>(CreatedById, true, cancellationToken),
+					queryContext?.UpcastFrom(() => temp));
+				if (user == null)
+					throw new InvalidOperationException($"Query for created by of user ID {CreatedById} returned null!");
 
-			if (user.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
-				return new UserName(user);
+				if (user.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
+					return new UserName(user);
 
-			return user;
+				return user;
+			}
+			catch
+			{
+				throw;
+			}
 		}
 
 		/// <summary>

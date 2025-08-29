@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly CancellationTokenSource lockLogCts;
 
 		/// <summary>
-		/// Map of <see cref="CompileJob.JobId"/>s to locks on them.
+		/// Map of <see cref="CompileJob"/>s <see cref="Job"/> <see cref="EntityId.Id"/> to locks on them.
 		/// </summary>
 		readonly Dictionary<long, DeploymentLockManager> jobLockManagers;
 

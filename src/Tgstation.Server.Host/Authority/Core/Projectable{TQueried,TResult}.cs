@@ -18,7 +18,6 @@ namespace Tgstation.Server.Host.Authority.Core
 	/// <typeparam name="TResult">The transformed result <see cref="Type"/>.</typeparam>
 	public sealed class Projectable<TQueried, TResult>
 		where TQueried : EntityId
-		where TResult : notnull
 	{
 		/// <summary>
 		/// The underlying <see cref="IQueryable{T}"/>. Should only select one entity.
@@ -195,7 +194,8 @@ namespace Tgstation.Server.Host.Authority.Core
 		public async ValueTask<AuthorityResponse<TResult>> Resolve(Func<IQueryable<TQueried>, IQueryable<ProjectedPair<TQueried, TResult>>> projection)
 		{
 			ArgumentNullException.ThrowIfNull(projection);
-			var finalQueryable = projection(query)
+			var projectedQueryable = projection(query);
+			var finalQueryable = projectedQueryable
 				.Select(selector);
 			var selection = await finalQueryable
 				.FirstOrDefaultAsync(cancellationToken);

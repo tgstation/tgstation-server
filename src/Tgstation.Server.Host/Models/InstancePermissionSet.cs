@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-using Tgstation.Server.Api.Models.Response;
+﻿using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -20,14 +18,12 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="Models.Instance"/> the <see cref="InstancePermissionSet"/> belongs to.
 		/// </summary>
-		[Required]
-		public Instance? Instance { get; set; }
+		public Instance Instance { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// The <see cref="Models.PermissionSet"/> the <see cref="InstancePermissionSet"/> belongs to.
 		/// </summary>
-		[Required]
-		public PermissionSet? PermissionSet { get; set; }
+		public PermissionSet PermissionSet { get; set; } = null!; // recommended by EF
 
 		/// <inheritdoc />
 		public InstancePermissionSetResponse ToApi() => new()

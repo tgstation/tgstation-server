@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -16,14 +15,12 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="Models.TestMerge"/>.
 		/// </summary>
-		[Required]
-		public TestMerge TestMerge { get; set; }
+		public TestMerge TestMerge { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// The <see cref="Models.RevisionInformation"/>.
 		/// </summary>
-		[Required]
-		public RevisionInformation RevisionInformation { get; set; }
+		public RevisionInformation RevisionInformation { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RevInfoTestMerge"/> class.
@@ -31,8 +28,6 @@ namespace Tgstation.Server.Host.Models
 		[Obsolete("For use by EFCore only", true)]
 		public RevInfoTestMerge()
 		{
-			TestMerge = null!;
-			RevisionInformation = null!;
 		}
 
 		/// <summary>

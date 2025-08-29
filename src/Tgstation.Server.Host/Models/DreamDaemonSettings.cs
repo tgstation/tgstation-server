@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Tgstation.Server.Host.Models
+﻿namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
 	public sealed class DreamDaemonSettings : Api.Models.Internal.DreamDaemonSettings
@@ -18,7 +16,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The parent <see cref="Models.Instance"/>.
 		/// </summary>
-		[Required]
-		public Instance? Instance { get; set; }
+		public Instance Instance { get; set; } = null!; // recommended by EF
 	}
 }

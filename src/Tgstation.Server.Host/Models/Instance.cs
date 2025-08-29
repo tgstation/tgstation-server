@@ -17,17 +17,17 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="Models.DreamMakerSettings"/> for the <see cref="Instance"/>.
 		/// </summary>
-		public DreamMakerSettings? DreamMakerSettings { get; set; }
+		public DreamMakerSettings DreamMakerSettings { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// The <see cref="Models.DreamDaemonSettings"/> for the <see cref="Instance"/>.
 		/// </summary>
-		public DreamDaemonSettings? DreamDaemonSettings { get; set; }
+		public DreamDaemonSettings DreamDaemonSettings { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// The <see cref="Models.RepositorySettings"/> for the <see cref="Instance"/>.
 		/// </summary>
-		public RepositorySettings? RepositorySettings { get; set; }
+		public RepositorySettings RepositorySettings { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// The <see cref="Api.Models.Internal.SwarmServer.Identifier"/> of the the server in the swarm this instance belongs to.
@@ -37,33 +37,22 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="InstancePermissionSet"/>s in the <see cref="Instance"/>.
 		/// </summary>
-		public ICollection<InstancePermissionSet> InstancePermissionSets { get; set; }
+		public ICollection<InstancePermissionSet> InstancePermissionSets { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// The <see cref="ChatBot"/>s for the <see cref="Instance"/>.
 		/// </summary>
-		public ICollection<ChatBot> ChatSettings { get; set; }
+		public ICollection<ChatBot> ChatSettings { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// The <see cref="RevisionInformation"/>s in the <see cref="Instance"/>.
 		/// </summary>
-		public ICollection<RevisionInformation> RevisionInformations { get; set; }
+		public ICollection<RevisionInformation> RevisionInformations { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// The <see cref="Job"/>s in the <see cref="Instance"/>.
 		/// </summary>
-		public ICollection<Job> Jobs { get; set; }
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Instance"/> class.
-		/// </summary>
-		public Instance()
-		{
-			InstancePermissionSets = new List<InstancePermissionSet>();
-			ChatSettings = new List<ChatBot>();
-			RevisionInformations = new List<RevisionInformation>();
-			Jobs = new List<Job>();
-		}
+		public ICollection<Job> Jobs { get; set; } = null!; // recommended by EF
 
 		/// <inheritdoc />
 		public InstanceResponse ToApi() => new()

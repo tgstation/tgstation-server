@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -11,8 +10,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="Models.CompileJob"/> for the <see cref="Components.Session.ReattachInformation.Dmb"/>.
 		/// </summary>
-		[Required]
-		public CompileJob? CompileJob { get; set; }
+		public CompileJob CompileJob { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="CompileJob"/>.

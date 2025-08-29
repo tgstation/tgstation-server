@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Models
 		/// The owning <see cref="Models.User"/>.
 		/// </summary>
 		[Required]
-		public User? User { get; set; }
+		public User User { get; set; } = null!; // recommended by EF
 
 		/// <inheritdoc />
 		public Api.Models.OidcConnection ToApi() => new()

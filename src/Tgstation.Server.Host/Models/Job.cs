@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 using Tgstation.Server.Api.Models;
@@ -17,8 +16,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="JobResponse.StartedBy"/>.
 		/// </summary>
-		[Required]
-		public User? StartedBy { get; set; }
+		public User StartedBy { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// See <see cref="JobResponse.CancelledBy"/>.
@@ -28,8 +26,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="Models.Instance"/> the job belongs to if any.
 		/// </summary>
-		[Required]
-		public Instance? Instance { get; set; }
+		public Instance Instance { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// Creates a new job for registering in the <see cref="Jobs.IJobService"/>.
@@ -91,7 +88,7 @@ namespace Tgstation.Server.Host.Models
 		/// <param name="cancelRight">The value of <see cref="Api.Models.Internal.Job.CancelRight"/>.</param>
 		Job(JobCode code, User? startedBy, Api.Models.Instance instance, RightsType? cancelRightsType, ulong? cancelRight)
 		{
-			StartedBy = startedBy;
+			StartedBy = startedBy!; // allowed to be null here, set to TGS user if so later
 			ArgumentNullException.ThrowIfNull(instance);
 			Instance = new Instance
 			{

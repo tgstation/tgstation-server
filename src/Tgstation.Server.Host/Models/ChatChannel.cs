@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="ChatBot"/>.
 		/// </summary>
-		public ChatBot? ChatSettings { get; set; }
+		public ChatBot ChatSettings { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// Convert to a <see cref="Api.Models.ChatChannel"/>.

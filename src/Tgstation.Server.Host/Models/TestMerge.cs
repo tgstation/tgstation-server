@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -10,24 +9,22 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.TestMerge.MergedBy"/>.
 		/// </summary>
-		[Required]
-		public User? MergedBy { get; set; }
+		public User MergedBy { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// The initial <see cref="RevisionInformation"/> the <see cref="TestMerge"/> was merged with.
 		/// </summary>
-		[Required]
-		public RevisionInformation? PrimaryRevisionInformation { get; set; }
+		public RevisionInformation PrimaryRevisionInformation { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// Foreign key for <see cref="PrimaryRevisionInformation"/>.
 		/// </summary>
-		public long? PrimaryRevisionInformationId { get; set; }
+		public long PrimaryRevisionInformationId { get; set; }
 
 		/// <summary>
 		/// All the <see cref="RevInfoTestMerge"/> for the <see cref="TestMerge"/>.
 		/// </summary>
-		public ICollection<RevInfoTestMerge>? RevisonInformations { get; set; }
+		public ICollection<RevInfoTestMerge> RevisonInformations { get; set; } = null!; // recommended by EF
 
 		/// <inheritdoc />
 		public Api.Models.TestMerge ToApi() => new()

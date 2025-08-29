@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-using Tgstation.Server.Api.Models.Response;
+﻿using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -20,8 +18,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The parent <see cref="Models.Instance"/>.
 		/// </summary>
-		[Required]
-		public Instance? Instance { get; set; }
+		public Instance Instance { get; set; } = null!; // recommended by EF
 
 		/// <inheritdoc />
 		public RepositoryResponse ToApi() => new()

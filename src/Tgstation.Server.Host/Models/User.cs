@@ -48,9 +48,8 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The uppercase invariant of <see cref="UserName.Name"/>.
 		/// </summary>
-		[Required]
 		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
-		public string? CanonicalName { get; set; }
+		public string CanonicalName { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// When <see cref="PasswordHash"/> was last changed.
@@ -60,22 +59,22 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="User"/>s created by this <see cref="User"/>.
 		/// </summary>
-		public ICollection<User>? CreatedUsers { get; set; }
+		public ICollection<User> CreatedUsers { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>.
 		/// </summary>
-		public ICollection<TestMerge>? TestMerges { get; set; }
+		public ICollection<TestMerge> TestMerges { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// The <see cref="OAuthConnection"/>s for the <see cref="User"/>.
 		/// </summary>
-		public ICollection<OAuthConnection>? OAuthConnections { get; set; }
+		public ICollection<OAuthConnection> OAuthConnections { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// The <see cref="OidcConnection"/>s for the <see cref="User"/>.
 		/// </summary>
-		public ICollection<OidcConnection>? OidcConnections { get; set; }
+		public ICollection<OidcConnection> OidcConnections { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// Change a <see cref="UserName.Name"/> into a <see cref="CanonicalName"/>.

@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="InstancePermissionSet"/>s associated with the <see cref="PermissionSet"/>.
 		/// </summary>
-		public ICollection<InstancePermissionSet>? InstancePermissionSets { get; set; }
+		public ICollection<InstancePermissionSet> InstancePermissionSets { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// Convert the <see cref="PermissionSet"/> to it's API form.

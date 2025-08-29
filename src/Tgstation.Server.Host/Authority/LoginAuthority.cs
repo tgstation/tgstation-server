@@ -257,7 +257,7 @@ namespace Tgstation.Server.Host.Authority
 							Logger.LogDebug("User ID {userId}'s password hash needs a refresh, updating database.", user.Id);
 							var updatedUser = new User
 							{
-								Id = user.Id,
+								Id = user.Require(x => x.Id),
 							};
 							DatabaseContext.Users.Attach(updatedUser);
 							updatedUser.PasswordHash = user.PasswordHash;

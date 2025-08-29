@@ -81,7 +81,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 #pragma warning disable CA1506
 		public async ValueTask<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
-			IEnumerable<Models.TestMerge> results;
+			IEnumerable<(int Number, string TargetCommitSha)> results;
 			var splits = arguments.Split(' ');
 			var hasRepo = splits.Any(x => x.Equals("--repo", StringComparison.OrdinalIgnoreCase));
 			var hasStaged = splits.Any(x => x.Equals("--staged", StringComparison.OrdinalIgnoreCase));
@@ -114,17 +114,22 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 
 				results = null!;
 				await databaseContextFactory.UseContext(
-					async db => results = await db
-						.RevisionInformations
-						.Where(x => x.Instance!.Id == instance.Id && x.CommitSha == head)
-						.SelectMany(x => x.ActiveTestMerges!)
-						.Select(x => x.TestMerge)
-						.Select(x => new Models.TestMerge
-						{
-							Number = x.Number,
-							TargetCommitSha = x.TargetCommitSha,
-						})
-						.ToListAsync(cancellationToken));
+					async db =>
+					{
+						var anonResults = await db
+							.RevisionInformations
+							.Where(x => x.Instance!.Id == instance.Id && x.CommitSha == head)
+							.SelectMany(x => x.ActiveTestMerges!)
+							.Select(x => x.TestMerge)
+							.Select(x => new
+							{
+								x.Number,
+								TargetCommitSha = x.TargetCommitSha!,
+							})
+							.ToListAsync(cancellationToken);
+						results = anonResults
+							.Select(anonResult => (anonResult.Number, anonResult.TargetCommitSha));
+					});
 			}
 			else if (watchdog.Status == WatchdogStatus.Offline)
 				return new MessageContent
@@ -143,7 +148,12 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 						compileJobToUse = null;
 				}
 
-				results = compileJobToUse?.RevisionInformation.ActiveTestMerges?.Select(x => x.TestMerge).ToList() ?? Enumerable.Empty<Models.TestMerge>();
+				results = compileJobToUse
+					?.RevisionInformation
+					.ActiveTestMerges
+					?.Select(x => (x.TestMerge.Number, TargetCommitSha: x.TestMerge.TargetCommitSha!))
+					.ToList()
+					?? Enumerable.Empty<(int Number, string TargetCommitSha)>();
 			}
 
 			return new MessageContent

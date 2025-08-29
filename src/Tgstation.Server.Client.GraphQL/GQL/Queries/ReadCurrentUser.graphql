@@ -43,10 +43,10 @@ query ReadCurrentUser {
             canSetOnline
           }
         }
-# Needs https://github.com/ChilliCream/graphql-platform/issues/8313
-#        createdBy {
-#          id
-#          name
+        createdById # Need https://github.com/ChilliCream/graphql-platform/issues/8313 to remove
+        createdBy {
+          id
+          name
         }
       }
     }

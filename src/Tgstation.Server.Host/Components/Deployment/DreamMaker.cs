@@ -315,10 +315,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 									CommitSha = repoSha,
 									Timestamp = await repo.TimestampCommit(repoSha, cancellationToken),
 									OriginCommitSha = repoSha,
-									Instance = new Models.Instance
-									{
-										Id = metadata.Id,
-									},
+									InstanceId = metadata.Require(x => x.Id),
 									ActiveTestMerges = new List<RevInfoTestMerge>(),
 								};
 
@@ -335,6 +332,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						}
 					});
 
+				var notNullRevInfo = revInfo!;
 				Models.CompileJob? oldCompileJob;
 				using (repo)
 				{
@@ -346,7 +344,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					compileJob = await Compile(
 						job,
 						oldCompileJob,
-						revInfo!,
+						notNullRevInfo,
 						dreamMakerSettings!,
 						ddSettings!,
 						repo!,
@@ -367,7 +365,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							var fullRevInfo = compileJob.RevisionInformation;
 							compileJob.RevisionInformation = new Models.RevisionInformation
 							{
-								Id = revInfo!.Id,
+								Id = notNullRevInfo.Id,
 							};
 
 							databaseContext.Jobs.Attach(compileJob.Job);
@@ -523,8 +521,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 					repository.RemoteRepositoryName,
 					localCommitExistsOnRemote);
 
-				var compileJob = new Models.CompileJob(job, revisionInformation, engineLock.Version.ToString())
+				var compileJob = new Models.CompileJob
 				{
+					Job = job,
+					RevisionInformation = revisionInformation,
+					EngineVersion = engineLock.Version.ToString(),
 					DirectoryName = Guid.NewGuid(),
 					DmeName = dreamMakerSettings.ProjectName,
 					RepositoryOrigin = repository.Origin.ToString(),

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 using Tgstation.Server.Api.Models;
@@ -16,13 +15,12 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="Models.PermissionSet"/> the <see cref="UserGroup"/> has.
 		/// </summary>
-		[Required]
-		public PermissionSet? PermissionSet { get; set; }
+		public required PermissionSet PermissionSet { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// The <see cref="User"/>s the <see cref="UserGroup"/> has.
 		/// </summary>
-		public required ICollection<User> Users { get; set; }
+		public required ICollection<User> Users { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// Convert the <see cref="UserGroup"/> to it's API form.

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Tgstation.Server.Host.Models
+﻿namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.OAuthConnection" />
 	public sealed class OAuthConnection : Api.Models.OAuthConnection,
@@ -19,8 +17,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The owning <see cref="Models.User"/>.
 		/// </summary>
-		[Required]
-		public User? User { get; set; }
+		public User User { get; set; } = null!; // recommended by EF
 
 		/// <inheritdoc />
 		public Api.Models.OAuthConnection ToApi() => new()

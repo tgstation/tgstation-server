@@ -326,7 +326,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				if (originalChatBot != null)
 					activeChatBots.Remove(originalChatBot);
 
-				activeChatBots.Add(new Models.ChatBot(newSettings.Channels)
+				activeChatBots.Add(new Models.ChatBot
 				{
 					Id = newSettings.Id,
 					ConnectionString = newSettings.ConnectionString,
@@ -334,6 +334,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					Name = newSettings.Name,
 					ReconnectionInterval = newSettings.ReconnectionInterval,
 					Provider = newSettings.Provider,
+					Channels = newSettings.Channels,
 				});
 			}
 

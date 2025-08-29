@@ -1,7 +1,5 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
-using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
@@ -12,25 +10,22 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="CompileJobResponse.Job"/>.
 		/// </summary>
-		[Required]
-		public Job Job { get; set; }
+		public required Job Job { get; set; }
 
 		/// <summary>
-		/// The <see cref="EntityId.Id"/> of <see cref="Job"/>.
+		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="Job"/>.
 		/// </summary>
-		public long JobId { get; set; }
+		public long JobId { get; set; } // Needed to determine the dependent side of the FK relationship
 
 		/// <summary>
 		/// See <see cref="CompileJobResponse.RevisionInformation"/>.
 		/// </summary>
-		[Required]
-		public RevisionInformation RevisionInformation { get; set; }
+		public required RevisionInformation RevisionInformation { get; set; }
 
 		/// <summary>
 		/// The <see cref="Version"/> the <see cref="CompileJob"/> was made with in string form.
 		/// </summary>
-		[Required]
-		public string EngineVersion { get; set; }
+		public required string EngineVersion { get; set; }
 
 		/// <summary>
 		/// Backing field for <see cref="Version.Major"/> of <see cref="DMApiVersion"/>.
@@ -79,47 +74,6 @@ namespace Tgstation.Server.Host.Models
 				DMApiMinorVersion = value?.Minor;
 				DMApiPatchVersion = value?.Build;
 			}
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CompileJob"/> class.
-		/// </summary>
-		[Obsolete("For use by EFCore only", true)]
-		public CompileJob()
-			: this(null!, null!, null!, false)
-		{
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CompileJob"/> class.
-		/// </summary>
-		/// <param name="job">The value of <see cref="Job"/>.</param>
-		/// <param name="revisionInformation">The value of <see cref="RevisionInformation"/>.</param>
-		/// <param name="engineVersion">The value of <see cref="EngineVersion"/>.</param>
-		public CompileJob(Job job, RevisionInformation revisionInformation, string engineVersion)
-			: this(job, revisionInformation, engineVersion, true)
-		{
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CompileJob"/> class.
-		/// </summary>
-		/// <param name="job">The value of <see cref="Job"/>.</param>
-		/// <param name="revisionInformation">The value of <see cref="RevisionInformation"/>.</param>
-		/// <param name="engineVersion">The value of <see cref="EngineVersion"/>.</param>
-		/// <param name="nullChecks">If <paramref name="job"/>, <paramref name="revisionInformation"/>, and <paramref name="engineVersion"/> should be checked for nulls.</param>
-		CompileJob(Job job, RevisionInformation revisionInformation, string engineVersion, bool nullChecks)
-		{
-			if (nullChecks)
-			{
-				ArgumentNullException.ThrowIfNull(job);
-				ArgumentNullException.ThrowIfNull(revisionInformation);
-				ArgumentNullException.ThrowIfNull(engineVersion);
-			}
-
-			Job = job;
-			RevisionInformation = revisionInformation;
-			EngineVersion = engineVersion;
 		}
 
 		/// <inheritdoc />

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Tgstation.Server.Host.Models
@@ -21,8 +20,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="Models.Instance"/> the <see cref="RevisionInformation"/> belongs to.
 		/// </summary>
-		[Required]
-		public Instance? Instance { get; set; }
+		public Instance Instance { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// See <see cref="Api.Models.RevisionInformation.PrimaryTestMerge"/>.
@@ -32,12 +30,12 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.RevisionInformation.ActiveTestMerges"/>.
 		/// </summary>
-		public ICollection<RevInfoTestMerge>? ActiveTestMerges { get; set; }
+		public ICollection<RevInfoTestMerge> ActiveTestMerges { get; set; } = null!; // recommended by EF
 
 		/// <summary>
 		/// See <see cref="CompileJob"/>s made from this <see cref="RevisionInformation"/>.
 		/// </summary>
-		public ICollection<CompileJob>? CompileJobs { get; set; }
+		public ICollection<CompileJob> CompileJobs { get; set; } = null!; // recommended by EF
 
 		/// <inheritdoc />
 		public Api.Models.RevisionInformation ToApi() => new()

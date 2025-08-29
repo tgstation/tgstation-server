@@ -18,9 +18,10 @@ namespace Tgstation.Server.Host.Extensions
 		/// <typeparam name="TParent">The parent <see cref="Type"/>.</typeparam>
 		/// <typeparam name="TChild">The child <see cref="Type"/>.</typeparam>
 		/// <param name="queryContext">The <see cref="QueryContext{TEntity}"/> to transform.</param>
+		/// <param name="fallback">A <typeparamref name="TChild"/> used in cas the <see cref="QueryContext{TEntity}.Selector"/> conversion does not yield a <typeparamref name="TChild"/>.</param>
 		/// <returns>A new <see cref="QueryContext{TEntity}"/> for <typeparamref name="TChild"/> that is functionally identical to the original <paramref name="queryContext"/>.</returns>
-		public static QueryContext<TChild> UpcastFrom<TParent, TChild>(this QueryContext<TParent> queryContext)
-			where TChild : TParent
+		public static QueryContext<TChild> UpcastFrom<TParent, TChild>(this QueryContext<TParent> queryContext, Expression<Func<TChild>> fallback)
+			where TChild : class, TParent
 		{
 			ArgumentNullException.ThrowIfNull(queryContext);
 
@@ -28,13 +29,14 @@ namespace Tgstation.Server.Host.Extensions
 			Expression<Func<TChild, TChild>>? selector = null;
 			if (queryContext.Selector != null)
 			{
-				Expression<Func<TParent, TChild>> upcast = parent => (TChild)parent!;
+				Expression<Func<TParent, Func<TChild>, TChild>> upcast = (parent, fallback) => (parent as TChild) ?? fallback();
 				selector = Expression.Lambda<Func<TChild, TChild>>(
 					Expression.Invoke(
 						upcast,
 						Expression.Invoke(
 							queryContext.Selector,
-							parameter)),
+							parameter),
+						fallback),
 					parameter);
 			}
 
