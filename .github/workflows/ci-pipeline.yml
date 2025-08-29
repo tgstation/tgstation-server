@@ -363,9 +363,13 @@ jobs:
         id: wix-tool
         run: echo "version=$(cat build/package/winget/.config/dotnet-tools.json | jq -r '.tools.wix.version')" >> $GITHUB_OUTPUT
 
-      - name: Retrieve StrawberryShake Tool Version
-        id: strawberry-tool
+      - name: Retrieve StrawberryShake Tool Version 1
+        id: strawberry-tool-1
         run: echo "version=$(cat src/Tgstation.Server.Host.Utils.GitLab.GraphQL/.config/dotnet-tools.json | jq -r '.tools."strawberryshake.tools".version')" >> $GITHUB_OUTPUT
+
+      - name: Retrieve StrawberryShake Tool Version 2
+        id: strawberry-tool-2
+        run: echo "version=$(cat src/Tgstation.Server.Client.GraphQL/.config/dotnet-tools.json | jq -r '.tools."strawberryshake.tools".version')" >> $GITHUB_OUTPUT
 
       - name: Retrieve dotnet-ef Nuget Version
         id: dotnet-ef-nuget
@@ -413,9 +417,9 @@ jobs:
           exit 1
 
       - name: Fail if StrawberryShake Versions Don't Match
-        if: ${{ steps.strawberry-tool.outputs.version != steps.strawberry-nuget.outputs.version }}
+        if: ${{ steps.strawberry-tool-1.outputs.version != steps.strawberry-nuget.outputs.version || steps.strawberry-tool-2.outputs.version != steps.strawberry-nuget.outputs.version }}
         run: |
-          echo "${{ steps.strawberry-tool.outputs.version }} != ${{ steps.strawberry-nuget.outputs.version }}"
+          echo "${{ steps.strawberry-tool-1.outputs.version }} != ${{ steps.strawberry-nuget.outputs.version }} || ${{ steps.strawberry-tool-2.outputs.version }} != ${{ steps.strawberry-nuget.outputs.version }}"
           exit 1
 
   pages-build:
