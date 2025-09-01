@@ -2,7 +2,7 @@ var searchData=
 [
   ['taskextensions_2ecs_0',['TaskExtensions.cs',['../_task_extensions_8cs.html',1,'']]],
   ['temporarydmbprovider_2ecs_1',['TemporaryDmbProvider.cs',['../_temporary_dmb_provider_8cs.html',1,'']]],
-  ['testmerge_2ecs_2',['testmerge.cs',['../_tgstation_8_server_8_host_2_models_2_test_merge_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_test_merge_8cs.html',1,'(Global Namespace)']]],
+  ['testmerge_2ecs_2',['testmerge.cs',['../_tgstation_8_server_8_api_2_models_2_test_merge_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_test_merge_8cs.html',1,'(Global Namespace)']]],
   ['testmergeapibase_2ecs_3',['TestMergeApiBase.cs',['../_test_merge_api_base_8cs.html',1,'']]],
   ['testmergeinformation_2ecs_4',['TestMergeInformation.cs',['../_test_merge_information_8cs.html',1,'']]],
   ['testmergemodelbase_2ecs_5',['TestMergeModelBase.cs',['../_test_merge_model_base_8cs.html',1,'']]],

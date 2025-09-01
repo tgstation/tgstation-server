@@ -20,7 +20,7 @@ var searchData=
   ['repositorymanager_2ecs_17',['RepositoryManager.cs',['../_repository_manager_8cs.html',1,'']]],
   ['repositoryresponse_2ecs_18',['RepositoryResponse.cs',['../_repository_response_8cs.html',1,'']]],
   ['repositoryrights_2ecs_19',['RepositoryRights.cs',['../_repository_rights_8cs.html',1,'']]],
-  ['repositorysettings_2ecs_20',['repositorysettings.cs',['../_tgstation_8_server_8_host_2_models_2_repository_settings_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_repository_settings_8cs.html',1,'(Global Namespace)']]],
+  ['repositorysettings_2ecs_20',['repositorysettings.cs',['../_tgstation_8_server_8_api_2_models_2_repository_settings_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_repository_settings_8cs.html',1,'(Global Namespace)']]],
   ['repositoryupdaterequest_2ecs_21',['RepositoryUpdateRequest.cs',['../_repository_update_request_8cs.html',1,'']]],
   ['repositoryupdateservice_2ecs_22',['RepositoryUpdateService.cs',['../_repository_update_service_8cs.html',1,'']]],
   ['repostorymanagerfactory_2ecs_23',['RepostoryManagerFactory.cs',['../_repostory_manager_factory_8cs.html',1,'']]],
