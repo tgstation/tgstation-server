@@ -363,15 +363,19 @@ jobs:
         id: wix-tool
         run: echo "version=$(cat build/package/winget/.config/dotnet-tools.json | jq -r '.tools.wix.version')" >> $GITHUB_OUTPUT
 
-      - name: Retrieve StrawberryShake Tool Version
-        id: strawberry-tool
+      - name: Retrieve StrawberryShake Tool Version 1
+        id: strawberry-tool-1
         run: echo "version=$(cat src/Tgstation.Server.Host.Utils.GitLab.GraphQL/.config/dotnet-tools.json | jq -r '.tools."strawberryshake.tools".version')" >> $GITHUB_OUTPUT
+
+      - name: Retrieve StrawberryShake Tool Version 2
+        id: strawberry-tool-2
+        run: echo "version=$(cat src/Tgstation.Server.Client.GraphQL/.config/dotnet-tools.json | jq -r '.tools."strawberryshake.tools".version')" >> $GITHUB_OUTPUT
 
       - name: Retrieve dotnet-ef Nuget Version
         id: dotnet-ef-nuget
         run: |
-          regex='\s+<PackageReference Include="Microsoft.EntityFrameworkCore" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
-          if [[ $(cat src/Tgstation.Server.Host/Tgstation.Server.Host.csproj) =~ $regex ]]; then
+          regex='\s+<PackageVersion Include="Microsoft.EntityFrameworkCore" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
+          if [[ $(cat Directory.Packages.props) =~ $regex ]]; then
             echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
           else
             echo "Regex search failed!"
@@ -392,8 +396,8 @@ jobs:
       - name: Retrieve StrawberryShake Nuget Version
         id: strawberry-nuget
         run: |
-          regex='\s+<PackageReference Include="StrawberryShake.Server" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
-          if [[ $(cat src/Tgstation.Server.Host.Utils.GitLab.GraphQL/Tgstation.Server.Host.Utils.GitLab.GraphQL.csproj) =~ $regex ]]; then
+          regex='\s+<PackageVersion Include="StrawberryShake.Server" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
+          if [[ $(cat Directory.Packages.props) =~ $regex ]]; then
             echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
           else
             echo "Regex search failed!"
@@ -413,9 +417,9 @@ jobs:
           exit 1
 
       - name: Fail if StrawberryShake Versions Don't Match
-        if: ${{ steps.strawberry-tool.outputs.version != steps.strawberry-nuget.outputs.version }}
+        if: ${{ steps.strawberry-tool-1.outputs.version != steps.strawberry-nuget.outputs.version || steps.strawberry-tool-2.outputs.version != steps.strawberry-nuget.outputs.version }}
         run: |
-          echo "${{ steps.strawberry-tool.outputs.version }} != ${{ steps.strawberry-nuget.outputs.version }}"
+          echo "${{ steps.strawberry-tool-1.outputs.version }} != ${{ steps.strawberry-nuget.outputs.version }} || ${{ steps.strawberry-tool-2.outputs.version }} != ${{ steps.strawberry-nuget.outputs.version }}"
           exit 1
 
   pages-build:

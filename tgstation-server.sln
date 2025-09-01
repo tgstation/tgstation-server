@@ -32,6 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6
 		build\NewtonsoftJson.props = build\NewtonsoftJson.props
 		build\NugetCommon.props = build\NugetCommon.props
 		build\OpenApiValidationSettings.json = build\OpenApiValidationSettings.json
+		build\PackageVersions.props = build\PackageVersions.props
 		build\SrcCommon.props = build\SrcCommon.props
 		build\stylecop.json = build\stylecop.json
 		build\TestCommon.props = build\TestCommon.props
