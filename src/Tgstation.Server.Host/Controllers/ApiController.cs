@@ -143,6 +143,14 @@ namespace Tgstation.Server.Host.Controllers
 				ModelState.Clear();
 			}
 
+			if (HttpMethods.IsPut(Request.Method) || HttpMethods.IsDelete(Request.Method) || HttpMethods.IsPatch(Request.Method))
+			{
+				Response.Headers.Add(HeaderNames.Warning, $"HTTP {Request.Method} verbs are depreciated and will be replaced with POST with updated endpoints in an upcoming major REST API release.");
+				Logger.LogWarning(
+					"HTTP {method} is depreciated and will be replaced with POST in next major release.",
+					Request.Method);
+			}
+
 			using (ApiHeaders?.InstanceId != null
 				? LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, ApiHeaders.InstanceId)
 				: null)
