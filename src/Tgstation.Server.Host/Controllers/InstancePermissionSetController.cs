@@ -247,6 +247,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="204">Target <see cref="InstancePermissionSet"/> deleted.</response>
 		/// <response code="410">Target <see cref="InstancePermissionSet"/> or no longer exists.</response>
 		[HttpDelete("{id}")]
+		[HttpPost("{id}")]
 		[TgsAuthorize(InstancePermissionSetRights.Write)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]

@@ -219,6 +219,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="202">Job to delete the repository created successfully.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpDelete]
+		[HttpPost(Routes.Delete)]
 		[TgsAuthorize(RepositoryRights.Delete)]
 		[ProducesResponseType(typeof(RepositoryResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
@@ -251,13 +252,14 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Delete the repository.
+		/// Reclone the repository.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		/// <response code="202">Job to delete the repository created successfully.</response>
+		/// <response code="202">Job to reclone the repository created successfully.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPatch]
+		[HttpPost(Routes.Reclone)]
 		[TgsAuthorize(RepositoryRights.Reclone)]
 		[ProducesResponseType(typeof(RepositoryResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]

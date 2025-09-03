@@ -104,6 +104,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpDelete(SwarmConstants.RegisterRoute)]
+		[HttpPost(SwarmConstants.UnregisterRoute)]
 		public async ValueTask<IActionResult> UnregisterNode(CancellationToken cancellationToken)
 		{
 			if (!ValidateRegistration())
@@ -201,6 +202,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpDelete(SwarmConstants.UpdateRoute)]
+		[HttpPost(SwarmConstants.UpdateAbortRoute)]
 		public async ValueTask<IActionResult> AbortUpdate()
 		{
 			if (!ValidateRegistration())

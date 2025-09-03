@@ -168,6 +168,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="409">The <see cref="UserGroup"/> is not empty.</response>
 		/// <response code="410">The <see cref="UserGroup"/> didn't exist.</response>
 		[HttpDelete("{id}")]
+		[HttpPost("{id}")]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]

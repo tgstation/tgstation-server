@@ -159,6 +159,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="204">Restart begun successfully.</response>
 		/// <response code="422">Restart operations are unavailable due to the launch configuration of TGS.</response>
 		[HttpDelete]
+		[HttpPost(Routes.Restart)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 422)]
 		public ValueTask<IActionResult> Delete()

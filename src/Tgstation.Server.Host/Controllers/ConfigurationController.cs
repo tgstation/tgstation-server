@@ -293,6 +293,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="204">Empty directory deleted successfully.</response>
 		[HttpDelete]
+		[HttpPost(Routes.Delete)]
 		[TgsAuthorize(ConfigurationRights.Delete)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]

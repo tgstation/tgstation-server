@@ -176,6 +176,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="204">Chat bot deleted or does not exist.</response>
 		[HttpDelete("{id}")]
+		[HttpPost("{id}")]
 		[TgsAuthorize(ChatBotRights.Delete)]
 		[ProducesResponseType(204)]
 		public async ValueTask<IActionResult> Delete(long id, CancellationToken cancellationToken)

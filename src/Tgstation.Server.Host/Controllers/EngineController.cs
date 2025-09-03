@@ -281,6 +281,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="409">Attempted to delete the active BYOND <see cref="Version"/>.</response>
 		/// <response code="410">The <see cref="EngineVersion"/> specified was not installed.</response>
 		[HttpDelete]
+		[HttpPost(Routes.Delete)]
 		[TgsAuthorize(EngineRights.DeleteInstall)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]

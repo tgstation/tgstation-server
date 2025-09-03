@@ -272,6 +272,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="204">Instance detatched successfully.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpDelete("{id}")]
+		[HttpPost("{id}")]
 		[TgsAuthorize(InstanceManagerRights.Delete)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
@@ -700,6 +701,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="204">Granted permissions successfully.</response>
 		[HttpPatch("{id}")]
+		[HttpPost(Routes.Grant + "/{id}")]
 		[TgsAuthorize(InstanceManagerRights.GrantPermissions)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]

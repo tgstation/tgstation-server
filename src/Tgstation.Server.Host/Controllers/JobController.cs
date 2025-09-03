@@ -124,6 +124,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="404"><see cref="Job"/> does not exist in this instance.</response>
 		/// <response code="410"><see cref="Job"/> could not be found in the job manager. Has it already completed?.</response>
 		[HttpDelete("{id}")]
+		[HttpPost("{id}")]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(JobResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]

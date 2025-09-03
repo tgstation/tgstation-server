@@ -128,6 +128,26 @@ namespace Tgstation.Server.Api
 		public const string Create = "Create";
 
 		/// <summary>
+		/// The postfix for delete operations.
+		/// </summary>
+		public const string Delete = "Delete";
+
+		/// <summary>
+		/// The postfix for reclone operations.
+		/// </summary>
+		public const string Reclone = "Reclone";
+
+		/// <summary>
+		/// The postfix for restart operations.
+		/// </summary>
+		public const string Restart = "Restart";
+
+		/// <summary>
+		/// The postfix for grant operations.
+		/// </summary>
+		public const string Grant = "Grant";
+
+		/// <summary>
 		/// The root route of all hubs.
 		/// </summary>
 		public const string JobsHub = HubsRoot + "/jobs";

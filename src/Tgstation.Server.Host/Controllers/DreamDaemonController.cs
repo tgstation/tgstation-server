@@ -116,6 +116,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="204">Watchdog terminated.</response>
 		[HttpDelete]
+		[HttpPost(Routes.Delete)]
 		[TgsAuthorize(DreamDaemonRights.Shutdown)]
 		[ProducesResponseType(204)]
 		public ValueTask<IActionResult> Delete(CancellationToken cancellationToken)
@@ -266,6 +267,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="202">Restart <see cref="JobResponse"/> started successfully.</response>
 		[HttpPatch]
+		[HttpPost(Routes.Restart)]
 		[TgsAuthorize(DreamDaemonRights.Restart)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
 		public ValueTask<IActionResult> Restart(CancellationToken cancellationToken)
@@ -292,6 +294,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="202">Dump <see cref="JobResponse"/> started successfully.</response>
 		[HttpPatch(Routes.Diagnostics)]
+		[HttpPost(Routes.Diagnostics)]
 		[TgsAuthorize(DreamDaemonRights.CreateDump)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
 		public ValueTask<IActionResult> CreateDump(CancellationToken cancellationToken)

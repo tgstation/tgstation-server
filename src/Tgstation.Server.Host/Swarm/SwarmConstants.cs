@@ -33,6 +33,11 @@ namespace Tgstation.Server.Host.Swarm
 		public const string RegisterRoute = "Register";
 
 		/// <summary>
+		/// The route used for swarm unregistration.
+		/// </summary>
+		public const string UnregisterRoute = "Unregister";
+
+		/// <summary>
 		/// The route used for swarm updates.
 		/// </summary>
 		public const string UpdateRoute = "Update";
@@ -41,6 +46,11 @@ namespace Tgstation.Server.Host.Swarm
 		/// The route used for swarm updates to the initiation endpoint.
 		/// </summary>
 		public const string UpdateInitiationRoute = "UpdateInitiation";
+
+		/// <summary>
+		/// The route used for swarm updates to the abort endpoint.
+		/// </summary>
+		public const string UpdateAbortRoute = "UpdateAbort";
 
 		/// <summary>
 		/// Interval at which the swarm controller makes health checks on nodes.
