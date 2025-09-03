@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Usage: Needed for IAsyncDisposable -->
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" />
     <!-- GraphQL connector and code generator -->
     <PackageReference Include="StrawberryShake.Server" />
   </ItemGroup>
