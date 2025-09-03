@@ -10,11 +10,11 @@
 
   <ItemGroup>
     <!-- Usage: JWT injection into HTTP pipeline -->
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <!-- Usage: GitHub.com interop -->
-    <PackageReference Include="Octokit" Version="14.0.0" />
+    <PackageReference Include="Octokit" />
     <!-- Usage: YAML conversion of Version objects -->
-    <PackageReference Include="YamlDotNet" Version="16.3.0" />
+    <PackageReference Include="YamlDotNet" />
   </ItemGroup>
 
   <ItemGroup>
