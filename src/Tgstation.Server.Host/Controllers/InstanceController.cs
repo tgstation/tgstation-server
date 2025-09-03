@@ -343,7 +343,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="202">Instance updated successfully and relocation job created.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
-		[HttpPost(Routes.Update)]
 		[TgsAuthorize(
 			InstanceManagerRights.Relocate
 			| InstanceManagerRights.Rename

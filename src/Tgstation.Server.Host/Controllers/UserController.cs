@@ -82,7 +82,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="404">Requested <see cref="EntityId.Id"/> does not exist.</response>
 		/// <response code="410">Requested <see cref="Api.Models.Internal.UserApiBase.Group"/> does not exist.</response>
 		[HttpPost]
-		[HttpPost(Routes.Update)]
 		[ProducesResponseType(typeof(UserResponse), 200)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]

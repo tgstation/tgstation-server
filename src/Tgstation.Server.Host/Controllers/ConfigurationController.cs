@@ -68,7 +68,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">File updated successfully.</response>
 		/// <response code="202">File upload ticket created successfully.</response>
 		[HttpPost]
-		[HttpPost(Routes.Update)]
 		[TgsAuthorize(ConfigurationRights.Write)]
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 200)]
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 202)]

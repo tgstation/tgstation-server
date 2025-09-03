@@ -104,7 +104,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200"><see cref="UserGroup"/> updated successfully.</response>
 		/// <response code="410">The requested <see cref="UserGroup"/> does not currently exist.</response>
 		[HttpPost]
-		[HttpPost(Routes.Update)]
 		[ProducesResponseType(typeof(UserGroupResponse), 200)]
 		public ValueTask<IActionResult> Update([FromBody] UserGroupUpdateRequest model, CancellationToken cancellationToken)
 		{

@@ -137,7 +137,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200"><see cref="InstancePermissionSet"/> updated successfully.</response>
 		/// <response code="410">The requested <see cref="InstancePermissionSet"/> does not currently exist.</response>
 		[HttpPost]
-		[HttpPost(Routes.Update)]
 		[TgsAuthorize(InstancePermissionSetRights.Write)]
 		[ProducesResponseType(typeof(InstancePermissionSetResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]

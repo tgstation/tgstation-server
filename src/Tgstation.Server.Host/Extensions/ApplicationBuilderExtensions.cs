@@ -165,7 +165,7 @@ namespace Tgstation.Server.Host.Extensions
 				if (context.Request.Method == HttpMethods.Put)
 				{
 					var logger = GetLogger(context);
-					context.Response.Headers.Add(HeaderNames.Warning, "299 - HttpMethod.Put is depreciated and will be replaced with HttpMethod.Post in next major release.");
+					context.Response.Headers.Add(HeaderNames.Warning, "HTTP PATCH/PUT/DELETE verbs are depreciated and will be replaced with POST with updated endpoints in an upcoming major REST API release.");
 					logger.LogWarning("HttpMethod.Put is depreciated and will be replaced with HttpMethod.Post in next major release.");
 				}
 

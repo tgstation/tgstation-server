@@ -270,7 +270,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="204">Update applied successfully. <see cref="ChatBot"/> not returned based on user permissions.</response>
 		/// <response code="410">The <see cref="ChatBot"/> with the given ID does not exist in this instance.</response>
 		[HttpPost]
-		[HttpPost(Routes.Update)]
 		[TgsAuthorize(ChatBotRights.WriteChannels | ChatBotRights.WriteConnectionString | ChatBotRights.WriteEnabled | ChatBotRights.WriteName | ChatBotRights.WriteProvider)]
 		[ProducesResponseType(typeof(ChatBotResponse), 200)]
 		[ProducesResponseType(204)]

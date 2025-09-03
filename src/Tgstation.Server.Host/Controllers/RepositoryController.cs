@@ -345,7 +345,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="202">Updated the repository settings successfully and a <see cref="JobResponse"/> was created to make the requested git changes.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
-		[HttpPost(Routes.Update)]
 		[TgsAuthorize(
 			RepositoryRights.ChangeAutoUpdateSettings
 			| RepositoryRights.ChangeCommitter
