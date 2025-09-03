@@ -75,7 +75,6 @@ namespace Tgstation.Server.Host.Controllers
 					new PaginatableResult<Job>(
 						DatabaseContext
 						.Jobs
-						.AsQueryable()
 						.Include(x => x.StartedBy)
 						.Include(x => x.CancelledBy)
 						.Include(x => x.Instance)
@@ -103,7 +102,6 @@ namespace Tgstation.Server.Host.Controllers
 					new PaginatableResult<Job>(
 						DatabaseContext
 						.Jobs
-						.AsQueryable()
 						.Include(x => x.StartedBy)
 						.Include(x => x.CancelledBy)
 						.Include(x => x.Instance)
@@ -133,7 +131,6 @@ namespace Tgstation.Server.Host.Controllers
 			// don't care if an instance post or not at this point
 			var job = await DatabaseContext
 				.Jobs
-				.AsQueryable()
 				.Include(x => x.StartedBy)
 				.Include(x => x.Instance)
 				.Where(x => x.Id == id && x.Instance!.Id == Instance.Id)
@@ -167,7 +164,6 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var job = await DatabaseContext
 				.Jobs
-				.AsQueryable()
 				.Where(x => x.Id == id && x.Instance!.Id == Instance.Id)
 				.Include(x => x.StartedBy)
 				.Include(x => x.CancelledBy)

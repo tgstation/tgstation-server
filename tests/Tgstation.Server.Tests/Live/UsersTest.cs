@@ -376,7 +376,7 @@ namespace Tgstation.Server.Tests.Live
 						gql => gql.ListUserGroups.ExecuteAsync(cancellationToken),
 						cancellationToken);
 
-					var groups = groupsResult.Swarm.Users.Groups.QueryableGroups;
+					var groups = groupsResult.Swarm.UserGroups.QueryableGroups;
 					Assert.AreEqual(2, groups.TotalCount);
 
 					foreach (var igroup in groups.Nodes)
@@ -391,7 +391,7 @@ namespace Tgstation.Server.Tests.Live
 						gql => gql.ListUserGroups.ExecuteAsync(cancellationToken),
 						cancellationToken);
 
-					groups = groupsResult.Swarm.Users.Groups.QueryableGroups;
+					groups = groupsResult.Swarm.UserGroups.QueryableGroups;
 					Assert.AreEqual(1, groups.TotalCount);
 
 					foreach (var igroup in groups.Nodes)
@@ -469,7 +469,7 @@ namespace Tgstation.Server.Tests.Live
 					var group4Result = await client.RunQueryEnsureNoErrors(
 						gql => gql.GetSomeGroupInfo.ExecuteAsync(group.Id, cancellationToken),
 						cancellationToken);
-					var group4 = group4Result.Swarm.Users.Groups.ById;
+					var group4 = group4Result.Swarm.UserGroups.ById;
 
 					Assert.IsNotNull(group4.QueryableUsersByGroup.Nodes);
 					Assert.AreEqual(1, group4.QueryableUsersByGroup.TotalCount);
@@ -505,6 +505,8 @@ namespace Tgstation.Server.Tests.Live
 									CanSetChatBotLimit = true,
 									CanSetConfiguration = true,
 									CanSetOnline = true,
+									CanSetAutoStart = true,
+									CanSetAutoStop = true,
 								}
 							},
 							cancellationToken),

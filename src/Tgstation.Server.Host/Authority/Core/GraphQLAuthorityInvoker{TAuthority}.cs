@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using GreenDonut.Data;
 
 using HotChocolate;
 
 using Microsoft.AspNetCore.Authorization;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Common.Extensions;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.GraphQL;
 
 namespace Tgstation.Server.Host.Authority.Core
@@ -22,7 +27,7 @@ namespace Tgstation.Server.Host.Authority.Core
 		/// <param name="authorityResponse">The potentially errored <paramref name="authorityResponse"/> or <see langword="null"/> if requirements evaluation failed.</param>
 		/// <param name="errorOnMissing">If an error should be raised for <see cref="HttpFailureResponse.NotFound"/> and <see cref="HttpFailureResponse.Gone"/> failures.</param>
 		/// <returns><paramref name="authorityResponse"/> if an <see cref="ErrorMessageException"/> wasn't thrown.</returns>
-		static TAuthorityResponse ThrowGraphQLErrorIfNecessary<TAuthorityResponse>(TAuthorityResponse authorityResponse, bool errorOnMissing)
+		public static TAuthorityResponse ThrowGraphQLErrorIfNecessary<TAuthorityResponse>(TAuthorityResponse authorityResponse, bool errorOnMissing)
 			where TAuthorityResponse : AuthorityResponse
 		{
 			if (authorityResponse.Success
@@ -102,6 +107,35 @@ namespace Tgstation.Server.Host.Authority.Core
 			var expression = new TTransformer().Expression;
 			return queryable
 				.Select(expression);
+		}
+
+		/// <inheritdoc />
+		async ValueTask<Dictionary<long, AuthorityResponse<TApiModel>>> IGraphQLAuthorityInvoker<TAuthority>.ExecuteDataLoader<TResult, TApiModel, TTransformer>(
+			Func<TAuthority, long, RequirementsGated<Projectable<TResult, TApiModel>>> authorityInvoker,
+			IReadOnlyList<long> ids,
+			QueryContext<AuthorityResponse<TApiModel>>? queryContext)
+		{
+			ArgumentNullException.ThrowIfNull(ids);
+
+			var resultsTask = ValueTaskExtensions.WhenAll(
+				ids.Select(
+					id =>
+					{
+						var requirementsGate = authorityInvoker(Authority, id);
+						return ExecuteIfRequirementsSatisfied(requirementsGate);
+					}),
+				ids.Count);
+
+			var unwrappedContext = queryContext?.AuthorityResponseUnwrap();
+
+			var results = await resultsTask;
+			var responses = await Projectable<TResult, TApiModel>.Combine(
+				queryable => queryable
+					.Select(new TTransformer().ProjectedExpression)
+					.With(unwrappedContext),
+				results);
+
+			return responses;
 		}
 
 		/// <inheritdoc />

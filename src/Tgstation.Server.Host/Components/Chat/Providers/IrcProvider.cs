@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using Meebey.SmartIrc4net;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Newtonsoft.Json;
 
@@ -92,7 +93,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// The <see cref="FileLoggingConfiguration"/> for the <see cref="IrcProvider"/>.
 		/// </summary>
-		readonly FileLoggingConfiguration loggingConfiguration;
+		readonly IOptionsMonitor<FileLoggingConfiguration> loggingConfigurationOptions;
 
 		/// <summary>
 		/// The <see cref="IrcFeatures"/> client.
@@ -117,18 +118,18 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to get the <see cref="IAssemblyInformationProvider.VersionString"/> from.</param>
 		/// <param name="chatBot">The <see cref="Models.ChatBot"/> for the <see cref="Provider"/>.</param>
-		/// <param name="loggingConfiguration">The <see cref="FileLoggingConfiguration"/> for the <see cref="Provider"/>.</param>
+		/// <param name="loggingConfigurationOptions">The value of <see cref="loggingConfigurationOptions"/>.</param>
 		public IrcProvider(
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
 			ILogger<IrcProvider> logger,
-			IAssemblyInformationProvider assemblyInformationProvider,
 			Models.ChatBot chatBot,
-			FileLoggingConfiguration loggingConfiguration)
+			IAssemblyInformationProvider assemblyInformationProvider,
+			IOptionsMonitor<FileLoggingConfiguration> loggingConfigurationOptions)
 			: base(jobManager, asyncDelayer, logger, chatBot)
 		{
 			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
-			ArgumentNullException.ThrowIfNull(loggingConfiguration);
+			ArgumentNullException.ThrowIfNull(loggingConfigurationOptions);
 
 			var builder = chatBot.CreateConnectionStringBuilder();
 			if (builder == null || !builder.Valid || builder is not IrcConnectionStringBuilder ircBuilder)
@@ -143,7 +144,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			passwordType = ircBuilder.PasswordType;
 
 			assemblyInfo = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			this.loggingConfiguration = loggingConfiguration ?? throw new ArgumentNullException(nameof(loggingConfiguration));
+			this.loggingConfigurationOptions = loggingConfigurationOptions ?? throw new ArgumentNullException(nameof(loggingConfigurationOptions));
 
 			client = InstantiateClient();
 
@@ -758,7 +759,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			newClient.OnChannelMessage += Client_OnChannelMessage;
 			newClient.OnQueryMessage += Client_OnQueryMessage;
 
-			if (loggingConfiguration.ProviderNetworkDebug)
+			if (loggingConfigurationOptions.CurrentValue.ProviderNetworkDebug)
 			{
 				newClient.OnReadLine += (sender, e) => Logger.LogTrace("READ: {line}", e.Line);
 				newClient.OnWriteLine += (sender, e) => Logger.LogTrace("WRITE: {line}", e.Line);

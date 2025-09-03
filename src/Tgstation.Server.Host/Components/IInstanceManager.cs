@@ -15,10 +15,10 @@ namespace Tgstation.Server.Host.Components
 		Task Ready { get; }
 
 		/// <summary>
-		/// Get the <see cref="IInstanceReference"/> associated with given <paramref name="metadata"/>.
+		/// Get the <see cref="IInstanceReference"/> associated with given <paramref name="instanceId"/>.
 		/// </summary>
-		/// <param name="metadata">The <see cref="Models.Instance"/> of the desired <see cref="IInstance"/>.</param>
-		/// <returns>The <see cref="IInstance"/> associated with the given <paramref name="metadata"/> if it is online, <see langword="null"/> otherwise.</returns>
-		IInstanceReference? GetInstanceReference(Api.Models.Instance metadata);
+		/// <param name="instanceId">The <see cref="Api.Models.EntityId.Id"/> of the desired <see cref="IInstance"/>.</param>
+		/// <returns>The <see cref="IInstance"/> associated with the given <paramref name="instanceId"/> if it is online, <see langword="null"/> otherwise.</returns>
+		IInstanceReference? GetInstanceReference(long instanceId);
 	}
 }

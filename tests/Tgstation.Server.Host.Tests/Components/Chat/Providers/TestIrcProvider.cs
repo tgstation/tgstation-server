@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
@@ -30,8 +31,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			Assert.ThrowsExactly<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, null, null, null, null));
 			var mockLogger = new Mock<ILogger<IrcProvider>>();
 			Assert.ThrowsExactly<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, null, null, null));
-			var mockAss = new Mock<IAssemblyInformationProvider>();
-			Assert.ThrowsExactly<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, null, null));
 
 			var mockBot = new ChatBot
 			{
@@ -39,10 +38,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				Instance = new Models.Instance(),
 				Provider = ChatProvider.Irc
 			};
-			Assert.ThrowsExactly<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, mockBot, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockBot, null, null));
 
-			var mockLogConf = new FileLoggingConfiguration();
-			Assert.ThrowsExactly<InvalidOperationException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, mockBot, mockLogConf));
+			var mockAss = new Mock<IAssemblyInformationProvider>();
+			Assert.ThrowsExactly<ArgumentNullException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockBot, mockAss.Object, null));
+
+			var mockLogConf = new Mock<IOptionsMonitor<FileLoggingConfiguration>>();
+			mockLogConf.SetupGet(x => x.CurrentValue).Returns(new FileLoggingConfiguration());
+			Assert.ThrowsExactly<InvalidOperationException>(() => new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockBot, mockAss.Object, mockLogConf.Object));
 
 			mockBot.ConnectionString = new IrcConnectionStringBuilder
 			{
@@ -52,7 +55,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				Port = 6667
 			}.ToString();
 
-			await new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, mockBot, mockLogConf).DisposeAsync();
+			await new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockBot, mockAss.Object, mockLogConf.Object).DisposeAsync();
 		}
 
 		static ValueTask InvokeConnect(IProvider provider, CancellationToken cancellationToken = default) => (ValueTask)provider.GetType().GetMethod("Connect", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(provider, new object[] { cancellationToken });
@@ -89,7 +92,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				Instance = new Models.Instance(),
 			};
 
-			await using var provider = new IrcProvider(mockJobManager, new AsyncDelayer(loggerFactory.CreateLogger<AsyncDelayer>()), loggerFactory.CreateLogger<IrcProvider>(), Mock.Of<IAssemblyInformationProvider>(), chatBot, new FileLoggingConfiguration());
+			var mockLogConf = new Mock<IOptionsMonitor<FileLoggingConfiguration>>();
+			mockLogConf.SetupGet(x => x.CurrentValue).Returns(new FileLoggingConfiguration());
+			await using var provider = new IrcProvider(mockJobManager, new AsyncDelayer(loggerFactory.CreateLogger<AsyncDelayer>()), loggerFactory.CreateLogger<IrcProvider>(), chatBot, Mock.Of<IAssemblyInformationProvider>(), mockLogConf.Object);
 			Assert.IsFalse(provider.Connected);
 			await InvokeConnect(provider);
 			Assert.IsTrue(provider.Connected);

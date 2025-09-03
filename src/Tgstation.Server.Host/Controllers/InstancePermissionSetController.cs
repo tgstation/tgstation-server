@@ -79,7 +79,6 @@ namespace Tgstation.Server.Host.Controllers
 
 			var existingPermissionSet = await DatabaseContext
 				.PermissionSets
-				.AsQueryable()
 				.Where(x => x.Id == model.PermissionSetId)
 				.Select(x => new Models.PermissionSet
 				{
@@ -95,7 +94,6 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var userCanonicalName = await DatabaseContext
 					.Users
-					.AsQueryable()
 					.Where(x => x.Id == existingPermissionSet.UserId.Value)
 					.Select(x => x.CanonicalName)
 					.FirstAsync(cancellationToken);
@@ -147,7 +145,6 @@ namespace Tgstation.Server.Host.Controllers
 
 			var originalPermissionSet = await DatabaseContext
 				.Instances
-				.AsQueryable()
 				.Where(x => x.Id == Instance.Id)
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == model.PermissionSetId)
@@ -202,7 +199,6 @@ namespace Tgstation.Server.Host.Controllers
 					new PaginatableResult<InstancePermissionSet>(
 						DatabaseContext
 							.Instances
-							.AsQueryable()
 							.Where(x => x.Id == Instance.Id)
 							.SelectMany(x => x.InstancePermissionSets)
 							.OrderBy(x => x.PermissionSetId))),
@@ -228,7 +224,6 @@ namespace Tgstation.Server.Host.Controllers
 			// this functions as userId
 			var permissionSet = await DatabaseContext
 				.Instances
-				.AsQueryable()
 				.Where(x => x.Id == Instance.Id)
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == id)
@@ -255,7 +250,6 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var numDeleted = await DatabaseContext
 				.Instances
-				.AsQueryable()
 				.Where(x => x.Id == Instance.Id)
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == id)

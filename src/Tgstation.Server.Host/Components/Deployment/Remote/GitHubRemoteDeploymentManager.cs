@@ -70,7 +70,6 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				async databaseContext =>
 					repositorySettings = await databaseContext
 						.RepositorySettings
-						.AsQueryable()
 						.Where(x => x.InstanceId == Metadata.Id)
 						.FirstAsync(cancellationToken));
 
@@ -376,7 +375,6 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				async databaseContext =>
 					gitHubAccessToken = await databaseContext
 						.RepositorySettings
-						.AsQueryable()
 						.Where(x => x.InstanceId == Metadata.Id)
 						.Select(x => x.AccessToken)
 						.FirstAsync(cancellationToken));

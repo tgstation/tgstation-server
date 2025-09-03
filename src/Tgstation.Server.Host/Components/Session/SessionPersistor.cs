@@ -158,7 +158,6 @@ namespace Tgstation.Server.Host.Components.Session
 			{
 				var dbReattachInfos = await db
 					.ReattachInformations
-					.AsQueryable()
 					.Where(x => x.CompileJob!.Job.Instance!.Id == metadata.Id)
 					.Include(x => x.CompileJob)
 					.Include(x => x.InitialCompileJob)
@@ -169,7 +168,6 @@ namespace Tgstation.Server.Host.Components.Session
 
 				var timeoutMilliseconds = await db
 					.Instances
-					.AsQueryable()
 					.Where(x => x.Id == metadata.Id)
 					.Select(x => x.DreamDaemonSettings!.TopicRequestTimeout)
 					.FirstOrDefaultAsync(cancellationToken);
@@ -217,7 +215,6 @@ namespace Tgstation.Server.Host.Components.Session
 					logger.LogTrace("Deleting ReattachInformation {id}...", result.Id);
 					await db
 						.ReattachInformations
-						.AsQueryable()
 						.Where(x => x.Id == result.Id)
 						.ExecuteDeleteAsync(cancellationToken);
 				});
@@ -264,7 +261,6 @@ namespace Tgstation.Server.Host.Components.Session
 		{
 			var baseQuery = databaseContext
 				.ReattachInformations
-				.AsQueryable()
 				.Where(x => x.CompileJob!.Job.Instance!.Id == metadata.Id);
 
 			if (instant)

@@ -35,14 +35,14 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly IGitRemoteFeaturesFactory gitRemoteFeaturesFactory;
 
 		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="RepostoryManagerFactory"/>.
+		/// </summary>
+		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="RepostoryManagerFactory"/>.
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
-
-		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="RepostoryManagerFactory"/>.
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RepostoryManagerFactory"/> class.
@@ -52,21 +52,21 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
 		public RepostoryManagerFactory(
 			ILibGit2RepositoryFactory repositoryFactory,
 			ILibGit2Commands repositoryCommands,
 			IPostWriteHandler postWriteHandler,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILoggerFactory loggerFactory,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
 			this.repositoryCommands = repositoryCommands ?? throw new ArgumentNullException(nameof(repositoryCommands));
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -78,9 +78,9 @@ namespace Tgstation.Server.Host.Components.Repository
 				eventConsumer,
 				postWriteHandler,
 				gitRemoteFeaturesFactory,
+				generalConfigurationOptions,
 				loggerFactory.CreateLogger<Repository>(),
-				loggerFactory.CreateLogger<RepositoryManager>(),
-				generalConfiguration);
+				loggerFactory.CreateLogger<RepositoryManager>());
 
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken)

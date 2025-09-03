@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Database
 	/// Represents a database table.
 	/// </summary>
 	/// <typeparam name="TModel">The type of model.</typeparam>
-	public interface IDatabaseCollection<TModel> : IQueryable<TModel>, IAsyncEnumerable<TModel>
+	public interface IDatabaseCollection<TModel> : IQueryable<TModel>
 	{
 		/// <summary>
 		/// An <see cref="IEnumerable{T}"/> of <typeparamref name="TModel"/>s prioritizing in the working set.

@@ -46,19 +46,19 @@ namespace Tgstation.Server.Host.Security
 		readonly IIdentityCache identityCache;
 
 		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="SwarmConfiguration"/> for the <see cref="AuthenticationContextFactory"/>.
+		/// </summary>
+		readonly IOptions<SwarmConfiguration> swarmConfigurationOptions;
+
+		/// <summary>
+		/// The <see cref="IOptionsSnapshot{TOptions}"/> of <see cref="SecurityConfiguration"/> for the <see cref="AuthenticationContextFactory"/>.
+		/// </summary>
+		readonly IOptionsSnapshot<SecurityConfiguration> securityConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="AuthenticationContextFactory"/>.
 		/// </summary>
 		readonly ILogger<AuthenticationContextFactory> logger;
-
-		/// <summary>
-		/// The <see cref="SwarmConfiguration"/> for the <see cref="AuthenticationContextFactory"/>.
-		/// </summary>
-		readonly SwarmConfiguration swarmConfiguration;
-
-		/// <summary>
-		/// The <see cref="SecurityConfiguration"/> for the <see cref="AuthenticationContextFactory"/>.
-		/// </summary>
-		readonly SecurityConfiguration securityConfiguration;
 
 		/// <summary>
 		/// Backing field for <see cref="CurrentAuthenticationContext"/>.
@@ -81,15 +81,15 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/>.</param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/>.</param>
 		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> containing the value of <see cref="apiHeaders"/>.</param>
-		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
-		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="securityConfiguration"/>.</param>
+		/// <param name="swarmConfigurationOptions">The value of <see cref="swarmConfigurationOptions"/>.</param>
+		/// <param name="securityConfigurationOptions">The value of <see cref="securityConfigurationOptions"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public AuthenticationContextFactory(
 			IDatabaseContext databaseContext,
 			IIdentityCache identityCache,
 			IApiHeadersProvider apiHeadersProvider,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
-			IOptions<SecurityConfiguration> securityConfigurationOptions,
+			IOptionsSnapshot<SecurityConfiguration> securityConfigurationOptions,
 			ILogger<AuthenticationContextFactory> logger)
 		{
 			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
@@ -97,8 +97,8 @@ namespace Tgstation.Server.Host.Security
 			ArgumentNullException.ThrowIfNull(apiHeadersProvider);
 
 			apiHeaders = apiHeadersProvider.ApiHeaders;
-			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
-			securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
+			this.swarmConfigurationOptions = swarmConfigurationOptions ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
+			this.securityConfigurationOptions = securityConfigurationOptions ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
@@ -129,7 +129,6 @@ namespace Tgstation.Server.Host.Security
 
 			var user = await databaseContext
 				.Users
-				.AsQueryable()
 				.Where(x => x.Id == userId)
 				.Include(x => x.CreatedBy)
 				.Include(x => x.PermissionSet)
@@ -164,9 +163,9 @@ namespace Tgstation.Server.Host.Security
 				var instanceId = apiHeaders?.InstanceId;
 				if (instanceId.HasValue)
 				{
-					instancePermissionSet = await databaseContext.InstancePermissionSets
-						.AsQueryable()
-						.Where(x => x.PermissionSetId == userPermissionSet!.Id && x.InstanceId == instanceId && x.Instance!.SwarmIdentifer == swarmConfiguration.Identifier)
+					instancePermissionSet = await databaseContext
+						.InstancePermissionSets
+						.Where(x => x.PermissionSetId == userPermissionSet!.Id && x.InstanceId == instanceId && x.Instance!.SwarmIdentifer == swarmConfigurationOptions.Value.Identifier)
 						.Include(x => x.Instance)
 						.FirstOrDefaultAsync(cancellationToken);
 
@@ -208,7 +207,6 @@ namespace Tgstation.Server.Host.Security
 			var deprefixedScheme = scheme.Substring(OpenIDConnectAuthenticationSchemePrefix.Length);
 			var connection = await databaseContext
 				.OidcConnections
-				.AsQueryable()
 				.Where(oidcConnection => oidcConnection.ExternalUserId == userId && oidcConnection.SchemeKey == deprefixedScheme)
 				.Include(oidcConnection => oidcConnection.User)
 					.ThenInclude(user => user!.Group)
@@ -216,7 +214,7 @@ namespace Tgstation.Server.Host.Security
 				.FirstOrDefaultAsync(cancellationToken);
 
 			User user;
-			if (!securityConfiguration.OidcStrictMode)
+			if (!securityConfigurationOptions.Value.OidcStrictMode)
 			{
 				if (connection == default)
 				{
@@ -243,7 +241,6 @@ namespace Tgstation.Server.Host.Security
 				UserGroup? group = groupId.HasValue
 					? await databaseContext
 						.Groups
-						.AsQueryable()
 						.Where(group => group.Id == groupId.Value)
 						.Include(group => group.PermissionSet)
 						.FirstOrDefaultAsync(cancellationToken)

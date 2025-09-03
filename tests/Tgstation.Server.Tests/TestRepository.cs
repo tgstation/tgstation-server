@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using LibGit2Sharp;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
@@ -41,8 +42,8 @@ namespace Tgstation.Server.Tests
 					Mock.Of<IPostWriteHandler>(),
 					Mock.Of<IGitRemoteFeaturesFactory>(),
 					Mock.Of<ILibGit2RepositoryFactory>(),
+					Mock.Of<IOptionsMonitor<GeneralConfiguration>>(),
 					Mock.Of<ILogger<Host.Components.Repository.Repository>>(),
-					new GeneralConfiguration(),
 					() => { });
 
 				const string StartSha = "af4da8beb9f9b374b04a3cc4d65acca662e8cc1a";
@@ -81,9 +82,9 @@ namespace Tgstation.Server.Tests
 				Mock.Of<IEventConsumer>(),
 				new WindowsPostWriteHandler(),
 				Mock.Of<IGitRemoteFeaturesFactory>(),
+				Mock.Of<IOptionsMonitor<GeneralConfiguration>>(),
 				Mock.Of<ILogger<Host.Components.Repository.Repository>>(),
-				Mock.Of<ILogger<RepositoryManager>>(),
-				new GeneralConfiguration());
+				Mock.Of<ILogger<RepositoryManager>>());
 			try
 			{
 				using (await manager.CloneRepository(

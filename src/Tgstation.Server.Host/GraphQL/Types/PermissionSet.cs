@@ -10,11 +10,11 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// The <see cref="Api.Rights.AdministrationRights"/> for the <see cref="PermissionSet"/>.
 		/// </summary>
-		public required AdministrationRights AdministrationRights { get; init; }
+		public required RightsHolder<AdministrationRights> AdministrationRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Rights.InstanceManagerRights"/> for the <see cref="PermissionSet"/>.
 		/// </summary>
-		public required InstanceManagerRights InstanceManagerRights { get; init; }
+		public required RightsHolder<InstanceManagerRights> InstanceManagerRights { get; set; }
 	}
 }

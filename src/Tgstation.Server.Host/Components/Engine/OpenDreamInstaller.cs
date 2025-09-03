@@ -52,14 +52,14 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected IProcessExecutor ProcessExecutor { get; }
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.
+		/// The <see cref="GeneralConfigurationOptions"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
-		protected GeneralConfiguration GeneralConfiguration { get; }
+		protected IOptionsMonitor<GeneralConfiguration> GeneralConfigurationOptions { get; }
 
 		/// <summary>
 		/// The <see cref="Configuration.SessionConfiguration"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
-		protected SessionConfiguration SessionConfiguration { get; }
+		protected IOptionsMonitor<SessionConfiguration> SessionConfigurationOptions { get; }
 
 		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/> for the <see cref="OpenDreamInstaller"/>.
@@ -91,8 +91,8 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="GeneralConfiguration"/>.</param>
-		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="SessionConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="GeneralConfigurationOptions"/>.</param>
+		/// <param name="sessionConfigurationOptions">The value of <see cref="SessionConfigurationOptions"/>.</param>
 		public OpenDreamInstaller(
 			IIOManager ioManager,
 			ILogger<OpenDreamInstaller> logger,
@@ -101,8 +101,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			IRepositoryManager repositoryManager,
 			IAsyncDelayer asyncDelayer,
 			IHttpClientFactory httpClientFactory,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<SessionConfiguration> sessionConfigurationOptions)
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions)
 			: base(ioManager, logger)
 		{
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
@@ -110,8 +110,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-			GeneralConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			SessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
+			GeneralConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			SessionConfigurationOptions = sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -147,10 +147,11 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			var progressSection1 = jobProgressReporter.CreateSection("Updating OpenDream git repository", 0.5f);
 			IRepository? repo;
+			var generalConfig = GeneralConfigurationOptions.CurrentValue;
 			try
 			{
 				repo = await repositoryManager.CloneRepository(
-					GeneralConfiguration.OpenDreamGitUrl,
+					generalConfig.OpenDreamGitUrl,
 					null,
 					null,
 					null,
@@ -187,7 +188,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				using (var progressSection2 = jobProgressReporter.CreateSection("Checking out OpenDream version", 0.5f))
 				{
 					var committish = version.SourceSHA
-						?? $"{GeneralConfiguration.OpenDreamGitTagPrefix}{version.Version!.Semver()}";
+						?? $"{generalConfig.OpenDreamGitTagPrefix}{version.Version!.Semver()}";
 
 					await repo.CheckoutObject(
 						committish,
@@ -279,6 +280,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				async shortenedPath =>
 				{
 					var shortenedDeployPath = IOManager.ConcatPath(shortenedPath, DeployDir);
+					var generalConfig = GeneralConfigurationOptions.CurrentValue;
 					await using var buildProcess = await ProcessExecutor.LaunchProcess(
 						dotnetPath,
 						shortenedPath,
@@ -286,17 +288,17 @@ namespace Tgstation.Server.Host.Components.Engine
 						cancellationToken,
 						null,
 						null,
-						!GeneralConfiguration.OpenDreamSuppressInstallOutput,
-						!GeneralConfiguration.OpenDreamSuppressInstallOutput);
+						!generalConfig.OpenDreamSuppressInstallOutput,
+						!generalConfig.OpenDreamSuppressInstallOutput);
 
-					if (deploymentPipelineProcesses && SessionConfiguration.LowPriorityDeploymentProcesses)
+					if (deploymentPipelineProcesses && SessionConfigurationOptions.CurrentValue.LowPriorityDeploymentProcesses)
 						buildProcess.AdjustPriority(false);
 
 					using (cancellationToken.Register(() => buildProcess.Terminate()))
 						buildExitCode = await buildProcess.Lifetime;
 
 					string? output;
-					if (!GeneralConfiguration.OpenDreamSuppressInstallOutput)
+					if (!GeneralConfigurationOptions.CurrentValue.OpenDreamSuppressInstallOutput)
 					{
 						var buildOutputTask = buildProcess.GetCombinedOutput(cancellationToken);
 						if (!buildOutputTask.IsCompleted)

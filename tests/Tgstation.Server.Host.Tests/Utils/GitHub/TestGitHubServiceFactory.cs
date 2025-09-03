@@ -23,8 +23,8 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 			Assert.ThrowsExactly<ArgumentNullException>(() => new GitHubServiceFactory(null, null, null));
 			Assert.ThrowsExactly<ArgumentNullException>(() => new GitHubServiceFactory(Mock.Of<IGitHubClientFactory>(), null, null));
 			Assert.ThrowsExactly<ArgumentNullException>(() => new GitHubServiceFactory(Mock.Of<IGitHubClientFactory>(), Mock.Of<ILoggerFactory>(), null));
-			var mockOptions = new Mock<IOptions<UpdatesConfiguration>>();
-			mockOptions.SetupGet(x => x.Value).Returns(new UpdatesConfiguration());
+			var mockOptions = new Mock<IOptionsMonitor<UpdatesConfiguration>>();
+			mockOptions.SetupGet(x => x.CurrentValue).Returns(new UpdatesConfiguration());
 
 			_ = new GitHubServiceFactory(Mock.Of<IGitHubClientFactory>(), Mock.Of<ILoggerFactory>(), mockOptions.Object);
 		}
@@ -41,8 +41,8 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 			mockFactory.Setup(x => x.CreateClient(mockToken, It.IsAny<CancellationToken>())).Returns(ValueTask.FromResult(Mock.Of<IGitHubClient>())).Verifiable();
 #pragma warning restore CA2012 // Use ValueTasks correctly
 
-			var mockOptions = new Mock<IOptions<UpdatesConfiguration>>();
-			mockOptions.SetupGet(x => x.Value).Returns(new UpdatesConfiguration());
+			var mockOptions = new Mock<IOptionsMonitor<UpdatesConfiguration>>();
+			mockOptions.SetupGet(x => x.CurrentValue).Returns(new UpdatesConfiguration());
 
 			var factory = new GitHubServiceFactory(mockFactory.Object, Mock.Of<ILoggerFactory>(), mockOptions.Object);
 

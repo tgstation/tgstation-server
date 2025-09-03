@@ -19,36 +19,36 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// The <see cref="Api.Rights.InstancePermissionSetRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		public InstancePermissionSetRights? InstancePermissionSetRights { get; set; }
+		public required RightsHolder<InstancePermissionSetRights> InstancePermissionSetRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Rights.EngineRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		public EngineRights? EngineRights { get; set; }
+		public required RightsHolder<EngineRights> EngineRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Rights.DreamDaemonRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		public DreamDaemonRights? DreamDaemonRights { get; set; }
+		public required RightsHolder<DreamDaemonRights> DreamDaemonRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Rights.DreamMakerRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		public DreamMakerRights? DreamMakerRights { get; set; }
+		public required RightsHolder<DreamMakerRights> DreamMakerRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Rights.RepositoryRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		public RepositoryRights? RepositoryRights { get; set; }
+		public required RightsHolder<RepositoryRights> RepositoryRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Rights.ChatBotRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		public ChatBotRights? ChatBotRights { get; set; }
+		public required RightsHolder<ChatBotRights> ChatBotRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Rights.ConfigurationRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		public ConfigurationRights? ConfigurationRights { get; set; }
+		public required RightsHolder<ConfigurationRights> ConfigurationRights { get; set; }
 	}
 }

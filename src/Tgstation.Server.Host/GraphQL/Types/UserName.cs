@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using HotChocolate;
-using HotChocolate.Authorization;
 using HotChocolate.Types.Relay;
 
 using Tgstation.Server.Host.Authority;
@@ -17,7 +16,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 	/// A <see cref="User"/> with limited fields.
 	/// </summary>
 	[Node]
-	[Authorize]
 	public sealed class UserName : NamedEntity, IUserName
 	{
 		/// <summary>

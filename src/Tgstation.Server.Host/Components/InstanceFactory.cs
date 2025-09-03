@@ -150,14 +150,14 @@ namespace Tgstation.Server.Host.Components
 		readonly IMetricFactory metricFactory;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceFactory"/>.
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
+		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
 
 		/// <summary>
-		/// The <see cref="SessionConfiguration"/> for the <see cref="InstanceFactory"/>.
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="SessionConfiguration"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
-		readonly SessionConfiguration sessionConfiguration;
+		readonly IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions;
 
 		/// <summary>
 		/// Create the <see cref="IIOManager"/> pointing to the "Game" directory of a given <paramref name="instanceIOManager"/>.
@@ -193,8 +193,8 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
 		/// <param name="metricFactory">The value of <see cref="metricFactory"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="sessionConfigurationOptions">The value of <see cref="sessionConfigurationOptions"/>.</param>
 		public InstanceFactory(
 			IIOManager ioManager,
 			IDatabaseContextFactory databaseContextFactory,
@@ -219,8 +219,8 @@ namespace Tgstation.Server.Host.Components
 			IAsyncDelayer asyncDelayer,
 			IDotnetDumpService dotnetDumpService,
 			IMetricFactory metricFactory,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<SessionConfiguration> sessionConfigurationOptions)
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -245,8 +245,8 @@ namespace Tgstation.Server.Host.Components
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
 			this.metricFactory = metricFactory ?? throw new ArgumentNullException(nameof(metricFactory));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.sessionConfigurationOptions = sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 		}
 #pragma warning restore CA1502
 
@@ -291,10 +291,10 @@ namespace Tgstation.Server.Host.Components
 				postWriteHandler,
 				platformIdentifier,
 				fileTransferService,
+				generalConfigurationOptions,
+				sessionConfigurationOptions,
 				loggerFactory.CreateLogger<StaticFiles.Configuration>(),
-				metadata,
-				generalConfiguration,
-				sessionConfiguration);
+				metadata);
 			var eventConsumer = new EventConsumer(configuration);
 			var repoManager = repositoryManagerFactory.CreateRepositoryManager(repoIoManager, eventConsumer);
 			try
@@ -347,8 +347,8 @@ namespace Tgstation.Server.Host.Components
 								dotnetDumpService,
 								metricFactory,
 								loggerFactory,
+								sessionConfigurationOptions,
 								loggerFactory.CreateLogger<SessionControllerFactory>(),
-								sessionConfiguration,
 								metadata);
 
 							var watchdog = watchdogFactory.CreateWatchdog(
@@ -382,8 +382,8 @@ namespace Tgstation.Server.Host.Components
 									remoteDeploymentManagerFactory,
 									asyncDelayer,
 									metricFactory,
+									sessionConfigurationOptions,
 									loggerFactory.CreateLogger<DreamMaker>(),
-									sessionConfiguration,
 									metadata);
 
 								instance = new Instance(

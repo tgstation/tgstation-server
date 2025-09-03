@@ -4,12 +4,9 @@
   "extensions": {
     "strawberryShake": {
       "name": "GraphQLClient",
-      "url": "../../artifacts/gitlab-api.graphql",
+      "url": "https://gitlab.com/api/graphql",
       "namespace": "Tgstation.Server.Host.Utils.GitLab.GraphQL",
-      "records": {
-        "inputs": false,
-        "entities": false
-      },
+      "dependencyInjection": true,
       "transportProfiles": [
         {
           "default": "Http",

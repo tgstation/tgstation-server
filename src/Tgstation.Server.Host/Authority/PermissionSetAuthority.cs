@@ -118,13 +118,11 @@ namespace Tgstation.Server.Host.Authority
 
 					var groupIdQuery = DatabaseContext
 						.Users
-						.AsQueryable()
 						.Where(user => user.Id == userId)
 						.Select(user => user.GroupId);
 
 					var permissionSetId = await DatabaseContext
 						.PermissionSets
-						.AsQueryable()
 						.Where(permissionSet => permissionSet.UserId == userId
 							|| groupIdQuery.Contains(permissionSet.GroupId))
 						.Select(permissionSet => permissionSet.Id!.Value)

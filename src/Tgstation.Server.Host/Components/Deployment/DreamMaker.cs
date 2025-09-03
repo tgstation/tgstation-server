@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Prometheus;
 
@@ -30,7 +31,9 @@ using Tgstation.Server.Host.Utils;
 namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <inheritdoc />
+#pragma warning disable CA1506 // TODO: Decomplexify
 	sealed class DreamMaker : IDreamMaker
+#pragma warning restore CA1506
 	{
 		/// <summary>
 		/// Extension for .dmes.
@@ -93,14 +96,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="SessionConfiguration"/> for <see cref="DreamMaker"/>.
+		/// </summary>
+		readonly IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>.
 		/// </summary>
 		readonly ILogger<DreamMaker> logger;
-
-		/// <summary>
-		/// The <see cref="SessionConfiguration"/> for <see cref="DreamMaker"/>.
-		/// </summary>
-		readonly SessionConfiguration sessionConfiguration;
 
 		/// <summary>
 		/// The <see cref="Instance"/> <see cref="DreamMaker"/> belongs to.
@@ -167,8 +170,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="metricFactory">The <see cref="IMetricFactory"/> to use.</param>
+		/// <param name="sessionConfigurationOptions">The value of <see cref="sessionConfigurationOptions"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		public DreamMaker(
 			IEngineManager engineManager,
@@ -183,8 +186,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			IAsyncDelayer asyncDelayer,
 			IMetricFactory metricFactory,
+			IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions,
 			ILogger<DreamMaker> logger,
-			SessionConfiguration sessionConfiguration,
 			Api.Models.Instance metadata)
 		{
 			this.engineManager = engineManager ?? throw new ArgumentNullException(nameof(engineManager));
@@ -199,8 +202,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			ArgumentNullException.ThrowIfNull(metricFactory);
+			this.sessionConfigurationOptions = sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
 			successfulDeployments = metricFactory.CreateCounter("tgs_successful_deployments", "The number of deployments that have completed successfully");
@@ -253,7 +256,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 						ddSettings = await databaseContext
 							.DreamDaemonSettings
-							.AsQueryable()
 							.Where(x => x.InstanceId == metadata.Id)
 							.Select(x => new Models.DreamDaemonSettings
 							{
@@ -266,7 +268,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 						dreamMakerSettings = await databaseContext
 							.DreamMakerSettings
-							.AsQueryable()
 							.Where(x => x.InstanceId == metadata.Id)
 							.FirstAsync(cancellationToken);
 						if (dreamMakerSettings == default)
@@ -274,7 +275,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 						repositorySettings = await databaseContext
 							.RepositorySettings
-							.AsQueryable()
 							.Where(x => x.InstanceId == metadata.Id)
 							.Select(x => new Models.RepositorySettings
 							{
@@ -302,7 +302,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 							repoName = repo.RemoteRepositoryName;
 							revInfo = await databaseContext
 								.RevisionInformations
-								.AsQueryable()
 								.Where(x => x.CommitSha == repoSha && x.InstanceId == metadata.Id)
 								.Include(x => x.ActiveTestMerges!)
 									.ThenInclude(x => x.TestMerge!)
@@ -456,7 +455,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 		{
 			var previousCompileJobs = await databaseContext
 				.CompileJobs
-				.AsQueryable()
 				.Where(x => x.Job.Instance!.Id == metadata.Id)
 				.OrderByDescending(x => x.Job.StoppedAt)
 				.Take(10)
@@ -927,7 +925,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				readStandardHandles: true,
 				noShellExecute: true);
 
-			if (sessionConfiguration.LowPriorityDeploymentProcesses)
+			if (sessionConfigurationOptions.CurrentValue.LowPriorityDeploymentProcesses)
 				dm.AdjustPriority(false);
 
 			int exitCode;
@@ -1018,7 +1016,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		{
 			async ValueTask CleanDir()
 			{
-				if (sessionConfiguration.DelayCleaningFailedDeployments)
+				if (sessionConfigurationOptions.CurrentValue.DelayCleaningFailedDeployments)
 				{
 					logger.LogDebug("Not cleaning up errored deployment directory {guid} due to config.", job.DirectoryName);
 					return;

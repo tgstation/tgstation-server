@@ -35,13 +35,13 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 
 		static async Task RepoDownloadTest(bool needsClone)
 		{
-			var mockGeneralConfigOptions = new Mock<IOptions<GeneralConfiguration>>();
+			var mockGeneralConfigOptions = new Mock<IOptionsMonitor<GeneralConfiguration>>();
 			var generalConfig = new GeneralConfiguration();
-			var mockSessionConfigOptions = new Mock<IOptions<SessionConfiguration>>();
+			var mockSessionConfigOptions = new Mock<IOptionsMonitor<SessionConfiguration>>();
 			var sessionConfig = new SessionConfiguration();
 			Assert.IsNotNull(generalConfig.OpenDreamGitUrl);
-			mockGeneralConfigOptions.SetupGet(x => x.Value).Returns(generalConfig);
-			mockSessionConfigOptions.SetupGet(x => x.Value).Returns(sessionConfig);
+			mockGeneralConfigOptions.SetupGet(x => x.CurrentValue).Returns(generalConfig);
+			mockSessionConfigOptions.SetupGet(x => x.CurrentValue).Returns(sessionConfig);
 
 			var cloneAttempts = 0;
 			var mockRepository = new Mock<IRepository>();

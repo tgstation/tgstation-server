@@ -46,28 +46,28 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IWebHostEnvironment hostEnvironment;
 
 		/// <summary>
+		/// The <see cref="ControlPanelConfiguration"/> for the <see cref="ControlPanelController"/>.
+		/// </summary>
+		readonly IOptionsSnapshot<ControlPanelConfiguration> controlPanelConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="ControlPanelController"/>.
 		/// </summary>
 		readonly ILogger<ControlPanelController> logger;
 
 		/// <summary>
-		/// The <see cref="ControlPanelConfiguration"/> for the <see cref="ControlPanelController"/>.
-		/// </summary>
-		readonly ControlPanelConfiguration controlPanelConfiguration;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="ControlPanelController"/> class.
 		/// </summary>
 		/// <param name="hostEnvironment">The value of <see cref="hostEnvironment"/>.</param>
-		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/>.</param>
+		/// <param name="controlPanelConfigurationOptions">The value of <see cref="controlPanelConfigurationOptions"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public ControlPanelController(
 			IWebHostEnvironment hostEnvironment,
-			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
+			IOptionsSnapshot<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			ILogger<ControlPanelController> logger)
 		{
 			this.hostEnvironment = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
-			controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
+			this.controlPanelConfigurationOptions = controlPanelConfigurationOptions ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -79,13 +79,13 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet]
 		public IActionResult GetChannelJson()
 		{
-			if (!controlPanelConfiguration.Enable)
+			if (!controlPanelConfigurationOptions.Value.Enable)
 			{
 				logger.LogDebug("Not serving channel.json as control panel is disabled.");
 				return NotFound();
 			}
 
-			var controlPanelChannel = controlPanelConfiguration.Channel;
+			var controlPanelChannel = controlPanelConfigurationOptions.Value.Channel;
 			logger.LogTrace("Generating channel.json for channel \"{channel}\"...", controlPanelChannel);
 
 			if (controlPanelChannel == "local")
@@ -102,7 +102,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				FormatVersion = 1,
 				Channel = controlPanelChannel,
-				controlPanelConfiguration.PublicPath,
+				controlPanelConfigurationOptions.Value.PublicPath,
 			});
 		}
 
@@ -132,7 +132,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet]
 		public IActionResult Get([FromRoute] string appRoute)
 		{
-			if (!controlPanelConfiguration.Enable)
+			if (!controlPanelConfigurationOptions.Value.Enable)
 			{
 				logger.LogDebug("Not serving static files as control panel is disabled.");
 				return NotFound();

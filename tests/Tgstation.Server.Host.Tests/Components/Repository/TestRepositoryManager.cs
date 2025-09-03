@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LibGit2Sharp;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
@@ -47,9 +48,9 @@ namespace Tgstation.Server.Host.Components.Repository.Tests
 				Mock.Of<IEventConsumer>(),
 				Mock.Of<IPostWriteHandler>(),
 				mockGitRemoteFeaturesFactory.Object,
+				Mock.Of<IOptionsMonitor<GeneralConfiguration>>(),
 				Mock.Of<ILogger<Repository>>(),
-				Mock.Of<ILogger<RepositoryManager>>(),
-				new GeneralConfiguration());
+				Mock.Of<ILogger<RepositoryManager>>());
 		}
 
 		[TestCleanup]

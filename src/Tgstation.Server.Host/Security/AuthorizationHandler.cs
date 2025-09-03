@@ -106,7 +106,6 @@ namespace Tgstation.Server.Host.Security
 			{
 				var sessionData = await databaseContext
 					.Users
-					.AsQueryable()
 					.Where(user => user.Id == userId)
 					.Select(user => new
 					{
@@ -151,8 +150,7 @@ namespace Tgstation.Server.Host.Security
 			return databaseContextFactory.UseContext(async databaseContext =>
 			{
 				var queryableUsers = databaseContext
-					.Users
-					.AsQueryable();
+					.Users;
 
 				var matchingUniquePermissionSetIds = queryableUsers
 					.Where(user => user.Id == userId && user.PermissionSet != null)
@@ -165,14 +163,11 @@ namespace Tgstation.Server.Host.Security
 				object? permissionSet;
 				if (isInstance)
 				{
-					if (context.Resource is not Instance instance)
-						throw new InvalidOperationException("Instance should have been passed in as authorization resource!");
-
-					var instanceId = instance.Require(i => i.Id);
+					if (context.Resource is not long instanceId)
+						throw new InvalidOperationException("Instance ID should have been passed in as authorization resource!");
 
 					permissionSet = await databaseContext
 						.InstancePermissionSets
-						.AsQueryable()
 						.Where(ips => ips.InstanceId == instanceId
 							&& (matchingUniquePermissionSetIds.Contains(ips.PermissionSetId) || matchingGroupPermissionSetIds.Contains(ips.PermissionSetId)))
 						.TagWith("rights_authorization_handler_instance_permission_set")
@@ -181,7 +176,6 @@ namespace Tgstation.Server.Host.Security
 				else
 					permissionSet = await databaseContext
 						.PermissionSets
-						.AsQueryable()
 						.Where(permissionSet => matchingUniquePermissionSetIds.Contains(permissionSet.Id) || matchingGroupPermissionSetIds.Contains(permissionSet.Id))
 						.TagWith("rights_authorization_handler_permission_set")
 						.FirstOrDefaultAsync(cancellationToken);

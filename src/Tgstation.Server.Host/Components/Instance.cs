@@ -389,7 +389,6 @@ namespace Tgstation.Server.Host.Components
 					// assume 5 steps with synchronize
 					var repositorySettingsTask = databaseContext
 						.RepositorySettings
-						.AsQueryable()
 						.Where(x => x.InstanceId == metadata.Id)
 						.FirstAsync(cancellationToken);
 
@@ -433,7 +432,6 @@ namespace Tgstation.Server.Host.Components
 							logger.LogTrace("Loading revision info for commit {sha}...", startSha[..7]);
 							currentRevInfo = await databaseContext
 								.RevisionInformations
-								.AsQueryable()
 								.Where(x => x.CommitSha == startSha && x.InstanceId == metadata.Id)
 								.Include(x => x.ActiveTestMerges!)
 									.ThenInclude(x => x.TestMerge)
@@ -550,8 +548,8 @@ namespace Tgstation.Server.Host.Components
 
 						var currentHead = repo.Head;
 
-						currentRevInfo = await databaseContext.RevisionInformations
-							.AsQueryable()
+						currentRevInfo = await databaseContext
+							.RevisionInformations
 							.Where(x => x.CommitSha == currentHead && x.InstanceId == metadata.Id)
 							.FirstOrDefaultAsync(cancellationToken);
 

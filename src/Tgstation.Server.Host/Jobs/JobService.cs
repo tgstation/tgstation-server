@@ -213,7 +213,6 @@ namespace Tgstation.Server.Host.Jobs
 				// mark all jobs as cancelled
 				var badJobIds = await databaseContext
 					.Jobs
-					.AsQueryable()
 					.Where(y => !y.StoppedAt.HasValue)
 					.Select(y => y.Id!.Value)
 					.ToListAsync(cancellationToken);
@@ -535,7 +534,6 @@ namespace Tgstation.Server.Host.Jobs
 							// DCT: Cancellation token is for job, operation should always run
 							var finalJob = await databaseContext
 								.Jobs
-								.AsQueryable()
 								.Include(x => x.Instance)
 								.Include(x => x.StartedBy)
 								.Include(x => x.CancelledBy)

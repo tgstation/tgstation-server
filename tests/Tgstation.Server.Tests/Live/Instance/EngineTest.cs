@@ -270,8 +270,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			{
 				ByondZipDownloadTemplate = TestingUtils.ByondZipDownloadTemplate,
 			});
-			var sessionConfigOptionsMock = new Mock<IOptions<SessionConfiguration>>();
-			sessionConfigOptionsMock.SetupGet(x => x.Value).Returns(new SessionConfiguration());
+			var sessionConfigOptionsMock = new Mock<IOptionsMonitor<SessionConfiguration>>();
+			sessionConfigOptionsMock.SetupGet(x => x.CurrentValue).Returns(new SessionConfiguration());
 
 			var assemblyInformationProvider = new AssemblyInformationProvider();
 

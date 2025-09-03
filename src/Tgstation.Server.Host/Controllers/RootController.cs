@@ -49,24 +49,24 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IWebHostEnvironment hostEnvironment;
 
 		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="RootController"/>.
+		/// </summary>
+		readonly IOptions<GeneralConfiguration> generalConfigurationOptions;
+
+		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="ControlPanelConfiguration"/> for the <see cref="RootController"/>.
+		/// </summary>
+		readonly IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions;
+
+		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="InternalConfiguration"/> for the <see cref="RootController"/>.
+		/// </summary>
+		readonly IOptions<InternalConfiguration> internalConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="RootController"/>.
 		/// </summary>
 		readonly ILogger<RootController> logger;
-
-		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="RootController"/>.
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
-
-		/// <summary>
-		/// The <see cref="ControlPanelConfiguration"/> for the <see cref="RootController"/>.
-		/// </summary>
-		readonly ControlPanelConfiguration controlPanelConfiguration;
-
-		/// <summary>
-		/// The <see cref="InternalConfiguration"/> for the <see cref="RootController"/>.
-		/// </summary>
-		readonly InternalConfiguration internalConfiguration;
 
 		/// <summary>
 		/// Gets a <see cref="Tuple{T1, T2}"/> giving the <see cref="ControlPanelController"/> and action names for a given <paramref name="actionExpression"/>.
@@ -96,9 +96,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="hostEnvironment">The value of <see cref="hostEnvironment"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/>.</param>
-		/// <param name="internalConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfigurationOptions"/>.</param>
+		/// <param name="internalConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the value of <see cref="controlPanelConfigurationOptions"/>.</param>
 		public RootController(
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IPlatformIdentifier platformIdentifier,
@@ -106,15 +106,15 @@ namespace Tgstation.Server.Host.Controllers
 			ILogger<RootController> logger,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
-			IOptionsSnapshot<InternalConfiguration> internalConfigurationOptions)
+			IOptions<InternalConfiguration> internalConfigurationOptions)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.hostEnvironment = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
-			internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.controlPanelConfigurationOptions = controlPanelConfigurationOptions ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
+			this.internalConfigurationOptions = internalConfigurationOptions ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
 		}
 
 		/// <summary>
@@ -125,8 +125,8 @@ namespace Tgstation.Server.Host.Controllers
 		[AllowAnonymous]
 		public IActionResult Index()
 		{
-			var panelEnabled = controlPanelConfiguration.Enable;
-			var apiDocsEnabled = generalConfiguration.HostApiDocumentation;
+			var panelEnabled = controlPanelConfigurationOptions.Value.Enable;
+			var apiDocsEnabled = generalConfigurationOptions.Value.HostApiDocumentation;
 
 			var controlPanelRoute = $"{ControlPanelController.ControlPanelRoute.TrimStart('/')}/";
 			if (panelEnabled && !apiDocsEnabled)
@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				if (apiDocsEnabled)
 				{
-					if (internalConfiguration.EnableGraphQL)
+					if (internalConfigurationOptions.Value.EnableGraphQL)
 						links.Add("GraphQL API Documentation", Routes.GraphQL);
 
 					links.Add("REST API Documentation", SwaggerConfiguration.DocumentationSiteRouteExtension);

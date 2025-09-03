@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +17,7 @@ using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
@@ -36,14 +36,21 @@ namespace Tgstation.Server.Host.Controllers
 	public sealed class ChatController : InstanceRequiredController
 	{
 		/// <summary>
+		/// The <see cref="IRestAuthorityInvoker{TAuthority}"/> for the <see cref="IChatAuthority"/>.
+		/// </summary>
+		readonly IRestAuthorityInvoker<IChatAuthority> chatAuthority;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ChatController"/> class.
 		/// </summary>
+		/// <param name="chatAuthority">The value of <see cref="chatAuthority"/>.</param>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="InstanceRequiredController"/>.</param>
 		public ChatController(
+			IRestAuthorityInvoker<IChatAuthority> chatAuthority,
 			IDatabaseContext databaseContext,
 			IAuthenticationContext authenticationContext,
 			ILogger<ChatController> logger,
@@ -56,6 +63,7 @@ namespace Tgstation.Server.Host.Controllers
 				  instanceManager,
 				  apiHeaders)
 		{
+			this.chatAuthority = chatAuthority ?? throw new ArgumentNullException(nameof(chatAuthority));
 		}
 
 		/// <summary>
@@ -80,7 +88,7 @@ namespace Tgstation.Server.Host.Controllers
 				switch (chatProvider)
 				{
 					case ChatProvider.Discord:
-						result.DiscordChannelId = ulong.Parse(api.ChannelData, CultureInfo.InvariantCulture);
+						result.DiscordChannelId = UInt64.Parse(api.ChannelData, CultureInfo.InvariantCulture);
 						break;
 					case ChatProvider.Irc:
 						result.IrcChannel = api.ChannelData;
@@ -102,70 +110,37 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="201">Created <see cref="ChatBot"/> successfully.</response>
 		[HttpPut]
 		[HttpPost(Routes.Create)]
-		[TgsAuthorize(ChatBotRights.Create)]
 		[ProducesResponseType(typeof(ChatBotResponse), 201)]
 		public async ValueTask<IActionResult> Create([FromBody] ChatBotCreateRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
-			var earlyOut = StandardModelChecks(model, true);
-			if (earlyOut != null)
-				return earlyOut;
+			if (!model.Provider.HasValue)
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ChatBotProviderMissing));
 
-			var countOfExistingBotsInInstance = await DatabaseContext
-				.ChatBots
-				.AsQueryable()
-				.Where(x => x.InstanceId == Instance.Id)
-				.CountAsync(cancellationToken);
+			if (String.IsNullOrWhiteSpace(model.Name))
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ChatBotWhitespaceName));
 
-			if (countOfExistingBotsInInstance >= Instance.ChatBotLimit!.Value)
-				return Conflict(new ErrorMessageResponse(ErrorCode.ChatBotMax));
+			if (String.IsNullOrWhiteSpace(model.ConnectionString))
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ChatBotWhitespaceConnectionString));
 
-			model.Enabled ??= false;
-			model.ReconnectionInterval ??= 1;
+			if (!model.ValidateProviderChannelTypes())
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ChatBotWrongChannelType));
 
-			// try to update das db first
 			var newChannels = model.Channels?.Select(x => ConvertApiChatChannel(x, model.Provider!.Value)).ToList() ?? new List<Models.ChatChannel>(); // important that this isn't null
-			var dbModel = new ChatBot(newChannels)
-			{
-				Name = model.Name,
-				ConnectionString = model.ConnectionString,
-				Enabled = model.Enabled,
-				InstanceId = Instance.Id!.Value,
-				Provider = model.Provider,
-				ReconnectionInterval = model.ReconnectionInterval,
-				ChannelLimit = model.ChannelLimit,
-			};
 
-			DatabaseContext.ChatBots.Add(dbModel);
-
-			await DatabaseContext.Save(cancellationToken);
-			return await WithComponentInstanceNullable(
-				async instance =>
-				{
-					try
-					{
-						// try to create it
-						await instance.Chat.ChangeSettings(dbModel, cancellationToken);
-
-						if (dbModel.Channels.Count > 0)
-							await instance.Chat.ChangeChannels(dbModel.Id!.Value, dbModel.Channels, cancellationToken);
-					}
-					catch
-					{
-						// undo the add
-						DatabaseContext.ChatBots.Remove(dbModel);
-
-						// DCTx2: Operations must always run
-						await DatabaseContext.Save(default);
-						await instance.Chat.DeleteConnection(dbModel.Id!.Value, default);
-						throw;
-					}
-
-					return null;
-				})
-
-				?? this.StatusCode(HttpStatusCode.Created, dbModel.ToApi());
+			return await chatAuthority.InvokeTransformable<ChatBot, ChatBotResponse>(
+				this,
+				authority => authority.Create(
+					newChannels,
+					model.Name,
+					model.ConnectionString,
+					model.Provider.Value,
+					Instance.Require(x => x.Id),
+					model.ReconnectionInterval,
+					model.ChannelLimit,
+					model.Enabled ?? false,
+					cancellationToken));
 		}
 
 		/// <summary>
@@ -187,7 +162,6 @@ namespace Tgstation.Server.Host.Controllers
 						instance.Chat.DeleteConnection(id, cancellationToken),
 						DatabaseContext
 							.ChatBots
-							.AsQueryable()
 							.Where(x => x.Id == id)
 							.ExecuteDeleteAsync(cancellationToken));
 					return null;
@@ -214,7 +188,6 @@ namespace Tgstation.Server.Host.Controllers
 					new PaginatableResult<ChatBot>(
 						DatabaseContext
 							.ChatBots
-							.AsQueryable()
 							.Where(x => x.InstanceId == Instance.Id)
 							.Include(x => x.Channels)
 							.OrderBy(x => x.Id))),
@@ -244,8 +217,8 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			var query = DatabaseContext.ChatBots
-				.AsQueryable()
+			var query = DatabaseContext
+				.ChatBots
 				.Where(x => x.Id == id && x.InstanceId == Instance.Id)
 				.Include(x => x.Channels);
 
@@ -287,7 +260,6 @@ namespace Tgstation.Server.Host.Controllers
 
 			var query = DatabaseContext
 				.ChatBots
-				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id && x.Id == model.Id)
 				.Include(x => x.Channels);
 

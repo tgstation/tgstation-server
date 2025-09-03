@@ -216,7 +216,6 @@ namespace Tgstation.Server.Host.Database
 				{
 					var tgsUser = await databaseContext
 						.Users
-						.AsQueryable()
 						.Where(x => x.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))
 						.FirstOrDefaultAsync(cancellationToken);
 
@@ -232,7 +231,6 @@ namespace Tgstation.Server.Host.Database
 			// normalize backslashes to forward slashes
 			var allInstances = await databaseContext
 				.Instances
-				.AsQueryable()
 				.Where(instance => instance.SwarmIdentifer == swarmConfiguration.Identifier)
 				.ToListAsync(cancellationToken);
 			foreach (var instance in allInstances)
@@ -242,7 +240,6 @@ namespace Tgstation.Server.Host.Database
 			{
 				var ids = await databaseContext
 					.DreamDaemonSettings
-					.AsQueryable()
 					.Where(x => x.TopicRequestTimeout == 0)
 					.Select(x => x.Id)
 					.ToListAsync(cancellationToken);
@@ -311,7 +308,6 @@ namespace Tgstation.Server.Host.Database
 		{
 			var admin = await databaseContext
 				.Users
-				.AsQueryable()
 				.Where(x => x.CanonicalName == User.CanonicalizeName(DefaultCredentials.AdminUserName))
 				.Include(x => x.CreatedBy)
 				.Include(x => x.PermissionSet)
