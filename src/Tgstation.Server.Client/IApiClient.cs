@@ -53,7 +53,7 @@ namespace Tgstation.Server.Client
 			where THubImplementation : class;
 
 		/// <summary>
-		/// Run an HTTP POST request.
+		/// Run an HTTP PUT request.
 		/// </summary>
 		/// <typeparam name="TBody">The type to of the request body.</typeparam>
 		/// <typeparam name="TResult">The type of the response body.</typeparam>
@@ -65,7 +65,7 @@ namespace Tgstation.Server.Client
 			where TBody : class;
 
 		/// <summary>
-		/// Run an HTTP POST request.
+		/// Run an HTTP PUT request.
 		/// </summary>
 		/// <typeparam name="TResult">The type of the response body.</typeparam>
 		/// <param name="route">The server route to make the request to.</param>
@@ -131,7 +131,7 @@ namespace Tgstation.Server.Client
 		ValueTask Delete(string route, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Run an HTTP POST request.
+		/// Run an HTTP PUT request.
 		/// </summary>
 		/// <typeparam name="TBody">The type to of the request body.</typeparam>
 		/// <typeparam name="TResult">The type of the response body.</typeparam>
@@ -148,7 +148,7 @@ namespace Tgstation.Server.Client
 			where TBody : class;
 
 		/// <summary>
-		/// Run an HTTP POST request.
+		/// Run an HTTP PUT request.
 		/// </summary>
 		/// <typeparam name="TResult">The type of the response body.</typeparam>
 		/// <param name="route">The server route to make the request to.</param>

@@ -851,8 +851,8 @@ namespace Tgstation.Server.Host.Swarm
 					using var httpClient = httpClientFactory.CreateClient();
 					using var request = PrepareSwarmRequest(
 						null,
-						HttpMethod.Post,
-						SwarmConstants.UpdateInitiationRoute,
+						HttpMethod.Put,
+						SwarmConstants.UpdateRoute,
 						new SwarmUpdateRequest
 						{
 							UpdateVersion = version,
@@ -1059,8 +1059,8 @@ namespace Tgstation.Server.Host.Swarm
 
 						using var request = PrepareSwarmRequest(
 							node,
-							HttpMethod.Post,
-							SwarmConstants.UpdateInitiationRoute,
+							HttpMethod.Put,
+							SwarmConstants.UpdateRoute,
 							body);
 
 						using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);

@@ -264,7 +264,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(Api.Models.ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Post, string.Concat(url.ToString(), Routes.Transfer.AsSpan(1))))
+			using (var request = new HttpRequestMessage(HttpMethod.Put, string.Concat(url.ToString(), Routes.Transfer.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -304,7 +304,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.Gone, response.StatusCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Post, string.Concat(url.ToString(), Routes.Transfer.AsSpan(1), "?ticket=veryfaketicket")))
+			using (var request = new HttpRequestMessage(HttpMethod.Put, string.Concat(url.ToString(), Routes.Transfer.AsSpan(1), "?ticket=veryfaketicket")))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
