@@ -39,8 +39,8 @@
     <PackageVersion Include="Microsoft.Extensions.Logging.EventLog" Version="9.0.8" />
     <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.14.0" />
     <PackageVersion Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.14.0" />
-    <PackageVersion Include="MSTest.TestAdapter" Version="3.10.3" />
-    <PackageVersion Include="MSTest.TestFramework" Version="3.10.3" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="3.11.0" />
+    <PackageVersion Include="MSTest.TestFramework" Version="3.11.0" />
     <PackageVersion Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <!-- Pinned: Be VERY careful about updating https://github.com/moq/moq/issues/1372 -->
     <PackageVersion Include="Moq" Version="4.20.72" />
