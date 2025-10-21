@@ -4,7 +4,6 @@
   <PropertyGroup>
     <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
-    <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <UseAppHost>false</UseAppHost>
     <NoWarn>API1000;ASP0019;CA1000</NoWarn>
     <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
