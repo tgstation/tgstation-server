@@ -3,23 +3,23 @@
 
   <ItemGroup>
     <!-- Usage: Code coverage collection -->
-    <PackageReference Include="coverlet.collector" Version="6.0.4">
+    <PackageReference Include="coverlet.collector">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <!-- Usage: Logging specific for GitHub actions -->
-    <PackageReference Include="GitHubActionsTestLogger" Version="2.4.1">
+    <PackageReference Include="GitHubActionsTestLogger">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <!-- Usage: Hard to say what exactly this is for, but not including it removes the test icon and breaks vstest.console.exe for some reason -->
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" Condition="'$(TgsTestNoSdk)' != 'true'" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Condition="'$(TgsTestNoSdk)' != 'true'" />
     <!-- Usage: Dependency mocking for tests -->
     <!-- Pinned: Be VERY careful about updating https://github.com/moq/moq/issues/1372 -->
-    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="Moq" />
     <!-- Usage: MSTest execution -->
-    <PackageReference Include="MSTest.TestAdapter" Version="3.10.2" />
+    <PackageReference Include="MSTest.TestAdapter" />
     <!-- Usage: MSTest asserts etc... -->
-    <PackageReference Include="MSTest.TestFramework" Version="3.10.2" />
+    <PackageReference Include="MSTest.TestFramework" />
   </ItemGroup>
 </Project>

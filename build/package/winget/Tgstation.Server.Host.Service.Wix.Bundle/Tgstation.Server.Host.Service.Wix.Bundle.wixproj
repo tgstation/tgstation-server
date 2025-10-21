@@ -24,8 +24,8 @@
     <Content Include="Theme.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="WixToolset.Bal.wixext" Version="5.0.2" />
-    <PackageReference Include="WixToolset.Netfx.wixext" Version="5.0.2" />
+    <PackageReference Include="WixToolset.Bal.wixext" />
+    <PackageReference Include="WixToolset.Netfx.wixext" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Host.Service.Wix\Tgstation.Server.Host.Service.Wix.wixproj" />

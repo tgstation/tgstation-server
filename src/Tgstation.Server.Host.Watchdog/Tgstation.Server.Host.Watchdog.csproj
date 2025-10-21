@@ -10,9 +10,9 @@
 
   <ItemGroup>
     <!-- Usage: Logging abstractions -->
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
     <!-- Usage: POSIX support for signals -->
-    <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
+    <PackageReference Include="Mono.Posix.NETStandard" />
   </ItemGroup>
 
   <ItemGroup>

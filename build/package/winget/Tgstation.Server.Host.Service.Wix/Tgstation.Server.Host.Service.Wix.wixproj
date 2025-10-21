@@ -20,8 +20,8 @@
     </HarvestDirectory>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="WixToolset.Heat" Version="5.0.2" />
-    <PackageReference Include="WixToolset.Util.wixext" Version="5.0.2" />
+    <PackageReference Include="WixToolset.Heat" />
+    <PackageReference Include="WixToolset.Util.wixext" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Host.Service.Wix.Extensions\Tgstation.Server.Host.Service.Wix.Extensions.csproj" />

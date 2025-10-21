@@ -567,9 +567,9 @@ namespace Tgstation.Server.Host.Core
 				ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost,
 			};
 
-			forwardedHeaderOptions.KnownNetworks.Clear();
-			forwardedHeaderOptions.KnownNetworks.Add(
-				new Microsoft.AspNetCore.HttpOverrides.IPNetwork(
+			forwardedHeaderOptions.KnownIPNetworks.Clear();
+			forwardedHeaderOptions.KnownIPNetworks.Add(
+				new global::System.Net.IPNetwork(
 					IPAddress.Any,
 					0));
 

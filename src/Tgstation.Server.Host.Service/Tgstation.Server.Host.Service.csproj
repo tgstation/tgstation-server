@@ -17,21 +17,21 @@
 
   <ItemGroup>
     <!-- Usage: Installing service programatically -->
-    <PackageReference Include="Core.System.ServiceProcess" Version="2.0.1" />
+    <PackageReference Include="Core.System.ServiceProcess" />
     <!-- Usage: Command line argument support -->
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" />
     <!-- Usage: Identifies when we are running in the context of the Windows SCM -->
-    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" />
     <!-- Usage: Windows event log logging plugin -->
-    <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="Microsoft.Extensions.Logging.EventLog" />
     <!-- Usage: Console logging plugin -->
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
     <!-- Usage: Updated transitive dependency of Core.System.ServiceProcess -->
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" />
     <!-- Usage: Updated transitive dependency of Core.System.ServiceProcess -->
-    <PackageReference Include="System.Drawing.Common" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="System.Drawing.Common" />
     <!-- Usage: Windows Service Manager intergration -->
-    <PackageReference Include="System.ServiceProcess.ServiceController" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" />
   </ItemGroup>
 
   <ItemGroup>
