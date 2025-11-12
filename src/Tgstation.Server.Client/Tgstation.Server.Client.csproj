@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" VersionOverride="10.0.0" />
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
     <!-- Already exists via TGS.Server.Api, but needed for explicit nuget versioning -->
     <ProjectReference Include="..\Tgstation.Server.Common\Tgstation.Server.Common.csproj" />
