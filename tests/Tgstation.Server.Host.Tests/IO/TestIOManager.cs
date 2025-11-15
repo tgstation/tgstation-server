@@ -90,7 +90,8 @@ namespace Tgstation.Server.Host.IO.Tests
 				Assert.IsFalse(await ioManager.FileExists(symlinkedFile, CancellationToken.None));
 				Assert.IsFalse(await ioManager.FileExists(ioManager.ConcatPath(symlinkedDir, "test1.txt"), CancellationToken.None));
 				Assert.IsTrue(await ioManager.FileExists(fileInTargetDir, CancellationToken.None));
-				Assert.IsTrue(expectedBytes.SequenceEqual(await ioManager.ReadAllBytes(fileInTargetDir, CancellationToken.None)));
+				var readResult = await ioManager.ReadAllBytes(fileInTargetDir, CancellationToken.None);
+				Assert.IsTrue(expectedBytes.SequenceEqual(readResult));
 			}
 			catch
 			{
