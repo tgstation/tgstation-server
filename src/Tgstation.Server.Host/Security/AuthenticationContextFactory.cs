@@ -175,6 +175,7 @@ namespace Tgstation.Server.Host.Security
 				.Include(x => x.Group)
 					.ThenInclude(x => x!.PermissionSet)
 				.Include(x => x.OAuthConnections)
+				.Include(x => x.OidcConnections)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (user == default)
 			{

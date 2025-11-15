@@ -10,6 +10,8 @@ using Moq;
 
 using Newtonsoft.Json;
 
+using Remora.Discord.Rest.Extensions;
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -1229,7 +1231,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual("https://github.com/Cyberboss", embedsResponse.Embed.Author.Url);
 			Assert.IsTrue(DateTimeOffset.TryParse(embedsResponse.Embed.Timestamp, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var timestamp));
 			var timestampCheck = startTime < timestamp && endTime > timestamp;
-			Assert.IsTrue(timestampCheck);
+			Assert.IsTrue(timestampCheck, $"Expected between {startTime.ToString("O")} and {endTime.ToString("O")}, got {timestamp.ToString("O")}");
 			Assert.AreEqual("https://github.com/tgstation/tgstation-server", embedsResponse.Embed.Url);
 			Assert.AreEqual(3, embedsResponse.Embed.Fields?.Count);
 			Assert.AreEqual("field1", embedsResponse.Embed.Fields.ElementAt(0).Name);
