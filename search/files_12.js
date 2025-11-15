@@ -38,7 +38,7 @@ var searchData=
   ['resultextensions_2ecs_35',['ResultExtensions.cs',['../_result_extensions_8cs.html',1,'']]],
   ['revinfotestmerge_2ecs_36',['RevInfoTestMerge.cs',['../_rev_info_test_merge_8cs.html',1,'']]],
   ['revisioncommand_2ecs_37',['RevisionCommand.cs',['../_revision_command_8cs.html',1,'']]],
-  ['revisioninformation_2ecs_38',['revisioninformation.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_revision_information_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_revision_information_8cs.html',1,'(Global Namespace)']]],
+  ['revisioninformation_2ecs_38',['revisioninformation.cs',['../_tgstation_8_server_8_host_2_models_2_revision_information_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_revision_information_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs.html',1,'(Global Namespace)']]],
   ['rightsconditional_7btrights_7d_2ecs_39',['RightsConditional{TRights}.cs',['../_rights_conditional_02_t_rights_03_8cs.html',1,'']]],
   ['rightshelper_2ecs_40',['RightsHelper.cs',['../_rights_helper_8cs.html',1,'']]],
   ['rightsholdergraphqltransformer_7btright_7d_2ecs_41',['RightsHolderGraphQLTransformer{TRight}.cs',['../_rights_holder_graph_q_l_transformer_02_t_right_03_8cs.html',1,'']]],

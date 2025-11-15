@@ -267,8 +267,22 @@ Components:
       PullRequest: 2326
     Unreleased: true
   - Version: 6.18.1
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.13.0
+      GraphQLApi: 0.6.0
+      DreamMakerApi: 7.3.3
+      Configuration: 5.8.0
+      InteropApi: 5.10.1
+      HostWatchdog: 1.6.0
+      NugetCommon: 7.0.0
+      NugetApi: 18.0.0
+      NugetClient: 21.0.0
+      WebControlPanel: 6.10.0
+    Changes:
+    - Descriptions:
+      - Fixed reading the authenticated user not sending OIDC connections.
+      Author: Cyberboss
+      PullRequest: 2358
     Unreleased: true
   - Version: 6.18.0
     ComponentVersions:
