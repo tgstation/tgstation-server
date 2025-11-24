@@ -7,7 +7,7 @@
     <PackageVersion Include="Cyberboss.SmartIrc4net.Standard" Version="1.0.0" />
     <PackageVersion Include="DotEnv.Core" Version="3.1.0" />
     <PackageVersion Include="Elastic.CommonSchema.Serilog" Version="9.0.0" />
-    <PackageVersion Include="GitHubActionsTestLogger" Version="2.4.1" />
+    <PackageVersion Include="GitHubActionsTestLogger" Version="3.0.0" />
     <PackageVersion Include="HotChocolate.AspNetCore" Version="15.1.9" />
     <PackageVersion Include="HotChocolate.AspNetCore.Authorization" Version="15.1.9" />
     <PackageVersion Include="HotChocolate.Data.EntityFramework" Version="15.1.9" />
