@@ -74,7 +74,7 @@
     <PackageVersion Include="System.ServiceProcess.ServiceController" Version="9.0.8" />
     <PackageVersion Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
     <PackageVersion Include="WixToolset.Bal.wixext" Version="5.0.2" />
-    <PackageVersion Include="WixToolset.Dtf.CustomAction" Version="5.0.2" />
+    <PackageVersion Include="WixToolset.Dtf.CustomAction" Version="6.0.2" />
     <PackageVersion Include="WixToolset.Heat" Version="5.0.2" />
     <PackageVersion Include="WixToolset.Netfx.wixext" Version="5.0.2" />
     <PackageVersion Include="WixToolset.Util.wixext" Version="5.0.2" />
