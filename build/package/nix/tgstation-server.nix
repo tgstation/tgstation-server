@@ -17,9 +17,11 @@ let
 
   stdenv32 = pkgs-i686.stdenv_32bit;
 
+  curl32 = pkgs-i686.curl.lib.override { stdenv = stdenv32; };
+
   rpath = pkgs-i686.lib.makeLibraryPath [
     stdenv32.cc.cc.lib
-    pkgs-i686.curl.override { stdenv = stdenv32; }
+    curl32
   ];
 
   byond-patcher = pkgs-i686.writeShellScriptBin "EngineInstallComplete-050-TgsPatchELFByond.sh" ''
