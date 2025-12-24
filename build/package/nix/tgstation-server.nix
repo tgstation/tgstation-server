@@ -19,6 +19,7 @@ let
 
   rpath = pkgs-i686.lib.makeLibraryPath [
     stdenv.cc.cc.lib
+    pkgs-i686.curl
   ];
 
   byond-patcher = pkgs-i686.writeShellScriptBin "EngineInstallComplete-050-TgsPatchELFByond.sh" ''
