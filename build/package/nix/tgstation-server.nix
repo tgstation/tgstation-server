@@ -24,7 +24,9 @@ let
   libbyond-rpath = pkgs-i686.lib.makeLibraryPath [
     pkgs-i686.curl
   ];
-
+Script /nix/store/f850qwvpi4g0ldszhw2d5c4szf0wcgl6-EngineInstallComplete-050-TgsPatchELFByond.sh/bin/EngineInstallComplete-050-TgsPatchELFByond.sh exited with code 1:
+patchelf: missing filename
+ (Inner exception: )
   byond-patcher = pkgs-i686.writeShellScriptBin "EngineInstallComplete-050-TgsPatchELFByond.sh" ''
     # If the file doesn't exist, assume OD
     BYOND_BIN_PATH="''${TGS_INSTANCE_ROOT}/Byond/$1/byond/bin/"
@@ -39,7 +41,7 @@ let
       --set-rpath "$BYOND_PATH:${exes-rpath}" \
       $BYOND_PATH/{DreamDaemon,DreamDownload,DreamMaker}
 
-    ${pkgs.patchelf}/bin/patchelf --set-rpath "${libbyond-rpath}"
+    ${pkgs.patchelf}/bin/patchelf --set-rpath "${libbyond-rpath}" $BYOND_PATH/libbyond.so
   '';
 
   tgs-wrapper = pkgs.writeShellScriptBin "tgs-path-wrapper" ''
