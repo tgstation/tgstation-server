@@ -15,10 +15,14 @@ let
 
   package = import ./package.nix inputs;
 
-  stdenv = pkgs-i686.stdenv_32bit;
+  stdenv32 = pkgs-i686.stdenv_32bit;
 
-  rpath = pkgs-i686.lib.makeLibraryPath [
-    stdenv.cc.cc.lib
+  exes-rpath = pkgs-i686.lib.makeLibraryPath [
+    stdenv32.cc.cc.lib
+  ];
+
+  libbyond-rpath = pkgs-i686.lib.makeLibraryPath [
+    pkgs-i686.curl
   ];
 
   byond-patcher = pkgs-i686.writeShellScriptBin "EngineInstallComplete-050-TgsPatchELFByond.sh" ''
@@ -31,9 +35,11 @@ let
 
     BYOND_PATH=$(realpath $BYOND_BIN_PATH)
 
-    ${pkgs.patchelf}/bin/patchelf --set-interpreter "$(cat ${stdenv.cc}/nix-support/dynamic-linker)" \
-      --set-rpath "$BYOND_PATH:${rpath}" \
+    ${pkgs.patchelf}/bin/patchelf --set-interpreter "$(cat ${stdenv32.cc}/nix-support/dynamic-linker)" \
+      --set-rpath "$BYOND_PATH:${exes-rpath}" \
       $BYOND_PATH/{DreamDaemon,DreamDownload,DreamMaker}
+
+    ${pkgs.patchelf}/bin/patchelf --set-rpath "${libbyond-rpath}" $BYOND_PATH/libbyond.so
   '';
 
   tgs-wrapper = pkgs.writeShellScriptBin "tgs-path-wrapper" ''
