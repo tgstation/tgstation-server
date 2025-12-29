@@ -266,7 +266,7 @@ Components:
       Author: Cyberboss
       PullRequest: 2326
     Unreleased: true
-  - Version: 6.18.1
+  - Version: 6.18.2
     ComponentVersions:
       HttpApi: 10.13.0
       GraphQLApi: 0.6.0
@@ -280,10 +280,21 @@ Components:
       WebControlPanel: 6.10.0
     Changes:
     - Descriptions:
+      - Fixed libcurl support on nix installs.
+      Author: Cyberboss
+      PullRequest: 2401
+    Unreleased: true
+  - Version: 6.18.1
+    ComponentVersions:
+      Core: 6.18.1
+      HttpApi: 10.13.0
+      GraphQLApi: 0.6.0
+      DreamMakerApi: 7.3.3
+    Changes:
+    - Descriptions:
       - Fixed reading the authenticated user not sending OIDC connections.
       Author: Cyberboss
       PullRequest: 2358
-    Unreleased: true
   - Version: 6.18.0
     ComponentVersions:
       Core: 6.18.0
