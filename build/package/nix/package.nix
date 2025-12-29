@@ -68,7 +68,6 @@ stdenv.mkDerivation {
     gcc_multi
     glibc
     bash
-    curl
     tgstation-server-host-console
   ];
   nativeBuildInputs = with pkgs; [
