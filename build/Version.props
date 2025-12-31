@@ -10,7 +10,7 @@
     <TgsCommonLibraryVersion>7.0.0</TgsCommonLibraryVersion>
     <TgsApiLibraryVersion>18.2.0</TgsApiLibraryVersion>
     <TgsClientVersion>21.2.0</TgsClientVersion>
-    <TgsDmapiVersion>7.3.4</TgsDmapiVersion>
+    <TgsDmapiVersion>7.3.5</TgsDmapiVersion>
     <TgsInteropVersion>5.10.1</TgsInteropVersion>
     <TgsHostWatchdogVersion>1.6.0</TgsHostWatchdogVersion>
     <TgsSwarmProtocolVersion>9.0.0</TgsSwarmProtocolVersion>
