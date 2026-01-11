@@ -1773,26 +1773,22 @@ jobs:
           TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_API_VERSION }} --restapi
 
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          tag_name: api-v${{ env.TGS_API_VERSION }}
-          release_name: tgstation-server REST API v${{ env.TGS_API_VERSION }}
-          body_path: release_notes.md
-          commitish: ${{ github.event.head_commit.id }}
+      - name: Setup Release Artifacts
+        run: |
+          mkdir release_assets
+          cp ./swaggger/tgs_api.json ./release_assets/swagger.json
 
-      - name: Upload OpenApi Spec
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./swagger/tgs_api.json
-          asset_name: swagger.json
-          asset_content_type: application/json
+          token: ${{ steps.app-token-generation.outputs.token }}
+          tag_name: api-v${{ env.TGS_API_VERSION }}
+          files: |
+            ./release_assets/*
+          name: tgstation-server REST API v${{ env.TGS_API_VERSION }}
+          body_path: release_notes.md
+          target_commitish: ${{ github.event.head_commit.id }}
+          make_latest: false
 
   deploy-gql:
     name: Deploy GraphQL API
@@ -1860,27 +1856,23 @@ jobs:
           TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_API_VERSION }} --graphqlapi
 
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          tag_name: graphql-v${{ env.TGS_API_VERSION }}
-          release_name: tgstation-server GraphQL API v${{ env.TGS_API_VERSION }}
-          body_path: release_notes.md
-          commitish: ${{ github.event.head_commit.id }}
-          prerelease: ${{ env.TGS_GRAPHQL_PRERELEASE }}
+      - name: Setup Release Artifacts
+        run: |
+          mkdir release_assets
+          cp ./schema/tgs-api.graphql ./release_assets/tgs-api.graphql
 
-      - name: Upload GraphQL Schema
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./schema/tgs-api.graphql
-          asset_name: tgs-api.graphql
-          asset_content_type: text/plain
+          token: ${{ steps.app-token-generation.outputs.token }}
+          tag_name: graphql-v${{ env.TGS_API_VERSION }}
+          files: |
+            ./release_assets/*
+          name: tgstation-server GraphQL API v${{ env.TGS_API_VERSION }}
+          body_path: release_notes.md
+          target_commitish: ${{ github.event.head_commit.id }}
+          make_latest: false
+          prerelease: ${{ env.TGS_GRAPHQL_PRERELEASE }}
 
   deploy-dm:
     name: Deploy DreamMaker API
@@ -1941,26 +1933,22 @@ jobs:
           TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_DM_VERSION }} --dmapi
 
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          tag_name: dmapi-v${{ env.TGS_DM_VERSION }}
-          release_name: tgstation-server DMAPI v${{ env.TGS_DM_VERSION }}
-          body_path: release_notes.md
-          commitish: ${{ github.event.head_commit.id }}
+      - name: Setup Release Artifacts
+        run: |
+          mkdir release_assets
+          cp ./DMAPI.zip ./release_assets/DMAPI.zip
 
-      - name: Upload DMAPI Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./DMAPI.zip
-          asset_name: DMAPI.zip
-          asset_content_type: application/zip
+          token: ${{ steps.app-token-generation.outputs.token }}
+          tag_name: dmapi-v${{ env.TGS_DM_VERSION }}
+          files: |
+            ./release_assets/*
+          name: tgstation-server DMAPI v${{ env.TGS_DM_VERSION }}
+          body_path: release_notes.md
+          target_commitish: ${{ github.event.head_commit.id }}
+          make_latest: false
 
   deploy-client:
     name: Deploy Nuget Packages
@@ -2249,106 +2237,30 @@ jobs:
           TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_VERSION }}
 
+      - name: Setup Release Artifacts
+        run: |
+          mkdir release_assets
+          cp ./ServerConsole.zip ./release_assets/ServerConsole.zip
+          cp ./ServerService.zip ./release_assets/ServerService.zip
+          cp ./DMAPI.zip ./release_assets/DMAPI.zip
+          cp ./swagger/tgs_api.json ./release_assets/swagger.json
+          cp ./schema/tgs-api.graphql ./release_assets/tgs-api.graphql
+          cp ./ServerUpdatePackage.zip ./release_assets/ServerUpdatePackage.zip
+          cp ./packaging-debian/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz ./release_assets/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
+          cp ./build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/mariadb.msi ./release_assets/mariadb-${{ env.MARIADB_VERSION }}-winx64.msi
+          cp ./build/package/winget/tgstation-server-installer.exe ./release_assets/tgstation-server-installer.exe
+
       - name: Create GitHub Release
-        uses: actions/create-release@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b
         with:
+          token: ${{ steps.app-token-generation.outputs.token }}
           tag_name: tgstation-server-v${{ env.TGS_VERSION }}
-          release_name: tgstation-server-v${{ env.TGS_VERSION }}
+          files: |
+            ./release_assets/*
+          name: tgstation-server-v${{ env.TGS_VERSION }}
           body_path: release_notes.md
-          commitish: ${{ github.event.head_commit.id }}
-
-      - name: Upload Server Console Artifact to Release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ServerConsole.zip
-          asset_name: ServerConsole.zip
-          asset_content_type: application/zip
-
-      - name: Upload Server Service Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ServerService.zip
-          asset_name: ServerService.zip
-          asset_content_type: application/zip
-
-      - name: Upload DMAPI Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./DMAPI.zip
-          asset_name: DMAPI.zip
-          asset_content_type: application/zip
-
-      - name: Upload REST API Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./swagger/tgs_api.json
-          asset_name: swagger.json
-          asset_content_type: application/json
-
-      - name: Upload GraphQL API Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./schema/tgs-api.graphql
-          asset_name: tgs-api.graphql
-          asset_content_type: text/plain
-
-      - name: Upload Server Update Package Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ServerUpdatePackage.zip
-          asset_name: ServerUpdatePackage.zip
-          asset_content_type: application/zip
-
-      - name: Upload Debian Packaging Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./packaging-debian/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
-          asset_name: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
-          asset_content_type: application/x-tar
-
-      - name: Upload MariaDB .msi
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/mariadb.msi
-          asset_name: mariadb-${{ env.MARIADB_VERSION }}-winx64.msi
-          asset_content_type: application/octet-stream
-
-      - name: Upload Installer .exe
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/package/winget/tgstation-server-installer.exe
-          asset_name: tgstation-server-installer.exe
-          asset_content_type: application/octet-stream
+          target_commitish: ${{ github.event.head_commit.id }}
+          make_latest: true
 
   changelog-regen:
     name: Regenerate Changelog
