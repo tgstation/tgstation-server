@@ -423,7 +423,16 @@ namespace Tgstation.Server.Host.Components.Repository
 			CancellationToken cancellationToken)
 		{
 			logger.LogDebug("Fetch origin...");
-			await eventConsumer.HandleEvent(EventType.RepoFetch, Enumerable.Empty<string>(), false, deploymentPipeline, cancellationToken);
+
+			var parameters = new List<string>();
+			if (username != null)
+			{
+				parameters.Add(username);
+				if (password != null)
+					parameters.Add(password);
+			}
+
+			await eventConsumer.HandleEvent(EventType.RepoFetch, parameters, true, deploymentPipeline, cancellationToken);
 			await Task.Factory.StartNew(
 				() =>
 				{

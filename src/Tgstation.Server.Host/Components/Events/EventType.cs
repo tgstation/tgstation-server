@@ -18,7 +18,7 @@
 		RepoCheckout,
 
 		/// <summary>
-		/// No parameters.
+		/// Parameters: (Optional) Repository access username, (Optional) repository access password.
 		/// </summary>
 		[EventScript("RepoFetch")]
 		RepoFetch,
