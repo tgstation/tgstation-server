@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		const uint ClientCacheHours = 1;
 
 		/// <summary>
-		/// Minutes before tokens expire before not using them.
+		/// Minutes before tokens expire before we stop using them for safety.
 		/// </summary>
 		const uint AppTokenExpiryGraceMinutes = 15;
 
@@ -144,7 +144,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 
 				var now = DateTimeOffset.UtcNow;
 				cacheHit = clientCache.TryGetValue(cacheKey, out var tuple);
-				var tokenValid = cacheHit && (!tuple.Expiry.HasValue || tuple.Expiry.Value <= now);
+				var tokenValid = cacheHit && (!tuple.Expiry.HasValue || tuple.Expiry.Value > now);
 				if (!tokenValid)
 				{
 					if (cacheHit)
