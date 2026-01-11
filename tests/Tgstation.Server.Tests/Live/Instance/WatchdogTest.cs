@@ -1,18 +1,4 @@
-﻿using Byond.TopicSender;
-
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Mono.Unix;
-using Mono.Unix.Native;
-
-using Moq;
-
-using Newtonsoft.Json;
-
-using Remora.Discord.Rest.Extensions;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -27,8 +13,19 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Byond.TopicSender;
+
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Mono.Unix;
+using Mono.Unix.Native;
+
+using Moq;
+
+using Newtonsoft.Json;
+
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
@@ -43,8 +40,6 @@ using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
-
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
@@ -673,7 +668,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			int nonLiveDirs = 0;
 			// cleanup task is async
-			for(var i = 0; i < 20; ++i)
+			for (var i = 0; i < 20; ++i)
 			{
 				nonLiveDirs = CountNonLiveDirs();
 				if (expected == nonLiveDirs)
@@ -1490,7 +1485,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			bool firstTime = true;
 			do
 			{
-				if(!firstTime)
+				if (!firstTime)
 					Assert.IsFalse(daemonStatus.SoftRestart);
 
 				ValidateSessionId(daemonStatus, true);
@@ -1537,9 +1532,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			return ddProc != null;
 		}
 
-		public Task<DreamDaemonResponse> TellWorldToReboot(bool waitForOnlineIfRestoring, CancellationToken cancellationToken, [CallerLineNumber]int source = 0)
+		public Task<DreamDaemonResponse> TellWorldToReboot(bool waitForOnlineIfRestoring, CancellationToken cancellationToken, [CallerLineNumber] int source = 0)
 			=> TellWorldToReboot2(instanceClient, instanceManager, topicClient, FindTopicPort(), waitForOnlineIfRestoring || testVersion.Engine.Value == EngineType.OpenDream, cancellationToken, source);
-		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, IInstanceManager instanceManager, ITopicClient topicClient, ushort topicPort, bool waitForOnlineIfRestoring, CancellationToken cancellationToken, [CallerLineNumber]int source = 0, [CallerFilePath]string path = null)
+		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, IInstanceManager instanceManager, ITopicClient topicClient, ushort topicPort, bool waitForOnlineIfRestoring, CancellationToken cancellationToken, [CallerLineNumber] int source = 0, [CallerFilePath] string path = null)
 		{
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsNotNull(daemonStatus.StagedCompileJob);
