@@ -193,6 +193,10 @@ var/run_bridge_test
 		TestLegacyBridge()
 		return "all gucci"
 
+	var/deploy_test = data["test_deployment_trigger"]
+	if(deploy_test)
+		return world.TgsTriggerDeployment() == TRUE ? "all gucci" : "deployment trigger failed!"
+
 	TgsChatBroadcast(new /datum/tgs_message_content("Received non-tgs topic: `[T]`"))
 
 	return "feck"

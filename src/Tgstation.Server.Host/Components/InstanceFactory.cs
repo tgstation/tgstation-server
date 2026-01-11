@@ -329,6 +329,22 @@ namespace Tgstation.Server.Host.Components
 								loggerFactory.CreateLogger<SessionPersistor>(),
 								metadata);
 
+							var dreamMaker = new DreamMaker(
+								engineManager,
+								gameIoManager,
+								configuration,
+								eventConsumer,
+								chatManager,
+								processExecutor,
+								dmbFactory,
+								repoManager,
+								remoteDeploymentManagerFactory,
+								asyncDelayer,
+								metricFactory,
+								sessionConfigurationOptions,
+								loggerFactory.CreateLogger<DreamMaker>(),
+								metadata);
+
 							var sessionControllerFactory = new SessionControllerFactory(
 								processExecutor,
 								engineManager,
@@ -343,6 +359,8 @@ namespace Tgstation.Server.Host.Components
 								bridgeRegistrar,
 								serverPortProvider,
 								eventConsumer,
+								jobManager,
+								dreamMaker,
 								asyncDelayer,
 								dotnetDumpService,
 								metricFactory,
@@ -350,6 +368,8 @@ namespace Tgstation.Server.Host.Components
 								sessionConfigurationOptions,
 								loggerFactory.CreateLogger<SessionControllerFactory>(),
 								metadata);
+
+							dreamMaker.SetSessionControllerFactory(sessionControllerFactory);
 
 							var watchdog = watchdogFactory.CreateWatchdog(
 								chatManager,
@@ -369,23 +389,6 @@ namespace Tgstation.Server.Host.Components
 								commandFactory.SetWatchdog(watchdog);
 
 								Instance? instance = null;
-								var dreamMaker = new DreamMaker(
-									engineManager,
-									gameIoManager,
-									configuration,
-									sessionControllerFactory,
-									eventConsumer,
-									chatManager,
-									processExecutor,
-									dmbFactory,
-									repoManager,
-									remoteDeploymentManagerFactory,
-									asyncDelayer,
-									metricFactory,
-									sessionConfigurationOptions,
-									loggerFactory.CreateLogger<DreamMaker>(),
-									metadata);
-
 								instance = new Instance(
 									metadata,
 									repoManager,

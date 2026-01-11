@@ -56,11 +56,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly StaticFiles.IConfiguration configuration;
 
 		/// <summary>
-		/// The <see cref="ISessionControllerFactory"/> for <see cref="DreamMaker"/>.
-		/// </summary>
-		readonly ISessionControllerFactory sessionControllerFactory;
-
-		/// <summary>
 		/// The <see cref="IEventConsumer"/> for <see cref="DreamMaker"/>.
 		/// </summary>
 		readonly IEventConsumer eventConsumer;
@@ -131,6 +126,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly object deploymentLock;
 
 		/// <summary>
+		/// The <see cref="ISessionControllerFactory"/> for <see cref="DreamMaker"/>.
+		/// </summary>
+		ISessionControllerFactory? sessionControllerFactory;
+
+		/// <summary>
 		/// The active callback from <see cref="IChatManager.QueueDeploymentMessage"/>.
 		/// </summary>
 		Func<string?, string, Action<bool>>? currentChatCallback;
@@ -161,7 +161,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="engineManager">The value of <see cref="engineManager"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="configuration">The value of <see cref="configuration"/>.</param>
-		/// <param name="sessionControllerFactory">The value of <see cref="sessionControllerFactory"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="chatManager">The value of <see cref="chatManager"/>.</param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
@@ -177,7 +176,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 			IEngineManager engineManager,
 			IIOManager ioManager,
 			StaticFiles.IConfiguration configuration,
-			ISessionControllerFactory sessionControllerFactory,
 			IEventConsumer eventConsumer,
 			IChatManager chatManager,
 			IProcessExecutor processExecutor,
@@ -193,7 +191,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.engineManager = engineManager ?? throw new ArgumentNullException(nameof(engineManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.chatManager = chatManager ?? throw new ArgumentNullException(nameof(chatManager));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
@@ -444,6 +441,17 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 		}
 #pragma warning restore CA1506
+
+		/// <summary>
+		/// Set the <see cref="sessionControllerFactory"/> for the <see cref="DreamMaker"/>. Must be called exactly once after construction before use.
+		/// </summary>
+		/// <param name="sessionControllerFactory">The value of <see cref="sessionControllerFactory"/>.</param>
+		public void SetSessionControllerFactory(ISessionControllerFactory sessionControllerFactory)
+		{
+			ArgumentNullException.ThrowIfNull(sessionControllerFactory);
+			if (Interlocked.CompareExchange(ref this.sessionControllerFactory, sessionControllerFactory, null) != null)
+				throw new InvalidOperationException($"{nameof(SetSessionControllerFactory)} called multiple times!");
+		}
 
 		/// <summary>
 		/// Calculate the average length of a deployment using a given <paramref name="databaseContext"/>.
@@ -853,6 +861,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 			};
 
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
+
+			if (sessionControllerFactory == null)
+				throw new InvalidOperationException($"{nameof(SetSessionControllerFactory)} was not called!");
 
 			ApiValidationStatus validationStatus;
 			await using (var provider = new TemporaryDmbProvider(

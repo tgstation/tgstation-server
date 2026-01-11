@@ -106,6 +106,16 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
+		/// The <see cref="IJobManager"/> for the <see cref="SessionControllerFactory"/>.
+		/// </summary>
+		readonly IJobManager jobManager;
+
+		/// <summary>
+		/// The <see cref="IDreamMaker"/> for the <see cref="SessionControllerFactory"/>.
+		/// </summary>
+		readonly IDreamMaker dreamMaker;
+
+		/// <summary>
 		/// The <see cref="IAsyncDelayer"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly IAsyncDelayer asyncDelayer;
@@ -196,6 +206,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="bridgeRegistrar">The value of <see cref="bridgeRegistrar"/>.</param>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
+		/// <param name="dreamMaker">The value of <see cref="dreamMaker"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
 		/// <param name="metricFactory">The <see cref="IMetricFactory"/> used to create metrics.</param>
@@ -216,6 +228,8 @@ namespace Tgstation.Server.Host.Components.Session
 			IBridgeRegistrar bridgeRegistrar,
 			IServerPortProvider serverPortProvider,
 			IEventConsumer eventConsumer,
+			IJobManager jobManager,
+			IDreamMaker dreamMaker,
 			IAsyncDelayer asyncDelayer,
 			IDotnetDumpService dotnetDumpService,
 			IMetricFactory metricFactory,
@@ -237,6 +251,8 @@ namespace Tgstation.Server.Host.Components.Session
 			this.bridgeRegistrar = bridgeRegistrar ?? throw new ArgumentNullException(nameof(bridgeRegistrar));
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			this.dreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
 			ArgumentNullException.ThrowIfNull(metricFactory);
@@ -376,6 +392,8 @@ namespace Tgstation.Server.Host.Components.Session
 							asyncDelayer,
 							dotnetDumpService,
 							eventConsumer,
+							jobManager,
+							dreamMaker,
 							loggerFactory.CreateLogger<SessionController>(),
 							() => LogDDOutput(
 								process,
@@ -474,6 +492,8 @@ namespace Tgstation.Server.Host.Components.Session
 							asyncDelayer,
 							dotnetDumpService,
 							eventConsumer,
+							jobManager,
+							dreamMaker,
 							loggerFactory.CreateLogger<SessionController>(),
 							() => ValueTask.CompletedTask,
 							null,

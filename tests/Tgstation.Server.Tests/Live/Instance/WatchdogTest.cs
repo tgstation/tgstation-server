@@ -354,6 +354,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await TestLegacyBridgeEndpoint(cancellationToken);
 
+			await TestDeploymentTrigger(cancellationToken);
+
 			var deleteJobTask = TestDeleteByondInstallErrorCasesAndQueing(cancellationToken);
 
 			SessionController.LogTopicRequests = false;
@@ -1695,6 +1697,34 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(result);
 			Assert.AreEqual("all gucci", result.StringData);
 			await CheckDMApiFail((await instanceClient.DreamDaemon.Read(cancellationToken)).ActiveCompileJob, cancellationToken);
+		}
+
+		async ValueTask TestDeploymentTrigger(CancellationToken cancellationToken)
+		{
+			System.Console.WriteLine("TEST: TestDeploymentTrigger");
+			var initialJobs = await instanceClient.Jobs.List(new PaginationSettings
+			{
+				RetrieveCount = 1,
+			}, cancellationToken);
+
+			var result = await SendTestTopic(
+				"test_deployment_trigger=1",
+				cancellationToken);
+			Assert.IsNotNull(result);
+			Assert.AreEqual("all gucci", result.StringData);
+
+			var newJobs = await instanceClient.Jobs.List(new PaginationSettings
+			{
+				RetrieveCount = 1,
+			}, cancellationToken);
+
+			newJobs.RemoveAll(job => initialJobs.Any(initialJob => initialJob.Id == job.Id));
+			var deploymentJob = newJobs.SingleOrDefault(job => job.JobCode == JobCode.AutomaticDeployment);
+			Assert.IsNotNull(deploymentJob);
+
+			await CheckDMApiFail((await instanceClient.DreamDaemon.Read(cancellationToken)).ActiveCompileJob, cancellationToken);
+
+			await instanceClient.Jobs.Cancel(deploymentJob, cancellationToken);
 		}
 	}
 }

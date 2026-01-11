@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 using Serilog.Context;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
@@ -25,13 +25,17 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Session
 {
+#pragma warning disable CA1506
 	/// <inheritdoc cref="ISessionController" />
 	sealed class SessionController : Chunker, ISessionController, IBridgeHandler, IChannelSink
+#pragma warning restore CA1506
 	{
 		/// <summary>
 		/// If calls to <see cref="SendTopicRequest(TopicParameters, CancellationToken)"/> should be trace logged.
@@ -176,6 +180,16 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
+		/// The <see cref="IJobManager"/> for the <see cref="SessionController"/>.
+		/// </summary>
+		readonly IJobManager jobManager;
+
+		/// <summary>
+		/// The <see cref="IDreamMaker"/> for the <see cref="SessionController"/>.
+		/// </summary>
+		readonly IDreamMaker dreamMaker;
+
+		/// <summary>
 		/// The <see cref="TaskCompletionSource"/> that completes when DD makes it's first bridge request.
 		/// </summary>
 		readonly TaskCompletionSource initialBridgeRequestTcs;
@@ -270,6 +284,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
+		/// <param name="dreamMaker">The value of <see cref="dreamMaker"/>.</param>
 		/// <param name="logger">The value of <see cref="Chunker.Logger"/>.</param>
 		/// <param name="postLifetimeCallback">The <see cref="Func{TResult}"/> returning a <see cref="ValueTask"/> to be run after the <paramref name="process"/> ends.</param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/>.</param>
@@ -288,6 +304,8 @@ namespace Tgstation.Server.Host.Components.Session
 			IAsyncDelayer asyncDelayer,
 			IDotnetDumpService dotnetDumpService,
 			IEventConsumer eventConsumer,
+			IJobManager jobManager,
+			IDreamMaker dreamMaker,
 			ILogger<SessionController> logger,
 			Func<ValueTask> postLifetimeCallback,
 			uint? startupTimeout,
@@ -309,6 +327,8 @@ namespace Tgstation.Server.Host.Components.Session
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			this.dreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
 
 			apiValidationSession = apiValidate;
 
@@ -650,6 +670,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="BridgeResponse"/> for the request or <see langword="null"/> if the request could not be dispatched.</returns>
 #pragma warning disable CA1502 // TODO: Decomplexify
+#pragma warning disable CA1506
 		async ValueTask<BridgeResponse?> ProcessBridgeCommand(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			var response = new BridgeResponse();
@@ -782,6 +803,19 @@ namespace Tgstation.Server.Host.Components.Session
 					return await ProcessChunk<BridgeParameters, BridgeResponse>(ProcessBridgeCommand, BridgeError, parameters.Chunk, cancellationToken);
 				case BridgeCommandType.Event:
 					return TriggerCustomEvent(parameters.EventInvocation);
+				case BridgeCommandType.Deploy:
+					var job = Job.Create(JobCode.AutomaticDeployment, null, metadata, DreamMakerRights.CancelCompile);
+					await jobManager.RegisterOperation(
+						job,
+						(core, databaseContextFactory, job, progressReporter, jobCancellationToken) =>
+							dreamMaker.DeploymentProcess(
+								job,
+								databaseContextFactory,
+								progressReporter,
+								jobCancellationToken),
+						cancellationToken);
+
+					break;
 				case null:
 					return BridgeError("Missing commandType!");
 				default:
@@ -790,6 +824,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			return response;
 		}
+#pragma warning restore CA1506
 #pragma warning restore CA1502
 
 		/// <summary>
