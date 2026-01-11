@@ -88,7 +88,8 @@ namespace Tgstation.Server.Tests.Live
 		{
 			var result = new List<System.Diagnostics.Process>();
 
-			switch (engineType) {
+			switch (engineType)
+			{
 				case EngineType.Byond:
 					result.AddRange(System.Diagnostics.Process.GetProcessesByName("DreamDaemon"));
 					if (new PlatformIdentifier().IsWindows)
@@ -1178,13 +1179,14 @@ namespace Tgstation.Server.Tests.Live
 							null,
 							null,
 							true,
-							true);
+							true,
+							false);
 
 						int? exitCode;
 						using (cancellationToken.Register(gitRemoteOriginFixProc.Terminate))
 							exitCode = await gitRemoteOriginFixProc.Lifetime;
 
-						loggerFactory.CreateLogger("TgTest").LogInformation("git {args} output:{newLine}{output}",args, Environment.NewLine, await gitRemoteOriginFixProc.GetCombinedOutput(cancellationToken));
+						loggerFactory.CreateLogger("TgTest").LogInformation("git {args} output:{newLine}{output}", args, Environment.NewLine, await gitRemoteOriginFixProc.GetCombinedOutput(cancellationToken));
 						Assert.AreEqual(0, exitCode);
 					}
 
@@ -1306,7 +1308,7 @@ namespace Tgstation.Server.Tests.Live
 
 		async Task TestStandardTgsOperation(bool openDreamOnly)
 		{
-			using(var currentProcess = System.Diagnostics.Process.GetCurrentProcess())
+			using (var currentProcess = System.Diagnostics.Process.GetCurrentProcess())
 			{
 				var currentPriorityClass = currentProcess.PriorityClass;
 				if (currentPriorityClass != ProcessPriorityClass.Normal)
@@ -2005,7 +2007,7 @@ namespace Tgstation.Server.Tests.Live
 				Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex.ErrorCode}: {ex.Message}\n{ex.AdditionalServerData}");
 				throw;
 			}
-			catch(OperationCanceledException ex)
+			catch (OperationCanceledException ex)
 			{
 				Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ABORTED: {ex}");
 				throw;

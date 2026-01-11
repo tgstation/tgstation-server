@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Components.Events
 	sealed class NoopEventConsumer : IEventConsumer
 	{
 		/// <inheritdoc />
-		public ValueTask HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
+		public ValueTask HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool sensitiveParameters, bool deploymentPipeline, CancellationToken cancellationToken)
 			=> ValueTask.CompletedTask;
 
 		/// <inheritdoc />

@@ -411,7 +411,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					repoName,
 					cancellationToken);
 
-				var eventTask = eventConsumer.HandleEvent(EventType.DeploymentComplete, Enumerable.Empty<string>(), false, cancellationToken);
+				var eventTask = eventConsumer.HandleEvent(EventType.DeploymentComplete, Enumerable.Empty<string>(), false, false, cancellationToken);
 
 				try
 				{
@@ -566,7 +566,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				// DCT: Cancellation token is for job, delaying here is fine
 				progressReporter.StageName = "Running CompileCancelled event";
-				await eventConsumer.HandleEvent(EventType.CompileCancelled, Enumerable.Empty<string>(), true, CancellationToken.None);
+				await eventConsumer.HandleEvent(EventType.CompileCancelled, Enumerable.Empty<string>(), false, true, CancellationToken.None);
 				throw;
 			}
 			finally
@@ -625,6 +625,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						engineLock.Version.ToString(),
 						repoReference,
 					},
+					false,
 					true,
 					cancellationToken);
 
@@ -667,6 +668,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						repoOrigin.ToString(),
 						engineLock.Version.ToString(),
 					},
+					false,
 					true,
 					cancellationToken);
 
@@ -708,6 +710,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							compileSuceeded ? "1" : "0",
 							engineVersion.ToString(),
 						},
+						false,
 						true,
 						cancellationToken);
 					throw;
@@ -721,6 +724,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						resolvedOutputDirectory,
 						engineVersion.ToString(),
 					},
+					false,
 					true,
 					cancellationToken);
 
@@ -1027,7 +1031,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				try
 				{
 					// DCT: None available
-					await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { jobPath }, true, CancellationToken.None);
+					await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { jobPath }, false, true, CancellationToken.None);
 					await ioManager.DeleteDirectory(jobPath, CancellationToken.None);
 				}
 				catch (Exception e)

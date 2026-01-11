@@ -321,6 +321,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					EventType.RepoMergeConflict,
 					arguments,
 					false,
+					false,
 					cancellationToken);
 				return new TestMergeResult
 				{
@@ -362,6 +363,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					testMergeParameters.Comment,
 				},
 				false,
+				false,
 				cancellationToken);
 
 			return new TestMergeResult
@@ -384,7 +386,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			ArgumentNullException.ThrowIfNull(committish);
 
 			logger.LogDebug("Checkout object: {committish}...", committish);
-			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish, moveCurrentReference.ToString() }, false, cancellationToken);
+			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish, moveCurrentReference.ToString() }, false, false, cancellationToken);
 			await Task.Factory.StartNew(
 				() =>
 				{
@@ -421,7 +423,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			CancellationToken cancellationToken)
 		{
 			logger.LogDebug("Fetch origin...");
-			await eventConsumer.HandleEvent(EventType.RepoFetch, Enumerable.Empty<string>(), deploymentPipeline, cancellationToken);
+			await eventConsumer.HandleEvent(EventType.RepoFetch, Enumerable.Empty<string>(), false, deploymentPipeline, cancellationToken);
 			await Task.Factory.StartNew(
 				() =>
 				{
@@ -476,7 +478,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new JobException(ErrorCode.RepoReferenceRequired);
 			logger.LogTrace("Reset to origin...");
 			var trackedBranch = libGitRepo.Head.TrackedBranch;
-			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, deploymentPipeline, cancellationToken);
+			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, false, deploymentPipeline, cancellationToken);
 
 			using (var progressReporter2 = progressReporter.CreateSection(null, updateSubmodules ? 2.0 / 3 : 1.0))
 				await ResetToSha(
@@ -629,6 +631,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						oldHead.FriendlyName ?? UnknownReference,
 						trackedBranch.FriendlyName,
 					},
+					false,
 					deploymentPipeline,
 					cancellationToken);
 				return null;
@@ -686,6 +689,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					{
 						ioManager.ResolvePath(),
 					},
+					false,
 					deploymentPipeline,
 					cancellationToken);
 			}
@@ -1192,6 +1196,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					await eventConsumer.HandleEvent(
 						EventType.RepoSubmoduleUpdate,
 						new List<string> { submodule.Name },
+						false,
 						deploymentPipeline,
 						cancellationToken);
 

@@ -250,7 +250,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public async ValueTask<ISessionController> LaunchNew(
 			IDmbProvider dmbProvider,
 			IEngineExecutableLock? currentByondLock,
@@ -554,6 +554,7 @@ namespace Tgstation.Server.Host.Components.Session
 					EventType.DreamDaemonPreLaunch,
 					Enumerable.Empty<string?>(),
 					false,
+					false,
 					cancellationToken);
 
 			var process = await processExecutor.LaunchProcess(
@@ -587,6 +588,7 @@ namespace Tgstation.Server.Host.Components.Session
 						{
 							process.Id.ToString(CultureInfo.InvariantCulture),
 						},
+						false,
 						false,
 						cancellationToken);
 

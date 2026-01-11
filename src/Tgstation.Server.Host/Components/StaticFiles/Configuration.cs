@@ -653,7 +653,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public ValueTask HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
+		public ValueTask HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool sensitiveParameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -663,7 +663,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				return ValueTask.CompletedTask;
 			}
 
-			return ExecuteEventScripts(parameters, deploymentPipeline, cancellationToken, scriptNames);
+			return ExecuteEventScripts(parameters, sensitiveParameters, deploymentPipeline, cancellationToken, scriptNames);
 		}
 
 		/// <inheritdoc />
@@ -684,7 +684,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			}
 
 #pragma warning disable CA2012 // Use ValueTasks correctly
-			return ExecuteEventScripts(parameters, false, cancellationToken, scriptName);
+			return ExecuteEventScripts(parameters, false, false, cancellationToken, scriptName);
 #pragma warning restore CA2012 // Use ValueTasks correctly
 		}
 
@@ -785,11 +785,12 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// Execute a set of given <paramref name="scriptNames"/>.
 		/// </summary>
 		/// <param name="parameters">An <see cref="IEnumerable{T}"/> of <see cref="string"/> parameters for the <paramref name="scriptNames"/>.</param>
+		/// <param name="sensitiveParameters">If parameters are considered sensitive and should not be logged.</param>
 		/// <param name="deploymentPipeline">If this event is part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <param name="scriptNames">The names of the scripts to execute.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask ExecuteEventScripts(IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken, params string[] scriptNames)
+		async ValueTask ExecuteEventScripts(IEnumerable<string?> parameters, bool sensitiveParameters, bool deploymentPipeline, CancellationToken cancellationToken, params string[] scriptNames)
 		{
 			await EnsureDirectories(cancellationToken);
 
@@ -859,7 +860,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							{ "TGS_INSTANCE_ROOT", metadata.Path! },
 						},
 						readStandardHandles: true,
-						noShellExecute: true))
+						noShellExecute: true,
+						doNotLogArguments: sensitiveParameters))
 					using (cancellationToken.Register(() => script.Terminate()))
 					{
 						if (sessionConfiguration.LowPriorityDeploymentProcesses && deploymentPipeline)

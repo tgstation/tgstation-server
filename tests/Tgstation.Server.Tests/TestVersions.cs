@@ -1,7 +1,8 @@
 ﻿using System;
-using System.IO;
-using System.IO.Compression;
 using System.Globalization;
+using System.IO;
+using System.IO.Abstractions;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -20,6 +21,7 @@ using Moq;
 using Newtonsoft.Json.Linq;
 
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host;
@@ -29,11 +31,9 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.System;
-using Tgstation.Server.Api.Models;
-using Tgstation.Server.Tests.Live;
 using Tgstation.Server.Host.Properties;
-using System.IO.Abstractions;
+using Tgstation.Server.Host.System;
+using Tgstation.Server.Tests.Live;
 
 namespace Tgstation.Server.Tests
 {
@@ -529,7 +529,8 @@ namespace Tgstation.Server.Tests
 					null,
 					null,
 					true,
-					true);
+					true,
+					false);
 
 				try
 				{

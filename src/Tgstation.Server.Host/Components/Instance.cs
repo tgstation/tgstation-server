@@ -654,7 +654,7 @@ namespace Tgstation.Server.Host.Components
 		async ValueTask AutoUpdateAction(CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Beginning auto update...");
-			await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, Enumerable.Empty<string>(), true, cancellationToken);
+			await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, Enumerable.Empty<string>(), false, true, cancellationToken);
 
 			var repositoryUpdateJob = Job.Create(Api.Models.JobCode.RepositoryAutoUpdate, null, metadata, RepositoryRights.CancelPendingChanges);
 			await jobManager.RegisterOperation(

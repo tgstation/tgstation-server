@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Moq;
 
 using Tgstation.Server.Host.Core;
@@ -74,7 +75,8 @@ namespace Tgstation.Server.Host.System.Tests
 					null,
 					null,
 					true,
-					true);
+					true,
+					false);
 
 			await Task.Delay(TimeSpan.FromSeconds(10));
 

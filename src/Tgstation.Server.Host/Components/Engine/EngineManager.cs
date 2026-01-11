@@ -162,6 +162,7 @@ namespace Tgstation.Server.Host.Components.Engine
 						stringVersion,
 					},
 					false,
+					false,
 					cancellationToken);
 
 				ActiveVersion = version;
@@ -504,10 +505,10 @@ namespace Tgstation.Server.Host.Components.Engine
 						progressReporter.StageName = "Running event";
 
 						var versionString = version.ToString();
-						await eventConsumer.HandleEvent(EventType.EngineInstallStart, new List<string> { versionString }, deploymentPipelineProcesses, cancellationToken);
+						await eventConsumer.HandleEvent(EventType.EngineInstallStart, new List<string> { versionString }, false, deploymentPipelineProcesses, cancellationToken);
 
 						installPath = await InstallVersionFiles(progressReporter, version, customVersionStream, deploymentPipelineProcesses, cancellationToken);
-						await eventConsumer.HandleEvent(EventType.EngineInstallComplete, new List<string> { versionString }, deploymentPipelineProcesses, cancellationToken);
+						await eventConsumer.HandleEvent(EventType.EngineInstallComplete, new List<string> { versionString }, false, deploymentPipelineProcesses, cancellationToken);
 
 						ourTcs.SetResult();
 					}
@@ -526,7 +527,7 @@ namespace Tgstation.Server.Host.Components.Engine
 							}
 						}
 						else if (ex is not OperationCanceledException)
-							await eventConsumer.HandleEvent(EventType.EngineInstallFail, new List<string> { ex.Message }, deploymentPipelineProcesses, cancellationToken);
+							await eventConsumer.HandleEvent(EventType.EngineInstallFail, new List<string> { ex.Message }, false, deploymentPipelineProcesses, cancellationToken);
 
 						lock (installedVersions)
 							installedVersions.Remove(version);

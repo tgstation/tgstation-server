@@ -35,15 +35,15 @@ namespace Tgstation.Server.Host.Components.Events
 			=> configuration.HandleCustomEvent(eventName, parameters, cancellationToken);
 
 		/// <inheritdoc />
-		public async ValueTask HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
+		public async ValueTask HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool sensitiveParameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
 			if (watchdog == null)
 				throw new InvalidOperationException("EventConsumer used without watchdog set!");
 
-			var scriptTask = configuration.HandleEvent(eventType, parameters, deploymentPipeline, cancellationToken);
-			await watchdog.HandleEvent(eventType, parameters, deploymentPipeline, cancellationToken);
+			var scriptTask = configuration.HandleEvent(eventType, parameters, sensitiveParameters, deploymentPipeline, cancellationToken);
+			await watchdog.HandleEvent(eventType, parameters, sensitiveParameters, deploymentPipeline, cancellationToken);
 			await scriptTask;
 		}
 

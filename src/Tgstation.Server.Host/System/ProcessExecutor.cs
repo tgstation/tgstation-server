@@ -113,7 +113,8 @@ namespace Tgstation.Server.Host.System
 			IReadOnlyDictionary<string, string>? environment,
 			string? fileRedirect,
 			bool readStandardHandles,
-			bool noShellExecute)
+			bool noShellExecute,
+			bool doNotLogArguments)
 		{
 			ArgumentNullException.ThrowIfNull(fileName);
 			ArgumentNullException.ThrowIfNull(workingDirectory);
@@ -127,14 +128,14 @@ namespace Tgstation.Server.Host.System
 				"Launching process in {workingDirectory}: {exe} {arguments}{environment}",
 				workingDirectory,
 				fileName,
-				arguments,
+				doNotLogArguments ? "<ARGUMENTS HIDDEN>" : arguments,
 				enviromentLogLines);
 			else
 				logger.LogDebug(
 				"Shell launching process in {workingDirectory}: {exe} {arguments}{environment}",
 				workingDirectory,
 				fileName,
-				arguments,
+				doNotLogArguments ? "<ARGUMENTS HIDDEN>" : arguments,
 				enviromentLogLines);
 
 			var handle = new global::System.Diagnostics.Process();
