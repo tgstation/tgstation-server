@@ -218,7 +218,7 @@ vTdVAoGBAI/jjUMdjkY43zhe3w2piwT0fhGfqm9ikdAB9IcgcptuS0ML0ZaWV/eO
 			const int MockInstallationId = 542;
 			const string MockAccessToken = "asdf_2134_im_the_installation_access_token";
 
-			var mockExpiry = DateTime.UtcNow.AddMinutes(15).AddSeconds(2);
+			DateTimeOffset? mockExpiry = null;
 
 			var mockMessageHandler = new MockHttpMessageHandler(
 				(request, cancellationToken) =>
@@ -279,7 +279,7 @@ vTdVAoGBAI/jjUMdjkY43zhe3w2piwT0fhGfqm9ikdAB9IcgcptuS0ML0ZaWV/eO
 					else if (path == $"/app/installations/{MockInstallationId}/access_tokens")
 						json = @"{
   ""token"": """ + MockAccessToken + @""",
-  ""expires_at"": """ + mockExpiry.ToString("O") + @""",
+  ""expires_at"": """ + (mockExpiry = DateTime.UtcNow.AddMinutes(15).AddSeconds(1)).Value.ToString("O") + @""",
   ""permissions"": {
     ""issues"": ""write"",
     ""contents"": ""read""
@@ -437,15 +437,24 @@ vTdVAoGBAI/jjUMdjkY43zhe3w2piwT0fhGfqm9ikdAB9IcgcptuS0ML0ZaWV/eO
 
 			var client1 = await factory.CreateClientForRepository(fakeAccessString, repoIdentifier, CancellationToken.None);
 			Assert.IsNotNull(client1);
+			Assert.AreEqual(MockAccessToken, client1.Connection.Credentials.GetToken());
 
 			var client2 = await factory.CreateClientForRepository(fakeAccessString, repoIdentifier, CancellationToken.None);
 			Assert.AreSame(client1, client2);
 
-			await Task.Delay(TimeSpan.FromSeconds(3));
+			IGitHubClient client3 = null;
+			for (var i = 0; i < 100; ++i)
+			{
+				await Task.Delay(TimeSpan.FromMilliseconds(50));
+				client3 = await factory.CreateClientForRepository(fakeAccessString, repoIdentifier, CancellationToken.None);
 
-			var client3 = await factory.CreateClientForRepository(fakeAccessString, repoIdentifier, CancellationToken.None);
+				if (client3 != client2)
+					break;
+			}
+
 			Assert.AreNotSame(client2, client3);
 			Assert.IsNotNull(client3);
+			Assert.AreEqual(MockAccessToken, client3.Connection.Credentials.GetToken());
 		}
 	}
 }
