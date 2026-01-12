@@ -114,9 +114,9 @@ Inheritance diagram for Tgstation.Server.Host.Components.Events.IEventConsumer:<
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a564f82eb43566dabd77e37191b4e3d37" id="r_a564f82eb43566dabd77e37191b4e3d37"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a> eventType, IEnumerable&lt; string?&gt; parameters, bool deploymentPipeline, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a564f82eb43566dabd77e37191b4e3d37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em> .  <br /></td></tr>
-<tr class="separator:a564f82eb43566dabd77e37191b4e3d37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3aa955c269e063d5db2f3f83d001c38c" id="r_a3aa955c269e063d5db2f3f83d001c38c"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a> eventType, IEnumerable&lt; string?&gt; parameters, bool sensitiveParameters, bool deploymentPipeline, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a3aa955c269e063d5db2f3f83d001c38c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em> .  <br /></td></tr>
+<tr class="separator:a3aa955c269e063d5db2f3f83d001c38c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26718aaaf2f856144517928db9325ddc" id="r_a26718aaaf2f856144517928db9325ddc"><td class="memItemLeft" align="right" valign="top">ValueTask?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a26718aaaf2f856144517928db9325ddc">HandleCustomEvent</a> (string eventName, IEnumerable&lt; string?&gt; parameters, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a26718aaaf2f856144517928db9325ddc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles a given custom event.  <br /></td></tr>
 <tr class="separator:a26718aaaf2f856144517928db9325ddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,7 +171,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#acf09a4ff94bec5b6037fdab337b60678">Tgstation.Server.Host.Components.Events.EventConsumer</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_noop_event_consumer.html#a16a4e1b0ccbc23f7a97ef1f851f586f3">Tgstation.Server.Host.Components.Events.NoopEventConsumer</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aed63bcfe31b42d649028266269fa5ba3">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ad2d1a0bdfce459aa1419dda5b329940e">Tgstation.Server.Host.Components.StaticFiles.Configuration</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_session_controller_8cs_source.html#l01160">Tgstation.Server.Host.Components.Session.SessionController.TriggerCustomEvent()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_controller_8cs_source.html#l01195">Tgstation.Server.Host.Components.Session.SessionController.TriggerCustomEvent()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -190,8 +190,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a564f82eb43566dabd77e37191b4e3d37" name="a564f82eb43566dabd77e37191b4e3d37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a564f82eb43566dabd77e37191b4e3d37">&#9670;&#160;</a></span>HandleEvent()</h2>
+<a id="a3aa955c269e063d5db2f3f83d001c38c" name="a3aa955c269e063d5db2f3f83d001c38c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3aa955c269e063d5db2f3f83d001c38c">&#9670;&#160;</a></span>HandleEvent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -207,6 +207,12 @@ Here is the caller graph for this function:</div>
           <td></td>
           <td class="paramtype">IEnumerable&lt; string?&gt;&#160;</td>
           <td class="paramname"><em>parameters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>sensitiveParameters</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -233,6 +239,7 @@ Here is the caller graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">eventType</td><td>The EventType.</td></tr>
     <tr><td class="paramname">parameters</td><td>An IEnumerable&lt;T&gt; of string parameters for <em>eventType</em> .</td></tr>
+    <tr><td class="paramname">sensitiveParameters</td><td>If parameters are considered sensitive and should not be logged.</td></tr>
     <tr><td class="paramname">deploymentPipeline</td><td>If this event is part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
@@ -240,14 +247,14 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a538f31f3a1987a6515dbd9b9066e624b">Tgstation.Server.Host.Components.Events.EventConsumer</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_noop_event_consumer.html#a251207733d45db4aec7204092e117d5c">Tgstation.Server.Host.Components.Events.NoopEventConsumer</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#aa2ea8273d0ecfbcc31e4cc1ccc93dd57">Tgstation.Server.Host.Components.StaticFiles.Configuration</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aed9bd19e52b72a565e6e4cab00ac3e0a">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#ab0331ce624391e050da84c6fcde06794">Tgstation.Server.Host.Components.Events.EventConsumer</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_noop_event_consumer.html#a8c700a9362bdea6fa5f245a0c2d8f46a">Tgstation.Server.Host.Components.Events.NoopEventConsumer</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afc27e2e8e1f49cf354d4354265df2fa9">Tgstation.Server.Host.Components.StaticFiles.Configuration</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a953de849574db072ced34c749aea2023">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_repository_8cs_source.html#l00173">Tgstation.Server.Host.Components.Repository.Repository.AddTestMerge()</a>, <a class="el" href="_engine_manager_8cs_source.html#l00418">Tgstation.Server.Host.Components.Engine.EngineManager.AssertAndLockVersion()</a>, <a class="el" href="_tgstation_8_server_8_host_2_components_2_instance_8cs_source.html#l00654">Tgstation.Server.Host.Components.Instance.AutoUpdateAction()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00764">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.BeforeApplyDmb()</a>, <a class="el" href="_engine_manager_8cs_source.html#l00133">Tgstation.Server.Host.Components.Engine.EngineManager.ChangeVersion()</a>, <a class="el" href="_repository_8cs_source.html#l00375">Tgstation.Server.Host.Components.Repository.Repository.CheckoutObject()</a>, <a class="el" href="_dream_maker_8cs_source.html#l00495">Tgstation.Server.Host.Components.Deployment.DreamMaker.Compile()</a>, <a class="el" href="_session_controller_factory_8cs_source.html#l00521">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateGameServerProcess()</a>, <a class="el" href="_dmb_factory_8cs_source.html#l00518">Tgstation.Server.Host.Components.Deployment.DmbFactory.DeleteCompileJobContent()</a>, <a class="el" href="_dream_maker_8cs_source.html#l00218">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess()</a>, <a class="el" href="_repository_8cs_source.html#l00416">Tgstation.Server.Host.Components.Repository.Repository.FetchOrigin()</a>, <a class="el" href="_event_consumer_8cs_source.html#l00038">Tgstation.Server.Host.Components.Events.EventConsumer.HandleEvent()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00805">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleEventImpl()</a>, <a class="el" href="_repository_8cs_source.html#l00562">Tgstation.Server.Host.Components.Repository.Repository.MergeOrigin()</a>, <a class="el" href="_repository_8cs_source.html#l00466">Tgstation.Server.Host.Components.Repository.Repository.ResetToOrigin()</a>, and <a class="el" href="_dream_maker_8cs_source.html#l00591">Tgstation.Server.Host.Components.Deployment.DreamMaker.RunCompileJob()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_8cs_source.html#l00173">Tgstation.Server.Host.Components.Repository.Repository.AddTestMerge()</a>, <a class="el" href="_engine_manager_8cs_source.html#l00419">Tgstation.Server.Host.Components.Engine.EngineManager.AssertAndLockVersion()</a>, <a class="el" href="_tgstation_8_server_8_host_2_components_2_instance_8cs_source.html#l00654">Tgstation.Server.Host.Components.Instance.AutoUpdateAction()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00770">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.BeforeApplyDmb()</a>, <a class="el" href="_engine_manager_8cs_source.html#l00133">Tgstation.Server.Host.Components.Engine.EngineManager.ChangeVersion()</a>, <a class="el" href="_repository_8cs_source.html#l00377">Tgstation.Server.Host.Components.Repository.Repository.CheckoutObject()</a>, <a class="el" href="_dream_maker_8cs_source.html#l00503">Tgstation.Server.Host.Components.Deployment.DreamMaker.Compile()</a>, <a class="el" href="_session_controller_factory_8cs_source.html#l00541">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateGameServerProcess()</a>, <a class="el" href="_dmb_factory_8cs_source.html#l00518">Tgstation.Server.Host.Components.Deployment.DmbFactory.DeleteCompileJobContent()</a>, <a class="el" href="_dream_maker_8cs_source.html#l00215">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess()</a>, <a class="el" href="_repository_8cs_source.html#l00418">Tgstation.Server.Host.Components.Repository.Repository.FetchOrigin()</a>, <a class="el" href="_event_consumer_8cs_source.html#l00038">Tgstation.Server.Host.Components.Events.EventConsumer.HandleEvent()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00812">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleEventImpl()</a>, <a class="el" href="_repository_8cs_source.html#l00573">Tgstation.Server.Host.Components.Repository.Repository.MergeOrigin()</a>, <a class="el" href="_repository_8cs_source.html#l00477">Tgstation.Server.Host.Components.Repository.Repository.ResetToOrigin()</a>, and <a class="el" href="_dream_maker_8cs_source.html#l00599">Tgstation.Server.Host.Components.Deployment.DreamMaker.RunCompileJob()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer_a564f82eb43566dabd77e37191b4e3d37_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer_a564f82eb43566dabd77e37191b4e3d37_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer_a564f82eb43566dabd77e37191b4e3d37_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer_a564f82eb43566dabd77e37191b4e3d37_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer_a3aa955c269e063d5db2f3f83d001c38c_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer_a3aa955c269e063d5db2f3f83d001c38c_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer_a3aa955c269e063d5db2f3f83d001c38c_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer_a3aa955c269e063d5db2f3f83d001c38c_icgraph">
 <area shape="rect" title="Handle a given eventType ." alt="" coords="1976,467,2214,507"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a3a8561c6ba67a42fec9a9830a043fbdc" title="Attempt to merge the revision specified by a given set of testMergeParameters &#160;into HEAD...." alt="" coords="1667,5,1901,46"/>
 <area shape="poly" title=" " alt="" coords="2088,452,2075,372,2047,268,2026,213,2000,159,1967,110,1927,66,1900,49,1903,44,1930,62,1971,106,2004,156,2031,211,2052,266,2080,371,2093,451"/>
@@ -271,7 +278,7 @@ Here is the caller graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="2082,523,2059,570,2025,625,1982,681,1957,707,1930,729,1910,741,1907,736,1927,725,1954,703,1978,678,2021,622,2054,567,2077,521"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a244a180597fe2bde35fd85e43d0dd59d" title="Fetch commits from the origin repository.A ValueTask representing the running operation." alt="" coords="1671,609,1897,650"/>
 <area shape="poly" title=" " alt="" coords="2056,519,1998,557,1929,593,1879,611,1878,606,1927,589,1995,553,2053,514"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a538f31f3a1987a6515dbd9b9066e624b" title="Handle a given eventType .A ValueTask representing the running operation." alt="" coords="1667,675,1900,715"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#ab0331ce624391e050da84c6fcde06794" title="Handle a given eventType .A ValueTask representing the running operation." alt="" coords="1667,675,1900,715"/>
 <area shape="poly" title=" " alt="" coords="2073,522,2014,595,1974,632,1930,664,1902,677,1900,672,1927,659,1971,628,2010,591,2069,519"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af1a7765d8a839d318fee44e8d63b6369" title="Handle a given eventType &#160;without re&#45;throwing errors." alt="" coords="1648,949,1920,990"/>
 <area shape="poly" title=" " alt="" coords="2094,523,2083,608,2073,663,2057,721,2036,780,2008,838,1973,892,1930,938,1912,951,1909,947,1927,934,1969,888,2004,835,2031,778,2052,719,2067,661,2078,608,2089,523"/>

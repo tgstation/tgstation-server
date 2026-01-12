@@ -26,9 +26,9 @@
 <area shape="poly" id="edge21_Node000001_Node000022" title=" " alt="" coords="159,448,178,513,214,603,239,652,268,699,304,742,344,779,352,784,348,788,341,783,300,746,264,702,234,654,209,605,173,515,154,449"/>
 <area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a16bc1d460e98b09d6f03b6ff9eb5ca03" title="Return the command line arguments for launching with given launchParameters ." alt="" coords="683,77,934,133"/>
 <area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="610,212,630,200,645,187,654,173,663,158,678,143,686,138,689,143,682,147,667,161,658,175,649,190,634,205,612,216"/>
-<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="690,157,927,198"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c" title="Handle a given eventType ." alt="" coords="690,157,927,198"/>
 <area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="616,214,689,199,690,204,617,219"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a17aa8c090377d70ebf0a93f3eb0a0243" title="Launch a IProcess." alt="" coords="700,222,917,263"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a801aa19c189da2b1c40a805d98079b40" title="Launch a IProcess." alt="" coords="700,222,917,263"/>
 <area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="616,240,684,240,684,245,616,245"/>
 <area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a1f08236db634210e10291a4ffddd0df8" title="Loads the environment settings for either the server or compiler." alt="" coords="695,288,921,328"/>
 <area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="617,266,690,281,689,286,616,271"/>

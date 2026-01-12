@@ -1,33 +1,38 @@
 <map id="Tgstation.Server.Host.Models.Job.Create" name="Tgstation.Server.Host.Models.Job.Create">
-<area shape="rect" id="Node000001" title="Creates a new job for registering in the Jobs.IJobService." alt="" coords="886,364,1082,405"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9ab4ae1f451c0feaf8845768bfb461c2" title="Pulls the repository and compiles." alt="" coords="591,37,817,78"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="973,350,957,293,930,223,891,153,866,121,837,93,816,80,819,76,840,89,870,117,895,150,935,221,962,291,978,348"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="597,103,812,143"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="968,350,948,306,920,254,883,202,861,179,837,159,811,144,814,140,840,154,865,175,887,199,925,251,953,304,973,348"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a70a8c37154274637dace8a87239795ed" title="Launches the watchdog." alt="" coords="597,168,812,209"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="960,353,909,287,875,253,837,224,811,211,813,207,840,219,879,248,913,283,964,350"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#abad90753319f5f43ed0802a3fad952c2" title="Begin deploying repository code." alt="" coords="597,233,812,274"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="944,356,895,321,837,289,804,277,806,272,839,285,898,317,947,352"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#ab538726e889dd70b1dd204fd3240b04a" title="Creates a JobResponse to generate a DreamDaemon process dump." alt="" coords="586,299,823,339"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="878,362,794,343,795,337,880,357"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#adf927beefb84907b988ad6c473db0147" title="Delete the repository." alt="" coords="597,364,812,405"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="871,387,812,387,812,382,871,382"/>
-<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a1d27c403022b5a73d0bb92e068d542d2" title="Delete the repository." alt="" coords="597,429,812,470"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="880,411,795,431,794,426,878,406"/>
-<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="570,495,838,535"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="947,417,898,452,839,484,806,497,804,492,837,479,895,447,944,412"/>
-<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a493845e121a87d36b3f11fc27ddcdd79" title="Creates a JobResponse to restart the Watchdog. It will not start if it wasn&#39;t already running." alt="" coords="597,560,812,601"/>
-<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="964,419,913,486,879,520,840,549,813,562,811,557,837,545,875,516,909,482,960,416"/>
-<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="597,625,812,666"/>
-<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="973,420,953,465,925,518,887,570,865,594,840,615,814,629,811,624,837,610,861,590,883,567,920,515,948,463,968,418"/>
-<area shape="rect" id="Node000016" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="597,691,812,731"/>
-<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="978,420,962,478,935,548,895,619,870,652,840,680,814,696,811,691,837,676,866,648,891,616,930,545,957,476,973,419"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore.A ValueTask representing the running operation." alt="" coords="288,37,514,78"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="575,60,514,60,514,55,575,55"/>
+<area shape="rect" id="Node000001" title="Creates a new job for registering in the Jobs.IJobService." alt="" coords="905,412,1101,453"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9ab4ae1f451c0feaf8845768bfb461c2" title="Pulls the repository and compiles." alt="" coords="610,37,836,78"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="995,397,981,332,956,249,938,206,915,165,888,126,856,93,835,79,838,75,859,89,892,123,920,162,943,204,961,247,987,330,1000,396"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="616,103,831,143"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="991,398,974,344,947,279,908,214,883,184,856,158,830,143,833,139,859,154,887,180,912,211,952,277,979,342,996,396"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a70a8c37154274637dace8a87239795ed" title="Launches the watchdog." alt="" coords="616,168,831,209"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="985,399,965,358,937,310,900,263,856,224,830,210,833,205,859,219,904,260,941,307,970,356,990,397"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#abad90753319f5f43ed0802a3fad952c2" title="Begin deploying repository code." alt="" coords="616,233,831,274"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="976,401,925,343,892,314,856,289,829,277,832,272,859,285,895,310,929,340,980,398"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#ab538726e889dd70b1dd204fd3240b04a" title="Creates a JobResponse to generate a DreamDaemon process dump." alt="" coords="605,299,842,339"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="955,406,908,379,856,355,820,342,821,337,858,350,911,374,958,401"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#adf927beefb84907b988ad6c473db0147" title="Delete the repository." alt="" coords="616,364,831,405"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="890,416,831,405,832,400,891,410"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a02b569cf7792648fb692e8e70487fcd3" title="Handle a set of bridge parameters ." alt="" coords="593,453,854,508"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="890,454,854,461,854,455,889,449"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a1d27c403022b5a73d0bb92e068d542d2" title="Delete the repository." alt="" coords="616,532,831,573"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="963,464,914,495,858,523,827,534,825,529,856,518,911,490,960,459"/>
+<area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="589,597,857,638"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="981,467,930,528,896,560,859,587,832,599,830,594,856,582,893,556,926,525,977,464"/>
+<area shape="rect" id="Node000016" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a493845e121a87d36b3f11fc27ddcdd79" title="Creates a JobResponse to restart the Watchdog. It will not start if it wasn&#39;t already running." alt="" coords="616,663,831,703"/>
+<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="991,468,971,510,942,560,905,610,859,652,833,666,830,662,856,647,901,606,938,557,966,508,986,465"/>
+<area shape="rect" id="Node000017" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="616,728,831,769"/>
+<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="996,469,980,524,953,591,913,659,888,690,859,717,833,733,830,728,856,713,884,686,909,656,948,589,975,522,991,467"/>
+<area shape="rect" id="Node000018" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="616,793,831,834"/>
+<area shape="poly" id="edge18_Node000001_Node000018" title=" " alt="" coords="1000,469,987,536,962,620,944,665,921,708,893,748,859,782,833,799,830,794,856,778,889,744,916,705,939,663,957,619,982,535,995,468"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore.A ValueTask representing the running operation." alt="" coords="297,37,524,78"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="594,60,524,60,524,55,594,55"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,46"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="272,46,232,41,232,36,273,40"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="281,46,232,41,232,35,282,41"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,71,232,111"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="273,75,232,80,232,75,272,70"/>
-<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect.A Task representing the runnin..." alt="" coords="280,487,522,543"/>
-<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="554,518,522,518,522,512,554,512"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="282,75,232,81,232,75,281,70"/>
+<area shape="poly" id="edge11_Node000011_Node000011" title=" " alt="" coords="769,441,752,434,723,431,698,433,682,438,674,444,674,452,669,452,670,442,679,433,697,428,723,426,753,429,771,436"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a500e760430625c2b3bbbdf5bfe606c3d" title="Handle a set of bridge parameters .A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the reque..." alt="" coords="280,453,541,508"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="577,483,541,483,541,478,577,478"/>
+<area shape="rect" id="Node000015" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect.A Task representing the runnin..." alt="" coords="289,590,532,646"/>
+<area shape="poly" id="edge15_Node000014_Node000015" title=" " alt="" coords="573,620,532,620,532,615,573,615"/>
 </map>

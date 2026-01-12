@@ -26,7 +26,7 @@
 <area shape="rect" id="Node000014" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#adfec26f530228b80d384b86ee979ef2f" title="The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them." alt="" coords="623,323,893,363"/>
 <area shape="poly" id="edge13_Node000009_Node000014" title=" " alt="" coords="468,574,718,371,721,375,471,578"/>
 <area shape="poly" id="edge31_Node000009_Node000018" title=" " alt="" coords="574,590,1283,572,1283,578,574,596"/>
-<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="976,713,1213,754"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c" title="Handle a given eventType ." alt="" coords="976,713,1213,754"/>
 <area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="895,722,961,725,960,731,895,728"/>
 <area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="987,634,1202,690"/>
 <area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="881,695,971,680,972,685,882,701"/>

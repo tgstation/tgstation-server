@@ -12,7 +12,7 @@
 <area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="441,197,687,385,684,389,438,202"/>
 <area shape="rect" id="Node000017" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a103e061814fc6760410734c7a83f9a83" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="1266,268,1551,308"/>
 <area shape="poly" id="edge34_Node000002_Node000017" title=" " alt="" coords="543,195,590,201,945,242,1251,272,1250,277,944,247,590,207,542,200"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="944,122,1181,163"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c" title="Handle a given eventType ." alt="" coords="944,122,1181,163"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="863,142,929,142,929,147,863,148"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="955,43,1170,99"/>
 <area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="819,123,940,96,941,101,820,128"/>

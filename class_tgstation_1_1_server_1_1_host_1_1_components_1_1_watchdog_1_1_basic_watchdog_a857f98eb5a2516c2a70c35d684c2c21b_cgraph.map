@@ -22,7 +22,7 @@
 <area shape="poly" id="edge51_Node000001_Node000045" title=" " alt="" coords="141,1233,161,1285,195,1353,242,1423,271,1455,304,1482,328,1495,326,1500,301,1486,268,1459,238,1426,190,1355,156,1287,136,1235"/>
 <area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html#a4115cea1f220c4fdaede74566aa848d3" title="Creates a IRemoteDeploymentManager for a given remoteGitProvider ." alt="" coords="654,5,972,61"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="488,155,562,113,653,71,672,64,674,69,655,76,564,118,490,160"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="1056,224,1294,264"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c" title="Handle a given eventType ." alt="" coords="1056,224,1294,264"/>
 <area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="590,177,772,184,973,201,1069,217,1068,222,972,206,772,189,590,182"/>
 <area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#ac3551d3e6a6a17ef85ac39c506c32d5f" title="Clear any stored ReattachInformation.A ValueTask representing the running operation." alt="" coords="1062,1120,1288,1160"/>
 <area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="946,1183,1054,1161,1055,1166,947,1188"/>
@@ -61,7 +61,7 @@
 <area shape="poly" id="edge17_Node000016_Node000004" title=" " alt="" coords="941,413,971,396,987,380,995,362,1003,343,1018,323,1060,292,1104,269,1107,273,1063,297,1022,327,1007,346,1000,364,991,383,974,401,944,417"/>
 <area shape="rect" id="Node000017" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a16bc1d460e98b09d6f03b6ff9eb5ca03" title="Return the command line arguments for launching with given launchParameters ." alt="" coords="1049,467,1301,522"/>
 <area shape="poly" id="edge16_Node000016_Node000017" title=" " alt="" coords="943,456,1034,470,1033,475,942,461"/>
-<area shape="rect" id="Node000018" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a17aa8c090377d70ebf0a93f3eb0a0243" title="Launch a IProcess." alt="" coords="1066,337,1284,378"/>
+<area shape="rect" id="Node000018" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a801aa19c189da2b1c40a805d98079b40" title="Launch a IProcess." alt="" coords="1066,337,1284,378"/>
 <area shape="poly" id="edge18_Node000016_Node000018" title=" " alt="" coords="935,407,1020,388,1061,379,1062,384,1021,393,936,413"/>
 <area shape="rect" id="Node000019" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a1f08236db634210e10291a4ffddd0df8" title="Loads the environment settings for either the server or compiler." alt="" coords="1062,402,1288,443"/>
 <area shape="poly" id="edge19_Node000016_Node000019" title=" " alt="" coords="942,430,1046,426,1046,431,942,435"/>

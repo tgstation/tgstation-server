@@ -6,7 +6,7 @@
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="693,149,638,158,637,152,692,144"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a8fea3476c8ac941fc42087b9c3e36077" title="Handle a chat command.A ValueTask&lt;TResult&gt; resulting in the MessageContent text to send back." alt="" coords="5,5,306,46"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="353,58,293,49,294,44,354,53"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aed9bd19e52b72a565e6e4cab00ac3e0a" title="Handle a given eventType .A ValueTask representing the running operation." alt="" coords="32,71,279,111"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a953de849574db072ced34c749aea2023" title="Handle a given eventType .A ValueTask representing the running operation." alt="" coords="32,71,279,111"/>
 <area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="338,87,280,89,280,84,338,82"/>
 <area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="558,135,539,128,507,126,479,128,460,133,452,139,451,147,446,147,447,136,458,128,478,122,507,121,540,123,560,130"/>
 <area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a500e760430625c2b3bbbdf5bfe606c3d" title="Handle a set of bridge parameters .A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the reque..." alt="" coords="25,147,286,203"/>

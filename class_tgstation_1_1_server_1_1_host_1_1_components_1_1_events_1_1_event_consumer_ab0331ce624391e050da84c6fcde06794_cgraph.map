@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Events.EventConsumer.HandleEvent" name="Tgstation.Server.Host.Components.Events.EventConsumer.HandleEvent">
 <area shape="rect" id="Node000001" title="Handle a given eventType .A ValueTask representing the running operation." alt="" coords="5,5,239,46"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="287,5,524,46"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c" title="Handle a given eventType ." alt="" coords="287,5,524,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="239,23,271,23,271,28,239,28"/>
 </map>

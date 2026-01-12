@@ -106,11 +106,12 @@ Collaboration diagram for Tgstation.Server.Host.Components.Events.NoopEventConsu
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a251207733d45db4aec7204092e117d5c" id="r_a251207733d45db4aec7204092e117d5c"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_noop_event_consumer.html#a251207733d45db4aec7204092e117d5c">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a> eventType, IEnumerable&lt; string?&gt; parameters, bool deploymentPipeline, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a251207733d45db4aec7204092e117d5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a8c700a9362bdea6fa5f245a0c2d8f46a" id="r_a8c700a9362bdea6fa5f245a0c2d8f46a"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_noop_event_consumer.html#a8c700a9362bdea6fa5f245a0c2d8f46a">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a> eventType, IEnumerable&lt; string?&gt; parameters, bool sensitiveParameters, bool deploymentPipeline, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a8c700a9362bdea6fa5f245a0c2d8f46a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">eventType</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7" title="Types of events. Mirror in tgs.dm. Prefer last listed name for script.">EventType</a>.</td></tr>
     <tr><td class="paramname">parameters</td><td>An IEnumerable&lt;T&gt; of string parameters for <em>eventType</em> .</td></tr>
+    <tr><td class="paramname">sensitiveParameters</td><td>If parameters are considered sensitive and should not be logged.</td></tr>
     <tr><td class="paramname">deploymentPipeline</td><td>If this event is part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
@@ -118,7 +119,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
   <br /></td></tr>
-<tr class="separator:a251207733d45db4aec7204092e117d5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a8c700a9362bdea6fa5f245a0c2d8f46a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16a4e1b0ccbc23f7a97ef1f851f586f3" id="r_a16a4e1b0ccbc23f7a97ef1f851f586f3"><td class="memItemLeft" align="right" valign="top">ValueTask?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_noop_event_consumer.html#a16a4e1b0ccbc23f7a97ef1f851f586f3">HandleCustomEvent</a> (string eventName, IEnumerable&lt; string?&gt; parameters, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a16a4e1b0ccbc23f7a97ef1f851f586f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles a given custom event.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -184,8 +185,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a251207733d45db4aec7204092e117d5c" name="a251207733d45db4aec7204092e117d5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a251207733d45db4aec7204092e117d5c">&#9670;&#160;</a></span>HandleEvent()</h2>
+<a id="a8c700a9362bdea6fa5f245a0c2d8f46a" name="a8c700a9362bdea6fa5f245a0c2d8f46a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c700a9362bdea6fa5f245a0c2d8f46a">&#9670;&#160;</a></span>HandleEvent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -201,6 +202,12 @@ Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">IEnumerable&lt; string?&gt;&#160;</td>
           <td class="paramname"><em>parameters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>sensitiveParameters</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -226,6 +233,7 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">eventType</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7" title="Types of events. Mirror in tgs.dm. Prefer last listed name for script.">EventType</a>.</td></tr>
     <tr><td class="paramname">parameters</td><td>An IEnumerable&lt;T&gt; of string parameters for <em>eventType</em> .</td></tr>
+    <tr><td class="paramname">sensitiveParameters</td><td>If parameters are considered sensitive and should not be logged.</td></tr>
     <tr><td class="paramname">deploymentPipeline</td><td>If this event is part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
@@ -234,7 +242,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37">Tgstation.Server.Host.Components.Events.IEventConsumer</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c">Tgstation.Server.Host.Components.Events.IEventConsumer</a>.</p>
 
 </div>
 </div>

@@ -2,9 +2,9 @@
 <area shape="rect" id="Node000001" title="Creates the game server IProcess." alt="" coords="5,143,263,198"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a16bc1d460e98b09d6f03b6ff9eb5ca03" title="Return the command line arguments for launching with given launchParameters ." alt="" coords="313,5,565,61"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,140,240,105,310,71,325,64,327,69,312,76,243,110,182,144"/>
-<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="320,85,558,126"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c" title="Handle a given eventType ." alt="" coords="320,85,558,126"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="262,140,325,127,326,132,264,145"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a17aa8c090377d70ebf0a93f3eb0a0243" title="Launch a IProcess." alt="" coords="330,150,548,191"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a801aa19c189da2b1c40a805d98079b40" title="Launch a IProcess." alt="" coords="330,150,548,191"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="263,168,315,168,315,173,263,173"/>
 <area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a1f08236db634210e10291a4ffddd0df8" title="Loads the environment settings for either the server or compiler." alt="" coords="326,216,552,256"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="264,196,326,209,325,214,262,201"/>

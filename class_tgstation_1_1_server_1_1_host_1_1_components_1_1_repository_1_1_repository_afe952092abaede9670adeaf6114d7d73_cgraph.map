@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title="Requires the current HEAD to be a tracked reference. Hard resets the reference to what it tracks on t..." alt="" coords="5,64,238,105"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="601,35,829,75"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,61,219,36,285,16,359,5,417,3,549,16,620,28,619,33,549,22,417,9,359,10,286,22,221,41,163,66"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="299,31,536,71"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c" title="Handle a given eventType ." alt="" coords="299,31,536,71"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="238,69,283,63,284,69,239,74"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a1a42716fa62d3def1050fa8df853e453" title="Requires the current HEAD to be a reference. Hard resets the reference to the given sha...." alt="" coords="304,96,531,137"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="239,94,289,100,288,105,238,100"/>

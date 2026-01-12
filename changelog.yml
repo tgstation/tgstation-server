@@ -243,9 +243,9 @@ Components:
     ComponentVersions:
       HttpApi: 10.14.0
       GraphQLApi: 0.7.0
-      DreamMakerApi: 7.3.3
+      DreamMakerApi: 7.4.0
       Configuration: 5.9.0
-      InteropApi: 5.10.1
+      InteropApi: 5.11.0
       HostWatchdog: 1.6.0
       NugetCommon: 7.0.0
       NugetApi: 18.2.0
@@ -265,6 +265,13 @@ Components:
       - Removed telemetry.
       Author: Cyberboss
       PullRequest: 2326
+    - Descriptions:
+      - Description of your change.
+      - Each newline corresponds to a release note in the release your change is included in.
+      - Fixed bad token expiry logic for GitHub app authentication.
+      - Added repository credentials to `RepoFetch` event script if present. They will not be logged.
+      Author: Cyberboss
+      PullRequest: 2409
     Unreleased: true
   - Version: 6.18.2
     ComponentVersions:
@@ -4993,6 +5000,13 @@ Components:
       Author: Cyberboss
       PullRequest: 1954
   DreamMakerApi:
+  - Version: 7.4.0
+    Changes:
+    - Descriptions:
+      - You can now trigger a TGS deployment with `/world/proc/TriggerTgsDeployment()`.
+      Author: Cyberboss
+      PullRequest: 2409
+    Unreleased: true
   - Version: 7.3.1
     Changes:
     - Descriptions:

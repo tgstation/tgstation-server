@@ -96,9 +96,9 @@ Inheritance diagram for Tgstation.Server.Host.System.IProcessExecutor:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a17aa8c090377d70ebf0a93f3eb0a0243" id="r_a17aa8c090377d70ebf0a93f3eb0a0243"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html">IProcess</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a17aa8c090377d70ebf0a93f3eb0a0243">LaunchProcess</a> (string fileName, string workingDirectory, string arguments, CancellationToken cancellationToken, IReadOnlyDictionary&lt; string, string &gt;? environment=null, string? fileRedirect=null, bool readStandardHandles=false, bool noShellExecute=false)</td></tr>
-<tr class="memdesc:a17aa8c090377d70ebf0a93f3eb0a0243"><td class="mdescLeft">&#160;</td><td class="mdescRight">Launch a IProcess.  <br /></td></tr>
-<tr class="separator:a17aa8c090377d70ebf0a93f3eb0a0243"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a801aa19c189da2b1c40a805d98079b40" id="r_a801aa19c189da2b1c40a805d98079b40"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html">IProcess</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a801aa19c189da2b1c40a805d98079b40">LaunchProcess</a> (string fileName, string workingDirectory, string arguments, CancellationToken cancellationToken, IReadOnlyDictionary&lt; string, string &gt;? environment=null, string? fileRedirect=null, bool readStandardHandles=false, bool noShellExecute=false, bool doNotLogArguments=false)</td></tr>
+<tr class="memdesc:a801aa19c189da2b1c40a805d98079b40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Launch a IProcess.  <br /></td></tr>
+<tr class="separator:a801aa19c189da2b1c40a805d98079b40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81eeee7944e490c141d2e7b66f651369" id="r_a81eeee7944e490c141d2e7b66f651369"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html">IProcess</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a81eeee7944e490c141d2e7b66f651369">GetCurrentProcess</a> ()</td></tr>
 <tr class="memdesc:a81eeee7944e490c141d2e7b66f651369"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a IProcess representing the running executable.  <br /></td></tr>
 <tr class="separator:a81eeee7944e490c141d2e7b66f651369"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -163,7 +163,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#aa12f9ec9d7b8e3cd572687ba24b06324">Tgstation.Server.Host.System.ProcessExecutor</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_session_persistor_8cs_source.html#l00126">Tgstation.Server.Host.Components.Session.SessionPersistor.Load()</a>, and <a class="el" href="_session_controller_factory_8cs_source.html#l00424">Tgstation.Server.Host.Components.Session.SessionControllerFactory.Reattach()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_persistor_8cs_source.html#l00126">Tgstation.Server.Host.Components.Session.SessionPersistor.Load()</a>, and <a class="el" href="_session_controller_factory_8cs_source.html#l00442">Tgstation.Server.Host.Components.Session.SessionControllerFactory.Reattach()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -212,8 +212,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a17aa8c090377d70ebf0a93f3eb0a0243" name="a17aa8c090377d70ebf0a93f3eb0a0243"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17aa8c090377d70ebf0a93f3eb0a0243">&#9670;&#160;</a></span>LaunchProcess()</h2>
+<a id="a801aa19c189da2b1c40a805d98079b40" name="a801aa19c189da2b1c40a805d98079b40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a801aa19c189da2b1c40a805d98079b40">&#9670;&#160;</a></span>LaunchProcess()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -264,7 +264,13 @@ Here is the caller graph for this function:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>noShellExecute</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>noShellExecute</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>doNotLogArguments</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -285,19 +291,20 @@ Here is the caller graph for this function:</div>
     <tr><td class="paramname">fileRedirect</td><td>File to write process output and error streams to. Requires <em>readStandardHandles</em>  to be <code>true</code>.</td></tr>
     <tr><td class="paramname">readStandardHandles</td><td>If the process output and error streams should be read.</td></tr>
     <tr><td class="paramname">noShellExecute</td><td>If shell execute should not be used. Must be set if <em>readStandardHandles</em>  is set.</td></tr>
+    <tr><td class="paramname">doNotLogArguments</td><td>If <em>arguments</em>  should not be logged.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the new IProcess.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a060adda85e21f5414fa5d75c4608dcfb">Tgstation.Server.Host.System.ProcessExecutor</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a06ee5020bc1b90a088f8a3f8baf5a302">Tgstation.Server.Host.System.ProcessExecutor</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_windows_firewall_helper_8cs_source.html#l00024">Tgstation.Server.Host.System.WindowsFirewallHelper.AddFirewallException()</a>, <a class="el" href="_session_controller_factory_8cs_source.html#l00521">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateGameServerProcess()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00260">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.InstallDirectX()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_firewall_helper_8cs_source.html#l00024">Tgstation.Server.Host.System.WindowsFirewallHelper.AddFirewallException()</a>, <a class="el" href="_session_controller_factory_8cs_source.html#l00541">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateGameServerProcess()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00260">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.InstallDirectX()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor_a17aa8c090377d70ebf0a93f3eb0a0243_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor_a17aa8c090377d70ebf0a93f3eb0a0243_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor_a17aa8c090377d70ebf0a93f3eb0a0243_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor_a17aa8c090377d70ebf0a93f3eb0a0243_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor_a801aa19c189da2b1c40a805d98079b40_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor_a801aa19c189da2b1c40a805d98079b40_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor_a801aa19c189da2b1c40a805d98079b40_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor_a801aa19c189da2b1c40a805d98079b40_icgraph">
 <area shape="rect" title="Launch a IProcess." alt="" coords="990,161,1208,202"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_firewall_helper.html#aa446ef24242576e5459ccaa30d473a59" title="Add an executable exception to the Windows firewall." alt="" coords="700,73,928,129"/>
 <area shape="poly" title=" " alt="" coords="1008,159,915,132,916,127,1010,154"/>

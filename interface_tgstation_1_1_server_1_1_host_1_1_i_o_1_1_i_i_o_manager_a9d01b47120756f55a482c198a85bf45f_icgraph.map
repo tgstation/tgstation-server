@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="829,5,1057,61"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a2306b74b2bb7f77e8e6880c681d8c12f" title="Consume the stdout/stderr streams into a Task." alt="" coords="556,13,781,54"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="814,36,782,36,782,31,814,31"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a060adda85e21f5414fa5d75c4608dcfb" title="Launch a IProcess.A ValueTask&lt;TResult&gt; resulting in the new IProcess." alt="" coords="295,13,508,54"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a06ee5020bc1b90a088f8a3f8baf5a302" title="Launch a IProcess.A ValueTask&lt;TResult&gt; resulting in the new IProcess." alt="" coords="295,13,508,54"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="540,36,509,36,509,31,540,31"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a753be64e5245a6e97430a9beddec3b15" title=" " alt="" coords="5,13,247,54"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="279,36,247,36,247,31,279,31"/>

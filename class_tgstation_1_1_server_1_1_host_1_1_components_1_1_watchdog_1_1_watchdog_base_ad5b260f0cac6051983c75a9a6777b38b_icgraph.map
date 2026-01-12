@@ -2,6 +2,6 @@
 <area shape="rect" id="Node000001" title="Handle any TopicResponse.ChatResponses in a given topic result ." alt="" coords="354,39,660,79"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a8fea3476c8ac941fc42087b9c3e36077" title="Handle a chat command.A ValueTask&lt;TResult&gt; resulting in the MessageContent text to send back." alt="" coords="5,5,306,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="338,46,306,43,306,37,338,40"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aed9bd19e52b72a565e6e4cab00ac3e0a" title="Handle a given eventType .A ValueTask representing the running operation." alt="" coords="32,71,279,111"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a953de849574db072ced34c749aea2023" title="Handle a given eventType .A ValueTask representing the running operation." alt="" coords="32,71,279,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="338,77,280,82,279,77,338,72"/>
 </map>

@@ -6,7 +6,7 @@
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1405,285,1376,248,1337,204,1291,162,1239,127,1212,114,1214,109,1242,122,1294,158,1341,201,1380,244,1410,282"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a8fea3476c8ac941fc42087b9c3e36077" title="Handle a chat command.A ValueTask&lt;TResult&gt; resulting in the MessageContent text to send back." alt="" coords="940,136,1241,177"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1392,288,1324,238,1283,213,1240,192,1205,180,1207,175,1242,187,1285,209,1327,234,1395,284"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aed9bd19e52b72a565e6e4cab00ac3e0a" title="Handle a given eventType .A ValueTask representing the running operation." alt="" coords="967,201,1214,242"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a953de849574db072ced34c749aea2023" title="Handle a given eventType .A ValueTask representing the running operation." alt="" coords="967,201,1214,242"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1355,293,1240,258,1191,245,1192,240,1241,252,1357,288"/>
 <area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a075fb0946e843d7eb3f1d708314c5f13" title="Handles a watchdog health check." alt="" coords="946,267,1235,307"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1273,305,1236,302,1236,297,1273,300"/>

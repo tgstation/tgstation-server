@@ -14,7 +14,7 @@
 <area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="561,493,593,506,618,524,641,542,672,555,670,560,639,547,615,528,591,511,559,498"/>
 <area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a8837818bbe2661f312360491c4f795f7" title="Creates an IEngineInstallation for a given version ." alt="" coords="656,628,895,669"/>
 <area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="575,494,594,506,606,519,613,533,619,561,624,588,630,601,642,613,648,618,644,622,638,617,626,604,619,590,613,562,608,535,602,523,590,510,572,498"/>
-<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="657,693,894,734"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c" title="Handle a given eventType ." alt="" coords="657,693,894,734"/>
 <area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="577,494,594,506,611,528,618,550,619,594,619,637,626,658,642,679,646,682,643,686,638,682,622,661,614,638,613,594,613,551,606,530,590,510,574,498"/>
 <area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#aaff0a1cd6da08efa4de8455503d48b72" title="Installs the files for a given BYOND version ." alt="" coords="645,397,907,438"/>
 <area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="567,451,640,439,641,444,568,457"/>

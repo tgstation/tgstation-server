@@ -139,11 +139,12 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation if the event was triggered successfully, <code>null</code> if it matched a TGS event and wasn't executed.</dd></dl>
   <br /></td></tr>
 <tr class="separator:acf09a4ff94bec5b6037fdab337b60678"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a538f31f3a1987a6515dbd9b9066e624b" id="r_a538f31f3a1987a6515dbd9b9066e624b"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a538f31f3a1987a6515dbd9b9066e624b">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a> eventType, IEnumerable&lt; string?&gt; parameters, bool deploymentPipeline, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a538f31f3a1987a6515dbd9b9066e624b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:ab0331ce624391e050da84c6fcde06794" id="r_ab0331ce624391e050da84c6fcde06794"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#ab0331ce624391e050da84c6fcde06794">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a> eventType, IEnumerable&lt; string?&gt; parameters, bool sensitiveParameters, bool deploymentPipeline, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ab0331ce624391e050da84c6fcde06794"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">eventType</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7" title="Types of events. Mirror in tgs.dm. Prefer last listed name for script.">EventType</a>.</td></tr>
     <tr><td class="paramname">parameters</td><td>An IEnumerable&lt;T&gt; of string parameters for <em>eventType</em> .</td></tr>
+    <tr><td class="paramname">sensitiveParameters</td><td>If parameters are considered sensitive and should not be logged.</td></tr>
     <tr><td class="paramname">deploymentPipeline</td><td>If this event is part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
@@ -151,7 +152,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
   <br /></td></tr>
-<tr class="separator:a538f31f3a1987a6515dbd9b9066e624b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ab0331ce624391e050da84c6fcde06794"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a541045879b6d679230dfeb27f9246f9c" id="r_a541045879b6d679230dfeb27f9246f9c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a541045879b6d679230dfeb27f9246f9c">SetWatchdog</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html">IWatchdog</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a006776573127157a560b76a5893ff98d">watchdog</a>)</td></tr>
 <tr class="memdesc:a541045879b6d679230dfeb27f9246f9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the <em>watchdog</em>  for the EventConsumer.  <br /></td></tr>
 <tr class="separator:a541045879b6d679230dfeb27f9246f9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -251,8 +252,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a538f31f3a1987a6515dbd9b9066e624b" name="a538f31f3a1987a6515dbd9b9066e624b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a538f31f3a1987a6515dbd9b9066e624b">&#9670;&#160;</a></span>HandleEvent()</h2>
+<a id="ab0331ce624391e050da84c6fcde06794" name="ab0331ce624391e050da84c6fcde06794"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0331ce624391e050da84c6fcde06794">&#9670;&#160;</a></span>HandleEvent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -268,6 +269,12 @@ Private Attributes</h2></td></tr>
           <td></td>
           <td class="paramtype">IEnumerable&lt; string?&gt;&#160;</td>
           <td class="paramname"><em>parameters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>sensitiveParameters</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -293,6 +300,7 @@ Private Attributes</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">eventType</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7" title="Types of events. Mirror in tgs.dm. Prefer last listed name for script.">EventType</a>.</td></tr>
     <tr><td class="paramname">parameters</td><td>An IEnumerable&lt;T&gt; of string parameters for <em>eventType</em> .</td></tr>
+    <tr><td class="paramname">sensitiveParameters</td><td>If parameters are considered sensitive and should not be logged.</td></tr>
     <tr><td class="paramname">deploymentPipeline</td><td>If this event is part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
@@ -301,7 +309,7 @@ Private Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37">Tgstation.Server.Host.Components.Events.IEventConsumer</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c">Tgstation.Server.Host.Components.Events.IEventConsumer</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_event_consumer_8cs_source.html#l00038">38</a> of file <a class="el" href="_event_consumer_8cs_source.html">EventConsumer.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   39</span>        {</div>
@@ -310,21 +318,21 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   42</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a006776573127157a560b76a5893ff98d">watchdog</a> == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">   43</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;EventConsumer used without watchdog set!&quot;</span>);</div>
 <div class="line"><span class="lineno">   44</span> </div>
-<div class="line"><span class="lineno">   45</span>            var scriptTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a50e81e8ba4fb2abd36df79dfc922b3d0">configuration</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37">HandleEvent</a>(eventType, parameters, deploymentPipeline, cancellationToken);</div>
-<div class="line"><span class="lineno">   46</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a006776573127157a560b76a5893ff98d">watchdog</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37">HandleEvent</a>(eventType, parameters, deploymentPipeline, cancellationToken);</div>
+<div class="line"><span class="lineno">   45</span>            var scriptTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a50e81e8ba4fb2abd36df79dfc922b3d0">configuration</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c">HandleEvent</a>(eventType, parameters, sensitiveParameters, deploymentPipeline, cancellationToken);</div>
+<div class="line"><span class="lineno">   46</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a006776573127157a560b76a5893ff98d">watchdog</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c">HandleEvent</a>(eventType, parameters, sensitiveParameters, deploymentPipeline, cancellationToken);</div>
 <div class="line"><span class="lineno">   47</span>            await scriptTask;</div>
 <div class="line"><span class="lineno">   48</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_html_a006776573127157a560b76a5893ff98d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a006776573127157a560b76a5893ff98d">Tgstation.Server.Host.Components.Events.EventConsumer.watchdog</a></div><div class="ttdeci">IWatchdog? watchdog</div><div class="ttdoc">The IWatchdog for the EventConsumer.</div><div class="ttdef"><b>Definition</b> <a href="_event_consumer_8cs_source.html#l00022">EventConsumer.cs:22</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer_html_a564f82eb43566dabd77e37191b4e3d37"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37">Tgstation.Server.Host.Components.Events.IEventConsumer.HandleEvent</a></div><div class="ttdeci">ValueTask HandleEvent(EventType eventType, IEnumerable&lt; string?&gt; parameters, bool deploymentPipeline, CancellationToken cancellationToken)</div><div class="ttdoc">Handle a given eventType .</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer_html_a3aa955c269e063d5db2f3f83d001c38c"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c">Tgstation.Server.Host.Components.Events.IEventConsumer.HandleEvent</a></div><div class="ttdeci">ValueTask HandleEvent(EventType eventType, IEnumerable&lt; string?&gt; parameters, bool sensitiveParameters, bool deploymentPipeline, CancellationToken cancellationToken)</div><div class="ttdoc">Handle a given eventType .</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_event_consumer_8cs_source.html#l00017">Tgstation.Server.Host.Components.Events.EventConsumer.configuration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37">Tgstation.Server.Host.Components.Events.IEventConsumer.HandleEvent()</a>, and <a class="el" href="_event_consumer_8cs_source.html#l00022">Tgstation.Server.Host.Components.Events.EventConsumer.watchdog</a>.</p>
+<p class="reference">References <a class="el" href="_event_consumer_8cs_source.html#l00017">Tgstation.Server.Host.Components.Events.EventConsumer.configuration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c">Tgstation.Server.Host.Components.Events.IEventConsumer.HandleEvent()</a>, and <a class="el" href="_event_consumer_8cs_source.html#l00022">Tgstation.Server.Host.Components.Events.EventConsumer.watchdog</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_a538f31f3a1987a6515dbd9b9066e624b_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_a538f31f3a1987a6515dbd9b9066e624b_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_a538f31f3a1987a6515dbd9b9066e624b_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_a538f31f3a1987a6515dbd9b9066e624b_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_ab0331ce624391e050da84c6fcde06794_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_ab0331ce624391e050da84c6fcde06794_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_ab0331ce624391e050da84c6fcde06794_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_ab0331ce624391e050da84c6fcde06794_cgraph">
 <area shape="rect" title="Handle a given eventType .A ValueTask representing the running operation." alt="" coords="5,5,239,46"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="287,5,524,46"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c" title="Handle a given eventType ." alt="" coords="287,5,524,46"/>
 <area shape="poly" title=" " alt="" coords="239,23,271,23,271,28,239,28"/>
 </map>
 </div>

@@ -239,11 +239,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af05de18337edc2207b60b080de230802"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac92183102a90e39b483fce3915e5031e" id="r_ac92183102a90e39b483fce3915e5031e"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ac92183102a90e39b483fce3915e5031e">StopAsync</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="separator:ac92183102a90e39b483fce3915e5031e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2ea8273d0ecfbcc31e4cc1ccc93dd57" id="r_aa2ea8273d0ecfbcc31e4cc1ccc93dd57"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#aa2ea8273d0ecfbcc31e4cc1ccc93dd57">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a> eventType, IEnumerable&lt; string?&gt; parameters, bool deploymentPipeline, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aa2ea8273d0ecfbcc31e4cc1ccc93dd57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:afc27e2e8e1f49cf354d4354265df2fa9" id="r_afc27e2e8e1f49cf354d4354265df2fa9"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afc27e2e8e1f49cf354d4354265df2fa9">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a> eventType, IEnumerable&lt; string?&gt; parameters, bool sensitiveParameters, bool deploymentPipeline, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:afc27e2e8e1f49cf354d4354265df2fa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">eventType</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7" title="Types of events. Mirror in tgs.dm. Prefer last listed name for script.">EventType</a>.</td></tr>
     <tr><td class="paramname">parameters</td><td>An IEnumerable&lt;T&gt; of string parameters for <em>eventType</em> .</td></tr>
+    <tr><td class="paramname">sensitiveParameters</td><td>If parameters are considered sensitive and should not be logged.</td></tr>
     <tr><td class="paramname">deploymentPipeline</td><td>If this event is part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
@@ -251,7 +252,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
   <br /></td></tr>
-<tr class="separator:aa2ea8273d0ecfbcc31e4cc1ccc93dd57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:afc27e2e8e1f49cf354d4354265df2fa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2d1a0bdfce459aa1419dda5b329940e" id="r_ad2d1a0bdfce459aa1419dda5b329940e"><td class="memItemLeft" align="right" valign="top">ValueTask?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ad2d1a0bdfce459aa1419dda5b329940e">HandleCustomEvent</a> (string scriptName, IEnumerable&lt; string?&gt; parameters, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ad2d1a0bdfce459aa1419dda5b329940e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles a given custom event.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -294,9 +295,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a15e04b6716165e1fea4850b44040711e" id="r_a15e04b6716165e1fea4850b44040711e"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a15e04b6716165e1fea4850b44040711e">ValidateConfigRelativePath</a> (string? configurationRelativePath)</td></tr>
 <tr class="memdesc:a15e04b6716165e1fea4850b44040711e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolve a given <em>configurationRelativePath</em>  to it's full path or throw an InvalidOperationException if it violates rules.  <br /></td></tr>
 <tr class="separator:a15e04b6716165e1fea4850b44040711e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ed16f7fc0c67a144c98ec5008c45811" id="r_a2ed16f7fc0c67a144c98ec5008c45811"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a2ed16f7fc0c67a144c98ec5008c45811">ExecuteEventScripts</a> (IEnumerable&lt; string?&gt; parameters, bool deploymentPipeline, CancellationToken cancellationToken, params string[] scriptNames)</td></tr>
-<tr class="memdesc:a2ed16f7fc0c67a144c98ec5008c45811"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a set of given <em>scriptNames</em> .  <br /></td></tr>
-<tr class="separator:a2ed16f7fc0c67a144c98ec5008c45811"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3ce3c8916c5fbda2b8fb039270800f6" id="r_aa3ce3c8916c5fbda2b8fb039270800f6"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#aa3ce3c8916c5fbda2b8fb039270800f6">ExecuteEventScripts</a> (IEnumerable&lt; string?&gt; parameters, bool sensitiveParameters, bool deploymentPipeline, CancellationToken cancellationToken, params string[] scriptNames)</td></tr>
+<tr class="memdesc:aa3ce3c8916c5fbda2b8fb039270800f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a set of given <em>scriptNames</em> .  <br /></td></tr>
+<tr class="separator:aa3ce3c8916c5fbda2b8fb039270800f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -948,8 +949,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a2ed16f7fc0c67a144c98ec5008c45811" name="a2ed16f7fc0c67a144c98ec5008c45811"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ed16f7fc0c67a144c98ec5008c45811">&#9670;&#160;</a></span>ExecuteEventScripts()</h2>
+<a id="aa3ce3c8916c5fbda2b8fb039270800f6" name="aa3ce3c8916c5fbda2b8fb039270800f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3ce3c8916c5fbda2b8fb039270800f6">&#9670;&#160;</a></span>ExecuteEventScripts()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -962,6 +963,12 @@ Here is the caller graph for this function:</div>
           <td>(</td>
           <td class="paramtype">IEnumerable&lt; string?&gt;&#160;</td>
           <td class="paramname"><em>parameters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>sensitiveParameters</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -998,6 +1005,7 @@ Here is the caller graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">parameters</td><td>An IEnumerable&lt;T&gt; of string parameters for the <em>scriptNames</em> .</td></tr>
+    <tr><td class="paramname">sensitiveParameters</td><td>If parameters are considered sensitive and should not be logged.</td></tr>
     <tr><td class="paramname">deploymentPipeline</td><td>If this event is part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
     <tr><td class="paramname">scriptNames</td><td>The names of the scripts to execute.</td></tr>
@@ -1006,106 +1014,107 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_configuration_8cs_source.html#l00792">792</a> of file <a class="el" href="_configuration_8cs_source.html">Configuration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  793</span>        {</div>
-<div class="line"><span class="lineno">  794</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a3d0dc1fd8bd245d250509d583eaf4ea1">EnsureDirectories</a>(cancellationToken);</div>
-<div class="line"><span class="lineno">  795</span> </div>
-<div class="line"><span class="lineno">  796</span>            <span class="comment">// always execute in serial</span></div>
-<div class="line"><span class="lineno">  797</span>            <span class="keyword">using</span> (await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af">Lock</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af64bb7e6efa9991a5a3a14993a3277e8">semaphore</a>, cancellationToken, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>))</div>
-<div class="line"><span class="lineno">  798</span>            {</div>
-<div class="line"><span class="lineno">  799</span>                var sessionConfiguration = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a707c32b16c1305412648059c23b20072">sessionConfigurationOptions</a>.CurrentValue;</div>
-<div class="line"><span class="lineno">  800</span>                var directories = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a610aa7fca7081665b7c0904b26f53ef4">generalConfigurationOptions</a>.CurrentValue.AdditionalEventScriptsDirectories?.ToList() ?? <span class="keyword">new</span> List&lt;string&gt;();</div>
-<div class="line"><span class="lineno">  801</span>                directories.Add(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af5dbdc7fa9d0999905d214a98c4604ee">EventScriptsSubdirectory</a>);</div>
-<div class="line"><span class="lineno">  802</span> </div>
-<div class="line"><span class="lineno">  803</span>                var allScripts = <span class="keyword">new</span> List&lt;string&gt;();</div>
-<div class="line"><span class="lineno">  804</span>                var tasks = directories.Select&lt;string, ValueTask&gt;(</div>
-<div class="line"><span class="lineno">  805</span>                    async scriptDirectory =&gt;</div>
-<div class="line"><span class="lineno">  806</span>                    {</div>
-<div class="line"><span class="lineno">  807</span>                        var resolvedScriptsDir = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afd5e0aef7c9a1023bc8a6cebe483c4c3">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(scriptDirectory);</div>
-<div class="line"><span class="lineno">  808</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>.LogTrace(<span class="stringliteral">&quot;Checking for scripts in {directory}...&quot;</span>, scriptDirectory);</div>
-<div class="line"><span class="lineno">  809</span>                        var files = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afd5e0aef7c9a1023bc8a6cebe483c4c3">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad71a483a00641af2838418f677801df5">GetFilesWithExtension</a>(scriptDirectory, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a9103478c93c69deb31f3549ab04dcc84">platformIdentifier</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#a1d6690377df88fa0c142d72a949be17f">ScriptFileExtension</a>, <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  810</span> </div>
-<div class="line"><span class="lineno">  811</span>                        var scriptFiles = files</div>
-<div class="line"><span class="lineno">  812</span>                            .Select(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afd5e0aef7c9a1023bc8a6cebe483c4c3">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">GetFileName</a>)</div>
-<div class="line"><span class="lineno">  813</span>                            .Where(x =&gt; scriptNames.Any(</div>
-<div class="line"><span class="lineno">  814</span>                                scriptName =&gt; x.StartsWith(scriptName, StringComparison.Ordinal)))</div>
-<div class="line"><span class="lineno">  815</span>                            .Select(x =&gt;</div>
-<div class="line"><span class="lineno">  816</span>                            {</div>
-<div class="line"><span class="lineno">  817</span>                                var fullScriptPath = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afd5e0aef7c9a1023bc8a6cebe483c4c3">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(resolvedScriptsDir, x);</div>
-<div class="line"><span class="lineno">  818</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>.LogTrace(<span class="stringliteral">&quot;Found matching script: {scriptPath}&quot;</span>, fullScriptPath);</div>
-<div class="line"><span class="lineno">  819</span>                                <span class="keywordflow">return</span> fullScriptPath;</div>
-<div class="line"><span class="lineno">  820</span>                            });</div>
-<div class="line"><span class="lineno">  821</span> </div>
-<div class="line"><span class="lineno">  822</span>                        lock (allScripts)</div>
-<div class="line"><span class="lineno">  823</span>                            allScripts.AddRange(scriptFiles);</div>
-<div class="line"><span class="lineno">  824</span>                    })</div>
-<div class="line"><span class="lineno">  825</span>                    .ToList();</div>
-<div class="line"><span class="lineno">  826</span> </div>
-<div class="line"><span class="lineno">  827</span>                await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html">ValueTaskExtensions</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3">WhenAll</a>(tasks);</div>
-<div class="line"><span class="lineno">  828</span>                <span class="keywordflow">if</span> (allScripts.Count == 0)</div>
-<div class="line"><span class="lineno">  829</span>                {</div>
-<div class="line"><span class="lineno">  830</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>.LogTrace(<span class="stringliteral">&quot;No event scripts starting with \&quot;{scriptName}\&quot; detected&quot;</span>, String.Join(<span class="stringliteral">&quot;\&quot; or \&quot;&quot;</span>, scriptNames));</div>
-<div class="line"><span class="lineno">  831</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  832</span>                }</div>
-<div class="line"><span class="lineno">  833</span> </div>
-<div class="line"><span class="lineno">  834</span>                var resolvedInstanceScriptsDir = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afd5e0aef7c9a1023bc8a6cebe483c4c3">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af5dbdc7fa9d0999905d214a98c4604ee">EventScriptsSubdirectory</a>);</div>
-<div class="line"><span class="lineno">  835</span> </div>
-<div class="line"><span class="lineno">  836</span>                <span class="keywordflow">foreach</span> (var scriptFile <span class="keywordflow">in</span> allScripts.OrderBy(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afd5e0aef7c9a1023bc8a6cebe483c4c3">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">GetFileName</a>))</div>
-<div class="line"><span class="lineno">  837</span>                {</div>
-<div class="line"><span class="lineno">  838</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>.LogTrace(<span class="stringliteral">&quot;Running event script {scriptFile}...&quot;</span>, scriptFile);</div>
-<div class="line"><span class="lineno">  839</span>                    await <span class="keyword">using</span> (var script = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a0eb31611253abc0c887ec46f1e9b8611">processExecutor</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a17aa8c090377d70ebf0a93f3eb0a0243">LaunchProcess</a>(</div>
-<div class="line"><span class="lineno">  840</span>                        scriptFile,</div>
-<div class="line"><span class="lineno">  841</span>                        resolvedInstanceScriptsDir,</div>
-<div class="line"><span class="lineno">  842</span>                        String.Join(</div>
-<div class="line"><span class="lineno">  843</span>                            <span class="charliteral">&#39; &#39;</span>,</div>
-<div class="line"><span class="lineno">  844</span>                            parameters.Select(arg =&gt;</div>
-<div class="line"><span class="lineno">  845</span>                            {</div>
-<div class="line"><span class="lineno">  846</span>                                if (arg == null)</div>
-<div class="line"><span class="lineno">  847</span>                                    return <span class="stringliteral">&quot;(NULL)&quot;</span>;</div>
-<div class="line"><span class="lineno">  848</span> </div>
-<div class="line"><span class="lineno">  849</span>                                if (!arg.Contains(<span class="stringliteral">&#39; &#39;</span>, StringComparison.Ordinal))</div>
-<div class="line"><span class="lineno">  850</span>                                    return arg;</div>
-<div class="line"><span class="lineno">  851</span> </div>
-<div class="line"><span class="lineno">  852</span>                                arg = arg.Replace(<span class="stringliteral">&quot;\&quot;&quot;</span>, <span class="stringliteral">&quot;\\\&quot;&quot;</span>, StringComparison.Ordinal);</div>
-<div class="line"><span class="lineno">  853</span> </div>
-<div class="line"><span class="lineno">  854</span>                                return $<span class="stringliteral">&quot;\&quot;{arg}\&quot;&quot;</span>;</div>
-<div class="line"><span class="lineno">  855</span>                            })),</div>
-<div class="line"><span class="lineno">  856</span>                        cancellationToken,</div>
-<div class="line"><span class="lineno">  857</span>                        <span class="keyword">new</span> Dictionary&lt;string, string&gt;</div>
-<div class="line"><span class="lineno">  858</span>                        {</div>
-<div class="line"><span class="lineno">  859</span>                            { <span class="stringliteral">&quot;TGS_INSTANCE_ROOT&quot;</span>, metadata.Path! },</div>
-<div class="line"><span class="lineno">  860</span>                        },</div>
-<div class="line"><span class="lineno">  861</span>                        readStandardHandles: <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  862</span>                        noShellExecute: <span class="keyword">true</span>))</div>
-<div class="line"><span class="lineno">  863</span>                    <span class="keyword">using</span> (cancellationToken.Register(() =&gt; script.Terminate()))</div>
-<div class="line"><span class="lineno">  864</span>                    {</div>
-<div class="line"><span class="lineno">  865</span>                        <span class="keywordflow">if</span> (sessionConfiguration.LowPriorityDeploymentProcesses &amp;&amp; deploymentPipeline)</div>
-<div class="line"><span class="lineno">  866</span>                            script.AdjustPriority(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  867</span> </div>
-<div class="line"><span class="lineno">  868</span>                        var exitCode = await script.Lifetime;</div>
-<div class="line"><span class="lineno">  869</span>                        cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><span class="lineno">  870</span>                        var scriptOutput = await script.GetCombinedOutput(cancellationToken);</div>
-<div class="line"><span class="lineno">  871</span>                        <span class="keywordflow">if</span> (exitCode != 0)</div>
-<div class="line"><span class="lineno">  872</span>                            <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>($<span class="stringliteral">&quot;Script {scriptFile} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}&quot;</span>);</div>
-<div class="line"><span class="lineno">  873</span>                        <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  874</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>.LogDebug(<span class="stringliteral">&quot;Script output:{newLine}{scriptOutput}&quot;</span>, Environment.NewLine, scriptOutput);</div>
-<div class="line"><span class="lineno">  875</span>                    }</div>
-<div class="line"><span class="lineno">  876</span>                }</div>
-<div class="line"><span class="lineno">  877</span>            }</div>
-<div class="line"><span class="lineno">  878</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_configuration_8cs_source.html#l00793">793</a> of file <a class="el" href="_configuration_8cs_source.html">Configuration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  794</span>        {</div>
+<div class="line"><span class="lineno">  795</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a3d0dc1fd8bd245d250509d583eaf4ea1">EnsureDirectories</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">  796</span> </div>
+<div class="line"><span class="lineno">  797</span>            <span class="comment">// always execute in serial</span></div>
+<div class="line"><span class="lineno">  798</span>            <span class="keyword">using</span> (await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af">Lock</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af64bb7e6efa9991a5a3a14993a3277e8">semaphore</a>, cancellationToken, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>))</div>
+<div class="line"><span class="lineno">  799</span>            {</div>
+<div class="line"><span class="lineno">  800</span>                var sessionConfiguration = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a707c32b16c1305412648059c23b20072">sessionConfigurationOptions</a>.CurrentValue;</div>
+<div class="line"><span class="lineno">  801</span>                var directories = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a610aa7fca7081665b7c0904b26f53ef4">generalConfigurationOptions</a>.CurrentValue.AdditionalEventScriptsDirectories?.ToList() ?? <span class="keyword">new</span> List&lt;string&gt;();</div>
+<div class="line"><span class="lineno">  802</span>                directories.Add(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af5dbdc7fa9d0999905d214a98c4604ee">EventScriptsSubdirectory</a>);</div>
+<div class="line"><span class="lineno">  803</span> </div>
+<div class="line"><span class="lineno">  804</span>                var allScripts = <span class="keyword">new</span> List&lt;string&gt;();</div>
+<div class="line"><span class="lineno">  805</span>                var tasks = directories.Select&lt;string, ValueTask&gt;(</div>
+<div class="line"><span class="lineno">  806</span>                    async scriptDirectory =&gt;</div>
+<div class="line"><span class="lineno">  807</span>                    {</div>
+<div class="line"><span class="lineno">  808</span>                        var resolvedScriptsDir = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afd5e0aef7c9a1023bc8a6cebe483c4c3">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(scriptDirectory);</div>
+<div class="line"><span class="lineno">  809</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>.LogTrace(<span class="stringliteral">&quot;Checking for scripts in {directory}...&quot;</span>, scriptDirectory);</div>
+<div class="line"><span class="lineno">  810</span>                        var files = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afd5e0aef7c9a1023bc8a6cebe483c4c3">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad71a483a00641af2838418f677801df5">GetFilesWithExtension</a>(scriptDirectory, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a9103478c93c69deb31f3549ab04dcc84">platformIdentifier</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#a1d6690377df88fa0c142d72a949be17f">ScriptFileExtension</a>, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  811</span> </div>
+<div class="line"><span class="lineno">  812</span>                        var scriptFiles = files</div>
+<div class="line"><span class="lineno">  813</span>                            .Select(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afd5e0aef7c9a1023bc8a6cebe483c4c3">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">GetFileName</a>)</div>
+<div class="line"><span class="lineno">  814</span>                            .Where(x =&gt; scriptNames.Any(</div>
+<div class="line"><span class="lineno">  815</span>                                scriptName =&gt; x.StartsWith(scriptName, StringComparison.Ordinal)))</div>
+<div class="line"><span class="lineno">  816</span>                            .Select(x =&gt;</div>
+<div class="line"><span class="lineno">  817</span>                            {</div>
+<div class="line"><span class="lineno">  818</span>                                var fullScriptPath = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afd5e0aef7c9a1023bc8a6cebe483c4c3">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(resolvedScriptsDir, x);</div>
+<div class="line"><span class="lineno">  819</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>.LogTrace(<span class="stringliteral">&quot;Found matching script: {scriptPath}&quot;</span>, fullScriptPath);</div>
+<div class="line"><span class="lineno">  820</span>                                <span class="keywordflow">return</span> fullScriptPath;</div>
+<div class="line"><span class="lineno">  821</span>                            });</div>
+<div class="line"><span class="lineno">  822</span> </div>
+<div class="line"><span class="lineno">  823</span>                        lock (allScripts)</div>
+<div class="line"><span class="lineno">  824</span>                            allScripts.AddRange(scriptFiles);</div>
+<div class="line"><span class="lineno">  825</span>                    })</div>
+<div class="line"><span class="lineno">  826</span>                    .ToList();</div>
+<div class="line"><span class="lineno">  827</span> </div>
+<div class="line"><span class="lineno">  828</span>                await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html">ValueTaskExtensions</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3">WhenAll</a>(tasks);</div>
+<div class="line"><span class="lineno">  829</span>                <span class="keywordflow">if</span> (allScripts.Count == 0)</div>
+<div class="line"><span class="lineno">  830</span>                {</div>
+<div class="line"><span class="lineno">  831</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>.LogTrace(<span class="stringliteral">&quot;No event scripts starting with \&quot;{scriptName}\&quot; detected&quot;</span>, String.Join(<span class="stringliteral">&quot;\&quot; or \&quot;&quot;</span>, scriptNames));</div>
+<div class="line"><span class="lineno">  832</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  833</span>                }</div>
+<div class="line"><span class="lineno">  834</span> </div>
+<div class="line"><span class="lineno">  835</span>                var resolvedInstanceScriptsDir = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afd5e0aef7c9a1023bc8a6cebe483c4c3">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af5dbdc7fa9d0999905d214a98c4604ee">EventScriptsSubdirectory</a>);</div>
+<div class="line"><span class="lineno">  836</span> </div>
+<div class="line"><span class="lineno">  837</span>                <span class="keywordflow">foreach</span> (var scriptFile <span class="keywordflow">in</span> allScripts.OrderBy(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afd5e0aef7c9a1023bc8a6cebe483c4c3">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">GetFileName</a>))</div>
+<div class="line"><span class="lineno">  838</span>                {</div>
+<div class="line"><span class="lineno">  839</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>.LogTrace(<span class="stringliteral">&quot;Running event script {scriptFile}...&quot;</span>, scriptFile);</div>
+<div class="line"><span class="lineno">  840</span>                    await <span class="keyword">using</span> (var script = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a0eb31611253abc0c887ec46f1e9b8611">processExecutor</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a801aa19c189da2b1c40a805d98079b40">LaunchProcess</a>(</div>
+<div class="line"><span class="lineno">  841</span>                        scriptFile,</div>
+<div class="line"><span class="lineno">  842</span>                        resolvedInstanceScriptsDir,</div>
+<div class="line"><span class="lineno">  843</span>                        String.Join(</div>
+<div class="line"><span class="lineno">  844</span>                            <span class="charliteral">&#39; &#39;</span>,</div>
+<div class="line"><span class="lineno">  845</span>                            parameters.Select(arg =&gt;</div>
+<div class="line"><span class="lineno">  846</span>                            {</div>
+<div class="line"><span class="lineno">  847</span>                                if (arg == null)</div>
+<div class="line"><span class="lineno">  848</span>                                    return <span class="stringliteral">&quot;(NULL)&quot;</span>;</div>
+<div class="line"><span class="lineno">  849</span> </div>
+<div class="line"><span class="lineno">  850</span>                                if (!arg.Contains(<span class="stringliteral">&#39; &#39;</span>, StringComparison.Ordinal))</div>
+<div class="line"><span class="lineno">  851</span>                                    return arg;</div>
+<div class="line"><span class="lineno">  852</span> </div>
+<div class="line"><span class="lineno">  853</span>                                arg = arg.Replace(<span class="stringliteral">&quot;\&quot;&quot;</span>, <span class="stringliteral">&quot;\\\&quot;&quot;</span>, StringComparison.Ordinal);</div>
+<div class="line"><span class="lineno">  854</span> </div>
+<div class="line"><span class="lineno">  855</span>                                return $<span class="stringliteral">&quot;\&quot;{arg}\&quot;&quot;</span>;</div>
+<div class="line"><span class="lineno">  856</span>                            })),</div>
+<div class="line"><span class="lineno">  857</span>                        cancellationToken,</div>
+<div class="line"><span class="lineno">  858</span>                        <span class="keyword">new</span> Dictionary&lt;string, string&gt;</div>
+<div class="line"><span class="lineno">  859</span>                        {</div>
+<div class="line"><span class="lineno">  860</span>                            { <span class="stringliteral">&quot;TGS_INSTANCE_ROOT&quot;</span>, metadata.Path! },</div>
+<div class="line"><span class="lineno">  861</span>                        },</div>
+<div class="line"><span class="lineno">  862</span>                        readStandardHandles: <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  863</span>                        noShellExecute: <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  864</span>                        doNotLogArguments: sensitiveParameters))</div>
+<div class="line"><span class="lineno">  865</span>                    <span class="keyword">using</span> (cancellationToken.Register(() =&gt; script.Terminate()))</div>
+<div class="line"><span class="lineno">  866</span>                    {</div>
+<div class="line"><span class="lineno">  867</span>                        <span class="keywordflow">if</span> (sessionConfiguration.LowPriorityDeploymentProcesses &amp;&amp; deploymentPipeline)</div>
+<div class="line"><span class="lineno">  868</span>                            script.AdjustPriority(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  869</span> </div>
+<div class="line"><span class="lineno">  870</span>                        var exitCode = await script.Lifetime;</div>
+<div class="line"><span class="lineno">  871</span>                        cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><span class="lineno">  872</span>                        var scriptOutput = await script.GetCombinedOutput(cancellationToken);</div>
+<div class="line"><span class="lineno">  873</span>                        <span class="keywordflow">if</span> (exitCode != 0)</div>
+<div class="line"><span class="lineno">  874</span>                            <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>($<span class="stringliteral">&quot;Script {scriptFile} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}&quot;</span>);</div>
+<div class="line"><span class="lineno">  875</span>                        <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  876</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>.LogDebug(<span class="stringliteral">&quot;Script output:{newLine}{scriptOutput}&quot;</span>, Environment.NewLine, scriptOutput);</div>
+<div class="line"><span class="lineno">  877</span>                    }</div>
+<div class="line"><span class="lineno">  878</span>                }</div>
+<div class="line"><span class="lineno">  879</span>            }</div>
+<div class="line"><span class="lineno">  880</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">Tgstation.Server.Host.Jobs.JobException</a></div><div class="ttdoc">Operation exceptions thrown from the context of a Models.Job.</div><div class="ttdef"><b>Definition</b> <a href="_job_exception_8cs_source.html#l00010">JobException.cs:11</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a0d6d5a54db205d2d1d45a927d57f5182"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">Tgstation.Server.Host.IO.IIOManager.GetFileName</a></div><div class="ttdeci">string GetFileName(string path)</div><div class="ttdoc">Gets the file name portion of a path .</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a18a442b5dff16f5e7a730ec354e81d78"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">Tgstation.Server.Host.IO.IIOManager.ResolvePath</a></div><div class="ttdeci">string ResolvePath()</div><div class="ttdoc">Retrieve the full path of the current working directory.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_ad71a483a00641af2838418f677801df5"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad71a483a00641af2838418f677801df5">Tgstation.Server.Host.IO.IIOManager.GetFilesWithExtension</a></div><div class="ttdeci">Task&lt; List&lt; string &gt; &gt; GetFilesWithExtension(string path, string extension, bool recursive, CancellationToken cancellationToken)</div><div class="ttdoc">Gets a list of files in path  with the given extension .</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier_html_a1d6690377df88fa0c142d72a949be17f"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#a1d6690377df88fa0c142d72a949be17f">Tgstation.Server.Host.System.IPlatformIdentifier.ScriptFileExtension</a></div><div class="ttdeci">string ScriptFileExtension</div><div class="ttdoc">The extension of executable script files for the system.</div><div class="ttdef"><b>Definition</b> <a href="_i_platform_identifier_8cs_source.html#l00019">IPlatformIdentifier.cs:19</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor_html_a17aa8c090377d70ebf0a93f3eb0a0243"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a17aa8c090377d70ebf0a93f3eb0a0243">Tgstation.Server.Host.System.IProcessExecutor.LaunchProcess</a></div><div class="ttdeci">ValueTask&lt; IProcess &gt; LaunchProcess(string fileName, string workingDirectory, string arguments, CancellationToken cancellationToken, IReadOnlyDictionary&lt; string, string &gt;? environment=null, string? fileRedirect=null, bool readStandardHandles=false, bool noShellExecute=false)</div><div class="ttdoc">Launch a IProcess.</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor_html_a801aa19c189da2b1c40a805d98079b40"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a801aa19c189da2b1c40a805d98079b40">Tgstation.Server.Host.System.IProcessExecutor.LaunchProcess</a></div><div class="ttdeci">ValueTask&lt; IProcess &gt; LaunchProcess(string fileName, string workingDirectory, string arguments, CancellationToken cancellationToken, IReadOnlyDictionary&lt; string, string &gt;? environment=null, string? fileRedirect=null, bool readStandardHandles=false, bool noShellExecute=false, bool doNotLogArguments=false)</div><div class="ttdoc">Launch a IProcess.</div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_semaphore_slim_context_8cs_source.html#l00021">Tgstation.Server.Host.Utils.SemaphoreSlimContext.Lock()</a>, and <a class="el" href="_value_task_extensions_8cs_source.html#l00099">Tgstation.Server.Common.Extensions.ValueTaskExtensions.WhenAll()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration_a2ed16f7fc0c67a144c98ec5008c45811_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration_a2ed16f7fc0c67a144c98ec5008c45811_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration_a2ed16f7fc0c67a144c98ec5008c45811_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration_a2ed16f7fc0c67a144c98ec5008c45811_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration_aa3ce3c8916c5fbda2b8fb039270800f6_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration_aa3ce3c8916c5fbda2b8fb039270800f6_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration_aa3ce3c8916c5fbda2b8fb039270800f6_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration_aa3ce3c8916c5fbda2b8fb039270800f6_cgraph">
 <area shape="rect" title="Execute a set of given scriptNames ." alt="" coords="5,34,249,90"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="310,5,499,46"/>
 <area shape="poly" title=" " alt="" coords="249,43,294,37,294,43,250,48"/>
@@ -1178,17 +1187,17 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  684</span>            }</div>
 <div class="line"><span class="lineno">  685</span> </div>
 <div class="line"><span class="lineno">  686</span><span class="preprocessor">#pragma warning disable CA2012 </span><span class="comment">// Use ValueTasks correctly</span></div>
-<div class="line"><span class="lineno">  687</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a2ed16f7fc0c67a144c98ec5008c45811">ExecuteEventScripts</a>(parameters, <span class="keyword">false</span>, cancellationToken, scriptName);</div>
+<div class="line"><span class="lineno">  687</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#aa3ce3c8916c5fbda2b8fb039270800f6">ExecuteEventScripts</a>(parameters, <span class="keyword">false</span>, <span class="keyword">false</span>, cancellationToken, scriptName);</div>
 <div class="line"><span class="lineno">  688</span><span class="preprocessor">#pragma warning restore CA2012 </span><span class="comment">// Use ValueTasks correctly</span></div>
 <div class="line"><span class="lineno">  689</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration_html_a2ed16f7fc0c67a144c98ec5008c45811"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a2ed16f7fc0c67a144c98ec5008c45811">Tgstation.Server.Host.Components.StaticFiles.Configuration.ExecuteEventScripts</a></div><div class="ttdeci">async ValueTask ExecuteEventScripts(IEnumerable&lt; string?&gt; parameters, bool deploymentPipeline, CancellationToken cancellationToken, params string[] scriptNames)</div><div class="ttdoc">Execute a set of given scriptNames .</div><div class="ttdef"><b>Definition</b> <a href="_configuration_8cs_source.html#l00792">Configuration.cs:792</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration_html_aa3ce3c8916c5fbda2b8fb039270800f6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#aa3ce3c8916c5fbda2b8fb039270800f6">Tgstation.Server.Host.Components.StaticFiles.Configuration.ExecuteEventScripts</a></div><div class="ttdeci">async ValueTask ExecuteEventScripts(IEnumerable&lt; string?&gt; parameters, bool sensitiveParameters, bool deploymentPipeline, CancellationToken cancellationToken, params string[] scriptNames)</div><div class="ttdoc">Execute a set of given scriptNames .</div><div class="ttdef"><b>Definition</b> <a href="_configuration_8cs_source.html#l00793">Configuration.cs:793</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration_html_af73c90b1a8a29402123e513617d368a4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af73c90b1a8a29402123e513617d368a4">Tgstation.Server.Host.Components.StaticFiles.Configuration.EventTypeScriptFileNameMap</a></div><div class="ttdeci">static IReadOnlyDictionary&lt; EventType, string[]&gt; EventTypeScriptFileNameMap</div><div class="ttdoc">Map of EventTypes to the filename of the event scripts they trigger.</div><div class="ttdef"><b>Definition</b> <a href="_configuration_8cs_source.html#l00075">Configuration.cs:75</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier_html_aa9bf3bd1082b7178f58cb1f36839550e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a></div><div class="ttdeci">bool IsWindows</div><div class="ttdoc">If the current platform is a Windows platform.</div><div class="ttdef"><b>Definition</b> <a href="_i_platform_identifier_8cs_source.html#l00014">IPlatformIdentifier.cs:14</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="aa2ea8273d0ecfbcc31e4cc1ccc93dd57" name="aa2ea8273d0ecfbcc31e4cc1ccc93dd57"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2ea8273d0ecfbcc31e4cc1ccc93dd57">&#9670;&#160;</a></span>HandleEvent()</h2>
+<a id="afc27e2e8e1f49cf354d4354265df2fa9" name="afc27e2e8e1f49cf354d4354265df2fa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc27e2e8e1f49cf354d4354265df2fa9">&#9670;&#160;</a></span>HandleEvent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1204,6 +1213,12 @@ Here is the call graph for this function:</div>
           <td></td>
           <td class="paramtype">IEnumerable&lt; string?&gt;&#160;</td>
           <td class="paramname"><em>parameters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>sensitiveParameters</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1229,6 +1244,7 @@ Here is the call graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">eventType</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7" title="Types of events. Mirror in tgs.dm. Prefer last listed name for script.">EventType</a>.</td></tr>
     <tr><td class="paramname">parameters</td><td>An IEnumerable&lt;T&gt; of string parameters for <em>eventType</em> .</td></tr>
+    <tr><td class="paramname">sensitiveParameters</td><td>If parameters are considered sensitive and should not be logged.</td></tr>
     <tr><td class="paramname">deploymentPipeline</td><td>If this event is part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
@@ -1237,7 +1253,7 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37">Tgstation.Server.Host.Components.Events.IEventConsumer</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c">Tgstation.Server.Host.Components.Events.IEventConsumer</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_configuration_8cs_source.html#l00656">656</a> of file <a class="el" href="_configuration_8cs_source.html">Configuration.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  657</span>        {</div>
@@ -1249,7 +1265,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  663</span>                <span class="keywordflow">return</span> ValueTask.CompletedTask;</div>
 <div class="line"><span class="lineno">  664</span>            }</div>
 <div class="line"><span class="lineno">  665</span> </div>
-<div class="line"><span class="lineno">  666</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a2ed16f7fc0c67a144c98ec5008c45811">ExecuteEventScripts</a>(parameters, deploymentPipeline, cancellationToken, scriptNames);</div>
+<div class="line"><span class="lineno">  666</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#aa3ce3c8916c5fbda2b8fb039270800f6">ExecuteEventScripts</a>(parameters, sensitiveParameters, deploymentPipeline, cancellationToken, scriptNames);</div>
 <div class="line"><span class="lineno">  667</span>        }</div>
 </div><!-- fragment -->
 </div>

@@ -18,7 +18,7 @@
 <area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="187,320,219,357,264,403,319,450,380,489,406,501,404,505,377,494,316,454,260,407,215,361,183,323"/>
 <area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html#a4115cea1f220c4fdaede74566aa848d3" title="Creates a IRemoteDeploymentManager for a given remoteGitProvider ." alt="" coords="734,5,1052,61"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="668,53,719,48,719,53,668,58"/>
-<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="775,85,1012,126"/>
+<area shape="rect" id="Node000004" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c" title="Handle a given eventType ." alt="" coords="775,85,1012,126"/>
 <area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="668,80,760,89,759,95,668,85"/>
 <area shape="poly" id="edge8_Node000008_Node000007" title=" " alt="" coords="664,306,743,293,744,298,665,311"/>
 <area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ad6e832b7e37fcfb95f47294a9a084c2e" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="742,324,1045,364"/>
