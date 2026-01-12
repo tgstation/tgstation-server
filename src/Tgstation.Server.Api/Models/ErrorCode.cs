@@ -493,7 +493,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Attempted to restart a stopped watchdog.
 		/// </summary>
-		[Description("Cannot restart the watchdog as it is not running!")]
+		[Description("Cannot perform watchdog operation as it is not running!")]
 		WatchdogNotRunning,
 
 		/// <summary>

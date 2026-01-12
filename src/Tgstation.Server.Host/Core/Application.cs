@@ -11,13 +11,12 @@ using Cyberboss.AspNetCore.AsyncInitializer;
 using Elastic.CommonSchema.Serilog;
 
 using HotChocolate.AspNetCore;
-using HotChocolate.Subscriptions;
-using HotChocolate.Types;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -46,7 +45,6 @@ using Serilog.Sinks.Elasticsearch;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Authority.Core;
 using Tgstation.Server.Host.Components;
@@ -64,11 +62,7 @@ using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
-using Tgstation.Server.Host.GraphQL;
-using Tgstation.Server.Host.GraphQL.Interceptors;
-using Tgstation.Server.Host.GraphQL.Scalars;
 using Tgstation.Server.Host.GraphQL.Subscriptions;
-using Tgstation.Server.Host.GraphQL.Types;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Properties;
@@ -174,7 +168,6 @@ namespace Tgstation.Server.Host.Core
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
 			services.UseStandardConfig<SwarmConfiguration>(Configuration);
 			services.UseStandardConfig<SessionConfiguration>(Configuration);
-			services.UseStandardConfig<TelemetryConfiguration>(Configuration);
 
 			// enable options which give us config reloading
 			services.AddOptions();
@@ -311,8 +304,12 @@ namespace Tgstation.Server.Host.Core
 			services.AddCors();
 
 			// Enable managed HTTP clients
-			services.AddHttpClient();
-			services.AddSingleton<IAbstractHttpClientFactory, AbstractHttpClientFactory>();
+			services
+				.AddHttpClient()
+				.ConfigureHttpClientDefaults(
+					builder => builder.ConfigureHttpClient(
+						client => client.DefaultRequestHeaders.UserAgent.Add(
+							assemblyInformationProvider.ProductInfoHeaderValue)));
 
 			// configure metrics
 			var prometheusPort = postSetupServices.GeneralConfiguration.PrometheusPort;
@@ -331,68 +328,9 @@ namespace Tgstation.Server.Host.Core
 
 			// configure graphql
 			services
-				.AddScoped<GraphQL.Subscriptions.ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
+				.AddScoped<ITopicEventReceiver, ShutdownAwareTopicEventReceiver>()
 				.AddGraphQLServer()
-				.AddAuthorization(
-					options =>
-					{
-						options.AddPolicy(
-							TgsAuthorizeAttribute.PolicyName,
-							builder => builder
-								.RequireAuthenticatedUser()
-								.RequireRole(TgsAuthorizeAttribute.UserEnabledRole));
-						options.AddPolicy(
-							"testingasdf",
-							builder =>
-							{
-								builder.RequireAuthenticatedUser();
-								builder.AuthenticationSchemes.Add(CookieAuthenticationDefaults.AuthenticationScheme);
-							});
-					})
-				.ModifyOptions(options =>
-				{
-					options.EnsureAllNodesCanBeResolved = true;
-					options.EnableFlagEnums = true;
-				})
-#if DEBUG
-				.ModifyCostOptions(options =>
-				{
-					options.EnforceCostLimits = false;
-				})
-#endif
-				.AddMutationConventions()
-				.AddInMemorySubscriptions(
-					new SubscriptionOptions
-					{
-						TopicBufferCapacity = 1024, // mainly so high for tests, not possible to DoS the server without authentication and some other access to generate messages
-					})
-				.AddGlobalObjectIdentification()
-				.AddQueryFieldToMutationPayloads()
-				.ModifyOptions(options =>
-				{
-					options.EnableDefer = true;
-				})
-				.ModifyPagingOptions(pagingOptions =>
-				{
-					pagingOptions.IncludeTotalCount = true;
-					pagingOptions.RequirePagingBoundaries = false;
-					pagingOptions.DefaultPageSize = ApiController.DefaultPageSize;
-					pagingOptions.MaxPageSize = ApiController.MaximumPageSize;
-				})
-				.AddFiltering()
-				.AddSorting()
-				.AddHostTypes()
-				.AddErrorFilter<ErrorMessageFilter>()
-				.AddType<StandaloneNode>()
-				.AddType<LocalGateway>()
-				.AddType<RemoteGateway>()
-				.AddType<GraphQL.Types.UserName>()
-				.AddType<UnsignedIntType>()
-				.BindRuntimeType<Version, SemverType>()
-				.TryAddTypeInterceptor<RightsTypeInterceptor>()
-				.AddQueryType<Query>()
-				.AddMutationType<Mutation>()
-				.AddSubscriptionType<Subscription>();
+				.ConfigureGraphQLServer();
 
 			void AddTypedContext<TContext>()
 				where TContext : DatabaseContext
@@ -440,7 +378,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
 
 			// configure other security services
-			services.AddSingleton<IOAuthProviders, OAuthProviders>();
+			services.AddScoped<IOAuthProviders, OAuthProviders>();
 			services.AddSingleton<IIdentityCache, IdentityCache>();
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
@@ -540,6 +478,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddScoped<IUserGroupAuthority, UserGroupAuthority>();
 			services.AddScoped<IPermissionSetAuthority, PermissionSetAuthority>();
 			services.AddScoped<IAdministrationAuthority, AdministrationAuthority>();
+			services.AddScoped<IChatAuthority, ChatAuthority>();
 
 			// configure misc services
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
@@ -548,7 +487,6 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
 			services.AddSingleton(fileSystem);
 			services.AddHostedService<CommandPipeManager>();
-			services.AddHostedService<VersionReportingService>();
 
 			services.AddFileDownloader();
 			services.AddGitHub();
@@ -604,11 +542,11 @@ namespace Tgstation.Server.Host.Core
 			ArgumentNullException.ThrowIfNull(serverPortProvider);
 			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
-			var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
-			var generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			var databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
-			var swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
-			var internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
+			var controlPanelConfiguration = (controlPanelConfigurationOptions ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions))).Value;
+			var generalConfiguration = (generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions))).Value;
+			var databaseConfiguration = (databaseConfigurationOptions ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions))).Value;
+			var swarmConfiguration = (swarmConfigurationOptions ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions))).Value;
+			var internalConfiguration = (internalConfigurationOptions ?? throw new ArgumentNullException(nameof(internalConfigurationOptions))).Value;
 
 			ArgumentNullException.ThrowIfNull(logger);
 
@@ -816,6 +754,10 @@ namespace Tgstation.Server.Host.Core
 			services.AddScoped<AuthenticationContextFactory>();
 			services.AddScoped<ITokenValidator>(provider => provider.GetRequiredService<AuthenticationContextFactory>());
 
+			services.AddScoped<IClaimsPrincipalAccessor, ClaimsPrincipalAccessor>();
+			services.AddScoped<Security.IAuthorizationService, AuthorizationService>();
+			services.AddScoped<IAuthorizationHandler, AuthorizationHandler>();
+
 			// what if you
 			// wanted to just do this:
 			// return provider.GetRequiredService<AuthenticationContextFactory>().CurrentAuthenticationContext
@@ -869,6 +811,17 @@ namespace Tgstation.Server.Host.Core
 									.RequestAborted),
 					};
 				});
+
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(
+					TgsAuthorizeAttribute.PolicyName,
+					builder => builder
+						.RequireAuthenticatedUser()
+						.RequireRole(TgsAuthorizeAttribute.UserEnabledRole));
+
+				options.DefaultPolicy = options.GetPolicy(TgsAuthorizeAttribute.PolicyName)!;
+			});
 
 			var oidcConfig = securityConfiguration.OpenIDConnect;
 			if (oidcConfig == null || oidcConfig.Count == 0)

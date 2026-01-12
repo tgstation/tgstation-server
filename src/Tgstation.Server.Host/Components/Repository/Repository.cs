@@ -9,6 +9,7 @@ using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Events;
@@ -116,14 +117,14 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly ILibGit2RepositoryFactory submoduleFactory;
 
 		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="Repository"/>.
+		/// </summary>
+		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Repository"/>.
 		/// </summary>
 		readonly ILogger<Repository> logger;
-
-		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="Repository"/>.
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Repository"/> class.
@@ -136,8 +137,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The <see cref="IGitRemoteFeaturesFactory"/> to provide the value of <see cref="gitRemoteFeatures"/>.</param>
 		/// <param name="submoduleFactory">The value of <see cref="submoduleFactory"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="disposeAction">The <see cref="IDisposable.Dispose"/> action for the <see cref="DisposeInvoker"/>.</param>
 		public Repository(
 			LibGit2Sharp.IRepository libGitRepo,
@@ -148,8 +149,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			IPostWriteHandler postWriteHandler,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILibGit2RepositoryFactory submoduleFactory,
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<Repository> logger,
-			GeneralConfiguration generalConfiguration,
 			Action disposeAction)
 			: base(disposeAction)
 		{
@@ -161,9 +162,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			ArgumentNullException.ThrowIfNull(gitRemoteFeaturesFactory);
 			this.submoduleFactory = submoduleFactory ?? throw new ArgumentNullException(nameof(submoduleFactory));
-
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
 
 			gitRemoteFeatures = gitRemoteFeaturesFactory.CreateGitRemoteFeatures(this);
 		}
@@ -321,6 +321,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					EventType.RepoMergeConflict,
 					arguments,
 					false,
+					false,
 					cancellationToken);
 				return new TestMergeResult
 				{
@@ -362,6 +363,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					testMergeParameters.Comment,
 				},
 				false,
+				false,
 				cancellationToken);
 
 			return new TestMergeResult
@@ -384,7 +386,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			ArgumentNullException.ThrowIfNull(committish);
 
 			logger.LogDebug("Checkout object: {committish}...", committish);
-			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish, moveCurrentReference.ToString() }, false, cancellationToken);
+			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish, moveCurrentReference.ToString() }, false, false, cancellationToken);
 			await Task.Factory.StartNew(
 				() =>
 				{
@@ -421,7 +423,16 @@ namespace Tgstation.Server.Host.Components.Repository
 			CancellationToken cancellationToken)
 		{
 			logger.LogDebug("Fetch origin...");
-			await eventConsumer.HandleEvent(EventType.RepoFetch, Enumerable.Empty<string>(), deploymentPipeline, cancellationToken);
+
+			var parameters = new List<string>();
+			if (username != null)
+			{
+				parameters.Add(username);
+				if (password != null)
+					parameters.Add(password);
+			}
+
+			await eventConsumer.HandleEvent(EventType.RepoFetch, parameters, true, deploymentPipeline, cancellationToken);
 			await Task.Factory.StartNew(
 				() =>
 				{
@@ -476,7 +487,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new JobException(ErrorCode.RepoReferenceRequired);
 			logger.LogTrace("Reset to origin...");
 			var trackedBranch = libGitRepo.Head.TrackedBranch;
-			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, deploymentPipeline, cancellationToken);
+			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, false, deploymentPipeline, cancellationToken);
 
 			using (var progressReporter2 = progressReporter.CreateSection(null, updateSubmodules ? 2.0 / 3 : 1.0))
 				await ResetToSha(
@@ -539,7 +550,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				},
 				ioManager.ResolvePath(),
 				path,
-				generalConfiguration.GetCopyDirectoryTaskThrottle(),
+				generalConfigurationOptions.CurrentValue.GetCopyDirectoryTaskThrottle(),
 				cancellationToken);
 		}
 
@@ -629,6 +640,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						oldHead.FriendlyName ?? UnknownReference,
 						trackedBranch.FriendlyName,
 					},
+					false,
 					deploymentPipeline,
 					cancellationToken);
 				return null;
@@ -686,6 +698,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					{
 						ioManager.ResolvePath(),
 					},
+					false,
 					deploymentPipeline,
 					cancellationToken);
 			}
@@ -1192,6 +1205,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					await eventConsumer.HandleEvent(
 						EventType.RepoSubmoduleUpdate,
 						new List<string> { submodule.Name },
+						false,
 						deploymentPipeline,
 						cancellationToken);
 

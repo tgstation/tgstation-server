@@ -165,7 +165,6 @@ namespace Tgstation.Server.Host.Controllers
 			// alias for changing DD settings
 			var current = await DatabaseContext
 				.Instances
-				.AsQueryable()
 				.Where(x => x.Id == Instance.Id)
 				.Select(x => x.DreamDaemonSettings)
 				.FirstOrDefaultAsync(cancellationToken);
@@ -330,7 +329,6 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					settings = await DatabaseContext
 						.Instances
-						.AsQueryable()
 						.Where(x => x.Id == Instance.Id)
 						.Select(x => x.DreamDaemonSettings!)
 						.FirstOrDefaultAsync(cancellationToken);
@@ -366,6 +364,7 @@ namespace Tgstation.Server.Host.Controllers
 						firstIteration = false;
 						result.Status = dd.Status;
 						result.SessionId = dd.SessionId;
+						result.WorldIteration = dd.WorldIteration;
 						result.LaunchTime = dd.LaunchTime;
 						result.ClientCount = dd.ClientCount;
 					}

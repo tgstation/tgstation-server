@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using GreenDonut.Data;
+
 using HotChocolate;
 using HotChocolate.Data;
 using HotChocolate.Types;
@@ -13,30 +15,21 @@ using Microsoft.Extensions.Options;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models.Transformers;
-using Tgstation.Server.Host.Security;
-
-#pragma warning disable CA1724 // conflict with GitLabApiClient.Models.Users. They can fuck off
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
 	/// <summary>
 	/// Wrapper for accessing <see cref="User"/>s.
 	/// </summary>
-	public sealed class Users
+	public sealed class UsersRepository
 	{
-		/// <summary>
-		/// Gets the swarm's <see cref="UserGroups"/>.
-		/// </summary>
-		/// <returns>A new <see cref="UserGroups"/>.</returns>
-		public UserGroups Groups() => new();
-
 		/// <summary>
 		/// If only OIDC logins and registration is allowed.
 		/// </summary>
-		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SecurityConfiguration"/>.</param>
+		/// <param name="securityConfigurationOptions">The <see cref="IOptionsSnapshot{TOptions}"/> containing the <see cref="SecurityConfiguration"/>.</param>
 		/// <returns><see langword="true"/> if OIDC strict mode is enabled, <see langword="false"/> otherwise.</returns>
 		public bool OidcStrictMode(
-			[Service] IOptions<SecurityConfiguration> securityConfigurationOptions)
+			[Service] IOptionsSnapshot<SecurityConfiguration> securityConfigurationOptions)
 		{
 			ArgumentNullException.ThrowIfNull(securityConfigurationOptions);
 			return securityConfigurationOptions.Value.OidcStrictMode;
@@ -48,7 +41,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the current <see cref="User"/>.</returns>
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Read))]
 		public ValueTask<User> Current(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
 			CancellationToken cancellationToken)
@@ -61,16 +53,17 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// Gets a <see cref="User"/> by <see cref="Entity.Id"/>.
 		/// </summary>
 		/// <param name="id">The <see cref="Entity.Id"/> of the <see cref="User"/>.</param>
-		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
+		/// <param name="usersDataLoader">The <see cref="IUsersDataLoader"/> to use.</param>
+		/// <param name="queryContext">The active <see cref="QueryContext{TEntity}"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="User"/> represented by <paramref name="id"/>, if any.</returns>
 		[Error(typeof(ErrorMessageException))]
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.GetId))]
 		public ValueTask<User?> ById(
 			[ID(nameof(User))] long id,
-			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,
+			[Service] IUsersDataLoader usersDataLoader,
+			QueryContext<User>? queryContext,
 			CancellationToken cancellationToken)
-			=> User.GetUser(id, userAuthority, cancellationToken);
+			=> User.GetUser(id, usersDataLoader, queryContext, cancellationToken);
 
 		/// <summary>
 		/// Queries all registered <see cref="User"/>s.
@@ -80,12 +73,12 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		[UsePaging]
 		[UseFiltering]
 		[UseSorting]
-		[TgsGraphQLAuthorize<IUserAuthority>(nameof(IUserAuthority.Queryable))]
-		public IQueryable<User> QueryableUsers(
+		public async ValueTask<IQueryable<User>> QueryableUsers(
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority)
 		{
 			ArgumentNullException.ThrowIfNull(userAuthority);
-			var dtoQueryable = userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(authority => authority.Queryable(false));
+			var dtoQueryable = await userAuthority.InvokeTransformableQueryable<Models.User, User, UserGraphQLTransformer>(
+				authority => authority.Queryable(false));
 			return dtoQueryable;
 		}
 	}

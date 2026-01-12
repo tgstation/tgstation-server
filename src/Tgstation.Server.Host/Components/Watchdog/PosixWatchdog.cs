@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Prometheus;
 
@@ -28,9 +29,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	sealed class PosixWatchdog : AdvancedWatchdog
 	{
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="PosixWatchdog"/>.
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="PosixWatchdog"/>.
 		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
+		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PosixWatchdog"/> class.
@@ -48,10 +49,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="metricFactory">The <see cref="IMetricFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="gameIOManager">The <see cref="IIOManager"/> pointing to the game directory for the <see cref="AdvancedWatchdog"/>..</param>
 		/// <param name="linkFactory">The <see cref="IFilesystemLinkFactory"/> for the <see cref="AdvancedWatchdog"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="generalConfiguration">The value of <see cref="GeneralConfiguration"/>.</param>
 		/// <param name="autoStart">The autostart value for the <see cref="WatchdogBase"/>.</param>
 		public PosixWatchdog(
 			IChatManager chat,
@@ -67,10 +68,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IMetricFactory metricFactory,
 			IIOManager gameIOManager,
 			IFilesystemLinkFactory linkFactory,
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<PosixWatchdog> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance instance,
-			GeneralConfiguration generalConfiguration,
 			bool autoStart)
 			: base(
 				  chat,
@@ -91,7 +92,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				  instance,
 				  autoStart)
 		{
-			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -100,6 +101,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		protected override SwappableDmbProvider CreateSwappableDmbProvider(IDmbProvider dmbProvider)
-			=> new HardLinkDmbProvider(dmbProvider, GameIOManager, LinkFactory, Logger, generalConfiguration, ActiveLaunchParameters.SecurityLevel!.Value);
+			=> new HardLinkDmbProvider(
+				dmbProvider,
+				GameIOManager,
+				LinkFactory,
+				Logger,
+				generalConfigurationOptions.CurrentValue,
+				ActiveLaunchParameters.SecurityLevel!.Value);
 	}
 }

@@ -44,5 +44,10 @@
 		/// DreamDaemon requesting a custom event to be triggered.
 		/// </summary>
 		Event,
+
+		/// <summary>
+		/// DreamDaemon requesting TGS trigger a deployment.
+		/// </summary>
+		Deploy,
 	}
 }

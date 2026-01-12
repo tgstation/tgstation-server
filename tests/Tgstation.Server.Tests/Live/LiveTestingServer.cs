@@ -89,6 +89,8 @@ namespace Tgstation.Server.Tests.Live
 				Cleanup(BaseDirectory).GetAwaiter().GetResult();
 			}
 
+			System.Console.WriteLine($"RunningInGitHubActions: {TestingUtils.RunningInGitHubActions}");
+
 			Assert.IsTrue(port >= 10000); // for testing bridge request limit
 			Directory = BaseDirectory;
 
@@ -156,7 +158,6 @@ namespace Tgstation.Server.Tests.Live
 				$"General:OpenDreamGitUrl={OpenDreamUrl}",
 				$"Security:TokenExpiryMinutes=120", // timeouts are useless for us
 				$"General:OpenDreamSuppressInstallOutput={TestingUtils.RunningInGitHubActions}",
-				"Telemetry:DisableVersionReporting=true",
 				$"General:PrometheusPort={port}",
 				$"General:ByondZipDownloadTemplate={TestingUtils.ByondZipDownloadTemplate}"
 			};

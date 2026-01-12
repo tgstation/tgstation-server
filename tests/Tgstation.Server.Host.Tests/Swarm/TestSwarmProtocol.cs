@@ -2,33 +2,29 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
-
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Transfer;
 
 namespace Tgstation.Server.Host.Swarm.Tests
 {
 	[TestClass]
 	public sealed class TestSwarmProtocol
 	{
-		static readonly HashSet<ushort> usedPorts = new ();
-		static ILoggerFactory loggerFactory;
-		static ILogger logger;
+		HashSet<ushort> usedPorts = new();
+		ILoggerFactory loggerFactory;
+		ILogger logger;
 
-		static ISeekableFileStreamProvider updateFileStreamProvider;
+		ISeekableFileStreamProvider updateFileStreamProvider;
 
-		[ClassInitialize]
-		public static async Task Initialize(TestContext _)
+		[TestInitialize]
+		public async Task Initialize()
 		{
 			loggerFactory = LoggerFactory.Create(builder =>
 			{
@@ -44,8 +40,8 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			await updateFileStreamProvider.GetResult(default);
 		}
 
-		[ClassCleanup]
-		public static async Task Shutdown()
+		[TestCleanup]
+		public async Task Shutdown()
 		{
 			usedPorts.Clear();
 			loggerFactory.Dispose();
@@ -207,7 +203,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			await TestSimultaneousPrepareDifferentVersionsFails(false);
 		}
 
-		static async ValueTask TestSimultaneousPrepareDifferentVersionsFails(bool prepControllerFirst)
+		async ValueTask TestSimultaneousPrepareDifferentVersionsFails(bool prepControllerFirst)
 		{
 			await using var controller = GenNode();
 			await using var node1 = GenNode(controller);
@@ -269,7 +265,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				Assert.AreEqual(SwarmCommitResult.AbortUpdate, await nodeCommitTask);
 		}
 
-		static TestableSwarmNode GenNode(TestableSwarmNode controller = null, Version version = null)
+		TestableSwarmNode GenNode(TestableSwarmNode controller = null, Version version = null)
 		{
 			ushort randPort;
 			do
@@ -290,7 +286,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			return new TestableSwarmNode(loggerFactory, config, version);
 		}
 
-		static async Task DelayMax(Action assertion, long seconds = 1)
+		async Task DelayMax(Action assertion, long seconds = 1)
 		{
 			var id = Guid.NewGuid();
 			logger.LogInformation("Begin DelayMax {id}: {seconds}", id, seconds);

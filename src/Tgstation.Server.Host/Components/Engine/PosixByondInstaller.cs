@@ -75,11 +75,27 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override ValueTask Install(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
+		public override ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(path);
 
+			return ValueTask.CompletedTask;
+		}
+
+		/// <inheritdoc />
+		public override ValueTask TrustDmbPath(EngineVersion version, string fullDmbPath, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(version);
+			ArgumentNullException.ThrowIfNull(fullDmbPath);
+
+			Logger.LogTrace("No need to trust .dmb path \"{path}\" on POSIX", fullDmbPath);
+			return ValueTask.CompletedTask;
+		}
+
+		/// <inheritdoc />
+		protected override ValueTask InstallImpl(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
+		{
 			// write the scripts for running the ting
 			// need to add $ORIGIN to LD_LIBRARY_PATH
 			const string StandardScript = "#!/bin/sh\nexport LD_LIBRARY_PATH=\"\\$ORIGIN:$LD_LIBRARY_PATH\"\nBASEDIR=$(dirname \"$0\")\nexec \"$BASEDIR/{0}\" \"$@\"\n";
@@ -112,25 +128,6 @@ namespace Tgstation.Server.Host.Components.Engine
 			postWriteHandler.HandleWrite(IOManager.ConcatPath(basePath, DreamMakerExecutableName));
 
 			return task;
-		}
-
-		/// <inheritdoc />
-		public override ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken)
-		{
-			CheckVersionValidity(version);
-			ArgumentNullException.ThrowIfNull(path);
-
-			return ValueTask.CompletedTask;
-		}
-
-		/// <inheritdoc />
-		public override ValueTask TrustDmbPath(EngineVersion version, string fullDmbPath, CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(version);
-			ArgumentNullException.ThrowIfNull(fullDmbPath);
-
-			Logger.LogTrace("No need to trust .dmb path \"{path}\" on POSIX", fullDmbPath);
-			return ValueTask.CompletedTask;
 		}
 
 		/// <inheritdoc />

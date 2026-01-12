@@ -13,28 +13,28 @@ namespace Tgstation.Server.Host.Core
 	sealed class ServerPortProivder : IServerPortProvider
 	{
 		/// <inheritdoc />
-		public ushort HttpApiPort => generalConfiguration.ApiPort;
+		public ushort HttpApiPort => generalConfigurationOptions.Value.ApiPort;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="ServerPortProivder"/>.
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="ServerPortProivder"/>.
 		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
+		readonly IOptions<GeneralConfiguration> generalConfigurationOptions;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerPortProivder"/> class.
 		/// </summary>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="configuration">The <see cref="IConfiguration"/> to use.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfigurationOptions"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
 		public ServerPortProivder(
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IConfiguration configuration,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<ServerPortProivder> logger)
 		{
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			ArgumentNullException.ThrowIfNull(configuration);
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 
-			var usingDefaultPort = generalConfiguration.ApiPort == default;
+			var usingDefaultPort = generalConfigurationOptions.Value.ApiPort == default;
 			if (!usingDefaultPort)
 				return;
 
@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Core
 			if (!UInt16.TryParse(portString, out var result))
 				throw new InvalidOperationException($"Failed to parse HTTP EndPoint port: {httpEndpoint}");
 
-			generalConfiguration.ApiPort = result;
+			this.generalConfigurationOptions.Value.ApiPort = result;
 		}
 	}
 }

@@ -1,7 +1,8 @@
 ﻿using System;
-using System.IO;
-using System.IO.Compression;
 using System.Globalization;
+using System.IO;
+using System.IO.Abstractions;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -20,6 +21,7 @@ using Moq;
 using Newtonsoft.Json.Linq;
 
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host;
@@ -29,11 +31,9 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.System;
-using Tgstation.Server.Api.Models;
-using Tgstation.Server.Tests.Live;
 using Tgstation.Server.Host.Properties;
-using System.IO.Abstractions;
+using Tgstation.Server.Host.System;
+using Tgstation.Server.Tests.Live;
 
 namespace Tgstation.Server.Tests
 {
@@ -112,8 +112,8 @@ namespace Tgstation.Server.Tests
 			{
 				ByondZipDownloadTemplate = TestingUtils.ByondZipDownloadTemplate,
 			});
-			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
-			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
+			var mockSessionConfigurationOptions = new Mock<IOptionsMonitor<SessionConfiguration>>();
+			mockSessionConfigurationOptions.SetupGet(x => x.CurrentValue).Returns(new SessionConfiguration());
 
 			using var loggerFactory = LoggerFactory.Create(builder =>
 			{
@@ -179,8 +179,8 @@ namespace Tgstation.Server.Tests
 				SkipAddingByondFirewallException = true,
 				ByondZipDownloadTemplate = TestingUtils.ByondZipDownloadTemplate,
 			});
-			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
-			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
+			var mockSessionConfigurationOptions = new Mock<IOptionsMonitor<SessionConfiguration>>();
+			mockSessionConfigurationOptions.SetupGet(x => x.CurrentValue).Returns(new SessionConfiguration());
 
 			using var loggerFactory = LoggerFactory.Create(builder =>
 			{
@@ -204,10 +204,16 @@ namespace Tgstation.Server.Tests
 
 			var fileDownloader = new CachingFileDownloader(Mock.Of<ILogger<CachingFileDownloader>>());
 
+			var mockIOManager = new Mock<IIOManager>();
+			mockIOManager.Setup(x => x.FileExists(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(true);
+			mockIOManager.Setup(x => x.CreateResolverForSubdirectory(It.IsNotNull<string>())).Returns(mockIOManager.Object);
+			mockIOManager.Setup(x => x.ConcatPath(It.IsNotNull<string[]>())).Returns<string[]>(Path.Combine);
+			mockIOManager.Setup(x => x.ResolvePath(It.IsNotNull<string>())).Returns<string>(path => path);
+
 			ByondInstallerBase byondInstaller = platformIdentifier.IsWindows
 				? new WindowsByondInstaller(
 					Mock.Of<IProcessExecutor>(),
-					Mock.Of<IIOManager>(),
+					mockIOManager.Object,
 					fileDownloader,
 					mockGeneralConfigurationOptions.Object,
 					mockSessionConfigurationOptions.Object,
@@ -227,7 +233,7 @@ namespace Tgstation.Server.Tests
 						new Lazy<IProcessExecutor>(() => null),
 						new DefaultIOManager(new FileSystem()),
 						loggerFactory.CreateLogger<PosixProcessFeatures>()),
-					Mock.Of<IIOManager>(),
+					mockIOManager.Object,
 					loggerFactory.CreateLogger<ProcessExecutor>(),
 					loggerFactory);
 
@@ -523,7 +529,8 @@ namespace Tgstation.Server.Tests
 					null,
 					null,
 					true,
-					true);
+					true,
+					false);
 
 				try
 				{

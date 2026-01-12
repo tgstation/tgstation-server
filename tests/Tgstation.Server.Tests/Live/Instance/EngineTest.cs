@@ -102,7 +102,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		}
 
 		ValueTask TestInstallNullVersion(CancellationToken cancellationToken)
-			=> ApiAssert.ThrowsException<ApiConflictException, EngineInstallResponse>(
+			=> ApiAssert.ThrowsExactly<ApiConflictException, EngineInstallResponse>(
 				() => engineClient.SetActiveVersion(
 					new EngineVersionRequest
 					{
@@ -145,7 +145,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}, cancellationToken);
 			await WaitForJob(deleteThisOneBecauseItWasntPartOfTheOriginalTest, EngineInstallationTimeout(), false, null, cancellationToken);
 
-			var nonExistentUninstallResponseTask = ApiAssert.ThrowsException<ConflictException, JobResponse>(() => engineClient.DeleteVersion(
+			var nonExistentUninstallResponseTask = ApiAssert.ThrowsExactly<ConflictException, JobResponse>(() => engineClient.DeleteVersion(
 				new EngineVersionDeleteRequest
 				{
 					EngineVersion = new EngineVersion
@@ -168,7 +168,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				},
 				cancellationToken);
 
-			var badBecauseActiveResponseTask = ApiAssert.ThrowsException<ConflictException, JobResponse>(() => engineClient.DeleteVersion(
+			var badBecauseActiveResponseTask = ApiAssert.ThrowsExactly<ConflictException, JobResponse>(() => engineClient.DeleteVersion(
 				new EngineVersionDeleteRequest
 				{
 					EngineVersion = new EngineVersion
@@ -212,7 +212,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				}
 			};
 
-			await ApiAssert.ThrowsException<ApiConflictException, EngineInstallResponse>(() => engineClient.SetActiveVersion(newModel, null, cancellationToken), ErrorCode.ModelValidationFailure);
+			await ApiAssert.ThrowsExactly<ApiConflictException, EngineInstallResponse>(() => engineClient.SetActiveVersion(newModel, null, cancellationToken), ErrorCode.ModelValidationFailure);
 
 			newModel.EngineVersion.Engine = testEngine;
 
@@ -270,8 +270,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			{
 				ByondZipDownloadTemplate = TestingUtils.ByondZipDownloadTemplate,
 			});
-			var sessionConfigOptionsMock = new Mock<IOptions<SessionConfiguration>>();
-			sessionConfigOptionsMock.SetupGet(x => x.Value).Returns(new SessionConfiguration());
+			var sessionConfigOptionsMock = new Mock<IOptionsMonitor<SessionConfiguration>>();
+			sessionConfigOptionsMock.SetupGet(x => x.CurrentValue).Returns(new SessionConfiguration());
 
 			var assemblyInformationProvider = new AssemblyInformationProvider();
 
@@ -347,7 +347,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				}
 			}, null, cancellationToken);
 			Assert.IsNull(installResponse.InstallJob);
-			await ApiAssert.ThrowsException<ApiConflictException, EngineInstallResponse>(() => engineClient.SetActiveVersion(new EngineVersionRequest
+			await ApiAssert.ThrowsExactly<ApiConflictException, EngineInstallResponse>(() => engineClient.SetActiveVersion(new EngineVersionRequest
 			{
 				EngineVersion = new EngineVersion
 				{

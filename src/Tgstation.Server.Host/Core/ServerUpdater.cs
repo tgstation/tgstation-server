@@ -37,19 +37,19 @@ namespace Tgstation.Server.Host.Core
 		readonly IServerControl serverControl;
 
 		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="ServerUpdater"/>.
+		/// </summary>
+		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
+
+		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="UpdatesConfiguration"/> for the <see cref="ServerUpdater"/>.
+		/// </summary>
+		readonly IOptionsMonitor<UpdatesConfiguration> updatesConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="ServerUpdater"/>.
 		/// </summary>
 		readonly ILogger<ServerUpdater> logger;
-
-		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="ServerUpdater"/>.
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
-
-		/// <summary>
-		/// The <see cref="UpdatesConfiguration"/> for the <see cref="ServerUpdater"/>.
-		/// </summary>
-		readonly UpdatesConfiguration updatesConfiguration;
 
 		/// <summary>
 		/// Lock <see cref="object"/> used when initiating an update.
@@ -69,24 +69,24 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="fileDownloader">The value of <see cref="fileDownloader"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="updatesConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="updatesConfigurationOptions">The value of <see cref="updatesConfigurationOptions"/>.</param>
 		public ServerUpdater(
 			IGitHubServiceFactory gitHubServiceFactory,
 			IIOManager ioManager,
 			IFileDownloader fileDownloader,
 			IServerControl serverControl,
 			ILogger<ServerUpdater> logger,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<UpdatesConfiguration> updatesConfigurationOptions)
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsMonitor<UpdatesConfiguration> updatesConfigurationOptions)
 		{
 			this.gitHubServiceFactory = gitHubServiceFactory ?? throw new ArgumentNullException(nameof(gitHubServiceFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.updatesConfigurationOptions = updatesConfigurationOptions ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			updatesConfiguration = updatesConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
 
 			updateInitiationLock = new object();
 		}
@@ -290,6 +290,9 @@ namespace Tgstation.Server.Host.Core
 
 					var gitHubService = await gitHubServiceFactory.CreateService(cancellationToken);
 					var releases = await gitHubService.GetTgsReleases(cancellationToken);
+
+					var updatesConfiguration = updatesConfigurationOptions.CurrentValue;
+					var generalConfiguration = generalConfigurationOptions.CurrentValue;
 					foreach (var kvp in releases)
 					{
 						var version = kvp.Key;

@@ -10,7 +10,6 @@ using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.GraphQL.Mutations.Payloads;
 using Tgstation.Server.Host.GraphQL.Types;
 using Tgstation.Server.Host.Models.Transformers;
-using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.GraphQL.Mutations
 {
@@ -43,7 +42,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The created <see cref="UserGroup"/>.</returns>
-		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.Create))]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<UserGroup> CreateUserGroup(
 			string name,
@@ -67,7 +65,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The updated <see cref="UserGroup"/>.</returns>
-		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.Update))]
 		[Error(typeof(ErrorMessageException))]
 		public ValueTask<UserGroup> UpdateUserGroup(
 			[ID(nameof(UserGroup))] long id,
@@ -88,7 +85,6 @@ namespace Tgstation.Server.Host.GraphQL.Mutations
 		/// <param name="userGroupAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserGroupAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="Query"/> root.</returns>
-		[TgsGraphQLAuthorize<IUserGroupAuthority>(nameof(IUserGroupAuthority.DeleteEmpty))]
 		[Error(typeof(ErrorMessageException))]
 		public async ValueTask<Query> DeleteEmptyUserGroup(
 			[ID(nameof(UserGroup))] long id,

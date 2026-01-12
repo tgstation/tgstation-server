@@ -122,7 +122,6 @@ namespace Tgstation.Server.Host.Controllers
 
 			var currentModel = await DatabaseContext
 				.RepositorySettings
-				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken);
 
@@ -225,7 +224,6 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var currentModel = await DatabaseContext
 				.RepositorySettings
-				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken);
 
@@ -264,7 +262,6 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var currentModel = await DatabaseContext
 				.RepositorySettings
-				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken);
 
@@ -302,7 +299,6 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var currentModel = await DatabaseContext
 				.RepositorySettings
-				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken);
 
@@ -388,7 +384,6 @@ namespace Tgstation.Server.Host.Controllers
 
 			var currentModel = await DatabaseContext
 				.RepositorySettings
-				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken);
 

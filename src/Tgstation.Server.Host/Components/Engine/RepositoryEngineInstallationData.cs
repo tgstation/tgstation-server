@@ -48,12 +48,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public Task ExtractToPath(string path, CancellationToken cancellationToken)
+		public ValueTask ExtractToPath(string path, CancellationToken cancellationToken)
 			=> repository.CopyTo(
 				ioManager.ConcatPath(
 					path,
 					targetSubDirectory),
-				cancellationToken)
-			.AsTask();
+				cancellationToken);
 	}
 }

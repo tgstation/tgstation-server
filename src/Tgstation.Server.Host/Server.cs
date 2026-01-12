@@ -44,6 +44,11 @@ namespace Tgstation.Server.Host
 		internal IHost? Host { get; private set; }
 
 		/// <summary>
+		/// The <see cref="IIOManager"/> to use.
+		/// </summary>
+		readonly IIOManager ioManager;
+
+		/// <summary>
 		/// The <see cref="IHostBuilder"/> for the <see cref="Server"/>.
 		/// </summary>
 		readonly IHostBuilder hostBuilder;
@@ -64,14 +69,14 @@ namespace Tgstation.Server.Host
 		readonly object restartLock;
 
 		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="Server"/>.
+		/// </summary>
+		IOptionsMonitor<GeneralConfiguration>? generalConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Server"/>.
 		/// </summary>
 		ILogger<Server>? logger;
-
-		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="Server"/>.
-		/// </summary>
-		GeneralConfiguration? generalConfiguration;
 
 		/// <summary>
 		/// The <see cref="cancellationTokenSource"/> for the <see cref="Server"/>.
@@ -101,10 +106,12 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Server"/> class.
 		/// </summary>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="hostBuilder">The value of <see cref="hostBuilder"/>.</param>
 		/// <param name="updatePath">The value of <see cref="updatePath"/>.</param>
-		public Server(IHostBuilder hostBuilder, string? updatePath)
+		public Server(IIOManager ioManager, IHostBuilder hostBuilder, string? updatePath)
 		{
+			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.hostBuilder = hostBuilder ?? throw new ArgumentNullException(nameof(hostBuilder));
 			this.updatePath = updatePath;
 
@@ -118,7 +125,7 @@ namespace Tgstation.Server.Host
 		/// <inheritdoc />
 		public async ValueTask Run(CancellationToken cancellationToken)
 		{
-			var updateDirectory = updatePath != null ? Path.GetDirectoryName(updatePath) : null;
+			var updateDirectory = updatePath != null ? ioManager.GetDirectoryName(updatePath) : null;
 			using (cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			using (var fsWatcher = updateDirectory != null ? new FileSystemWatcher(updateDirectory) : null)
 			{
@@ -144,8 +151,7 @@ namespace Tgstation.Server.Host
 								if (await DumpGraphQLSchemaIfRequested(Host.Services, cancellationToken))
 									return;
 
-								var generalConfigurationOptions = Host.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
-								generalConfiguration = generalConfigurationOptions.Value;
+								generalConfigurationOptions = Host.Services.GetRequiredService<IOptionsMonitor<GeneralConfiguration>>();
 								await Host.RunAsync(cancellationTokenSource.Token);
 							}
 
@@ -382,8 +388,8 @@ namespace Tgstation.Server.Host
 				using var cts = new CancellationTokenSource(
 					TimeSpan.FromMinutes(
 						giveHandlersTimeToWaitAround
-							? generalConfiguration!.ShutdownTimeoutMinutes
-							: generalConfiguration!.RestartTimeoutMinutes));
+							? generalConfigurationOptions!.CurrentValue.ShutdownTimeoutMinutes
+							: generalConfigurationOptions!.CurrentValue.RestartTimeoutMinutes));
 				var cancellationToken = cts.Token;
 				try
 				{
@@ -421,12 +427,12 @@ namespace Tgstation.Server.Host
 		/// </summary>
 		/// <param name="sender">The <see cref="object"/> that sent the event.</param>
 		/// <param name="eventArgs">The <see cref="FileSystemEventArgs"/>.</param>
-		void WatchForShutdownFileCreation(object sender, FileSystemEventArgs eventArgs)
+		async void WatchForShutdownFileCreation(object sender, FileSystemEventArgs eventArgs)
 		{
 			logger?.LogTrace("FileSystemWatcher triggered.");
 
-			// TODO: Refactor this to not use System.IO function here.
-			if (eventArgs.FullPath == Path.GetFullPath(updatePath!) && File.Exists(eventArgs.FullPath))
+			// DCT: None available
+			if (eventArgs.FullPath == ioManager.ResolvePath(updatePath!) && await ioManager.FileExists(eventArgs.FullPath, CancellationToken.None))
 			{
 				logger?.LogInformation("Host watchdog appears to be requesting server termination!");
 				lock (restartLock)

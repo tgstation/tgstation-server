@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -87,7 +88,8 @@ namespace Tgstation.Server.Tests.Live
 		{
 			var result = new List<System.Diagnostics.Process>();
 
-			switch (engineType) {
+			switch (engineType)
+			{
 				case EngineType.Byond:
 					result.AddRange(System.Diagnostics.Process.GetProcessesByName("DreamDaemon"));
 					if (new PlatformIdentifier().IsWindows)
@@ -97,7 +99,7 @@ namespace Tgstation.Server.Tests.Live
 					var potentialProcesses = System.Diagnostics.Process.GetProcessesByName("dotnet")
 						.Where(process =>
 						{
-							if (GetCommandLine(process).Contains("Robust.Server"))
+							if (GetCommandLine(process)?.Contains("Robust.Server") == true)
 								return true;
 
 							process.Dispose();
@@ -322,7 +324,7 @@ namespace Tgstation.Server.Tests.Live
 					update.PermissionSet.AdministrationRights &= ~right;
 					await client.Users.Update(update, cancellationToken);
 
-					await ApiAssert.ThrowsException<InsufficientPermissionsException, ServerUpdateResponse>(action);
+					await ApiAssert.ThrowsExactly<InsufficientPermissionsException, ServerUpdateResponse>(action);
 
 					update.PermissionSet.AdministrationRights |= right;
 					await client.Users.Update(update, cancellationToken);
@@ -409,10 +411,7 @@ namespace Tgstation.Server.Tests.Live
 				await CheckUpdate();
 
 				// Second pass, uploaded updates
-				var downloader = new Host.IO.FileDownloader(
-					new Common.Http.HttpClientFactory(
-						new AssemblyInformationProvider().ProductInfoHeaderValue),
-					Mock.Of<ILogger<Host.IO.FileDownloader>>());
+				var downloader = CachingFileDownloader.CreateRealDownloader(Mock.Of<ILogger<Host.IO.FileDownloader>>());
 				var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
 				if (String.IsNullOrWhiteSpace(gitHubToken))
 					gitHubToken = null;
@@ -476,7 +475,7 @@ namespace Tgstation.Server.Tests.Live
 			{
 				var testUpdateVersion = new Version(5, 11, 20);
 				await using var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken);
-				await ApiAssert.ThrowsException<ConflictException, ServerUpdateResponse>(
+				await ApiAssert.ThrowsExactly<ConflictException, ServerUpdateResponse>(
 					() => adminClient.RestClient.Administration.Update(
 						new ServerUpdateRequest
 						{
@@ -733,8 +732,8 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(controllerInstance.Id, controllerInstanceList[0].Id);
 					Assert.IsNotNull(await controllerClient.RestClient.Instances.GetId(controllerInstance, cancellationToken));
 
-					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => controllerClient.RestClient.Instances.GetId(node2Instance, cancellationToken), Api.Models.ErrorCode.ResourceNotPresent);
-					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => node1Client.RestClient.Instances.GetId(controllerInstance, cancellationToken), Api.Models.ErrorCode.ResourceNotPresent);
+					await ApiAssert.ThrowsExactly<ConflictException, InstanceResponse>(() => controllerClient.RestClient.Instances.GetId(node2Instance, cancellationToken), Api.Models.ErrorCode.ResourceNotPresent);
+					await ApiAssert.ThrowsExactly<ConflictException, InstanceResponse>(() => node1Client.RestClient.Instances.GetId(controllerInstance, cancellationToken), Api.Models.ErrorCode.ResourceNotPresent);
 
 					// test update
 					await node1Client.Execute(
@@ -784,7 +783,7 @@ namespace Tgstation.Server.Tests.Live
 					await using var node1Client2 = await CreateAdminClient(node1.ApiUrl, cancellationToken);
 
 					await controllerClient2.Execute(
-						async restClient => await ApiAssert.ThrowsException<ApiConflictException, ServerUpdateResponse>(
+						async restClient => await ApiAssert.ThrowsExactly<ApiConflictException, ServerUpdateResponse>(
 							() => restClient.Administration.Update(
 								new ServerUpdateRequest
 								{
@@ -828,10 +827,7 @@ namespace Tgstation.Server.Tests.Live
 					CheckInfo(node2Info2);
 
 					// also test with uploaded updates this time
-					var downloader = new Host.IO.FileDownloader(
-						new Common.Http.HttpClientFactory(
-							new AssemblyInformationProvider().ProductInfoHeaderValue),
-						Mock.Of<ILogger<Host.IO.FileDownloader>>());
+					var downloader = CachingFileDownloader.CreateRealDownloader(Mock.Of<ILogger<Host.IO.FileDownloader>>());
 					var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
 					if (String.IsNullOrWhiteSpace(gitHubToken))
 						gitHubToken = null;
@@ -1046,7 +1042,7 @@ namespace Tgstation.Server.Tests.Live
 
 					// update should fail
 					await controllerClient2.Execute(
-						async restClient => await ApiAssert.ThrowsException<ApiConflictException, ServerUpdateResponse>(
+						async restClient => await ApiAssert.ThrowsExactly<ApiConflictException, ServerUpdateResponse>(
 							() => restClient.Administration.Update(
 								new ServerUpdateRequest
 								{
@@ -1183,13 +1179,14 @@ namespace Tgstation.Server.Tests.Live
 							null,
 							null,
 							true,
-							true);
+							true,
+							false);
 
 						int? exitCode;
 						using (cancellationToken.Register(gitRemoteOriginFixProc.Terminate))
 							exitCode = await gitRemoteOriginFixProc.Lifetime;
 
-						loggerFactory.CreateLogger("TgTest").LogInformation("git {args} output:{newLine}{output}",args, Environment.NewLine, await gitRemoteOriginFixProc.GetCombinedOutput(cancellationToken));
+						loggerFactory.CreateLogger("TgTest").LogInformation("git {args} output:{newLine}{output}", args, Environment.NewLine, await gitRemoteOriginFixProc.GetCombinedOutput(cancellationToken));
 						Assert.AreEqual(0, exitCode);
 					}
 
@@ -1311,7 +1308,7 @@ namespace Tgstation.Server.Tests.Live
 
 		async Task TestStandardTgsOperation(bool openDreamOnly)
 		{
-			using(var currentProcess = System.Diagnostics.Process.GetCurrentProcess())
+			using (var currentProcess = System.Diagnostics.Process.GetCurrentProcess())
 			{
 				var currentPriorityClass = currentProcess.PriorityClass;
 				if (currentPriorityClass != ProcessPriorityClass.Normal)
@@ -1421,11 +1418,40 @@ namespace Tgstation.Server.Tests.Live
 			for (var i = 0; i < 50; ++i)
 				await Task.Yield();
 
-			InstanceManager GetInstanceManager() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<InstanceManager>();
-			ILogger GetLogger() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<ILogger<TestLiveServer>>();
+			async ValueTask<IHost> WaitForHost()
+			{
+				while (true)
+				{
+					var host = ((Host.Server)server.RealServer).Host;
+					if (host != null)
+						return host;
+
+					await Task.Yield();
+				}
+			}
+
+			async ValueTask<InstanceManager> GetInstanceManager()
+			{
+				var host = await WaitForHost();
+				return host.Services.GetRequiredService<InstanceManager>();
+			}
+
+			async ValueTask<ILogger> GetLogger()
+			{
+				var host = await WaitForHost();
+				return host.Services.GetRequiredService<ILogger<TestLiveServer>>();
+			}
+
+			async ValueTask<Host.IO.IFileDownloader> GetFileDownloader()
+			{
+				var host = await WaitForHost();
+				return host.Services.GetRequiredService<Host.IO.IFileDownloader>();
+			}
 
 			// main run
 			var serverTask = server.Run(cancellationToken).AsTask();
+			if (serverTask.IsFaulted)
+				await serverTask;
 
 			var fileDownloader = ((Host.Server)server.RealServer).Host.Services.GetRequiredService<Host.IO.IFileDownloader>();
 			var graphQLClientFactory = new GraphQLServerClientFactory(restClientFactory);
@@ -1456,7 +1482,7 @@ namespace Tgstation.Server.Tests.Live
 						Password = DefaultCredentials.DefaultAdminUserPassword,
 					}, cancellationToken);
 
-					await ApiAssert.ThrowsException<UnauthorizedException, UserResponse>(() => tokenOnlyRestClient.Users.Read(cancellationToken), null);
+					await ApiAssert.ThrowsExactly<UnauthorizedException, UserResponse>(() => tokenOnlyRestClient.Users.Read(cancellationToken), null);
 				}
 
 				// basic graphql test, to be used everywhere eventually
@@ -1583,8 +1609,8 @@ namespace Tgstation.Server.Tests.Live
 
 					var instanceTest = new InstanceTest(
 						firstAdminRestClient.Instances,
-						fileDownloader,
-						GetInstanceManager(),
+						await GetFileDownloader(),
+						await GetInstanceManager(),
 						(ushort)server.ApiUrl.Port);
 
 					async Task RunInstanceTests()
@@ -1592,14 +1618,15 @@ namespace Tgstation.Server.Tests.Live
 						var testSerialized = TestingUtils.RunningInGitHubActions; // they only have 2 cores, can't handle intense parallelization
 						async Task ODCompatTests()
 						{
-							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, GetLogger(), fileDownloader, cancellationToken);
+							var fileDownloader = await GetFileDownloader();
+							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, await GetLogger(), fileDownloader, cancellationToken);
 
-							var ex = await Assert.ThrowsExceptionAsync<JobException>(
+							var ex = await Assert.ThrowsExactlyAsync<JobException>(
 								() => InstanceTest.DownloadEngineVersion(
 									new EngineVersion
 									{
 										Engine = EngineType.OpenDream,
-										SourceSHA = "f1dc153caf9d84cd1d0056e52286cc0163e3f4d3", // 1b4 verified version
+										SourceSHA = "f1dc153caf9d84cd1d0056e52286cc0163e3f4d3", // 1 before verified version
 									},
 									fileDownloader,
 									server.OpenDreamUrl,
@@ -1619,7 +1646,7 @@ namespace Tgstation.Server.Tests.Live
 									cancellationToken);
 						}
 
-						var odCompatTests = FailFast(ODCompatTests());
+						var odCompatTests = Task.CompletedTask ?? FailFast(ODCompatTests());
 
 						if (openDreamOnly || testSerialized)
 							await odCompatTests;
@@ -1630,14 +1657,14 @@ namespace Tgstation.Server.Tests.Live
 						var windowsMinCompat = new Version(510, 1346);
 						var linuxMinCompat = new Version(512, 1451); // http://www.byond.com/forum/?forum=5&command=search&scope=local&text=resolved%3a512.1451
 						await CachingFileDownloader.InitializeByondVersion(
-							GetLogger(),
+							await GetLogger(),
 							new PlatformIdentifier().IsWindows
 								? windowsMinCompat
 								: linuxMinCompat,
 							new PlatformIdentifier().IsWindows,
 							cancellationToken);
 
-						var compatTests = FailFast(
+						var compatTests = Task.CompletedTask ?? FailFast(
 							instanceTest
 								.RunCompatTests(
 									new EngineVersion
@@ -1661,7 +1688,7 @@ namespace Tgstation.Server.Tests.Live
 						await FailFast(
 							instanceTest
 								.RunTests(
-									GetLogger(),
+									await GetLogger(),
 									instanceClient,
 									mainDMPort.Value,
 									mainDDPort.Value,
@@ -1826,7 +1853,7 @@ namespace Tgstation.Server.Tests.Live
 					topicRequestResult = await WatchdogTest.SendTestTopic(
 						"tgs_integration_test_tactics7=1",
 						WatchdogTest.StaticTopicClient,
-						GetInstanceManager().GetInstanceReference(instanceClient.Metadata),
+						(await GetInstanceManager()).GetInstanceReference(instanceClient.Metadata),
 						mainDDPort.Value,
 						cancellationToken);
 
@@ -1840,7 +1867,7 @@ namespace Tgstation.Server.Tests.Live
 
 					dd = await WatchdogTest.TellWorldToReboot2(
 						instanceClient,
-						GetInstanceManager(),
+						await GetInstanceManager(),
 						WatchdogTest.StaticTopicClient,
 						mainDDPort.Value,
 						true,
@@ -1894,7 +1921,7 @@ namespace Tgstation.Server.Tests.Live
 				preStartupTime = DateTimeOffset.UtcNow;
 				serverTask = server.Run(cancellationToken).AsTask();
 				long expectedCompileJobId, expectedStaged;
-				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, GetLogger(), fileDownloader, cancellationToken);
+				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, await GetLogger(), await GetFileDownloader(), cancellationToken);
 				await using (var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
 				{
 					var restAdminClient = adminClient.RestClient;
@@ -1907,7 +1934,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
-					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort.Value, server.UsingBasicWatchdog);
+					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, await GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort.Value, server.UsingBasicWatchdog);
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1956,7 +1983,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
 
-					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort.Value, server.UsingBasicWatchdog);
+					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, await GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort.Value, server.UsingBasicWatchdog);
 					currentDD = await wdt.TellWorldToReboot(false, cancellationToken);
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);
@@ -1980,7 +2007,7 @@ namespace Tgstation.Server.Tests.Live
 				Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex.ErrorCode}: {ex.Message}\n{ex.AdditionalServerData}");
 				throw;
 			}
-			catch(OperationCanceledException ex)
+			catch (OperationCanceledException ex)
 			{
 				Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ABORTED: {ex}");
 				throw;
@@ -2026,7 +2053,7 @@ namespace Tgstation.Server.Tests.Live
 				try
 				{
 					Console.WriteLine($"TEST: CreateAdminClient attempt {I}...");
-					
+
 					restClientTask = restClientFactory.CreateFromLogin(
 						url,
 						username,

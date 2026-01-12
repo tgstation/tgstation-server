@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,7 +9,6 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
@@ -52,14 +52,14 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected IProcessExecutor ProcessExecutor { get; }
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.
+		/// The <see cref="GeneralConfigurationOptions"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
-		protected GeneralConfiguration GeneralConfiguration { get; }
+		protected IOptionsMonitor<GeneralConfiguration> GeneralConfigurationOptions { get; }
 
 		/// <summary>
 		/// The <see cref="Configuration.SessionConfiguration"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
-		protected SessionConfiguration SessionConfiguration { get; }
+		protected IOptionsMonitor<SessionConfiguration> SessionConfigurationOptions { get; }
 
 		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/> for the <see cref="OpenDreamInstaller"/>.
@@ -77,9 +77,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
-		/// The <see cref="IAbstractHttpClientFactory"/> for the <see cref="OpenDreamInstaller"/>.
+		/// The <see cref="IHttpClientFactory"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
-		readonly IAbstractHttpClientFactory httpClientFactory;
+		readonly IHttpClientFactory httpClientFactory;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenDreamInstaller"/> class.
@@ -91,8 +91,8 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="GeneralConfiguration"/>.</param>
-		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="SessionConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="GeneralConfigurationOptions"/>.</param>
+		/// <param name="sessionConfigurationOptions">The value of <see cref="SessionConfigurationOptions"/>.</param>
 		public OpenDreamInstaller(
 			IIOManager ioManager,
 			ILogger<OpenDreamInstaller> logger,
@@ -100,9 +100,9 @@ namespace Tgstation.Server.Host.Components.Engine
 			IProcessExecutor processExecutor,
 			IRepositoryManager repositoryManager,
 			IAsyncDelayer asyncDelayer,
-			IAbstractHttpClientFactory httpClientFactory,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<SessionConfiguration> sessionConfigurationOptions)
+			IHttpClientFactory httpClientFactory,
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions)
 			: base(ioManager, logger)
 		{
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
@@ -110,15 +110,15 @@ namespace Tgstation.Server.Host.Components.Engine
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-			GeneralConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			SessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
+			GeneralConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			SessionConfigurationOptions = sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 		}
 
 		/// <inheritdoc />
-		public override Task CleanCache(CancellationToken cancellationToken) => Task.CompletedTask;
+		public sealed override Task CleanCache(CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
-		public override async ValueTask<IEngineInstallation> CreateInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken)
+		public sealed override async ValueTask<IEngineInstallation> GetInstallation(EngineVersion version, string path, Task installationTask, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			GetExecutablePaths(path, out var serverExePath, out var compilerExePath);
@@ -137,7 +137,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
+		public sealed override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(jobProgressReporter);
@@ -147,10 +147,11 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			var progressSection1 = jobProgressReporter.CreateSection("Updating OpenDream git repository", 0.5f);
 			IRepository? repo;
+			var generalConfig = GeneralConfigurationOptions.CurrentValue;
 			try
 			{
 				repo = await repositoryManager.CloneRepository(
-					GeneralConfiguration.OpenDreamGitUrl,
+					generalConfig.OpenDreamGitUrl,
 					null,
 					null,
 					null,
@@ -187,7 +188,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				using (var progressSection2 = jobProgressReporter.CreateSection("Checking out OpenDream version", 0.5f))
 				{
 					var committish = version.SourceSHA
-						?? $"{GeneralConfiguration.OpenDreamGitTagPrefix}{version.Version!.Semver()}";
+						?? $"{generalConfig.OpenDreamGitTagPrefix}{version.Version!.Semver()}";
 
 					await repo.CheckoutObject(
 						committish,
@@ -216,10 +217,26 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask Install(EngineVersion version, string installPath, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
+		public override ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
-			ArgumentNullException.ThrowIfNull(installPath);
+			ArgumentNullException.ThrowIfNull(path);
+			return ValueTask.CompletedTask;
+		}
+
+		/// <inheritdoc />
+		public override ValueTask TrustDmbPath(EngineVersion engineVersion, string fullDmbPath, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(engineVersion);
+			ArgumentNullException.ThrowIfNull(fullDmbPath);
+
+			Logger.LogTrace("TrustDmbPath is a no-op: {path}", fullDmbPath);
+			return ValueTask.CompletedTask;
+		}
+
+		/// <inheritdoc />
+		protected override async ValueTask InstallImpl(EngineVersion version, string installPath, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
+		{
 			var sourcePath = IOManager.ConcatPath(installPath, InstallationSourceSubDirectory);
 
 			if (!await IOManager.DirectoryExists(sourcePath, cancellationToken))
@@ -263,6 +280,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				async shortenedPath =>
 				{
 					var shortenedDeployPath = IOManager.ConcatPath(shortenedPath, DeployDir);
+					var generalConfig = GeneralConfigurationOptions.CurrentValue;
 					await using var buildProcess = await ProcessExecutor.LaunchProcess(
 						dotnetPath,
 						shortenedPath,
@@ -270,17 +288,17 @@ namespace Tgstation.Server.Host.Components.Engine
 						cancellationToken,
 						null,
 						null,
-						!GeneralConfiguration.OpenDreamSuppressInstallOutput,
-						!GeneralConfiguration.OpenDreamSuppressInstallOutput);
+						!generalConfig.OpenDreamSuppressInstallOutput,
+						!generalConfig.OpenDreamSuppressInstallOutput);
 
-					if (deploymentPipelineProcesses && SessionConfiguration.LowPriorityDeploymentProcesses)
+					if (deploymentPipelineProcesses && SessionConfigurationOptions.CurrentValue.LowPriorityDeploymentProcesses)
 						buildProcess.AdjustPriority(false);
 
 					using (cancellationToken.Register(() => buildProcess.Terminate()))
 						buildExitCode = await buildProcess.Lifetime;
 
 					string? output;
-					if (!GeneralConfiguration.OpenDreamSuppressInstallOutput)
+					if (!GeneralConfigurationOptions.CurrentValue.OpenDreamSuppressInstallOutput)
 					{
 						var buildOutputTask = buildProcess.GetCombinedOutput(cancellationToken);
 						if (!buildOutputTask.IsCompleted)
@@ -333,24 +351,6 @@ namespace Tgstation.Server.Host.Components.Engine
 			var outputFilesMoveTask = MoveFiles();
 			await ValueTaskExtensions.WhenAll(dirsMoveTask, outputFilesMoveTask);
 			await IOManager.DeleteDirectory(sourcePath, cancellationToken);
-		}
-
-		/// <inheritdoc />
-		public override ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken)
-		{
-			CheckVersionValidity(version);
-			ArgumentNullException.ThrowIfNull(path);
-			return ValueTask.CompletedTask;
-		}
-
-		/// <inheritdoc />
-		public override ValueTask TrustDmbPath(EngineVersion engineVersion, string fullDmbPath, CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(engineVersion);
-			ArgumentNullException.ThrowIfNull(fullDmbPath);
-
-			Logger.LogTrace("TrustDmbPath is a no-op: {path}", fullDmbPath);
-			return ValueTask.CompletedTask;
 		}
 
 		/// <summary>

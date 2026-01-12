@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../build/TestCommon.props" />
+
+  <PropertyGroup>
+    <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Tgstation.Server.Common\Tgstation.Server.Common.csproj" />
+  </ItemGroup>
+
+</Project>

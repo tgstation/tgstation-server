@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -8,8 +9,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
@@ -36,13 +35,13 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 
 		static async Task RepoDownloadTest(bool needsClone)
 		{
-			var mockGeneralConfigOptions = new Mock<IOptions<GeneralConfiguration>>();
+			var mockGeneralConfigOptions = new Mock<IOptionsMonitor<GeneralConfiguration>>();
 			var generalConfig = new GeneralConfiguration();
-			var mockSessionConfigOptions = new Mock<IOptions<SessionConfiguration>>();
+			var mockSessionConfigOptions = new Mock<IOptionsMonitor<SessionConfiguration>>();
 			var sessionConfig = new SessionConfiguration();
 			Assert.IsNotNull(generalConfig.OpenDreamGitUrl);
-			mockGeneralConfigOptions.SetupGet(x => x.Value).Returns(generalConfig);
-			mockSessionConfigOptions.SetupGet(x => x.Value).Returns(sessionConfig);
+			mockGeneralConfigOptions.SetupGet(x => x.CurrentValue).Returns(generalConfig);
+			mockSessionConfigOptions.SetupGet(x => x.CurrentValue).Returns(sessionConfig);
 
 			var cloneAttempts = 0;
 			var mockRepository = new Mock<IRepository>();
@@ -76,7 +75,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 				Mock.Of<IProcessExecutor>(),
 				mockRepositoryManager.Object,
 				Mock.Of<IAsyncDelayer>(),
-				Mock.Of<IAbstractHttpClientFactory>(),
+				Mock.Of<IHttpClientFactory>(),
 				mockGeneralConfigOptions.Object,
 				mockSessionConfigOptions.Object);
 

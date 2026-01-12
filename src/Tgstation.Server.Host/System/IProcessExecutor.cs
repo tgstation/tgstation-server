@@ -20,6 +20,7 @@ namespace Tgstation.Server.Host.System
 		/// <param name="fileRedirect">File to write process output and error streams to. Requires <paramref name="readStandardHandles"/> to be <see langword="true"/>.</param>
 		/// <param name="readStandardHandles">If the process output and error streams should be read.</param>
 		/// <param name="noShellExecute">If shell execute should not be used. Must be set if <paramref name="readStandardHandles"/> is set.</param>
+		/// <param name="doNotLogArguments">If <paramref name="arguments"/> should not be logged.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the new <see cref="IProcess"/>.</returns>
 		ValueTask<IProcess> LaunchProcess(
 			string fileName,
@@ -29,7 +30,8 @@ namespace Tgstation.Server.Host.System
 			IReadOnlyDictionary<string, string>? environment = null,
 			string? fileRedirect = null,
 			bool readStandardHandles = false,
-			bool noShellExecute = false);
+			bool noShellExecute = false,
+			bool doNotLogArguments = false);
 
 		/// <summary>
 		/// Get a <see cref="IProcess"/> representing the running executable.

@@ -9,7 +9,6 @@ using HotChocolate.Types.Relay;
 using Tgstation.Server.Host.Authority;
 using Tgstation.Server.Host.GraphQL.Interfaces;
 using Tgstation.Server.Host.Models.Transformers;
-using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.GraphQL.Types
 {
@@ -26,7 +25,6 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <param name="userAuthority">The <see cref="IGraphQLAuthorityInvoker{TAuthority}"/> for the <see cref="IUserAuthority"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> resulting in the queried <see cref="UserName"/>, if present.</returns>
-		[TgsGraphQLAuthorize]
 		public static ValueTask<UserName?> GetUserName(
 			long id,
 			[Service] IGraphQLAuthorityInvoker<IUserAuthority> userAuthority,

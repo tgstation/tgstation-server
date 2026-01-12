@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -12,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Rights;
@@ -48,19 +46,19 @@ namespace Tgstation.Server.Host.Security
 		readonly IIdentityCache identityCache;
 
 		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="SwarmConfiguration"/> for the <see cref="AuthenticationContextFactory"/>.
+		/// </summary>
+		readonly IOptions<SwarmConfiguration> swarmConfigurationOptions;
+
+		/// <summary>
+		/// The <see cref="IOptionsSnapshot{TOptions}"/> of <see cref="SecurityConfiguration"/> for the <see cref="AuthenticationContextFactory"/>.
+		/// </summary>
+		readonly IOptionsSnapshot<SecurityConfiguration> securityConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="AuthenticationContextFactory"/>.
 		/// </summary>
 		readonly ILogger<AuthenticationContextFactory> logger;
-
-		/// <summary>
-		/// The <see cref="SwarmConfiguration"/> for the <see cref="AuthenticationContextFactory"/>.
-		/// </summary>
-		readonly SwarmConfiguration swarmConfiguration;
-
-		/// <summary>
-		/// The <see cref="SecurityConfiguration"/> for the <see cref="AuthenticationContextFactory"/>.
-		/// </summary>
-		readonly SecurityConfiguration securityConfiguration;
 
 		/// <summary>
 		/// Backing field for <see cref="CurrentAuthenticationContext"/>.
@@ -78,44 +76,20 @@ namespace Tgstation.Server.Host.Security
 		int initialized;
 
 		/// <summary>
-		/// Parse a <see cref="DateTimeOffset"/> out of a <see cref="Claim"/> in a given <paramref name="principal"/>.
-		/// </summary>
-		/// <param name="principal">The <see cref="ClaimsPrincipal"/> containing claims.</param>
-		/// <param name="key">The <see cref="Claim"/> name to parse from.</param>
-		/// <returns>The parsed <see cref="DateTimeOffset"/>.</returns>
-		static DateTimeOffset ParseTime(ClaimsPrincipal principal, string key)
-		{
-			var claim = principal.FindFirst(key);
-			if (claim == default)
-				throw new InvalidOperationException($"Missing '{key}' claim!");
-
-			try
-			{
-				return new DateTimeOffset(
-					EpochTime.DateTime(
-						Int64.Parse(claim.Value, CultureInfo.InvariantCulture)));
-			}
-			catch (Exception ex)
-			{
-				throw new InvalidOperationException($"Failed to parse '{key}'!", ex);
-			}
-		}
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthenticationContextFactory"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/>.</param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/>.</param>
 		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> containing the value of <see cref="apiHeaders"/>.</param>
-		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
-		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="securityConfiguration"/>.</param>
+		/// <param name="swarmConfigurationOptions">The value of <see cref="swarmConfigurationOptions"/>.</param>
+		/// <param name="securityConfigurationOptions">The value of <see cref="securityConfigurationOptions"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public AuthenticationContextFactory(
 			IDatabaseContext databaseContext,
 			IIdentityCache identityCache,
 			IApiHeadersProvider apiHeadersProvider,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
-			IOptions<SecurityConfiguration> securityConfigurationOptions,
+			IOptionsSnapshot<SecurityConfiguration> securityConfigurationOptions,
 			ILogger<AuthenticationContextFactory> logger)
 		{
 			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
@@ -123,8 +97,8 @@ namespace Tgstation.Server.Host.Security
 			ArgumentNullException.ThrowIfNull(apiHeadersProvider);
 
 			apiHeaders = apiHeadersProvider.ApiHeaders;
-			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
-			securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
+			this.swarmConfigurationOptions = swarmConfigurationOptions ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
+			this.securityConfigurationOptions = securityConfigurationOptions ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
@@ -148,27 +122,13 @@ namespace Tgstation.Server.Host.Security
 				throw new InvalidOperationException("Authentication context has already been loaded");
 
 			var principal = new ClaimsPrincipal(new ClaimsIdentity(jwt.Claims));
+			var userId = principal.GetTgsUserId();
 
-			var userIdClaim = principal.FindFirst(JwtRegisteredClaimNames.Sub);
-			if (userIdClaim == default)
-				throw new InvalidOperationException($"Missing '{JwtRegisteredClaimNames.Sub}' claim!");
-
-			long userId;
-			try
-			{
-				userId = Int64.Parse(userIdClaim.Value, CultureInfo.InvariantCulture);
-			}
-			catch (Exception e)
-			{
-				throw new InvalidOperationException("Failed to parse user ID!", e);
-			}
-
-			var notBefore = ParseTime(principal, JwtRegisteredClaimNames.Nbf);
-			var expires = ParseTime(principal, JwtRegisteredClaimNames.Exp);
+			var notBefore = principal.ParseTime(JwtRegisteredClaimNames.Nbf);
+			var expires = principal.ParseTime(JwtRegisteredClaimNames.Exp);
 
 			var user = await databaseContext
 				.Users
-				.AsQueryable()
 				.Where(x => x.Id == userId)
 				.Include(x => x.CreatedBy)
 				.Include(x => x.PermissionSet)
@@ -204,9 +164,9 @@ namespace Tgstation.Server.Host.Security
 				var instanceId = apiHeaders?.InstanceId;
 				if (instanceId.HasValue)
 				{
-					instancePermissionSet = await databaseContext.InstancePermissionSets
-						.AsQueryable()
-						.Where(x => x.PermissionSetId == userPermissionSet!.Id && x.InstanceId == instanceId && x.Instance!.SwarmIdentifer == swarmConfiguration.Identifier)
+					instancePermissionSet = await databaseContext
+						.InstancePermissionSets
+						.Where(x => x.PermissionSetId == userPermissionSet!.Id && x.InstanceId == instanceId && x.Instance!.SwarmIdentifer == swarmConfigurationOptions.Value.Identifier)
 						.Include(x => x.Instance)
 						.FirstOrDefaultAsync(cancellationToken);
 
@@ -248,7 +208,6 @@ namespace Tgstation.Server.Host.Security
 			var deprefixedScheme = scheme.Substring(OpenIDConnectAuthenticationSchemePrefix.Length);
 			var connection = await databaseContext
 				.OidcConnections
-				.AsQueryable()
 				.Where(oidcConnection => oidcConnection.ExternalUserId == userId && oidcConnection.SchemeKey == deprefixedScheme)
 				.Include(oidcConnection => oidcConnection.User)
 					.ThenInclude(user => user!.Group)
@@ -256,7 +215,7 @@ namespace Tgstation.Server.Host.Security
 				.FirstOrDefaultAsync(cancellationToken);
 
 			User user;
-			if (!securityConfiguration.OidcStrictMode)
+			if (!securityConfigurationOptions.Value.OidcStrictMode)
 			{
 				if (connection == default)
 				{
@@ -283,7 +242,6 @@ namespace Tgstation.Server.Host.Security
 				UserGroup? group = groupId.HasValue
 					? await databaseContext
 						.Groups
-						.AsQueryable()
 						.Where(group => group.Id == groupId.Value)
 						.Include(group => group.PermissionSet)
 						.FirstOrDefaultAsync(cancellationToken)
@@ -377,7 +335,7 @@ namespace Tgstation.Server.Host.Security
 				await databaseContext.Save(cancellationToken);
 			}
 
-			var expires = ParseTime(principal, JwtRegisteredClaimNames.Exp);
+			var expires = principal.ParseTime(JwtRegisteredClaimNames.Exp);
 
 			currentAuthenticationContext.Initialize(
 				user,

@@ -1,10 +1,12 @@
 mutation UpdateUserOAuthConnections($id: ID!, $newOAuthConnections: [OAuthConnectionInput!]) {
   updateUser(input: { id: $id, newOAuthConnections: $newOAuthConnections }) {
-    user {
+    updatedUser {
       id
-      oAuthConnections {
-        externalUserId
-        provider
+      user {
+        oAuthConnections {
+          externalUserId
+          provider
+        }
       }
     }
     errors {

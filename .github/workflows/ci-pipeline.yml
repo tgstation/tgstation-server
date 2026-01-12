@@ -54,6 +54,7 @@ jobs:
   start-gate:
     name: CI Start Gate
     runs-on: ubuntu-latest
+    timeout-minutes: 1
     steps:
       - name: GitHub Requires at Least One Step for a Job
         run: exit 0
@@ -62,6 +63,7 @@ jobs:
     name: Build ReleaseNotes for Other Jobs
     needs: start-gate
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Install Native Dependencies
         run: |
@@ -97,8 +99,7 @@ jobs:
     name: Validate Nix Flake
     needs: start-gate
     runs-on: ubuntu-latest
-    env:
-      TEST_TGS_VERSION: "6.17.0" # Version we use here doesn't matter as it won't be executed. Just used to download a zip and calc hash
+    timeout-minutes: 90
     steps:
       - name: Install Native Packages # Name checked in rerunFlakyTests.js
         run: |
@@ -120,24 +121,6 @@ jobs:
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-      - name: Replace current TGS version with test version
-        run: |
-          CURRENT_TGS_VERSION="$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)"
-          sed -i -e "s/<TgsCoreVersion>${CURRENT_TGS_VERSION}/<TgsCoreVersion>${{ env.TEST_TGS_VERSION }}/g" build/Version.props
-
-      - name: Retrieve ServerConsole.zip Artifact
-        run: |
-          mkdir release
-          curl -L https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v${{ env.TEST_TGS_VERSION }}/ServerConsole.zip -f -o release/ServerConsole.zip
-
-      - name: Regenerate Nix Hash
-        run: |
-          nix hash path ./release > build/package/nix/ServerConsole.sha256
-          cat build/package/nix/ServerConsole.sha256
-
-      - name: Cleanup Download
-        run: rm -rf ./release
-
       - name: Check Flake
         run: |
           cd build/package/nix
@@ -147,10 +130,9 @@ jobs:
     name: Run CodeQL
     needs: start-gate
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       security-events: write
-    env:
-      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     steps:
       - name: Install Native Dependencies
         run: |
@@ -192,9 +174,6 @@ jobs:
         with:
           languages: csharp
 
-      - name: Setup Telemetry Key File
-        run: echo "fake_telemetry_key" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Build # Name checked in rerunFlakyTests.js
         run: dotnet build -c ReleaseNoWindows -p:TGS_HOST_NO_WEBPANEL=true
 
@@ -206,6 +185,7 @@ jobs:
   dmapi-build:
     name: Build DMAPI
     needs: start-gate
+    timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
@@ -305,6 +285,7 @@ jobs:
   opendream-build:
     name: Build DMAPI (OpenDream)
     needs: start-gate
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -362,6 +343,7 @@ jobs:
     name: Check Nuget Versions Match Tools
     runs-on: ubuntu-latest
     needs: start-gate
+    timeout-minutes: 1
     steps:
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -381,11 +363,19 @@ jobs:
         id: wix-tool
         run: echo "version=$(cat build/package/winget/.config/dotnet-tools.json | jq -r '.tools.wix.version')" >> $GITHUB_OUTPUT
 
+      - name: Retrieve StrawberryShake Tool Version 1
+        id: strawberry-tool-1
+        run: echo "version=$(cat src/Tgstation.Server.Host.Utils.GitLab.GraphQL/.config/dotnet-tools.json | jq -r '.tools."strawberryshake.tools".version')" >> $GITHUB_OUTPUT
+
+      - name: Retrieve StrawberryShake Tool Version 2
+        id: strawberry-tool-2
+        run: echo "version=$(cat src/Tgstation.Server.Client.GraphQL/.config/dotnet-tools.json | jq -r '.tools."strawberryshake.tools".version')" >> $GITHUB_OUTPUT
+
       - name: Retrieve dotnet-ef Nuget Version
         id: dotnet-ef-nuget
         run: |
-          regex='\s+<PackageReference Include="Microsoft.EntityFrameworkCore" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
-          if [[ $(cat src/Tgstation.Server.Host/Tgstation.Server.Host.csproj) =~ $regex ]]; then
+          regex='\s+<PackageVersion Include="Microsoft.EntityFrameworkCore" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
+          if [[ $(cat Directory.Packages.props) =~ $regex ]]; then
             echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
           else
             echo "Regex search failed!"
@@ -397,6 +387,17 @@ jobs:
         run: |
           regex='<Project Sdk="WixToolset.Sdk/([1-9][0-9]*\.[0-9]+\.[0-9]+)">'
           if [[ $(cat build/package/winget/Tgstation.Server.Host.Service.Wix/Tgstation.Server.Host.Service.Wix.wixproj) =~ $regex ]]; then
+            echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+          else
+            echo "Regex search failed!"
+            exit 1
+          fi
+
+      - name: Retrieve StrawberryShake Nuget Version
+        id: strawberry-nuget
+        run: |
+          regex='\s+<PackageVersion Include="StrawberryShake.Server" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
+          if [[ $(cat Directory.Packages.props) =~ $regex ]]; then
             echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
           else
             echo "Regex search failed!"
@@ -415,10 +416,17 @@ jobs:
           echo "${{ steps.wix-tool.outputs.version }} != ${{ steps.wix-nuget.outputs.version }}"
           exit 1
 
+      - name: Fail if StrawberryShake Versions Don't Match
+        if: ${{ steps.strawberry-tool-1.outputs.version != steps.strawberry-nuget.outputs.version || steps.strawberry-tool-2.outputs.version != steps.strawberry-nuget.outputs.version }}
+        run: |
+          echo "${{ steps.strawberry-tool-1.outputs.version }} != ${{ steps.strawberry-nuget.outputs.version }} || ${{ steps.strawberry-tool-2.outputs.version }} != ${{ steps.strawberry-nuget.outputs.version }}"
+          exit 1
+
   pages-build:
     name: Build gh-pages
     needs: build-releasenotes
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -497,8 +505,7 @@ jobs:
     name: Build Docker Image
     runs-on: ubuntu-latest
     needs: start-gate
-    env:
-      TGS_TELEMETRY_KEY_FILE: tgs_telemetry_key.txt
+    timeout-minutes: 10
     steps:
       - name: Checkout (Branch)
         uses: actions/checkout@v4
@@ -510,26 +517,17 @@ jobs:
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-      - name: Setup Telemetry Key File
-        shell: bash
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Build Docker Image # Name checked in rerunFlakyTests.js
-        run: docker build . -f build/Dockerfile --build-arg TGS_TELEMETRY_KEY_FILE=${{ env.TGS_TELEMETRY_KEY_FILE }}
-
-      - name: Delete Telemetry Key File
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
+        run: docker build . -f build/Dockerfile
 
   linux-unit-tests:
     name: Linux Tests
     needs: start-gate
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
         configuration: ["Debug", "Release"]
-    env:
-      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
       - name: Install Native x86 libc Dependencies # Name checked in rerunFlakyTests.js
@@ -562,15 +560,8 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Setup Telemetry Key File
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Build # Name checked in rerunFlakyTests.js
         run: dotnet build -c ${{ matrix.configuration }}NoWindows
-
-      - name: Delete Telemetry Key File
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Run Unit Tests
         run: sudo dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
@@ -590,12 +581,11 @@ jobs:
   windows-unit-tests:
     name: Windows Tests
     needs: start-gate
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
         configuration: ["Debug", "Release"]
-    env:
-      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     runs-on: windows-2025
     steps:
       - name: Setup dotnet
@@ -622,17 +612,8 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Setup Telemetry Key File
-        shell: bash
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Build # Name checked in rerunFlakyTests.js
         run: dotnet build -c ${{ matrix.configuration }}NoWix
-
-      - name: Delete Telemetry Key File
-        shell: bash
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Run Unit Tests
         run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
@@ -651,6 +632,7 @@ jobs:
     name: Prepare Live Tests Cache of EDGE Versions
     needs: start-gate
     runs-on: ubuntu-latest
+    timeout-minutes: 1
     steps:
       - name: Cache BYOND .zips (Linux)
         uses: actions/cache@v4
@@ -691,6 +673,7 @@ jobs:
   windows-integration-tests:
     name: Windows Live Tests
     needs: [dmapi-build, opendream-build, prep-edge-versions]
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -698,8 +681,6 @@ jobs:
           ["SqlServer", "Sqlite", "PostgresSql", "MariaDB", "MySql"]
         watchdog-type: ["Basic", "Advanced"]
         configuration: ["Debug", "Release"]
-    env:
-      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     runs-on: windows-2025
     steps:
       - name: Setup dotnet
@@ -801,17 +782,8 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Setup Telemetry Key File
-        shell: bash
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Build # Name checked in rerunFlakyTests.js
         run: dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
-
-      - name: Delete Telemetry Key File
-        shell: bash
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Run Live Tests # Logging here is weird because printing massive amounts of text on Windows runners is SLOW AS SHIT!!!
         id: live-tests
@@ -906,6 +878,7 @@ jobs:
   linux-integration-tests:
     name: Linux Live Tests
     needs: [dmapi-build, opendream-build, prep-edge-versions]
+    timeout-minutes: 60
     services: # We start all dbs here so we can just code the stuff once
       mssql:
         image: ${{ (matrix.database-type == 'SqlServer') && 'mcr.microsoft.com/mssql/server:2019-latest' || '' }}
@@ -953,8 +926,6 @@ jobs:
         database-type: ["Sqlite", "PostgresSql", "MariaDB", "MySql"]
         watchdog-type: ["Basic", "Advanced"]
         configuration: ["Debug", "Release"]
-    env:
-      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
       - name: Setup dotnet
@@ -1030,15 +1001,8 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Setup Telemetry Key File
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Build # Name checked in rerunFlakyTests.js
         run: dotnet build -c ${{ matrix.configuration }}NoWindows tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
-
-      - name: Delete Telemetry Key File
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Run Live Tests
         run: |
@@ -1091,6 +1055,7 @@ jobs:
     name: OpenAPI Spec Validation
     needs: windows-integration-tests
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Install IBM OpenAPI Validator
         run: npm i -g ibm-openapi-validator@0.51.3
@@ -1116,6 +1081,7 @@ jobs:
 
   upload-code-coverage:
     name: Upload Code Coverage
+    timeout-minutes: 5
     needs:
       [
         linux-unit-tests,
@@ -1382,8 +1348,7 @@ jobs:
     name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
     needs: build-releasenotes
     runs-on: ubuntu-latest
-    env:
-      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
+    timeout-minutes: 30
     steps:
       - name: Install Native Dependencies # Name checked in rerunFlakyTests.js
         run: |
@@ -1430,9 +1395,6 @@ jobs:
       - name: Grab Most Recent Changelog
         run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
 
-      - name: Setup Telemetry Key File
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Retrieve ReleaseNotes Binaries
         uses: actions/download-artifact@v4
         with:
@@ -1471,10 +1433,6 @@ jobs:
           gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1.dsc
           gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.changes
           gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.buildinfo
-
-      - name: Delete Telemetry Key File
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Test Install
         run: |
@@ -1539,8 +1497,7 @@ jobs:
     name: Build Windows Installer .exe
     runs-on: windows-2025
     needs: start-gate
-    env:
-      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
+    timeout-minutes: 15
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -1574,17 +1531,8 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Setup Telemetry Key File
-        shell: bash
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
       - name: Build Host # Name checked in rerunFlakyTests.js
         run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
-
-      - name: Delete Telemetry Key File
-        shell: bash
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Build Service # Name checked in rerunFlakyTests.js
         run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
@@ -1684,6 +1632,7 @@ jobs:
     name: Check winget-pkgs Pull Request Template is up to date
     needs: build-releasenotes
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -1734,6 +1683,7 @@ jobs:
   ci-completion-gate:
     if: always() && !cancelled()
     name: CI Completion Gate
+    timeout-minutes: 1
     needs:
       [
         pages-build,
@@ -1823,26 +1773,22 @@ jobs:
           TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_API_VERSION }} --restapi
 
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          tag_name: api-v${{ env.TGS_API_VERSION }}
-          release_name: tgstation-server REST API v${{ env.TGS_API_VERSION }}
-          body_path: release_notes.md
-          commitish: ${{ github.event.head_commit.id }}
+      - name: Setup Release Artifacts
+        run: |
+          mkdir release_assets
+          cp ./swaggger/tgs_api.json ./release_assets/swagger.json
 
-      - name: Upload OpenApi Spec
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./swagger/tgs_api.json
-          asset_name: swagger.json
-          asset_content_type: application/json
+          token: ${{ steps.app-token-generation.outputs.token }}
+          tag_name: api-v${{ env.TGS_API_VERSION }}
+          files: |
+            ./release_assets/*
+          name: tgstation-server REST API v${{ env.TGS_API_VERSION }}
+          body_path: release_notes.md
+          target_commitish: ${{ github.event.head_commit.id }}
+          make_latest: false
 
   deploy-gql:
     name: Deploy GraphQL API
@@ -1910,27 +1856,23 @@ jobs:
           TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_API_VERSION }} --graphqlapi
 
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          tag_name: graphql-v${{ env.TGS_API_VERSION }}
-          release_name: tgstation-server GraphQL API v${{ env.TGS_API_VERSION }}
-          body_path: release_notes.md
-          commitish: ${{ github.event.head_commit.id }}
-          prerelease: ${{ env.TGS_GRAPHQL_PRERELEASE }}
+      - name: Setup Release Artifacts
+        run: |
+          mkdir release_assets
+          cp ./schema/tgs-api.graphql ./release_assets/tgs-api.graphql
 
-      - name: Upload GraphQL Schema
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./schema/tgs-api.graphql
-          asset_name: tgs-api.graphql
-          asset_content_type: text/plain
+          token: ${{ steps.app-token-generation.outputs.token }}
+          tag_name: graphql-v${{ env.TGS_API_VERSION }}
+          files: |
+            ./release_assets/*
+          name: tgstation-server GraphQL API v${{ env.TGS_API_VERSION }}
+          body_path: release_notes.md
+          target_commitish: ${{ github.event.head_commit.id }}
+          make_latest: false
+          prerelease: ${{ env.TGS_GRAPHQL_PRERELEASE }}
 
   deploy-dm:
     name: Deploy DreamMaker API
@@ -1991,26 +1933,22 @@ jobs:
           TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_DM_VERSION }} --dmapi
 
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          tag_name: dmapi-v${{ env.TGS_DM_VERSION }}
-          release_name: tgstation-server DMAPI v${{ env.TGS_DM_VERSION }}
-          body_path: release_notes.md
-          commitish: ${{ github.event.head_commit.id }}
+      - name: Setup Release Artifacts
+        run: |
+          mkdir release_assets
+          cp ./DMAPI.zip ./release_assets/DMAPI.zip
 
-      - name: Upload DMAPI Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./DMAPI.zip
-          asset_name: DMAPI.zip
-          asset_content_type: application/zip
+          token: ${{ steps.app-token-generation.outputs.token }}
+          tag_name: dmapi-v${{ env.TGS_DM_VERSION }}
+          files: |
+            ./release_assets/*
+          name: tgstation-server DMAPI v${{ env.TGS_DM_VERSION }}
+          body_path: release_notes.md
+          target_commitish: ${{ github.event.head_commit.id }}
+          make_latest: false
 
   deploy-client:
     name: Deploy Nuget Packages
@@ -2107,8 +2045,6 @@ jobs:
     needs: [deploy-dm, deploy-rest, deploy-gql, deployment-gate]
     runs-on: windows-2025
     if: (!(cancelled() || failure())) && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]') && needs.deployment-gate.result == 'success'
-    env:
-      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     permissions:
       id-token: write
       attestations: write
@@ -2135,18 +2071,9 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Setup Telemetry Key File
-        shell: bash
-        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
         # We need to rebuild the installer.exe so it can be properly signed
       - name: Build Host # Name checked in rerunFlakyTests.js
         run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
-
-      - name: Delete Telemetry Key File
-        shell: bash
-        if: always()
-        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
       - name: Build Service # Name checked in rerunFlakyTests.js
         run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
@@ -2310,113 +2237,30 @@ jobs:
           TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_VERSION }}
 
+      - name: Setup Release Artifacts
+        run: |
+          mkdir release_assets
+          cp ./ServerConsole.zip ./release_assets/ServerConsole.zip
+          cp ./ServerService.zip ./release_assets/ServerService.zip
+          cp ./DMAPI.zip ./release_assets/DMAPI.zip
+          cp ./swagger/tgs_api.json ./release_assets/swagger.json
+          cp ./schema/tgs-api.graphql ./release_assets/tgs-api.graphql
+          cp ./ServerUpdatePackage.zip ./release_assets/ServerUpdatePackage.zip
+          cp ./packaging-debian/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz ./release_assets/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
+          cp ./build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/mariadb.msi ./release_assets/mariadb-${{ env.MARIADB_VERSION }}-winx64.msi
+          cp ./build/package/winget/tgstation-server-installer.exe ./release_assets/tgstation-server-installer.exe
+
       - name: Create GitHub Release
-        uses: actions/create-release@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b
         with:
+          token: ${{ steps.app-token-generation.outputs.token }}
           tag_name: tgstation-server-v${{ env.TGS_VERSION }}
-          release_name: tgstation-server-v${{ env.TGS_VERSION }}
+          files: |
+            ./release_assets/*
+          name: tgstation-server-v${{ env.TGS_VERSION }}
           body_path: release_notes.md
-          commitish: ${{ github.event.head_commit.id }}
-
-      - name: Upload Server Console Artifact to Release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ServerConsole.zip
-          asset_name: ServerConsole.zip
-          asset_content_type: application/zip
-
-      - name: Upload Server Service Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ServerService.zip
-          asset_name: ServerService.zip
-          asset_content_type: application/zip
-
-      - name: Upload DMAPI Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./DMAPI.zip
-          asset_name: DMAPI.zip
-          asset_content_type: application/zip
-
-      - name: Upload REST API Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./swagger/tgs_api.json
-          asset_name: swagger.json
-          asset_content_type: application/json
-
-      - name: Upload GraphQL API Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./schema/tgs-api.graphql
-          asset_name: tgs-api.graphql
-          asset_content_type: text/plain
-
-      - name: Upload Server Update Package Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ServerUpdatePackage.zip
-          asset_name: ServerUpdatePackage.zip
-          asset_content_type: application/zip
-
-      - name: Upload Debian Packaging Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./packaging-debian/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
-          asset_name: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
-          asset_content_type: application/x-tar
-
-      - name: Upload MariaDB .msi
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/mariadb.msi
-          asset_name: mariadb-${{ env.MARIADB_VERSION }}-winx64.msi
-          asset_content_type: application/octet-stream
-
-      - name: Upload Installer .exe
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/package/winget/tgstation-server-installer.exe
-          asset_name: tgstation-server-installer.exe
-          asset_content_type: application/octet-stream
-
-  update-nix:
-    name: Nix Deployment
-    needs: changelog-regen
-    if: (!(cancelled() || failure())) && needs.changelog-regen.result == 'success'
-    uses: ./.github/workflows/nix-deployment.yml
-    secrets: inherit
+          target_commitish: ${{ github.event.head_commit.id }}
+          make_latest: true
 
   changelog-regen:
     name: Regenerate Changelog

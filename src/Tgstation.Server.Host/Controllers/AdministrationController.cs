@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -21,7 +21,6 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
-using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
@@ -29,6 +28,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="ApiController"/> for TGS administration purposes.
 	/// </summary>
+	[Authorize]
 	[Route(Routes.Administration)]
 	public sealed class AdministrationController : ApiController
 	{
@@ -53,14 +53,9 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
-		/// The <see cref="IFileTransferTicketProvider"/> for the <see cref="AdministrationController"/>.
+		/// The <see cref="IOptions{TOptions}"/> <see cref="FileLoggingConfiguration"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
-		readonly IFileTransferTicketProvider fileTransferService;
-
-		/// <summary>
-		/// The <see cref="FileLoggingConfiguration"/> for the <see cref="AdministrationController"/>.
-		/// </summary>
-		readonly FileLoggingConfiguration fileLoggingConfiguration;
+		readonly IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AdministrationController"/> class.
@@ -73,8 +68,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
-		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
-		/// <param name="fileLoggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="fileLoggingConfiguration"/>.</param>
+		/// <param name="fileLoggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="fileLoggingConfigurationOptions"/>.</param>
 		public AdministrationController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContext authenticationContext,
@@ -84,7 +78,6 @@ namespace Tgstation.Server.Host.Controllers
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager,
 			IPlatformIdentifier platformIdentifier,
-			IFileTransferTicketProvider fileTransferService,
 			IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions)
 			: base(
 				  databaseContext,
@@ -97,8 +90,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
-			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
-			fileLoggingConfiguration = fileLoggingConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
+			this.fileLoggingConfigurationOptions = fileLoggingConfigurationOptions ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
 		}
 
 		/// <summary>
@@ -111,7 +103,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="424">The GitHub API rate limit was hit. See response header Retry-After.</response>
 		/// <response code="429">A GitHub API error occurred. See error message for details.</response>
 		[HttpGet]
-		[TgsRestAuthorize<IAdministrationAuthority>(nameof(IAdministrationAuthority.GetUpdateInformation))]
 		[ProducesResponseType(typeof(AdministrationResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 424)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 429)]
@@ -132,7 +123,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="424">A GitHub rate limit was encountered or the swarm integrity check failed.</response>
 		/// <response code="429">A GitHub API error occurred.</response>
 		[HttpPost]
-		[TgsRestAuthorize<IAdministrationAuthority>(nameof(IAdministrationAuthority.TriggerServerVersionChange))]
 		[ProducesResponseType(typeof(ServerUpdateResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 422)]
@@ -160,7 +150,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="204">Restart begun successfully.</response>
 		/// <response code="422">Restart operations are unavailable due to the launch configuration of TGS.</response>
 		[HttpDelete]
-		[TgsRestAuthorize<IAdministrationAuthority>(nameof(IAdministrationAuthority.TriggerServerRestart))]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 422)]
 		public ValueTask<IActionResult> Delete()
@@ -187,7 +176,7 @@ namespace Tgstation.Server.Host.Controllers
 			=> Paginated(
 				async () =>
 				{
-					var path = fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier);
+					var path = fileLoggingConfigurationOptions.Value.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier);
 					try
 					{
 						var files = await ioManager.GetFiles(path, cancellationToken);
@@ -236,43 +225,9 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(AdministrationRights.DownloadLogs)]
 		[ProducesResponseType(typeof(LogFileResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
-		public async ValueTask<IActionResult> GetLog(string path, CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(path);
-
-			path = HttpUtility.UrlDecode(path);
-
-			// guard against directory navigation
-			var sanitizedPath = ioManager.GetFileName(path);
-			if (path != sanitizedPath)
-				return Forbid();
-
-			var fullPath = ioManager.ConcatPath(
-				fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier),
-				path);
-			try
-			{
-				var fileTransferTicket = fileTransferService.CreateDownload(
-					new FileDownloadProvider(
-						() => null,
-						null,
-						fullPath,
-						true));
-
-				return Ok(new LogFileResponse
-				{
-					Name = path,
-					LastModified = await ioManager.GetLastModified(fullPath, cancellationToken),
-					FileTicket = fileTransferTicket.FileTicket,
-				});
-			}
-			catch (IOException ex)
-			{
-				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
-				{
-					AdditionalData = ex.ToString(),
-				});
-			}
-		}
+		public ValueTask<IActionResult> GetLog(string path, CancellationToken cancellationToken)
+			=> administrationAuthority.Invoke<LogFileResponse, LogFileResponse>(
+				this,
+				authority => authority.GetLog(path, cancellationToken));
 	}
 }

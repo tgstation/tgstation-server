@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Moq;
 
 using Tgstation.Server.Host.Core;
@@ -21,13 +22,13 @@ namespace Tgstation.Server.Host.System.Tests
 		[TestMethod]
 		public void TestConstruction()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(null, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new PosixSignalHandler(null, null, null));
 
 			var mockServerControl = Mock.Of<IServerControl>();
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, null, null));
 
 			var mockAsyncDelayer = Mock.Of<IAsyncDelayer>();
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, mockAsyncDelayer, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, mockAsyncDelayer, null));
 
 			new PosixSignalHandler(mockServerControl, mockAsyncDelayer, Mock.Of<ILogger<PosixSignalHandler>>()).Dispose();
 		}
@@ -74,7 +75,8 @@ namespace Tgstation.Server.Host.System.Tests
 					null,
 					null,
 					true,
-					true);
+					true,
+					false);
 
 			await Task.Delay(TimeSpan.FromSeconds(10));
 

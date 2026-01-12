@@ -1,5 +1,24 @@
 mutation CreateUserGroupWithInstanceListPerm($name: String!) {
-  createUserGroup(input: { name: $name, permissionSet: { instanceManagerRights: { canList: true } } }) {
+  createUserGroup(input: {
+    name: $name
+    permissionSet: {
+      instanceManagerRights: {
+        canList: true
+        canCreate: false
+        canDelete: false
+        canGrantPermissions: false
+        canRead: false
+        canRelocate: false
+        canRename: false
+        canSetAutoUpdate: false
+        canSetChatBotLimit: false
+        canSetConfiguration: false
+        canSetOnline: false
+        canSetAutoStart: false
+        canSetAutoStop: false
+      }
+    }
+  }) {
     userGroup {
       id
       name

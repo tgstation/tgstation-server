@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		const uint ClientCacheHours = 1;
 
 		/// <summary>
-		/// Minutes before tokens expire before not using them.
+		/// Minutes before tokens expire before we stop using them for safety.
 		/// </summary>
 		const uint AppTokenExpiryGraceMinutes = 15;
 
@@ -51,14 +51,14 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		readonly IHttpMessageHandlerFactory httpMessageHandlerFactory;
 
 		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="GitHubClientFactory"/>.
+		/// </summary>
+		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="GitHubClientFactory"/>.
 		/// </summary>
 		readonly ILogger<GitHubClientFactory> logger;
-
-		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="GitHubClientFactory"/>.
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
 		/// Cache of created <see cref="GitHubClient"/>s and last used/expiry times, keyed by access token.
@@ -76,17 +76,17 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="httpMessageHandlerFactory">The value of <see cref="httpMessageHandlerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfigurationOptions"/>.</param>
 		public GitHubClientFactory(
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IHttpMessageHandlerFactory httpMessageHandlerFactory,
-			ILogger<GitHubClientFactory> logger,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			ILogger<GitHubClientFactory> logger)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.httpMessageHandlerFactory = httpMessageHandlerFactory ?? throw new ArgumentNullException(nameof(httpMessageHandlerFactory));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 
 			clientCache = new Dictionary<string, (GitHubClient, DateTimeOffset, DateTimeOffset?)>();
 			clientCacheSemaphore = new SemaphoreSlim(1, 1);
@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <inheritdoc />
 		public async ValueTask<IGitHubClient> CreateClient(CancellationToken cancellationToken)
 			=> (await GetOrCreateClient(
-				generalConfiguration.GitHubAccessToken,
+				generalConfigurationOptions.CurrentValue.GitHubAccessToken,
 				null,
 				cancellationToken))!;
 
@@ -144,7 +144,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 
 				var now = DateTimeOffset.UtcNow;
 				cacheHit = clientCache.TryGetValue(cacheKey, out var tuple);
-				var tokenValid = cacheHit && (!tuple.Expiry.HasValue || tuple.Expiry.Value <= now);
+				var tokenValid = cacheHit && (!tuple.Expiry.HasValue || tuple.Expiry.Value > now);
 				if (!tokenValid)
 				{
 					if (cacheHit)

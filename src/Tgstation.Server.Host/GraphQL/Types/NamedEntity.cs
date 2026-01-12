@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.GraphQL.Types
 		/// <summary>
 		/// The name of the <see cref="NamedEntity"/>.
 		/// </summary>
-		public required string Name { get; init; }
+		public required string Name { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NamedEntity"/> class.

@@ -130,7 +130,7 @@ in
 
     environment.etc = {
       "tgstation-server.d/appsettings.yml" = {
-        text = (builtins.readFile "${package}/bin/appsettings.yml");
+        text = (builtins.readFile ./../../../src/Tgstation.Server.Host/appsettings.yml);
         group = cfg.groupname;
         mode = "0644";
       };

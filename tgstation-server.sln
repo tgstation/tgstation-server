@@ -32,6 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6
 		build\NewtonsoftJson.props = build\NewtonsoftJson.props
 		build\NugetCommon.props = build\NugetCommon.props
 		build\OpenApiValidationSettings.json = build\OpenApiValidationSettings.json
+		build\PackageVersions.props = build\PackageVersions.props
 		build\SrcCommon.props = build\SrcCommon.props
 		build\stylecop.json = build\stylecop.json
 		build\TestCommon.props = build\TestCommon.props
@@ -127,6 +128,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{E821
 		.github\CODEOWNERS = .github\CODEOWNERS
 		.github\CODE_OF_CONDUCT.md = .github\CODE_OF_CONDUCT.md
 		.github\CONTRIBUTING.md = .github\CONTRIBUTING.md
+		.github\dependabot.yml = .github\dependabot.yml
+		.github\FUNDING.yml = .github\FUNDING.yml
+		.github\PULL_REQUEST_TEMPLATE.md = .github\PULL_REQUEST_TEMPLATE.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Tests", "tests\Tgstation.Server.Tests\Tgstation.Server.Tests.csproj", "{09056964-1C74-445A-96EC-33F6DFC07916}"
@@ -276,6 +280,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nix", "nix", "{5130526C-A55
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Host.Utils.GitLab.GraphQL", "src\Tgstation.Server.Host.Utils.GitLab.GraphQL\Tgstation.Server.Host.Utils.GitLab.GraphQL.csproj", "{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Common.Tests", "tests\Tgstation.Server.Common.Tests\Tgstation.Server.Common.Tests.csproj", "{73F2C6B9-54A6-4433-9D94-07F2AC0FD084}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -571,6 +577,18 @@ Global
 		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.ReleaseNoWindows|Any CPU.Build.0 = Release|Any CPU
 		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.ReleaseNoWix|Any CPU.ActiveCfg = Release|Any CPU
 		{BF02BCC5-735C-4FF1-8EEF-FF78EA42FC85}.ReleaseNoWix|Any CPU.Build.0 = Release|Any CPU
+		{73F2C6B9-54A6-4433-9D94-07F2AC0FD084}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73F2C6B9-54A6-4433-9D94-07F2AC0FD084}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73F2C6B9-54A6-4433-9D94-07F2AC0FD084}.DebugNoWindows|Any CPU.ActiveCfg = Debug|Any CPU
+		{73F2C6B9-54A6-4433-9D94-07F2AC0FD084}.DebugNoWindows|Any CPU.Build.0 = Debug|Any CPU
+		{73F2C6B9-54A6-4433-9D94-07F2AC0FD084}.DebugNoWix|Any CPU.ActiveCfg = Debug|Any CPU
+		{73F2C6B9-54A6-4433-9D94-07F2AC0FD084}.DebugNoWix|Any CPU.Build.0 = Debug|Any CPU
+		{73F2C6B9-54A6-4433-9D94-07F2AC0FD084}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73F2C6B9-54A6-4433-9D94-07F2AC0FD084}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73F2C6B9-54A6-4433-9D94-07F2AC0FD084}.ReleaseNoWindows|Any CPU.ActiveCfg = Release|Any CPU
+		{73F2C6B9-54A6-4433-9D94-07F2AC0FD084}.ReleaseNoWindows|Any CPU.Build.0 = Release|Any CPU
+		{73F2C6B9-54A6-4433-9D94-07F2AC0FD084}.ReleaseNoWix|Any CPU.ActiveCfg = Release|Any CPU
+		{73F2C6B9-54A6-4433-9D94-07F2AC0FD084}.ReleaseNoWix|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -609,6 +627,7 @@ Global
 		{7F7FCFDF-271D-45C2-830C-BCCB19C57077} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
 		{EAB84FD0-5514-4254-B188-7D90ACB7284D} = {316141B0-CD21-4769-A013-D53DA9B9EC09}
 		{5130526C-A553-493B-A9B0-3DB452949886} = {2648A85F-61AE-428E-95E1-66D06C7A3768}
+		{73F2C6B9-54A6-4433-9D94-07F2AC0FD084} = {316141B0-CD21-4769-A013-D53DA9B9EC09}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Remora.Discord.API.Abstractions.Gateway.Commands;
 using Remora.Discord.API.Abstractions.Gateway.Events;
@@ -72,9 +73,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="DiscordProvider"/>.
+		/// The <see cref="GeneralConfiguration"/> <see cref="IOptionsMonitor{TOptions}"/> for the <see cref="DiscordProvider"/>.
 		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
+		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
 
 		/// <summary>
 		/// The <see cref="ServiceProvider"/> containing Discord services.
@@ -141,18 +142,18 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="chatBot">The <see cref="ChatBot"/> for the <see cref="Provider"/>.</param>
-		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
 		public DiscordProvider(
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
 			ILogger<DiscordProvider> logger,
 			IAssemblyInformationProvider assemblyInformationProvider,
-			ChatBot chatBot,
-			GeneralConfiguration generalConfiguration)
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			ChatBot chatBot)
 			: base(jobManager, asyncDelayer, logger, chatBot)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 
 			mappedChannels = new List<ulong>();
 			connectDisconnectLock = new object();
@@ -924,7 +925,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					true),
 				EngineType.OpenDream => new EmbedField(
 					"OpenDream Version",
-					$"[{engineVersion.SourceSHA![..7]}]({generalConfiguration.OpenDreamGitUrl}/commit/{engineVersion.SourceSHA})",
+					$"[{engineVersion.SourceSHA![..7]}]({generalConfigurationOptions.CurrentValue.OpenDreamGitUrl}/commit/{engineVersion.SourceSHA})",
 					true),
 				_ => throw new InvalidOperationException($"Invaild EngineType: {engineVersion.Engine.Value}"),
 			};

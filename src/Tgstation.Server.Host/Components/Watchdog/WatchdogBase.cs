@@ -40,6 +40,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public long? SessionId => GetActiveController()?.ReattachInformation.Id;
 
 		/// <inheritdoc />
+		public long? WorldIteration => GetActiveController()?.StartupBridgeRequestsReceived;
+
+		/// <inheritdoc />
 		public uint? ClientCount { get; private set; }
 
 		/// <inheritdoc />
@@ -538,9 +541,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		async ValueTask IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
+		async ValueTask IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool sensitiveParameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
+
+			if (sensitiveParameters)
+			{
+				Logger.LogDebug("Not sending sensitive event parameters");
+				parameters = Enumerable.Empty<string>();
+			}
 
 			// Method explicitly implemented to prevent accidental calls when this.eventConsumer should be used.
 			var activeServer = GetActiveController();
@@ -777,6 +786,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					GameIOManager.ResolvePath(newCompileJob.DirectoryName!.Value.ToString()),
 				},
 				false,
+				false,
 				cancellationToken);
 
 			try
@@ -803,8 +813,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			try
 			{
-				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, false, cancellationToken) : ValueTask.CompletedTask;
-				var eventConsumerTask = eventConsumer.HandleEvent(eventType, parameters, false, cancellationToken);
+				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, false, false, cancellationToken) : ValueTask.CompletedTask;
+				var eventConsumerTask = eventConsumer.HandleEvent(eventType, parameters, false, false, cancellationToken);
 				await ValueTaskExtensions.WhenAll(
 					eventConsumerTask,
 					sessionEventTask);

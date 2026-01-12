@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,7 +17,6 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Events;
@@ -122,20 +122,20 @@ namespace Tgstation.Server.Tests.Live.Instance
 						new NoopEventConsumer(),
 						Mock.Of<IPostWriteHandler>(),
 						Mock.Of<IGitRemoteFeaturesFactory>(),
+						mockOptionsMonitor.Object,
 						Mock.Of<ILogger<Repository>>(),
-						Mock.Of<ILogger<RepositoryManager>>(),
-						genConfig),
+						Mock.Of<ILogger<RepositoryManager>>()),
 					Mock.Of<IAsyncDelayer>(),
-					Mock.Of<IAbstractHttpClientFactory>(),
-					Options.Create(genConfig),
-					Options.Create(new SessionConfiguration()))
+					Mock.Of<IHttpClientFactory>(),
+					mockOptionsMonitor.Object,
+					Mock.Of<IOptionsMonitor<SessionConfiguration>>())
 				: new PlatformIdentifier().IsWindows
 					? new WindowsByondInstaller(
 						Mock.Of<IProcessExecutor>(),
 						Mock.Of<IIOManager>(),
 						fileDownloader,
 						mockOptionsMonitor.Object,
-						Options.Create(new SessionConfiguration()),
+						Mock.Of<IOptionsMonitor<SessionConfiguration>>(),
 						Mock.Of<ILogger<WindowsByondInstaller>>())
 					: new PosixByondInstaller(
 						Mock.Of<IPostWriteHandler>(),
@@ -169,20 +169,21 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			async Task UpdateDMSettings()
 			{
-				for (var i = 0; i < 10; ++i)
+				const int Limit = 10;
+				for (var i = 0; i < Limit; ++i)
 					try
 					{
-						global::System.Console.WriteLine($"PORT REUSE BUG 6: Setting I-{instanceClient.Metadata.Id} DM to {dmPort}");
+						if (i != 0)
+						{
+							global::System.Console.WriteLine($"PORT REUSE BUG 6: Setting I-{instanceClient.Metadata.Id} DM to {dmPort}");
+						}
 						await instanceClient.DreamMaker.Update(new DreamMakerRequest
 						{
 							ApiValidationPort = dmPort,
 						}, cancellationToken);
 					}
-					catch (ConflictException ex) when (ex.ErrorCode == ErrorCode.PortNotAvailable)
+					catch (ConflictException ex) when (ex.ErrorCode == ErrorCode.PortNotAvailable && i < (Limit - 1))
 					{
-						if (i == 4)
-							throw;
-
 						// I have no idea why this happens sometimes
 						await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
 					}

@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Prometheus;
 
@@ -105,6 +106,16 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
+		/// The <see cref="IJobManager"/> for the <see cref="SessionControllerFactory"/>.
+		/// </summary>
+		readonly IJobManager jobManager;
+
+		/// <summary>
+		/// The <see cref="IDreamMaker"/> for the <see cref="SessionControllerFactory"/>.
+		/// </summary>
+		readonly IDreamMaker dreamMaker;
+
+		/// <summary>
 		/// The <see cref="IAsyncDelayer"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly IAsyncDelayer asyncDelayer;
@@ -120,14 +131,14 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="SessionConfiguration"/> for the <see cref="SessionControllerFactory"/>.
+		/// </summary>
+		readonly IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly ILogger<SessionControllerFactory> logger;
-
-		/// <summary>
-		/// The <see cref="SessionConfiguration"/> for the <see cref="SessionControllerFactory"/>.
-		/// </summary>
-		readonly SessionConfiguration sessionConfiguration;
 
 		/// <summary>
 		/// The number of sessions launched.
@@ -195,12 +206,14 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="bridgeRegistrar">The value of <see cref="bridgeRegistrar"/>.</param>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
+		/// <param name="dreamMaker">The value of <see cref="dreamMaker"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
 		/// <param name="metricFactory">The <see cref="IMetricFactory"/> used to create metrics.</param>
+		/// <param name="sessionConfigurationOptions">The value of <see cref="sessionConfigurationOptions"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
 		public SessionControllerFactory(
 			IProcessExecutor processExecutor,
 			IEngineManager engineManager,
@@ -215,12 +228,14 @@ namespace Tgstation.Server.Host.Components.Session
 			IBridgeRegistrar bridgeRegistrar,
 			IServerPortProvider serverPortProvider,
 			IEventConsumer eventConsumer,
+			IJobManager jobManager,
+			IDreamMaker dreamMaker,
 			IAsyncDelayer asyncDelayer,
 			IDotnetDumpService dotnetDumpService,
 			IMetricFactory metricFactory,
 			ILoggerFactory loggerFactory,
+			IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions,
 			ILogger<SessionControllerFactory> logger,
-			SessionConfiguration sessionConfiguration,
 			Api.Models.Instance instance)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
@@ -236,12 +251,14 @@ namespace Tgstation.Server.Host.Components.Session
 			this.bridgeRegistrar = bridgeRegistrar ?? throw new ArgumentNullException(nameof(bridgeRegistrar));
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			this.dreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
 			ArgumentNullException.ThrowIfNull(metricFactory);
+			this.sessionConfigurationOptions = sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 
 			sessionsLaunched = metricFactory.CreateCounter("tgs_sessions_launched", "The number of game server processes created");
@@ -249,7 +266,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public async ValueTask<ISessionController> LaunchNew(
 			IDmbProvider dmbProvider,
 			IEngineExecutableLock? currentByondLock,
@@ -375,6 +392,8 @@ namespace Tgstation.Server.Host.Components.Session
 							asyncDelayer,
 							dotnetDumpService,
 							eventConsumer,
+							jobManager,
+							dreamMaker,
 							loggerFactory.CreateLogger<SessionController>(),
 							() => LogDDOutput(
 								process,
@@ -473,6 +492,8 @@ namespace Tgstation.Server.Host.Components.Session
 							asyncDelayer,
 							dotnetDumpService,
 							eventConsumer,
+							jobManager,
+							dreamMaker,
 							loggerFactory.CreateLogger<SessionController>(),
 							() => ValueTask.CompletedTask,
 							null,
@@ -526,17 +547,23 @@ namespace Tgstation.Server.Host.Components.Session
 			bool apiValidate,
 			CancellationToken cancellationToken)
 		{
-			// important to run on all ports to allow port changing
-			var environment = await engineLock.LoadEnv(logger, false, cancellationToken);
-			var arguments = engineLock.FormatServerArguments(
-				dmbProvider,
-				new Dictionary<string, string>
+			var serverMayHaveDMApi = apiValidate || dmbProvider.CompileJob.DMApiVersion != null;
+
+			var serverArguments = serverMayHaveDMApi
+				? new Dictionary<string, string>
 				{
 					{ DMApiConstants.ParamApiVersion, DMApiConstants.InteropVersion.Semver().ToString() },
 					{ DMApiConstants.ParamServerPort, serverPortProvider.HttpApiPort.ToString(CultureInfo.InvariantCulture) },
 					{ DMApiConstants.ParamAccessIdentifier, accessIdentifier },
-				},
+				}
+				: null;
+
+			var environment = await engineLock.LoadEnv(logger, false, cancellationToken);
+			var arguments = engineLock.FormatServerArguments(
+				dmbProvider,
+				serverArguments,
 				launchParameters,
+				accessIdentifier,
 				!engineLock.HasStandardOutput || engineLock.PreferFileLogging
 					? logFilePath
 					: null);
@@ -546,6 +573,7 @@ namespace Tgstation.Server.Host.Components.Session
 				await eventConsumer.HandleEvent(
 					EventType.DreamDaemonPreLaunch,
 					Enumerable.Empty<string?>(),
+					false,
 					false,
 					cancellationToken);
 
@@ -561,6 +589,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			try
 			{
+				var sessionConfiguration = sessionConfigurationOptions.CurrentValue;
 				if (!apiValidate)
 				{
 					if (sessionConfiguration.HighPriorityLiveDreamDaemon)
@@ -579,6 +608,7 @@ namespace Tgstation.Server.Host.Components.Session
 						{
 							process.Id.ToString(CultureInfo.InvariantCulture),
 						},
+						false,
 						false,
 						cancellationToken);
 
@@ -612,11 +642,11 @@ namespace Tgstation.Server.Host.Components.Session
 				if (cliSupported)
 					ddOutput = (await process.GetCombinedOutput(cancellationToken))!;
 
-				if (ddOutput == null)
+				if (String.IsNullOrWhiteSpace(ddOutput) && outputFilePath != null)
 					try
 					{
 						var dreamDaemonLogBytes = await gameIOManager.ReadAllBytes(
-							outputFilePath!,
+							outputFilePath,
 							cancellationToken);
 
 						ddOutput = Encoding.UTF8.GetString(dreamDaemonLogBytes);
@@ -627,7 +657,7 @@ namespace Tgstation.Server.Host.Components.Session
 							try
 							{
 								logger.LogTrace("Deleting temporary log file {path}...", outputFilePath);
-								await gameIOManager.DeleteFile(outputFilePath!, cancellationToken);
+								await gameIOManager.DeleteFile(outputFilePath, cancellationToken);
 							}
 							catch (Exception ex)
 							{

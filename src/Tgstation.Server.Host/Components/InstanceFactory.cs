@@ -150,14 +150,14 @@ namespace Tgstation.Server.Host.Components
 		readonly IMetricFactory metricFactory;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceFactory"/>.
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
+		readonly IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions;
 
 		/// <summary>
-		/// The <see cref="SessionConfiguration"/> for the <see cref="InstanceFactory"/>.
+		/// The <see cref="IOptionsMonitor{TOptions}"/> of <see cref="SessionConfiguration"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
-		readonly SessionConfiguration sessionConfiguration;
+		readonly IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions;
 
 		/// <summary>
 		/// Create the <see cref="IIOManager"/> pointing to the "Game" directory of a given <paramref name="instanceIOManager"/>.
@@ -193,8 +193,8 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
 		/// <param name="metricFactory">The value of <see cref="metricFactory"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="sessionConfigurationOptions">The value of <see cref="sessionConfigurationOptions"/>.</param>
 		public InstanceFactory(
 			IIOManager ioManager,
 			IDatabaseContextFactory databaseContextFactory,
@@ -219,8 +219,8 @@ namespace Tgstation.Server.Host.Components
 			IAsyncDelayer asyncDelayer,
 			IDotnetDumpService dotnetDumpService,
 			IMetricFactory metricFactory,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<SessionConfiguration> sessionConfigurationOptions)
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			IOptionsMonitor<SessionConfiguration> sessionConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -245,8 +245,8 @@ namespace Tgstation.Server.Host.Components
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
 			this.metricFactory = metricFactory ?? throw new ArgumentNullException(nameof(metricFactory));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.sessionConfigurationOptions = sessionConfigurationOptions ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 		}
 #pragma warning restore CA1502
 
@@ -291,20 +291,14 @@ namespace Tgstation.Server.Host.Components
 				postWriteHandler,
 				platformIdentifier,
 				fileTransferService,
+				generalConfigurationOptions,
+				sessionConfigurationOptions,
 				loggerFactory.CreateLogger<StaticFiles.Configuration>(),
-				metadata,
-				generalConfiguration,
-				sessionConfiguration);
+				metadata);
 			var eventConsumer = new EventConsumer(configuration);
 			var repoManager = repositoryManagerFactory.CreateRepositoryManager(repoIoManager, eventConsumer);
 			try
 			{
-				var engineManager = new EngineManager(
-					byondIOManager,
-					engineInstaller,
-					eventConsumer,
-					loggerFactory.CreateLogger<EngineManager>());
-
 				var dmbFactory = new DmbFactory(
 					databaseContextFactory,
 					gameIoManager,
@@ -315,63 +309,30 @@ namespace Tgstation.Server.Host.Components
 					metadata);
 				try
 				{
-					var commandFactory = new CommandFactory(assemblyInformationProvider, engineManager, repoManager, databaseContextFactory, dmbFactory, metadata);
-
-					var chatManager = chatFactory.CreateChatManager(commandFactory, metadata.ChatSettings);
+					var engineManager = new EngineManager(
+						byondIOManager,
+						engineInstaller,
+						eventConsumer,
+						dmbFactory,
+						loggerFactory.CreateLogger<EngineManager>());
 					try
 					{
-						var reattachInfoHandler = new SessionPersistor(
-							databaseContextFactory,
-							dmbFactory,
-							processExecutor,
-							loggerFactory.CreateLogger<SessionPersistor>(),
-							metadata);
+						var commandFactory = new CommandFactory(assemblyInformationProvider, engineManager, repoManager, databaseContextFactory, dmbFactory, metadata);
 
-						var sessionControllerFactory = new SessionControllerFactory(
-							processExecutor,
-							engineManager,
-							topicClientFactory,
-							cryptographySuite,
-							assemblyInformationProvider,
-							gameIoManager,
-							diagnosticsIOManager,
-							chatManager,
-							networkPromptReaper,
-							platformIdentifier,
-							bridgeRegistrar,
-							serverPortProvider,
-							eventConsumer,
-							asyncDelayer,
-							dotnetDumpService,
-							metricFactory,
-							loggerFactory,
-							loggerFactory.CreateLogger<SessionControllerFactory>(),
-							sessionConfiguration,
-							metadata);
-
-						var watchdog = watchdogFactory.CreateWatchdog(
-							chatManager,
-							dmbFactory,
-							reattachInfoHandler,
-							sessionControllerFactory,
-							gameIoManager,
-							diagnosticsIOManager,
-							configuration, // watchdog doesn't need itself as an event consumer
-							remoteDeploymentManagerFactory,
-							metricFactory,
-							metadata,
-							metadata.DreamDaemonSettings!);
+						var chatManager = chatFactory.CreateChatManager(commandFactory, metadata.ChatSettings);
 						try
 						{
-							eventConsumer.SetWatchdog(watchdog);
-							commandFactory.SetWatchdog(watchdog);
+							var reattachInfoHandler = new SessionPersistor(
+								databaseContextFactory,
+								dmbFactory,
+								processExecutor,
+								loggerFactory.CreateLogger<SessionPersistor>(),
+								metadata);
 
-							Instance? instance = null;
 							var dreamMaker = new DreamMaker(
 								engineManager,
 								gameIoManager,
 								configuration,
-								sessionControllerFactory,
 								eventConsumer,
 								chatManager,
 								processExecutor,
@@ -380,36 +341,86 @@ namespace Tgstation.Server.Host.Components
 								remoteDeploymentManagerFactory,
 								asyncDelayer,
 								metricFactory,
+								sessionConfigurationOptions,
 								loggerFactory.CreateLogger<DreamMaker>(),
-								sessionConfiguration,
 								metadata);
 
-							instance = new Instance(
-								metadata,
-								repoManager,
+							var sessionControllerFactory = new SessionControllerFactory(
+								processExecutor,
 								engineManager,
-								dreamMaker,
-								watchdog,
+								topicClientFactory,
+								cryptographySuite,
+								assemblyInformationProvider,
+								gameIoManager,
+								diagnosticsIOManager,
 								chatManager,
-								configuration,
-								dmbFactory,
-								jobManager,
+								networkPromptReaper,
+								platformIdentifier,
+								bridgeRegistrar,
+								serverPortProvider,
 								eventConsumer,
-								remoteDeploymentManagerFactory,
+								jobManager,
+								dreamMaker,
 								asyncDelayer,
-								loggerFactory.CreateLogger<Instance>());
+								dotnetDumpService,
+								metricFactory,
+								loggerFactory,
+								sessionConfigurationOptions,
+								loggerFactory.CreateLogger<SessionControllerFactory>(),
+								metadata);
 
-							return instance;
+							dreamMaker.SetSessionControllerFactory(sessionControllerFactory);
+
+							var watchdog = watchdogFactory.CreateWatchdog(
+								chatManager,
+								dmbFactory,
+								reattachInfoHandler,
+								sessionControllerFactory,
+								gameIoManager,
+								diagnosticsIOManager,
+								configuration, // watchdog doesn't need itself as an event consumer
+								remoteDeploymentManagerFactory,
+								metricFactory,
+								metadata,
+								metadata.DreamDaemonSettings!);
+							try
+							{
+								eventConsumer.SetWatchdog(watchdog);
+								commandFactory.SetWatchdog(watchdog);
+
+								Instance? instance = null;
+								instance = new Instance(
+									metadata,
+									repoManager,
+									engineManager,
+									dreamMaker,
+									watchdog,
+									chatManager,
+									configuration,
+									dmbFactory,
+									jobManager,
+									eventConsumer,
+									remoteDeploymentManagerFactory,
+									asyncDelayer,
+									loggerFactory.CreateLogger<Instance>());
+
+								return instance;
+							}
+							catch
+							{
+								await watchdog.DisposeAsync();
+								throw;
+							}
 						}
 						catch
 						{
-							await watchdog.DisposeAsync();
+							await chatManager.DisposeAsync();
 							throw;
 						}
 					}
 					catch
 					{
-						await chatManager.DisposeAsync();
+						engineManager.Dispose();
 						throw;
 					}
 				}

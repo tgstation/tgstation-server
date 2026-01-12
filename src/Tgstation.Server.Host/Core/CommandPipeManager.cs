@@ -31,21 +31,21 @@ namespace Tgstation.Server.Host.Core
 		readonly IInstanceManager instanceManager;
 
 		/// <summary>
+		/// The <see cref="IOptions{TOptions}"/> of <see cref="InternalConfiguration"/> for the <see cref="CommandPipeManager"/>.
+		/// </summary>
+		readonly IOptions<InternalConfiguration> internalConfigurationOptions;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="CommandPipeManager"/>.
 		/// </summary>
 		readonly ILogger<CommandPipeManager> logger;
-
-		/// <summary>
-		/// The <see cref="InternalConfiguration"/> for the <see cref="CommandPipeManager"/>.
-		/// </summary>
-		readonly InternalConfiguration internalConfiguration;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CommandPipeManager"/> class.
 		/// </summary>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/>.</param>
-		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="internalConfiguration"/>.</param>
+		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="internalConfigurationOptions"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public CommandPipeManager(
 			IServerControl serverControl,
@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Core
 		{
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
-			internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
+			this.internalConfigurationOptions = internalConfigurationOptions ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Core
 			logger.LogTrace("Starting...");
 
 			// grab both pipes asap so we can close them on error
-			var commandPipe = internalConfiguration.CommandPipe;
+			var commandPipe = internalConfigurationOptions.Value.CommandPipe;
 			var supportsPipeCommands = !String.IsNullOrWhiteSpace(commandPipe);
 			await using var commandPipeClient = supportsPipeCommands
 				? new AnonymousPipeClientStream(
@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Core
 			if (!supportsPipeCommands)
 				logger.LogDebug("No command pipe name specified in configuration");
 
-			var readyPipe = internalConfiguration.ReadyPipe;
+			var readyPipe = internalConfigurationOptions.Value.ReadyPipe;
 			var supportsReadyNotification = !String.IsNullOrWhiteSpace(readyPipe);
 			if (supportsReadyNotification)
 			{

@@ -1,5 +1,5 @@
 /world/New()
-	log << "Starting test..."
+	log << "Starting test: [json_encode(params)]"
 	text2file("SUCCESS", "test_success.txt")
 	world.RunTest()
 

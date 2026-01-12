@@ -27,22 +27,22 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <summary>
 		/// The <see cref="UpdatesConfiguration"/> for the <see cref="GitHubServiceFactory"/>.
 		/// </summary>
-		readonly UpdatesConfiguration updatesConfiguration;
+		readonly IOptionsMonitor<UpdatesConfiguration> updatesConfigurationOptions;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GitHubServiceFactory"/> class.
 		/// </summary>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
-		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="updatesConfiguration"/>.</param>
+		/// <param name="updatesConfigurationOptions">The value of <see cref="updatesConfigurationOptions"/>.</param>
 		public GitHubServiceFactory(
 			IGitHubClientFactory gitHubClientFactory,
 			ILoggerFactory loggerFactory,
-			IOptions<UpdatesConfiguration> updatesConfigurationOptions)
+			IOptionsMonitor<UpdatesConfiguration> updatesConfigurationOptions)
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
-			updatesConfiguration = updatesConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
+			this.updatesConfigurationOptions = updatesConfigurationOptions ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -79,6 +79,6 @@ namespace Tgstation.Server.Host.Utils.GitHub
 			=> new(
 				gitHubClient,
 				loggerFactory.CreateLogger<GitHubService>(),
-				updatesConfiguration);
+				updatesConfigurationOptions.CurrentValue);
 	}
 }

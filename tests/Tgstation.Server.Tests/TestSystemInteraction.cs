@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Moq;
 
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
-using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Tests
 {
@@ -29,7 +28,16 @@ namespace Tgstation.Server.Tests
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				loggerFactory);
 
-			await using var process = await processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", string.Empty, CancellationToken.None, null, null, true, true);
+			await using var process = await processExecutor.LaunchProcess(
+				"test." + platformIdentifier.ScriptFileExtension,
+				".",
+				String.Empty,
+				CancellationToken.None,
+				null,
+				null,
+				true,
+				true,
+				false);
 			using var cts = new CancellationTokenSource();
 			cts.CancelAfter(3000);
 			var exitCode = await process.Lifetime.WaitAsync(cts.Token);
@@ -64,7 +72,16 @@ namespace Tgstation.Server.Tests
 				File.Delete(tempFile);
 				try
 				{
-					await using (var process = await processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", string.Empty, CancellationToken.None, null, tempFile, true, true))
+					await using (var process = await processExecutor.LaunchProcess(
+						"test." + platformIdentifier.ScriptFileExtension,
+						".",
+						string.Empty,
+						CancellationToken.None,
+						null,
+						tempFile,
+						true,
+						true,
+						false))
 					{
 						using var cts = new CancellationTokenSource();
 						cts.CancelAfter(3000);

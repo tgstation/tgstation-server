@@ -169,6 +169,7 @@ The following dependencies are required.
 - aspnetcore-runtime-8.0 (See Prerequisites under the `Ubuntu/Debian Package` section)
 - libc6-i386
 - libstdc++6:i386
+- libcurl4:i386
 - gcc-multilib (Only on 64-bit systems)
 - gdb (for using gcore to create core dumps)
 
@@ -320,12 +321,6 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 - `Swarm:Identifier`: Must be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.
 
 - `Swarm:UpdateRequiredNodeCount`: Should be set to the total number of servers in your swarm minus 1. Prevents updates from occurring unless the non-controller server count in the swarm is greater than or equal to this value.
-
-- `Telemetry:DisableVersionReporting`: Prevents you installation and the version you're using from being reported on the source repository's deployments list
-
-- `Telemetry:ServerFriendlyName`: Prevents anonymous TGS version usage statistics from being sent to be displayed on the repository.
-
-- `Telemetry:VersionReportingRepositoryId`: The repository telemetry is sent to. For security reasons, this is not the main TGS repo. See the [tgstation-server-deployments](https://github.com/tgstation/tgstation-server-deployments) repository for more information.
 
 #### OAuth Configuration
 
