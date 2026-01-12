@@ -53,10 +53,10 @@ vTdVAoGBAI/jjUMdjkY43zhe3w2piwT0fhGfqm9ikdAB9IcgcptuS0ML0ZaWV/eO
 0+rEPfoEdN+gHI+3w7N6owFmir7Wdz0VK9K8OxsjMLshW3sRlphg
 -----END RSA PRIVATE KEY-----";
 
-		static ILoggerFactory loggerFactory;
+		ILoggerFactory loggerFactory;
 
-		[ClassInitialize]
-		public static void Initialize(TestContext _)
+		[TestInitialize]
+		public void Initialize()
 		{
 			loggerFactory = LoggerFactory.Create(builder =>
 			{
@@ -65,8 +65,8 @@ vTdVAoGBAI/jjUMdjkY43zhe3w2piwT0fhGfqm9ikdAB9IcgcptuS0ML0ZaWV/eO
 			});
 		}
 
-		[ClassCleanup]
-		public static void Cleanup()
+		[TestCleanup]
+		public void Cleanup()
 		{
 			loggerFactory.Dispose();
 		}
