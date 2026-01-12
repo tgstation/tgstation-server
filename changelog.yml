@@ -17,7 +17,6 @@ Components:
       - The `Telemetry` section has been removed.
       Author: Cyberboss
       PullRequest: 2326
-    Unreleased: true
   - Version: 5.8.0
     Changes:
     - Descriptions:
@@ -239,6 +238,14 @@ Components:
       Author: Cyberboss
       PullRequest: 2212
     Unreleased: true
+  - Version: 6.20.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.19.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.19.0
     ComponentVersions:
       HttpApi: 10.14.0
@@ -272,25 +279,6 @@ Components:
       - Added repository credentials to `RepoFetch` event script if present. They will not be logged.
       Author: Cyberboss
       PullRequest: 2409
-    Unreleased: true
-  - Version: 6.18.2
-    ComponentVersions:
-      HttpApi: 10.13.0
-      GraphQLApi: 0.6.0
-      DreamMakerApi: 7.3.3
-      Configuration: 5.8.0
-      InteropApi: 5.10.1
-      HostWatchdog: 1.6.0
-      NugetCommon: 7.0.0
-      NugetApi: 18.0.0
-      NugetClient: 21.0.0
-      WebControlPanel: 6.10.0
-    Changes:
-    - Descriptions:
-      - Fixed libcurl support on nix installs.
-      Author: Cyberboss
-      PullRequest: 2401
-    Unreleased: true
   - Version: 6.18.1
     ComponentVersions:
       Core: 6.18.1
@@ -5006,7 +4994,6 @@ Components:
       - You can now trigger a TGS deployment with `/world/proc/TriggerTgsDeployment()`.
       Author: Cyberboss
       PullRequest: 2409
-    Unreleased: true
   - Version: 7.3.1
     Changes:
     - Descriptions:
@@ -5298,16 +5285,13 @@ Components:
   - Version: 18.2.0
     Changes:
     - Descriptions:
-      - Added `DreamDaemonApiBase.WorldIteration`.
-      Author: Cyberboss
-      PullRequest: 2317
-    Unreleased: true
-  - Version: 18.1.0
-    Changes:
-    - Descriptions:
       - Adjusted the message for `ErrorCode.WatchdogNotRunning`.
       Author: Cyberboss
       PullRequest: 2311
+    - Descriptions:
+      - Added `DreamDaemonApiBase.WorldIteration`.
+      Author: Cyberboss
+      PullRequest: 2317
     Unreleased: true
   - Version: 13.5.0
     Changes:
@@ -5396,14 +5380,11 @@ Components:
   - Version: 21.2.0
     Changes:
     - Descriptions:
-      - Updated API library to v18.2.0.
-      Author: Cyberboss
-      PullRequest: 2317
-    Unreleased: true
-  - Version: 21.1.0
-    Changes:
-    - Descriptions:
       - Updated API library version to 18.1.0.
       Author: Cyberboss
       PullRequest: 2311
+    - Descriptions:
+      - Updated API library to v18.2.0.
+      Author: Cyberboss
+      PullRequest: 2317
     Unreleased: true
