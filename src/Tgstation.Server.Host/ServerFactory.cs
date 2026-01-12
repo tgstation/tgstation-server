@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -93,6 +94,11 @@ namespace Tgstation.Server.Host
 			IHostBuilder CreateDefaultBuilder() => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
 				.ConfigureAppConfiguration((context, builder) =>
 				{
+					// MSTEST WHEN DID YOU START DOING THIS???
+					for (int i = builder.Sources.Count - 1; i >= 0; --i)
+						if (builder.Sources[i] is JsonConfigurationSource jsonConfiguration && (jsonConfiguration.Path?.StartsWith("testhost.") ?? false))
+							builder.Sources.RemoveAt(i);
+
 					builder.SetBasePath(basePath);
 
 					builder.AddYamlFile($"{AppSettings}.yml", optional: true, reloadOnChange: false)
