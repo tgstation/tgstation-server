@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Net;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -93,6 +95,15 @@ namespace Tgstation.Server.Host
 			IHostBuilder CreateDefaultBuilder() => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
 				.ConfigureAppConfiguration((context, builder) =>
 				{
+					// MS WHEN DID YOU START DOING THIS???
+					for (int i = builder.Sources.Count - 1; i >= 0; --i)
+						if (builder.Sources[i] is JsonConfigurationSource jsonConfiguration
+						&& ((jsonConfiguration.Path?.StartsWith("testhost.") ?? false) || (jsonConfiguration.Path?.StartsWith("Tgstation.Server.Host.") ?? false)))
+							builder.Sources.RemoveAt(i);
+
+					bool hasArgs = args.Length != 0;
+					Trace.Assert(builder.Sources.Count == (hasArgs ? 5 : 4), "Mismatch in expected config layout!");
+
 					builder.SetBasePath(basePath);
 
 					builder.AddYamlFile($"{AppSettings}.yml", optional: true, reloadOnChange: false)
@@ -110,7 +121,7 @@ namespace Tgstation.Server.Host
 #endif
 					IConfigurationSource? cmdLineConfig;
 					IConfigurationSource baseYmlConfig, environmentYmlConfig;
-					if (args.Length == 0)
+					if (!hasArgs)
 					{
 						cmdLineConfig = null;
 						baseYmlConfig = builder.Sources[4];
@@ -129,9 +140,7 @@ namespace Tgstation.Server.Host
 					builder.Sources[5] = envConfig;
 
 					if (cmdLineConfig != null)
-					{
 						builder.Sources[6] = cmdLineConfig;
-					}
 				});
 
 			var setupWizardHostBuilder = CreateDefaultBuilder()

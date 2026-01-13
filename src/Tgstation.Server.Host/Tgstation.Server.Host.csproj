@@ -4,7 +4,6 @@
   <PropertyGroup>
     <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
-    <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <UseAppHost>false</UseAppHost>
     <NoWarn>API1000;ASP0019;CA1000</NoWarn>
     <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
@@ -68,85 +67,85 @@
 
   <ItemGroup>
     <!-- Usage: Interop with BYOND's /world/Topic -->
-    <PackageReference Include="Byond.TopicSender" Version="8.0.1" />
+    <PackageReference Include="Byond.TopicSender" />
     <!-- Usage: 503'ing request pipeline until server is finished initializing -->
-    <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.2.0" />
+    <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" />
     <!-- Usage: IRC interop -->
-    <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="1.0.0" />
+    <PackageReference Include="Cyberboss.SmartIrc4net.Standard" />
     <!-- Usage: .env file parsing -->
-    <PackageReference Include="DotEnv.Core" Version="3.1.0" />
+    <PackageReference Include="DotEnv.Core" />
     <!-- Usage: Text formatter for Elasticsearch logging plugin -->
-    <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.18.2" />
+    <PackageReference Include="Elastic.CommonSchema.Serilog" />
     <!-- Usage: Swarm API implemented in gRPC -->
-    <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
+    <PackageReference Include="Grpc.AspNetCore" />
     <!-- Usage: GraphQL API Engine -->
-    <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.8" />
+    <PackageReference Include="HotChocolate.AspNetCore" />
     <!-- Usage: GraphQL Authorization Plugin -->
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.1.8" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" />
     <!-- Usage: GraphQL IDatabaseContext support -->
-    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="15.1.8" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" />
     <!-- Usage: DataLoader source generation -->
-    <PackageReference Include="HotChocolate.Types.Analyzers" Version="15.1.8" />
+    <PackageReference Include="HotChocolate.Types.Analyzers" />
     <!-- Usage: GraphQL additional scalar type definitions -->
-    <PackageReference Include="HotChocolate.Types.Scalars" Version="15.1.8" />
+    <PackageReference Include="HotChocolate.Types.Scalars" />
     <!-- Usage: git interop -->
-    <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
+    <PackageReference Include="LibGit2Sharp" />
     <!-- Usage: OpenID Connect support -->
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
     <!-- Usage: Using target JSON serializer for API -->
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" />
     <!-- Usage: Generating dumps of dotnet engine processes -->
-    <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.621003" />
+    <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" />
     <!-- Usage: Database ORM -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <!-- Usage: Automatic migration generation using command line -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <!-- Usage: Sqlite ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
     <!-- Usage: MSSQL ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
     <!-- Usage: Database connectivity health check -->
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
     <!-- Usage: OIDC support prerequisite. See https://stackoverflow.com/a/78650835/3976486 -->
-    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.13.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" />
     <!-- Usage: POSIX support for syscalls, signals, and symlinks -->
-    <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
+    <PackageReference Include="Mono.Posix.NETStandard" />
     <!-- Usage: Cron string parsing -->
-    <PackageReference Include="NCrontab.Signed" Version="3.3.3" />
+    <PackageReference Include="NCrontab.Signed" />
     <!-- Usage: YAML config plugin -->
-    <PackageReference Include="NetEscapades.Configuration.Yaml" Version="3.1.0" />
+    <PackageReference Include="NetEscapades.Configuration.Yaml" />
     <!-- Usage: PostgresSQL ORM plugin -->
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-preview.3.efcore.9.0.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" />
     <!-- Usage: Publishing Prometheus metrics -->
-    <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" Version="8.2.1" />
+    <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" />
     <!-- Usage: Discord interop -->
-    <PackageReference Include="Remora.Discord" Version="2025.2.0" />
+    <PackageReference Include="Remora.Discord" />
     <!-- Usage: Rich logger builder -->
-    <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.2" />
+    <PackageReference Include="Serilog.Extensions.Logging" />
     <!-- Usage: Async logging plugin -->
-    <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
+    <PackageReference Include="Serilog.Sinks.Async" />
     <!-- Usage: Console logging plugin -->
-    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" />
     <!-- Usage: Elasticsearch logging plugin -->
-    <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="10.0.0" />
+    <PackageReference Include="Serilog.Sinks.Elasticsearch" />
     <!-- Usage: File logging plugin -->
-    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" />
     <!-- Usage: OpenAPI spec generator -->
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="9.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" />
     <!-- Usage: Filesystem abstraction -->
-    <PackageReference Include="System.IO.Abstractions" Version="22.0.15" />
+    <PackageReference Include="System.IO.Abstractions" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
-    <PackageReference Include="System.Management" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="System.Management" />
   </ItemGroup>
 
   <ItemGroup>
