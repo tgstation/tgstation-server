@@ -1776,7 +1776,7 @@ jobs:
       - name: Setup Release Artifacts
         run: |
           mkdir release_assets
-          cp ./swaggger/tgs_api.json ./release_assets/swagger.json
+          cp ./swagger/tgs_api.json ./release_assets/swagger.json
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b
