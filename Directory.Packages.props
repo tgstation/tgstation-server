@@ -32,11 +32,11 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.19" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.Systemd" Version="9.0.8" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.WindowsServices" Version="9.0.8" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.2" />
     <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.8" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="9.0.8" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.EventLog" Version="9.0.8" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.EventLog" Version="10.0.2" />
     <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.14.0" />
     <PackageVersion Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.14.0" />
     <PackageVersion Include="MSTest.TestAdapter" Version="3.10.3" />
@@ -71,7 +71,7 @@
     <PackageVersion Include="System.Management" Version="9.0.8" />
     <PackageVersion Include="System.Private.Uri" Version="4.3.2" />
     <PackageVersion Include="System.Runtime.InteropServices" Version="4.3.0" />
-    <PackageVersion Include="System.ServiceProcess.ServiceController" Version="9.0.8" />
+    <PackageVersion Include="System.ServiceProcess.ServiceController" Version="10.0.2" />
     <PackageVersion Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
     <PackageVersion Include="WixToolset.Bal.wixext" Version="5.0.2" />
     <PackageVersion Include="WixToolset.Dtf.CustomAction" Version="5.0.2" />
