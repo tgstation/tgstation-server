@@ -243,8 +243,23 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 6.19.1
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.14.0
+      GraphQLApi: 0.7.0
+      DreamMakerApi: 7.4.0
+      Configuration: 5.9.0
+      InteropApi: 5.11.0
+      HostWatchdog: 1.6.0
+      NugetCommon: 7.0.0
+      NugetApi: 18.2.0
+      NugetClient: 21.2.0
+      WebControlPanel: 6.10.0
+    Changes:
+    - Descriptions:
+      - Fixed issues with performing git operations on private repositories using GitHub App authentication.
+      - Fixed RepoFetch event scripts being called with the TGS internal representation of GitHub private keys instead of a valid access token when app authentication was in use.
+      Author: Cyberboss
+      PullRequest: 2421
     Unreleased: true
   - Version: 6.19.0
     ComponentVersions:

@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.19.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.19.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -143,17 +143,19 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
   <br /></td></tr>
 <tr class="separator:ac40ab8e01d38e4283f2b108b6cf3d4e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bdddd625e461b2239bb5e59cfca28c0" id="r_a1bdddd625e461b2239bb5e59cfca28c0"><td class="memItemLeft" align="right" valign="top">CredentialsHandler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a1bdddd625e461b2239bb5e59cfca28c0">GenerateCredentialsHandler</a> (string? username, string? password)</td></tr>
-<tr class="memdesc:a1bdddd625e461b2239bb5e59cfca28c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a CredentialsHandler from a given <em>username</em>  and <em>password</em> .<dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a3f1f6d828daa87d7948b1b542a39444c" id="r_a3f1f6d828daa87d7948b1b542a39444c"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; CredentialsHandler &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a3f1f6d828daa87d7948b1b542a39444c">GenerateCredentialsHandler</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html">IGitRemoteFeatures</a> gitRemoteFeatures, string? username, string? password, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a3f1f6d828daa87d7948b1b542a39444c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a CredentialsHandler from a given <em>username</em>  and <em>password</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">remoteFeatures</td><td>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html" title="Provides features for remote git services.">IGitRemoteFeatures</a> for the repository in question.</td></tr>
     <tr><td class="paramname">username</td><td>The optional username to use in the CredentialsHandler.</td></tr>
     <tr><td class="paramname">password</td><td>The optional password to use in the CredentialsHandler.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A new CredentialsHandler.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new CredentialsHandler.</dd></dl>
   <br /></td></tr>
-<tr class="separator:a1bdddd625e461b2239bb5e59cfca28c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a3f1f6d828daa87d7948b1b542a39444c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afaf5b1d3a64659bcfc1dfb60038b9d0f" id="r_afaf5b1d3a64659bcfc1dfb60038b9d0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#afaf5b1d3a64659bcfc1dfb60038b9d0f">CheckBadCredentialsException</a> (LibGit2SharpException exception)</td></tr>
 <tr class="memdesc:afaf5b1d3a64659bcfc1dfb60038b9d0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rethrow the authentication failure message as a JobException if it is one.<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -172,7 +174,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00016">16</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00017">17</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a98d05c01964113e38a0662bc3f45854b" name="a98d05c01964113e38a0662bc3f45854b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a98d05c01964113e38a0662bc3f45854b">&#9670;&#160;</a></span>LibGit2RepositoryFactory()</h2>
@@ -198,13 +200,13 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00027">27</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   28</span>        {</div>
-<div class="line"><span class="lineno">   29</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a>));</div>
-<div class="line"><span class="lineno">   30</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_html_a0459148f90ada2863ee586bb9ff43351"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a></div><div class="ttdeci">readonly ILogger&lt; LibGit2RepositoryFactory &gt; logger</div><div class="ttdoc">The ILogger for the LibGit2RepositoryFactory.</div><div class="ttdef"><b>Definition</b> <a href="_lib_git2_repository_factory_8cs_source.html#l00021">LibGit2RepositoryFactory.cs:21</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00028">28</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   29</span>        {</div>
+<div class="line"><span class="lineno">   30</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a>));</div>
+<div class="line"><span class="lineno">   31</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_html_a0459148f90ada2863ee586bb9ff43351"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a></div><div class="ttdeci">readonly ILogger&lt; LibGit2RepositoryFactory &gt; logger</div><div class="ttdoc">The ILogger for the LibGit2RepositoryFactory.</div><div class="ttdef"><b>Definition</b> <a href="_lib_git2_repository_factory_8cs_source.html#l00022">LibGit2RepositoryFactory.cs:22</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00021">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a>.</p>
+<p class="reference">References <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00022">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a>.</p>
 
 </div>
 </div>
@@ -235,27 +237,27 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#adadfc1a59c4a3f30bc795c43b3c6fa42">Tgstation.Server.Host.Components.Repository.ICredentialsProvider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00111">111</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  112</span>        {</div>
-<div class="line"><span class="lineno">  113</span>            ArgumentNullException.ThrowIfNull(exception);</div>
-<div class="line"><span class="lineno">  114</span> </div>
-<div class="line"><span class="lineno">  115</span>            <span class="keywordflow">if</span> (exception.Message == <span class="stringliteral">&quot;too many redirects or authentication replays&quot;</span>)</div>
-<div class="line"><span class="lineno">  116</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<span class="stringliteral">&quot;Bad git credentials exchange!&quot;</span>, exception);</div>
-<div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span>            <span class="keywordflow">if</span> (exception.Message == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoCredentialsRequired.Describe())</div>
-<div class="line"><span class="lineno">  119</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoCredentialsRequired);</div>
-<div class="line"><span class="lineno">  120</span> </div>
-<div class="line"><span class="lineno">  121</span>            <span class="comment">// submodule recursion</span></div>
-<div class="line"><span class="lineno">  122</span>            <span class="keywordflow">if</span> (exception.InnerException is LibGit2SharpException innerException)</div>
-<div class="line"><span class="lineno">  123</span>                <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#afaf5b1d3a64659bcfc1dfb60038b9d0f">CheckBadCredentialsException</a>(innerException);</div>
-<div class="line"><span class="lineno">  124</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_html_afaf5b1d3a64659bcfc1dfb60038b9d0f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#afaf5b1d3a64659bcfc1dfb60038b9d0f">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException</a></div><div class="ttdeci">void CheckBadCredentialsException(LibGit2SharpException exception)</div><div class="ttdoc">Rethrow the authentication failure message as a JobException if it is one.</div><div class="ttdef"><b>Definition</b> <a href="_lib_git2_repository_factory_8cs_source.html#l00111">LibGit2RepositoryFactory.cs:111</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00118">118</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  119</span>        {</div>
+<div class="line"><span class="lineno">  120</span>            ArgumentNullException.ThrowIfNull(exception);</div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  122</span>            <span class="keywordflow">if</span> (exception.Message == <span class="stringliteral">&quot;too many redirects or authentication replays&quot;</span>)</div>
+<div class="line"><span class="lineno">  123</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<span class="stringliteral">&quot;Bad git credentials exchange!&quot;</span>, exception);</div>
+<div class="line"><span class="lineno">  124</span> </div>
+<div class="line"><span class="lineno">  125</span>            <span class="keywordflow">if</span> (exception.Message == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoCredentialsRequired.Describe())</div>
+<div class="line"><span class="lineno">  126</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoCredentialsRequired);</div>
+<div class="line"><span class="lineno">  127</span> </div>
+<div class="line"><span class="lineno">  128</span>            <span class="comment">// submodule recursion</span></div>
+<div class="line"><span class="lineno">  129</span>            <span class="keywordflow">if</span> (exception.InnerException is LibGit2SharpException innerException)</div>
+<div class="line"><span class="lineno">  130</span>                <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#afaf5b1d3a64659bcfc1dfb60038b9d0f">CheckBadCredentialsException</a>(innerException);</div>
+<div class="line"><span class="lineno">  131</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_html_afaf5b1d3a64659bcfc1dfb60038b9d0f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#afaf5b1d3a64659bcfc1dfb60038b9d0f">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException</a></div><div class="ttdeci">void CheckBadCredentialsException(LibGit2SharpException exception)</div><div class="ttdoc">Rethrow the authentication failure message as a JobException if it is one.</div><div class="ttdef"><b>Definition</b> <a href="_lib_git2_repository_factory_8cs_source.html#l00118">LibGit2RepositoryFactory.cs:118</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">Tgstation.Server.Host.Jobs.JobException</a></div><div class="ttdoc">Operation exceptions thrown from the context of a Models.Job.</div><div class="ttdef"><b>Definition</b> <a href="_job_exception_8cs_source.html#l00010">JobException.cs:11</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition</b> <a href="_error_code_8cs_source.html#l00011">ErrorCode.cs:12</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00111">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException()</a>.</p>
+<p class="reference">References <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00118">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00111">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.Clone()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00118">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.Clone()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -331,7 +333,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a0a6ed81450e50013e2ec1bae65e5f8cb">Tgstation.Server.Host.Components.Repository.ILibGit2RepositoryFactory</a>.</p>
 
-<p class="reference">References <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00111">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException()</a>, and <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00021">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a>.</p>
+<p class="reference">References <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00118">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException()</a>, and <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00022">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -384,26 +386,26 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa2a092f96f2408453c2a1b5d5b0a4f30">Tgstation.Server.Host.Components.Repository.ILibGit2RepositoryFactory</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00041">41</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   42</span>        {</div>
-<div class="line"><span class="lineno">   43</span>            ArgumentNullException.ThrowIfNull(path);</div>
-<div class="line"><span class="lineno">   44</span> </div>
-<div class="line"><span class="lineno">   45</span>            var repo = await Task.Factory.StartNew&lt;LibGit2Sharp.IRepository&gt;(</div>
-<div class="line"><span class="lineno">   46</span>                () =&gt;</div>
-<div class="line"><span class="lineno">   47</span>                {</div>
-<div class="line"><span class="lineno">   48</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a>.LogTrace(<span class="stringliteral">&quot;Creating libgit2 repository at {repoPath}...&quot;</span>, path);</div>
-<div class="line"><span class="lineno">   49</span>                    <span class="keywordflow">return</span> <span class="keyword">new</span> LibGit2Sharp.Repository(path);</div>
-<div class="line"><span class="lineno">   50</span>                },</div>
-<div class="line"><span class="lineno">   51</span>                cancellationToken,</div>
-<div class="line"><span class="lineno">   52</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">DefaultIOManager</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">BlockingTaskCreationOptions</a>,</div>
-<div class="line"><span class="lineno">   53</span>                TaskScheduler.Current);</div>
-<div class="line"><span class="lineno">   54</span> </div>
-<div class="line"><span class="lineno">   55</span>            <span class="keywordflow">return</span> repo;</div>
-<div class="line"><span class="lineno">   56</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00042">42</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>        {</div>
+<div class="line"><span class="lineno">   44</span>            ArgumentNullException.ThrowIfNull(path);</div>
+<div class="line"><span class="lineno">   45</span> </div>
+<div class="line"><span class="lineno">   46</span>            var repo = await Task.Factory.StartNew&lt;LibGit2Sharp.IRepository&gt;(</div>
+<div class="line"><span class="lineno">   47</span>                () =&gt;</div>
+<div class="line"><span class="lineno">   48</span>                {</div>
+<div class="line"><span class="lineno">   49</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a>.LogTrace(<span class="stringliteral">&quot;Creating libgit2 repository at {repoPath}...&quot;</span>, path);</div>
+<div class="line"><span class="lineno">   50</span>                    <span class="keywordflow">return</span> <span class="keyword">new</span> LibGit2Sharp.Repository(path);</div>
+<div class="line"><span class="lineno">   51</span>                },</div>
+<div class="line"><span class="lineno">   52</span>                cancellationToken,</div>
+<div class="line"><span class="lineno">   53</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">DefaultIOManager</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">BlockingTaskCreationOptions</a>,</div>
+<div class="line"><span class="lineno">   54</span>                TaskScheduler.Current);</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span>            <span class="keywordflow">return</span> repo;</div>
+<div class="line"><span class="lineno">   57</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">Tgstation.Server.Host.IO.DefaultIOManager</a></div><div class="ttdoc">IIOManager that resolves paths to Environment.CurrentDirectory.</div><div class="ttdef"><b>Definition</b> <a href="_default_i_o_manager_8cs_source.html#l00018">DefaultIOManager.cs:19</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_ac6dfeef4e622bb46047169215099995d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">Tgstation.Server.Host.IO.DefaultIOManager.BlockingTaskCreationOptions</a></div><div class="ttdeci">const TaskCreationOptions BlockingTaskCreationOptions</div><div class="ttdoc">The TaskCreationOptions used to spawn Tasks for potentially long running, blocking operations.</div><div class="ttdef"><b>Definition</b> <a href="_default_i_o_manager_8cs_source.html#l00033">DefaultIOManager.cs:33</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_default_i_o_manager_8cs_source.html#l00033">Tgstation.Server.Host.IO.DefaultIOManager.BlockingTaskCreationOptions</a>, and <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00021">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a>.</p>
+<p class="reference">References <a class="el" href="_default_i_o_manager_8cs_source.html#l00033">Tgstation.Server.Host.IO.DefaultIOManager.BlockingTaskCreationOptions</a>, and <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00022">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a>.</p>
 
 </div>
 </div>
@@ -426,26 +428,32 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a456a4c98f9b668fe2cba461351d6eb95">Tgstation.Server.Host.Components.Repository.ILibGit2RepositoryFactory</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00033">33</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   34</span>        {</div>
-<div class="line"><span class="lineno">   35</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a>.LogTrace(<span class="stringliteral">&quot;Creating in-memory libgit2 repository...&quot;</span>);</div>
-<div class="line"><span class="lineno">   36</span>            <span class="keyword">using</span> (<span class="keyword">new</span> LibGit2Sharp.Repository())</div>
-<div class="line"><span class="lineno">   37</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a>.LogTrace(<span class="stringliteral">&quot;Success&quot;</span>);</div>
-<div class="line"><span class="lineno">   38</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00034">34</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>        {</div>
+<div class="line"><span class="lineno">   36</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a>.LogTrace(<span class="stringliteral">&quot;Creating in-memory libgit2 repository...&quot;</span>);</div>
+<div class="line"><span class="lineno">   37</span>            <span class="keyword">using</span> (<span class="keyword">new</span> LibGit2Sharp.Repository())</div>
+<div class="line"><span class="lineno">   38</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a>.LogTrace(<span class="stringliteral">&quot;Success&quot;</span>);</div>
+<div class="line"><span class="lineno">   39</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00021">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a>.</p>
+<p class="reference">References <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00022">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a>.</p>
 
 </div>
 </div>
-<a id="a1bdddd625e461b2239bb5e59cfca28c0" name="a1bdddd625e461b2239bb5e59cfca28c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1bdddd625e461b2239bb5e59cfca28c0">&#9670;&#160;</a></span>GenerateCredentialsHandler()</h2>
+<a id="a3f1f6d828daa87d7948b1b542a39444c" name="a3f1f6d828daa87d7948b1b542a39444c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f1f6d828daa87d7948b1b542a39444c">&#9670;&#160;</a></span>GenerateCredentialsHandler()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">CredentialsHandler Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.GenerateCredentialsHandler </td>
+          <td class="memname">async ValueTask&lt; CredentialsHandler &gt; Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.GenerateCredentialsHandler </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html">IGitRemoteFeatures</a>&#160;</td>
+          <td class="paramname"><em>gitRemoteFeatures</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">string?&#160;</td>
           <td class="paramname"><em>username</em>, </td>
         </tr>
@@ -453,7 +461,13 @@ Here is the call graph for this function:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">string?&#160;</td>
-          <td class="paramname"><em>password</em>&#160;</td>
+          <td class="paramname"><em>password</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -465,17 +479,62 @@ Here is the call graph for this function:</div>
 
 <p>Generate a CredentialsHandler from a given <em>username</em>  and <em>password</em> .<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">remoteFeatures</td><td>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html" title="Provides features for remote git services.">IGitRemoteFeatures</a> for the repository in question.</td></tr>
     <tr><td class="paramname">username</td><td>The optional username to use in the CredentialsHandler.</td></tr>
     <tr><td class="paramname">password</td><td>The optional password to use in the CredentialsHandler.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A new CredentialsHandler.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new CredentialsHandler.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a26b24a1c8a29d90d03abdb627eb24635">Tgstation.Server.Host.Components.Repository.ICredentialsProvider</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a7f4eef18199d100a402911f095eaa933">Tgstation.Server.Host.Components.Repository.ICredentialsProvider</a>.</p>
 
-<p class="reference">References <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00021">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00084">84</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   85</span>        {</div>
+<div class="line"><span class="lineno">   86</span>            ArgumentNullException.ThrowIfNull(gitRemoteFeatures);</div>
+<div class="line"><span class="lineno">   87</span> </div>
+<div class="line"><span class="lineno">   88</span>            var transformedPassword = await gitRemoteFeatures.TransformRepositoryPassword(password, cancellationToken);</div>
+<div class="line"><span class="lineno">   89</span>            <span class="keywordflow">return</span> (a, b, supportedCredentialTypes) =&gt;</div>
+<div class="line"><span class="lineno">   90</span>            {</div>
+<div class="line"><span class="lineno">   91</span>                var hasCreds = username != <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   92</span>                var supportsUserPass = supportedCredentialTypes.HasFlag(SupportedCredentialTypes.UsernamePassword);</div>
+<div class="line"><span class="lineno">   93</span>                var supportsAnonymous = supportedCredentialTypes.HasFlag(SupportedCredentialTypes.Default);</div>
+<div class="line"><span class="lineno">   94</span> </div>
+<div class="line"><span class="lineno">   95</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a>.LogTrace(</div>
+<div class="line"><span class="lineno">   96</span>                    <span class="stringliteral">&quot;Credentials requested. Present: {credentialsPresent}. Supports anonymous: {credentialsSupportAnon}. Supports user/pass: {credentialsSupportUserPass}&quot;</span>,</div>
+<div class="line"><span class="lineno">   97</span>                    hasCreds,</div>
+<div class="line"><span class="lineno">   98</span>                    supportsAnonymous,</div>
+<div class="line"><span class="lineno">   99</span>                    supportsUserPass);</div>
+<div class="line"><span class="lineno">  100</span>                <span class="keywordflow">if</span> (supportsUserPass &amp;&amp; hasCreds)</div>
+<div class="line"><span class="lineno">  101</span>                    <span class="keywordflow">return</span> <span class="keyword">new</span> UsernamePasswordCredentials</div>
+<div class="line"><span class="lineno">  102</span>                    {</div>
+<div class="line"><span class="lineno">  103</span>                        Username = username,</div>
+<div class="line"><span class="lineno">  104</span>                        Password = transformedPassword,</div>
+<div class="line"><span class="lineno">  105</span>                    };</div>
+<div class="line"><span class="lineno">  106</span> </div>
+<div class="line"><span class="lineno">  107</span>                <span class="keywordflow">if</span> (supportsAnonymous)</div>
+<div class="line"><span class="lineno">  108</span>                    <span class="keywordflow">return</span> <span class="keyword">new</span> DefaultCredentials();</div>
+<div class="line"><span class="lineno">  109</span> </div>
+<div class="line"><span class="lineno">  110</span>                <span class="keywordflow">if</span> (supportsUserPass)</div>
+<div class="line"><span class="lineno">  111</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoCredentialsRequired);</div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoCannotAuthenticate);</div>
+<div class="line"><span class="lineno">  114</span>            };</div>
+<div class="line"><span class="lineno">  115</span>        }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00022">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html#a15275d5f03148e987240608a9005c4db">Tgstation.Server.Host.Components.Repository.IGitRemoteFeatures.TransformRepositoryPassword()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_a3f1f6d828daa87d7948b1b542a39444c_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_a3f1f6d828daa87d7948b1b542a39444c_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_a3f1f6d828daa87d7948b1b542a39444c_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_a3f1f6d828daa87d7948b1b542a39444c_cgraph">
+<area shape="rect" title="Generate a CredentialsHandler from a given username &#160;and password .A ValueTask&lt;TResult&gt; resulting in ..." alt="" coords="5,5,240,61"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html#a15275d5f03148e987240608a9005c4db" title="Transform a service&#39;s rawPassword &#160;into a password usable by git." alt="" coords="288,5,552,61"/>
+<area shape="poly" title=" " alt="" coords="240,31,272,31,272,36,240,36"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -502,9 +561,9 @@ Here is the call graph for this function:</div>
 
 <p>The ILogger for the LibGit2RepositoryFactory. </p>
 
-<p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00021">21</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00022">22</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.Clone()</a>, <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00041">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CreateFromPath()</a>, <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00033">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CreateInMemory()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a1bdddd625e461b2239bb5e59cfca28c0">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.GenerateCredentialsHandler()</a>, and <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00027">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.LibGit2RepositoryFactory()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.Clone()</a>, <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00042">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CreateFromPath()</a>, <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00034">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CreateInMemory()</a>, <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00084">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.GenerateCredentialsHandler()</a>, and <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00028">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.LibGit2RepositoryFactory()</a>.</p>
 
 </div>
 </div>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.TransformRepositoryPassword" name="Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.TransformRepositoryPassword">
+<area shape="rect" id="Node000001" title="Transform a service&#39;s rawPassword &#160;into a password usable by git.A ValueTask&lt;TResult&gt; resulting in th..." alt="" coords="5,5,290,61"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9" title="Create a IGitHubService." alt="" coords="338,5,576,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="290,31,322,31,322,36,290,36"/>
+</map>

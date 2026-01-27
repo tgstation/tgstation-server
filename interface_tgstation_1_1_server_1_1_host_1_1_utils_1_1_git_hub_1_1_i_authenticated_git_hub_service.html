@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.19.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.19.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -108,6 +108,9 @@ Collaboration diagram for Tgstation.Server.Host.Utils.GitHub.IAuthenticatedGitHu
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a438b060b1d0dc692e4f1e5610c8a9f44" id="r_a438b060b1d0dc692e4f1e5610c8a9f44"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a438b060b1d0dc692e4f1e5610c8a9f44">GetGitPassword</a> ()</td></tr>
+<tr class="memdesc:a438b060b1d0dc692e4f1e5610c8a9f44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the password to use for accessing a given repository.  <br /></td></tr>
+<tr class="separator:a438b060b1d0dc692e4f1e5610c8a9f44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae02758afd50df9fb00d4ebdd2639d620" id="r_ae02758afd50df9fb00d4ebdd2639d620"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#ae02758afd50df9fb00d4ebdd2639d620">CommentOnIssue</a> (string repoOwner, string repoName, string comment, int issueNumber, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ae02758afd50df9fb00d4ebdd2639d620"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a comment on a given <em>issueNumber</em> .  <br /></td></tr>
 <tr class="separator:ae02758afd50df9fb00d4ebdd2639d620"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -527,6 +530,28 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; of an existing comment if its currently under 250k characters, otherwise the IssueComment will be null.</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a537ff29f54ba1d95993aa667cf767dab">Tgstation.Server.Host.Utils.GitHub.GitHubService</a>.</p>
+
+</div>
+</div>
+<a id="a438b060b1d0dc692e4f1e5610c8a9f44" name="a438b060b1d0dc692e4f1e5610c8a9f44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a438b060b1d0dc692e4f1e5610c8a9f44">&#9670;&#160;</a></span>GetGitPassword()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Tgstation.Server.Host.Utils.GitHub.IAuthenticatedGitHubService.GetGitPassword </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the password to use for accessing a given repository. </p>
+<dl class="section return"><dt>Returns</dt><dd>The password to use for accessing a GitHub repository with git.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#ac25b586272fd52c4c81b4f17991a25dc">Tgstation.Server.Host.Utils.GitHub.GitHubService</a>.</p>
 
 </div>
 </div>

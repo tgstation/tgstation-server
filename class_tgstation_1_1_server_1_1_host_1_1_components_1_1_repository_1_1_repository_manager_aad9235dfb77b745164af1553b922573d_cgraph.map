@@ -1,26 +1,28 @@
 <map id="Tgstation.Server.Host.Components.Repository.RepositoryManager.CloneRepository" name="Tgstation.Server.Host.Components.Repository.RepositoryManager.CloneRepository">
-<area shape="rect" id="Node000001" title="Clone the repository at url .A ValueTask&lt;TResult&gt; resulting i the newly cloned IRepository,..." alt="" coords="5,273,299,314"/>
+<area shape="rect" id="Node000001" title="Clone the repository at url .A ValueTask&lt;TResult&gt; resulting i the newly cloned IRepository,..." alt="" coords="5,316,299,357"/>
 <area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a0a6ed81450e50013e2ec1bae65e5f8cb" title="Clone a remote LibGit2Sharp.IRepository." alt="" coords="356,5,627,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,272,188,226,229,168,282,108,312,80,345,57,356,51,359,55,348,61,316,84,286,111,233,171,193,229,166,274"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="377,71,606,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,271,240,198,290,157,345,122,362,115,364,119,348,127,293,161,244,201,173,275"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="401,136,582,177"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="184,271,257,229,346,187,385,175,387,180,348,192,259,233,187,275"/>
-<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aeae08438da658a3c0afddbb7960e4faa" title="Check that the directory at path &#160;exists." alt="" coords="402,201,581,242"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="251,270,386,241,387,246,252,275"/>
-<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a26b24a1c8a29d90d03abdb627eb24635" title="Generate a CredentialsHandler from a given username &#160;and password ." alt="" coords="362,266,621,322"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="299,291,347,291,347,296,299,296"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a7240bff5e7feecd1e71018b1d6fab7bc" title="Attempt to load the IRepository from the default location.A ValueTask&lt;TResult&gt; resulting in the loade..." alt="" coords="347,345,636,386"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="252,312,378,339,377,344,251,317"/>
-<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="720,403,887,443"/>
-<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="184,312,256,357,301,378,347,395,440,415,535,425,625,428,704,427,704,432,625,434,535,430,439,420,346,400,299,383,253,361,181,317"/>
-<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="397,460,586,501"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="176,313,249,375,297,410,348,439,383,454,381,459,345,444,294,414,246,379,173,317"/>
-<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="373,525,610,566"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="168,313,195,355,236,409,288,464,317,489,348,510,360,517,358,521,345,515,314,493,284,468,232,412,191,358,163,316"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="694,63,913,119"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="606,88,678,88,678,94,606,94"/>
-<area shape="rect" id="Node000009" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa2a092f96f2408453c2a1b5d5b0a4f30" title="Load a LibGit2Sharp.IRepository from a given path ." alt="" coords="684,323,922,379"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="636,356,668,355,668,360,637,362"/>
-<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="606,384,705,402,704,408,605,389"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,314,183,261,222,191,276,117,309,84,345,55,352,51,355,56,348,60,313,88,280,121,227,194,188,264,164,317"/>
+<area shape="rect" id="Node000003" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ac68dccad767316b6c071ca0687bf3b9f" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="367,70,616,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,314,195,276,236,227,287,178,345,135,354,130,357,135,348,140,291,182,240,231,199,279,170,317"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="377,149,606,190"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="176,313,248,257,296,227,346,201,366,193,367,198,348,205,298,231,251,261,179,318"/>
+<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="401,215,582,255"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="207,313,346,266,385,255,386,260,347,271,209,318"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aeae08438da658a3c0afddbb7960e4faa" title="Check that the directory at path &#160;exists." alt="" coords="402,280,581,321"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="299,318,386,309,387,314,299,323"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a7f4eef18199d100a402911f095eaa933" title="Generate a CredentialsHandler from a given username &#160;and password ." alt="" coords="362,345,621,400"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="299,349,347,354,346,360,299,355"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a7240bff5e7feecd1e71018b1d6fab7bc" title="Attempt to load the IRepository from the default location.A ValueTask&lt;TResult&gt; resulting in the loade..." alt="" coords="347,424,636,465"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="202,355,270,383,347,410,373,417,372,422,346,415,268,388,200,360"/>
+<area shape="rect" id="Node000011" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="720,481,887,522"/>
+<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="175,355,206,384,247,417,295,449,348,474,393,488,439,498,534,509,625,512,704,509,704,514,625,517,534,515,438,503,391,493,346,479,293,454,244,422,203,388,172,359"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#abeb1f086e2752f6f9a4d3d175a4392af" title="Asyncronously locks a semaphore ." alt="" coords="397,539,586,579"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="171,355,201,391,242,435,292,480,348,518,383,534,381,539,345,523,289,484,238,438,197,394,167,359"/>
+<area shape="rect" id="Node000013" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="373,604,610,645"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="165,356,190,404,230,468,283,534,314,563,348,589,360,596,357,600,345,593,311,567,279,537,226,471,186,407,160,358"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="694,142,913,198"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="606,167,678,167,678,172,606,172"/>
+<area shape="rect" id="Node000010" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa2a092f96f2408453c2a1b5d5b0a4f30" title="Load a LibGit2Sharp.IRepository from a given path ." alt="" coords="684,402,922,458"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="636,435,668,433,668,439,637,440"/>
+<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="606,463,705,481,704,486,605,468"/>
 </map>

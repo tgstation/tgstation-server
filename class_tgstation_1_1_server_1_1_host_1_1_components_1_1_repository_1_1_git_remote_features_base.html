@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.19.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.19.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -138,6 +138,17 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">Models.TestMerge</a> of the <em>parameters</em> .</dd></dl>
 TestMergeApiBase.MergedAt and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html#ae3fd852b6214c8435a89c789011278ec" title="See Api.Models.TestMerge.MergedBy.">Models.TestMerge.MergedBy</a> will be unset.  <br /></td></tr>
 <tr class="separator:a5b7d40b3bbfc6009db015a58df853c28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f3fec1bb169396cf1aba027e0935a5f" id="r_a4f3fec1bb169396cf1aba027e0935a5f"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; string?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html#a4f3fec1bb169396cf1aba027e0935a5f">TransformRepositoryPassword</a> (string? rawPassword, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a4f3fec1bb169396cf1aba027e0935a5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform a service's <em>rawPassword</em>  into a password usable by git.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rawPassword</td><td>The raw password to transform.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the transformed password.</dd></dl>
+  <br /></td></tr>
+<tr class="separator:a4f3fec1bb169396cf1aba027e0935a5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -385,6 +396,54 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a4f3fec1bb169396cf1aba027e0935a5f" name="a4f3fec1bb169396cf1aba027e0935a5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f3fec1bb169396cf1aba027e0935a5f">&#9670;&#160;</a></span>TransformRepositoryPassword()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask&lt; string?&gt; Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.TransformRepositoryPassword </td>
+          <td>(</td>
+          <td class="paramtype">string?&#160;</td>
+          <td class="paramname"><em>rawPassword</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">abstract</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Transform a service's <em>rawPassword</em>  into a password usable by git.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rawPassword</td><td>The raw password to transform.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the transformed password.</dd></dl>
+ </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html#a15275d5f03148e987240608a9005c4db">Tgstation.Server.Host.Components.Repository.IGitRemoteFeatures</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="a2b8b9dee8a0ef2058bb03058beb868f5" name="a2b8b9dee8a0ef2058bb03058beb868f5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2b8b9dee8a0ef2058bb03058beb868f5">&#9670;&#160;</a></span>cachedLookups</h2>
@@ -440,7 +499,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_git_remote_features_base_8cs_source.html#l00035">35</a> of file <a class="el" href="_git_remote_features_base_8cs_source.html">GitRemoteFeaturesBase.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_git_remote_features_base_8cs_source.html#l00061">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.GetTestMerge()</a>, <a class="el" href="_git_hub_remote_features_8cs_source.html#l00045">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl()</a>, <a class="el" href="_git_lab_remote_features_8cs_source.html#l00046">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_remote_features_base_8cs_source.html#l00047">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.GitRemoteFeaturesBase()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_remote_features_base_8cs_source.html#l00061">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.GetTestMerge()</a>, <a class="el" href="_git_hub_remote_features_8cs_source.html#l00059">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl()</a>, <a class="el" href="_git_lab_remote_features_8cs_source.html#l00050">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_remote_features_base_8cs_source.html#l00047">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.GitRemoteFeaturesBase()</a>.</p>
 
 </div>
 </div>
@@ -500,7 +559,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_git_remote_features_base_8cs_source.html#l00030">30</a> of file <a class="el" href="_git_remote_features_base_8cs_source.html">GitRemoteFeaturesBase.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   30</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_git_hub_remote_features_8cs_source.html#l00045">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_remote_features_base_8cs_source.html#l00047">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.GitRemoteFeaturesBase()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_remote_features_8cs_source.html#l00059">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_remote_features_base_8cs_source.html#l00047">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.GitRemoteFeaturesBase()</a>.</p>
 
 </div>
 </div>
@@ -531,7 +590,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_git_remote_features_base_8cs_source.html#l00027">27</a> of file <a class="el" href="_git_remote_features_base_8cs_source.html">GitRemoteFeaturesBase.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   27</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_git_hub_remote_features_8cs_source.html#l00045">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_remote_features_base_8cs_source.html#l00047">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.GitRemoteFeaturesBase()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_remote_features_8cs_source.html#l00059">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_remote_features_base_8cs_source.html#l00047">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.GitRemoteFeaturesBase()</a>.</p>
 
 </div>
 </div>

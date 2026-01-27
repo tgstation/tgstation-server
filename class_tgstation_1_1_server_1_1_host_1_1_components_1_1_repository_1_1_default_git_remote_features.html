@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.19.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.19.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -127,6 +127,17 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">Models.TestMerge</a> of the <em>parameters</em> .</dd></dl>
 TestMergeApiBase.MergedAt and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html#ae3fd852b6214c8435a89c789011278ec" title="See Api.Models.TestMerge.MergedBy.">Models.TestMerge.MergedBy</a> will be unset.  <br /></td></tr>
 <tr class="separator:a361ad9df4090584b4fe665ba0e749573"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bc9fcf98ea50da29688618be9084fa7" id="r_a4bc9fcf98ea50da29688618be9084fa7"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; string?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_default_git_remote_features.html#a4bc9fcf98ea50da29688618be9084fa7">TransformRepositoryPassword</a> (string? rawPassword, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a4bc9fcf98ea50da29688618be9084fa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform a service's <em>rawPassword</em>  into a password usable by git.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rawPassword</td><td>The raw password to transform.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the transformed password.</dd></dl>
+  <br /></td></tr>
+<tr class="separator:a4bc9fcf98ea50da29688618be9084fa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -197,6 +208,46 @@ Properties</h2></td></tr>
 TestMergeApiBase.MergedAt and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html#ae3fd852b6214c8435a89c789011278ec" title="See Api.Models.TestMerge.MergedBy.">Models.TestMerge.MergedBy</a> will be unset. </p>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_additional_information.html#a170a7f8bb11a0f21af6cd8f7b834476d">Tgstation.Server.Host.Components.Repository.IGitRemoteAdditionalInformation</a>.</p>
+
+</div>
+</div>
+<a id="a4bc9fcf98ea50da29688618be9084fa7" name="a4bc9fcf98ea50da29688618be9084fa7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bc9fcf98ea50da29688618be9084fa7">&#9670;&#160;</a></span>TransformRepositoryPassword()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask&lt; string?&gt; Tgstation.Server.Host.Components.Repository.DefaultGitRemoteFeatures.TransformRepositoryPassword </td>
+          <td>(</td>
+          <td class="paramtype">string?&#160;</td>
+          <td class="paramname"><em>rawPassword</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Transform a service's <em>rawPassword</em>  into a password usable by git.<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rawPassword</td><td>The raw password to transform.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the transformed password.</dd></dl>
+ </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html#a15275d5f03148e987240608a9005c4db">Tgstation.Server.Host.Components.Repository.IGitRemoteFeatures</a>.</p>
 
 </div>
 </div>

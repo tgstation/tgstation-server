@@ -1,15 +1,17 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository.FetchOrigin" name="Tgstation.Server.Host.Components.Repository.Repository.FetchOrigin">
-<area shape="rect" id="Node000001" title="Fetch commits from the origin repository.A ValueTask representing the running operation." alt="" coords="5,150,232,191"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#adadfc1a59c4a3f30bc795c43b3c6fa42" title="Rethrow the authentication failure message as a JobException if it is one." alt="" coords="288,5,530,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,147,207,109,279,71,293,65,295,69,281,76,210,114,151,152"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="295,85,523,126"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="211,147,300,127,301,132,213,152"/>
-<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html#a3660f1ded05e762c347ffc43c6d71700" title="Runs a blocking fetch operation on a given repository ." alt="" coords="292,150,526,191"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="232,168,277,168,277,173,232,173"/>
-<area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a26b24a1c8a29d90d03abdb627eb24635" title="Generate a CredentialsHandler from a given username &#160;and password ." alt="" coords="280,215,538,270"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="204,189,280,208,278,213,203,194"/>
-<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c" title="Handle a given eventType ." alt="" coords="290,294,528,335"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="145,189,205,235,242,259,281,280,295,286,293,291,279,285,239,264,201,240,142,193"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="586,77,805,133"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="523,103,571,103,571,108,523,108"/>
+<area shape="rect" id="Node000001" title="Fetch commits from the origin repository.A ValueTask representing the running operation." alt="" coords="5,186,232,227"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#adadfc1a59c4a3f30bc795c43b3c6fa42" title="Rethrow the authentication failure message as a JobException if it is one." alt="" coords="292,5,535,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,184,197,128,236,97,278,71,289,65,292,70,281,75,239,102,200,132,141,188"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="299,85,528,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,183,279,136,306,128,307,133,281,141,165,188"/>
+<area shape="rect" id="Node000005" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html#a3660f1ded05e762c347ffc43c6d71700" title="Runs a blocking fetch operation on a given repository ." alt="" coords="297,150,530,191"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="232,190,281,184,282,189,232,195"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a253cd16701e89565cc71922eead7d255" title="Generate a CredentialsHandler from a given username &#160;and password ." alt="" coords="280,215,547,270"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="232,218,264,222,264,227,232,223"/>
+<area shape="rect" id="Node000007" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a3aa955c269e063d5db2f3f83d001c38c" title="Handle a given eventType ." alt="" coords="295,294,532,335"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="159,225,216,253,281,280,301,287,300,292,279,285,213,258,156,230"/>
+<area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html#a15275d5f03148e987240608a9005c4db" title="Transform a service&#39;s rawPassword &#160;into a password usable by git." alt="" coords="281,359,546,414"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="140,225,199,284,238,316,281,344,291,349,289,354,278,349,235,321,195,288,136,229"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="595,77,814,133"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="528,103,580,103,580,108,528,108"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.GenerateCredentialsHandler" name="Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.GenerateCredentialsHandler">
+<area shape="rect" id="Node000001" title="Generate a CredentialsHandler from a given username &#160;and password .A ValueTask&lt;TResult&gt; resulting in ..." alt="" coords="5,5,240,61"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html#a15275d5f03148e987240608a9005c4db" title="Transform a service&#39;s rawPassword &#160;into a password usable by git." alt="" coords="288,5,552,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="240,31,272,31,272,36,240,36"/>
+</map>

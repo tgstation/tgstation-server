@@ -1,21 +1,23 @@
 <map id="Tgstation.Server.Host.Utils.GitHub.IGitHubServiceFactory.CreateService" name="Tgstation.Server.Host.Utils.GitHub.IGitHubServiceFactory.CreateService">
-<area shape="rect" id="Node000001" title="Create a IGitHubService." alt="" coords="579,282,817,338"/>
+<area shape="rect" id="Node000001" title="Create a IGitHubService." alt="" coords="579,318,817,374"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aacf15328c6febd64fa1977da73d30345" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="280,29,488,70"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="676,269,652,225,619,174,578,125,530,84,487,65,490,60,532,79,582,121,624,171,657,222,680,266"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="680,304,658,252,625,192,583,133,557,107,530,84,487,64,489,59,532,79,561,103,587,130,630,189,662,250,685,302"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a00647623f9070251136cf45351db7f8f" title=" " alt="" coords="237,94,531,150"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="661,272,603,216,567,188,530,164,505,153,507,148,532,159,570,184,606,212,664,268"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="669,307,610,233,572,196,530,164,508,153,510,148,532,159,576,192,614,230,673,303"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#ae3d2886c42ac22e3a6e2d91d49143934" title=" " alt="" coords="261,174,507,230"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="618,278,530,244,494,233,496,228,532,239,620,273"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="645,311,591,276,530,244,500,233,502,228,532,239,594,271,648,306"/>
 <area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_authority_1_1_administration_authority.html#a8688d09f4ee86ada57a763795f14fec4" title="Gets the AdministrationResponse containing server update information.A RequirementsGated&lt;TResult&gt; Adm..." alt="" coords="241,253,527,294"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="563,297,527,293,528,287,564,292"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="565,316,530,308,482,297,483,292,532,303,566,311"/>
 <area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a2873ee4483a0a0912e4dbdecff19a853" title="Get the updated list of TestMerges for an origin merge.A ValueTask&lt;TResult&gt; resulting in the IReadOnl..." alt="" coords="237,318,531,374"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="564,328,531,331,531,326,563,322"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="564,348,531,348,531,343,564,343"/>
 <area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a6daaca0929dd102bb1f69de7b4bcc5df" title="Start a deployment for a given compileJob .A ValueTask representing the running operation." alt="" coords="237,398,531,454"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="629,347,532,388,497,400,496,395,530,383,626,342"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a21a61ea40a81b3f754fa230917fb7c56" title="Update the deployment for a given compileJob ." alt="" coords="237,478,531,534"/>
-<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="667,351,608,411,572,442,532,468,508,480,506,475,530,463,569,438,605,407,663,347"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#ab04d9f6cff4beafd46bfc8fa84627cea" title="Validate a given OAuth response code .A ValueTask&lt;TResult&gt; resulting in null if authentication failed..." alt="" coords="264,558,504,614"/>
-<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="681,353,657,399,624,451,582,504,533,548,506,563,503,558,529,543,579,500,620,448,652,396,676,351"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="572,380,497,400,495,395,571,375"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#aaa02d6474e84283e05886a67f445bd58" title="Transform a service&#39;s rawPassword &#160;into a password usable by git.A ValueTask&lt;TResult&gt; resulting in th..." alt="" coords="242,478,526,534"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="655,386,599,429,532,468,504,480,502,475,530,463,596,424,652,381"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a21a61ea40a81b3f754fa230917fb7c56" title="Update the deployment for a given compileJob ." alt="" coords="237,558,531,614"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="676,388,651,426,618,470,578,512,532,548,511,560,509,555,530,543,574,508,613,466,646,423,671,385"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#ab04d9f6cff4beafd46bfc8fa84627cea" title="Validate a given OAuth response code .A ValueTask&lt;TResult&gt; resulting in null if authentication failed..." alt="" coords="264,638,504,694"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="686,389,664,444,632,508,588,573,562,602,533,628,506,644,503,639,529,624,558,598,584,569,627,505,659,441,681,387"/>
 <area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="431,16,413,10,384,8,356,10,339,15,333,21,336,28,330,29,328,19,337,10,355,5,384,3,415,5,433,11"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#adea0e50e12adfb5620ec7728b9f33230" title="Start the process of downloading and applying an update to a new server version .A ValueTask&lt;TResult&gt;..." alt="" coords="5,29,189,70"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="264,52,189,52,189,47,264,47"/>

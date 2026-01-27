@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Repository.IGitRemoteFeatures.TransformRepositoryPassword" name="Tgstation.Server.Host.Components.Repository.IGitRemoteFeatures.TransformRepositoryPassword">
+<area shape="rect" id="Node000001" title="Transform a service&#39;s rawPassword &#160;into a password usable by git." alt="" coords="288,34,552,90"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a244a180597fe2bde35fd85e43d0dd59d" title="Fetch commits from the origin repository.A ValueTask representing the running operation." alt="" coords="9,5,236,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="272,46,236,42,236,37,272,41"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a3f1f6d828daa87d7948b1b542a39444c" title="Generate a CredentialsHandler from a given username &#160;and password .A ValueTask&lt;TResult&gt; resulting in ..." alt="" coords="5,70,240,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="272,82,240,86,240,81,272,77"/>
+</map>

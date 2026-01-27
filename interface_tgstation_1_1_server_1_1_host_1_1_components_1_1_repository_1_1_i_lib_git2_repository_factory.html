@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.19.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.19.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -118,9 +118,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a0a6ed81450e50013e2ec1bae65e5f8cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone a remote LibGit2Sharp.IRepository.  <br /></td></tr>
 <tr class="separator:a0a6ed81450e50013e2ec1bae65e5f8cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html">Tgstation.Server.Host.Components.Repository.ICredentialsProvider</a></td></tr>
-<tr class="memitem:a26b24a1c8a29d90d03abdb627eb24635 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider" id="r_a26b24a1c8a29d90d03abdb627eb24635"><td class="memItemLeft" align="right" valign="top">CredentialsHandler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a26b24a1c8a29d90d03abdb627eb24635">GenerateCredentialsHandler</a> (string? username, string? password)</td></tr>
-<tr class="memdesc:a26b24a1c8a29d90d03abdb627eb24635 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a CredentialsHandler from a given <em>username</em>  and <em>password</em> .  <br /></td></tr>
-<tr class="separator:a26b24a1c8a29d90d03abdb627eb24635 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f4eef18199d100a402911f095eaa933 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider" id="r_a7f4eef18199d100a402911f095eaa933"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; CredentialsHandler &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a7f4eef18199d100a402911f095eaa933">GenerateCredentialsHandler</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html">IGitRemoteFeatures</a> remoteFeatures, string? username, string? password, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a7f4eef18199d100a402911f095eaa933 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a CredentialsHandler from a given <em>username</em>  and <em>password</em> .  <br /></td></tr>
+<tr class="separator:a7f4eef18199d100a402911f095eaa933 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adadfc1a59c4a3f30bc795c43b3c6fa42 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider" id="r_adadfc1a59c4a3f30bc795c43b3c6fa42"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#adadfc1a59c4a3f30bc795c43b3c6fa42">CheckBadCredentialsException</a> (LibGit2SharpException exception)</td></tr>
 <tr class="memdesc:adadfc1a59c4a3f30bc795c43b3c6fa42 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rethrow the authentication failure message as a JobException if it is one.  <br /></td></tr>
 <tr class="separator:adadfc1a59c4a3f30bc795c43b3c6fa42 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -234,7 +234,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#aa73b9b03774dac7fdc54f0df318a7dc0">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_repository_manager_8cs_source.html#l00212">Tgstation.Server.Host.Components.Repository.RepositoryManager.LoadRepository()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_manager_8cs_source.html#l00216">Tgstation.Server.Host.Components.Repository.RepositoryManager.LoadRepository()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

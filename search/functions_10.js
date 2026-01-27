@@ -65,5 +65,5 @@ var searchData=
   ['proxyon_62',['ProxyOn',['../class_tgstation_1_1_server_1_1_client_1_1_extensions_1_1_hub_connection_extensions.html#a7fcdfc5660189917d34b3bf6652293ba',1,'Tgstation::Server::Client::Extensions::HubConnectionExtensions']]],
   ['proxyon_3c_20tclientproxy_20_3e_63',['ProxyOn&lt; TClientProxy &gt;',['../class_tgstation_1_1_server_1_1_client_1_1_extensions_1_1_hub_connection_extensions.html#aee53b96fbf5cc6c7c6ae5e5e87714a0a',1,'Tgstation::Server::Client::Extensions::HubConnectionExtensions']]],
   ['pullrequestscommand_64',['PullRequestsCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html#abc0983823b268d92672567f64cb596ac',1,'Tgstation::Server::Host::Components::Chat::Commands::PullRequestsCommand']]],
-  ['pushheadtotemporarybranch_65',['PushHeadToTemporaryBranch',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a72304b698a3990cdf0453548743dc286',1,'Tgstation::Server::Host::Components::Repository::Repository']]]
+  ['pushheadtotemporarybranch_65',['PushHeadToTemporaryBranch',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a13715fb17360527d5afd790258a3c0ce',1,'Tgstation::Server::Host::Components::Repository::Repository']]]
 ];

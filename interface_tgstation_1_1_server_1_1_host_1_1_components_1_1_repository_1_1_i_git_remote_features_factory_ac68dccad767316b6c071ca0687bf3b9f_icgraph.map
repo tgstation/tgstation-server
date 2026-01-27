@@ -1,24 +1,26 @@
 <map id="Tgstation.Server.Host.Components.Repository.IGitRemoteFeaturesFactory.CreateGitRemoteFeatures" name="Tgstation.Server.Host.Components.Repository.IGitRemoteFeaturesFactory.CreateGitRemoteFeatures">
-<area shape="rect" id="Node000001" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="1462,97,1710,152"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a29c6da1254fba9de583975a67d36ebad" title="Initializes a new instance of the Repository class." alt="" coords="1175,71,1401,111"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1446,111,1401,106,1402,101,1447,106"/>
-<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6d2ca4edeaf1bebf658305727ced5f45" title="Validates the Api.Models.RepositorySettings.AccessToken of a given model &#160;if it is set." alt="" coords="1162,136,1414,177"/>
-<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="1447,142,1415,145,1414,140,1446,137"/>
-<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title="Create and a compile job and insert it into the database. Meant to be called by a IJobManager...." alt="" coords="828,5,1114,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1170,70,1072,49,1074,44,1171,64"/>
-<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ae437eb5855fbd7575d4a5b0c71217745" title="The JobEntrypoint for updating the repository." alt="" coords="858,71,1084,111"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="1159,94,1084,94,1084,88,1159,88"/>
-<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9ab4ae1f451c0feaf8845768bfb461c2" title="Pulls the repository and compiles." alt="" coords="554,39,780,79"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="813,46,781,49,780,44,813,40"/>
-<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore.A ValueTask representing the running operation." alt="" coords="280,39,506,79"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="538,62,507,62,507,56,538,56"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,46"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="264,46,232,42,233,37,264,41"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,71,232,111"/>
-<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="264,77,233,80,232,75,264,71"/>
-<area shape="poly" id="edge8_Node000008_Node000004" title=" " alt="" coords="842,80,780,74,781,68,843,75"/>
-<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="863,136,1079,177"/>
-<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="1147,159,1079,159,1079,154,1147,154"/>
-<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="863,201,1079,242"/>
-<area shape="poly" id="edge11_Node000009_Node000011" title=" " alt="" coords="1171,183,1074,203,1072,198,1170,178"/>
+<area shape="rect" id="Node000001" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="1503,63,1751,119"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#aad9235dfb77b745164af1553b922573d" title="Clone the repository at url .A ValueTask&lt;TResult&gt; resulting i the newly cloned IRepository,..." alt="" coords="1162,5,1455,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1487,65,1410,49,1412,44,1489,60"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a29c6da1254fba9de583975a67d36ebad" title="Initializes a new instance of the Repository class." alt="" coords="1195,71,1422,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1488,94,1422,94,1422,88,1488,88"/>
+<area shape="rect" id="Node000010" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6d2ca4edeaf1bebf658305727ced5f45" title="Validates the Api.Models.RepositorySettings.AccessToken of a given model &#160;if it is set." alt="" coords="1182,136,1435,177"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="1489,122,1412,138,1410,133,1487,117"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title="Create and a compile job and insert it into the database. Meant to be called by a IJobManager...." alt="" coords="828,5,1114,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1185,70,1079,49,1080,44,1186,65"/>
+<area shape="rect" id="Node000009" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ae437eb5855fbd7575d4a5b0c71217745" title="The JobEntrypoint for updating the repository." alt="" coords="858,71,1084,111"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="1179,94,1084,94,1084,88,1179,88"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9ab4ae1f451c0feaf8845768bfb461c2" title="Pulls the repository and compiles." alt="" coords="554,39,780,79"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="813,46,781,49,780,44,813,40"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore.A ValueTask representing the running operation." alt="" coords="280,39,506,79"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="538,62,507,62,507,56,538,56"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,46"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="264,46,232,42,233,37,264,41"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,71,232,111"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="264,77,233,80,232,75,264,71"/>
+<area shape="poly" id="edge9_Node000009_Node000005" title=" " alt="" coords="842,80,780,74,781,68,843,75"/>
+<area shape="rect" id="Node000011" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="863,136,1079,177"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="1167,159,1079,159,1079,154,1167,154"/>
+<area shape="rect" id="Node000012" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="863,201,1079,242"/>
+<area shape="poly" id="edge12_Node000010_Node000012" title=" " alt="" coords="1186,183,1080,203,1078,198,1185,178"/>
 </map>

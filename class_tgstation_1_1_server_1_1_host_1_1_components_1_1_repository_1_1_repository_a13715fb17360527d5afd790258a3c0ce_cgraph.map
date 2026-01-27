@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Repository.Repository.PushHeadToTemporaryBranch" name="Tgstation.Server.Host.Components.Repository.Repository.PushHeadToTemporaryBranch">
+<area shape="rect" id="Node000001" title="Force push the current repository HEAD to RemoteTemporaryBranchName;." alt="" coords="5,13,333,54"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="381,13,609,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="333,31,365,31,365,36,333,36"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="657,5,876,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="610,31,641,31,641,36,610,36"/>
+</map>
