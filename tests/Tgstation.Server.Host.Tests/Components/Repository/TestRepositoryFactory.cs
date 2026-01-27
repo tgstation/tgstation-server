@@ -1,10 +1,14 @@
-﻿using LibGit2Sharp;
+﻿using System;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+
+using LibGit2Sharp;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Moq;
-using System;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Components.Repository.Tests
 {
@@ -14,7 +18,7 @@ namespace Tgstation.Server.Host.Components.Repository.Tests
 	[TestClass]
 	public sealed class TestRepositoryFactory
 	{
-		static LibGit2RepositoryFactory CreateFactory() => new (Mock.Of<ILogger<LibGit2RepositoryFactory>>());
+		static LibGit2RepositoryFactory CreateFactory() => new(Mock.Of<ILogger<LibGit2RepositoryFactory>>());
 
 		static async Task<LibGit2Sharp.IRepository> TestRepoLoading(
 			string path,
@@ -40,7 +44,7 @@ namespace Tgstation.Server.Host.Components.Repository.Tests
 			{
 				var factory = CreateFactory();
 				var cloneOpts = new CloneOptions();
-				cloneOpts.FetchOptions.CredentialsProvider = factory.GenerateCredentialsHandler(null, null);
+				cloneOpts.FetchOptions.CredentialsProvider = await factory.GenerateCredentialsHandler(Mock.Of<IGitRemoteFeatures>(), null, null, CancellationToken.None);
 				await factory.Clone(
 					new Uri("https://github.com/Cyberboss/Test"),
 					cloneOpts,

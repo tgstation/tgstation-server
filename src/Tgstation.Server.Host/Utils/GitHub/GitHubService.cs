@@ -346,5 +346,9 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					committish)
 				.WaitAsync(cancellationToken);
 		}
+
+		/// <inheritdoc />
+		public string GetGitPassword()
+			=> gitHubClient.Connection.Credentials.Password;
 	}
 }

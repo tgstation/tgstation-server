@@ -43,6 +43,10 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
+		public override ValueTask<string?> TransformRepositoryPassword(string? rawPassword, CancellationToken cancellationToken)
+			=> ValueTask.FromResult(rawPassword);
+
+		/// <inheritdoc />
 		protected override async ValueTask<Models.TestMerge> GetTestMergeImpl(
 			TestMergeParameters parameters,
 			RepositorySettings repositorySettings,

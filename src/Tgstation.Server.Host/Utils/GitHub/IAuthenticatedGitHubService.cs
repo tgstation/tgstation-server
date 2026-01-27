@@ -11,6 +11,12 @@ namespace Tgstation.Server.Host.Utils.GitHub
 	public interface IAuthenticatedGitHubService : IGitHubService
 	{
 		/// <summary>
+		/// Gets the password to use for accessing a given repository.
+		/// </summary>
+		/// <returns>The password to use for accessing a GitHub repository with git.</returns>
+		string GetGitPassword();
+
+		/// <summary>
 		/// Create a comment on a given <paramref name="issueNumber"/>.
 		/// </summary>
 		/// <param name="repoOwner">The owner of the target repository.</param>

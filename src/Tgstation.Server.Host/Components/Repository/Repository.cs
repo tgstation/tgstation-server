@@ -127,6 +127,47 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly ILogger<Repository> logger;
 
 		/// <summary>
+		/// Generate a standard set of <see cref="PushOptions"/>.
+		/// </summary>
+		/// <param name="progressReporter"><see cref="JobProgressReporter"/> of the operation.</param>
+		/// <param name="credentialsHandler">The <see cref="CredentialsHandler"/> for the operation.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new set of <see cref="PushOptions"/> and the associated <see cref="JobProgressReporter"/>s based off <paramref name="progressReporter"/>.</returns>
+		static (PushOptions PushOptions, IEnumerable<JobProgressReporter> SubProgressReporters) GeneratePushOptions(JobProgressReporter progressReporter, CredentialsHandler credentialsHandler, CancellationToken cancellationToken)
+		{
+			var packFileCountingReporter = progressReporter.CreateSection(null, 0.25);
+			var packFileDeltafyingReporter = progressReporter.CreateSection(null, 0.25);
+			var transferProgressReporter = progressReporter.CreateSection(null, 0.5);
+
+			return (
+				PushOptions: new PushOptions
+				{
+					OnPackBuilderProgress = (stage, current, total) =>
+					{
+						if (total < current)
+							total = current;
+
+						var percentage = ((double)current) / total;
+						(stage == PackBuilderStage.Counting ? packFileCountingReporter : packFileDeltafyingReporter).ReportProgress(percentage);
+						return !cancellationToken.IsCancellationRequested;
+					},
+					OnNegotiationCompletedBeforePush = (a) => !cancellationToken.IsCancellationRequested,
+					OnPushTransferProgress = (a, sentBytes, totalBytes) =>
+					{
+						packFileCountingReporter.ReportProgress((double)sentBytes / totalBytes);
+						return !cancellationToken.IsCancellationRequested;
+					},
+					CredentialsProvider = credentialsHandler,
+				},
+				SubProgressReporters: new List<JobProgressReporter>
+				{
+					packFileCountingReporter,
+					packFileDeltafyingReporter,
+					transferProgressReporter,
+				});
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="Repository"/> class.
 		/// </summary>
 		/// <param name="libGitRepo">The value of <see cref="libGitRepo"/>.</param>
@@ -220,6 +261,8 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			var sig = new Signature(new Identity(committerName, committerEmail), DateTimeOffset.UtcNow);
 			List<string>? conflictedPaths = null;
+
+			var credentialsHandler = await GenerateCredentialsHandler(username, password, cancellationToken);
 			await Task.Factory.StartNew(
 				() =>
 				{
@@ -238,7 +281,7 @@ namespace Tgstation.Server.Host.Components.Repository
 								new FetchOptions().Hydrate(
 									logger,
 									fetchReporter,
-									credentialsProvider.GenerateCredentialsHandler(username, password),
+									credentialsHandler,
 									cancellationToken),
 								logMessage);
 						}
@@ -425,14 +468,20 @@ namespace Tgstation.Server.Host.Components.Repository
 			logger.LogDebug("Fetch origin...");
 
 			var parameters = new List<string>();
+			var credentialsHandlerTask = GenerateCredentialsHandler(username, password, cancellationToken);
 			if (username != null)
 			{
 				parameters.Add(username);
 				if (password != null)
-					parameters.Add(password);
+				{
+					var transformedPassword = await gitRemoteFeatures.TransformRepositoryPassword(password, cancellationToken);
+					if (transformedPassword != null)
+						parameters.Add(transformedPassword);
+				}
 			}
 
 			await eventConsumer.HandleEvent(EventType.RepoFetch, parameters, true, deploymentPipeline, cancellationToken);
+			var credentialsHandler = await credentialsHandlerTask;
 			await Task.Factory.StartNew(
 				() =>
 				{
@@ -447,7 +496,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						}.Hydrate(
 							logger,
 							subReporter,
-							credentialsProvider.GenerateCredentialsHandler(username, password),
+							credentialsHandler,
 							cancellationToken);
 
 						commands.Fetch(
@@ -725,9 +774,9 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (!synchronizeTrackedBranch)
 			{
 				using var progressReporter2 = progressReporter.CreateSection("Push to temporary branch", remainingProgressFactor);
+				var credentialsHandler = await GenerateCredentialsHandler(username, password, cancellationToken);
 				await PushHeadToTemporaryBranch(
-					username,
-					password,
+					credentialsHandler,
 					progressReporter2,
 					cancellationToken);
 				return false;
@@ -741,6 +790,12 @@ namespace Tgstation.Server.Host.Components.Repository
 			}
 
 			logger.LogInformation("Synchronizing with origin...");
+			using var pushReporter = progressReporter.CreateSection("Push to origin", remainingProgressFactor);
+			var (pushOptions, progressReporters) = await GeneratePushOptions(
+				pushReporter,
+				username,
+				password,
+				cancellationToken);
 
 			return await Task.Factory.StartNew(
 				() =>
@@ -748,12 +803,6 @@ namespace Tgstation.Server.Host.Components.Repository
 					var remote = libGitRepo.Network.Remotes.First();
 					try
 					{
-						using var pushReporter = progressReporter.CreateSection("Push to origin", remainingProgressFactor);
-						var (pushOptions, progressReporters) = GeneratePushOptions(
-							pushReporter,
-							username,
-							password,
-							cancellationToken);
 						try
 						{
 							libGitRepo.Network.Push(
@@ -993,12 +1042,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Force push the current repository HEAD to <see cref="RemoteTemporaryBranchName"/>;.
 		/// </summary>
-		/// <param name="username">The username to fetch from the origin repository.</param>
-		/// <param name="password">The password to fetch from the origin repository.</param>
+		/// <param name="credentialsHandler">The <see cref="CredentialsHandler"/> for the operation.</param>
 		/// <param name="progressReporter"><see cref="JobProgressReporter"/> of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task PushHeadToTemporaryBranch(string username, string password, JobProgressReporter progressReporter, CancellationToken cancellationToken) => Task.Factory.StartNew(
+		Task PushHeadToTemporaryBranch(CredentialsHandler credentialsHandler, JobProgressReporter progressReporter, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
 				logger.LogInformation("Pushing changes to temporary remote branch...");
@@ -1015,8 +1063,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						{
 							var (pushOptions, progressReporters) = GeneratePushOptions(
 								mainPushReporter,
-								username,
-								password,
+								credentialsHandler,
 								cancellationToken);
 
 							try
@@ -1032,7 +1079,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 						var removalString = String.Format(CultureInfo.InvariantCulture, ":{0}", branch.CanonicalName);
 						using var forcePushReporter = progressReporter.CreateSection(null, 0.1);
-						var (forcePushOptions, forcePushReporters) = GeneratePushOptions(forcePushReporter, username, password, cancellationToken);
+						var (forcePushOptions, forcePushReporters) = GeneratePushOptions(forcePushReporter, credentialsHandler, cancellationToken);
 						try
 						{
 							libGitRepo.Network.Push(remote, removalString, forcePushOptions);
@@ -1068,40 +1115,12 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="username">The username for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="password">The password for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A new set of <see cref="PushOptions"/> and the associated <see cref="JobProgressReporter"/>s based off <paramref name="progressReporter"/>.</returns>
-		(PushOptions PushOptions, IEnumerable<JobProgressReporter> SubProgressReporters) GeneratePushOptions(JobProgressReporter progressReporter, string username, string password, CancellationToken cancellationToken)
-		{
-			var packFileCountingReporter = progressReporter.CreateSection(null, 0.25);
-			var packFileDeltafyingReporter = progressReporter.CreateSection(null, 0.25);
-			var transferProgressReporter = progressReporter.CreateSection(null, 0.5);
-
-			return (
-				PushOptions: new PushOptions
-				{
-					OnPackBuilderProgress = (stage, current, total) =>
-					{
-						if (total < current)
-							total = current;
-
-						var percentage = ((double)current) / total;
-						(stage == PackBuilderStage.Counting ? packFileCountingReporter : packFileDeltafyingReporter).ReportProgress(percentage);
-						return !cancellationToken.IsCancellationRequested;
-					},
-					OnNegotiationCompletedBeforePush = (a) => !cancellationToken.IsCancellationRequested,
-					OnPushTransferProgress = (a, sentBytes, totalBytes) =>
-					{
-						packFileCountingReporter.ReportProgress((double)sentBytes / totalBytes);
-						return !cancellationToken.IsCancellationRequested;
-					},
-					CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
-				},
-				SubProgressReporters: new List<JobProgressReporter>
-				{
-					packFileCountingReporter,
-					packFileDeltafyingReporter,
-					transferProgressReporter,
-				});
-		}
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new set of <see cref="PushOptions"/> and the associated <see cref="JobProgressReporter"/>s based off <paramref name="progressReporter"/>.</returns>
+		async ValueTask<(PushOptions PushOptions, IEnumerable<JobProgressReporter> SubProgressReporters)> GeneratePushOptions(JobProgressReporter progressReporter, string username, string password, CancellationToken cancellationToken)
+			=> GeneratePushOptions(
+				progressReporter,
+				await GenerateCredentialsHandler(username, password, cancellationToken),
+				cancellationToken);
 
 		/// <summary>
 		/// Gets the path of <see cref="libGitRepo"/>.
@@ -1153,10 +1172,12 @@ namespace Tgstation.Server.Host.Components.Repository
 
 					using var fetchReporter = currentProgressReporter.CreateSection($"Fetch submodule {submodule.Name}", factor);
 
+					var credentialsHandler = await GenerateCredentialsHandler(username, password, cancellationToken);
+
 					submoduleUpdateOptions.FetchOptions.Hydrate(
 						logger,
 						fetchReporter,
-						credentialsProvider.GenerateCredentialsHandler(username, password),
+						credentialsHandler,
 						cancellationToken);
 
 					using var checkoutReporter = currentProgressReporter.CreateSection($"Checkout submodule {submodule.Name}", factor);
@@ -1228,6 +1249,16 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			return RecursiveUpdateSubmodules(libGitRepo, progressReporter, GetRepositoryPath());
 		}
+
+		/// <summary>
+		/// Generate a <see cref="CredentialsHandler"/> from a given <paramref name="username"/> and <paramref name="password"/>.
+		/// </summary>
+		/// <param name="username">The optional username to use in the <see cref="CredentialsHandler"/>.</param>
+		/// <param name="password">The optional password to use in the <see cref="CredentialsHandler"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A new <see cref="CredentialsHandler"/>.</returns>
+		ValueTask<CredentialsHandler> GenerateCredentialsHandler(string? username, string? password, CancellationToken cancellationToken)
+			=> credentialsProvider.GenerateCredentialsHandler(gitRemoteFeatures, username, password, cancellationToken);
 
 		/// <summary>
 		/// Converts a given <paramref name="progressReporter"/> to a <see cref="LibGit2Sharp.Handlers.CheckoutProgressHandler"/>.

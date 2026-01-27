@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+
 using Octokit;
 
 using Tgstation.Server.Api.Models;
@@ -39,6 +40,19 @@ namespace Tgstation.Server.Host.Components.Repository
 			: base(logger, remoteUrl)
 		{
 			this.gitHubServiceFactory = gitHubServiceFactory ?? throw new ArgumentNullException(nameof(gitHubServiceFactory));
+		}
+
+		/// <inheritdoc />
+		public override async ValueTask<string?> TransformRepositoryPassword(string? rawPassword, CancellationToken cancellationToken)
+		{
+			if (rawPassword == null)
+				return null;
+
+			var gitHubService = await gitHubServiceFactory.CreateService(
+				rawPassword,
+				new RepositoryIdentifier(this),
+				cancellationToken);
+			return gitHubService?.GetGitPassword() ?? rawPassword;
 		}
 
 		/// <inheritdoc />
