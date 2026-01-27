@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
+
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
@@ -80,32 +81,38 @@ namespace Tgstation.Server.Host.Components.Repository
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public CredentialsHandler GenerateCredentialsHandler(string? username, string? password) => (a, b, supportedCredentialTypes) =>
+		public async ValueTask<CredentialsHandler> GenerateCredentialsHandler(IGitRemoteFeatures gitRemoteFeatures, string? username, string? password, CancellationToken cancellationToken)
 		{
-			var hasCreds = username != null;
-			var supportsUserPass = supportedCredentialTypes.HasFlag(SupportedCredentialTypes.UsernamePassword);
-			var supportsAnonymous = supportedCredentialTypes.HasFlag(SupportedCredentialTypes.Default);
+			ArgumentNullException.ThrowIfNull(gitRemoteFeatures);
 
-			logger.LogTrace(
-				"Credentials requested. Present: {credentialsPresent}. Supports anonymous: {credentialsSupportAnon}. Supports user/pass: {credentialsSupportUserPass}",
-				hasCreds,
-				supportsAnonymous,
-				supportsUserPass);
-			if (supportsUserPass && hasCreds)
-				return new UsernamePasswordCredentials
-				{
-					Username = username,
-					Password = password,
-				};
+			var transformedPassword = await gitRemoteFeatures.TransformRepositoryPassword(password, cancellationToken);
+			return (a, b, supportedCredentialTypes) =>
+			{
+				var hasCreds = username != null;
+				var supportsUserPass = supportedCredentialTypes.HasFlag(SupportedCredentialTypes.UsernamePassword);
+				var supportsAnonymous = supportedCredentialTypes.HasFlag(SupportedCredentialTypes.Default);
 
-			if (supportsAnonymous)
-				return new DefaultCredentials();
+				logger.LogTrace(
+					"Credentials requested. Present: {credentialsPresent}. Supports anonymous: {credentialsSupportAnon}. Supports user/pass: {credentialsSupportUserPass}",
+					hasCreds,
+					supportsAnonymous,
+					supportsUserPass);
+				if (supportsUserPass && hasCreds)
+					return new UsernamePasswordCredentials
+					{
+						Username = username,
+						Password = transformedPassword,
+					};
 
-			if (supportsUserPass)
-				throw new JobException(ErrorCode.RepoCredentialsRequired);
+				if (supportsAnonymous)
+					return new DefaultCredentials();
 
-			throw new JobException(ErrorCode.RepoCannotAuthenticate);
-		};
+				if (supportsUserPass)
+					throw new JobException(ErrorCode.RepoCredentialsRequired);
+
+				throw new JobException(ErrorCode.RepoCannotAuthenticate);
+			};
+		}
 
 		/// <inheritdoc />
 		public void CheckBadCredentialsException(LibGit2SharpException exception)

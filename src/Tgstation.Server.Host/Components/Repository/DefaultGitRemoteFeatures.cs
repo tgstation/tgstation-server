@@ -31,5 +31,9 @@ namespace Tgstation.Server.Host.Components.Repository
 			TestMergeParameters parameters,
 			RepositorySettings repositorySettings,
 			CancellationToken cancellationToken) => throw new NotSupportedException();
+
+		/// <inheritdoc />
+		public ValueTask<string?> TransformRepositoryPassword(string? rawPassword, CancellationToken cancellationToken)
+			=> ValueTask.FromResult(rawPassword);
 	}
 }

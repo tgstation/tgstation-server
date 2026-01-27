@@ -83,6 +83,9 @@ namespace Tgstation.Server.Host.Components.Repository
 			return result;
 		}
 
+		/// <inheritdoc />
+		public abstract ValueTask<string?> TransformRepositoryPassword(string? rawPassword, CancellationToken cancellationToken);
+
 		/// <summary>
 		/// Implementation of <see cref="GetTestMerge(TestMergeParameters, RepositorySettings, CancellationToken)"/>.
 		/// </summary>
