@@ -242,6 +242,10 @@ Components:
     ComponentVersions: {}
     Changes: []
     Unreleased: true
+  - Version: 6.19.2
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.19.1
     ComponentVersions:
       HttpApi: 10.14.0
@@ -260,7 +264,6 @@ Components:
       - Fixed RepoFetch event scripts being called with the TGS internal representation of GitHub private keys instead of a valid access token when app authentication was in use.
       Author: Cyberboss
       PullRequest: 2421
-    Unreleased: true
   - Version: 6.19.0
     ComponentVersions:
       HttpApi: 10.14.0
