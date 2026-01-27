@@ -166,7 +166,11 @@ namespace Tgstation.Server.Host.Components.Repository
 							cloneOptions.FetchOptions.Hydrate(
 								logger,
 								cloneProgressReporter,
-								repositoryFactory.GenerateCredentialsHandler(username, password),
+								await repositoryFactory.GenerateCredentialsHandler(
+									gitRemoteFeaturesFactory.CreateGitRemoteFeatures(url),
+									username,
+									password,
+									cancellationToken),
 								cancellationToken);
 
 							await repositoryFactory.Clone(

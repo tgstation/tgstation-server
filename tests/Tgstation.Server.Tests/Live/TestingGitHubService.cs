@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,6 +22,8 @@ namespace Tgstation.Server.Tests.Live
 {
 	sealed class TestingGitHubService : IAuthenticatedGitHubService
 	{
+		static string TestAccessToken => Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
+
 		static Dictionary<Version, Release> releasesDictionary;
 		static PullRequest testPr;
 		static GitHubCommit testCommit;
@@ -37,7 +38,7 @@ namespace Tgstation.Server.Tests.Live
 			var mockOptions = new Mock<IOptionsMonitor<GeneralConfiguration>>();
 			mockOptions.SetupGet(x => x.CurrentValue).Returns(new GeneralConfiguration
 			{
-				GitHubAccessToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")
+				GitHubAccessToken = TestAccessToken,
 			});
 
 			var gitHubClientFactory = new GitHubClientFactory(new AssemblyInformationProvider(), new BasicHttpMessageHandlerFactory(), mockOptions.Object, Mock.Of<ILogger<GitHubClientFactory>>());
@@ -161,6 +162,12 @@ namespace Tgstation.Server.Tests.Live
 		{
 			logger.LogTrace("GetTgsReleases");
 			return ValueTask.FromResult(releasesDictionary);
+		}
+
+		public string GetGitPassword()
+		{
+			logger.LogTrace("GetGitPassword");
+			return TestAccessToken;
 		}
 	}
 }

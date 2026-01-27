@@ -18,6 +18,7 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Tests
 {
@@ -81,7 +82,10 @@ namespace Tgstation.Server.Tests
 					tempPath),
 				Mock.Of<IEventConsumer>(),
 				new WindowsPostWriteHandler(),
-				Mock.Of<IGitRemoteFeaturesFactory>(),
+				new GitRemoteFeaturesFactory(
+					Mock.Of<IGitHubServiceFactory>(),
+					Mock.Of<ILoggerFactory>(),
+					Mock.Of<ILogger<GitRemoteFeaturesFactory>>()),
 				Mock.Of<IOptionsMonitor<GeneralConfiguration>>(),
 				Mock.Of<ILogger<Host.Components.Repository.Repository>>(),
 				Mock.Of<ILogger<RepositoryManager>>());
