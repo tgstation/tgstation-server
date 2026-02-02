@@ -140,7 +140,7 @@ namespace Tgstation.Server.Tests
 			{
 				// always check byond.com first for latest up-to-date, mirror should ALWAYS have stable versions
 				// except byond hates all CI runners now
-				const string DefaultMirror = "https://spacestation13.github.io/byond-builds/version.txt";
+				const string DefaultMirror = "https://byond-builds.dm-lang.org/version.txt";
 				edgeVersion = await GetVersionFromResponse(DefaultMirror);
 
 				logger.LogInformation("Downloading edge version from SS13 mirror {edge}", edgeVersion);
@@ -151,7 +151,7 @@ namespace Tgstation.Server.Tests
 					Version.Parse(edgeVersion),
 					new PlatformIdentifier().IsWindows,
 					cancellationToken,
-					"https://spacestation13.github.io/byond-builds/${Major}/${Major}.${Minor}_byond${Linux:_linux}.zip");
+					"https://byond-builds.dm-lang.org/${Major}/${Major}.${Minor}_byond${Linux:_linux}.zip");
 			}
 			catch (Exception ex)
 			{
