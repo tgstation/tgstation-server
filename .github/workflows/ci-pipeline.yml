@@ -204,7 +204,7 @@ jobs:
         run: |
           FULL_VERSION=${{ matrix.byond }}
           if [[ "$FULL_VERSION" = "EDGE" ]] ; then
-              VERSIONS=$(curl https://spacestation13.github.io/byond-builds/version.txt)
+              VERSIONS=$(curl https://byond-builds.dm-lang.org/version.txt)
               FULL_VERSION=$(echo "$VERSIONS" | tail -n1)
               echo "EDGE version evaluated to $FULL_VERSION"
 
@@ -234,7 +234,7 @@ jobs:
               mkdir -p $HOME/byond-zips-cache/linux/$FULL_VERSION
               DOWNLOAD_URL="${{ env.DMAPI_BYOND_BUILD_MIRROR_DOWNLOAD_TEMPLATE }}"
               if [[ "${{ matrix.byond }}" = "EDGE" ]] ; then
-                DOWNLOAD_URL="https://spacestation13.github.io/byond-builds/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip"
+                DOWNLOAD_URL="https://byond-builds.dm-lang.org/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip"
               fi
               curl "$DOWNLOAD_URL" -o $HOME/byond-zips-cache/linux/$FULL_VERSION/$FULL_VERSION.zip
           fi
@@ -649,7 +649,7 @@ jobs:
       - name: Evaluate BYOND version
         id: version_evaluation
         run: |
-          VERSIONS=$(curl https://spacestation13.github.io/byond-builds/version.txt)
+          VERSIONS=$(curl https://byond-builds.dm-lang.org/version.txt)
           FULL_VERSION=$(echo "$VERSIONS" | tail -n1)
           echo "EDGE version evaluated to $FULL_VERSION"
           echo "EVALUATED_VERSION=$FULL_VERSION" >> $GITHUB_OUTPUT
@@ -661,12 +661,12 @@ jobs:
           BYOND_MAJOR=${FULL_VERSION%.*}
           if [[ ! -f $HOME/byond-zips-cache/live/linux/$FULL_VERSION/$FULL_VERSION.zip ]] ; then
               mkdir -p $HOME/byond-zips-cache/live/linux/$FULL_VERSION
-              DOWNLOAD_URL="https://spacestation13.github.io/byond-builds/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip"
+              DOWNLOAD_URL="https://byond-builds.dm-lang.org/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip"
               curl "$DOWNLOAD_URL" -o $HOME/byond-zips-cache/live/linux/$FULL_VERSION/$FULL_VERSION.zip
           fi
           if [[ ! -f $HOME/byond-zips-cache/live/windows/$FULL_VERSION/$FULL_VERSION.zip ]] ; then
               mkdir -p $HOME/byond-zips-cache/live/windows/$FULL_VERSION
-              DOWNLOAD_URL="https://spacestation13.github.io/byond-builds/$BYOND_MAJOR/${FULL_VERSION}_byond.zip"
+              DOWNLOAD_URL="https://byond-builds.dm-lang.org/$BYOND_MAJOR/${FULL_VERSION}_byond.zip"
               curl "$DOWNLOAD_URL" -o $HOME/byond-zips-cache/live/windows/$FULL_VERSION/$FULL_VERSION.zip
           fi
 
