@@ -5,11 +5,11 @@
   <PropertyGroup>
     <TgsCoreVersion>6.19.2</TgsCoreVersion>
     <TgsConfigVersion>5.9.0</TgsConfigVersion>
-    <TgsRestVersion>10.14.0</TgsRestVersion>
+    <TgsRestVersion>10.14.1</TgsRestVersion>
     <TgsGraphQLVersion>0.7.0</TgsGraphQLVersion>
     <TgsCommonLibraryVersion>7.0.0</TgsCommonLibraryVersion>
-    <TgsApiLibraryVersion>18.2.0</TgsApiLibraryVersion>
-    <TgsClientVersion>21.2.0</TgsClientVersion>
+    <TgsApiLibraryVersion>18.2.1</TgsApiLibraryVersion>
+    <TgsClientVersion>21.2.1</TgsClientVersion>
     <TgsDmapiVersion>7.4.0</TgsDmapiVersion>
     <TgsInteropVersion>5.11.0</TgsInteropVersion>
     <TgsHostWatchdogVersion>1.6.0</TgsHostWatchdogVersion>
