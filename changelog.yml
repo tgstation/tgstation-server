@@ -244,7 +244,7 @@ Components:
     Unreleased: true
   - Version: 6.19.2
     ComponentVersions:
-      Core: 6.19.1
+      Core: 6.19.2
       HttpApi: 10.14.0
       GraphQLApi: 0.7.0
       DreamMakerApi: 7.4.0
@@ -4398,6 +4398,13 @@ Components:
       Author: alexkar598
       PullRequest: 1133
   HttpApi:
+  - Version: 10.14.0
+    Changes:
+    - Descriptions:
+      - Fixes colons in passwords not being accepted by http basic auth
+      Author: alexkar598
+      PullRequest: 2424
+    Unreleased: true
   - Version: 10.13.0
     Changes:
     - Descriptions:
