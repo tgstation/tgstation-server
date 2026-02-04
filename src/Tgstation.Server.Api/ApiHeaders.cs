@@ -309,7 +309,7 @@ namespace Tgstation.Server.Api
 									break;
 								}
 
-								var basicAuthSplits = joinedString.Split(ColonSeparator, StringSplitOptions.RemoveEmptyEntries);
+								var basicAuthSplits = joinedString.Split(ColonSeparator, 2, StringSplitOptions.RemoveEmptyEntries);
 								if (basicAuthSplits.Length < 2)
 								{
 									AddError(HeaderErrorTypes.AuthorizationInvalid, badBasicAuthHeaderMessage);
