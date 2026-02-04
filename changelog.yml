@@ -242,21 +242,24 @@ Components:
     ComponentVersions: {}
     Changes: []
     Unreleased: true
+  - Version: 6.19.3
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.19.2
     ComponentVersions:
       Core: 6.19.2
-      HttpApi: 10.14.0
+      HttpApi: 10.14.1
       GraphQLApi: 0.7.0
       DreamMakerApi: 7.4.0
       Configuration: 5.9.0
       InteropApi: 5.11.0
       HostWatchdog: 1.6.0
       NugetCommon: 7.0.0
-      NugetApi: 18.2.0
-      NugetClient: 21.2.0
+      NugetApi: 18.2.1
+      NugetClient: 21.2.1
       WebControlPanel: 6.10.0
     Changes: []
-    Unreleased: true
   - Version: 6.19.1
     ComponentVersions:
       HttpApi: 10.14.0
@@ -4404,7 +4407,6 @@ Components:
       - Fixes colons in passwords not being accepted by http basic auth
       Author: alexkar598
       PullRequest: 2424
-    Unreleased: true
   - Version: 10.13.0
     Changes:
     - Descriptions:
@@ -5297,6 +5299,13 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 18.2.1
+    Changes:
+    - Descriptions:
+      - Fix password deserialization in `RequestHeaders` `ApiHeaders` constructor.
+      Author: Cyberboss
+      PullRequest: 2426
+    Unreleased: true
   - Version: 13.5.0
     Changes:
     - Descriptions:
@@ -5380,4 +5389,11 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient: []
+  NugetClient:
+  - Version: 21.2.1
+    Changes:
+    - Descriptions:
+      - Update API library to 18.2.1.
+      Author: Cyberboss
+      PullRequest: 2426
+    Unreleased: true
