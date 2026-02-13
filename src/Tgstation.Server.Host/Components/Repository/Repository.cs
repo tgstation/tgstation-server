@@ -272,7 +272,15 @@ namespace Tgstation.Server.Host.Components.Repository
 						{
 							logger.LogTrace("Fetching refspec {refSpec}...", refSpec);
 
+							var (owner, name) = gitRemoteFeatures.GetRepositoryOwnerAndName(testMergeParameters);
 							var remote = libGitRepo.Network.Remotes.First();
+							if (owner != gitRemoteFeatures.RemoteRepositoryOwner || name != gitRemoteFeatures.RemoteRepositoryName)
+							{
+								var remoteUrl = gitRemoteFeatures.GetRemoteUrl(owner, name);
+								var remoteName = $"tm-remote-{owner}-{name}";
+								remote = libGitRepo.Network.Remotes[remoteName] ?? libGitRepo.Network.Remotes.Add(remoteName, remoteUrl.ToString());
+							}
+
 							using var fetchReporter = progressReporter.CreateSection($"Fetch {refSpec}", progressFactor);
 							commands.Fetch(
 								libGitRepo,

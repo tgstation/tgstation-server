@@ -53,10 +53,11 @@ namespace Tgstation.Server.Host.Components.Repository
 			CancellationToken cancellationToken)
 		{
 			await using var client = await GraphQLGitLabClientFactory.CreateClient(repositorySettings.AccessToken);
+			var (owner, name) = GetRepositoryOwnerAndName(parameters);
 			try
 			{
 				var operationResult = await client.GraphQL.GetMergeRequest.ExecuteAsync(
-					$"{RemoteRepositoryOwner}/{RemoteRepositoryName}",
+					$"{owner}/{name}",
 					parameters.Number.ToString(CultureInfo.InvariantCulture),
 					cancellationToken);
 
@@ -70,6 +71,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					TitleAtMerge = mr.Title,
 					Comment = parameters.Comment,
 					Number = parameters.Number,
+					SourceRepository = parameters.SourceRepository,
 					TargetCommitSha = mr.DiffHeadSha,
 					Url = mr.WebUrl,
 				};
@@ -85,8 +87,9 @@ namespace Tgstation.Server.Host.Components.Repository
 					TitleAtMerge = ex.Message,
 					Comment = parameters.Comment,
 					Number = parameters.Number,
+					SourceRepository = parameters.SourceRepository,
 					TargetCommitSha = parameters.TargetCommitSha,
-					Url = $"https://gitlab.com/{RemoteRepositoryOwner}/{RemoteRepositoryName}/-/merge_requests/{parameters.Number}",
+					Url = $"https://gitlab.com/{owner}/{name}/-/merge_requests/{parameters.Number}",
 				};
 			}
 		}

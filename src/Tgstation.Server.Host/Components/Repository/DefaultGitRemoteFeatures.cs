@@ -35,5 +35,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public ValueTask<string?> TransformRepositoryPassword(string? rawPassword, CancellationToken cancellationToken)
 			=> ValueTask.FromResult(rawPassword);
+
+		/// <inheritdoc />
+		public Uri GetRemoteUrl(string owner, string name) => throw new NotSupportedException();
+
+		/// <inheritdoc />
+		public (string owner, string name) GetRepositoryOwnerAndName(TestMergeParameters parameters) => throw new NotSupportedException();
 	}
 }

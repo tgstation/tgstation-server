@@ -71,12 +71,15 @@ namespace Tgstation.Server.Host.Components.Repository
 			PullRequest? pr = null;
 			ApiException? exception = null;
 			string? errorMessage = null;
+
+			var (owner, name) = GetRepositoryOwnerAndName(parameters);
+
 			if (gitHubService == null)
 				errorMessage = "GITHUB API ERROR: AUTH FAILURE";
 			else
 				try
 				{
-					pr = await gitHubService.GetPullRequest(RemoteRepositoryOwner, RemoteRepositoryName, parameters.Number, cancellationToken);
+					pr = await gitHubService.GetPullRequest(owner, name, parameters.Number, cancellationToken);
 				}
 				catch (RateLimitExceededException ex)
 				{
@@ -111,8 +114,9 @@ namespace Tgstation.Server.Host.Components.Repository
 				TitleAtMerge = pr?.Title ?? errorMessage ?? String.Empty,
 				Comment = parameters.Comment,
 				Number = parameters.Number,
+				SourceRepository = parameters.SourceRepository,
 				TargetCommitSha = revisionToUse,
-				Url = pr?.HtmlUrl ?? $"https://github.com/{RemoteRepositoryOwner}/{RemoteRepositoryName}/pull/{parameters.Number}",
+				Url = pr?.HtmlUrl ?? $"https://github.com/{owner}/{name}/pull/{parameters.Number}",
 			};
 
 			return testMerge;
