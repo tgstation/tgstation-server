@@ -421,6 +421,7 @@ namespace Tgstation.Server.Host.Components.Repository
 										.All(y => newTestMergeModels
 											.Any(z =>
 												y.Number == z.Number
+												&& y.SourceRepository == z.SourceRepository
 												&& y.TargetCommitSha!.StartsWith(z.TargetCommitSha!, StringComparison.Ordinal)
 												&& (y.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == null))))
 								.FirstOrDefault();
@@ -445,17 +446,26 @@ namespace Tgstation.Server.Host.Components.Repository
 
 												var testMergeMatch = newTestMergeModels.Any(testTestMerge =>
 												{
-													var numberMatch = testRevInfo.PrimaryTestMerge.Number == testTestMerge.Number;
+													var numberMatch = testRevInfo.PrimaryTestMerge.Number ==
+													                  testTestMerge.Number;
 													if (!numberMatch)
 														return false;
 
-													var shaMatch = testRevInfo.PrimaryTestMerge.TargetCommitSha!.StartsWith(
-														testTestMerge.TargetCommitSha!,
-														StringComparison.Ordinal);
+													var repositoryMatch =
+														testRevInfo.PrimaryTestMerge.SourceRepository ==
+														testTestMerge.SourceRepository;
+													if (!repositoryMatch)
+														return false;
+
+													var shaMatch = testRevInfo.PrimaryTestMerge.TargetCommitSha!
+														.StartsWith(
+															testTestMerge.TargetCommitSha!,
+															StringComparison.Ordinal);
 													if (!shaMatch)
 														return false;
 
-													var commentMatch = testRevInfo.PrimaryTestMerge.Comment == testTestMerge.Comment;
+													var commentMatch = testRevInfo.PrimaryTestMerge.Comment ==
+													                   testTestMerge.Comment;
 													return commentMatch;
 												});
 
@@ -506,7 +516,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					{
 						foreach (var newTestMerge in newTestMergeModels)
 						{
-							if (lastRevisionInfo.ActiveTestMerges!.Any(x => x.TestMerge.Number == newTestMerge.Number))
+							if (lastRevisionInfo.ActiveTestMerges!.Any(x => x.TestMerge.Number == newTestMerge.Number && x.TestMerge.SourceRepository == newTestMerge.SourceRepository))
 								throw new JobException(ErrorCode.RepoDuplicateTestMerge);
 
 							var fullTestMergeTask = repo.GetTestMerge(newTestMerge, currentModel, cancellationToken);

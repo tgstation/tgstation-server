@@ -87,5 +87,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User may trigger repository recloning.
 		/// </summary>
 		Reclone = 1 << 14,
+
+		/// <summary>
+		/// User may add test merges from different repositories.
+		/// </summary>
+		OffRepoTestMerges = 1 << 15
 	}
 }

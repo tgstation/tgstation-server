@@ -97,6 +97,7 @@ namespace Tgstation.Server.Host.Database
 				.MapMySqlTextField<TestMerge>(x => x.BodyAtMerge)
 				.MapMySqlTextField<TestMerge>(x => x.Comment)
 				.MapMySqlTextField<TestMerge>(x => x.TargetCommitSha)
+				.MapMySqlTextField<TestMerge>(x => x.SourceRepository)
 				.MapMySqlTextField<TestMerge>(x => x.TitleAtMerge)
 				.MapMySqlTextField<TestMerge>(x => x.Url)
 				.MapMySqlTextField<User>(x => x.CanonicalName)
