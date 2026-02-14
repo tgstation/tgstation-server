@@ -24,10 +24,18 @@ namespace Tgstation.Server.Host.Components.Repository
 		public const string GitLabUrl = "https://gitlab.com";
 
 		/// <inheritdoc />
-		public override string TestMergeRefSpecFormatter => "merge-requests/{0}/head:{1}";
+		public override string GetTestMergeRefSpec(TestMergeParameters parameters)
+		{
+			ArgumentNullException.ThrowIfNull(parameters);
+			return String.Format(CultureInfo.InvariantCulture, "merge-requests/{0}/head", parameters.Number);
+		}
 
 		/// <inheritdoc />
-		public override string TestMergeLocalBranchNameFormatter => "merge-requests/{0}/headrefs/heads/{1}";
+		public override string GetTestMergeLocalBranchName(TestMergeParameters parameters)
+		{
+			ArgumentNullException.ThrowIfNull(parameters);
+			return String.Format(CultureInfo.InvariantCulture, "merge-requests/{0}/head", parameters.Number);
+		}
 
 		/// <inheritdoc />
 		public override RemoteGitProvider? RemoteGitProvider => Api.Models.RemoteGitProvider.GitLab;

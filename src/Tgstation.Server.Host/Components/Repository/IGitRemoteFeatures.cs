@@ -12,14 +12,18 @@ namespace Tgstation.Server.Host.Components.Repository
 	public interface IGitRemoteFeatures : IGitRemoteAdditionalInformation
 	{
 		/// <summary>
-		/// Gets a formatter string which creates the remote refspec for fetching the HEAD of passed in test merge number.
+		/// Gets the remote refspec for fetching the HEAD of passed in test merge.
 		/// </summary>
-		string TestMergeRefSpecFormatter { get; }
+		/// <param name="parameters">The <see cref="TestMergeParameters"/>.</param>
+		/// <returns>The refspec.</returns>
+		string GetTestMergeRefSpec(TestMergeParameters parameters);
 
 		/// <summary>
-		/// Get.
+		/// Gets the local branch name for the passed in test merge.
 		/// </summary>
-		string TestMergeLocalBranchNameFormatter { get; }
+		/// <param name="parameters">The <see cref="TestMergeParameters"/>.</param>
+		/// <returns>The local branch name.</returns>
+		string GetTestMergeLocalBranchName(TestMergeParameters parameters);
 
 		/// <summary>
 		/// Transform a service's <paramref name="rawPassword"/> into a password usable by git.
@@ -42,6 +46,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		/// <param name="parameters">The <see cref="TestMergeParameters"/>.</param>
 		/// <returns>A tuple containing the owner and name.</returns>
-		(string owner, string name) GetRepositoryOwnerAndName(TestMergeParameters parameters);
+		(string Owner, string Name) GetRepositoryOwnerAndName(TestMergeParameters parameters);
 	}
 }

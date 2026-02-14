@@ -14,7 +14,7 @@ namespace Tgstation.Server.Api.Models
 		public int Number { get; set; }
 
 		/// <summary>
-		/// The source repository of the test merge. If not specified, the repository the server is configured to use will be used.
+		/// The source repository slug of the test merge. If not specified, the repository the server is configured to use will be used.
 		/// </summary>
 		/// <example>tgstation/tgstation</example>
 		[StringLength(Limits.MaximumIndexableStringLength)]

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,10 +18,18 @@ namespace Tgstation.Server.Host.Components.Repository
 	sealed class GitHubRemoteFeatures : GitRemoteFeaturesBase
 	{
 		/// <inheritdoc />
-		public override string TestMergeRefSpecFormatter => "pull/{0}/head:{1}";
+		public override string GetTestMergeRefSpec(TestMergeParameters parameters)
+		{
+			ArgumentNullException.ThrowIfNull(parameters);
+			return String.Format(CultureInfo.InvariantCulture, "pull/{0}/head", parameters.Number);
+		}
 
 		/// <inheritdoc />
-		public override string TestMergeLocalBranchNameFormatter => "pull/{0}/headrefs/heads/{1}";
+		public override string GetTestMergeLocalBranchName(TestMergeParameters parameters)
+		{
+			ArgumentNullException.ThrowIfNull(parameters);
+			return String.Format(CultureInfo.InvariantCulture, "pull/{0}/head", parameters.Number);
+		}
 
 		/// <inheritdoc />
 		public override RemoteGitProvider? RemoteGitProvider => Api.Models.RemoteGitProvider.GitHub;

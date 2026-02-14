@@ -15,10 +15,10 @@ namespace Tgstation.Server.Host.Components.Repository
 	abstract class GitRemoteFeaturesBase : IGitRemoteFeatures
 	{
 		/// <inheritdoc />
-		public abstract string TestMergeRefSpecFormatter { get; }
+		public abstract string GetTestMergeRefSpec(TestMergeParameters parameters);
 
 		/// <inheritdoc />
-		public abstract string TestMergeLocalBranchNameFormatter { get; }
+		public abstract string GetTestMergeLocalBranchName(TestMergeParameters parameters);
 
 		/// <inheritdoc />
 		public abstract RemoteGitProvider? RemoteGitProvider { get; }
@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public (string owner, string name) GetRepositoryOwnerAndName(TestMergeParameters parameters)
+		public (string Owner, string Name) GetRepositoryOwnerAndName(TestMergeParameters parameters)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 			if (parameters.SourceRepository == null)

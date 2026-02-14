@@ -349,7 +349,8 @@ namespace Tgstation.Server.Host.Controllers
 			| RepositoryRights.SetReference
 			| RepositoryRights.SetSha
 			| RepositoryRights.UpdateBranch
-			| RepositoryRights.ChangeSubmoduleUpdate)]
+			| RepositoryRights.ChangeSubmoduleUpdate
+			| RepositoryRights.OffRepoTestMerges)]
 		[ProducesResponseType(typeof(RepositoryResponse), 200)]
 		[ProducesResponseType(typeof(RepositoryResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
@@ -368,7 +369,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.CheckoutSha != null && model.UpdateFromOrigin == true)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.RepoMismatchShaAndUpdate));
 
-			if (model.NewTestMerges?.Any(x => model.NewTestMerges.Any(y => x != y && x.Number == y.Number)) == true)
+			if (model.NewTestMerges?.Any(x => model.NewTestMerges.Any(y => x != y && x.Number == y.Number && x.SourceRepository == y.SourceRepository)) == true)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.RepoDuplicateTestMerge));
 
 			if (model.CommitterName?.Length == 0)
@@ -380,6 +381,9 @@ namespace Tgstation.Server.Host.Controllers
 			var newTestMerges = model.NewTestMerges != null && model.NewTestMerges.Count > 0;
 			var userRights = (RepositoryRights)AuthenticationContext.GetRight(RightsType.Repository);
 			if (newTestMerges && !userRights.HasFlag(RepositoryRights.MergePullRequest))
+				return Forbid();
+
+			if (model.NewTestMerges?.Any(x => x.SourceRepository != null) == true && !userRights.HasFlag(RepositoryRights.OffRepoTestMerges))
 				return Forbid();
 
 			var currentModel = await DatabaseContext

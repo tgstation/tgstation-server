@@ -446,21 +446,26 @@ namespace Tgstation.Server.Host.Components.Repository
 
 												var testMergeMatch = newTestMergeModels.Any(testTestMerge =>
 												{
-												var numberMatch = testRevInfo.PrimaryTestMerge.Number == testTestMerge.Number;
-												if (!numberMatch)
-													return false;
+													var numberMatch = testRevInfo.PrimaryTestMerge.Number ==
+													                  testTestMerge.Number;
+													if (!numberMatch)
+														return false;
 
-												var repositoryMatch = testRevInfo.PrimaryTestMerge.SourceRepository == testTestMerge.SourceRepository;
-												if (!repositoryMatch)
-													return false;
+													var repositoryMatch =
+														testRevInfo.PrimaryTestMerge.SourceRepository ==
+														testTestMerge.SourceRepository;
+													if (!repositoryMatch)
+														return false;
 
-												var shaMatch = testRevInfo.PrimaryTestMerge.TargetCommitSha!.StartsWith(
-														testTestMerge.TargetCommitSha!,
-														StringComparison.Ordinal);
+													var shaMatch = testRevInfo.PrimaryTestMerge.TargetCommitSha!
+														.StartsWith(
+															testTestMerge.TargetCommitSha!,
+															StringComparison.Ordinal);
 													if (!shaMatch)
 														return false;
 
-													var commentMatch = testRevInfo.PrimaryTestMerge.Comment == testTestMerge.Comment;
+													var commentMatch = testRevInfo.PrimaryTestMerge.Comment ==
+													                   testTestMerge.Comment;
 													return commentMatch;
 												});
 

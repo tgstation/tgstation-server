@@ -3,17 +3,17 @@
   <!-- Integration tests will ensure they match across the board -->
   <Import Project="WebpanelVersion.props" />
   <PropertyGroup>
-    <TgsCoreVersion>6.19.2</TgsCoreVersion>
+    <TgsCoreVersion>6.20.0</TgsCoreVersion>
     <TgsConfigVersion>5.9.0</TgsConfigVersion>
     <TgsRestVersion>10.14.1</TgsRestVersion>
     <TgsGraphQLVersion>0.7.0</TgsGraphQLVersion>
     <TgsCommonLibraryVersion>7.0.0</TgsCommonLibraryVersion>
-    <TgsApiLibraryVersion>18.2.1</TgsApiLibraryVersion>
-    <TgsClientVersion>21.2.1</TgsClientVersion>
+    <TgsApiLibraryVersion>18.3.0</TgsApiLibraryVersion>
+    <TgsClientVersion>21.3.0</TgsClientVersion>
     <TgsDmapiVersion>7.4.0</TgsDmapiVersion>
     <TgsInteropVersion>5.11.0</TgsInteropVersion>
     <TgsHostWatchdogVersion>1.6.0</TgsHostWatchdogVersion>
-    <TgsSwarmProtocolVersion>9.0.0</TgsSwarmProtocolVersion>
+    <TgsSwarmProtocolVersion>10.0.0</TgsSwarmProtocolVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>
     <TgsNugetNetFramework>netstandard2.0</TgsNugetNetFramework>
     <TgsNetMajorVersion>8</TgsNetMajorVersion>
