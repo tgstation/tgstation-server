@@ -73,8 +73,13 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public string Reference => libGitRepo.Head.FriendlyName;
 
+		/// <summary>
+		/// The default remote name.
+		/// </summary>
+		public const string DefaultRemoteName = "origin";
+
 		/// <inheritdoc />
-		public Uri Origin => new(libGitRepo.Network.Remotes["origin"].Url);
+		public Uri Origin => new(libGitRepo.Network.Remotes[DefaultRemoteName].Url);
 
 		/// <summary>
 		/// The <see cref="LibGit2Sharp.IRepository"/> for the <see cref="Repository"/>.
@@ -273,7 +278,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							logger.LogTrace("Fetching refspec {refSpec}...", refSpec);
 
 							var (owner, name) = gitRemoteFeatures.GetRepositoryOwnerAndName(testMergeParameters);
-							var remote = libGitRepo.Network.Remotes["origin"];
+							var remote = libGitRepo.Network.Remotes[DefaultRemoteName];
 							if (owner != gitRemoteFeatures.RemoteRepositoryOwner || name != gitRemoteFeatures.RemoteRepositoryName)
 							{
 								var remoteUrl = gitRemoteFeatures.GetRemoteUrl(owner, name);
@@ -494,7 +499,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			await Task.Factory.StartNew(
 				() =>
 				{
-					var remote = libGitRepo.Network.Remotes["origin"];
+					var remote = libGitRepo.Network.Remotes[DefaultRemoteName];
 					try
 					{
 						using var subReporter = progressReporter.CreateSection("Fetch Origin", 1.0);
@@ -809,7 +814,6 @@ namespace Tgstation.Server.Host.Components.Repository
 			return await Task.Factory.StartNew(
 				() =>
 				{
-					var remote = libGitRepo.Network.Remotes["origin"];
 					try
 					{
 						try
@@ -1063,7 +1067,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				try
 				{
 					cancellationToken.ThrowIfCancellationRequested();
-					var remote = libGitRepo.Network.Remotes["origin"];
+					var remote = libGitRepo.Network.Remotes[DefaultRemoteName];
 					try
 					{
 						var forcePushString = String.Format(CultureInfo.InvariantCulture, "+{0}:{0}", branch.CanonicalName);

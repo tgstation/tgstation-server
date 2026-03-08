@@ -349,8 +349,7 @@ namespace Tgstation.Server.Host.Controllers
 			| RepositoryRights.SetReference
 			| RepositoryRights.SetSha
 			| RepositoryRights.UpdateBranch
-			| RepositoryRights.ChangeSubmoduleUpdate
-			| RepositoryRights.OffRepoTestMerges)]
+			| RepositoryRights.ChangeSubmoduleUpdate)]
 		[ProducesResponseType(typeof(RepositoryResponse), 200)]
 		[ProducesResponseType(typeof(RepositoryResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
