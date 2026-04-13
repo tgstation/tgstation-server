@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,10 +18,18 @@ namespace Tgstation.Server.Host.Components.Repository
 	sealed class GitHubRemoteFeatures : GitRemoteFeaturesBase
 	{
 		/// <inheritdoc />
-		public override string TestMergeRefSpecFormatter => "pull/{0}/head:{1}";
+		public override string GetTestMergeRefSpec(TestMergeParameters parameters)
+		{
+			ArgumentNullException.ThrowIfNull(parameters);
+			return String.Format(CultureInfo.InvariantCulture, "pull/{0}/head", parameters.Number);
+		}
 
 		/// <inheritdoc />
-		public override string TestMergeLocalBranchNameFormatter => "pull/{0}/headrefs/heads/{1}";
+		public override string GetTestMergeLocalBranchName(TestMergeParameters parameters)
+		{
+			ArgumentNullException.ThrowIfNull(parameters);
+			return String.Format(CultureInfo.InvariantCulture, "pull/{0}/head", parameters.Number);
+		}
 
 		/// <inheritdoc />
 		public override RemoteGitProvider? RemoteGitProvider => Api.Models.RemoteGitProvider.GitHub;
@@ -71,12 +80,15 @@ namespace Tgstation.Server.Host.Components.Repository
 			PullRequest? pr = null;
 			ApiException? exception = null;
 			string? errorMessage = null;
+
+			var (owner, name) = GetRepositoryOwnerAndName(parameters);
+
 			if (gitHubService == null)
 				errorMessage = "GITHUB API ERROR: AUTH FAILURE";
 			else
 				try
 				{
-					pr = await gitHubService.GetPullRequest(RemoteRepositoryOwner, RemoteRepositoryName, parameters.Number, cancellationToken);
+					pr = await gitHubService.GetPullRequest(owner, name, parameters.Number, cancellationToken);
 				}
 				catch (RateLimitExceededException ex)
 				{
@@ -111,8 +123,9 @@ namespace Tgstation.Server.Host.Components.Repository
 				TitleAtMerge = pr?.Title ?? errorMessage ?? String.Empty,
 				Comment = parameters.Comment,
 				Number = parameters.Number,
+				SourceRepository = parameters.SourceRepository,
 				TargetCommitSha = revisionToUse,
-				Url = pr?.HtmlUrl ?? $"https://github.com/{RemoteRepositoryOwner}/{RemoteRepositoryName}/pull/{parameters.Number}",
+				Url = pr?.HtmlUrl ?? $"https://github.com/{owner}/{name}/pull/{parameters.Number}",
 			};
 
 			return testMerge;

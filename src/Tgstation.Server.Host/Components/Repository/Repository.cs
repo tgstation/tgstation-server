@@ -73,8 +73,13 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public string Reference => libGitRepo.Head.FriendlyName;
 
+		/// <summary>
+		/// The default remote name.
+		/// </summary>
+		public const string DefaultRemoteName = "origin";
+
 		/// <inheritdoc />
-		public Uri Origin => new(libGitRepo.Network.Remotes.First().Url);
+		public Uri Origin => new(libGitRepo.Network.Remotes[DefaultRemoteName].Url);
 
 		/// <summary>
 		/// The <see cref="LibGit2Sharp.IRepository"/> for the <see cref="Repository"/>.
@@ -247,11 +252,11 @@ namespace Tgstation.Server.Host.Components.Repository
 				testMergeParameters.Comment ?? String.Empty);
 
 			var testMergeBranchName = String.Format(CultureInfo.InvariantCulture, "tm-{0}", testMergeParameters.Number);
-			var localBranchName = String.Format(CultureInfo.InvariantCulture, gitRemoteFeatures.TestMergeLocalBranchNameFormatter, testMergeParameters.Number, testMergeBranchName);
+			var localBranchName = gitRemoteFeatures.GetTestMergeLocalBranchName(testMergeParameters);
 
-			var refSpec = String.Format(CultureInfo.InvariantCulture, gitRemoteFeatures.TestMergeRefSpecFormatter, testMergeParameters.Number, testMergeBranchName);
+			var refSpec = String.Format(CultureInfo.InvariantCulture, "{0}:{1}", gitRemoteFeatures.GetTestMergeRefSpec(testMergeParameters), localBranchName);
 			var refSpecList = new List<string> { refSpec };
-			var logMessage = String.Format(CultureInfo.InvariantCulture, "Test merge #{0}", testMergeParameters.Number);
+			var logMessage = String.Format(CultureInfo.InvariantCulture, "Test merge #{0} from remote {1}", testMergeParameters.Number, testMergeParameters.SourceRepository ?? Origin.ToString());
 
 			var originalCommit = libGitRepo.Head;
 
@@ -272,7 +277,15 @@ namespace Tgstation.Server.Host.Components.Repository
 						{
 							logger.LogTrace("Fetching refspec {refSpec}...", refSpec);
 
-							var remote = libGitRepo.Network.Remotes.First();
+							var (owner, name) = gitRemoteFeatures.GetRepositoryOwnerAndName(testMergeParameters);
+							var remote = libGitRepo.Network.Remotes[DefaultRemoteName];
+							if (owner != gitRemoteFeatures.RemoteRepositoryOwner || name != gitRemoteFeatures.RemoteRepositoryName)
+							{
+								var remoteUrl = gitRemoteFeatures.GetRemoteUrl(owner, name);
+								var remoteName = $"tm-remote-{owner}-{name}";
+								remote = libGitRepo.Network.Remotes[remoteName] ?? libGitRepo.Network.Remotes.Add(remoteName, remoteUrl.ToString());
+							}
+
 							using var fetchReporter = progressReporter.CreateSection($"Fetch {refSpec}", progressFactor);
 							commands.Fetch(
 								libGitRepo,
@@ -404,6 +417,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					testMergeParameters.Number.ToString(CultureInfo.InvariantCulture),
 					testMergeParameters.TargetCommitSha!,
 					testMergeParameters.Comment,
+					testMergeParameters.SourceRepository,
 				},
 				false,
 				false,
@@ -485,7 +499,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			await Task.Factory.StartNew(
 				() =>
 				{
-					var remote = libGitRepo.Network.Remotes.First();
+					var remote = libGitRepo.Network.Remotes[DefaultRemoteName];
 					try
 					{
 						using var subReporter = progressReporter.CreateSection("Fetch Origin", 1.0);
@@ -800,7 +814,6 @@ namespace Tgstation.Server.Host.Components.Repository
 			return await Task.Factory.StartNew(
 				() =>
 				{
-					var remote = libGitRepo.Network.Remotes.First();
 					try
 					{
 						try
@@ -1054,7 +1067,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				try
 				{
 					cancellationToken.ThrowIfCancellationRequested();
-					var remote = libGitRepo.Network.Remotes.First();
+					var remote = libGitRepo.Network.Remotes[DefaultRemoteName];
 					try
 					{
 						var forcePushString = String.Format(CultureInfo.InvariantCulture, "+{0}:{0}", branch.CanonicalName);

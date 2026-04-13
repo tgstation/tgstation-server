@@ -12,10 +12,10 @@ namespace Tgstation.Server.Host.Components.Repository
 	sealed class DefaultGitRemoteFeatures : IGitRemoteFeatures
 	{
 		/// <inheritdoc />
-		public string TestMergeRefSpecFormatter => throw new NotSupportedException();
+		public string GetTestMergeRefSpec(TestMergeParameters parameters) => throw new NotSupportedException();
 
 		/// <inheritdoc />
-		public string TestMergeLocalBranchNameFormatter => throw new NotSupportedException();
+		public string GetTestMergeLocalBranchName(TestMergeParameters parameters) => throw new NotSupportedException();
 
 		/// <inheritdoc />
 		public RemoteGitProvider? RemoteGitProvider => Api.Models.RemoteGitProvider.Unknown;
@@ -35,5 +35,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public ValueTask<string?> TransformRepositoryPassword(string? rawPassword, CancellationToken cancellationToken)
 			=> ValueTask.FromResult(rawPassword);
+
+		/// <inheritdoc />
+		public Uri GetRemoteUrl(string owner, string name) => throw new NotSupportedException();
+
+		/// <inheritdoc />
+		public (string Owner, string Name) GetRepositoryOwnerAndName(TestMergeParameters parameters) => throw new NotSupportedException();
 	}
 }

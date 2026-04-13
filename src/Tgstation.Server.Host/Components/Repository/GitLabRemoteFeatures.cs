@@ -24,10 +24,18 @@ namespace Tgstation.Server.Host.Components.Repository
 		public const string GitLabUrl = "https://gitlab.com";
 
 		/// <inheritdoc />
-		public override string TestMergeRefSpecFormatter => "merge-requests/{0}/head:{1}";
+		public override string GetTestMergeRefSpec(TestMergeParameters parameters)
+		{
+			ArgumentNullException.ThrowIfNull(parameters);
+			return String.Format(CultureInfo.InvariantCulture, "merge-requests/{0}/head", parameters.Number);
+		}
 
 		/// <inheritdoc />
-		public override string TestMergeLocalBranchNameFormatter => "merge-requests/{0}/headrefs/heads/{1}";
+		public override string GetTestMergeLocalBranchName(TestMergeParameters parameters)
+		{
+			ArgumentNullException.ThrowIfNull(parameters);
+			return String.Format(CultureInfo.InvariantCulture, "merge-requests/{0}/head", parameters.Number);
+		}
 
 		/// <inheritdoc />
 		public override RemoteGitProvider? RemoteGitProvider => Api.Models.RemoteGitProvider.GitLab;
@@ -53,10 +61,11 @@ namespace Tgstation.Server.Host.Components.Repository
 			CancellationToken cancellationToken)
 		{
 			await using var client = await GraphQLGitLabClientFactory.CreateClient(repositorySettings.AccessToken);
+			var (owner, name) = GetRepositoryOwnerAndName(parameters);
 			try
 			{
 				var operationResult = await client.GraphQL.GetMergeRequest.ExecuteAsync(
-					$"{RemoteRepositoryOwner}/{RemoteRepositoryName}",
+					$"{owner}/{name}",
 					parameters.Number.ToString(CultureInfo.InvariantCulture),
 					cancellationToken);
 
@@ -70,6 +79,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					TitleAtMerge = mr.Title,
 					Comment = parameters.Comment,
 					Number = parameters.Number,
+					SourceRepository = parameters.SourceRepository,
 					TargetCommitSha = mr.DiffHeadSha,
 					Url = mr.WebUrl,
 				};
@@ -85,8 +95,9 @@ namespace Tgstation.Server.Host.Components.Repository
 					TitleAtMerge = ex.Message,
 					Comment = parameters.Comment,
 					Number = parameters.Number,
+					SourceRepository = parameters.SourceRepository,
 					TargetCommitSha = parameters.TargetCommitSha,
-					Url = $"https://gitlab.com/{RemoteRepositoryOwner}/{RemoteRepositoryName}/-/merge_requests/{parameters.Number}",
+					Url = $"https://gitlab.com/{owner}/{name}/-/merge_requests/{parameters.Number}",
 				};
 			}
 		}

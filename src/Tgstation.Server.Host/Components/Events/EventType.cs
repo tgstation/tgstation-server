@@ -24,7 +24,7 @@
 		RepoFetch,
 
 		/// <summary>
-		/// Parameters: Test merge number, test merge target sha, merger message.
+		/// Parameters: Test merge number, test merge target sha, merger message, source repository(?).
 		/// </summary>
 		[EventScript("RepoMergePullRequest")]
 		RepoAddTestMerge,

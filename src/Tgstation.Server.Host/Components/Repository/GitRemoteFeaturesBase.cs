@@ -15,10 +15,10 @@ namespace Tgstation.Server.Host.Components.Repository
 	abstract class GitRemoteFeaturesBase : IGitRemoteFeatures
 	{
 		/// <inheritdoc />
-		public abstract string TestMergeRefSpecFormatter { get; }
+		public abstract string GetTestMergeRefSpec(TestMergeParameters parameters);
 
 		/// <inheritdoc />
-		public abstract string TestMergeLocalBranchNameFormatter { get; }
+		public abstract string GetTestMergeLocalBranchName(TestMergeParameters parameters);
 
 		/// <inheritdoc />
 		public abstract RemoteGitProvider? RemoteGitProvider { get; }
@@ -35,6 +35,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		protected ILogger<GitRemoteFeaturesBase> Logger { get; }
 
 		/// <summary>
+		/// The remote repository <see cref="Uri"/>.
+		/// </summary>
+		readonly Uri remoteUrl;
+
+		/// <summary>
 		/// Cache of created <see cref="Models.TestMerge"/>s.
 		/// </summary>
 		readonly Dictionary<TestMergeParameters, Models.TestMerge> cachedLookups;
@@ -47,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public GitRemoteFeaturesBase(ILogger<GitRemoteFeaturesBase> logger, Uri remoteUrl)
 		{
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			ArgumentNullException.ThrowIfNull(remoteUrl);
+			this.remoteUrl = remoteUrl ?? throw new ArgumentNullException(nameof(remoteUrl));
 
 			RemoteRepositoryOwner = remoteUrl.Segments[1].TrimEnd('/');
 			RemoteRepositoryName = remoteUrl.Segments[2].TrimEnd('/');
@@ -85,6 +90,29 @@ namespace Tgstation.Server.Host.Components.Repository
 
 		/// <inheritdoc />
 		public abstract ValueTask<string?> TransformRepositoryPassword(string? rawPassword, CancellationToken cancellationToken);
+
+		/// <inheritdoc />
+		public virtual Uri GetRemoteUrl(string owner, string name)
+		{
+			var builder = new UriBuilder(remoteUrl);
+			var path = $"/{owner}/{name}";
+			if (builder.Path.EndsWith(".git", StringComparison.OrdinalIgnoreCase))
+				path += ".git";
+
+			builder.Path = path;
+			return builder.Uri;
+		}
+
+		/// <inheritdoc />
+		public (string Owner, string Name) GetRepositoryOwnerAndName(TestMergeParameters parameters)
+		{
+			ArgumentNullException.ThrowIfNull(parameters);
+			if (parameters.SourceRepository == null)
+				return (RemoteRepositoryOwner, RemoteRepositoryName);
+
+			var parts = parameters.SourceRepository.Split('/', StringSplitOptions.RemoveEmptyEntries);
+			return parts.Length == 2 ? (parts[0], parts[1]) : (RemoteRepositoryOwner, RemoteRepositoryName);
+		}
 
 		/// <summary>
 		/// Implementation of <see cref="GetTestMerge(TestMergeParameters, RepositorySettings, CancellationToken)"/>.
