@@ -91,6 +91,6 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User may add test merges from different repositories.
 		/// </summary>
-		OffRepoTestMerges = 1 << 15
+		OffRepoTestMerges = 1 << 15,
 	}
 }
