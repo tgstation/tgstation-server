@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 using Microsoft.Extensions.Logging;
@@ -71,9 +72,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public IProvider CreateProvider(Models.ChatBot settings)
+		public IProvider CreateProvider(Models.ChatBot settings, Func<IReadOnlyList<string>> commandNamesFactory)
 		{
 			ArgumentNullException.ThrowIfNull(settings);
+			ArgumentNullException.ThrowIfNull(commandNamesFactory);
 			return settings.Provider switch
 			{
 				ChatProvider.Irc => new IrcProvider(
@@ -89,7 +91,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					loggerFactory.CreateLogger<DiscordProvider>(),
 					assemblyInformationProvider,
 					generalConfigurationOptions,
-					settings),
+					settings,
+					commandNamesFactory),
 				_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid ChatProvider: {0}", settings.Provider)),
 			};
 		}

@@ -269,6 +269,8 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `General:GitHubAccessToken`: Specify a classic GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
 
+- `General:DiscordSlashCommandName`: The Discord slash command name for TGS chat commands. Defaults to `tgs`; use 1-32 letters, digits, `-`, `_`, or apostrophes, without the leading `/`. Restart is required.
+
 - `General:SkipAddingByondFirewallException`: Set to `true` if you have Windows firewall disabled
 
 - `General:AdditionalEventScriptsDirectories`: An array of directories that are considered to contain EventScripts alongside instance directories. Working directory for executed scripts will remain the instance EventScripts directory.
@@ -624,11 +626,20 @@ TGS supports creating infinite chat bots for notifying staff or players of thing
 
 - Internet Relay Chat (IRC)
 - Discord
-  - NOTE: Bot MUST have Message Content Intent enabled
+  - The Message Content Intent enables `!tgs` and mention commands in guild channels.
+  - Without the intent, use the `/tgs` slash command in guild channels. Its required **command** argument autocompletes built-in and active DMAPI command names; **arguments** is optional.
+  - Set `General:DiscordSlashCommandName` to change the slash command name from its default, `/tgs`.
+  - To use Discord without the Message Content Intent, configure the bot in the Developer Portal:
+    1. Open the app and go to **OAuth2 - URL Generator**.
+    2. Select the `bot` and `applications.commands` scopes.
+    3. Grant the bot at least these channel permissions already used by TGS:
+       - `View Channels`
+       - `Send Messages`
+       - `Read Message History` for normal reply/history behavior.
 
 More can be added by providing a new implementation of the [IProvider](src/Tgstation.Server.Host/Components/Chat/Providers/IProvider.cs) interface
 
-Bots have a set of built-in commands that can be triggered via `!tgs`, mentioning, or private messaging them. Along with these, custom commands can be defined using the DMAPI by creating a subtype of the `/datum/tgs_chat_command` type (See `tgs.dm` for details). Invocation for custom commands can be restricted to certain channels.
+Bots have a set of built-in commands that can be triggered via `!tgs`, `/tgs`, or mentioning them. Along with these, custom commands can be defined using the DMAPI by creating a subtype of the `/datum/tgs_chat_command` type (See `tgs.dm` for details). Invocation for custom commands can be restricted to certain channels.
 
 #### Static Files
 
