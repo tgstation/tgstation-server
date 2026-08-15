@@ -109,9 +109,9 @@ namespace Tgstation.Server.Host.Security
 		public void Dispose() => currentAuthenticationContext.Dispose();
 
 		/// <inheritdoc />
-		#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task ValidateTgsToken(Microsoft.AspNetCore.Authentication.JwtBearer.TokenValidatedContext tokenValidatedContext, CancellationToken cancellationToken)
-		#pragma warning restore CA1506
+#pragma warning restore CA1506
 		{
 			ArgumentNullException.ThrowIfNull(tokenValidatedContext);
 
@@ -212,6 +212,8 @@ namespace Tgstation.Server.Host.Security
 				.Include(oidcConnection => oidcConnection.User)
 					.ThenInclude(user => user!.Group)
 						.ThenInclude(group => group!.PermissionSet)
+				.Include(oidcConnection => oidcConnection.User)
+					.ThenInclude(user => user!.PermissionSet)
 				.FirstOrDefaultAsync(cancellationToken);
 
 			User user;
