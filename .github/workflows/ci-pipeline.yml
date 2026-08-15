@@ -85,6 +85,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Build ReleaseNotes # Name checked in rerunFlakyTests.js
         run: dotnet publish -c Release -p:TGS_HOST_NO_WEBPANEL=true -o release_notes_bins tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
@@ -120,6 +121,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Check Flake
         run: |
@@ -162,6 +164,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Read Current SHA
         id: get-pr-sha
@@ -255,6 +258,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Read Current SHA
         id: get-pr-sha
@@ -315,6 +319,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Checkout OpenDream
         run: |
@@ -354,6 +359,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Retrieve dotnet-ef Tool Version
         id: dotnet-ef-tool
@@ -443,6 +449,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: gh-pages Clone
         run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
@@ -516,6 +523,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Build Docker Image # Name checked in rerunFlakyTests.js
         run: docker build . -f build/Dockerfile
@@ -556,6 +564,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Enable Corepack
         run: corepack enable
@@ -608,6 +617,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Enable Corepack
         run: corepack enable
@@ -778,6 +788,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Enable Corepack
         run: corepack enable
@@ -997,6 +1008,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Enable Corepack
         run: corepack enable
@@ -1069,6 +1081,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Retrieve OpenAPI Spec
         uses: actions/download-artifact@v4
@@ -1100,6 +1113,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Retrieve Linux Unit Test Coverage (Debug)
         uses: actions/download-artifact@v4
@@ -1391,6 +1405,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Grab Most Recent Changelog
         run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
@@ -1519,6 +1534,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Restore Wix dotnet Tool
         run: |
@@ -1649,6 +1665,7 @@ jobs:
         if: github.event_name != 'push' && github.event_name != 'schedule'
         with:
           ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+          allow-unsafe-pr-checkout: true
 
       - name: Read Current SHA
         id: get-pr-sha
