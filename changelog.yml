@@ -244,7 +244,6 @@ Components:
     Unreleased: true
   - Version: 6.19.3
     ComponentVersions:
-      Core: 6.19.2
       HttpApi: 10.14.1
       GraphQLApi: 0.7.0
       DreamMakerApi: 7.4.0
@@ -255,7 +254,11 @@ Components:
       NugetApi: 18.2.1
       NugetClient: 21.2.1
       WebControlPanel: 6.10.0
-    Changes: []
+    Changes:
+    - Descriptions:
+      - Fixed OIDC authentication not working if the user was not in a group.
+      Author: Cyberboss
+      PullRequest: 2440
     Unreleased: true
   - Version: 6.19.2
     ComponentVersions:
