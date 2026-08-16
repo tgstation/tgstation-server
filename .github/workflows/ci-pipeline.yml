@@ -21,7 +21,7 @@ name: CI Pipeline
 
 on:
   schedule:
-    - cron: 0 9 * * *
+    - cron: 0 18 * * 0
   push:
     branches:
       - dev
