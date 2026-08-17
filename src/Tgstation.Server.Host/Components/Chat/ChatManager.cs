@@ -297,7 +297,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					disconnectTask = Task.CompletedTask;
 				if (newSettingsEnabled)
 				{
-					provider = providerFactory.CreateProvider(newSettings);
+					provider = providerFactory.CreateProvider(newSettings, GetCommandNames);
 					providers.Add(newSettingsId, provider);
 				}
 			}
@@ -593,6 +593,26 @@ namespace Tgstation.Server.Host.Components.Chat
 					Text = message,
 				},
 				cancellationToken);
+		}
+
+		/// <summary>
+		/// Gets the currently available chat command names.
+		/// </summary>
+		/// <returns>The command names.</returns>
+		IReadOnlyList<string> GetCommandNames()
+		{
+			var commands = new List<string> { "help" };
+			commands.AddRange(builtinCommands.Values.Select(command => command.Name));
+			lock (trackingContexts)
+				commands.AddRange(
+					trackingContexts
+						.Where(trackingContext => trackingContext.Active)
+						.SelectMany(trackingContext => trackingContext.CustomCommands.Select(command => command.Name)));
+
+			return commands
+				.Distinct(StringComparer.OrdinalIgnoreCase)
+				.OrderBy(command => command, StringComparer.OrdinalIgnoreCase)
+				.ToList();
 		}
 
 		/// <summary>

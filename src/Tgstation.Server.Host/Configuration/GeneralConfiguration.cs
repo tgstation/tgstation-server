@@ -133,6 +133,11 @@ namespace Tgstation.Server.Host.Configuration
 		public bool UseBasicWatchdog { get; set; }
 
 		/// <summary>
+		/// The Discord slash command name for TGS chat commands.
+		/// </summary>
+		public string DiscordSlashCommandName { get; set; } = "tgs";
+
+		/// <summary>
 		/// If the swagger documentation and UI should be made avaiable.
 		/// </summary>
 		public bool HostApiDocumentation { get; set; }

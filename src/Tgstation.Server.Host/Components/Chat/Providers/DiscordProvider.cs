@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using OneOf;
+
 using Remora.Discord.API.Abstractions.Gateway.Commands;
 using Remora.Discord.API.Abstractions.Gateway.Events;
 using Remora.Discord.API.Abstractions.Objects;
@@ -57,6 +59,109 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <summary>
+		/// The default Discord slash command name.
+		/// </summary>
+		const string DefaultSlashCommandName = "tgs";
+
+		/// <summary>
+		/// The description of the TGS slash command.
+		/// </summary>
+		const string SlashCommandDescription = "Run a TGS chat command.";
+
+		/// <summary>
+		/// The Discord slash command text option name.
+		/// </summary>
+		const string SlashCommandOptionName = "command";
+
+		/// <summary>
+		/// The Discord slash command arguments option name.
+		/// </summary>
+		const string SlashCommandArgumentsOptionName = "arguments";
+
+		/// <summary>
+		/// The maximum amount of Discord autocomplete choices.
+		/// </summary>
+		const int MaxAutocompleteChoices = 25;
+
+		/// <summary>
+		/// Builds the existing chat command text for a Discord slash command.
+		/// </summary>
+		/// <param name="commandName">The slash command name.</param>
+		/// <param name="arguments">The slash command arguments.</param>
+		/// <returns>The chat command text.</returns>
+		internal static string BuildSlashCommandMessageContent(string commandName, string? arguments = null)
+		{
+			var trimmedArguments = arguments?.Trim();
+			return String.IsNullOrWhiteSpace(trimmedArguments)
+				? $"{ChatManager.CommonMention} {commandName.Trim()}"
+				: $"{ChatManager.CommonMention} {commandName.Trim()} {trimmedArguments}";
+		}
+
+		/// <summary>
+		/// Normalizes a configured Discord slash command name.
+		/// </summary>
+		/// <param name="commandName">The configured command name.</param>
+		/// <returns>The normalized slash command name.</returns>
+		internal static string NormalizeSlashCommandName(string? commandName)
+		{
+			var normalized = commandName?.Trim();
+			if (String.IsNullOrWhiteSpace(normalized))
+				return DefaultSlashCommandName;
+
+#pragma warning disable CA1308 // Discord slash command names must be lowercase.
+			normalized = normalized.ToLowerInvariant();
+#pragma warning restore CA1308
+
+			if (normalized.Length > 32 || normalized.Any(character => !Char.IsLetterOrDigit(character) && character is not '-' and not '_' and not '\''))
+				throw new ArgumentException("DiscordSlashCommandName must be 1-32 letters, numbers, '-', '_' or apostrophes without a leading '/'.", nameof(commandName));
+
+			return normalized;
+		}
+
+		/// <summary>
+		/// Checks if an application can request message content.
+		/// </summary>
+		/// <param name="applicationFlags">The <see cref="ApplicationFlags"/> to check.</param>
+		/// <returns><see langword="true"/> if the message content gateway intent is available.</returns>
+		internal static bool HasMessageContentIntent(ApplicationFlags applicationFlags)
+			=> applicationFlags.HasFlag(ApplicationFlags.GatewayMessageContent)
+				|| applicationFlags.HasFlag(ApplicationFlags.GatewayMessageContentLimited);
+
+		/// <summary>
+		/// Checks if an application command is a registered TGS slash command that should be removed from a stale scope.
+		/// </summary>
+		/// <param name="command">The application command.</param>
+		/// <param name="configuredCommandName">The configured slash command name.</param>
+		/// <returns><see langword="true"/> if the command is stale.</returns>
+		internal static bool IsTgsSlashCommand(IApplicationCommand command, string configuredCommandName)
+		{
+			ArgumentNullException.ThrowIfNull(command);
+			ArgumentNullException.ThrowIfNull(configuredCommandName);
+
+			return command.Type == ApplicationCommandType.ChatInput
+				&& !command.Name.Equals(configuredCommandName, StringComparison.OrdinalIgnoreCase)
+				&& String.Equals(command.Description, SlashCommandDescription, StringComparison.Ordinal);
+		}
+
+		/// <summary>
+		/// Gets a string option from <paramref name="commandData"/>.
+		/// </summary>
+		/// <param name="commandData">The command data.</param>
+		/// <param name="optionName">The option name.</param>
+		/// <returns>The string option value, if any.</returns>
+		static string? GetStringOption(IApplicationCommandData commandData, string optionName)
+		{
+			var option = commandData.Options.HasValue
+				? commandData.Options.Value.FirstOrDefault(option => option.Name.Equals(optionName, StringComparison.Ordinal))
+				: null;
+
+			if (option == null || !option.Value.HasValue || !option.Value.Value.IsT0)
+				return null;
+
+			return option.Value.Value.AsT0;
+		}
+
+		/// <summary>
 		/// The <see cref="ChannelType"/>s supported by the <see cref="DiscordProvider"/> for mapping.
 		/// </summary>
 		static readonly ChannelType[] SupportedGuildChannelTypes =
@@ -65,6 +170,23 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			ChannelType.GuildAnnouncement,
 			ChannelType.PrivateThread,
 			ChannelType.PublicThread,
+		];
+
+		/// <summary>
+		/// The Discord slash command options.
+		/// </summary>
+		static readonly IReadOnlyList<IApplicationCommandOption> SlashCommandOptions =
+		[
+			new ApplicationCommandOption(
+				ApplicationCommandOptionType.String,
+				SlashCommandOptionName,
+				"The TGS command name.",
+				IsRequired: true,
+				EnableAutocomplete: true),
+			new ApplicationCommandOption(
+				ApplicationCommandOptionType.String,
+				SlashCommandArgumentsOptionName,
+				"The TGS command arguments."),
 		];
 
 		/// <summary>
@@ -81,6 +203,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// The <see cref="ServiceProvider"/> containing Discord services.
 		/// </summary>
 		readonly ServiceProvider serviceProvider;
+
+		/// <summary>
+		/// Gets the currently available chat command names.
+		/// </summary>
+		readonly Func<IReadOnlyList<string>> commandNamesFactory;
 
 		/// <summary>
 		/// <see cref="List{T}"/> of mapped channel <see cref="Snowflake"/>s.
@@ -101,6 +228,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// The <see cref="DiscordDMOutputDisplayType"/>.
 		/// </summary>
 		readonly DiscordDMOutputDisplayType outputDisplayType;
+
+		/// <summary>
+		/// The Discord slash command name.
+		/// </summary>
+		readonly string slashCommandName;
+
+		/// <summary>
+		/// If Discord message contents are available.
+		/// </summary>
+		bool messageContentsAvailable;
 
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for the <see cref="gatewayTask"/>.
@@ -141,19 +278,48 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="Provider"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
-		/// <param name="chatBot">The <see cref="ChatBot"/> for the <see cref="Provider"/>.</param>
 		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="chatBot">The <see cref="ChatBot"/> for the <see cref="Provider"/>.</param>
+		/// <param name="commandNamesFactory">Gets the currently available chat command names.</param>
 		public DiscordProvider(
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
 			ILogger<DiscordProvider> logger,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
-			ChatBot chatBot)
+			ChatBot chatBot,
+			Func<IReadOnlyList<string>> commandNamesFactory)
+			: this(jobManager, asyncDelayer, logger, assemblyInformationProvider, generalConfigurationOptions, chatBot, commandNamesFactory, null)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DiscordProvider"/> class.
+		/// </summary>
+		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="Provider"/>.</param>
+		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="Provider"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="generalConfigurationOptions">The value of <see cref="generalConfigurationOptions"/>.</param>
+		/// <param name="chatBot">The <see cref="ChatBot"/> for the <see cref="Provider"/>.</param>
+		/// <param name="commandNamesFactory">Gets the currently available chat command names.</param>
+		/// <param name="serviceProviderOverride">The optional service provider override for tests.</param>
+		internal DiscordProvider(
+			IJobManager jobManager,
+			IAsyncDelayer asyncDelayer,
+			ILogger<DiscordProvider> logger,
+			IAssemblyInformationProvider assemblyInformationProvider,
+			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
+			ChatBot chatBot,
+			Func<IReadOnlyList<string>>? commandNamesFactory,
+			ServiceProvider? serviceProviderOverride)
 			: base(jobManager, asyncDelayer, logger, chatBot)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.commandNamesFactory = commandNamesFactory ?? (() => Array.Empty<string>());
+			slashCommandName = NormalizeSlashCommandName(generalConfigurationOptions.CurrentValue?.DiscordSlashCommandName);
+			Logger.LogInformation("Discord slash command configured as /{slashCommandName}.", slashCommandName);
 
 			mappedChannels = new List<ulong>();
 			connectDisconnectLock = new object();
@@ -163,9 +329,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			outputDisplayType = csb.DMOutputDisplay;
 			deploymentBranding = csb.DeploymentBranding;
 
-			serviceProvider = new ServiceCollection()
+			serviceProvider = serviceProviderOverride ?? new ServiceCollection()
 				.AddDiscordGateway(serviceProvider => botToken)
-				.Configure<DiscordGatewayClientOptions>(options => options.Intents |= GatewayIntents.MessageContents)
 				.AddSingleton(serviceProvider => (IDiscordResponders)this)
 				.AddResponder<DiscordForwardingResponder>()
 				.BuildServiceProvider();
@@ -216,7 +381,63 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var embeds = ConvertEmbed(message.Embed);
 
+			if (replyTo is DiscordMessage { InteractionToken: { } interactionToken, ApplicationId: { } applicationId })
+			{
+				try
+				{
+					var interactionClient = serviceProvider.GetRequiredService<IDiscordRestInteractionAPI>();
+					Optional<IReadOnlyList<IEmbed>?> interactionEmbeds = embeds.HasValue
+						? new Optional<IReadOnlyList<IEmbed>?>(embeds.Value)
+						: default;
+					Optional<IAllowedMentions?> interactionAllowedMentions = allowedMentions.HasValue
+						? new Optional<IAllowedMentions?>(allowedMentions.Value)
+						: default;
+					var content = message.Text;
+					if (content == null)
+					{
+						Logger.LogWarning(
+							"Failed to send interaction response to channel {channelId}: Message was null!",
+							channelId);
+
+						content = "TGS: Could not send message to Discord. Message was `null`!";
+					}
+
+					var response = await interactionClient.EditOriginalInteractionResponseAsync(
+						applicationId,
+						interactionToken,
+						content,
+						embeds: interactionEmbeds,
+						allowedMentions: interactionAllowedMentions,
+						ct: cancellationToken);
+
+					if (!response.IsSuccess)
+					{
+						Logger.LogWarning(
+							"Failed to send interaction response to channel {channelId}: {result}",
+							channelId,
+							response.LogFormat());
+
+						if (response.Error is RestResultError<RestError> restError && restError.Error.Code == DiscordError.InvalidFormBody)
+							await interactionClient.EditOriginalInteractionResponseAsync(
+								applicationId,
+								interactionToken,
+								"TGS: Could not send message to Discord. Body was malformed or too long",
+								ct: cancellationToken);
+					}
+				}
+				catch (Exception e) when (e is not OperationCanceledException)
+				{
+					Logger.LogWarning(
+						e,
+						"Error sending interaction response to channel {channelId}",
+						channelId);
+				}
+
+				return;
+			}
+
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
+
 			async ValueTask SendToChannel(Snowflake channelId)
 			{
 				if (message.Text == null)
@@ -484,6 +705,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			ArgumentNullException.ThrowIfNull(messageCreateEvent);
 
+			if (!messageContentsAvailable && messageCreateEvent.GuildID.HasValue)
+				return Result.FromSuccess();
+
 			if ((messageCreateEvent.Type != MessageType.Default
 				&& messageCreateEvent.Type != MessageType.InlineReply)
 				|| messageCreateEvent.Author.ID == currentUserId)
@@ -571,6 +795,127 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
+		public async Task<Result> RespondAsync(IInteractionCreate interactionCreateEvent, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(interactionCreateEvent);
+
+			var interactionData = interactionCreateEvent.Data;
+			if ((interactionCreateEvent.Type != InteractionType.ApplicationCommand
+					&& interactionCreateEvent.Type != InteractionType.ApplicationCommandAutocomplete)
+				|| !interactionData.HasValue
+				|| !interactionData.Value.IsT0
+				|| !interactionData.Value.AsT0.Name.Equals(slashCommandName, StringComparison.OrdinalIgnoreCase))
+				return Result.FromSuccess();
+
+			var commandData = interactionData.Value.AsT0;
+			var interactionClient = serviceProvider.GetRequiredService<IDiscordRestInteractionAPI>();
+			Task RespondWithError(string message)
+				=> interactionClient.EditOriginalInteractionResponseAsync(
+					interactionCreateEvent.ApplicationID,
+					interactionCreateEvent.Token,
+					message,
+					ct: cancellationToken);
+
+			if (interactionCreateEvent.Type == InteractionType.ApplicationCommandAutocomplete)
+				return await RespondAutocomplete(interactionCreateEvent, commandData, interactionClient, cancellationToken);
+
+			var deferResponse = await interactionClient.CreateInteractionResponseAsync(
+				interactionCreateEvent.ID,
+				interactionCreateEvent.Token,
+				new InteractionResponse(InteractionCallbackType.DeferredChannelMessageWithSource),
+				ct: cancellationToken);
+			if (!deferResponse.IsSuccess)
+			{
+				Logger.LogWarning(
+					"Failed to defer slash command response {interactionId}: {result}",
+					interactionCreateEvent.ID,
+					deferResponse.LogFormat());
+				return Result.FromSuccess();
+			}
+
+			var commandText = GetStringOption(commandData, SlashCommandOptionName);
+			if (String.IsNullOrWhiteSpace(commandText))
+			{
+				await RespondWithError("TGS: No command text supplied.");
+				return Result.FromSuccess();
+			}
+
+			var arguments = GetStringOption(commandData, SlashCommandArgumentsOptionName);
+
+			if (!interactionCreateEvent.Channel.HasValue || !interactionCreateEvent.Channel.Value.ID.HasValue)
+			{
+				await RespondWithError("TGS: Processing error, check logs!");
+				return Result.FromSuccess();
+			}
+
+			var channelId = interactionCreateEvent.Channel.Value.ID.Value;
+			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
+			var channelResponse = await channelsClient.GetChannelAsync(channelId, cancellationToken);
+			if (!channelResponse.IsSuccess)
+			{
+				Logger.LogWarning(
+					"Failed to get channel {channelId} in response to interaction {interactionId}: {result}",
+					channelId,
+					interactionCreateEvent.ID,
+					channelResponse.LogFormat());
+
+				await RespondWithError("TGS: Processing error, check logs!");
+				return Result.FromSuccess();
+			}
+
+			var pm = channelResponse.Entity.Type == ChannelType.DM || channelResponse.Entity.Type == ChannelType.GroupDM;
+			var shouldNotAnswer = !pm;
+			if (shouldNotAnswer)
+				lock (mappedChannels)
+					shouldNotAnswer = !mappedChannels.Contains(channelId.Value) && !mappedChannels.Contains(0);
+
+			if (shouldNotAnswer)
+			{
+				await RespondWithError("TGS: This channel is not mapped.");
+				return Result.FromSuccess();
+			}
+
+			string guildName = "UNKNOWN";
+			if (!pm)
+			{
+				var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
+				var guildResponse = await guildsClient.GetGuildAsync(interactionCreateEvent.GuildID.Value, false, cancellationToken);
+				if (guildResponse.IsSuccess)
+					guildName = guildResponse.Entity.Name;
+				else
+					Logger.LogWarning(
+						"Failed to get guild {guildId} in response to interaction {interactionId}: {result}",
+						interactionCreateEvent.GuildID.Value,
+						interactionCreateEvent.ID,
+						guildResponse.LogFormat());
+			}
+
+			var user = interactionCreateEvent.Member.HasValue && interactionCreateEvent.Member.Value.User.HasValue
+				? interactionCreateEvent.Member.Value.User.Value
+				: interactionCreateEvent.User.Value;
+			var result = new DiscordMessage(
+				new ChatUser(
+					new ChannelRepresentation(
+						pm ? user.Username : guildName,
+						channelResponse.Entity.Name.Value!,
+						channelId.Value)
+					{
+						IsPrivateChannel = pm,
+						EmbedsSupported = true,
+					},
+					user.Username,
+					NormalizeMentions($"<@{user.ID}>"),
+					user.ID.Value),
+				BuildSlashCommandMessageContent(commandText, arguments),
+				default,
+				interactionCreateEvent.ApplicationID,
+				interactionCreateEvent.Token);
+
+			EnqueueMessage(result);
+			return Result.FromSuccess();
+		}
+
+		/// <inheritdoc />
 		public Task<Result> RespondAsync(IReady readyEvent, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(readyEvent);
@@ -594,34 +939,61 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}
 
 				var gatewayCancellationToken = gatewayCts.Token;
-				var gatewayClient = serviceProvider.GetRequiredService<DiscordGatewayClient>();
+				Task<Result>? localGatewayTask = null;
+				using var localCombinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, gatewayCancellationToken);
+				var localCombinedCancellationToken = localCombinedCts.Token;
 
-				Task<Result> localGatewayTask;
-				gatewayReadyTcs = new TaskCompletionSource();
-
-				using var gatewayConnectionAbortRegistration = cancellationToken.Register(() => gatewayReadyTcs.TrySetCanceled(cancellationToken));
-				gatewayCancellationToken.Register(() => Logger.LogTrace("Stopping gateway client..."));
-
-				// reconnects keep happening until we stop or it faults, our auto-reconnector will handle the latter
-				localGatewayTask = gatewayClient.RunAsync(gatewayCancellationToken);
 				try
 				{
+					var applicationClient = serviceProvider.GetRequiredService<IDiscordRestApplicationAPI>();
+					var currentApplicationResponse = await applicationClient.GetCurrentApplicationAsync(localCombinedCancellationToken);
+					if (currentApplicationResponse.IsSuccess)
+					{
+						var application = currentApplicationResponse.Entity;
+						SetMessageContentsAvailable(application.Flags.HasValue && HasMessageContentIntent(application.Flags.Value));
+						await RegisterSlashCommand(application.ID, localCombinedCancellationToken);
+					}
+					else
+					{
+						localCombinedCancellationToken.ThrowIfCancellationRequested();
+						Logger.LogWarning(
+							"Unable to retrieve current Discord application. Retrying connection: {result}",
+							currentApplicationResponse.LogFormat());
+						throw new JobException(
+							ErrorCode.ChatCannotConnectProvider,
+							new InvalidOperationException($"Discord application request failed: {currentApplicationResponse.LogFormat()}"));
+					}
+
+					var gatewayClient = serviceProvider.GetRequiredService<DiscordGatewayClient>();
+
+					gatewayReadyTcs = new TaskCompletionSource();
+
+					using var gatewayConnectionAbortRegistration = cancellationToken.Register(() => gatewayReadyTcs.TrySetCanceled(cancellationToken));
+					gatewayCancellationToken.Register(() => Logger.LogTrace("Stopping gateway client..."));
+
+					// reconnects keep happening until we stop or it faults, our auto reconnector will handle the latter
+					localGatewayTask = gatewayClient.RunAsync(gatewayCancellationToken);
 					await Task.WhenAny(gatewayReadyTcs.Task, localGatewayTask);
 
 					cancellationToken.ThrowIfCancellationRequested();
 					if (localGatewayTask.IsCompleted)
-						throw new JobException(ErrorCode.ChatCannotConnectProvider);
+					{
+						var gatewayResult = await localGatewayTask;
+						Logger.LogWarning("Discord gateway stopped before becoming ready: {result}", gatewayResult.LogFormat());
+						throw new JobException(
+							ErrorCode.ChatCannotConnectProvider,
+							new InvalidOperationException($"Discord gateway failed: {gatewayResult.LogFormat()}"));
+					}
 
 					var userClient = serviceProvider.GetRequiredService<IDiscordRestUserAPI>();
-
-					using var localCombinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, gatewayCancellationToken);
-					var localCombinedCancellationToken = localCombinedCts.Token;
 					var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCancellationToken);
 					if (!currentUserResult.IsSuccess)
 					{
 						localCombinedCancellationToken.ThrowIfCancellationRequested();
 						Logger.LogWarning("Unable to retrieve current user: {result}", currentUserResult.LogFormat());
-						throw new JobException(ErrorCode.ChatCannotConnectProvider);
+						throw new JobException(
+							ErrorCode.ChatCannotConnectProvider,
+							new InvalidOperationException($"Discord current-user request failed: {currentUserResult.LogFormat()}"));
 					}
 
 					currentUserId = currentUserResult.Entity.ID;
@@ -652,7 +1024,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				gatewayTask = null;
 				gatewayCts = null;
 				if (localGatewayTask == null)
+				{
+					localGatewayCts?.Dispose();
 					return;
+				}
 			}
 
 			localGatewayCts.Cancel();
@@ -840,6 +1215,20 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <summary>
+		/// Sets if message contents are available and updates the gateway options.
+		/// </summary>
+		/// <param name="available">If message contents are available.</param>
+		void SetMessageContentsAvailable(bool available)
+		{
+			messageContentsAvailable = available;
+			var gatewayOptions = serviceProvider.GetRequiredService<IOptions<DiscordGatewayClientOptions>>().Value;
+			if (available)
+				gatewayOptions.Intents |= GatewayIntents.MessageContents;
+			else
+				gatewayOptions.Intents &= ~GatewayIntents.MessageContents;
+		}
+
+		/// <summary>
 		/// Get all text <see cref="IChannel"/>s accessible to and supported by the bot.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -896,6 +1285,93 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				.Where(guildChannel => SupportedGuildChannelTypes.Contains(guildChannel.Type));
 
 			return allAccessibleChannels;
+		}
+
+		/// <summary>
+		/// Responds to a Discord slash command autocomplete interaction.
+		/// </summary>
+		/// <param name="interactionCreateEvent">The interaction event.</param>
+		/// <param name="commandData">The command data.</param>
+		/// <param name="interactionClient">The interaction API.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Result"/> representing the command's result.</returns>
+		async Task<Result> RespondAutocomplete(
+			IInteractionCreate interactionCreateEvent,
+			IApplicationCommandData commandData,
+			IDiscordRestInteractionAPI interactionClient,
+			CancellationToken cancellationToken)
+		{
+			var focusedCommand = commandData.Options.HasValue
+				? commandData.Options.Value.FirstOrDefault(option => option.Name.Equals(SlashCommandOptionName, StringComparison.Ordinal) && option.IsFocused.HasValue && option.IsFocused.Value)
+				: null;
+			var focusedValue = focusedCommand != null && focusedCommand.Value.HasValue && focusedCommand.Value.Value.IsT0
+				? focusedCommand.Value.Value.AsT0
+				: String.Empty;
+
+			var choices = commandNamesFactory()
+				.Where(command => String.IsNullOrEmpty(focusedValue) || command.StartsWith(focusedValue, StringComparison.OrdinalIgnoreCase))
+				.Take(MaxAutocompleteChoices)
+				.Select(command => (IApplicationCommandOptionChoice)new ApplicationCommandOptionChoice(command, OneOf<string, int, double>.FromT0(command)))
+				.ToList();
+
+			var response = await interactionClient.CreateInteractionResponseAsync(
+				interactionCreateEvent.ID,
+				interactionCreateEvent.Token,
+				new InteractionResponse(
+					InteractionCallbackType.ApplicationCommandAutocompleteResult,
+					new Optional<OneOf<IInteractionMessageCallbackData, IInteractionAutocompleteCallbackData, IInteractionModalCallbackData>>(
+						OneOf<IInteractionMessageCallbackData, IInteractionAutocompleteCallbackData, IInteractionModalCallbackData>.FromT1(
+							new InteractionAutocompleteCallbackData(choices)))),
+				ct: cancellationToken);
+
+			if (!response.IsSuccess)
+				Logger.LogWarning(
+					"Failed to respond to slash command autocomplete {interactionId}: {result}",
+					interactionCreateEvent.ID,
+					response.LogFormat());
+
+			return Result.FromSuccess();
+		}
+
+		/// <summary>
+		/// Registers the configured slash command.
+		/// </summary>
+		/// <param name="applicationId">The Discord application ID.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask RegisterSlashCommand(Snowflake applicationId, CancellationToken cancellationToken)
+		{
+			var applicationClient = serviceProvider.GetRequiredService<IDiscordRestApplicationAPI>();
+			var updateResponse = await applicationClient.CreateGlobalApplicationCommandAsync(
+				applicationId,
+				slashCommandName,
+				SlashCommandDescription,
+				new Optional<IReadOnlyList<IApplicationCommandOption>>(SlashCommandOptions),
+				ct: cancellationToken);
+
+			if (!updateResponse.IsSuccess)
+			{
+				cancellationToken.ThrowIfCancellationRequested();
+				Logger.LogWarning("Unable to register Discord slash command: {result}", updateResponse.LogFormat());
+				throw new JobException(
+					ErrorCode.ChatCannotConnectProvider,
+					new InvalidOperationException($"Discord slash-command registration failed: {updateResponse.LogFormat()}"));
+			}
+
+			Logger.LogInformation("Registered global Discord slash command /{slashCommandName}.", slashCommandName);
+
+			var globalCommandsResponse = await applicationClient.GetGlobalApplicationCommandsAsync(applicationId, ct: cancellationToken);
+			if (globalCommandsResponse.IsSuccess)
+				foreach (var command in globalCommandsResponse.Entity.Where(command => IsTgsSlashCommand(command, slashCommandName)))
+				{
+					var deleteResponse = await applicationClient.DeleteGlobalApplicationCommandAsync(applicationId, command.ID, cancellationToken);
+					if (!deleteResponse.IsSuccess)
+						Logger.LogWarning("Unable to remove stale global Discord slash command {commandId}: {result}", command.ID, deleteResponse.LogFormat());
+					else
+						Logger.LogInformation("Removed stale global Discord slash command /{commandName}.", command.Name);
+				}
+			else
+				Logger.LogWarning("Unable to inspect global Discord slash commands for stale entries: {result}", globalCommandsResponse.LogFormat());
 		}
 
 		/// <summary>

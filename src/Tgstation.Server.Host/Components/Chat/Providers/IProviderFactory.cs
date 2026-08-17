@@ -1,4 +1,7 @@
-﻿using Tgstation.Server.Host.Models;
+﻿using System;
+using System.Collections.Generic;
+
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
@@ -11,7 +14,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Create a <see cref="IProvider"/>.
 		/// </summary>
 		/// <param name="settings">The <see cref="ChatBot"/> containing settings for the new provider.</param>
+		/// <param name="commandNamesFactory">Gets the currently available chat command names.</param>
 		/// <returns>A new <see cref="IProvider"/>.</returns>
-		IProvider CreateProvider(ChatBot settings);
+		IProvider CreateProvider(ChatBot settings, Func<IReadOnlyList<string>> commandNamesFactory);
 	}
 }
