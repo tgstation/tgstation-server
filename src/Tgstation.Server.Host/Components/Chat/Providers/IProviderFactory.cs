@@ -16,6 +16,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="settings">The <see cref="ChatBot"/> containing settings for the new provider.</param>
 		/// <param name="commandNamesFactory">Gets the currently available chat command names.</param>
 		/// <returns>A new <see cref="IProvider"/>.</returns>
-		IProvider CreateProvider(ChatBot settings, Func<IReadOnlyList<string>> commandNamesFactory);
+		IProvider CreateProvider(ChatBot settings, Func<IEnumerable<string>> commandNamesFactory);
 	}
 }

@@ -631,8 +631,8 @@ TGS supports creating infinite chat bots for notifying staff or players of thing
   - Set `General:DiscordSlashCommandName` to change the slash command name from its default, `/tgs`.
   - To use Discord without the Message Content Intent, configure the bot in the Developer Portal:
     1. Open the app and go to **OAuth2 - URL Generator**.
-    2. Select the `bot` and `applications.commands` scopes.
-    3. Grant the bot at least these channel permissions already used by TGS:
+    1. Select the `bot` and `applications.commands` scopes.
+    1. Grant the bot at least these channel permissions already used by TGS:
        - `View Channels`
        - `Send Messages`
        - `Read Message History` for normal reply/history behavior.
