@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		[TestMethod]
 		public async Task TestConstructionAndDisposal()
 		{
-			Func<IReadOnlyList<string>> commandNamesFactory = () => Array.Empty<string>();
+			Func<IEnumerable<string>> commandNamesFactory = () => Array.Empty<string>();
 			var bot = new ChatBot
 			{
 				ConnectionString = "fake_token",

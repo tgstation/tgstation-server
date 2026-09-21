@@ -59,11 +59,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <summary>
-		/// The default Discord slash command name.
-		/// </summary>
-		const string DefaultSlashCommandName = "tgs";
-
-		/// <summary>
 		/// The description of the TGS slash command.
 		/// </summary>
 		const string SlashCommandDescription = "Run a TGS chat command.";
@@ -84,29 +79,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		const int MaxAutocompleteChoices = 25;
 
 		/// <summary>
-		/// Builds the existing chat command text for a Discord slash command.
-		/// </summary>
-		/// <param name="commandName">The slash command name.</param>
-		/// <param name="arguments">The slash command arguments.</param>
-		/// <returns>The chat command text.</returns>
-		internal static string BuildSlashCommandMessageContent(string commandName, string? arguments = null)
-		{
-			var trimmedArguments = arguments?.Trim();
-			return String.IsNullOrWhiteSpace(trimmedArguments)
-				? $"{ChatManager.CommonMention} {commandName.Trim()}"
-				: $"{ChatManager.CommonMention} {commandName.Trim()} {trimmedArguments}";
-		}
-
-		/// <summary>
 		/// Normalizes a configured Discord slash command name.
 		/// </summary>
 		/// <param name="commandName">The configured command name.</param>
 		/// <returns>The normalized slash command name.</returns>
-		internal static string NormalizeSlashCommandName(string? commandName)
+		public static string NormalizeSlashCommandName(string? commandName)
 		{
 			var normalized = commandName?.Trim();
 			if (String.IsNullOrWhiteSpace(normalized))
-				return DefaultSlashCommandName;
+				return GeneralConfiguration.DefaultDiscordSlashCommandName;
 
 #pragma warning disable CA1308 // Discord slash command names must be lowercase.
 			normalized = normalized.ToLowerInvariant();
@@ -119,21 +100,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <summary>
-		/// Checks if an application can request message content.
-		/// </summary>
-		/// <param name="applicationFlags">The <see cref="ApplicationFlags"/> to check.</param>
-		/// <returns><see langword="true"/> if the message content gateway intent is available.</returns>
-		internal static bool HasMessageContentIntent(ApplicationFlags applicationFlags)
-			=> applicationFlags.HasFlag(ApplicationFlags.GatewayMessageContent)
-				|| applicationFlags.HasFlag(ApplicationFlags.GatewayMessageContentLimited);
-
-		/// <summary>
 		/// Checks if an application command is a registered TGS slash command that should be removed from a stale scope.
 		/// </summary>
 		/// <param name="command">The application command.</param>
 		/// <param name="configuredCommandName">The configured slash command name.</param>
 		/// <returns><see langword="true"/> if the command is stale.</returns>
-		internal static bool IsTgsSlashCommand(IApplicationCommand command, string configuredCommandName)
+		public static bool IsTgsSlashCommand(IApplicationCommand command, string configuredCommandName)
 		{
 			ArgumentNullException.ThrowIfNull(command);
 			ArgumentNullException.ThrowIfNull(configuredCommandName);
@@ -142,6 +114,29 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				&& !command.Name.Equals(configuredCommandName, StringComparison.OrdinalIgnoreCase)
 				&& String.Equals(command.Description, SlashCommandDescription, StringComparison.Ordinal);
 		}
+
+		/// <summary>
+		/// Builds the existing chat command text for a Discord slash command.
+		/// </summary>
+		/// <param name="commandName">The slash command name.</param>
+		/// <param name="arguments">The slash command arguments.</param>
+		/// <returns>The chat command text.</returns>
+		static string BuildSlashCommandMessageContent(string commandName, string? arguments = null)
+		{
+			var trimmedArguments = arguments?.Trim();
+			return String.IsNullOrWhiteSpace(trimmedArguments)
+				? $"{ChatManager.CommonMention} {commandName.Trim()}"
+				: $"{ChatManager.CommonMention} {commandName.Trim()} {trimmedArguments}";
+		}
+
+		/// <summary>
+		/// Checks if an application can request message content.
+		/// </summary>
+		/// <param name="applicationFlags">The <see cref="ApplicationFlags"/> to check.</param>
+		/// <returns><see langword="true"/> if the message content gateway intent is available.</returns>
+		static bool HasMessageContentIntent(ApplicationFlags applicationFlags)
+			=> applicationFlags.HasFlag(ApplicationFlags.GatewayMessageContent)
+				|| applicationFlags.HasFlag(ApplicationFlags.GatewayMessageContentLimited);
 
 		/// <summary>
 		/// Gets a string option from <paramref name="commandData"/>.
@@ -207,7 +202,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Gets the currently available chat command names.
 		/// </summary>
-		readonly Func<IReadOnlyList<string>> commandNamesFactory;
+		readonly Func<IEnumerable<string>> commandNamesFactory;
 
 		/// <summary>
 		/// <see cref="List{T}"/> of mapped channel <see cref="Snowflake"/>s.
@@ -288,7 +283,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
 			ChatBot chatBot,
-			Func<IReadOnlyList<string>> commandNamesFactory)
+			Func<IEnumerable<string>> commandNamesFactory)
 			: this(jobManager, asyncDelayer, logger, assemblyInformationProvider, generalConfigurationOptions, chatBot, commandNamesFactory, null)
 		{
 		}
@@ -304,14 +299,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="chatBot">The <see cref="ChatBot"/> for the <see cref="Provider"/>.</param>
 		/// <param name="commandNamesFactory">Gets the currently available chat command names.</param>
 		/// <param name="serviceProviderOverride">The optional service provider override for tests.</param>
-		internal DiscordProvider(
+		public DiscordProvider(
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
 			ILogger<DiscordProvider> logger,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IOptionsMonitor<GeneralConfiguration> generalConfigurationOptions,
 			ChatBot chatBot,
-			Func<IReadOnlyList<string>>? commandNamesFactory,
+			Func<IEnumerable<string>>? commandNamesFactory,
 			ServiceProvider? serviceProviderOverride)
 			: base(jobManager, asyncDelayer, logger, chatBot)
 		{

@@ -64,7 +64,7 @@ namespace Tgstation.Server.Tests.Live
 			}; // hope you get the reference
 		}
 
-		public IProvider CreateProvider(ChatBot settings, Func<IReadOnlyList<string>> commandNamesFactory)
+		public IProvider CreateProvider(ChatBot settings, Func<IEnumerable<string>> commandNamesFactory)
 		{
 			logger.LogTrace("CreateProvider");
 			ArgumentNullException.ThrowIfNull(settings);

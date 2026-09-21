@@ -33,6 +33,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		public const string CommonMention = "!tgs";
 
 		/// <summary>
+		/// The name of the built-in help command.
+		/// </summary>
+		const string HelpCommandName = "help";
+
+		/// <summary>
 		/// The <see cref="IProviderFactory"/> for the <see cref="ChatManager"/>.
 		/// </summary>
 		readonly IProviderFactory providerFactory;
@@ -601,7 +606,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <returns>The command names.</returns>
 		IReadOnlyList<string> GetCommandNames()
 		{
-			var commands = new List<string> { "help" };
+			var commands = new List<string> { HelpCommandName };
 			commands.AddRange(builtinCommands.Values.Select(command => command.Name));
 			lock (trackingContexts)
 				commands.AddRange(
@@ -858,7 +863,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 				const string UnknownCommandMessage = "TGS: Unknown command! Type '?' or 'help' for available commands.";
 
-				if (command.Equals("help", StringComparison.OrdinalIgnoreCase) || command == "?")
+				if (command.Equals(HelpCommandName, StringComparison.OrdinalIgnoreCase) || command == "?")
 				{
 					string helpText;
 					if (splits.Count == 0)

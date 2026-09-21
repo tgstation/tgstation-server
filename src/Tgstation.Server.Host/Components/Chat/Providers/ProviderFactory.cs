@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public IProvider CreateProvider(Models.ChatBot settings, Func<IReadOnlyList<string>> commandNamesFactory)
+		public IProvider CreateProvider(Models.ChatBot settings, Func<IEnumerable<string>> commandNamesFactory)
 		{
 			ArgumentNullException.ThrowIfNull(settings);
 			ArgumentNullException.ThrowIfNull(commandNamesFactory);
