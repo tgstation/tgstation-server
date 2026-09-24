@@ -256,6 +256,10 @@ Components:
       WebControlPanel: 6.10.0
     Changes:
     - Descriptions:
+      - Fixed an edge case that could cause an exception during test merging.
+      Author: Cyberboss
+      PullRequest: 2438
+    - Descriptions:
       - Fixed OIDC authentication not working if the user was not in a group.
       Author: Cyberboss
       PullRequest: 2440
