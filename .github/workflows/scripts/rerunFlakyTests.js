@@ -1,3 +1,5 @@
+const MAX_FAILING_JOBS = 8;
+
 // If any job fails with a step starting with these it'll be considered flaky
 const CONSIDERED_STEP_PREFIXES = [
 	"Build", // Nuget.org sporadic issues
@@ -40,8 +42,8 @@ export async function rerunFlakyTests({ github, context }) {
 		context.payload.workflow_run.run_attempt
 	);
 
-	if (failingJobs.length > 4) {
-		console.log("Many jobs failing. PROBABLY not flaky, Will not re-run.");
+	if (failingJobs.length > MAX_FAILING_JOBS) {
+		console.log(`More than ${MAX_FAILING_JOBS} jobs failing. PROBABLY not flaky, Will not re-run.`);
 		return;
 	}
 
