@@ -37,6 +37,11 @@ namespace Tgstation.Server.Host.Configuration
 		public const string DefaultByondZipDownloadTemplate = "https://www.byond.com/download/build/${Major}/${Major}.${Minor}_byond${Linux:_linux}.zip";
 
 		/// <summary>
+		/// The default value for <see cref="DiscordSlashCommandName"/>.
+		/// </summary>
+		public const string DefaultDiscordSlashCommandName = "tgs";
+
+		/// <summary>
 		/// The default value for <see cref="ServerInformationBase.MinimumPasswordLength"/>.
 		/// </summary>
 		const uint DefaultMinimumPasswordLength = 15;
@@ -131,6 +136,11 @@ namespace Tgstation.Server.Host.Configuration
 		/// If the <see cref="Components.Watchdog.BasicWatchdog"/> should be preferred.
 		/// </summary>
 		public bool UseBasicWatchdog { get; set; }
+
+		/// <summary>
+		/// The Discord slash command name for TGS chat commands.
+		/// </summary>
+		public string DiscordSlashCommandName { get; set; } = DefaultDiscordSlashCommandName;
 
 		/// <summary>
 		/// If the swagger documentation and UI should be made avaiable.
