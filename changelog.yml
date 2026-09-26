@@ -11,6 +11,13 @@ Components:
       Author: Cyberboss
       PullRequest: 2212
     Unreleased: true
+  - Version: 5.10.0
+    Changes:
+    - Descriptions:
+      - Added `General:DiscordSlashCommandName` to configure the Discord slash command name, defaulting to `tgs`.
+      Author: PetyaFX
+      PullRequest: 2441
+    Unreleased: true
   - Version: 5.9.0
     Changes:
     - Descriptions:
@@ -239,8 +246,24 @@ Components:
       PullRequest: 2212
     Unreleased: true
   - Version: 6.20.0
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.14.1
+      GraphQLApi: 0.7.0
+      DreamMakerApi: 7.4.0
+      Configuration: 5.10.0
+      InteropApi: 5.11.0
+      HostWatchdog: 1.6.0
+      NugetCommon: 7.0.0
+      NugetApi: 18.2.1
+      NugetClient: 21.2.1
+      WebControlPanel: 6.10.0
+    Changes:
+    - Descriptions:
+      - Added a global Discord slash command for TGS chat bot commands.
+      - Added autocomplete for built-in and active DMAPI chat command names in the slash command's required command field.
+      - Added an optional arguments field to the Discord slash command.
+      Author: PetyaFX
+      PullRequest: 2441
     Unreleased: true
   - Version: 6.19.3
     ComponentVersions:

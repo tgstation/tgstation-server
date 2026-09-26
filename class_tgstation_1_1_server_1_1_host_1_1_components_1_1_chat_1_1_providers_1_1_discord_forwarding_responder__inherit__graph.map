@@ -1,9 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordForwardingResponder" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordForwardingResponder">
-<area shape="rect" id="Node000001" title="An IResponder&lt;TGatewayEvent&gt; that forwards to another targetResponder." alt="" coords="68,153,347,193"/>
-<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="138,79,277,105"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,120,210,152,205,152,205,120"/>
-<area shape="rect" id="Node000003" href="$class_i_responder.html" title=" " alt="" coords="5,5,210,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="138,38,192,76,189,81,135,42"/>
-<area shape="rect" id="Node000004" href="$class_i_responder.html" title=" " alt="" coords="234,5,384,31"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="281,43,226,81,223,76,278,38"/>
+<area shape="rect" id="Node000001" title="An IResponder&lt;TGatewayEvent&gt; that forwards to another targetResponder." alt="" coords="169,168,449,208"/>
+<area shape="rect" id="Node000002" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="240,94,378,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="312,135,312,167,306,167,306,135"/>
+<area shape="rect" id="Node000003" href="$class_i_responder.html" title=" " alt="" coords="5,13,210,39"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="154,42,279,91,277,96,152,47"/>
+<area shape="rect" id="Node000004" href="$class_i_responder.html" title=" " alt="" coords="234,13,384,39"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="312,54,312,93,306,93,306,54"/>
+<area shape="rect" id="Node000005" href="$class_i_responder.html" title=" " alt="" coords="407,5,571,46"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="431,55,338,96,335,91,429,50"/>
 </map>

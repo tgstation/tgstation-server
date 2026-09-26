@@ -256,6 +256,7 @@ Manual Configuration</h4>
 <li><code>General:UserLimit</code>: Maximum number of users that may be created</li>
 <li><code>General:InstanceLimit</code>: Maximum number of instances that may be created</li>
 <li><code>General:GitHubAccessToken</code>: Specify a classic GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests</li>
+<li><code>General:DiscordSlashCommandName</code>: The Discord slash command name for TGS chat commands. Defaults to <code>tgs</code>; use 1-32 letters, digits, <code>-</code>, <code>_</code>, or apostrophes, without the leading <code>/</code>. Restart is required.</li>
 <li><code>General:SkipAddingByondFirewallException</code>: Set to <code>true</code> if you have Windows firewall disabled</li>
 <li><code>General:AdditionalEventScriptsDirectories</code>: An array of directories that are considered to contain EventScripts alongside instance directories. Working directory for executed scripts will remain the instance EventScripts directory.</li>
 <li><code>Session:HighPriorityLiveDreamDaemon</code>: Boolean controlling if live DreamDaemon instances get set to above normal priority processes.</li>
@@ -540,12 +541,29 @@ Chat Bots</h4>
 <ul>
 <li>Internet Relay Chat (IRC)</li>
 <li>Discord<ul>
-<li>NOTE: Bot MUST have Message Content Intent enabled</li>
+<li>The Message Content Intent enables <code>!tgs</code> and mention commands in guild channels.</li>
+<li>Without the intent, use the <code>/tgs</code> slash command in guild channels. Its required <b>command</b> argument autocompletes built-in and active DMAPI command names; <b>arguments</b> is optional.</li>
+<li>Set <code>General:DiscordSlashCommandName</code> to change the slash command name from its default, <code>/tgs</code>.</li>
+<li>To use Discord without the Message Content Intent, configure the bot in the Developer Portal:<ol type="1">
+<li>Open the app and go to <b>OAuth2 - URL Generator</b>.</li>
+</ol>
+<ol type="1">
+<li>Select the <code>bot</code> and <code>applications.commands</code> scopes.</li>
+</ol>
+<ol type="1">
+<li>Grant the bot at least these channel permissions already used by TGS:<ul>
+<li><code>View Channels</code></li>
+<li><code>Send Messages</code></li>
+<li><code>Read Message History</code> for normal reply/history behavior.</li>
+</ul>
+</li>
+</ol>
+</li>
 </ul>
 </li>
 </ul>
 <p>More can be added by providing a new implementation of the <a href="src/Tgstation.Server.Host/Components/Chat/Providers/IProvider.cs">IProvider</a> interface</p>
-<p>Bots have a set of built-in commands that can be triggered via <code>!tgs</code>, mentioning, or private messaging them. Along with these, custom commands can be defined using the DMAPI by creating a subtype of the <code>/datum/tgs_chat_command</code> type (See <code>tgs.dm</code> for details). Invocation for custom commands can be restricted to certain channels.</p>
+<p>Bots have a set of built-in commands that can be triggered via <code>!tgs</code>, <code>/tgs</code>, or mentioning them. Along with these, custom commands can be defined using the DMAPI by creating a subtype of the <code>/datum/tgs_chat_command</code> type (See <code>tgs.dm</code> for details). Invocation for custom commands can be restricted to certain channels.</p>
 <h4><a class="anchor" id="autotoc_md46"></a>
 Static Files</h4>
 <p>All files in game code deployments are considered transient by default, meaning when new code is deployed, changes will be lost. Static files allow you to specify which files and folders stick around throughout all deployments.</p>

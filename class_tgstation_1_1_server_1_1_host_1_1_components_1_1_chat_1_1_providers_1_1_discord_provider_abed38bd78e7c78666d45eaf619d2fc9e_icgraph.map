@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAutocomplete" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAutocomplete">
+<area shape="rect" id="Node000001" title="Responds to a Discord slash command autocomplete interaction." alt="" coords="345,5,600,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a04061fc32afa51aa0540d273009ea5bf" title=" " alt="" coords="5,13,297,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="329,36,297,36,297,31,329,31"/>
+</map>

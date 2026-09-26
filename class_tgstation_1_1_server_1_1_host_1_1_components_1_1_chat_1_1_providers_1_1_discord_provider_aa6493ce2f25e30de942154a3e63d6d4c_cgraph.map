@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RegisterSlashCommand" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RegisterSlashCommand">
+<area shape="rect" id="Node000001" title="Registers the configured slash command." alt="" coords="5,5,258,61"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8071f4a23207fc41d422a77d30b8b306" title="Checks if an application command is a registered TGS slash command that should be removed from a stal..." alt="" coords="306,5,543,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,31,290,31,290,36,258,36"/>
+</map>

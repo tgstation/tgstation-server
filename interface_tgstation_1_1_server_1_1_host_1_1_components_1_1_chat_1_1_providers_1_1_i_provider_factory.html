@@ -96,17 +96,17 @@ Inheritance diagram for Tgstation.Server.Host.Components.Chat.Providers.IProvide
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4250fc0dc09258c391507fbf29977758" id="r_a4250fc0dc09258c391507fbf29977758"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html">IProvider</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html#a4250fc0dc09258c391507fbf29977758">CreateProvider</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">ChatBot</a> settings)</td></tr>
-<tr class="memdesc:a4250fc0dc09258c391507fbf29977758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a IProvider.  <br /></td></tr>
-<tr class="separator:a4250fc0dc09258c391507fbf29977758"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed529012764b40fd3835169ca09e5357" id="r_aed529012764b40fd3835169ca09e5357"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html">IProvider</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html#aed529012764b40fd3835169ca09e5357">CreateProvider</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">ChatBot</a> settings, Func&lt; IEnumerable&lt; string &gt; &gt; commandNamesFactory)</td></tr>
+<tr class="memdesc:aed529012764b40fd3835169ca09e5357"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a IProvider.  <br /></td></tr>
+<tr class="separator:aed529012764b40fd3835169ca09e5357"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Factory for IProviders. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_provider_factory_8cs_source.html#l00008">8</a> of file <a class="el" href="_i_provider_factory_8cs_source.html">IProviderFactory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_provider_factory_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_provider_factory_8cs_source.html">IProviderFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4250fc0dc09258c391507fbf29977758" name="a4250fc0dc09258c391507fbf29977758"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4250fc0dc09258c391507fbf29977758">&#9670;&#160;</a></span>CreateProvider()</h2>
+<a id="aed529012764b40fd3835169ca09e5357" name="aed529012764b40fd3835169ca09e5357"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed529012764b40fd3835169ca09e5357">&#9670;&#160;</a></span>CreateProvider()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -115,8 +115,18 @@ Public Member Functions</h2></td></tr>
           <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html">IProvider</a> Tgstation.Server.Host.Components.Chat.Providers.IProviderFactory.CreateProvider </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">ChatBot</a>&#160;</td>
-          <td class="paramname"><em>settings</em></td><td>)</td>
+          <td class="paramname"><em>settings</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">Func&lt; IEnumerable&lt; string &gt; &gt;&#160;</td>
+          <td class="paramname"><em>commandNamesFactory</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -125,19 +135,20 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">settings</td><td>The ChatBot containing settings for the new provider.</td></tr>
+    <tr><td class="paramname">commandNamesFactory</td><td>Gets the currently available chat command names.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new IProvider.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_factory.html#a52f360a24dd9085562ee7137ed0ea28d">Tgstation.Server.Host.Components.Chat.Providers.ProviderFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_factory.html#a727f67ab074c5aac1a9e370b94d03e5e">Tgstation.Server.Host.Components.Chat.Providers.ProviderFactory</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00281">Tgstation.Server.Host.Components.Chat.ChatManager.ChangeSettings()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00286">Tgstation.Server.Host.Components.Chat.ChatManager.ChangeSettings()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory_a4250fc0dc09258c391507fbf29977758_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory_a4250fc0dc09258c391507fbf29977758_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory_a4250fc0dc09258c391507fbf29977758_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory_a4250fc0dc09258c391507fbf29977758_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory_aed529012764b40fd3835169ca09e5357_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory_aed529012764b40fd3835169ca09e5357_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory_aed529012764b40fd3835169ca09e5357_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory_aed529012764b40fd3835169ca09e5357_icgraph">
 <area shape="rect" title="Create a IProvider." alt="" coords="280,5,525,61"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a8d3eb0ce3398090f2f26241f515845fb" title="Change chat settings. If the Api.Models.EntityId.Id is not currently in use, a new connection will be..." alt="" coords="5,13,232,54"/>
 <area shape="poly" title=" " alt="" coords="264,36,232,36,232,31,264,31"/>

@@ -1,5 +1,13 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,258,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,117,258,158"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a9998d613750e44e779ae89931f7cfd98" title=" " alt="" coords="306,5,600,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,23,290,23,290,28,258,28"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,114,233,84,305,55,328,48,330,53,307,60,235,89,173,119"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#af9f7d40fea5ebe1f15438d4405e616c4" title="Checks if an application can request message content." alt="" coords="312,70,594,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="258,119,296,114,297,120,259,125"/>
+<area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#aa6493ce2f25e30de942154a3e63d6d4c" title="Registers the configured slash command." alt="" coords="327,150,579,206"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="259,151,312,157,311,163,258,156"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#abdd19391efcd01674959f36333fb25a5" title="Sets if message contents are available and updates the gateway options." alt="" coords="314,230,592,286"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="174,156,236,186,307,215,327,222,325,227,305,220,234,191,172,161"/>
+<area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8071f4a23207fc41d422a77d30b8b306" title="Checks if an application command is a registered TGS slash command that should be removed from a stal..." alt="" coords="648,150,885,206"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="579,175,632,175,632,180,579,180"/>
 </map>

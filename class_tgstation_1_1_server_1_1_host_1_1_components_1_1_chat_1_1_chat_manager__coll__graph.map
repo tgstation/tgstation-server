@@ -9,7 +9,7 @@
 <area shape="rect" id="Node000005" href="$class_i_async_disposable.html" title=" " alt="" coords="171,55,296,80"/>
 <area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="312,58,432,48,432,53,312,64"/>
 <area shape="rect" id="Node000006" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="427,83,540,108"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="555,78,617,71,688,73,724,78,759,88,791,103,821,124,837,142,851,166,877,229,899,307,918,392,943,558,956,673,950,674,938,559,912,393,894,308,872,231,847,168,832,145,817,128,789,108,757,93,723,84,688,78,618,76,555,83"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="555,87,627,84,705,85,774,93,801,101,821,112,837,130,852,155,879,219,901,298,919,386,944,556,956,673,951,674,939,557,914,387,896,300,874,221,848,157,833,133,817,116,799,106,773,99,705,91,627,90,555,93"/>
 <area shape="rect" id="Node000007" title=" " alt="" coords="439,132,528,158"/>
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="543,141,616,141,698,146,771,158,800,167,821,179,835,195,849,216,874,273,895,342,914,419,941,569,955,673,950,674,935,569,908,420,890,344,869,275,844,219,831,198,817,183,798,172,770,163,697,152,616,147,543,146"/>
 <area shape="rect" id="Node000008" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html" title="Factory for IProviders." alt="" coords="370,182,597,223"/>

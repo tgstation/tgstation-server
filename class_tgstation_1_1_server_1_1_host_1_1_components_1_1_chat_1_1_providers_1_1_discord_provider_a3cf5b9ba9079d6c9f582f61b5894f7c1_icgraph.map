@@ -1,5 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.NormalizeMentions" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.NormalizeMentions">
-<area shape="rect" id="Node000001" title="Normalize a discord mention string." alt="" coords="345,5,607,61"/>
-<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8d7bbc5ddb64df2800554c354ff1974a" title=" " alt="" coords="5,13,297,54"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="329,36,297,36,297,31,329,31"/>
+<area shape="rect" id="Node000001" title="Normalize a discord mention string." alt="" coords="345,31,607,87"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a04061fc32afa51aa0540d273009ea5bf" title=" " alt="" coords="5,5,297,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="329,47,297,43,297,38,330,41"/>
+<area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8d7bbc5ddb64df2800554c354ff1974a" title=" " alt="" coords="5,71,297,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="330,76,297,79,297,74,329,71"/>
 </map>

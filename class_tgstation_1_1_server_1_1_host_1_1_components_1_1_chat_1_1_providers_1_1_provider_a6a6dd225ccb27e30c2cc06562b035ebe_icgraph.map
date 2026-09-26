@@ -1,15 +1,17 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.Provider.EnqueueMessage" name="Tgstation.Server.Host.Components.Chat.Providers.Provider.EnqueueMessage">
-<area shape="rect" id="Node000001" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="652,136,915,177"/>
+<area shape="rect" id="Node000001" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="652,169,915,210"/>
 <area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afe2edd40c945bc526ccd5dfea7a062b1" title=" " alt="" coords="328,5,572,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="737,130,675,94,603,61,564,49,565,44,605,57,677,90,739,125"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="748,161,684,109,644,83,603,61,570,49,572,44,605,57,647,79,687,105,751,157"/>
 <area shape="rect" id="Node000003" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a48adcd32348dbab4150bd2c8087623e0" title=" " alt="" coords="296,71,604,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="661,135,557,115,558,109,662,130"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="716,166,603,127,556,115,557,109,605,122,718,161"/>
 <area shape="rect" id="Node000004" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="316,136,584,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="636,159,584,159,584,154,636,154"/>
-<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8d7bbc5ddb64df2800554c354ff1974a" title=" " alt="" coords="304,201,596,242"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="662,183,558,203,557,198,661,178"/>
-<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a1494b2b91cc869199100c9338f91d864" title="Send a message to the IProvider.A ValueTask representing the running operation." alt="" coords="333,266,567,322"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="739,187,676,223,605,256,568,269,566,264,603,251,674,218,736,183"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="636,178,584,172,585,167,637,172"/>
+<area shape="rect" id="Node000006" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a04061fc32afa51aa0540d273009ea5bf" title=" " alt="" coords="304,201,596,242"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="637,206,596,210,596,205,636,201"/>
+<area shape="rect" id="Node000007" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8d7bbc5ddb64df2800554c354ff1974a" title=" " alt="" coords="304,267,596,307"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="717,218,605,256,557,269,555,263,603,251,715,213"/>
+<area shape="rect" id="Node000008" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a1494b2b91cc869199100c9338f91d864" title="Send a message to the IProvider.A ValueTask representing the running operation." alt="" coords="333,331,567,387"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="750,222,686,273,646,299,605,321,569,336,567,331,603,317,644,294,683,269,747,218"/>
 <area shape="rect" id="Node000005" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect.A Task representing the runnin..." alt="" coords="5,129,248,184"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="300,159,248,159,248,154,300,154"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.GetStringOption" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.GetStringOption">
+<area shape="rect" id="Node000001" title="Gets a string option from commandData ." alt="" coords="345,5,642,46"/>
+<area shape="rect" id="Node000002" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a04061fc32afa51aa0540d273009ea5bf" title=" " alt="" coords="5,5,297,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="329,28,297,28,297,23,329,23"/>
+</map>
