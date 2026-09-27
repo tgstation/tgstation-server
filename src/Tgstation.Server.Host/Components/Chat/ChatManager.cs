@@ -33,6 +33,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		public const string CommonMention = "!tgs";
 
 		/// <summary>
+		/// The name of the built-in help command.
+		/// </summary>
+		const string HelpCommandName = "help";
+
+		/// <summary>
 		/// The <see cref="IProviderFactory"/> for the <see cref="ChatManager"/>.
 		/// </summary>
 		readonly IProviderFactory providerFactory;
@@ -297,7 +302,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					disconnectTask = Task.CompletedTask;
 				if (newSettingsEnabled)
 				{
-					provider = providerFactory.CreateProvider(newSettings);
+					provider = providerFactory.CreateProvider(newSettings, GetCommandNames);
 					providers.Add(newSettingsId, provider);
 				}
 			}
@@ -596,6 +601,26 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <summary>
+		/// Gets the currently available chat command names.
+		/// </summary>
+		/// <returns>The command names.</returns>
+		IReadOnlyList<string> GetCommandNames()
+		{
+			var commands = new List<string> { HelpCommandName };
+			commands.AddRange(builtinCommands.Values.Select(command => command.Name));
+			lock (trackingContexts)
+				commands.AddRange(
+					trackingContexts
+						.Where(trackingContext => trackingContext.Active)
+						.SelectMany(trackingContext => trackingContext.CustomCommands.Select(command => command.Name)));
+
+			return commands
+				.Distinct(StringComparer.OrdinalIgnoreCase)
+				.OrderBy(command => command, StringComparer.OrdinalIgnoreCase)
+				.ToList();
+		}
+
+		/// <summary>
 		/// Remove a <see cref="IProvider"/> from <see cref="mappedChannels"/> optionally removing the provider itself from <see cref="providers"/> and updating the <see cref="trackingContexts"/> as well.
 		/// </summary>
 		/// <param name="connectionId">The <see cref="EntityId.Id"/> of the <see cref="IProvider"/> to delete.</param>
@@ -838,7 +863,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 				const string UnknownCommandMessage = "TGS: Unknown command! Type '?' or 'help' for available commands.";
 
-				if (command.Equals("help", StringComparison.OrdinalIgnoreCase) || command == "?")
+				if (command.Equals(HelpCommandName, StringComparison.OrdinalIgnoreCase) || command == "?")
 				{
 					string helpText;
 					if (splits.Count == 0)

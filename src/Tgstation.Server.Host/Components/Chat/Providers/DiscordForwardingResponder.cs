@@ -32,5 +32,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 		/// <inheritdoc />
 		public Task<Result> RespondAsync(IReady gatewayEvent, CancellationToken ct) => targetResponder.RespondAsync(gatewayEvent, ct);
+
+		/// <inheritdoc />
+		public Task<Result> RespondAsync(IInteractionCreate gatewayEvent, CancellationToken ct) => targetResponder.RespondAsync(gatewayEvent, ct);
 	}
 }

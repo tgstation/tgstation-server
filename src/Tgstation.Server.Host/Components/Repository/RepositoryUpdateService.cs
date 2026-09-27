@@ -221,7 +221,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							testMergeToAdd.MergedAt = DateTimeOffset.UtcNow;
 
 							var activeTestMerges = lastRevisionInfo!.ActiveTestMerges!;
-							foreach (var activeTestMerge in previousRevInfo.ActiveTestMerges!)
+							foreach (var activeTestMerge in previousRevInfo.ActiveTestMerges!.ToList())
 								activeTestMerges.Add(activeTestMerge);
 
 							activeTestMerges.Add(new RevInfoTestMerge(testMergeToAdd, lastRevisionInfo));
