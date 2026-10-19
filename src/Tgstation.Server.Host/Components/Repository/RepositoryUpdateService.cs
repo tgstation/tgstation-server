@@ -446,8 +446,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 												var testMergeMatch = newTestMergeModels.Any(testTestMerge =>
 												{
-													var numberMatch = testRevInfo.PrimaryTestMerge.Number ==
-													                  testTestMerge.Number;
+													var numberMatch = testRevInfo.PrimaryTestMerge.Number == testTestMerge.Number;
 													if (!numberMatch)
 														return false;
 
@@ -464,8 +463,7 @@ namespace Tgstation.Server.Host.Components.Repository
 													if (!shaMatch)
 														return false;
 
-													var commentMatch = testRevInfo.PrimaryTestMerge.Comment ==
-													                   testTestMerge.Comment;
+													var commentMatch = testRevInfo.PrimaryTestMerge.Comment == testTestMerge.Comment;
 													return commentMatch;
 												});
 
