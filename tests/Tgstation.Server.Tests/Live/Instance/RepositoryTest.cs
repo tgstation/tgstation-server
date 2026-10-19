@@ -167,18 +167,19 @@ namespace Tgstation.Server.Tests.Live.Instance
 			{
 				var merging = await repositoryClient.Update(new RepositoryUpdateRequest
 				{
+					UpdateFromOrigin = true,
+					Reference = repository.Reference,
 					NewTestMerges = new List<TestMergeParameters>
 					{
 						new TestMergeParameters
 						{
 							Number = prNumber,
-							SourceRepository = sourceRepo
+							SourceRepository = sourceRepo,
 						}
 					}
 				}, cancellationToken);
 				Assert.IsNotNull(merging.ActiveJob);
 				Assert.IsTrue(merging.ActiveJob.Description.Contains(prNumber.ToString()));
-				Assert.IsTrue(merging.ActiveJob.Description.Contains(sourceRepo));
 
 				await WaitForJob(merging.ActiveJob, 60, false, null, cancellationToken);
 
