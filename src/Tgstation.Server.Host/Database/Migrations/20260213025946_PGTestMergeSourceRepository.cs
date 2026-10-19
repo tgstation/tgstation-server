@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
 
-#nullable disable
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Migrations.PostgresSqlDatabase
 {
@@ -10,6 +10,8 @@ namespace Tgstation.Server.Host.Migrations.PostgresSqlDatabase
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
+			ArgumentNullException.ThrowIfNull(migrationBuilder);
+
 			migrationBuilder.AddColumn<string>(
 				name: "SourceRepository",
 				table: "TestMerges",
@@ -21,6 +23,8 @@ namespace Tgstation.Server.Host.Migrations.PostgresSqlDatabase
 		/// <inheritdoc />
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
+			ArgumentNullException.ThrowIfNull(migrationBuilder);
+
 			migrationBuilder.DropColumn(
 				name: "SourceRepository",
 				table: "TestMerges");

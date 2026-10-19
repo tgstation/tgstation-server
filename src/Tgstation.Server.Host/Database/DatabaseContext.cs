@@ -502,13 +502,13 @@ namespace Tgstation.Server.Host.Database
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 
 			// !!! DON'T FORGET TO UPDATE THE SWARM PROTOCOL MAJOR VERSION !!!
-			if (targetVersion < new Version(6, 21, 0))
+			if (targetVersion < new Version(6, 20, 0))
 				targetMigration = currentDatabaseType switch
 				{
-					DatabaseType.MySql => nameof(MYTestMergeSourceRepository),
-					DatabaseType.PostgresSql => nameof(PGTestMergeSourceRepository),
-					DatabaseType.SqlServer => nameof(MSTestMergeSourceRepository),
-					DatabaseType.Sqlite => nameof(SLTestMergeSourceRepository),
+					DatabaseType.MySql => nameof(MYAddOidcConnections),
+					DatabaseType.PostgresSql => nameof(PGAddOidcConnections),
+					DatabaseType.SqlServer => nameof(MSAddOidcConnections),
+					DatabaseType.Sqlite => nameof(SLAddOidcConnections),
 					_ => BadDatabaseType(),
 				};
 
