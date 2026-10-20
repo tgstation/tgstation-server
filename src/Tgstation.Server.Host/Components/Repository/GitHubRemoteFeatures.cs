@@ -125,7 +125,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				Number = parameters.Number,
 				SourceRepository = parameters.SourceRepository,
 				TargetCommitSha = revisionToUse,
-				Url = pr?.HtmlUrl ?? $"https://github.com/{owner}/{name}/pull/{parameters.Number}",
+				Url = $"https://github.com/{owner}/{name}/pull/{parameters.Number}",
 			};
 
 			return testMerge;
