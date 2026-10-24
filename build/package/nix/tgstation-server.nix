@@ -166,7 +166,6 @@ in
       };
       restartTriggers = [ cfg.production-appsettings ];
       reloadIfChanged = true; # A reload detaches TGS from its game servers and starts it again on the new unit, where a stop would take them down
-      restartIfChanged = false; # So that the TGS service doesn't just get restarted whenever it's updated, and boots players
       wantedBy = [ "multi-user.target" ];
       wants = [ "network-online.target" ];
       after = [
