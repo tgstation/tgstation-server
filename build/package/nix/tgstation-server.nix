@@ -158,6 +158,7 @@ in
         Restart = "always";
         KillMode = "process";
         ReloadSignal = "SIGUSR2";
+        RestartKillSignal = "SIGUSR2";
         AmbientCapabilities = "CAP_SYS_NICE CAP_SYS_PTRACE";
         WatchdogSec = "60";
         WatchdogSignal = "SIGTERM";
