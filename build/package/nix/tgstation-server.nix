@@ -156,6 +156,11 @@ in
         WorkingDirectory = "${package}/bin";
         ExecStart = "${tgs-wrapper}/bin/tgs-path-wrapper";
         Restart = "always";
+        # MySQL and MariaDB version detection at startup doesn't retry, so pace restarts to
+        # outlast a database outage rather than use up the start limit within seconds
+        RestartSec = "5s";
+        RestartSteps = 5;
+        RestartMaxDelaySec = "1min";
         KillMode = "process";
         ReloadSignal = "SIGUSR2";
         RestartKillSignal = "SIGUSR2";
