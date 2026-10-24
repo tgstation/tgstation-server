@@ -161,7 +161,7 @@ in
         RestartKillSignal = "SIGUSR2";
         AmbientCapabilities = "CAP_SYS_NICE CAP_SYS_PTRACE";
         WatchdogSec = "60";
-        WatchdogSignal = "SIGTERM";
+        WatchdogSignal = "SIGUSR2";
         LogsDirectory = "tgstation-server";
       };
       restartTriggers = [ cfg.production-appsettings ];
