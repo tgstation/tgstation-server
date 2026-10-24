@@ -155,6 +155,7 @@ in
         NotifyAccess = "all";
         WorkingDirectory = "${package}/bin";
         ExecStart = "${tgs-wrapper}/bin/tgs-path-wrapper";
+        TimeoutStartSec = "10min";
         Restart = "always";
         # MySQL and MariaDB version detection at startup doesn't retry, so pace restarts to
         # outlast a database outage rather than use up the start limit within seconds
