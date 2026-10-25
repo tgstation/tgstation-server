@@ -34,13 +34,6 @@ namespace Tgstation.Server.Host.IO
 		bool CreateDirectory(string path, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Read the <see cref="byte"/>s of a file at a given <paramref name="path"/>.
-		/// </summary>
-		/// <param name="path">The path of the file to read.</param>
-		/// <returns>A <see cref="byte"/> array representing the contents of the file at <paramref name="path"/>.</returns>
-		byte[] ReadFile(string path);
-
-		/// <summary>
 		/// Deletes a directory at <paramref name="path"/> if it's empty.
 		/// </summary>
 		/// <param name="path">The path of the directory to delete.</param>

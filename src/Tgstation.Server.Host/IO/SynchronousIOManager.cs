@@ -89,13 +89,6 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public byte[] ReadFile(string path)
-		{
-			ArgumentNullException.ThrowIfNull(path);
-			return fileSystem.File.ReadAllBytes(path);
-		}
-
-		/// <inheritdoc />
 		public bool WriteFileChecked(string path, Stream data, ref string? sha1InOut, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(path);
