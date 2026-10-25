@@ -45,16 +45,16 @@ namespace Tgstation.Server.Host.IO
 				var flags = fileSystem.File.Exists(targetPath) ? NativeMethods.CreateSymbolicLinkFlags.None : NativeMethods.CreateSymbolicLinkFlags.Directory;
 
 				/*
-				 * no don't fucking use this
-				 * sure it works in SOME cases
+				 * this works in SOME cases
 				 * i.e. win10 1803+ and IN DEVELOPER MODE
 				 * other times it throws ERROR_INVALID_PARAMETER
 				 * but the fucking worst is there are some configurations of windows that accept the argument and allow the function to succeed
 				 * BUT IT DOESN'T CREATE THE FUCKING LINK
-				 * I AM NOT DEBUGGING THAT SHIT AGAIN AHHH
-
-				flags |= NativeMethods.CreateSymbolicLinkFlags.AllowUnprivilegedCreate;
+				 *
+				 * so like, only enable this if it works on your system
 				*/
+				if (Environment.GetEnvironmentVariable("TGS_ALLOW_UNPRIVILEGED_CREATE") == "1")
+					flags |= NativeMethods.CreateSymbolicLinkFlags.AllowUnprivilegedCreate;
 
 				cancellationToken.ThrowIfCancellationRequested();
 				if (!NativeMethods.CreateSymbolicLink(linkPath, targetPath, flags))
