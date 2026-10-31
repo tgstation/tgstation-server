@@ -290,6 +290,15 @@ Components:
       - Fixed OIDC authentication not working if the user was not in a group.
       Author: Cyberboss
       PullRequest: 2440
+    - Descriptions:
+      - 'tgs nix flake:'
+      - '- uses SIGUSR2 on `systemctl restart`s instead of SIGTERM (game servers stay alive during restart)'
+      - '- removes import-from-derivation'
+      - '- cleans up options'
+      - '- gives TGS more time to start up by default'
+      - '- makes TGS track mysql presence during startup more properly'
+      Author: scriptis
+      PullRequest: 2445
     Unreleased: true
   - Version: 6.19.2
     ComponentVersions:
