@@ -6,34 +6,12 @@
 let
   inherit (pkgs) stdenv lib;
 
-  versionParse = stdenv.mkDerivation {
-    pname = "tgstation-server-version-parse";
-    version = "1.0.0";
-
-    meta = with pkgs.lib; {
-      description = "Version parser for tgstation-server";
-      homepage = "https://github.com/tgstation/tgstation-server";
-      changelog = "https://github.com/tgstation/tgstation-server/blob/gh-pages/changelog.yml";
-      license = licenses.agpl3Plus;
-      platforms = platforms.x86_64;
-    };
-
-    nativeBuildInputs = with pkgs; [
-      xmlstarlet
-    ];
-
-    src = ./../..;
-
-    installPhase = ''
-      mkdir -p $out
-      xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion ./Version.props > $out/tgs_version.txt
-      xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsHostWatchdogVersion ./Version.props > $out/watchdog_version.txt
-    '';
-  };
+  versionProps = builtins.readFile ./../../Version.props;
+  versionProp = name: builtins.head (builtins.match ".*<${name}>([^<]+)</${name}>.*" versionProps);
 
   tgstation-server-host-console = pkgs.buildDotnetModule {
     pname = "Tgstation.Server.Host.Console";
-    version =  (builtins.readFile "${versionParse}/watchdog_version.txt"); # Be careful, this influences the assembly version
+    version = versionProp "TgsHostWatchdogVersion"; # Be careful, this influences the assembly version
 
     src = ./../../..;
 
@@ -50,7 +28,7 @@ let
 in
 stdenv.mkDerivation {
   pname = "tgstation-server";
-  version = (builtins.readFile "${versionParse}/tgs_version.txt");
+  version = versionProp "TgsCoreVersion";
 
   meta = with pkgs.lib; {
     description = "A production scale tool for DreamMaker server management";
@@ -72,7 +50,6 @@ stdenv.mkDerivation {
   ];
   nativeBuildInputs = with pkgs; [
     makeWrapper
-    versionParse
   ];
 
   src = ./.;
