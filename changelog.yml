@@ -264,6 +264,10 @@ Components:
       - Added an optional arguments field to the Discord slash command.
       Author: PetyaFX
       PullRequest: 2441
+    - Descriptions:
+      - Added the `TGS_ALLOW_UNPRIVILEGED_CREATE` env var. Set it to `1` on Windows to create symlinks without admin (needs Developer Mode). Off by default because some Windows setups say the link worked when it didn't.
+      Author: Absolucy
+      PullRequest: 2447
     Unreleased: true
   - Version: 6.19.3
     ComponentVersions:
