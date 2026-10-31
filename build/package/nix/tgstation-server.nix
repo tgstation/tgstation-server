@@ -1,7 +1,6 @@
 inputs@{
   config,
   lib,
-  systemdUtils,
   nixpkgs,
   pkgs,
   writeShellScriptBin,
@@ -86,7 +85,6 @@ in
 
       production-appsettings = lib.mkOption {
         type = lib.types.path;
-        default = '''';
         description = ''
           A formatted appsettings.Production.yml file.
         '';
@@ -105,14 +103,6 @@ in
         default = null;
         description = ''
          Environment file as defined in {manpage}`systemd.exec(5)`
-        '';
-      };
-
-      wants = lib.mkOption {
-        type = lib.types.listOf systemdUtils.lib.unitNameType;
-        default = [];
-        description = ''
-          Start the specified units when this unit is started.
         '';
       };
     };
@@ -155,19 +145,24 @@ in
         NotifyAccess = "all";
         WorkingDirectory = "${package}/bin";
         ExecStart = "${tgs-wrapper}/bin/tgs-path-wrapper";
+        TimeoutStartSec = "10min";
         Restart = "always";
+        # MySQL and MariaDB version detection at startup doesn't retry, so pace restarts to
+        # outlast a database outage rather than use up the start limit within seconds
+        RestartSec = "5s";
+        RestartSteps = 5;
+        RestartMaxDelaySec = "1min";
         KillMode = "process";
         ReloadSignal = "SIGUSR2";
+        RestartKillSignal = "SIGUSR2";
         AmbientCapabilities = "CAP_SYS_NICE CAP_SYS_PTRACE";
         WatchdogSec = "60";
-        WatchdogSignal = "SIGTERM";
+        WatchdogSignal = "SIGUSR2";
         LogsDirectory = "tgstation-server";
       };
-      reloadTriggers = [
-        (lib.mkIf (cfg.environmentFile != null) [ cfg.environmentFile ])
-        "/etc/tgstation.server.d/appsettings.Production.yml"
-      ];
-      restartIfChanged = false; # So that the TGS service doesn't just get restarted whenever it's updated, and boots players
+      restartTriggers = [ cfg.production-appsettings ];
+      reloadIfChanged = true; # A reload detaches TGS from its game servers and starts it again on the new unit, where a stop would take them down
+      stopIfChanged = false; # Where a deploy restarts TGS instead, a single restart detaches too
       wantedBy = [ "multi-user.target" ];
       wants = [ "network-online.target" ];
       after = [
