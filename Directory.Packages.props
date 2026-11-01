@@ -46,7 +46,7 @@
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="NCrontab.Signed" Version="3.3.3" />
     <PackageVersion Include="NetEscapades.Configuration.Yaml" Version="3.1.0" />
-    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     <PackageVersion Include="Octokit" Version="14.0.0" />
     <PackageVersion Include="Octokit.GraphQL" Version="0.3.0-beta" />
