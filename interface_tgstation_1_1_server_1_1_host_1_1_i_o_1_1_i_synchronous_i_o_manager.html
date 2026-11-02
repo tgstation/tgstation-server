@@ -105,9 +105,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a87b99f131bf6b48d725561414d4ddfcb" id="r_a87b99f131bf6b48d725561414d4ddfcb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a87b99f131bf6b48d725561414d4ddfcb">CreateDirectory</a> (string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a87b99f131bf6b48d725561414d4ddfcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an empty directory at <em>path</em> .  <br /></td></tr>
 <tr class="separator:a87b99f131bf6b48d725561414d4ddfcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a649c832cd5873141256332c622c97f73" id="r_a649c832cd5873141256332c622c97f73"><td class="memItemLeft" align="right" valign="top">byte[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a649c832cd5873141256332c622c97f73">ReadFile</a> (string path)</td></tr>
-<tr class="memdesc:a649c832cd5873141256332c622c97f73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the bytes of a file at a given <em>path</em> .  <br /></td></tr>
-<tr class="separator:a649c832cd5873141256332c622c97f73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7db8df684e3820376d161b6ac89804f" id="r_ad7db8df684e3820376d161b6ac89804f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#ad7db8df684e3820376d161b6ac89804f">DeleteDirectory</a> (string path)</td></tr>
 <tr class="memdesc:ad7db8df684e3820376d161b6ac89804f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes a directory at <em>path</em>  if it's empty.  <br /></td></tr>
 <tr class="separator:ad7db8df684e3820376d161b6ac89804f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -374,47 +371,6 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager_a6b94d0c1144161066ce9707231026fe3_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager_a6b94d0c1144161066ce9707231026fe3_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager_a6b94d0c1144161066ce9707231026fe3_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager_a6b94d0c1144161066ce9707231026fe3_icgraph">
 <area shape="rect" title="Checks if a given path &#160;is a directory." alt="" coords="280,5,509,46"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ae6e959ce6c3aab862b59e79b42a72e67" title="Reads a given configurationRelativePath .A ValueTask&lt;TResult&gt; resulting in the ConfigurationFileRespo..." alt="" coords="5,5,232,46"/>
-<area shape="poly" title=" " alt="" coords="264,28,232,28,232,23,264,23"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a649c832cd5873141256332c622c97f73" name="a649c832cd5873141256332c622c97f73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a649c832cd5873141256332c622c97f73">&#9670;&#160;</a></span>ReadFile()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">byte[] Tgstation.Server.Host.IO.ISynchronousIOManager.ReadFile </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Read the bytes of a file at a given <em>path</em> . </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">path</td><td>The path of the file to read.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A byte array representing the contents of the file at <em>path</em> .</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a37a036453dda3b699d09458df543d214">Tgstation.Server.Host.IO.SynchronousIOManager</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_configuration_8cs_source.html#l00302">Tgstation.Server.Host.Components.StaticFiles.Configuration.Read()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager_a649c832cd5873141256332c622c97f73_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager_a649c832cd5873141256332c622c97f73_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager_a649c832cd5873141256332c622c97f73_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager_a649c832cd5873141256332c622c97f73_icgraph">
-<area shape="rect" title="Read the bytes of a file at a given path ." alt="" coords="280,5,498,46"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ae6e959ce6c3aab862b59e79b42a72e67" title="Reads a given configurationRelativePath .A ValueTask&lt;TResult&gt; resulting in the ConfigurationFileRespo..." alt="" coords="5,5,232,46"/>
 <area shape="poly" title=" " alt="" coords="264,28,232,28,232,23,264,23"/>
 </map>

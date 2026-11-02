@@ -299,6 +299,10 @@ Components:
       - '- makes TGS track mysql presence during startup more properly'
       Author: scriptis
       PullRequest: 2445
+    - Descriptions:
+      - Fixed config files over 2GB being impossible to open or delete.
+      Author: Absolucy
+      PullRequest: 2446
     Unreleased: true
   - Version: 6.19.2
     ComponentVersions:
