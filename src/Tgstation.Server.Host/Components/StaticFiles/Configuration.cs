@@ -312,8 +312,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				{
 					string GetFileSha()
 					{
-						var content = synchronousIOManager.ReadFile(path);
-						return String.Join(String.Empty, SHA1.HashData(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+						using var stream = synchronousIOManager.GetFileStream(path);
+						return String.Join(String.Empty, SHA1.HashData(stream).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
 					}
 
 					var originalSha = GetFileSha();
