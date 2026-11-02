@@ -146,6 +146,107 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await TestMergeTests(updated, prNumber, cancellationToken);
 
 			await RegressionTest2064(cancellationToken);
+			await CrossRepoTestMergeTests(updated, cancellationToken);
+		}
+
+		async Task CrossRepoTestMergeTests(RepositoryResponse repository, CancellationToken cancellationToken)
+		{
+			const int PrNumber = 1;
+			const string SourceRepository = "misleadingname/common_core_prtest";
+
+			// the preceding repository tests leave the checkout in whatever state it feels like;
+			// since cross-repo merges operate on the current checkout, we can't trust it.
+			var resetToOrigin = await repositoryClient.Update(new RepositoryUpdateRequest
+			{
+				UpdateFromOrigin = true,
+				Reference = repository.Reference,
+			}, cancellationToken);
+			Assert.IsNotNull(resetToOrigin.ActiveJob);
+			await WaitForJob(resetToOrigin.ActiveJob, 60, false, null, cancellationToken);
+
+			var baseline = await repositoryClient.Read(cancellationToken);
+			Assert.AreEqual(repository.Reference, baseline.Reference);
+			Assert.IsNotNull(baseline.RevisionInformation);
+			Assert.IsNotNull(baseline.RevisionInformation.ActiveTestMerges);
+			Assert.AreEqual(0, baseline.RevisionInformation.ActiveTestMerges.Count);
+			Assert.IsNull(baseline.RevisionInformation.PrimaryTestMerge);
+			Assert.AreEqual(baseline.RevisionInformation.OriginCommitSha, baseline.RevisionInformation.CommitSha);
+
+			var oldPerms = await instanceClient.PermissionSets.Read(cancellationToken);
+			try
+			{
+				await instanceClient.PermissionSets.Update(new InstancePermissionSetRequest
+				{
+					PermissionSetId = oldPerms.PermissionSetId,
+					RepositoryRights = oldPerms.RepositoryRights | RepositoryRights.OffRepoTestMerges,
+				}, cancellationToken);
+
+				var merging = await repositoryClient.Update(new RepositoryUpdateRequest
+				{
+					NewTestMerges = new List<TestMergeParameters>
+					{
+						new TestMergeParameters
+						{
+							Number = PrNumber,
+							SourceRepository = SourceRepository,
+						},
+					},
+				}, cancellationToken);
+				Assert.IsNotNull(merging.ActiveJob);
+				Assert.IsTrue(merging.ActiveJob.Description.Contains(PrNumber.ToString()));
+
+				await WaitForJob(merging.ActiveJob, 60, false, null, cancellationToken);
+
+				var withMerge = await repositoryClient.Read(cancellationToken);
+				Assert.AreEqual(baseline.Reference, withMerge.Reference);
+				Assert.IsNotNull(withMerge.RevisionInformation);
+				Assert.IsNotNull(withMerge.RevisionInformation.ActiveTestMerges);
+				Assert.AreEqual(1, withMerge.RevisionInformation.ActiveTestMerges.Count);
+
+				var testMerge = withMerge.RevisionInformation.ActiveTestMerges.Single();
+				Assert.AreEqual(PrNumber, testMerge.Number);
+				Assert.AreEqual(SourceRepository, testMerge.SourceRepository);
+				Assert.IsNotNull(withMerge.RevisionInformation.PrimaryTestMerge);
+				Assert.AreEqual(testMerge.Number, withMerge.RevisionInformation.PrimaryTestMerge.Number);
+				Assert.AreEqual(testMerge.SourceRepository, withMerge.RevisionInformation.PrimaryTestMerge.SourceRepository);
+
+				Assert.IsNotNull(testMerge.TargetCommitSha);
+				Assert.IsNotNull(testMerge.MergedBy);
+				Assert.IsNotNull(testMerge.MergedAt);
+				Assert.IsNotNull(testMerge.Author);
+				Assert.IsNotNull(testMerge.TitleAtMerge);
+				Assert.IsNotNull(testMerge.BodyAtMerge);
+				if (testMerge.Url != "GITHUB API ERROR: RATE LIMITED")
+				{
+					Assert.AreEqual($"https://github.com/{SourceRepository}/pull/{PrNumber}", testMerge.Url);
+					Assert.IsFalse(testMerge.Author.StartsWith("GITHUB API ERROR:", StringComparison.Ordinal));
+				}
+
+				Assert.AreEqual(baseline.RevisionInformation.OriginCommitSha, withMerge.RevisionInformation.OriginCommitSha);
+				Assert.AreNotEqual(baseline.RevisionInformation.CommitSha, withMerge.RevisionInformation.CommitSha);
+			}
+			finally
+			{
+				var reset = await repositoryClient.Update(new RepositoryUpdateRequest
+				{
+					UpdateFromOrigin = true,
+					Reference = baseline.Reference,
+				}, cancellationToken);
+				if (reset.ActiveJob != null)
+					await WaitForJob(reset.ActiveJob, 60, false, null, cancellationToken);
+
+				await instanceClient.PermissionSets.Update(new InstancePermissionSetRequest
+				{
+					PermissionSetId = oldPerms.PermissionSetId,
+					RepositoryRights = oldPerms.RepositoryRights,
+				}, cancellationToken);
+			}
+
+			var clean = await repositoryClient.Read(cancellationToken);
+			Assert.IsNotNull(clean.RevisionInformation);
+			Assert.AreEqual(0, clean.RevisionInformation.ActiveTestMerges.Count);
+			Assert.IsNull(clean.RevisionInformation.PrimaryTestMerge);
+			Assert.AreEqual(clean.RevisionInformation.OriginCommitSha, clean.RevisionInformation.CommitSha);
 		}
 
 		async ValueTask RegressionTest2064(CancellationToken cancellationToken)

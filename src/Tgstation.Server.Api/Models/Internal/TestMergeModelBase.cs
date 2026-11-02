@@ -57,6 +57,7 @@ namespace Tgstation.Server.Api.Models.Internal
 			BodyAtMerge = copy.BodyAtMerge;
 			Comment = copy.Comment;
 			Number = copy.Number;
+			SourceRepository = copy.SourceRepository;
 			TargetCommitSha = copy.TargetCommitSha;
 			TitleAtMerge = copy.TitleAtMerge;
 			Url = copy.Url;

@@ -83,17 +83,17 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			var addedTestMerges = currentTestMerges
 				.Select(x => x.TestMerge)
 				.Where(x => !previousTestMerges
-					.Any(y => y.TestMerge.Number == x.Number))
+					.Any(y => y.TestMerge.Number == x.Number && y.TestMerge.SourceRepository == x.SourceRepository))
 				.ToList();
 			var removedTestMerges = previousTestMerges
 				.Select(x => x.TestMerge)
 				.Where(x => !currentTestMerges
-					.Any(y => y.TestMerge.Number == x.Number))
+					.Any(y => y.TestMerge.Number == x.Number && y.TestMerge.SourceRepository == x.SourceRepository))
 				.ToList();
 			var updatedTestMerges = currentTestMerges
 				.Select(x => x.TestMerge)
 				.Where(x => previousTestMerges
-					.Any(y => y.TestMerge.Number == x.Number))
+					.Any(y => y.TestMerge.Number == x.Number && y.TestMerge.SourceRepository == x.SourceRepository))
 				.ToList();
 
 			if (addedTestMerges.Count == 0 && removedTestMerges.Count == 0 && updatedTestMerges.Count == 0)
@@ -108,6 +108,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			var tasks = new List<ValueTask>(addedTestMerges.Count + updatedTestMerges.Count + removedTestMerges.Count);
 			foreach (var addedTestMerge in addedTestMerges)
 			{
+				if (addedTestMerge.SourceRepository != null)
+					continue;
+
 				var addCommentTask = CommentOnTestMergeSource(
 					repositorySettings,
 					repoOwner,
@@ -126,6 +129,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			foreach (var removedTestMerge in removedTestMerges)
 			{
+				if (removedTestMerge.SourceRepository != null)
+					continue;
+
 				var removeCommentTask = CommentOnTestMergeSource(
 					repositorySettings,
 					repoOwner,
@@ -143,6 +149,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			foreach (var updatedTestMerge in updatedTestMerges)
 			{
+				if (updatedTestMerge.SourceRepository != null)
+					continue;
+
 				var updateCommentTask = CommentOnTestMergeSource(
 					repositorySettings,
 					repoOwner,

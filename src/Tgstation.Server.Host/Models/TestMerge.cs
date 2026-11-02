@@ -40,6 +40,7 @@ namespace Tgstation.Server.Host.Models
 			Id = Id,
 			MergedBy = (MergedBy ?? throw new InvalidOperationException("MergedBy must be set!")).CreateUserName(),
 			Number = Number,
+			SourceRepository = SourceRepository,
 			TargetCommitSha = TargetCommitSha,
 			Url = Url,
 		};
