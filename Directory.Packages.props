@@ -13,7 +13,7 @@
     <PackageVersion Include="HotChocolate.Data.EntityFramework" Version="15.1.9" />
     <PackageVersion Include="HotChocolate.Types.Analyzers" Version="15.1.9" />
     <PackageVersion Include="HotChocolate.Types.Scalars" Version="15.1.9" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageVersion Include="LibGit2Sharp" Version="0.31.0" />
     <PackageVersion Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
     <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.8" />
